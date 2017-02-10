@@ -1,0 +1,25 @@
+<h3>{% trans %}users_selection_1{% endtrans %}</h3>
+<div id="cp_users_selection_desktop" class="display_desktop">
+    <div id="cp_users_selection_desktop_result">
+        {{-include("UebusaitoBundle::render/control_panel/users_selection_desktop.html.twig")-}}
+    </div>
+
+    <button id="cp_users_selection_send" class="btn btn-primary" type="button">{% trans %}button_4{% endtrans %}</button>
+</div>
+<div id="cp_users_selection_mobile" class="display_mobile">
+    {% form_theme form "bootstrap_3_layout.html.twig" %}
+
+    <div class="row">
+        <div class="col-md-5">
+            <form id="form_cp_users_selection" action="{{path("cp_users_selection", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                {{form_row(form.id, {'label': "users_selection_2"})}}
+
+                {{form_widget(form.token)}}
+
+                <input class="btn btn-primary" type="submit" value="{% trans %}button_4{% endtrans %}"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="cp_user_selection_result"></div>

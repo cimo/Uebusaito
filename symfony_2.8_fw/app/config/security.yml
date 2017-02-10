@@ -1,0 +1,58 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+    # cimo +
+    encoders:
+        ReinventSoftware\UebusaitoBundle\Entity\User: bcrypt
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_ADMIN, ROLE_USER]
+        ROLE_MODERATOR: [ROLE_MODERATOR, ROLE_USER]
+        ROLE_USER: [ROLE_USER]
+    
+    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        # cimo -
+        #in_memory:
+        #    memory: ~
+        
+        # cimo +
+        database:
+            entity: { class: UebusaitoBundle:User }
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        
+        # cimo -
+        #dev:
+        #    pattern: ^/(_(profiler|wdt)|css|images|js)/
+        #    security: false
+        
+        # cimo -
+        #main:
+            #anonymous: ~
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+        
+        # cimo +
+        secured_area:
+            remember_me:
+                key: "%secret%"
+                lifetime: 604800
+                path: /
+                domain: ~
+            pattern: ^/
+            form_login:
+                check_path: authentication_enter_check
+                login_path: index
+                success_handler: uebusaito.authentication_listener
+                failure_handler: uebusaito.authentication_listener
+            logout:
+                path: authentication_exit_check
+                target: index
+                success_handler: uebusaito.authentication_listener
+            anonymous: ~

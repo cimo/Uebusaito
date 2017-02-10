@@ -1,0 +1,12 @@
+<div class="margin_bottom">
+    <div id="language_flag">
+        {% for value in response.values.languages %}
+            <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.settings['template'] ~ "/lang/" ~ value.code ~ ".png")}}" alt="{{value.code}}.png"/>
+        {% endfor %}
+    </div>
+    <form id="form_language_page" action="{{path("language_page", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        {{form_row(form.codePage)}}
+
+        {{form_widget(form.token)}}
+    </form>
+</div>

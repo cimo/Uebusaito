@@ -1,0 +1,14 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+
+<div class="row">
+    <div class="col-md-5">
+        <h3>{% trans %}payments_user_selection_1{% endtrans %}</h3>
+        <form id="form_cp_payments_user_selection" action="{{path("cp_payments_user_selection", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            {{form_row(form.userId, {'label': "payments_user_selection_2"})}}
+
+            {{form_widget(form.token)}}
+
+            <input class="btn btn-primary" type="submit" value="{% trans %}button_4{% endtrans %}"/>
+        </form>
+    </div>
+</div>

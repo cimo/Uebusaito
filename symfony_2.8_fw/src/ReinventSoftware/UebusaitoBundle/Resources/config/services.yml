@@ -1,0 +1,21 @@
+services:
+    uebusaito.file.twig.extension:
+        class: ReinventSoftware\UebusaitoBundle\Classes\TwigExtension
+        tags:
+            - { name: twig.extension }
+    
+    uebusaito.authentication_listener:
+        class: ReinventSoftware\UebusaitoBundle\EventListener\AuthenticationListener
+        arguments: [@service_container, @doctrine.orm.entity_manager]
+    
+    uebusaito.request_listener:
+        class: ReinventSoftware\UebusaitoBundle\EventListener\RequestListener
+        arguments: [@service_container, @doctrine.orm.entity_manager]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    
+    uebusaito.payPal_ipn_listener:
+        class: ReinventSoftware\UebusaitoBundle\EventListener\PayPalIpnListener
+        arguments: [@service_container, @doctrine.orm.entity_manager]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }

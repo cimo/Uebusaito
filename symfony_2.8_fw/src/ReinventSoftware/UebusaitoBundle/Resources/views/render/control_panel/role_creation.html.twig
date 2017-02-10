@@ -1,0 +1,21 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+
+<div class="row">
+    <div class="col-md-5">
+        <h3>{% trans %}role_creation_1{% endtrans %}</h3>
+        <form id="form_cp_role_creation" action="{{path("cp_role_creation", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <div class="form-group">
+                {{form_label(form.level, "role_creation_2")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-header"></i></span>
+                    {{form_errors(form.level)}}
+                    {{form_widget(form.level)}}
+                </div>
+            </div>
+
+            {{form_widget(form.token)}}
+
+            <input class="btn btn-primary" type="submit" value="{% trans %}button_1{% endtrans %}"/>
+        </form>
+    </div>
+</div>

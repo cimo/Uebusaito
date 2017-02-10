@@ -1,0 +1,56 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+
+<div class="row">
+    <div class="col-md-5">
+        <h3>{% trans %}settings_1{% endtrans %}</h3>
+        <form id="form_cp_settings" action="{{path("cp_settings", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            {{form_row(form.emailAdmin, {'label': "settings_2"})}}
+            {{form_row(form.template, {'label': "settings_3"})}}
+            {{form_row(form.active, {'label': "settings_4"})}}
+            {{form_row(form.https, {'label': "settings_5"})}}
+            {{form_row(form.registrationUserConfirmAdmin, {'label': "settings_6"})}}
+            
+            <div class="form-group">
+                {{form_label(form.payPalSandbox, "settings_7")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                    {{form_errors(form.payPalSandbox)}}
+                    {{form_widget(form.payPalSandbox)}}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{form_label(form.payPalBusiness, "settings_8")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                    {{form_errors(form.payPalBusiness)}}
+                    {{form_widget(form.payPalBusiness)}}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{form_label(form.payPalCurrencyCode, "settings_9")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                    {{form_errors(form.payPalCurrencyCode)}}
+                    {{form_widget(form.payPalCurrencyCode)}}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{form_label(form.payPalCreditAmount, "settings_10")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                    {{form_errors(form.payPalCreditAmount)}}
+                    {{form_widget(form.payPalCreditAmount)}}
+                </div>
+            </div>
+            
+            {{form_row(form.credits, {'label': "settings_11"})}}
+
+            {{form_widget(form.token)}}
+
+            <input class="btn btn-primary" type="submit" value="{% trans %}button_3{% endtrans %}"/>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="{{app.request.getLocale()}}">
+    <head>
+        <title>{{websiteName}}</title>
+        {% block headMeta %}{% endblock %}
+        {% block headLink %}{% endblock %}
+    </head>
+    <body class="user_select_none">
+        <div class="container-fluid">
+            {% block bodyContainer %}{% endblock %}
+            <div class="row">
+                <div class="col-md-12">
+                    {% block headerContainer %}{% endblock %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 display_desktop">
+                    {% block columnLeftContainer %}{% endblock %}
+                </div>
+                <div class="col-md-8">
+                    {% block columnCenterContainer %}{% endblock %}
+                </div>
+                <div class="col-md-2 display_desktop">
+                    {% block columnRightContainer %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <footer class="footer_fix">
+            <div class="container-fluid">
+                {% block footerContainer %}{% endblock %}
+            </div>
+        </footer>
+        {% block javascript %}{% endblock %}
+    </body>
+</html>

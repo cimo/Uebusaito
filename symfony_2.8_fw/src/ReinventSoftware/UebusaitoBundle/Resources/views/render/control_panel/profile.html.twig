@@ -1,0 +1,50 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+
+<div class="row">
+    <div class="col-md-5">
+        <h3>{% trans %}profile_1{% endtrans %}</h3>
+        <form id="form_cp_profile" action="{{path("cp_profile", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            {% if is_granted("ROLE_ADMIN") == true %}
+                <div class="form-group">
+                    {{form_label(form.username, "profile_2")}}
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-paw"></i></span>
+                        {{form_errors(form.username)}}
+                        {{form_widget(form.username)}}
+                    </div>
+                </div>
+            {% endif %}
+            {{form_row(form.name, {'label': "profile_3"})}}
+            {{form_row(form.surname, {'label': "profile_4"})}}
+            
+            <div class="form-group">
+                {{form_label(form.email, "profile_5")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                    {{form_errors(form.email)}}
+                    {{form_widget(form.email)}}
+                </div>
+            </div>
+            
+            {{form_row(form.telephone, {'label': "profile_6"})}}
+            {{form_row(form.born, {'label': "profile_7"})}}
+            {{form_row(form.gender, {'label': "profile_8"})}}
+
+            {% if (form.fiscalCode.vars.value != "") %}
+                {{form_row(form.fiscalCode, {'label': "profile_9"})}}
+                {{form_row(form.companyName, {'label': "profile_10"})}}
+                {{form_row(form.companyCode, {'label': "profile_11"})}}
+            {% endif %}
+
+            {{form_row(form.website, {'label': "profile_12"})}}
+            {{form_row(form.state, {'label': "profile_13"})}}
+            {{form_row(form.city, {'label': "profile_14"})}}
+            {{form_row(form.zip, {'label': "profile_15"})}}
+            {{form_row(form.address, {'label': "profile_16"})}}
+
+            {{form_widget(form.token)}}
+
+            <input class="btn btn-primary" type="submit" value="{% trans %}button_3{% endtrans %}"/>
+        </form>
+    </div>
+</div>

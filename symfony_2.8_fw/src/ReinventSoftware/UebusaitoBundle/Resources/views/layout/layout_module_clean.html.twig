@@ -1,0 +1,11 @@
+<div id="{% block panelId %}{% endblock %}" class="panel_clean {% block panelClass %}{% endblock %}">
+    <div class="module_settings">
+        <i class="module_move ui-sortable-handle fa fa-arrows"></i>
+    </div>
+    <div>
+        {% block moduleContainer %}{% endblock %}
+    </div>
+    <div>
+        {% block moduleFooter %}{% endblock %}
+    </div>
+</div>

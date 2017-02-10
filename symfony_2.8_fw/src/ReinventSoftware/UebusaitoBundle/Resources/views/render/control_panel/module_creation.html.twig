@@ -1,0 +1,41 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+
+<div class="row">
+    <div class="col-md-5">
+        <h3>{% trans %}module_creation_1{% endtrans %}</h3>
+        <form id="form_cp_module_creation" action="{{path("cp_module_creation", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <div class="form-group">
+                {{form_label(form.position, "module_creation_2")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
+                    {{form_errors(form.position)}}
+                    {{form_widget(form.position)}}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{form_label(form.name, "module_creation_3")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-header"></i></span>
+                    {{form_errors(form.name)}}
+                    {{form_widget(form.name)}}
+                </div>
+            </div>
+            
+            {{form_row(form.label, {'label': "module_creation_4"})}}
+            
+            <div class="form-group">
+                {{form_label(form.fileName, "module_creation_5")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-file"></i></span>
+                    {{form_errors(form.fileName)}}
+                    {{form_widget(form.fileName)}}
+                </div>
+            </div>
+
+            {{form_widget(form.token)}}
+
+            <input class="btn btn-primary" type="submit" value="{% trans %}button_1{% endtrans %}"/>
+        </form>
+    </div>
+</div>
