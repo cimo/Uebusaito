@@ -60,13 +60,28 @@ ReinventSoftware\UebusaitoBundle\Form\Model\LanguageModel:
                 pattern: /^[a-z]{2}$/
                 message: "The code page is not valid."
 
-ReinventSoftware\UebusaitoBundle\Form\Model\ModulesSelectionModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel:
+    properties:
+        words:
+            - NotBlank:
+                groups: [search]
+
+ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel:
+    properties:
+        userId:
+            - Regex:
+                groups: [payments_user_selection]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
+                message: "The user id is not valid."
+
+ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsSelectionModel:
     properties:
         id:
             - NotBlank:
-                groups: [modules_selection]
+                groups: [payments_selection]
             - Regex:
-                groups: [modules_selection]
+                groups: [payments_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
                 message: "The id is not valid."
@@ -82,17 +97,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PagesSelectionModel:
                 pattern: /^[0-9]+$/
                 message: "The id is not valid."
 
-ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsSelectionModel:
-    properties:
-        id:
-            - NotBlank:
-                groups: [payments_selection]
-            - Regex:
-                groups: [payments_selection]
-                htmlPattern: false
-                pattern: /^[0-9]+$/
-                message: "The id is not valid."
-
 ReinventSoftware\UebusaitoBundle\Form\Model\UsersSelectionModel:
     properties:
         id:
@@ -100,6 +104,17 @@ ReinventSoftware\UebusaitoBundle\Form\Model\UsersSelectionModel:
                 groups: [users_selection]
             - Regex:
                 groups: [users_selection]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
+                message: "The id is not valid."
+
+ReinventSoftware\UebusaitoBundle\Form\Model\ModulesSelectionModel:
+    properties:
+        id:
+            - NotBlank:
+                groups: [modules_selection]
+            - Regex:
+                groups: [modules_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
                 message: "The id is not valid."
@@ -114,53 +129,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\RolesSelectionModel:
                 htmlPattern: false
                 pattern: /^[0-9]+$/
                 message: "The id is not valid."
-
-ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel:
-    properties:
-        userId:
-            - Regex:
-                groups: [payments_user_selection]
-                htmlPattern: false
-                pattern: /^[0-9]+$/
-                message: "The user id is not valid."
-
-ReinventSoftware\UebusaitoBundle\Entity\Module:
-    properties:
-        position:
-            - NotBlank:
-                groups: [module_creation, module_profile]
-            - Regex:
-                groups: [module_creation, module_profile]
-                htmlPattern: false
-                pattern: /(header)|(left)|(center)|(right)/
-                message: "The position is not valid."
-        sort:
-            - NotBlank:
-                groups: [module_profile]
-            - Regex:
-                groups: [module_profile]
-                htmlPattern: false
-                pattern: /^[0-9,]+$/
-                message: "The sort is not valid."
-        name:
-            - NotBlank:
-                groups: [module_creation, module_profile]
-        fileName:
-            - NotBlank:
-                groups: [module_creation, module_profile]
-            - Regex:
-                groups: [module_creation, module_profile]
-                htmlPattern: false
-                pattern: /^[a-zA-Z_.]+$/
-                message: "The file name is not valid."
-        active:
-            - NotBlank:
-                groups: [module_profile]
-            - Regex:
-                groups: [module_profile]
-                htmlPattern: false
-                pattern: /^1|^0/
-                message: "The active is not valid."
 
 ReinventSoftware\UebusaitoBundle\Entity\Page:
     properties:
@@ -219,65 +187,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
         link:
             - NotBlank:
                 groups: [page_creation, page_profile]
-
-ReinventSoftware\UebusaitoBundle\Entity\Setting:
-    properties:
-        template:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^[a-zA-Z_0-9]+$/
-                message: "The template is not valid."
-        active:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^1|^0/
-                message: "The active is not valid."
-        https:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^1|^0/
-                message: "The https is not valid."
-        payPalBusiness:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
-                message: "The PayPal business is not valid."
-        payPalCurrencyCode:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^[A-Z]{3}$/
-                message: "The PayPal currency code is not valid."
-        payPalCreditAmount:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^[0-9]+(\.[0-9][0-9]?)?$/
-                message: "The PayPal credit amount is not valid."
-        credits:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^[0-9]+$/
-                message: "The Credit is not valid."
 
 ReinventSoftware\UebusaitoBundle\Entity\User:
     properties:
@@ -394,6 +303,42 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 pattern: /^1|^0/
                 message: "The not locked is not valid."
 
+ReinventSoftware\UebusaitoBundle\Entity\Module:
+    properties:
+        position:
+            - NotBlank:
+                groups: [module_creation]
+            - Regex:
+                groups: [module_creation, module_profile]
+                htmlPattern: false
+                pattern: /(header)|(left)|(center)|(right)/
+                message: "The position is not valid."
+        sort:
+            - Regex:
+                groups: [module_profile]
+                htmlPattern: false
+                pattern: /^[0-9,]+$/
+                message: "The sort is not valid."
+        name:
+            - NotBlank:
+                groups: [module_creation, module_profile]
+        fileName:
+            - NotBlank:
+                groups: [module_creation, module_profile]
+            - Regex:
+                groups: [module_creation, module_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z_.]+$/
+                message: "The file name is not valid."
+        active:
+            - NotBlank:
+                groups: [module_profile]
+            - Regex:
+                groups: [module_profile]
+                htmlPattern: false
+                pattern: /^1|^0/
+                message: "The active is not valid."
+
 ReinventSoftware\UebusaitoBundle\Entity\Role:
     properties:
         level:
@@ -404,3 +349,62 @@ ReinventSoftware\UebusaitoBundle\Entity\Role:
                 htmlPattern: false
                 pattern: /^[a-zA-Z_]+$/
                 message: "The level is not valid."
+
+ReinventSoftware\UebusaitoBundle\Entity\Setting:
+    properties:
+        template:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[a-zA-Z_0-9]+$/
+                message: "The template is not valid."
+        active:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^1|^0/
+                message: "The active is not valid."
+        https:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^1|^0/
+                message: "The https is not valid."
+        payPalBusiness:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+                message: "The PayPal business is not valid."
+        payPalCurrencyCode:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[A-Z]{3}$/
+                message: "The PayPal currency code is not valid."
+        payPalCreditAmount:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[0-9]+(\.[0-9][0-9]?)?$/
+                message: "The PayPal credit amount is not valid."
+        credits:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
+                message: "The Credit is not valid."

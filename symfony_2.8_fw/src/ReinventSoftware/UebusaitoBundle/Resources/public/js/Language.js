@@ -64,8 +64,6 @@ function Language() {
     
     // Functions private
     function selectOnModule() {
-        $(".form_language_codeText").parent().addClass("margin_clear_bottom display_inline");
-        
         $(".form_language_codeText").on("change", "", function() {
             $(this).parents(".form_language_text").submit();
         });

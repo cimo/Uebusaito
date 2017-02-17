@@ -23,8 +23,6 @@ class LanguageController extends Controller {
     private $utility;
     private $ajax;
     
-    private $settings;
-    
     private $response;
     
     // Properties

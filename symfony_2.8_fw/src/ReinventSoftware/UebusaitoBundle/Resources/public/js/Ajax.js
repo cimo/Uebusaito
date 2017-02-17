@@ -97,15 +97,23 @@ function Ajax() {
                     $.each(errors, function(key, value) {
                         if (typeof(value[0]) === "string" && $.isEmptyObject(value) === false && key !== "token") {
                             var object = $(tag).find("*[name*='"+ key + "']")[0];
+                            
+                            if (object !== undefined) {
+                                $(object).parents(".form-group").addClass("has-error");
 
-                            $(object).parents(".form-group").addClass("has-error");
-                            
-                            var icon = "";
-                            
-                            if ($(object).parents(".form-group").find(".input-group-addon").length > 0)
-                                icon = $(object).parents(".form-group").find(".input-group-addon").html();
-                            
-                            list += "<li>" + icon + " <b>" + $(object).parents(".form-group").find("label").html() + "</b>: " + value[0] + "</li>";
+                                var icon = "";
+                                var label = " - ";
+
+                                if ($(object).parents(".form-group").find(".input-group-addon").length > 0)
+                                    icon = $(object).parents(".form-group").find(".input-group-addon").html();
+                                
+                                if ($(object).parents(".form-group").find("label").html() !== undefined)
+                                    label = $(object).parents(".form-group").find("label").html()
+                                else if ($($(object).parents(".form-group").find("*[name*='"+ key + "']")).attr("placeholder") !== undefined)
+                                    label = $($(object).parents(".form-group").find("*[name*='"+ key + "']")).attr("placeholder");
+                                
+                                list += "<li>" + icon + " <b>" + label + "</b>: " + value[0] + "</li>";
+                            }
                         }
                     });
                 }

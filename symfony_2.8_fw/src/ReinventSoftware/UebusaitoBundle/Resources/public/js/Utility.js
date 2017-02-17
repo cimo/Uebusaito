@@ -196,18 +196,21 @@ function Utility() {
                 var right = new Array();
                 
                 $.each(columnsObject, function(key, value) {
-                    var panels = $(value).find(".module_settings").parent();
+                    var panels = $(value).children().find(".module_settings").parent();
+
                     $.each(panels, function(keySub, valueSub) {
-                        var id = valueSub.id.replace("panel_id_", "");
-                        
-                        if (key === 0)
-                            header.push(id);
-                        else if (key === 1)
-                            left.push(id);
-                        else if (key === 2)
-                            center.push(id);
-                        else if (key === 3)
-                            right.push(id);
+                        if ($(valueSub).parent().hasClass("dropdown-menu") === false) {
+                            var id = valueSub.id.replace("panel_id_", "");
+
+                            if (key === 0)
+                                header.push(id);
+                            else if (key === 1)
+                                left.push(id);
+                            else if (key === 2)
+                                center.push(id);
+                            else if (key === 3)
+                                right.push(id);
+                        }
                     });
                 });
                 
@@ -387,22 +390,7 @@ function Utility() {
         });
     };
     
-    self.bootstrapAddClassIsVisibleFix = function(idTarget, idResult, classCss) {
-        checkIsBlockAndAddClass(idTarget, idResult, classCss);
-        
-        $(window).resize(function() {
-            checkIsBlockAndAddClass(idTarget, idResult, classCss);
-        });
-    };
-    
     // Functions private
-    function checkIsBlockAndAddClass(idTarget, idResult, classCss) {
-        if ($(idTarget).css("display") === "block")
-            $(idResult).addClass(classCss);
-        else
-            $(idResult).removeClass(classCss);
-    }
-    
     function sortModulesFieldsAssignment(containerTag, elementsId) {
         var sortParentList = $("#" + containerTag).find("li");
         var sortListElements = new Array();

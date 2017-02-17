@@ -24,7 +24,8 @@ date.time: H:i:s
 "module_2": "Authentication"
 "module_3": "Page"
 "module_4": "Language"
-"module_5": "Empty"
+"module_5": "Search"
+"module_6": "Empty"
 
 # ---
 
@@ -139,6 +140,27 @@ date.time: H:i:s
 
 # ---
 
+# PaymentsSelectionFormType.php
+"paymentsSelectionFormType_1": "Select"
+
+# PageFormType.php
+"pageFormType_1": "Select"
+"pageFormType_2": "No"
+"pageFormType_3": "Yes"
+
+# PagesSelectionFormType.php
+"pagesSelectionFormType_1": "Select"
+
+# UserFormType.php
+"userFormType_1": "Select"
+"userFormType_2": "Man"
+"userFormType_3": "Woman"
+"userFormType_4": "No"
+"userFormType_5": "Yes"
+
+# UsersSelectionFormType.php
+"usersSelectionFormType_1": "Select"
+
 # ModuleFormType.php
 "moduleFormType_1": "Select"
 "moduleFormType_2": "Header"
@@ -151,17 +173,6 @@ date.time: H:i:s
 # ModulesSelectionFormType.php
 "modulesSelectionFormType_1": "Select"
 
-# PageFormType.php
-"pageFormType_1": "Select"
-"pageFormType_2": "No"
-"pageFormType_3": "Yes"
-
-# PagesSelectionFormType.php
-"pagesSelectionFormType_1": "Select"
-
-# PaymentsSelectionFormType.php
-"paymentsSelectionFormType_1": "Select"
-
 # RolesSelectionFormType.php
 "rolesSelectionFormType_1": "Select"
 
@@ -169,15 +180,8 @@ date.time: H:i:s
 "settingsFormType_1": "No"
 "settingsFormType_2": "Yes"
 
-# UserFormType.php
-"userFormType_1": "Select"
-"userFormType_2": "Man"
-"userFormType_3": "Woman"
-"userFormType_4": "No"
-"userFormType_5": "Yes"
-
-# UsersSelectionFormType.php
-"usersSelectionFormType_1": "Select"
+# SearchFormType.php
+"moduleSearchType_1": "Words"
 
 # ---
 

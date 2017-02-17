@@ -151,8 +151,6 @@ class ModuleController extends Controller {
                 'module_creation'
             )
         ));
-        $form->remove("sort");
-        $form->remove("active");
         
         // Request post
         if ($this->requestStack->getMethod() == "POST") {
@@ -165,6 +163,13 @@ class ModuleController extends Controller {
 
                 // Check form
                 if ($form->isValid() == true) {
+                    if ($form->get("sort")->getData() == "" && $form->get("active")->getData() == "") {
+                        $moduleRows = $this->utility->getQuery()->selectAllModulesFromDatabase(null, $form->get("position")->getData());
+                        
+                        $form->getData()->setSort(count($moduleRows));
+                        $form->getData()->setActive(false);
+                    }
+                    
                     // Insert in database
                     $this->entityManager->persist($module);
                     $this->entityManager->flush();
@@ -325,12 +330,20 @@ class ModuleController extends Controller {
                 
                 // Check form
                 if ($form->isValid() == true) {
-                    $formDataSort = $form->get("sort")->getData();
-                    
                     $sortExplode = Array();
                     
-                    if ($formDataSort != null)
-                        $sortExplode = explode(",", $formDataSort);
+                    if ($form->get("position")->getData() == "" && $form->get("sort")->getData() == "") {
+                        $moduleRow = $this->utility->getQuery()->selectModuleFromDatabase($this->urlExtra);
+                        
+                        $form->getData()->setPosition($moduleRow['position']);
+                        $form->getData()->setSort($moduleRow['sort']);
+                    }
+                    else {
+                        $formDataSort = $form->get("sort")->getData();
+                        
+                        if ($formDataSort != null)
+                            $sortExplode = explode(",", $formDataSort);
+                    }
                     
                     // Insert in database
                     $this->entityManager->persist($module);
@@ -515,7 +528,7 @@ class ModuleController extends Controller {
             $this->response['modules']['sort'] = $this->utility->getQuery()->selectAllModulesFromDatabase(null, $module->getPosition());
             
             // Create form
-            $moduleFormType = new ModuleFormType($this->utility);
+            $moduleFormType = new ModuleFormType();
             $formModuleProfile = $this->createForm($moduleFormType, $module, Array(
                 'validation_groups' => Array(
                     'module_profile'
@@ -558,7 +571,7 @@ class ModuleController extends Controller {
                         $this->listHtml .= $this->translator->trans("moduleController_13");
                 $this->listHtml .= "</td>
                 <td class=\"horizontal_center\">";
-                    if ($value['id'] > 4)
+                    if ($value['id'] > 5)
                         $this->listHtml .= "<button class=\"cp_module_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";

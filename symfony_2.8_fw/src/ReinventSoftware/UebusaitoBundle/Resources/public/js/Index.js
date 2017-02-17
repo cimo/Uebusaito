@@ -1,4 +1,4 @@
-/* global utility, loader, flashBag, language, authentication, registration, recoverPassword, controlPanelProfile, controlPanelPayment, controlPanelPage, controlPanelUser, controlPanelModule, controlPanelRole, controlPanelSetting */
+/* global utility, loader, flashBag, language, search, authentication, registration, recoverPassword, controlPanelProfile, controlPanelPayment, controlPanelPage, controlPanelUser, controlPanelModule, controlPanelRole, controlPanelSetting */
 
 $(document).ready(function() {
     utility.linkPreventDefault();
@@ -13,11 +13,10 @@ $(document).ready(function() {
     utility.bootstrapMenuActiveFix("#menu_registration", true);
     utility.bootstrapMenuActiveFix("#menu_control_panel", true);
     
-    utility.bootstrapAddClassIsVisibleFix("#menu_root_nav_button", "#menu_root", "navbar-fixed-top shadow");
-    
     loader.create("font");
     
     language.init();
+    search.init();
     authentication.init();
     registration.init();
     recoverPassword.init();

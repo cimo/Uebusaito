@@ -30,6 +30,11 @@ recover_password:
     path: /recover_password/{_locale}/{urlCurrentPageId}/{urlExtra}
     defaults: {_controller: UebusaitoBundle:RecoverPassword:index}
 
+# Search
+search:
+    path: /search/{_locale}/{urlCurrentPageId}/{urlExtra}
+    defaults: {_controller: UebusaitoBundle:Search:index}
+
 # Control panel - Profile
 cp_profile:
     path: /cp_profile/{_locale}/{urlCurrentPageId}/{urlExtra}

@@ -69,7 +69,7 @@
         {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
             <p>{% trans %}control_panel_12{% endtrans %}</p>
             
-            <div class="display_mobile margin_bottom">
+            <div class="display_desktop margin_bottom">
                 {{-render(controller("UebusaitoBundle:ControlPanel\\Module:drag", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
             </div>
             
