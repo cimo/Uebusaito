@@ -325,7 +325,7 @@ function Utility() {
     
     // Bootstrap fix
     self.bootstrapMenuFix = function(tag) {
-        $("ul.dropdown-menu [data-toggle=dropdown]").on("click", "", function(event) {
+        $("ul.dropdown-menu").find("[data-toggle=dropdown]").on("click", "", function(event) {
             event.preventDefault();
             event.stopPropagation();
             
@@ -345,15 +345,14 @@ function Utility() {
         
         var url = window.location.href;
         
-        if (url.substring(url.length - 1) === "/")
-            url = url.substring(0, url.length - 1);
+        var urlElements = url.split("/").reverse();
         
-        var lastUrlParameter = url.substring(url.lastIndexOf("/") + 1);
+        var menuRootButtonOld = "";
         
         $(elements).each(function(key, value) {
             var lastHrefParameter = $(value).prop("href").substring($(value).prop("href").lastIndexOf("/") + 1);
             
-            if (lastHrefParameter === lastUrlParameter) {
+            if (lastHrefParameter !== "" && $.inArray(lastHrefParameter, urlElements) !== -1) {
                 if (menuTag === true)
                     elements.parent().removeClass("active");
                 
@@ -364,8 +363,12 @@ function Utility() {
                 
                 menuRootButtonOld = $(value).parent();
             }
-            else if (menuTag === false && url.indexOf("/" + lastHrefParameter + "/") === -1)
-                $(value).parent().removeClass("active");
+            
+            if (menuRootButtonOld === "" && key === (elements.length - 1)) {
+                $(elements[0]).parent().addClass("active");
+                
+                menuRootButtonOld = $(elements[0]).parent();
+            }
         });
         
         elements.on("click", "", function() {
@@ -377,15 +380,15 @@ function Utility() {
         });
         
         $(document).mouseup(function(event) {
-            var container = $(".nav.navbar-nav");
-            
-            if (container.is(event.target) === false && container.has(event.target).length === 0) {
-                container.find("li").removeClass("active");
+            if ($(tag).is(event.target) === false && $(tag).has(event.target).length === 0) {
+                $(tag).find("li").removeClass("active");
                 
-                if ($(menuRootButtonOld).parents(".dropdown") !== undefined)
-                    $(menuRootButtonOld).parents(".dropdown").addClass("active");
-
-                $(menuRootButtonOld).addClass("active");
+                if (menuRootButtonOld !== "") {
+                    if ($(menuRootButtonOld).parents(".dropdown") > 0)
+                        $(menuRootButtonOld).parents(".dropdown").addClass("active");
+                    
+                    $(menuRootButtonOld).addClass("active");
+                }
             }
         });
     };

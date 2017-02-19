@@ -29,7 +29,7 @@ class LanguageController extends Controller {
     
     // Functions public
     /**
-     * @Template("UebusaitoBundle:render:language_text.html.twig")
+     * @Template("UebusaitoBundle:render:module/language_text.html.twig")
      */
     public function textAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
@@ -73,8 +73,10 @@ class LanguageController extends Controller {
                     
                     $this->response['values']['url'] = $this->utility->getUrlRoot() . "/" . $codeText . "/" . $this->requestStack->attributes->get("urlCurrentPageId") . "/" . $this->requestStack->attributes->get("urlExtra");
                 }
-                else
+                else {
+                    $this->response['messages']['error'] = $this->translator->trans("languageController_1");
                     $this->response['errors'] = $this->ajax->errors($form);
+                }
             }
             
             return $this->ajax->response(Array(
@@ -138,8 +140,10 @@ class LanguageController extends Controller {
                     $this->response['values']['codePage'] = $codePage;
                     $this->response['values']['pageFields'] = $this->utility->getQuery()->selectPageFromDatabase($codePage, $this->urlExtra);
                 }
-                else
+                else {
+                    $this->response['messages']['error'] = $this->translator->trans("languageController_2");
                     $this->response['errors'] = $this->ajax->errors($form);
+                }
             }
             
             return $this->ajax->response(Array(

@@ -22,6 +22,8 @@ function Language() {
                 true,
                 null,
                 function(xhr) {
+                    $("#language_button").dropdown("toggle");
+                    
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined)
                         window.location.href = xhr.response.values.url;
                     else

@@ -118,8 +118,8 @@ class RegistrationController extends Controller {
                             $this->response['messages']['error'] = $message;
                     }
                     else {
-                        $this->response['errors'] = $this->ajax->errors($form);
                         $this->response['messages']['error'] = $this->translator->trans("registrationController_7");
+                        $this->response['errors'] = $this->ajax->errors($form);
                     }
                 }
                 

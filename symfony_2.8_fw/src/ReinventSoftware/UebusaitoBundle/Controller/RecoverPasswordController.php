@@ -100,8 +100,8 @@ class RecoverPasswordController extends Controller {
                             $this->response['messages']['error'] = $this->translator->trans("recoverPasswordController_2");
                     }
                     else {
-                        $this->response['errors'] = $this->ajax->errors($formRecoverPassword);
                         $this->response['messages']['error'] = $this->translator->trans("recoverPasswordController_3");
+                        $this->response['errors'] = $this->ajax->errors($formRecoverPassword);
                     }
                 }
                 
@@ -152,8 +152,8 @@ class RecoverPasswordController extends Controller {
                             $this->response['messages']['error'] = $message;
                     }
                     else {
-                        $this->response['errors'] = $this->ajax->errors($formChangePassword);
                         $this->response['messages']['error'] = $this->translator->trans("recoverPasswordController_5");
+                        $this->response['errors'] = $this->ajax->errors($formChangePassword);
                     }
                 }
                 

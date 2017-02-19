@@ -23,7 +23,7 @@ class MenuController extends Controller {
     
     // Functions public
     /**
-     * @Template("UebusaitoBundle:render:menu_root.html.twig")
+     * @Template("UebusaitoBundle:render:module/menu_root.html.twig")
      */
     public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;

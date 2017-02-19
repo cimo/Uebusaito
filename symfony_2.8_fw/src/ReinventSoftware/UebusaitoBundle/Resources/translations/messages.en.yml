@@ -28,6 +28,7 @@ date.time: H:i:s
 "module_6": "Empty"
 
 # ---
+# Classes
 
 # Utility.php
 "utility_1": "Session time is over, please reload the page."
@@ -37,6 +38,7 @@ date.time: H:i:s
 "utility_5": "Select parent:"
 
 # ---
+# Controller / Control panel
 
 # ModuleController.php
 "moduleController_1": "Modules sort complete, please reload the page."
@@ -109,6 +111,13 @@ date.time: H:i:s
 "userController_9": "No"
 "userController_10": "Yes"
 
+# ---
+# Controller
+
+# LanguageController.php
+"languageController_1": "Change language text not completed!"
+"languageController_1": "Change language page not completed!"
+
 # PageLogicController.php
 "pageLogicController_1": "Page empty"
 "pageLogicController_2": "This page dosen't exist!"
@@ -133,33 +142,17 @@ date.time: H:i:s
 "registrationController_7": "Registration not completed!"
 "registrationController_8": "Thank you for your activation. Now you can use your account."
 
+# SearchController.php
+"searchController_1": "Search not completed!"
+
 # ---
+# EventListener
 
 # AuthenticationListener.php
 "Only admin can to do access.": "Only admin can to do access."
 
 # ---
-
-# PaymentsSelectionFormType.php
-"paymentsSelectionFormType_1": "Select"
-
-# PageFormType.php
-"pageFormType_1": "Select"
-"pageFormType_2": "No"
-"pageFormType_3": "Yes"
-
-# PagesSelectionFormType.php
-"pagesSelectionFormType_1": "Select"
-
-# UserFormType.php
-"userFormType_1": "Select"
-"userFormType_2": "Man"
-"userFormType_3": "Woman"
-"userFormType_4": "No"
-"userFormType_5": "Yes"
-
-# UsersSelectionFormType.php
-"usersSelectionFormType_1": "Select"
+# Form
 
 # ModuleFormType.php
 "moduleFormType_1": "Select"
@@ -173,17 +166,39 @@ date.time: H:i:s
 # ModulesSelectionFormType.php
 "modulesSelectionFormType_1": "Select"
 
+# PageFormType.php
+"pageFormType_1": "Select"
+"pageFormType_2": "No"
+"pageFormType_3": "Yes"
+
+# PagesSelectionFormType.php
+"pagesSelectionFormType_1": "Select"
+
+# PaymentsSelectionFormType.php
+"paymentsSelectionFormType_1": "Select"
+
 # RolesSelectionFormType.php
 "rolesSelectionFormType_1": "Select"
+
+# SearchFormType.php
+"moduleSearchType_1": "Words"
 
 # SettingsFormType.php
 "settingsFormType_1": "No"
 "settingsFormType_2": "Yes"
 
-# SearchFormType.php
-"moduleSearchType_1": "Words"
+# UserFormType.php
+"userFormType_1": "Select"
+"userFormType_2": "Man"
+"userFormType_3": "Woman"
+"userFormType_4": "No"
+"userFormType_5": "Yes"
+
+# UsersSelectionFormType.php
+"usersSelectionFormType_1": "Select"
 
 # ---
+# Views / Include
 
 # loader.html.twig
 "loading_1": "Loading..."
@@ -192,6 +207,78 @@ date.time: H:i:s
 "table_1": "Search"
 "table_2": "Previous"
 "table_3": "Next"
+
+# ---
+# Views / Render
+
+# control_panel.html.twig
+"control_panel_1": "Profile"
+"control_panel_2": "Payments"
+"control_panel_3": "Pages"
+"control_panel_4": "Users"
+"control_panel_5": "Modules"
+"control_panel_6": "Roles"
+"control_panel_7": "Settings"
+"control_panel_8": "Profile section."
+"control_panel_9": "Payments section."
+"control_panel_10": "Pages section."
+"control_panel_11": "Users section."
+"control_panel_12": "Modules section."
+"control_panel_13": "Roles section."
+"control_panel_14": "Settings section."
+
+# index.html.twig
+"index_1": "WEBSITE CURRENTLY"
+"index_2": "UNDER MAINTENANCE"
+"index_3": "Warning!"
+"index_4": "Ok"
+"index_5": "Abort"
+"index_6": "Connection error, please reload the page."
+"index_7": "There is a background process that has not completed. Reloading might result in data loss."
+"index_8": "Change page language without save data?"
+"index_9": "After this change, for secure reason, you must login again."
+"index_10": "Really delete this payment?"
+"index_11": "Really delete all payments?"
+"index_12": "Really delete this page?"
+"index_13": "Really delete all pages?"
+"index_14": "Really delete this user?"
+"index_15": "Really delete all users?"
+"index_16": "Really delete this module?"
+"index_17": "Really delete all modules?"
+"index_18": "Really delete this role?"
+"index_19": "Really delete all roles?"
+
+# recover_password.html.twig
+"recover_password_1": "Recover password form"
+"recover_password_2": "Email"
+"recover_password_3": "Change password form"
+"recover_password_4": "Password"
+"recover_password_5": "Password confirm"
+
+# registration.html.twig
+"registration_1": "Private"
+"registration_2": "Company"
+"registration_3": "Registration form"
+"registration_4": "Username"
+"registration_5": "Name"
+"registration_6": "Surname"
+"registration_7": "Email"
+"registration_8": "Telephone"
+"registration_9": "Born"
+"registration_10": "Gender"
+"registration_11": "Fiscal code"
+"registration_12": "Company name"
+"registration_13": "Company code"
+"registration_14": "Website"
+"registration_15": "State"
+"registration_16": "City"
+"registration_17": "Zip"
+"registration_18": "Address"
+"registration_19": "Password"
+"registration_20": "Password confirm"
+
+# ---
+# Views / Render / Control panel
 
 # module_creation.html.twig
 "module_creation_1": "Module creation form"
@@ -444,6 +531,9 @@ date.time: H:i:s
 "users_selection_desktop_9": "Not locked"
 "users_selection_desktop_10": "Remove"
 
+# ---
+# Views / Render / Module
+
 # authentication.html.twig
 "authentication_1": "Welcome:"
 "authentication_2": "Role:"
@@ -456,69 +546,3 @@ date.time: H:i:s
 "authentication_9": "Login"
 "authentication_10": "Registration"
 "authentication_11": "Forgot password?"
-
-# control_panel.html.twig
-"control_panel_1": "Profile"
-"control_panel_2": "Payments"
-"control_panel_3": "Pages"
-"control_panel_4": "Users"
-"control_panel_5": "Modules"
-"control_panel_6": "Roles"
-"control_panel_7": "Settings"
-"control_panel_8": "Profile section."
-"control_panel_9": "Payments section."
-"control_panel_10": "Pages section."
-"control_panel_11": "Users section."
-"control_panel_12": "Modules section."
-"control_panel_13": "Roles section."
-"control_panel_14": "Settings section."
-
-# index.html.twig
-"index_1": "WEBSITE CURRENTLY"
-"index_2": "UNDER MAINTENANCE"
-"index_3": "Warning!"
-"index_4": "Ok"
-"index_5": "Abort"
-"index_6": "Connection error, please reload the page."
-"index_7": "There is a background process that has not completed. Reloading might result in data loss."
-"index_8": "Change page language without save data?"
-"index_9": "After this change, for secure reason, you must login again."
-"index_10": "Really delete this payment?"
-"index_11": "Really delete all payments?"
-"index_12": "Really delete this page?"
-"index_13": "Really delete all pages?"
-"index_14": "Really delete this user?"
-"index_15": "Really delete all users?"
-"index_16": "Really delete this module?"
-"index_17": "Really delete all modules?"
-"index_18": "Really delete this role?"
-"index_19": "Really delete all roles?"
-
-# recover_password.html.twig
-"recover_password_1": "Recover password form"
-"recover_password_2": "Email"
-"recover_password_3": "Change password form"
-"recover_password_4": "Password"
-"recover_password_5": "Password confirm"
-
-# registration.html.twig
-"registration_1": "Private"
-"registration_2": "Company"
-"registration_3": "Registration form"
-"registration_4": "Username"
-"registration_5": "Name"
-"registration_6": "Surname"
-"registration_7": "Email"
-"registration_8": "Telephone"
-"registration_9": "Born"
-"registration_10": "Gender"
-"registration_11": "Fiscal code"
-"registration_12": "Company name"
-"registration_13": "Company code"
-"registration_14": "Website"
-"registration_15": "State"
-"registration_16": "City"
-"registration_17": "Zip"
-"registration_18": "Address"
-"registration_19": "Password"
-"registration_20": "Password confirm"

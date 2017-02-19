@@ -29,9 +29,9 @@ class SearchController extends Controller {
     
     // Functions public
     /**
-     * @Template("UebusaitoBundle:render:search.html.twig")
+     * @Template("UebusaitoBundle:render:module/search_words.html.twig")
      */
-    public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
+    public function wordsAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -69,10 +69,14 @@ class SearchController extends Controller {
                 
                 // Check form
                 if ($form->isValid() == true) {
+                    $words = $form->get("words")->getData();
                     
+                    $this->response['values']['url'] = $this->utility->getUrlRoot() . "/" . $this->urlLocale . "/5/" . $words;
                 }
-                else
+                else {
+                    $this->response['messages']['error'] = $this->translator->trans("searchController_1");
                     $this->response['errors'] = $this->ajax->errors($form);
+                }
             }
             
             return $this->ajax->response(Array(
@@ -89,6 +93,24 @@ class SearchController extends Controller {
             'urlExtra' => $this->urlExtra,
             'response' => $this->response,
             'form' => $form->createView()
+        );
+    }
+    
+    /**
+     * @Template("UebusaitoBundle:render:search_result.html.twig")
+     */
+    public function resultAction($_locale, $urlCurrentPageId, $urlExtra) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->response = Array();
+        
+        return Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
         );
     }
     

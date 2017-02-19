@@ -81,8 +81,8 @@ class SettingController extends Controller {
                     $this->entityManager->flush();
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("settingController_2");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             

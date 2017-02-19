@@ -79,8 +79,8 @@ class RoleController extends Controller {
                     $this->response['messages']['success'] = $this->translator->trans("roleController_1");
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("roleController_2");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -172,8 +172,8 @@ class RoleController extends Controller {
                     $this->response['render'] = $render;
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("roleController_3");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -239,8 +239,8 @@ class RoleController extends Controller {
                     $this->response['messages']['success'] = $this->translator->trans("roleController_4");
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("roleController_5");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             

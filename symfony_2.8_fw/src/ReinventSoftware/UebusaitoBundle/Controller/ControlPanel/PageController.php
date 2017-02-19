@@ -85,8 +85,8 @@ class PageController extends Controller {
                     $this->response['messages']['success'] = $this->translator->trans("pageController_1");
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("pageController_2");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -178,8 +178,8 @@ class PageController extends Controller {
                     $this->response['render'] = $render;
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("pageController_3");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -249,8 +249,8 @@ class PageController extends Controller {
                     $this->response['messages']['success'] = $this->translator->trans("pageController_4");
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("pageController_5");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -453,7 +453,7 @@ class PageController extends Controller {
                             $this->listHtml .= $this->translator->trans("pageController_13");
                 $this->listHtml .= "</td>
                 <td class=\"horizontal_center\">";
-                    if ($value['id'] > 4)
+                    if ($value['id'] > 5)
                         $this->listHtml .= "<button class=\"cp_page_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";
@@ -476,7 +476,7 @@ class PageController extends Controller {
                                             AND pages_arguments.id = :id
                                             AND pages_menu_names.id = :id");
             
-            $query->bindValue(":idExclude", "4");
+            $query->bindValue(":idExclude", "5");
             $query->bindValue(":id", $value['id']);
             
             $query->execute();
@@ -551,7 +551,7 @@ class PageController extends Controller {
                                             AND pages_arguments.id = :id
                                             AND pages_menu_names.id = :id");
             
-            $query->bindValue(":idExclude", "4");
+            $query->bindValue(":idExclude", "5");
             $query->bindValue(":id", $page->getId());
             
             $query->execute();
@@ -563,7 +563,7 @@ class PageController extends Controller {
                                             AND pages_arguments.id > :idExclude
                                             AND pages_menu_names.id > :idExclude");
             
-            $query->bindValue(":idExclude", "4");
+            $query->bindValue(":idExclude", "5");
             
             $query->execute();
         }

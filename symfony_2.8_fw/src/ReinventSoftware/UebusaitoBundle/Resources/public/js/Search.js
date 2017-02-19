@@ -10,7 +10,7 @@ function Search() {
     
     // Functions public
     self.init = function() {
-        $(".form_search").on("submit", "", function(event) {
+        $(".form_search_words").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -20,9 +20,10 @@ function Search() {
                 true,
                 null,
                 function(xhr) {
-                    if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined) {
-                        
-                    }
+                    $("#search_button").dropdown("toggle");
+                    
+                    if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined)
+                        window.location.href = xhr.response.values.url;
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
@@ -31,8 +32,8 @@ function Search() {
             );
         });
         
-        $(".form_search_button").on("click", "", function() {
-            $(this).parents(".form_search").submit();
+        $(".form_search_words_button").on("click", "", function() {
+            $(this).parents(".form_search_words").submit();
         });
     };
     

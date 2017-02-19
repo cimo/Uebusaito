@@ -58,6 +58,9 @@ function Ajax() {
     self.reply = function(xhr, tag) {
         var reply = "";
         
+        if ($("#menu_root_navbar").hasClass("in") === true)
+            $("#menu_root_nav_button").click();
+        
         if ($(tag).length > 0)
             $(tag).find("*[required='required']").parents(".form-group").removeClass("has-error");
 

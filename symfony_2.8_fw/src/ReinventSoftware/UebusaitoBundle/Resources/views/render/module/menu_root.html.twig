@@ -35,7 +35,7 @@
                             <i class="fa fa-search fa-lg"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            {{-render(controller("UebusaitoBundle:Search:index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                            {{-render(controller("UebusaitoBundle:Search:words", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                     {% endfor %}
                 {% endmacro %}
 
-                {% import "UebusaitoBundle::render/menu_root.html.twig" as macro %}
+                {% import "UebusaitoBundle::render/module/menu_root.html.twig" as macro %}
                 {{macro.createRecursiveStructure(response.values.url, response.values.pagesList)}}
             </ul>
         </div>

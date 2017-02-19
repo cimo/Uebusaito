@@ -80,8 +80,8 @@ class PaymentController extends Controller {
                     $this->response['messages']['success'] = "";
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("paymentController_1");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -176,8 +176,8 @@ class PaymentController extends Controller {
                     $this->response['render'] = $render;
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("paymentController_2");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             

@@ -91,8 +91,8 @@ class ProfileController extends Controller {
                     $this->response['messages']['success'] = $this->translator->trans("profileController_1");
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("profileController_2");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -162,8 +162,8 @@ class ProfileController extends Controller {
                         $this->response['messages']['error'] = $message;
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("profileController_4");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -228,8 +228,8 @@ class ProfileController extends Controller {
                 if ($form->isValid() == true)
                     $this->response['messages']['success'] = $this->translator->trans("profileController_5");
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("profileController_6");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
 

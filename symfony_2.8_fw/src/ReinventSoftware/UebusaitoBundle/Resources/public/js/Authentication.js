@@ -22,14 +22,10 @@ function Authentication() {
                 true,
                 null,
                 function(xhr) {
-                    if (xhr.response.messages !== undefined) {
+                    $("#authentication_button").dropdown("toggle");
+                    
+                    if (xhr.response.messages !== undefined)
                         ajax.reply(xhr, "");
-                        
-                        $("#authentication_button").dropdown("toggle");
-                        
-                        if ($("#menu_root_navbar").hasClass("in") === true)
-                            $("#menu_root_nav_button").click();
-                    }
                     else
                         window.location.href = xhr.response.values.url;
                 },

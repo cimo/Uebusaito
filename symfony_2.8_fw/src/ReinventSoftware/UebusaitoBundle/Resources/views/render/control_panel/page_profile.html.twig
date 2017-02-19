@@ -43,7 +43,7 @@
             <input class="btn btn-primary" type="submit" value="{% trans %}button_3{% endtrans %}"/>
         </form>
         
-        {% if is_granted("ROLE_ADMIN") == true and urlExtra > 4 %}
+        {% if is_granted("ROLE_ADMIN") == true and urlExtra > 5 %}
             {{-render(controller("UebusaitoBundle:ControlPanel\\Page:deletion", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
         {% endif %}
     </div>

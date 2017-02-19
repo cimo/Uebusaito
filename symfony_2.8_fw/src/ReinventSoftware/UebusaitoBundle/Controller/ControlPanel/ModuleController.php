@@ -103,8 +103,8 @@ class ModuleController extends Controller {
                     $this->response['messages']['success'] = $this->translator->trans("moduleController_1");
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("moduleController_2");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -177,8 +177,8 @@ class ModuleController extends Controller {
                     $this->response['messages']['success'] = $this->translator->trans("moduleController_3");
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("moduleController_4");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -270,8 +270,8 @@ class ModuleController extends Controller {
                     $this->response['render'] = $render;
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("moduleController_5");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -357,8 +357,8 @@ class ModuleController extends Controller {
                     $this->response['messages']['success'] = $this->translator->trans("moduleController_6");
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("moduleController_7");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             

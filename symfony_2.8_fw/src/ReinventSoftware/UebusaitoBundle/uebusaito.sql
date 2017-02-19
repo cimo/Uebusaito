@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Feb 06, 2017 alle 13:53
+-- Generato il: Feb 19, 2017 alle 16:05
 -- Versione del server: 5.5.44-0ubuntu0.14.04.1
 -- Versione PHP: 5.5.9-1ubuntu4.14
 
@@ -56,18 +56,19 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
 
 --
 -- Dump dei dati per la tabella `modules`
 --
 
 INSERT INTO `modules` (`id`, `position`, `sort`, `name`, `label`, `file_name`, `active`) VALUES
-(1, 'header', 0, 'Menu root', 'module_1', 'menu_root.html.twig', 1),
+(1, 'header', 2, 'Menu root', 'module_1', 'menu_root.html.twig', 1),
 (2, 'left', 0, 'Authentication', 'module_2', 'authentication.html.twig', 1),
 (3, 'center', 0, 'Page', 'module_3', 'page.html.twig', 1),
-(4, 'right', 0, 'Language', 'module_4', 'language_text.html.twig', 1),
-(5, 'right', 1, 'Empty', 'module_5', 'empty.html.twig', 1);
+(4, 'header', 0, 'Language', 'module_4', 'language_text.html.twig', 1),
+(5, 'header', 1, 'Search', 'module_5', 'search.html.twig', 1),
+(6, 'right', 0, 'Empty', 'module_6', 'empty.html.twig', 1);
 
 -- --------------------------------------------------------
 
@@ -85,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `only_link` tinyint(1) NOT NULL DEFAULT '1',
   `link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
 
 --
 -- Dump dei dati per la tabella `pages`
@@ -96,14 +97,15 @@ INSERT INTO `pages` (`id`, `parent`, `controller_action`, `role_id`, `protected`
 (2, NULL, NULL, '1,2,', 0, 1, 0, '-'),
 (3, NULL, 'UebusaitoBundle:Registration:index', '1,2,', 0, 0, 0, '-'),
 (4, NULL, 'UebusaitoBundle:RecoverPassword:index', '1,2,', 0, 0, 0, '-'),
-(5, NULL, NULL, '4,', 1, 1, 0, '-'),
-(6, NULL, NULL, '1,2,', 0, 1, 0, '-'),
-(7, 6, NULL, '1,2,', 0, 1, 0, '-'),
+(5, NULL, 'UebusaitoBundle:Search:result', '1,2,', 0, 0, 0, '-'),
+(6, NULL, NULL, '4,', 1, 1, 0, '-'),
+(7, NULL, NULL, '1,2,', 0, 1, 0, '-'),
 (8, 7, NULL, '1,2,', 0, 1, 0, '-'),
-(9, 7, NULL, '1,2,', 0, 1, 0, '-'),
+(9, 8, NULL, '1,2,', 0, 1, 0, '-'),
 (10, 8, NULL, '1,2,', 0, 1, 0, '-'),
-(11, 6, NULL, '1,2,', 0, 1, 1, 'http://www.google.it'),
-(12, 10, NULL, '1,2,', 0, 1, 0, '-');
+(11, 9, NULL, '1,2,', 0, 1, 0, '-'),
+(12, 7, NULL, '1,2,', 0, 1, 1, 'http://www.google.it'),
+(13, 11, NULL, '1,2,', 0, 1, 0, '-');
 
 -- --------------------------------------------------------
 
@@ -118,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `pages_arguments` (
   `jp` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
 
 --
 -- Dump dei dati per la tabella `pages_arguments`
@@ -126,17 +128,18 @@ CREATE TABLE IF NOT EXISTS `pages_arguments` (
 
 INSERT INTO `pages_arguments` (`id`, `en`, `it`, `jp`) VALUES
 (1, 'Here you can administrate the website, choise the section on bottom menu.', 'Argomento pannello di controllo.', NULL),
-(2, 'This is a cms created with symfony framewrok.', 'Argomento home.', 'ホームノアーギュメント。'),
+(2, 'This is a cms created with symfony framework.', 'Argomento home.', 'ホームノアーギュメント。'),
 (3, 'Registration argument.', 'Argomento registrazione.', NULL),
 (4, 'Recover password argument.', 'Argomento recupero password.', NULL),
-(5, 'Test argument.', 'Argomento test.', 'テストノアーギュメント。'),
-(6, 'Test parent argument.', 'Argomento test genitore.', NULL),
-(7, 'Test children 1 argument.', 'Argomento test figlio 1.', NULL),
-(8, 'Test children 2 argument.', 'Argomento test figlio 2.', NULL),
-(9, 'Test 2 argument.', 'Argomento test 2.', NULL),
-(10, 'Test children 3 argument.', 'Argomento test figlio 3.', NULL),
-(11, 'Test 1 argument.', 'Argomento test 1.', NULL),
-(12, 'Test children 4 argument.', 'Argomento test figlio 4.', NULL);
+(5, 'Search argument.', 'Argomento cerca.', 'サーチノアーギュメント。'),
+(6, 'Test argument.', 'Argomento test.', 'テストノアーギュメント。'),
+(7, 'Test parent argument.', 'Argomento test genitore.', NULL),
+(8, 'Test children 1 argument.', 'Argomento test figlio 1.', NULL),
+(9, 'Test children 2 argument.', 'Argomento test figlio 2.', NULL),
+(10, 'Test 2 argument.', 'Argomento test 2.', NULL),
+(11, 'Test children 3 argument.', 'Argomento test figlio 3.', NULL),
+(12, 'Test 1 argument.', 'Argomento test 1.', NULL),
+(13, 'Test children 4 argument.', 'Argomento test figlio 4.', NULL);
 
 -- --------------------------------------------------------
 
@@ -150,25 +153,26 @@ CREATE TABLE IF NOT EXISTS `pages_menu_names` (
   `it` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
 
 --
 -- Dump dei dati per la tabella `pages_menu_names`
 --
 
 INSERT INTO `pages_menu_names` (`id`, `en`, `it`, `jp`) VALUES
-(1, 'Control panel', 'Pannello di controllo', NULL),
+(1, '-', '-', '-'),
 (2, 'Home', 'Home', 'ホーム'),
-(3, 'Registration', 'Registrazione', NULL),
-(4, 'Recover password', 'Recupero password', NULL),
-(5, 'Test', 'Test', 'テスト'),
-(6, 'Test parent', 'Test genitore', NULL),
-(7, 'Test children 1', 'Test figlio 1', NULL),
-(8, 'Test children 2', 'Test figlio 2', NULL),
-(9, 'Test 2', 'Test 2', NULL),
-(10, 'Test children 3', 'Test figlio 3', NULL),
-(11, 'Test 1', 'Test 1', NULL),
-(12, 'Test children 4', 'Test figlio 4', NULL);
+(3, '-', '-', '-'),
+(4, '-', '-', '-'),
+(5, '-', '-', '-'),
+(6, 'Test', 'Test', 'テスト'),
+(7, 'Test parent', 'Test genitore', NULL),
+(8, 'Test children 1', 'Test figlio 1', NULL),
+(9, 'Test children 2', 'Test figlio 2', NULL),
+(10, 'Test 2', 'Test 2', NULL),
+(11, 'Test children 3', 'Test figlio 3', NULL),
+(12, 'Test 1', 'Test 1', NULL),
+(13, 'Test children 4', 'Test figlio 4', NULL);
 
 -- --------------------------------------------------------
 
@@ -183,25 +187,26 @@ CREATE TABLE IF NOT EXISTS `pages_titles` (
   `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
 
 --
 -- Dump dei dati per la tabella `pages_titles`
 --
 
 INSERT INTO `pages_titles` (`id`, `en`, `it`, `jp`) VALUES
-(1, 'Control panel title', 'Titolo pannello di controllo', NULL),
+(1, 'Control panel title', 'Titolo pannello di controllo', 'コントロールパネルノタイトル'),
 (2, 'Home title', 'Titolo home', 'ホームノタイトル'),
-(3, 'Registration title', 'Titolo registrazione', NULL),
-(4, 'Recover password title', 'Titolo recupero password', NULL),
-(5, 'Test title', 'Titolo test', 'テストノタイトル'),
-(6, 'Test parent title', 'Titolo test genitore', NULL),
-(7, 'Test children 1 title', 'Titolo test figlio 1', NULL),
-(8, 'Test children 2 title', 'Titolo test figlio 2', NULL),
-(9, 'Test 2 title', 'Titolo test 2', NULL),
-(10, 'Test children 3 title', 'Titolo test figlio 3', NULL),
-(11, 'Test 1 title', 'Titolo test 1', NULL),
-(12, 'Test children 4 title', 'Titolo test figlio 4', NULL);
+(3, 'Registration title', 'Titolo registrazione', '登録ノタイトル'),
+(4, 'Recover password title', 'Titolo recupero password', 'パスワードを回復ノタイトル'),
+(5, 'Search title', 'Titolo cerca', 'サーチノタイトル'),
+(6, 'Test title', 'Titolo test', 'テストノタイトル'),
+(7, 'Test parent title', 'Titolo test genitore', NULL),
+(8, 'Test children 1 title', 'Titolo test figlio 1', NULL),
+(9, 'Test children 2 title', 'Titolo test figlio 2', NULL),
+(10, 'Test 2 title', 'Titolo test 2', NULL),
+(11, 'Test children 3 title', 'Titolo test figlio 3', NULL),
+(12, 'Test 1 title', 'Titolo test 1', NULL),
+(13, 'Test children 4 title', 'Titolo test figlio 4', NULL);
 
 -- --------------------------------------------------------
 
@@ -303,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `company_code`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_last_login`, `help_code`) VALUES
-(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00136', 'Via', '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 12, 1, '2015-08-04 10:25:12', '2017-02-06 11:03:44', NULL),
+(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00136', 'Via', '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 12, 1, '2015-08-04 10:25:12', '2017-02-19 09:49:47', NULL),
 (2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 0, 1, '2015-09-10 17:39:31', '2016-10-27 13:17:53', NULL),
 (3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, NULL, NULL);
 

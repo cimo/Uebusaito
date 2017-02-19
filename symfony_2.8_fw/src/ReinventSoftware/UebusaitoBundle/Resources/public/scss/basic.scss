@@ -442,11 +442,11 @@ body {
     background-color: #2f343a;
     color: #ffffff;
 }
-.footer_social {
+.footer_icons {
     margin-bottom: 10px;
 }
-.footer_social {
-    a {
+.footer_icons {
+    div {
         color: #ffffff;
         display: inline-block;
         text-align: center;
@@ -472,22 +472,6 @@ body {
     width: 100px;
     height: 38px;
     border: none;
-}
-
-.button_social_google {
-    background-color: #dd4b39;
-}
-.button_social_twitter {
-    background-color: #1ca8e4;
-}
-.button_social_facebook {
-    background-color: #4b6ca5;
-}
-.button_social_android {
-    background-color: #99ca3c;
-}
-.button_social_apple {
-    background-color: #a7a9ab;
 }
 
 .form-control {

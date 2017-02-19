@@ -27,7 +27,7 @@ class AuthenticationController extends Controller {
     
     // Functions public
     /**
-     * @Template("UebusaitoBundle:render:authentication.html.twig")
+     * @Template("UebusaitoBundle:render:module/authentication.html.twig")
      */
     public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;

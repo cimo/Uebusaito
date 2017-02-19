@@ -321,6 +321,7 @@ function ControlPanelPage() {
     
     function fieldsVisibilityMenu(id) {
         if ($(id).find("#form_page_showInMenu").val() === "0") {
+            $(id).find("#form_page_menuName").val("-");
             $(id).find("#form_page_menuName").prev().hide();
             $(id).find("#form_page_menuName").hide();
         }
@@ -332,6 +333,7 @@ function ControlPanelPage() {
     
     function fieldsVisibilityLink(id) {
         if ($(id).find("#form_page_onlyLink").val() === "0") {
+            $(id).find("#form_page_link").val("-");
             $(id).find("#form_page_link").prev().hide();
             $(id).find("#form_page_link").hide();
         }

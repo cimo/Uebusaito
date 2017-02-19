@@ -93,8 +93,8 @@ class UserController extends Controller {
                         $this->response['messages']['error'] = $message;
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("userController_2");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -186,8 +186,8 @@ class UserController extends Controller {
                     $this->response['render'] = $render;
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("userController_3");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             
@@ -269,8 +269,8 @@ class UserController extends Controller {
                         $this->response['messages']['error'] = $message;
                 }
                 else {
-                    $this->response['errors'] = $this->ajax->errors($form);
                     $this->response['messages']['error'] = $this->translator->trans("userController_5");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
             

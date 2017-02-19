@@ -24,7 +24,7 @@ class PageLogicController extends Controller {
     
     // Functions public
     /**
-     * @Template("UebusaitoBundle:render:page_logic.html.twig")
+     * @Template("UebusaitoBundle:render:module/page_logic.html.twig")
      */
     public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;

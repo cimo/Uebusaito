@@ -24,7 +24,7 @@ function FlashBag() {
         }
         
         if (utility.isIntoView("#flashBag") === false) {
-            if ($("#flashBag_popup").css("display") === "none") {
+            if ($("#flashBag_popup").css("display") === "none" && $("#flashBag").find(".content").html() !== "") {
                 var flashBagClass = $("#flashBag").prop("class");
                 var flashBagHtml = $("#flashBag").find(".content").html();
 

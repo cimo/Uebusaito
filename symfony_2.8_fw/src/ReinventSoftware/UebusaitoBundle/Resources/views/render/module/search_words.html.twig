@@ -11,8 +11,8 @@
     {% form_theme form "bootstrap_3_layout.html.twig" %}
 
     <div class="search_container">
-        <form id="form_search" class="form_search display_inline" action="{{path("search", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            <div class="form_search_button search_input">
+        <form id="form_search_words" class="form_search_words display_inline" action="{{path("search_words", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <div class="form_search_words_button search_input">
                 <i class="fa fa-search"></i>
             </div>
             {{form_row(form.words, {'label': false})}}

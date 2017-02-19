@@ -13,6 +13,10 @@ $(document).ready(function() {
     utility.bootstrapMenuActiveFix("#menu_registration", true);
     utility.bootstrapMenuActiveFix("#menu_control_panel", true);
     
+    $("#menu_root_nav_button").on("click", "", function() {
+        utility.bootstrapMenuActiveFix("#menu_root_navbar", false);
+    });
+    
     loader.create("font");
     
     language.init();
