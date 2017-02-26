@@ -120,15 +120,32 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllPagesFromDatabase($language) {
-        $query = $this->connection->prepare("SELECT pages.*,
-                                                    pages_titles.$language AS title,
-                                                    pages_arguments.$language AS argument,
-                                                    pages_menu_names.$language AS menu_name
-                                                    FROM pages, pages_titles, pages_arguments, pages_menu_names
-                                                WHERE pages_titles.id = pages.id
-                                                AND pages_arguments.id = pages.id
-                                                AND pages_menu_names.id = pages.id");
+    public function selectAllPagesFromDatabase($language, $search = null) {
+        if ($search == null) {
+            $query = $this->connection->prepare("SELECT pages.*,
+                                                        pages_titles.$language AS title,
+                                                        pages_arguments.$language AS argument,
+                                                        pages_menu_names.$language AS menu_name
+                                                        FROM pages, pages_titles, pages_arguments, pages_menu_names
+                                                    WHERE pages_titles.id = pages.id
+                                                    AND pages_arguments.id = pages.id
+                                                    AND pages_menu_names.id = pages.id");
+        }
+        else {
+            $query = $this->connection->prepare("SELECT pages.*,
+                                                        pages_titles.$language AS title,
+                                                        pages_arguments.$language AS argument
+                                                    FROM pages, pages_titles, pages_arguments
+                                                    WHERE pages_titles.id = pages.id
+                                                    AND pages_arguments.id = pages.id
+                                                    AND pages.only_link = :onlyLink
+                                                    AND pages.id NOT IN (SELECT parent FROM pages WHERE parent is NOT NULL)
+                                                    AND (pages_titles.$language LIKE :search
+                                                    OR pages_arguments.$language LIKE :search)");
+            
+            $query->bindValue(":onlyLink", 0);
+            $query->bindValue(":search", "%$search%");
+        }
         
         $query->execute();
         

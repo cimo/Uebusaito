@@ -9,13 +9,13 @@ $(document).ready(function() {
     
     utility.bootstrapMenuFix("#menu_root_navbar");
     
-    utility.bootstrapMenuActiveFix("#menu_root_navbar", false);
-    utility.bootstrapMenuActiveFix("#menu_registration", true);
-    utility.bootstrapMenuActiveFix("#menu_control_panel", true);
-    
-    $("#menu_root_nav_button").on("click", "", function() {
-        utility.bootstrapMenuActiveFix("#menu_root_navbar", false);
-    });
+    utility.bootstrapMenuActiveFix(
+        [
+            "#menu_root_navbar",
+            "#menu_registration",
+            "#menu_control_panel"
+        ]
+    );
     
     loader.create("font");
     

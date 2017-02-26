@@ -10,6 +10,9 @@ function Registration() {
     
     // Functions public
     self.init = function() {
+        if ($("#menu_registration").children("li.active").length === 0)
+            $("#menu_registration").children("li").eq(0).addClass("active");
+        
         $("#form_user_registration").on("submit", "", function(event) {
             event.preventDefault();
             

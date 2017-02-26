@@ -49,7 +49,7 @@ class SearchController extends Controller {
         $searchFormType = new SearchFormType();
         $form = $this->createForm($searchFormType, new SearchModel(), Array(
             'validation_groups' => Array(
-                'search'
+                'search_words'
             )
         ));
         
@@ -104,7 +104,17 @@ class SearchController extends Controller {
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
+        $this->entityManager = $this->getDoctrine()->getManager();
+        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
+        $this->translator = $this->get("translator");
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        
         $this->response = Array();
+        
+        $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale, $this->urlExtra);
+        
+        $this->response['values']['results'] = $pageRows;
         
         return Array(
             'urlLocale' => $this->urlLocale,

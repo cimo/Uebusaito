@@ -64,7 +64,12 @@ ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel:
     properties:
         words:
             - NotBlank:
-                groups: [search]
+                groups: [search_words]
+            - Regex:
+                groups: [search_words]
+                htmlPattern: false
+                pattern: /^.{1,150}$/
+                message: "Value is too long."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel:
     properties:

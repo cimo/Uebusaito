@@ -387,7 +387,7 @@ body {
         .active {
             & > a {
                 background-color: #e7e7e7;
-                color: #555 !important;
+                color: #000000 !important;
             }
         }
     }
@@ -397,16 +397,25 @@ body {
     border-bottom: 0;
 }
 
-.page_header {
-    margin: 0;
+.form-control {
+    height: 33px !important;
 }
-.page_header_h1 {
-    margin: 0;
+
+.btn {
+    white-space: normal;
+    outline: none !important;
 }
-.page_container {
-    padding: 25px 15px;
-    border: 1px solid #dddddd;
-    padding-top: 10px;
+
+.alert {
+    margin-bottom: 10px;
+}
+
+.panel-heading {
+    padding: 10px 0;
+    border-bottom: 1px solid #c6c6c6;
+}
+.panel-body {
+    padding: 15px 0;
 }
 
 .panel {
@@ -420,12 +429,17 @@ body {
 .panel_clean {
     position: relative;
 }
-.panel-heading {
-    padding: 10px 0;
-    border-bottom: 1px solid #c6c6c6;
+
+.page_header {
+    margin: 0;
 }
-.panel-body {
-    padding: 15px 0;
+.page_header_h1 {
+    margin: 0;
+}
+.page_container {
+    padding: 25px 15px;
+    border: 1px solid #dddddd;
+    padding-top: 10px;
 }
 
 .language_page_flag_selected {
@@ -455,12 +469,7 @@ body {
     }
 }
 
-.btn {
-    white-space: normal;
-    outline: none !important;
-}
-
-.button_order {
+.button_sort {
     display: block;
     padding: 4px;
     cursor: pointer;
@@ -474,12 +483,9 @@ body {
     border: none;
 }
 
-.form-control {
-    height: 33px !important;
-}
-
-.alert {
-    margin-bottom: 10px;
+.remember_me_fix {
+    margin: 5px 0 5px 10px !important;
+    display: inline-block !important;
 }
 
 .jqte {
@@ -490,11 +496,6 @@ body {
 }
 .jqte_tool.jqte_tool_1 .jqte_tool_label {
     height: auto !important;
-}
-
-.remember_me_fix {
-    margin: 5px 0 5px 10px !important;
-    display: inline-block !important;
 }
 
 #_remember_me {
@@ -520,4 +521,21 @@ body {
 #form_language_codeText {
     width: 70%;
     padding: 0;
+}
+
+#search_result {
+    .text {
+        
+    }
+    .container {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+        .title {
+            text-decoration: underline;
+        }
+        .argument {
+            margin: 0;
+        }
+    }
 }

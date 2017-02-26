@@ -277,6 +277,10 @@ date.time: H:i:s
 "registration_19": "Password"
 "registration_20": "Password confirm"
 
+# search_result.html.twig
+"search_result_1": "Items found:"
+"search_result_2": "Go to content..."
+
 # ---
 # Views / Render / Control panel
 

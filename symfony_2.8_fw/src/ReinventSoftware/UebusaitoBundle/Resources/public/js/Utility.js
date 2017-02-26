@@ -8,7 +8,6 @@ function Utility() {
     
     var watchExecuted = false;
     
-    var menuRootButtonOld = null;
     var modulePositionValue = "";
     
     // Properties
@@ -96,7 +95,7 @@ function Utility() {
         var disabled = false;
         var optionLength = 0;
         
-        $(options).each(function(key, val) {
+        $.each(options, function(key, val) {
             var optionValue = parseInt(val.value);
             var optionText = val.text;
             var idElementSelected = parseInt(xhr.response.values.id);
@@ -325,71 +324,78 @@ function Utility() {
     
     // Bootstrap fix
     self.bootstrapMenuFix = function(tag) {
-        $("ul.dropdown-menu").find("[data-toggle=dropdown]").on("click", "", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            if ($(this).parent().hasClass("open") === false)
-                $(this).parent().addClass("open");
-            else
-                $(this).parent().removeClass("open");
-        });
-        
-        $(window).resize(function() {
-            $(tag).find("li").removeClass("open");
+        $(tag).find("ul li.dropdown").on("click", "", function(event) {
+            if ($(event.target).hasClass("dropdown-toggle") === true) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                if ($(this).hasClass("open") === false)
+                    $(this).addClass("open");
+                else
+                   $(this).removeClass("open");
+            }
         });
     };
     
-    self.bootstrapMenuActiveFix = function(tag, menuTag) {
-        var elements = $(tag).find("li a");
+    self.bootstrapMenuActiveFix = function(tags) {
+        var menuButtonsOld = new Array();
         
-        var url = window.location.href;
-        
-        var urlElements = url.split("/").reverse();
-        
-        var menuRootButtonOld = "";
-        
-        $(elements).each(function(key, value) {
-            var lastHrefParameter = $(value).prop("href").substring($(value).prop("href").lastIndexOf("/") + 1);
-            
-            if (lastHrefParameter !== "" && $.inArray(lastHrefParameter, urlElements) !== -1) {
-                if (menuTag === true)
-                    elements.parent().removeClass("active");
-                
-                if ($(value).parents(".dropdown") !== undefined)
-                    $(value).parents(".dropdown").addClass("active");
-                
-                $(value).parent().addClass("active");
-                
-                menuRootButtonOld = $(value).parent();
-            }
-            
-            if (menuRootButtonOld === "" && key === (elements.length - 1)) {
-                $(elements[0]).parent().addClass("active");
-                
-                menuRootButtonOld = $(elements[0]).parent();
-            }
-        });
-        
-        elements.on("click", "", function() {
-            if ($(this).parents(".dropdown").hasClass("active") === false && $(this).parent().find("li").hasClass("active") === false)
-                elements.parent().removeClass("active");
-            
-            if ($(this).prop("target") === undefined)
-                $(this).parent().addClass("active");
-        });
-        
-        $(document).mouseup(function(event) {
-            if ($(tag).is(event.target) === false && $(tag).has(event.target).length === 0) {
-                $(tag).find("li").removeClass("active");
-                
-                if (menuRootButtonOld !== "") {
-                    if ($(menuRootButtonOld).parents(".dropdown") > 0)
-                        $(menuRootButtonOld).parents(".dropdown").addClass("active");
-                    
-                    $(menuRootButtonOld).addClass("active");
+        $.each(tags, function(key, value) {
+            var elements = $(value).find("li a");
+
+            var url = window.location.href;
+
+            var urlElements = url.split("/").reverse();
+
+            $.each(elements, function(keySub, valueSub) {
+                var lastHrefParameter = $(valueSub).prop("href").substring($(valueSub).prop("href").lastIndexOf("/") + 1);
+
+                if (lastHrefParameter !== "" && $.inArray(lastHrefParameter, urlElements) !== -1) {
+                    if ($(valueSub).parents(".dropdown").length > 0)
+                        $(valueSub).parents(".dropdown").addClass("active");
+
+                    $(valueSub).parent().addClass("active");
+
+                    menuButtonsOld[key] = $(valueSub).parent();
                 }
+
+                if (menuButtonsOld[key] === "" && keySub === (elements.length - 1)) {
+                    $(elements[0]).parent().addClass("active");
+
+                    menuButtonsOld[key] = $(elements[0]).parent();
+                }
+            });
+
+            elements.on("click", "", function() {
+                if ($(this).hasClass("dropdown-toggle") === true) {
+                    if ($(this).parent().hasClass("dropdown") === true)
+                        $(value).find("> ul > li").removeClass("active");
+                    
+                    if ($(this).parent().hasClass("active") === false)
+                        $(this).closest(".dropdown-menu").children(".active").removeClass("active");
+                }
+            });
+        });
+        
+        $(document).on("click", "", function(event) {
+            if (event.target.id !== "menu_root_navbar" && $(event.target).is("a") === false) {
+                $.each(menuButtonsOld, function(key, value) {
+                    $(menuButtonsOld[key]).addClass("active");
+                    $(menuButtonsOld[key]).parents(".dropdown").addClass("active");
+                });
             }
+            else
+                $(event.target).parents("li").addClass("active");
+        });
+        
+        $(window).resize(function() {
+            $.each(menuButtonsOld, function(key, value) {
+                $(tags[key]).find("li").removeClass("open");
+                $(tags[key]).find("li a").blur();
+                
+                $(menuButtonsOld[key]).addClass("active");
+                $(menuButtonsOld[key]).parents(".dropdown").addClass("active");
+            });
         });
     };
     
