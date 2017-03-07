@@ -57,6 +57,7 @@ function ControlPanelPage() {
     // Function private
     function selection() {
         var table = new Table();
+        table.setButtonsStatus("show");
         table.init(window.url.cpPagesSelection, "#cp_pages_selection_desktop_result");
         table.search(true);
         table.pagination(true);

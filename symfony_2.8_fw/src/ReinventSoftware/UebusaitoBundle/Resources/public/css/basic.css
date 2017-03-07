@@ -248,8 +248,9 @@ body { margin-bottom: 150px; }
 
 #form_language_codeText { width: 70%; padding: 0; }
 
-#search_result .container { border: 1px solid #ccc; padding: 10px; margin: 10px; }
-#search_result .container .title { text-decoration: underline; }
-#search_result .container .argument { margin: 0; }
+#search_result .text { margin-bottom: 10px; }
+#search_result .box { border: 1px solid #ccc; padding: 10px; margin: 10px; }
+#search_result .box .title { text-decoration: underline; }
+#search_result .box .argument { margin: 0; }
 
 /*# sourceMappingURL=basic.css.map */

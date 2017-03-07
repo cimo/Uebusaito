@@ -1,14 +1,6 @@
 <div id="search_result">
+    {{-include("UebusaitoBundle::include/table.html.twig")-}}
+    
     <p class="text">{% trans %}search_result_1{% endtrans %} {{response.values.results|length}}</p>
-    {% for value in response.values.results %}
-        <div class="container">
-            <p class="title"><b>{{value['title']}}</b></p>
-            {% if value['argument']|length > 200 %}
-                <p class="argument">{{value['argument'][:200]}}...</p>
-            {% else %}
-                <p class="argument">{{value['argument']}}</p>
-            {% endif %}
-            <a href="{{path("index", {'urlCurrentPageId': value['id']})}}">{% trans %}search_result_2{% endtrans %}</a>
-        </div>
-    {% endfor %}
+    {{response.values.list|raw}}
 </div>

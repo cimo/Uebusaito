@@ -12,7 +12,12 @@ function Table() {
     
     var sortOrderBy = false;
     
+    var buttonsStatus = "";
+    
     // Properties
+    self.setButtonsStatus = function(value) {
+        buttonsStatus = value;
+    };
     
     // Functions public
     self.init = function(url, id) {
@@ -166,6 +171,11 @@ function Table() {
         $.each($(idResult).find("table thead tr"), function(key, value) {
             $(value).find("th i").addClass("display_none");
         });
+        
+        if (buttonsStatus === "hide")
+            $(idResult).find(".buttons").hide();
+        else
+            $(idResult).find(".buttons").show();
     }
     
     function send() {

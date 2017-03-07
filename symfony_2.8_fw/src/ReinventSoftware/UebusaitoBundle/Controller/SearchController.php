@@ -9,6 +9,7 @@ use ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\Table;
 
 class SearchController extends Controller {
     // Vars
@@ -22,6 +23,9 @@ class SearchController extends Controller {
     
     private $utility;
     private $ajax;
+    private $table;
+    
+    private $listHtml;
     
     private $response;
     
@@ -109,12 +113,44 @@ class SearchController extends Controller {
         $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->translator);
+        $this->table = new Table($this->utility);
+        
+        $this->listHtml = "";
         
         $this->response = Array();
         
         $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale, $this->urlExtra);
         
+        $tableResult = $this->table->request($pageRows, 20, "searchResult", true, true);
+        
+        $this->listHtml($tableResult['list']);
+        
+        $this->response['values']['search'] = $tableResult['search'];
+        $this->response['values']['pagination'] = $tableResult['pagination'];
+        $this->response['values']['list'] = $this->listHtml;
+        
         $this->response['values']['results'] = $pageRows;
+        
+        if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true) {
+            $render = $this->renderView("UebusaitoBundle::render/search_result.html.twig", Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+
+            $this->response['render'] = $render;
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        else
+            $this->response['messages']['error'] = $this->translator->trans("searchController_1");
         
         return Array(
             'urlLocale' => $this->urlLocale,
@@ -125,4 +161,16 @@ class SearchController extends Controller {
     }
     
     // Functions private
+    private function listHtml($tableResult) {
+        foreach ($tableResult as $key => $value) {
+            $this->listHtml .= "<div class=\"box\">
+                <p class=\"title\"><b>{$value['title']}</b></p>";
+                if (strlen($value['argument']) > 200)
+                    $this->listHtml .= "<p class=\"argument\">" . substr($value['argument'], 0, 200) . "...</p>";
+                else
+                    $this->listHtml .= "<p class=\"argument\">{$value['argument']}</p>
+                <a href=\"". $this->generateUrl("index") . $this->urlLocale . "/" . $value['id'] . "\">" . $this->translator->trans("searchController_2") . "</a>
+            </div>";
+        }
+    }
 }

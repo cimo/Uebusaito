@@ -46,6 +46,7 @@ function ControlPanelRole() {
     // Function private
     function selection() {
         var table = new Table();
+        table.setButtonsStatus("show");
         table.init(window.url.cpRolesSelection, "#cp_roles_selection_desktop_result");
         table.search(true);
         table.pagination(true);

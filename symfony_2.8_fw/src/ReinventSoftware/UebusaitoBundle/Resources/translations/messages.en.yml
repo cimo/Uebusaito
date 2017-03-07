@@ -144,6 +144,7 @@ date.time: H:i:s
 
 # SearchController.php
 "searchController_1": "Search not completed!"
+"searchController_2": "Go to content..."
 
 # ---
 # EventListener
@@ -279,7 +280,6 @@ date.time: H:i:s
 
 # search_result.html.twig
 "search_result_1": "Items found:"
-"search_result_2": "Go to content..."
 
 # ---
 # Views / Render / Control panel

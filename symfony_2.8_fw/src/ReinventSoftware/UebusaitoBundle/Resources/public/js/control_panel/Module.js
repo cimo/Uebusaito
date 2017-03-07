@@ -79,6 +79,7 @@ function ControlPanelModule() {
     
     function selection() {
         var table = new Table();
+        table.setButtonsStatus("show");
         table.init(window.url.cpModulesSelection, "#cp_modules_selection_desktop_result");
         table.search(true);
         table.pagination(true);

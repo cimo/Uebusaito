@@ -44,6 +44,7 @@ function ControlPanelUser() {
     // Function private
     function selection() {
         var table = new Table();
+        table.setButtonsStatus("show");
         table.init(window.url.cpUsersSelection, "#cp_users_selection_desktop_result");
         table.search(true);
         table.pagination(true);
