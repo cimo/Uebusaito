@@ -135,6 +135,7 @@ class PageController extends Controller {
             )
         ));
         
+        // Pagination
         $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale);
         
         $tableResult = $this->table->request($pageRows, 20, "page", false, true);

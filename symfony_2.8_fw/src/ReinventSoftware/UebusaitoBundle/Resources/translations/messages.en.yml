@@ -150,7 +150,7 @@ date.time: H:i:s
 # EventListener
 
 # AuthenticationListener.php
-"Only admin can to do access.": "Only admin can to do access."
+"authenticationListener_1": "Your level does not allow the access."
 
 # ---
 # Form
@@ -464,13 +464,14 @@ date.time: H:i:s
 "settings_2": "Email admin"
 "settings_3": "Template"
 "settings_4": "Active"
-"settings_5": "Https"
-"settings_6": "Registration user confirm admin"
-"settings_7": "PayPal sandbox"
-"settings_8": "PayPal business"
-"settings_9": "PayPal currency code"
-"settings_10": "PayPal credit amount"
-"settings_11": "Credits"
+"settings_5": "Roles"
+"settings_6": "Https"
+"settings_7": "Registration user confirm admin"
+"settings_8": "PayPal sandbox"
+"settings_9": "PayPal business"
+"settings_10": "PayPal currency code"
+"settings_11": "PayPal credit amount"
+"settings_12": "Credits"
 
 # user_creation.html.twig
 "user_creation_1": "User creation form"

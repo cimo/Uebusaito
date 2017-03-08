@@ -11,14 +11,14 @@ language_page:
     path: /language_page/{_locale}/{urlCurrentPageId}/{urlExtra}
     defaults: {_controller: UebusaitoBundle:Language:page}
 
-# Authentication
-authentication_enter_check:
-    path: /authentication_enter_check/{_locale}/{urlCurrentPageId}/{urlExtra}
-    defaults: {_controller: UebusaitoBundle:Authentication:enterCheck}
-
-authentication_exit_check:
-    path: /authentication_exit_check/{_locale}/{urlCurrentPageId}/{urlExtra}
-    defaults: {_controller: UebusaitoBundle:Authentication:exitCheck}
+# Search
+search_words:
+    path: /search_words/{_locale}/{urlCurrentPageId}/{urlExtra}
+    defaults: {_controller: UebusaitoBundle:Search:words}
+    
+search_result:
+    path: /search_result/{_locale}/{urlCurrentPageId}/{urlExtra}
+    defaults: {_controller: UebusaitoBundle:Search:result}
 
 # Registration
 registration:
@@ -30,14 +30,14 @@ recover_password:
     path: /recover_password/{_locale}/{urlCurrentPageId}/{urlExtra}
     defaults: {_controller: UebusaitoBundle:RecoverPassword:index}
 
-# Search
-search_words:
-    path: /search_words/{_locale}/{urlCurrentPageId}/{urlExtra}
-    defaults: {_controller: UebusaitoBundle:Search:words}
-    
-search_result:
-    path: /search_result/{_locale}/{urlCurrentPageId}/{urlExtra}
-    defaults: {_controller: UebusaitoBundle:Search:result}
+# Authentication
+authentication_enter_check:
+    path: /authentication_enter_check/{_locale}/{urlCurrentPageId}/{urlExtra}
+    defaults: {_controller: UebusaitoBundle:Authentication:enterCheck}
+
+authentication_exit_check:
+    path: /authentication_exit_check/{_locale}/{urlCurrentPageId}/{urlExtra}
+    defaults: {_controller: UebusaitoBundle:Authentication:exitCheck}
 
 # Control panel - Profile
 cp_profile:

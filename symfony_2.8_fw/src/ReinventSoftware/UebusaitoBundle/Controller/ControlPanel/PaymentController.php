@@ -133,6 +133,7 @@ class PaymentController extends Controller {
             )
         ));
         
+        // Pagination
         $paymentRows = $this->utility->getQuery()->selectAllPaymentsFromDatabase($_SESSION['payments_user_id']);
         
         $tableResult = $this->table->request($paymentRows, 20, "payment", true, true);

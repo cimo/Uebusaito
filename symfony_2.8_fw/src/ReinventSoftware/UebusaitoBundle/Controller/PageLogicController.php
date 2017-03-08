@@ -69,13 +69,15 @@ class PageLogicController extends Controller {
                     );
                 }
                 else if ($pageRow['protected'] == true) {
+                    $userRoleLevelRow = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+                    
                     $pageRoleIdExplode = explode(",", $pageRow['role_id']);
                     array_pop($pageRoleIdExplode);
 
                     $userRoleIdExplode =  explode(",", $this->getUser()->getRoleId());
                     array_pop($userRoleIdExplode);
-
-                    if (in_array("ROLE_ADMIN", $this->utility->getQuery()->selectRoleLevelFromDatabase($this->getUser()->getRoleId())) == false && $this->utility->valueInSubArray($pageRoleIdExplode, $userRoleIdExplode) == false) {
+                            
+                    if (in_array("ROLE_ADMIN", $userRoleLevelRow) == false && $this->utility->valueInSubArray($pageRoleIdExplode, $userRoleIdExplode) == false) {
                         // Page not available for role
                         $this->response['values']['controllerAction'] = null;
                         $this->response['values']['argument'] = $this->translator->trans("pageLogicController_4");

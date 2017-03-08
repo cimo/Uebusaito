@@ -143,6 +143,7 @@ class UserController extends Controller {
             )
         ));
         
+        // Pagination
         $userRows = $this->utility->getQuery()->selectAllUsersFromDatabase(1);
         
         $tableResult = $this->table->request($userRows, 20, "user", true, true);
@@ -225,6 +226,10 @@ class UserController extends Controller {
         
         $this->response = Array();
         
+        $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->urlExtra);
+        
+        $usernameOld = $user->getUsername();
+        
         // Create form
         $userFormType = new UserFormType($this->utility);
         $form = $this->createForm($userFormType, $user, Array(
@@ -232,10 +237,6 @@ class UserController extends Controller {
                 'user_profile'
             )
         ));
-        
-        $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->urlExtra);
-        
-        $usernameOld = $user->getUsername();
         
         $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", "required=\"required\"");
         
@@ -408,7 +409,7 @@ class UserController extends Controller {
     private function listHtml($userRows, $tableResult) {
         $roleLevel = Array();
         foreach ($userRows as $key => $value)
-            $roleLevel[] = $this->utility->getQuery()->selectRoleLevelFromDatabase($value['role_id'], true);
+            $roleLevel[] = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($value['role_id'], true);
         
         foreach ($tableResult as $key => $value) {
             $this->listHtml .= "<tr>

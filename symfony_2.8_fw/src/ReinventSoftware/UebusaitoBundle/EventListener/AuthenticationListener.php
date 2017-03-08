@@ -53,7 +53,14 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($requestStack->isXmlHttpRequest() == true) {
             $user = $this->tokenStorage->getToken()->getUser();
             
-            if ($this->settings['active'] == true || in_array("ROLE_ADMIN", $this->utility->getQuery()->selectRoleLevelFromDatabase($user->getRoleId())) == true) {
+            $settingRows = $this->utility->getQuery()->selectAllSettingsFromDatabase();
+            $settingRoleIdExplode = explode(",", $settingRows['role_id']);
+            array_pop($settingRoleIdExplode);
+            
+            $userRoleIdExplode = explode(",", $user->getRoleId());
+            array_pop($userRoleIdExplode);
+            
+            if ($this->settings['active'] == true || ($this->settings['active'] == false && $this->utility->valueInSubArray($settingRoleIdExplode, $userRoleIdExplode) == true)) {
                 $user->setDateLastLogin(date("Y-m-d H:i:s"));
 
                 // Insert in database
@@ -65,7 +72,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
             else {
                 $this->utility->sessionDestroy($requestStack->getSession(), $this->tokenStorage);
                 
-                $this->response['messages']['error'] = $this->translator->trans("Only admin can to do access.");
+                $this->response['messages']['error'] = $this->translator->trans("authenticationListener_1");
             }
             
             return $this->ajax->response(Array(

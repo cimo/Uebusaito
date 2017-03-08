@@ -61,7 +61,9 @@ class ProfileController extends Controller {
             )
         ));
         
-        if (in_array("ROLE_ADMIN", $this->utility->getQuery()->selectRoleLevelFromDatabase($this->getUser()->getRoleId())) == false)
+        $userRoleLevelRow = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        
+        if (in_array("ROLE_ADMIN", $userRoleLevelRow) == false)
             $form->remove("username");
         else
             $usernameOld = $this->getUser()->getUsername();

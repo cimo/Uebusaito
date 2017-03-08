@@ -34,40 +34,52 @@ class SettingsFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add("emailAdmin", "text", Array(
             'required' => true
-        ))->add("template", "choice", Array(
+        ))
+        ->add("template", "choice", Array(
             'required' => true,
             'choices' => $this->utility->createTemplatesList()
-        ))->add("active", "choice", Array(
+        ))
+        ->add("active", "choice", Array(
             'required' => true,
             'choices' => Array(
                 false => "settingsFormType_1",
                 true => "settingsFormType_2"
             )
-        ))->add("https", "choice", Array(
-            'required' => true,
-            'choices' => Array(
-                false => "settingsFormType_1",
-                true => "settingsFormType_2"
-            )
-        ))->add("registrationUserConfirmAdmin", "choice", Array(
-            'required' => true,
-            'choices' => Array(
-                false => "settingsFormType_1",
-                true => "settingsFormType_2"
-            )
-        ))->add("payPalSandbox", "choice", Array(
-            'required' => true,
-            'choices' => Array(
-                false => "settingsFormType_1",
-                true => "settingsFormType_2"
-            )
-        ))->add("payPalBusiness", "text", Array(
+        ))
+        ->add("roleId", "text", Array(
             'required' => true
-        ))->add("payPalCurrencyCode", "text", Array(
+        ))
+        ->add("https", "choice", Array(
+            'required' => true,
+            'choices' => Array(
+                false => "settingsFormType_1",
+                true => "settingsFormType_2"
+            )
+        ))
+        ->add("registrationUserConfirmAdmin", "choice", Array(
+            'required' => true,
+            'choices' => Array(
+                false => "settingsFormType_1",
+                true => "settingsFormType_2"
+            )
+        ))
+        ->add("payPalSandbox", "choice", Array(
+            'required' => true,
+            'choices' => Array(
+                false => "settingsFormType_1",
+                true => "settingsFormType_2"
+            )
+        ))
+        ->add("payPalBusiness", "text", Array(
             'required' => true
-        ))->add("payPalCreditAmount", "text", Array(
+        ))
+        ->add("payPalCurrencyCode", "text", Array(
             'required' => true
-        ))->add("credits", "choice", Array(
+        ))
+        ->add("payPalCreditAmount", "text", Array(
+            'required' => true
+        ))
+        ->add("credits", "choice", Array(
             'required' => true,
             'choices' => Array(
                 false => "settingsFormType_1",

@@ -120,6 +120,7 @@ class SearchController extends Controller {
         
         $this->response = Array();
         
+        // Pagination
         $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale, $this->urlExtra);
         
         $tableResult = $this->table->request($pageRows, 20, "searchResult", true, true);

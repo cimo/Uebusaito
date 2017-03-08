@@ -7,11 +7,22 @@
             {{form_row(form.emailAdmin, {'label': "settings_2"})}}
             {{form_row(form.template, {'label': "settings_3"})}}
             {{form_row(form.active, {'label': "settings_4"})}}
-            {{form_row(form.https, {'label': "settings_5"})}}
-            {{form_row(form.registrationUserConfirmAdmin, {'label': "settings_6"})}}
+            
+            <div id="form_settings_roleId_wordTag_container" class="form-group">
+                {{form_label(form.roleId, "settings_5")}}
+                {{form_errors(form.roleId)}}
+                {{form_widget(form.roleId)}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                    {{response.values.rolesSelect|raw}}
+                </div>
+            </div>
+            
+            {{form_row(form.https, {'label': "settings_6"})}}
+            {{form_row(form.registrationUserConfirmAdmin, {'label': "settings_7"})}}
             
             <div class="form-group">
-                {{form_label(form.payPalSandbox, "settings_7")}}
+                {{form_label(form.payPalSandbox, "settings_8")}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
                     {{form_errors(form.payPalSandbox)}}
@@ -20,7 +31,7 @@
             </div>
             
             <div class="form-group">
-                {{form_label(form.payPalBusiness, "settings_8")}}
+                {{form_label(form.payPalBusiness, "settings_9")}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
                     {{form_errors(form.payPalBusiness)}}
@@ -29,7 +40,7 @@
             </div>
             
             <div class="form-group">
-                {{form_label(form.payPalCurrencyCode, "settings_9")}}
+                {{form_label(form.payPalCurrencyCode, "settings_10")}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
                     {{form_errors(form.payPalCurrencyCode)}}
@@ -38,7 +49,7 @@
             </div>
             
             <div class="form-group">
-                {{form_label(form.payPalCreditAmount, "settings_10")}}
+                {{form_label(form.payPalCreditAmount, "settings_11")}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
                     {{form_errors(form.payPalCreditAmount)}}
@@ -46,7 +57,7 @@
                 </div>
             </div>
             
-            {{form_row(form.credits, {'label': "settings_11"})}}
+            {{form_row(form.credits, {'label': "settings_12"})}}
 
             {{form_widget(form.token)}}
 

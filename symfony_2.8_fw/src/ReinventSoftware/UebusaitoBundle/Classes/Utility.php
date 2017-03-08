@@ -354,7 +354,7 @@ class Utility {
     }
     
     public function createRolesSelectHtml($selectId, $required) {
-        $rolesRows = $this->query->selectAllUserRolesFromDatabase(false);
+        $rolesRows = $this->query->selectAllUserRolesFromDatabase();
         
         $html = "<select id=\"$selectId\" class=\"form-control\" $required>
             <option value=\"\">Select</option>";
@@ -452,7 +452,9 @@ class Utility {
             }
         }
     }
+    
     // ---
+    
     private function passwordEncoded($user, $type, $form) {
         $encoder = $this->container->get("security.password_encoder");
 

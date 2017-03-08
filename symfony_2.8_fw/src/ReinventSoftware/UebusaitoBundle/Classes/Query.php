@@ -16,15 +16,22 @@ class Query {
         $this->connection = $this->entityManager->getConnection();
     }
     
-    public function selectAllSettingsFromDatabase() {
-        $query = $this->connection->prepare("SELECT * FROM settings");
+    public function selectUserIdWithHelpCodeFromDatabase($helpCode) {
+        $query = $this->connection->prepare("SELECT id FROM users
+                                                WHERE help_code = :helpCode");
+        
+        $query->bindValue(":helpCode", $helpCode);
         
         $query->execute();
         
-        return $query->fetch();
+        $rows = $query->fetch();
+        
+        $id = $rows['id'];
+        
+        return $id;
     }
     
-    public function selectRoleLevelFromDatabase($roleId, $modify = false) {
+    public function selectUserRoleLevelFromDatabase($roleId, $modify = false) {
         $rolesExplode = explode(",", $roleId);
         array_pop($rolesExplode);
         
@@ -49,7 +56,7 @@ class Query {
         return $level;
     }
     
-    public function selectAllUserRolesFromDatabase($change) {
+    public function selectAllUserRolesFromDatabase($change = false) {
         $query = $this->connection->prepare("SELECT * FROM users_roles");
         
         $query->execute();
@@ -67,19 +74,12 @@ class Query {
         return $rows;
     }
     
-    public function selectUserIdWithHelpCodeFromDatabase($helpCode) {
-        $query = $this->connection->prepare("SELECT id FROM users
-                                                WHERE help_code = :helpCode");
-        
-        $query->bindValue(":helpCode", $helpCode);
+    public function selectAllSettingsFromDatabase() {
+        $query = $this->connection->prepare("SELECT * FROM settings");
         
         $query->execute();
         
-        $rows = $query->fetch();
-        
-        $id = $rows['id'];
-        
-        return $id;
+        return $query->fetch();
     }
     
     public function selectLanguageFromDatabase($code) {

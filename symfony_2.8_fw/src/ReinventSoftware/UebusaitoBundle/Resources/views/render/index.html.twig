@@ -25,7 +25,7 @@
 {% endblock %}
 
 {% block headerContainer %}
-    {% if (settings['active'] == true or is_granted("ROLE_ADMIN") == true) and urlExtra != "authentication_maintenance" %}
+    {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         <div class="nav_bar_fix">
             <p class="logo_desktop display_desktop">{{websiteName}}</p>
             <div class="sortable_column">
@@ -40,7 +40,7 @@
 {% endblock %}
 
 {% block columnLeftContainer %}
-    {% if (settings['active'] == true or is_granted("ROLE_ADMIN") == true) and urlExtra != "authentication_maintenance" %}
+    {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         <div class="sortable_column">
             {% for value in response.modules.left %}
                 {% if value.active == true and file_exists(response.path.bundle ~ "/Resources/views/module/" ~ value.file_name) %}
@@ -52,7 +52,7 @@
 {% endblock %}
 
 {% block columnCenterContainer %}
-    {% if (settings['active'] == true or is_granted("ROLE_ADMIN") == true) and urlExtra != "authentication_maintenance" %}
+    {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         {{-include("UebusaitoBundle::include/flashBag.html.twig")-}}
         
         <div class="sortable_column">
@@ -84,7 +84,7 @@
 {% endblock %}
 
 {% block columnRightContainer %}
-    {% if (settings['active'] == true or is_granted("ROLE_ADMIN") == true) and urlExtra != "authentication_maintenance" %}
+    {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         <div class="sortable_column">
             {% for value in response.modules.right %}
                 {% if value.active == true and file_exists(response.path.bundle ~ "/Resources/views/module/" ~ value.file_name) %}
@@ -96,7 +96,7 @@
 {% endblock %}
 
 {% block footerContainer %}
-    {% if (settings['active'] == true or is_granted("ROLE_ADMIN") == true) and urlExtra != "authentication_maintenance" %}
+    {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         {% for value in response.modules.footer %}
             {% if value.active == true and file_exists(response.path.bundle ~ "/Resources/views/module/" ~ value.file_name) %}
                 {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
@@ -118,14 +118,15 @@
         var path = {
             'documentRoot': "{{response.path.documentRoot}}",
             'root': "{{response.path.root}}",
-            'rootFull': "{{response.path.rootFull}}"
+            'rootFull': "{{response.path.rootFull}}",
+            'bundle': "{{response.path.bundle}}"
         };
         
         var url = {
             'root': "{{response.url.root}}",
             'public': "{{response.url.public}}",
             'view': "{{response.url.view}}",
-            'index': "{{path("index")}}",
+            'index': "{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'languageText': "{{path("language_text", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'languagePage': "{{path("language_page", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'searchWords': "{{path("search_words", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",

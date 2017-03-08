@@ -357,6 +357,14 @@ ReinventSoftware\UebusaitoBundle\Entity\Role:
 
 ReinventSoftware\UebusaitoBundle\Entity\Setting:
     properties:
+        emailAdmin:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+                message: "The email admin is not valid."
         template:
             - NotBlank:
                 groups: [settings]
@@ -373,6 +381,14 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 htmlPattern: false
                 pattern: /^1|^0/
                 message: "The active is not valid."
+        roleId:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[0-9,]+$/
+                message: "The role is not valid."
         https:
             - NotBlank:
                 groups: [settings]
@@ -381,6 +397,22 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 htmlPattern: false
                 pattern: /^1|^0/
                 message: "The https is not valid."
+        registrationUserConfirmAdmin:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^1|^0/
+                message: "The registration user confirm admin is not valid."
+        payPalSandbox:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^1|^0/
+                message: "The PayPal sandbox is not valid."
         payPalBusiness:
             - NotBlank:
                 groups: [settings]

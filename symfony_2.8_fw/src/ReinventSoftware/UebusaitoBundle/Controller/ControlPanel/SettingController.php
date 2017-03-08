@@ -58,6 +58,8 @@ class SettingController extends Controller {
             )
         ));
         
+        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_settings_roleId_field", "required=\"required\"");
+        
         // Request post
         if ($this->requestStack->getMethod() == "POST") {
             $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);

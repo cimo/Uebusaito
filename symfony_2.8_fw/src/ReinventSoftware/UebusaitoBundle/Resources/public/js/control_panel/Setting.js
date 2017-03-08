@@ -10,6 +10,8 @@ function ControlPanelSetting() {
     
     // Functions public
     self.init = function() {
+        utility.wordTag("#form_settings_roleId");
+        
         $("#form_settings_payPalCurrencyCode").on("keyup", "", function() {
             $(this).val($(this).val().toUpperCase());
         });

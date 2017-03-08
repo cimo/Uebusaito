@@ -31,6 +31,11 @@ class Setting {
     private $active;
     
     /**
+     * @ORM\Column(name="role_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '2,3,'")
+     */
+    private $roleId;
+    
+    /**
      * @ORM\Column(name="https", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
     private $https;
@@ -77,6 +82,10 @@ class Setting {
         $this->active = $value;
     }
     
+    public function setRoleId($value) {
+        $this->roleId = $value;
+    }
+    
     public function setHttps($value) {
         $this->https = $value;
     }
@@ -104,7 +113,9 @@ class Setting {
     public function setCredits($value) {
         $this->credits = $value;
     }
+    
     // ---
+    
     public function getId() {
         return $this->id;
     }
@@ -119,6 +130,10 @@ class Setting {
     
     public function getActive() {
         return $this->active;
+    }
+    
+    public function getRoleId() {
+        return $this->roleId;
     }
     
     public function getHttps() {

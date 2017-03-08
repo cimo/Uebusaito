@@ -56,7 +56,7 @@ class AuthenticationController extends Controller {
             $this->utility->assignUserRole($this->getUser());
             
             $this->response['values']['user'] = $this->getUser();
-            $this->response['values']['roleLevel'] = $this->utility->getQuery()->selectRoleLevelFromDatabase($this->getUser()->getRoleId(), true);
+            $this->response['values']['roleLevel'] = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId(), true);
             
             return Array(
                 'urlLocale' => $this->urlLocale,

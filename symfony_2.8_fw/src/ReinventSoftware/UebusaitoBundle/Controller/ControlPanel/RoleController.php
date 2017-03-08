@@ -129,7 +129,8 @@ class RoleController extends Controller {
             )
         ));
         
-        $userRoleRows = $this->utility->getQuery()->selectAllUserRolesFromDatabase(false);
+        // Pagination
+        $userRoleRows = $this->utility->getQuery()->selectAllUserRolesFromDatabase();
         
         $tableResult = $this->table->request($userRoleRows, 20, "role", true, true);
         
@@ -281,7 +282,8 @@ class RoleController extends Controller {
         
         $this->response = Array();
         
-        $userRoleRows = $this->utility->getQuery()->selectAllUserRolesFromDatabase(false);
+        // Pagination
+        $userRoleRows = $this->utility->getQuery()->selectAllUserRolesFromDatabase();
         
         $tableResult = $this->table->request($userRoleRows, 20, "role", true, true);
         

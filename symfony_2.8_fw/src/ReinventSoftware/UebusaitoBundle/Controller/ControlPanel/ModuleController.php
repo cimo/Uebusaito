@@ -227,9 +227,10 @@ class ModuleController extends Controller {
             )
         ));
         
+        // Pagination
         $moduleRows = $this->utility->getQuery()->selectAllModulesFromDatabase();
         
-        $tableResult = $this->table->request($moduleRows, 20, "module", true, true);
+        $tableResult = $this->table->request($moduleRows, 7, "module", true, true);
         
         $this->listHtml($tableResult['list']);
         
