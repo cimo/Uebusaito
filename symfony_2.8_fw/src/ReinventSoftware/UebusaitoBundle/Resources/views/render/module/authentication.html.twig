@@ -27,7 +27,7 @@
             <p class="margin_clear">{{response.values.user.dateLastLogin|date("date.day"|trans)}} <b>[</b>{{response.values.user.dateLastLogin|date("date.time"|trans)}}<b>]</b></p>
             
             <div class="margin_top horizontal_center">
-                <a class="btn btn-primary btn-block" href="{{path("index", {'urlCurrentPageId': 1})}}">{% trans %}authentication_4{% endtrans %}</a>
+                <a class="btn btn-primary btn-block" href="{{path("index", {'urlCurrentPageId': 1, 'urlExtra': "cp_profile"})}}">{% trans %}authentication_4{% endtrans %}</a>
                 <a class="btn btn-primary btn-block logout_button" href="{{path("authentication_exit_check", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}">{% trans %}authentication_5{% endtrans %}</a>
             </div>
         {% else %}

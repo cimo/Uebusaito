@@ -77,16 +77,12 @@ function Utility() {
         $("#" + formTag).submit();
     };
     
-    self.urlParameters = function(index) {
-        var pathName = window.location.pathname;
-        var pathNameSplit = pathName.split("/").filter(Boolean).reverse();
+    self.urlParameters = function(completeUrl, baseUrl) {
+        var lastPath = completeUrl.replace(baseUrl, "");
+        var lastPathSplit = lastPath.split("/");
+        lastPathSplit.shift();
         
-        if (index > (pathNameSplit.length - 1))
-            return "";
-        else
-            return pathNameSplit[index];
-        
-        return "";
+        return lastPathSplit;
     };
     
     self.selectWithDisabledElement = function(id, xhr) {
@@ -375,6 +371,22 @@ function Utility() {
                         $(this).closest(".dropdown-menu").children(".active").removeClass("active");
                 }
             });
+            
+            var hasClass = false;
+            
+            $.each($(value).find("li"), function(keySub, valueSub) {
+                if ($(valueSub).hasClass("active") === true) {
+                    hasClass = true;
+
+                    return false;
+                }
+            });
+
+            if (hasClass === false && $(value).find("li").length > 0) {
+                $(value).find("li").eq(0).addClass("active");
+                
+                menuButtonsOld[0] = $(value).find("li").eq(0);
+            }
         });
         
         $(document).on("click", "", function(event) {

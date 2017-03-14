@@ -1,4 +1,4 @@
-/* global ajax, popupEasy */
+/* global ajax, utility, popupEasy */
 
 var controlPanelSetting = new ControlPanelSetting();
 
@@ -31,7 +31,7 @@ function ControlPanelSetting() {
                     if (xhr.response.action !== undefined && xhr.response.action.refresh === true) {
                         popupEasy.create(
                             window.text.warning,
-                            window.text.changeHttps,
+                            window.text.changeSettingReload,
                             function() {
                                 popupEasy.close();
                             },

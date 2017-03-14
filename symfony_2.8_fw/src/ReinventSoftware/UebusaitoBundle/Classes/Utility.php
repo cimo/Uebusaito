@@ -253,11 +253,53 @@ class Utility {
         return $result;
     }
     
+    public function urlParameters($completeUrl, $baseUrl) {
+        $lastPath = substr($completeUrl, strpos($completeUrl, $baseUrl) + strlen($baseUrl));
+        $lastPathExplode = explode("/", $lastPath);
+        array_shift($lastPathExplode);
+        
+        return $lastPathExplode;
+    }
+    
+    public function urlParametersControl($parameters) {
+        $elements = Array(3);
+        
+        if (count($parameters) == 0) {
+            $elements[0] = isset($_SESSION['languageText']) === false ? $this->settings['language'] : $_SESSION['languageText'];
+            $elements[1] = 2;
+            $elements[2] = "";
+        }
+        else {
+            $languageRows = $this->query->selectAllLanguagesFromDatabase();
+            
+            $urlLocale = "";
+            
+            foreach ($languageRows as $key => $value) {
+                if ($parameters[0] === $value['code']) {
+                    $urlLocale = $parameters[0];
+                    
+                    break;
+                }
+            }
+            
+            if ($urlLocale != "")
+                $elements[0] = $urlLocale;
+            else
+                $elements[0] = isset($_SESSION['languageText']) === false ? $this->settings['language'] : $_SESSION['languageText'];
+            
+            $_SESSION['languageText'] = $elements[0];
+        }
+        
+        return $elements;
+    }
+    
+    // ---
+    
     public function configureUserProfilePassword($user, $type, $form) {
-        $userDb = $this->query->selectUserFromDatabase("id", $user->getId());
+        $userRow = $this->query->selectUserFromDatabase("id", $user->getId());
         
         if ($type == 1) {
-            if (password_verify($form->get("old")->getData(), $userDb['password']) == false)
+            if (password_verify($form->get("old")->getData(), $userRow['password']) == false)
                 return $this->translator->trans("utility_2");
 
             if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
@@ -273,7 +315,7 @@ class Utility {
                 $user->setPassword($this->passwordEncoded($user, $type, $form));
             }
             else
-                $user->setPassword($userDb['password']);
+                $user->setPassword($userRow['password']);
         }
         
         return "ok";
@@ -321,6 +363,35 @@ class Utility {
         }
     }
     
+    public function createPagesSelectHtml($urlLocale, $selectId) {
+        $pageRows = $this->query->selectAllPagesFromDatabase($urlLocale);
+        
+        $pagesList = $this->createPagesList($pageRows, true);
+        
+        $html = "<p class=\"margin_clear\">" . $this->translator->trans("utility_5") . "</p>
+        <select id=\"$selectId\">
+            <option value=\"\">Select</option>";
+            foreach($pagesList as $key => $value)
+                $html .= "<option value=\"$key\">$value</option>";
+        $html .= "</select>";
+        
+        return $html;
+    }
+    
+    public function createRolesSelectHtml($selectId, $isRequired = false) {
+        $roleRows = $this->query->selectAllUserRolesFromDatabase();
+        
+        $required = $isRequired == true ? "required=\"required\"" : "";
+        
+        $html = "<select id=\"$selectId\" class=\"form-control\" $required>
+            <option value=\"\">Select</option>";
+            foreach($roleRows as $key => $value)
+                $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
+        $html .= "</select>";
+        
+        return $html;
+    }
+    
     public function createPagesList($pagesRows, $onlyMenuName, $pagination = null) {
         $pagesListHierarchy = $this->createPagesListHierarchy($pagesRows, $pagination);
         
@@ -336,33 +407,6 @@ class Utility {
         }
         
         return $pagesListHierarchy;
-    }
-    
-    public function createPagesSelectHtml($urlLocale, $selectId) {
-        $pagesRows = $this->query->selectAllPagesFromDatabase($urlLocale);
-        
-        $pagesList = $this->createPagesList($pagesRows, true);
-        
-        $html = "<p class=\"margin_clear\">" . $this->translator->trans("utility_5") . "</p>
-        <select id=\"$selectId\">
-            <option value=\"\">Select</option>";
-            foreach($pagesList as $key => $value)
-                $html .= "<option value=\"$key\">$value</option>";
-        $html .= "</select>";
-        
-        return $html;
-    }
-    
-    public function createRolesSelectHtml($selectId, $required) {
-        $rolesRows = $this->query->selectAllUserRolesFromDatabase();
-        
-        $html = "<select id=\"$selectId\" class=\"form-control\" $required>
-            <option value=\"\">Select</option>";
-            foreach($rolesRows as $key => $value)
-                $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
-        $html .= "</select>";
-        
-        return $html;
     }
     
     public function createTemplatesList() {

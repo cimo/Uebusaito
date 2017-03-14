@@ -170,7 +170,7 @@ class SearchController extends Controller {
                     $this->listHtml .= "<p class=\"argument\">" . substr($value['argument'], 0, 200) . "...</p>";
                 else
                     $this->listHtml .= "<p class=\"argument\">{$value['argument']}</p>
-                <a href=\"". $this->generateUrl("index") . $this->urlLocale . "/" . $value['id'] . "\">" . $this->translator->trans("searchController_2") . "</a>
+                <a href=\"". $this->utility->getUrlRoot() . "/" . $this->requestStack->get("_locale") . "/" . $value['id'] . "\">" . $this->translator->trans("searchController_2") . "</a>
             </div>";
         }
     }

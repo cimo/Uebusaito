@@ -35,8 +35,15 @@ class RequestListener {
     }
     
     public function onKernelRequest(GetResponseEvent $event) {
-        $kernel = $event->getKernel();
+        //$kernel = $event->getKernel();
         $request = $event->getRequest();
+        
+        $completeUrl = $this->requestStack->getUri();
+        $baseUrl = $this->requestStack->getBaseUrl();
+        $parameters = $this->utility->urlParameters($completeUrl, $baseUrl);
+        $parameters = $this->utility->urlParametersControl($parameters);
+        
+        $request->setLocale($parameters[0]);
         
         if (HttpKernelInterface::MASTER_REQUEST != $event->getRequestType())
             return;

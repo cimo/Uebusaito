@@ -63,7 +63,7 @@ class PageController extends Controller {
             )
         ));
         
-        $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", "required=\"required\"");
+        $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", true);
         
         // Request post
         if ($this->requestStack->getMethod() == "POST") {
@@ -228,7 +228,7 @@ class PageController extends Controller {
             )
         ));
         
-        $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", "required=\"required\"");
+        $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", true);
         
         // Request post
         if ($this->requestStack->getMethod() == "POST") {
@@ -404,7 +404,7 @@ class PageController extends Controller {
                 )
             ));
             
-            $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", "required=\"required\"");
+            $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", true);
             
             $render = $this->renderView("UebusaitoBundle::render/control_panel/page_profile.html.twig", Array(
                 'urlLocale' => $this->urlLocale,

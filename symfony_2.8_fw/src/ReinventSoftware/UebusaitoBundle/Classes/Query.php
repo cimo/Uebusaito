@@ -18,7 +18,8 @@ class Query {
     
     public function selectUserIdWithHelpCodeFromDatabase($helpCode) {
         $query = $this->connection->prepare("SELECT id FROM users
-                                                WHERE help_code = :helpCode");
+                                                WHERE help_code IS NOT NULL
+                                                AND help_code = :helpCode");
         
         $query->bindValue(":helpCode", $helpCode);
         

@@ -26,6 +26,11 @@ class Setting {
     private $template;
     
     /**
+     * @ORM\Column(name="language", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT 'en'")
+     */
+    private $language;
+    
+    /**
      * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
     private $active;
@@ -78,6 +83,10 @@ class Setting {
         $this->template = $value;
     }
     
+    public function setLanguage($value) {
+        $this->language = $value;
+    }
+    
     public function setActive($value) {
         $this->active = $value;
     }
@@ -126,6 +135,10 @@ class Setting {
     
     public function getTemplate() {
         return $this->template;
+    }
+    
+    public function getLanguage() {
+        return $this->language;
     }
     
     public function getActive() {

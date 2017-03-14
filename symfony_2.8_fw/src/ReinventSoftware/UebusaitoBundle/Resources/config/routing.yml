@@ -1,6 +1,12 @@
+not_found:
+    path: /not_found
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: UebusaitoBundle::render/static/not_found.html.twig
+
 index:
     path: /{_locale}/{urlCurrentPageId}/{urlExtra}
-    defaults: {_controller: UebusaitoBundle:Root:index, _locale: "en", urlCurrentPageId: 0, urlExtra: ""}
+    defaults: {_controller: UebusaitoBundle:Root:index, _locale: "%locale%", urlCurrentPageId: 2, urlExtra: ""}
 
 # Language
 language_text:

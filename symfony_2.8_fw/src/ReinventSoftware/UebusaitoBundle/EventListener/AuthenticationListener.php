@@ -70,7 +70,11 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                 $this->response['values']['url'] = $referer;
             }
             else {
+                $languageText = $_SESSION['languageText'];
+                
                 $this->utility->sessionDestroy($requestStack->getSession(), $this->tokenStorage);
+                
+                $_SESSION['languageText'] = $languageText;
                 
                 $this->response['messages']['error'] = $this->translator->trans("authenticationListener_1");
             }
@@ -101,7 +105,11 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         $referer = $requestStack->headers->get("referer");
         
         if ($requestStack->isXmlHttpRequest() == true) {
-            $this->response['values']['url'] = $referer;
+            $baseUrl = $requestStack->getBaseUrl();
+            $parameters = $this->utility->urlParameters($referer, $baseUrl);
+            $parameters = $this->utility->urlParametersControl($parameters);
+            
+            $this->response['values']['url'] = "$baseUrl/{$_SESSION['languageText']}/{$parameters[1]}/{$parameters[2]}";
             
             return $this->ajax->response(Array(
                 'response' => $this->response

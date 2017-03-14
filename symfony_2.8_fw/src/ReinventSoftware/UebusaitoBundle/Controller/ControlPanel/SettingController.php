@@ -51,14 +51,14 @@ class SettingController extends Controller {
         $setting = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
         
         // Create form
-        $settingsFormType = new SettingsFormType($this->utility);
+        $settingsFormType = new SettingsFormType($this->urlLocale, $this->utility);
         $form = $this->createForm($settingsFormType, $setting, Array(
             'validation_groups' => Array(
                 'settings'
             )
         ));
         
-        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_settings_roleId_field", "required=\"required\"");
+        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_settings_roleId_field", true);
         
         // Request post
         if ($this->requestStack->getMethod() == "POST") {

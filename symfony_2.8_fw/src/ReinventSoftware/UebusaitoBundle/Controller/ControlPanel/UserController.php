@@ -63,7 +63,7 @@ class UserController extends Controller {
         ));
         $form->setData($user);
         
-        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", "required=\"required\"");
+        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", true);
         
         // Request post
         if ($this->requestStack->getMethod() == "POST") {
@@ -238,7 +238,7 @@ class UserController extends Controller {
             )
         ));
         
-        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", "required=\"required\"");
+        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", true);
         
         // Request post
         if ($this->requestStack->getMethod() == "POST") {
@@ -390,7 +390,7 @@ class UserController extends Controller {
                 )
             ));
             
-            $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", "required=\"required\"");
+            $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", true);
             
             $render = $this->renderView("UebusaitoBundle::render/control_panel/user_profile.html.twig", Array(
                 'urlLocale' => $this->urlLocale,

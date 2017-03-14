@@ -65,19 +65,21 @@
     {% else %}
         <div class="margin_top">
             {{-include("UebusaitoBundle::include/flashBag.html.twig")-}}
-
-            {% if urlExtra == "authentication_maintenance" %}
-                <div class="sortable_column">
-                    {{-render(controller("UebusaitoBundle:Authentication:index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                </div>
-            {% else %}
-                <div class="sortable_column">
-                    <div class="message_single_page horizontal_center">
-                        <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "authentication_maintenance"})}}"><i class="fa fa-wrench"></i></a>
-                        <p>{% trans %}index_1{% endtrans %}</p>
-                        <p>{% trans %}index_2{% endtrans %}</p>
+            
+            {% if settings['active'] == false %}
+                {% if urlExtra == "authentication_maintenance" %}
+                    <div class="sortable_column">
+                        {{-render(controller("UebusaitoBundle:Authentication:index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     </div>
-                </div>
+                {% else %}
+                    <div class="sortable_column">
+                        <div class="message_single_page horizontal_center">
+                            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "authentication_maintenance"})}}"><i class="fa fa-wrench"></i></a>
+                            <p>{% trans %}index_1{% endtrans %}</p>
+                            <p>{% trans %}index_2{% endtrans %}</p>
+                        </div>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
     {% endif %}
@@ -126,6 +128,7 @@
             'root': "{{response.url.root}}",
             'public': "{{response.url.public}}",
             'view': "{{response.url.view}}",
+            'notFound': "{{path("not_found")}}",
             'index': "{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'languageText': "{{path("language_text", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'languagePage': "{{path("language_page", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
@@ -171,7 +174,7 @@
             'ajaxConnectionError': "{{"index_6"|trans}}",
             'ajaxInProgress': "{{"index_7"|trans}}",
             'changePageLanguage': "{{"index_8"|trans}}",
-            'changeHttps': "{{"index_9"|trans}}",
+            'changeSettingReload': "{{"index_9"|trans}}",
             'deletePayment': "{{"index_10"|trans}}",
             'deleteAllPayments': "{{"index_11"|trans}}",
             'deletePage': "{{"index_12"|trans}}",

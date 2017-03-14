@@ -24,7 +24,7 @@
     {% endif %}
 </ul>
 <div class="page_container clearfix">
-    {% if urlExtra == "cp_profile" %}
+    {% if urlExtra == "" or urlExtra == "cp_profile" %}
         <p>{% trans %}control_panel_8{% endtrans %}</p>
         {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
         {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:password", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}

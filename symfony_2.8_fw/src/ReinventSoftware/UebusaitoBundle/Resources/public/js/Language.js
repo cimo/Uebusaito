@@ -1,4 +1,4 @@
-/* global utility, ajax, popupEasy, controlPanelPage */
+/* global utility, ajax, popupEasy, controlPanelPage, url */
 
 var language = new Language();
 
@@ -72,8 +72,10 @@ function Language() {
     }
     
     function selectOnPage() {
-        $("#language_flag").find("#language_flag_" + utility.urlParameters(3)).addClass("language_page_flag_selected");
-        $("#language_flag").find("input[name='form_language[codePage]']").val(utility.urlParameters(3));
+        var parameters = utility.urlParameters(window.location.href, url.root);
+        
+        $("#language_flag").find("#language_flag_" + parameters[0]).addClass("language_page_flag_selected");
+        $("#language_flag").find("input[name='form_language[codePage]']").val(parameters[0]);
         
         $("#language_flag img").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {

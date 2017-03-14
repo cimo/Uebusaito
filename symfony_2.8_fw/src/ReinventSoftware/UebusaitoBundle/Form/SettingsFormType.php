@@ -22,22 +22,35 @@ class SettingsFormType extends AbstractType {
     }
     
     // Vars
+    private $urlLocale;
     private $utility;
     
     // Properties
     
     // Functions public
-    public function __construct($utility) {
+    public function __construct($urlLocale, $utility) {
+        $this->urlLocale = $urlLocale;
         $this->utility = $utility;
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $choices = array_column($this->utility->getQuery()->selectAllLanguagesFromDatabase(), "code", "code");
+        
+        $settings = $this->utility->getSettings();
+        
         $builder->add("emailAdmin", "text", Array(
             'required' => true
         ))
         ->add("template", "choice", Array(
             'required' => true,
-            'choices' => $this->utility->createTemplatesList()
+            'choices' => $this->utility->createTemplatesList(),
+        ))
+        ->add("language", "choice", Array(
+            'required' => true,
+            'choices' => $choices,
+            'preferred_choices' => Array(
+                $settings['language']
+            )
         ))
         ->add("active", "choice", Array(
             'required' => true,

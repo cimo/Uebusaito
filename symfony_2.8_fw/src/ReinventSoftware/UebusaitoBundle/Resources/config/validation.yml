@@ -373,6 +373,14 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 htmlPattern: false
                 pattern: /^[a-zA-Z_0-9]+$/
                 message: "The template is not valid."
+        language:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[a-z]{2}$/
+                message: "The language is not valid."
         active:
             - NotBlank:
                 groups: [settings]
