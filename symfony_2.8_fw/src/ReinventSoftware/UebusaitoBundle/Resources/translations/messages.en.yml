@@ -556,3 +556,9 @@ date.time: H:i:s
 "authentication_9": "Login"
 "authentication_10": "Registration"
 "authentication_11": "Forgot password?"
+
+# ---
+# Views / Render / Static
+
+# error.html.twig
+"error_1": "Error 404"

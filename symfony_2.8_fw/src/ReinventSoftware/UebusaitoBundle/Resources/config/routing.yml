@@ -1,8 +1,8 @@
-not_found:
-    path: /not_found
+error:
+    path: /error
     defaults:
         _controller: FrameworkBundle:Template:template
-        template: UebusaitoBundle::render/static/not_found.html.twig
+        template: UebusaitoBundle::render/static/error.html.twig
 
 index:
     path: /{_locale}/{urlCurrentPageId}/{urlExtra}

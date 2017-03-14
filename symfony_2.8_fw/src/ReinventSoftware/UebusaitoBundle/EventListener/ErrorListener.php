@@ -40,7 +40,7 @@ class ErrorListener {
 
         if ($exception instanceof NotFoundHttpException) {
             if ($event->getRequest()->get("_route") == null) {
-                $url = $this->router->generate("not_found");
+                $url = $this->router->generate("error");
                 $response = new RedirectResponse($url);
                 $event->setResponse($response);
             }

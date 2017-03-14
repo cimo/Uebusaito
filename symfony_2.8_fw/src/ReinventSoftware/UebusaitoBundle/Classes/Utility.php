@@ -275,20 +275,23 @@ class Utility {
             $urlLocale = "";
             
             foreach ($languageRows as $key => $value) {
-                if ($parameters[0] === $value['code']) {
+                if ($parameters[0] == $value['code']) {
                     $urlLocale = $parameters[0];
                     
                     break;
                 }
             }
             
-            if ($urlLocale != "")
-                $elements[0] = $urlLocale;
-            else
+            if ($urlLocale == "")
                 $elements[0] = isset($_SESSION['languageText']) === false ? $this->settings['language'] : $_SESSION['languageText'];
+            else
+                $elements[0] = $urlLocale;
             
-            $_SESSION['languageText'] = $elements[0];
+            $elements[1] = $this->requestStack->attributes->get("urlCurrentPageId");
+            $elements[2] = $this->requestStack->attributes->get("urlExtra");
         }
+        
+        $_SESSION['languageText'] = $elements[0];
         
         return $elements;
     }
