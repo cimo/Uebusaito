@@ -46,10 +46,10 @@ class RootController extends Controller {
         $this->response['session']['token'] = $token;
         $this->response['session']['activity'] = $sessionActivity;
         
-        $this->response['path']['documentRoot'] = $_SERVER['DOCUMENT_ROOT'];
+        $this->response['path']['documentRoot'] = $this->utility->getPathDocumentRoot();
         $this->response['path']['root'] = $this->utility->getPathRoot();
         $this->response['path']['rootFull'] = $this->utility->getPathRootFull();
-        $this->response['path']['bundle'] = "{$this->utility->getPathRootFull()}/src/ReinventSoftware/UebusaitoBundle";
+        $this->response['path']['bundle'] = $this->utility->getPathBundle();
         
         $this->response['url']['root'] = $this->utility->getUrlRoot();
         $this->response['url']['public'] = $this->utility->getUrlPublic();

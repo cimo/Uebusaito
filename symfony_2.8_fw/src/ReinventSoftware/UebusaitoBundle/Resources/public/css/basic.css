@@ -234,6 +234,11 @@ body { margin-bottom: 150px; }
 
 .button_payPal { background: url("../images/templates/basic/button_payPal.png") no-repeat; cursor: pointer; width: 100px; height: 38px; border: none; }
 
+.button_icon_inline { display: inline-block; margin-right: 10px; position: relative; top: -7px; left: 10px; cursor: pointer; }
+
+.accordion_container .title { cursor: pointer; }
+.accordion_container .content { display: none; }
+
 .remember_me_fix { margin: 5px 0 5px 10px !important; display: inline-block !important; }
 
 .jqte { margin: 0 !important; }

@@ -586,7 +586,7 @@ class ModuleController extends Controller {
             $query = $connection->prepare("DELETE FROM modules
                                             WHERE id > :idExclude");
 
-            $query->bindValue(":idExclude", "4");
+            $query->bindValue(":idExclude", 4);
 
             $query->execute();
         }

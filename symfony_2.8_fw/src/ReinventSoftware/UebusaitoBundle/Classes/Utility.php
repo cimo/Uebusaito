@@ -43,12 +43,20 @@ class Utility {
         return $this->websiteName;
     }
     
+    public function getPathDocumentRoot() {
+        return $this->pathDocumentRoot;
+    }
+    
     public function getPathRoot() {
         return $this->pathRoot;
     }
     
     public function getPathRootFull() {
         return $this->pathRootFull;
+    }
+    
+    public function getPathBundle() {
+        return $this->pathBundle;
     }
     
     public function getUrlRoot() {
@@ -80,8 +88,10 @@ class Utility {
         
         $this->websiteName = $this->config->getName();
         
+        $this->pathDocumentRoot = $_SERVER['DOCUMENT_ROOT'];
         $this->pathRoot = $this->config->getPathRoot();
-        $this->pathRootFull = $_SERVER['DOCUMENT_ROOT'] . $this->pathRoot;
+        $this->pathRootFull = $this->pathDocumentRoot . $this->pathRoot;
+        $this->pathBundle = "{$this->pathRootFull}/src/ReinventSoftware/UebusaitoBundle";
         
         $protocol = isset($_SERVER['HTTPS']) == true ? "https://" : "http://";
         $this->urlRoot = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot() . $this->config->getFile();

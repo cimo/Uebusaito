@@ -477,7 +477,7 @@ class PageController extends Controller {
                                             AND pages_arguments.id = :id
                                             AND pages_menu_names.id = :id");
             
-            $query->bindValue(":idExclude", "5");
+            $query->bindValue(":idExclude", 5);
             $query->bindValue(":id", $value['id']);
             
             $query->execute();
@@ -552,7 +552,7 @@ class PageController extends Controller {
                                             AND pages_arguments.id = :id
                                             AND pages_menu_names.id = :id");
             
-            $query->bindValue(":idExclude", "5");
+            $query->bindValue(":idExclude", 5);
             $query->bindValue(":id", $page->getId());
             
             $query->execute();
@@ -564,7 +564,7 @@ class PageController extends Controller {
                                             AND pages_arguments.id > :idExclude
                                             AND pages_menu_names.id > :idExclude");
             
-            $query->bindValue(":idExclude", "5");
+            $query->bindValue(":idExclude", 5);
             
             $query->execute();
         }

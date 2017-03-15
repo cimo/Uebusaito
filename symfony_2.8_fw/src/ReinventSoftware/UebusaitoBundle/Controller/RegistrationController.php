@@ -98,19 +98,23 @@ class RegistrationController extends Controller {
                                 $message = "<p>" . $this->translator->trans("registrationController_2") . "</p>";
                                 
                                 // Send email to admin
-                                $this->utility->sendEmail($this->settings['email_admin'],
+                                $this->utility->sendEmail(
+                                    $this->settings['email_admin'],
                                     $this->translator->trans("registrationController_3"),
                                     "<p>" . $this->translator->trans("registrationController_4") . "<b>" . $user->getUsername() . "</b>. " . $this->translator->trans("registrationController_5") . "</p>",
-                                    $_SERVER['SERVER_ADMIN']);
+                                    $_SERVER['SERVER_ADMIN']
+                                );
                             }
                             
                             // Send email to user
-                            $this->utility->sendEmail($user->getEmail(),
+                            $this->utility->sendEmail(
+                                $user->getEmail(),
                                 $this->translator->trans("registrationController_3"),
                                 $message,
-                                $_SERVER['SERVER_ADMIN']);
+                                $_SERVER['SERVER_ADMIN']
+                            );
                             
-                            mkdir("{$this->utility->getPathRootFull()}/src/ReinventSoftware/UebusaitoBundle/Resources/files/{$user->getUsername()}");
+                            mkdir("{$this->utility->getPathBundle()}/Resources/files/{$user->getUsername()}");
 
                             $this->response['messages']['success'] = $this->translator->trans("registrationController_6");
                         }

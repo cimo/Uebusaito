@@ -399,7 +399,7 @@ class RoleController extends Controller {
         $query = $connection->prepare("DELETE FROM users_roles
                                         WHERE id > :idExclude");
 
-        $query->bindValue(":idExclude", "2");
+        $query->bindValue(":idExclude", 2);
 
         $query->execute();
     }

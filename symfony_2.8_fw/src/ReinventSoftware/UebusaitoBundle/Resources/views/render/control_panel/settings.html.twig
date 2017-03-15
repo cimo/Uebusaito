@@ -3,74 +3,104 @@
 <div class="row">
     <div class="col-md-5">
         <h3>{% trans %}settings_1{% endtrans %}</h3>
-        <form id="form_cp_settings" action="{{path("cp_settings", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            <fieldset>
-                <legend>{% trans %}settings_2{% endtrans %}</legend>
-                {{form_row(form.emailAdmin, {'label': "settings_3"})}}
-                {{form_row(form.template, {'label': "settings_4"})}}
-                {{form_row(form.language, {'label': "settings_17"})}}
-            </fieldset>
-            
-            <fieldset>
-                <legend>{% trans %}settings_5{% endtrans %}</legend>
-                {{form_row(form.active, {'label': "settings_6"})}}
+        <form id="form_cp_settings_modify" action="{{path("cp_settings_modify", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <fieldset class="accordion_container">
+                <legend class="title"><i class="fa fa-chevron-circle-up icon"></i> {% trans %}settings_2{% endtrans %}</legend>
+                <div class="content">
+                    {{form_row(form.emailAdmin, {'label': "settings_3"})}}
+                    {{form_row(form.template, {'label': "settings_4"})}}
 
-                <div id="form_settings_roleId_wordTag_container" class="form-group">
-                    {{form_label(form.roleId, "settings_7")}}
-                    {{form_errors(form.roleId)}}
-                    {{form_widget(form.roleId)}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                        {{response.values.rolesSelect|raw}}
+                    <div class="form-group">
+                        {{form_label(form.language, "settings_5")}}
+                        <div class="input-group">
+                            <div class="display_inline_block">
+                                {{form_errors(form.language)}}
+                                {{form_widget(form.language)}}
+                            </div>
+                            <i id="settings_language_manage_plus" class="fa fa-plus-circle fa-2x button_icon_inline"></i>
+                            <i id="settings_language_manage_minus" class="fa fa-minus-circle fa-2x display_none"></i>
+                        </div>
                     </div>
-                </div>
-                    
-                {{form_row(form.https, {'label': "settings_8"})}}
-                {{form_row(form.registrationUserConfirmAdmin, {'label': "settings_9"})}}
-            </fieldset>
-            
-            <fieldset>
-                <legend>{% trans %}settings_10{% endtrans %}</legend>
-                <div class="form-group">
-                    {{form_label(form.payPalSandbox, "settings_11")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                        {{form_errors(form.payPalSandbox)}}
-                        {{form_widget(form.payPalSandbox)}}
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    {{form_label(form.payPalBusiness, "settings_12")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                        {{form_errors(form.payPalBusiness)}}
-                        {{form_widget(form.payPalBusiness)}}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {{form_label(form.payPalCurrencyCode, "settings_13")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                        {{form_errors(form.payPalCurrencyCode)}}
-                        {{form_widget(form.payPalCurrencyCode)}}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {{form_label(form.payPalCreditAmount, "settings_14")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                        {{form_errors(form.payPalCreditAmount)}}
-                        {{form_widget(form.payPalCreditAmount)}}
+                    <div id="settings_language_manage_container" class="form-group display_none">
+                        <label class="control-label" for="form_settings_languageManage">{% trans %}settings_6{% endtrans %}</label>
+                        <div class="input-group">
+                            <div class="display_inline_block">
+                                <input id="form_settings_languageManage" name="form_settings[languageManage]" value="" class="form-control"/>
+                            </div>
+                            <i id="settings_language_manage_confirm" class="fa fa-check-circle-o fa-2x button_icon_inline"></i>
+                            <i id="settings_language_manage_erase" class="fa fa-eraser fa-2x button_icon_inline"></i>
+                        </div>
                     </div>
                 </div>
             </fieldset>
             
-            <fieldset>
-                <legend>{% trans %}settings_15{% endtrans %}</legend>
-                {{form_row(form.credits, {'label': "settings_16"})}}
+            <fieldset class="accordion_container">
+                <legend class="title"><i class="fa fa-chevron-circle-up icon"></i> {% trans %}settings_7{% endtrans %}</legend>
+                <div class="content">
+                    {{form_row(form.active, {'label': "settings_8"})}}
+
+                    <div id="form_settings_roleId_wordTag_container" class="form-group">
+                        {{form_label(form.roleId, "settings_9")}}
+                        {{form_errors(form.roleId)}}
+                        {{form_widget(form.roleId)}}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                            {{response.values.rolesSelect|raw}}
+                        </div>
+                    </div>
+
+                    {{form_row(form.https, {'label': "settings_10"})}}
+                    {{form_row(form.registrationUserConfirmAdmin, {'label': "settings_11"})}}
+                </div>
+            </fieldset>
+            
+            <fieldset class="accordion_container">
+                <legend class="title"><i class="fa fa-chevron-circle-up icon"></i> {% trans %}settings_12{% endtrans %}</legend>
+                <div class="content">
+                    <div class="form-group">
+                        {{form_label(form.payPalSandbox, "settings_13")}}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                            {{form_errors(form.payPalSandbox)}}
+                            {{form_widget(form.payPalSandbox)}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{form_label(form.payPalBusiness, "settings_14")}}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                            {{form_errors(form.payPalBusiness)}}
+                            {{form_widget(form.payPalBusiness)}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{form_label(form.payPalCurrencyCode, "settings_15")}}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                            {{form_errors(form.payPalCurrencyCode)}}
+                            {{form_widget(form.payPalCurrencyCode)}}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{form_label(form.payPalCreditAmount, "settings_16")}}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                            {{form_errors(form.payPalCreditAmount)}}
+                            {{form_widget(form.payPalCreditAmount)}}
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            
+            <fieldset class="accordion_container">
+                <legend class="title"><i class="fa fa-chevron-circle-up icon"></i> {% trans %}settings_17{% endtrans %}</legend>
+                <div class="content">
+                    {{form_row(form.credits, {'label': "settings_18"})}}
+                </div>
             </fieldset>
 
             {{form_widget(form.token)}}

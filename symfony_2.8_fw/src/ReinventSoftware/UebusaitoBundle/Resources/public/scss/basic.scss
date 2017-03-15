@@ -483,6 +483,26 @@ body {
     border: none;
 }
 
+.button_icon_inline {
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    top: -7px;
+    left: 10px;
+    cursor: pointer;
+}
+
+.accordion_container {
+    .title {
+        cursor: pointer;
+        .icon {
+        }
+    }
+    .content {
+        display: none;
+    }
+}
+
 .remember_me_fix {
     margin: 5px 0 5px 10px !important;
     display: inline-block !important;

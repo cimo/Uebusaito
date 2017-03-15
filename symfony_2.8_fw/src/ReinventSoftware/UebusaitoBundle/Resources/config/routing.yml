@@ -156,6 +156,10 @@ cp_role_deletion:
     defaults: {_controller: UebusaitoBundle:ControlPanel\Role:deletion}
 
 # Control panel - Settings
-cp_settings:
-    path: /cp_settings/{_locale}/{urlCurrentPageId}/{urlExtra}
+cp_settings_modify:
+    path: /cp_settings_modify/{_locale}/{urlCurrentPageId}/{urlExtra}
     defaults: {_controller: UebusaitoBundle:ControlPanel\Setting:modify}
+
+cp_settings_language_manage:
+    path: /cp_settings_language_manage/{_locale}/{urlCurrentPageId}/{urlExtra}
+    defaults: {_controller: UebusaitoBundle:ControlPanel\Setting:languageManage}

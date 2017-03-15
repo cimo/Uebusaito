@@ -83,8 +83,8 @@ class ProfileController extends Controller {
                 
                 // Check form
                 if ($form->isValid() == true) {
-                    rename("{$this->utility->getPathRootFull()}/src/ReinventSoftware/UebusaitoBundle/Resources/files/$usernameOld",
-                            "{$this->utility->getPathRootFull()}/src/ReinventSoftware/UebusaitoBundle/Resources/files/{$form->get("username")->getData()}");
+                    rename("{$this->utility->getPathBundle()}/Resources/files/$usernameOld",
+                            "{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
                     
                     // Insert in database
                     $this->entityManager->persist($this->getUser());

@@ -85,7 +85,7 @@ class UserController extends Controller {
                         $this->entityManager->persist($user);
                         $this->entityManager->flush();
                         
-                        mkdir("{$this->utility->getPathRootFull()}/src/ReinventSoftware/UebusaitoBundle/Resources/files/{$form->get("username")->getData()}");
+                        mkdir("{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
 
                         $this->response['messages']['success'] = $this->translator->trans("userController_1");
                     }
@@ -254,8 +254,8 @@ class UserController extends Controller {
                     $message = $this->utility->configureUserProfilePassword($user, 2, $form);
 
                     if ($message == "ok") {
-                        rename("{$this->utility->getPathRootFull()}/src/ReinventSoftware/UebusaitoBundle/Resources/files/$usernameOld",
-                                "{$this->utility->getPathRootFull()}/src/ReinventSoftware/UebusaitoBundle/Resources/files/{$form->get("username")->getData()}");
+                        rename("{$this->utility->getPathBundle()}/Resources/files/$usernameOld",
+                                "{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
                         
                         if ($form->get("notLocked")->getData() == true)
                             $user->setHelpCode("");
@@ -337,7 +337,7 @@ class UserController extends Controller {
                         $this->entityManager->remove($user);
                         $this->entityManager->flush();
 
-                        $this->utility->removeDirRecursive("{$this->utility->getPathRootFull()}/src/ReinventSoftware/UebusaitoBundle/Resources/files/{$user->getUsername()}", true);
+                        $this->utility->removeDirRecursive("{$this->utility->getPathBundle()}/Resources/files/{$user->getUsername()}", true);
                     }
 
                     $this->response['messages']['success'] = $this->translator->trans("userController_6");
@@ -456,7 +456,7 @@ class UserController extends Controller {
         $query = $connection->prepare("DELETE FROM users
                                         WHERE id > :idExclude");
         
-        $query->bindValue(":idExclude", "1");
+        $query->bindValue(":idExclude", 1);
 
         $query->execute();
     }

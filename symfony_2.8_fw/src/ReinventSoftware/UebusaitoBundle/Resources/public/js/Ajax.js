@@ -99,7 +99,10 @@ function Ajax() {
 
                     $.each(errors, function(key, value) {
                         if (typeof(value[0]) === "string" && $.isEmptyObject(value) === false && key !== "token") {
-                            var object = $(tag).find("*[name*='"+ key + "']")[0];
+                            var object = null;
+                            
+                            if ($(tag).length > 0)
+                                object = $(tag).find("*[name*='"+ key + "']")[0];
                             
                             if (object !== undefined) {
                                 $(object).parents(".form-group").addClass("has-error");

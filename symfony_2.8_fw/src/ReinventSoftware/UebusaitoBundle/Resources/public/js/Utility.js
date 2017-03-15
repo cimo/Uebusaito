@@ -318,6 +318,22 @@ function Utility() {
         });
     };
     
+    self.accordion = function() {
+        $(".accordion_container").find(".title").on("click", "", function() {
+            if ($(this).find(".icon").hasClass("fa-chevron-circle-up") === true) {
+                $(this).find(".icon").removeClass("fa-chevron-circle-up");
+                $(this).find(".icon").addClass("fa-chevron-circle-down");
+            }
+            else {
+                $(this).find(".icon").removeClass("fa-chevron-circle-down");
+                $(this).find(".icon").addClass("fa-chevron-circle-up");
+            }
+            
+            $(this).next().slideToggle(500, function() {
+            });
+        });
+    };
+    
     // Bootstrap fix
     self.bootstrapMenuFix = function(tag) {
         $(tag).find("ul li.dropdown").on("click", "", function(event) {
