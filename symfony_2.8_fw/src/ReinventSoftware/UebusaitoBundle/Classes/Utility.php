@@ -566,7 +566,7 @@ class Utility {
             
             $parentId = $value['id'];
             
-            $elements[$value['id']] = "|$tag| " . $value['menu_name'];
+            $elements[$value['id']] = "|$tag| " . $value['title'];
             
             if (count($value['children']) > 0)
                 $this->createPagesListOnlyMenuName($value['children'], $tag, $parentId, $elements, $count);

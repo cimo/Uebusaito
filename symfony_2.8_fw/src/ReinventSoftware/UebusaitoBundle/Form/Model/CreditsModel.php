@@ -9,7 +9,9 @@ class CreditsModel {
     public function setCredits($value) {
         $this->credits = $value;
     }
+    
     // ---
+    
     public function getCredits() {
         return $this->credits;
     }

@@ -125,9 +125,19 @@ class User implements AdvancedUserInterface {
     private $dateLastLogin;
     
     /**
-     * @ORM\Column(name="help_code", type="string", columnDefinition="varchar(255)")
+     * @ORM\Column(name="help_code", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $helpCode;
+    
+    /**
+     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255)")
+     */
+    private $ip;
+    
+    /**
+     * @ORM\Column(name="attempt_login", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '0'")
+     */
+    private $attemptLogin;
     
     public function setRoleId($value) {
         $this->roleId = $value;
@@ -176,21 +186,21 @@ class User implements AdvancedUserInterface {
     public function setWebsite($value) {
         $this->website = $value;
     }
-
-    public function setAddress($value) {
-        $this->address = $value;
+    
+    public function setState($value) {
+        $this->state = $value;
     }
-
+    
     public function setCity($value) {
         $this->city = $value;
     }
 
-    public function setState($value) {
-        $this->state = $value;
-    }
-
     public function setZip($value) {
         $this->zip = $value;
+    }
+    
+    public function setAddress($value) {
+        $this->address = $value;
     }
 
     public function setPassword($value) {
@@ -205,10 +215,6 @@ class User implements AdvancedUserInterface {
         $this->notLocked = $value;
     }
     
-    public function setHelpCode($value) {
-        $this->helpCode = $value;
-    }
-    
     public function setDateRegistration($value) {
         $this->dateRegistration = $value;
     }
@@ -216,7 +222,21 @@ class User implements AdvancedUserInterface {
     public function setDateLastLogin($value) {
         $this->dateLastLogin = $value;
     }
+    
+    public function setHelpCode($value) {
+        $this->helpCode = $value;
+    }
+    
+    public function setIp($value) {
+        $this->ip = $value;
+    }
+    
+    public function setAttemptLogin($value) {
+        $this->attemptLogin = $value;
+    }
+    
     // ---
+    
     public function getId() {
         return $this->id;
     }
@@ -264,21 +284,21 @@ class User implements AdvancedUserInterface {
     public function getWebsite() {
         return $this->website;
     }
-
-    public function getAddress() {
-        return $this->address;
+    
+    public function getState() {
+        return $this->state;
     }
 
     public function getCity() {
         return $this->city;
     }
-
-    public function getState() {
-        return $this->state;
-    }
-
+    
     public function getZip() {
         return $this->zip;
+    }
+    
+    public function getAddress() {
+        return $this->address;
     }
     
     public function getCredits() {
@@ -289,16 +309,24 @@ class User implements AdvancedUserInterface {
         return $this->notLocked;
     }
     
-    public function getHelpCode() {
-        return $this->helpCode;
-    }
-    
     public function getDateRegistration() {
         return $this->dateRegistration;
     }
     
     public function getDateLastLogin() {
         return $this->dateLastLogin;
+    }
+    
+    public function getHelpCode() {
+        return $this->helpCode;
+    }
+    
+    public function getIp() {
+        return $this->ip;
+    }
+    
+    public function getAttemptLogin() {
+        return $this->attemptLogin;
     }
     
     // UserInterface
@@ -313,12 +341,12 @@ class User implements AdvancedUserInterface {
     public function eraseCredentials() {
     }
 
-    public function getRoles() {
-        return $this->roles;
-    }
-
     public function getSalt() {
         return null;
+    }
+    
+    public function getRoles() {
+        return $this->roles;
     }
     
     // AdvanceUserInterface
@@ -352,7 +380,9 @@ class User implements AdvancedUserInterface {
     public function setPasswordConfirm($value) {
         $this->passwordConfirm = $value;
     }
+    
     // ---
+    
     public function getPasswordConfirm() {
         return $this->passwordConfirm;
     }

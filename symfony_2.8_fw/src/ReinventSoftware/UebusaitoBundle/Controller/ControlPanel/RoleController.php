@@ -293,8 +293,10 @@ class RoleController extends Controller {
         $this->response['values']['pagination'] = $tableResult['pagination'];
         $this->response['values']['list'] = $this->listHtml;
         
+        $userRoleLevelRow = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
+        if ($this->requestStack->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
             $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
             
             if ($sessionActivity != "")

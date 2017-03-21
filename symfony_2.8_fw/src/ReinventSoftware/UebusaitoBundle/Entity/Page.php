@@ -105,7 +105,9 @@ class Page {
     public function setLink($value) {
         $this->link = $value;
     }
+    
     // ---
+    
     public function getId() {
         return $this->id;
     }

@@ -19,7 +19,9 @@ class PasswordModel {
     public function setNewConfirm($value) {
         $this->newConfirm = $value;
     }
+    
     // ---
+    
     public function getOld() {
         return $this->old;
     }

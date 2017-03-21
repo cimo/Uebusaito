@@ -104,7 +104,9 @@ class Payment {
     public function setQuantity($value) {
         $this->quantity = $value;
     }
+    
     // ---
+    
     public function getId() {
         return $this->id;
     }

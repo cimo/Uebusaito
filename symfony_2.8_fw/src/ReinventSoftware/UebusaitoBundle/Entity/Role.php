@@ -23,7 +23,9 @@ class Role {
     public function setLevel($value) {
         $this->level = $value;
     }
+    
     // ---
+    
     public function getId() {
         return $this->id;
     }

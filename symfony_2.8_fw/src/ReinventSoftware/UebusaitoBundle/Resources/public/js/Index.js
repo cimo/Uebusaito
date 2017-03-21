@@ -11,9 +11,9 @@ $(document).ready(function() {
     
     utility.bootstrapMenuActiveFix(
         [
-            "#menu_root_navbar",
-            "#menu_registration",
-            "#menu_control_panel"
+            ["#menu_root_navbar", true],
+            ["#menu_registration", true],
+            ["#menu_control_panel", false]
         ]
     );
     

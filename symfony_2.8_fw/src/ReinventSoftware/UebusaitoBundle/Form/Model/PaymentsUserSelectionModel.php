@@ -9,7 +9,9 @@ class PaymentsUserSelectionModel {
     public function setUserId($value) {
         $this->userId = $value;
     }
+    
     // ---
+    
     public function getUserId() {
         return $this->userId;
     }

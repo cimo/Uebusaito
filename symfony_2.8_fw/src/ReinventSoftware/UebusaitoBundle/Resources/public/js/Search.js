@@ -11,7 +11,6 @@ function Search() {
     // Functions public
     self.init = function() {
         var table = new Table();
-        table.setButtonsStatus("hide");
         table.init(window.url.searchResult, "#search_result");
         table.search(true);
         table.pagination(true);

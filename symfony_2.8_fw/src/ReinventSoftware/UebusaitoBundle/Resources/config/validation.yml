@@ -28,7 +28,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\RecoverPasswordModel:
                 groups: [recover_password]
                 htmlPattern: false
                 pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
-                message: "The email is not valid."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\CreditsModel:
     properties:
@@ -39,7 +38,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\CreditsModel:
                 groups: [profile_credits]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The credits is not valid."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\LanguageModel:
     properties:
@@ -50,7 +48,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\LanguageModel:
                 groups: [language_text]
                 htmlPattern: false
                 pattern: /^[a-z]{2}$/
-                message: "The code text is not valid."
         codePage:
             - NotBlank:
                 groups: [language_code]
@@ -58,7 +55,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\LanguageModel:
                 groups: [language_code]
                 htmlPattern: false
                 pattern: /^[a-z]{2}$/
-                message: "The code page is not valid."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel:
     properties:
@@ -69,7 +65,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel:
                 groups: [search_words]
                 htmlPattern: false
                 pattern: /^.{1,150}$/
-                message: "Value is too long."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel:
     properties:
@@ -78,7 +73,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel:
                 groups: [payments_user_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The user id is not valid."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsSelectionModel:
     properties:
@@ -89,7 +83,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsSelectionModel:
                 groups: [payments_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The id is not valid."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\PagesSelectionModel:
     properties:
@@ -100,7 +93,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PagesSelectionModel:
                 groups: [pages_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The id is not valid."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\UsersSelectionModel:
     properties:
@@ -111,7 +103,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\UsersSelectionModel:
                 groups: [users_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The id is not valid."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\ModulesSelectionModel:
     properties:
@@ -122,7 +113,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\ModulesSelectionModel:
                 groups: [modules_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The id is not valid."
 
 ReinventSoftware\UebusaitoBundle\Form\Model\RolesSelectionModel:
     properties:
@@ -133,7 +123,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\RolesSelectionModel:
                 groups: [roles_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The id is not valid."
 
 ReinventSoftware\UebusaitoBundle\Entity\Page:
     properties:
@@ -144,13 +133,11 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_profile]
                 htmlPattern: false
                 pattern: /^[a-z]+$/
-                message: "The language is not valid."
         parent:
             - Regex:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The parent is not valid."
         title:
             - NotBlank:
                 groups: [page_creation, page_profile]
@@ -161,7 +148,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
-                message: "The role is not valid."
         protected:
             - NotBlank:
                 groups: [page_creation, page_profile]
@@ -169,7 +155,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The protected is not valid."
         showInMenu:
             - NotBlank:
                 groups: [page_creation, page_profile]
@@ -177,7 +162,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The show in menu is not valid."
         menuName:
             - NotBlank:
                 groups: [page_creation, page_profile]
@@ -188,7 +172,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The menu link is not valid."
         link:
             - NotBlank:
                 groups: [page_creation, page_profile]
@@ -202,7 +185,7 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 groups: [registration, user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z0-9._]{4,20}$/
-                message: "The username need min 4 max 20 character (Only . is allowed)."
+                message: entity.user.username
         roleId:
             - NotBlank:
                 groups: [user_creation, user_profile]
@@ -210,19 +193,16 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
-                message: "The role is not valid."
         name:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z]+$/
-                message: "The name is not valid."
         surname:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z']+$/
-                message: "The surname is not valid."
         email:
             - NotBlank:
                 groups: [registration, profile, user_creation, user_profile]
@@ -230,13 +210,11 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 groups: [registration, profile, user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
-                message: "The email is not valid."
         telephone:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The telephone is not valid."
         born:
             - Date: ~
         gender:
@@ -244,55 +222,46 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z]$/
-                message: "The gender is not valid."
         fiscalCode:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z][0-9]$/
-                message: "The fiscal code is not valid."
         companyName:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z]+$/
-                message: "The company name is not valid."
         companyCode:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The company code is not valid."
         website:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^(https?:\/\/)(www).([a-z0-9]+).([a-z]+)$/
-                message: "The website is not valid."
         state:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z]+$/
-                message: "The state is not valid."
         city:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z]+$/
-                message: "The city is not valid."
         zip:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The zip is not valid."
         address:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z .0-9]+$/
-                message: "The address is not valid."
         password:
             - NotBlank:
                 groups: [registration, user_creation]
@@ -306,7 +275,6 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 groups: [user_profile]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The not locked is not valid."
 
 ReinventSoftware\UebusaitoBundle\Entity\Module:
     properties:
@@ -317,13 +285,11 @@ ReinventSoftware\UebusaitoBundle\Entity\Module:
                 groups: [module_creation, module_profile]
                 htmlPattern: false
                 pattern: /(header)|(left)|(center)|(right)/
-                message: "The position is not valid."
         sort:
             - Regex:
                 groups: [module_profile]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
-                message: "The sort is not valid."
         name:
             - NotBlank:
                 groups: [module_creation, module_profile]
@@ -334,7 +300,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Module:
                 groups: [module_creation, module_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_.]+$/
-                message: "The file name is not valid."
         active:
             - NotBlank:
                 groups: [module_profile]
@@ -342,7 +307,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Module:
                 groups: [module_profile]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The active is not valid."
 
 ReinventSoftware\UebusaitoBundle\Entity\Role:
     properties:
@@ -353,7 +317,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Role:
                 groups: [role_creation, role_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_]+$/
-                message: "The level is not valid."
 
 ReinventSoftware\UebusaitoBundle\Entity\Setting:
     properties:
@@ -364,7 +327,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
-                message: "The email admin is not valid."
         template:
             - NotBlank:
                 groups: [settings]
@@ -372,7 +334,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_0-9]+$/
-                message: "The template is not valid."
         language:
             - NotBlank:
                 groups: [settings]
@@ -380,7 +341,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[a-z]{2}$/
-                message: "The language is not valid."
         active:
             - NotBlank:
                 groups: [settings]
@@ -388,7 +348,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The active is not valid."
         roleId:
             - NotBlank:
                 groups: [settings]
@@ -396,7 +355,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
-                message: "The role is not valid."
         https:
             - NotBlank:
                 groups: [settings]
@@ -404,7 +362,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The https is not valid."
         registrationUserConfirmAdmin:
             - NotBlank:
                 groups: [settings]
@@ -412,7 +369,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The registration user confirm admin is not valid."
         payPalSandbox:
             - NotBlank:
                 groups: [settings]
@@ -420,7 +376,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^1|^0/
-                message: "The PayPal sandbox is not valid."
         payPalBusiness:
             - NotBlank:
                 groups: [settings]
@@ -428,7 +383,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
-                message: "The PayPal business is not valid."
         payPalCurrencyCode:
             - NotBlank:
                 groups: [settings]
@@ -436,7 +390,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[A-Z]{3}$/
-                message: "The PayPal currency code is not valid."
         payPalCreditAmount:
             - NotBlank:
                 groups: [settings]
@@ -444,7 +397,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[0-9]+(\.[0-9][0-9]?)?$/
-                message: "The PayPal credit amount is not valid."
         credits:
             - NotBlank:
                 groups: [settings]
@@ -452,4 +404,3 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-                message: "The Credit is not valid."

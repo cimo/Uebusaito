@@ -9,7 +9,9 @@ class RecoverPasswordModel {
     public function setEmail($value) {
         $this->email = $value;
     }
+    
     // ---
+    
     public function getEmail() {
         return $this->email;
     }

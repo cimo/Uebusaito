@@ -11,6 +11,7 @@ class SearchModel {
     }
     
     // ---
+    
     public function getWords() {
         return $this->words;
     }

@@ -286,7 +286,7 @@ function Utility() {
             });
         }
         
-        $(tag + "_field").focusout(function(event) {
+        $(tag + "_field").change(function(event) {
             var inputValue = $(tag).val();
             var fieldValue = $(tag + "_field").val();
             
@@ -320,13 +320,13 @@ function Utility() {
     
     self.accordion = function() {
         $(".accordion_container").find(".title").on("click", "", function() {
-            if ($(this).find(".icon").hasClass("fa-chevron-circle-up") === true) {
-                $(this).find(".icon").removeClass("fa-chevron-circle-up");
-                $(this).find(".icon").addClass("fa-chevron-circle-down");
-            }
-            else {
+            if ($(this).find(".icon").hasClass("fa-chevron-circle-down") === true) {
                 $(this).find(".icon").removeClass("fa-chevron-circle-down");
                 $(this).find(".icon").addClass("fa-chevron-circle-up");
+            }
+            else {
+                $(this).find(".icon").removeClass("fa-chevron-circle-up");
+                $(this).find(".icon").addClass("fa-chevron-circle-down");
             }
             
             $(this).next().slideToggle(500, function() {
@@ -353,7 +353,7 @@ function Utility() {
         var menuButtonsOld = new Array();
         
         $.each(tags, function(key, value) {
-            var elements = $(value).find("li a");
+            var elements = $(value[0]).find("li a");
 
             var url = window.location.href;
 
@@ -381,7 +381,7 @@ function Utility() {
             elements.on("click", "", function() {
                 if ($(this).hasClass("dropdown-toggle") === true) {
                     if ($(this).parent().hasClass("dropdown") === true)
-                        $(value).find("> ul > li").removeClass("active");
+                        $(value[0]).find("> ul > li").removeClass("active");
                     
                     if ($(this).parent().hasClass("active") === false)
                         $(this).closest(".dropdown-menu").children(".active").removeClass("active");
@@ -390,7 +390,7 @@ function Utility() {
             
             var hasClass = false;
             
-            $.each($(value).find("li"), function(keySub, valueSub) {
+            $.each($(value[0]).find("li"), function(keySub, valueSub) {
                 if ($(valueSub).hasClass("active") === true) {
                     hasClass = true;
 
@@ -398,10 +398,10 @@ function Utility() {
                 }
             });
 
-            if (hasClass === false && $(value).find("li").length > 0) {
-                $(value).find("li").eq(0).addClass("active");
+            if (hasClass === false && $(value[0]).find("li").length > 0) {
+                $(value[0]).find("li").eq(0).addClass("active");
                 
-                menuButtonsOld[0] = $(value).find("li").eq(0);
+                menuButtonsOld[0] = $(value[0]).find("li").eq(0);
             }
         });
         

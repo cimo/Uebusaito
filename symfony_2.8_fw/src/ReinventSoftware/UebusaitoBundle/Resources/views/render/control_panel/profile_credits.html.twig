@@ -3,21 +3,26 @@
 <div class="row">
     <div class="col-md-5">
         <h3>{% trans %}profile_credits_1{% endtrans %}</h3>
-        <p><b>{% trans %}profile_credits_2{% endtrans %}</b> {{response.values.currentCredits}}</p>
-        <p><b>{% trans %}profile_credits_3{% endtrans %}</b> {{settings['payPal_credit_amount']}} <u>{{settings['payPal_currency_code']|upper}}</u></p>
         <form id="form_cp_profile_credits" action="{{path("cp_profile_credits", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            <div class="form-group">
-                {{form_label(form.credits, "profile_credits_4")}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                    {{form_errors(form.credits)}}
-                    {{form_widget(form.credits)}}
+            <fieldset class="accordion_container">
+                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}profile_credits_2{% endtrans %}</legend>
+                <div class="content">
+                    <p><b>{% trans %}profile_credits_3{% endtrans %}</b> {{response.values.currentCredits}}</p>
+                    <p><b>{% trans %}profile_credits_4{% endtrans %}</b> {{settings['payPal_credit_amount']}} <u>{{settings['payPal_currency_code']|upper}}</u></p>
+                    <div class="form-group">
+                        {{form_label(form.credits, "profile_credits_5")}}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                            {{form_errors(form.credits)}}
+                            {{form_widget(form.credits)}}
+                        </div>
+                    </div>
+
+                    {{form_widget(form.token)}}
+
+                    <input class="button_payPal margin_bottom" type="submit" value=""/>
                 </div>
-            </div>
-            
-            {{form_widget(form.token)}}
-            
-            <input class="button_payPal" type="submit" value=""/>
+            </fieldset>
         </form>
     </div>
 </div>

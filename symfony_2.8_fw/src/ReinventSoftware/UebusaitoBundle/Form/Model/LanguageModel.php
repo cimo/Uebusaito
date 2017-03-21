@@ -14,7 +14,9 @@ class LanguageModel {
     public function setCodePage($value) {
         $this->codePage = $value;
     }
+    
     // ---
+    
     public function getCodeText() {
         return $this->codeText;
     }

@@ -15,7 +15,9 @@ function ControlPanelPage() {
     self.setProfileFocus = function(value) {
         profileFocus = value;
     };
+    
     // ---
+    
     self.getProfileFocus = function() {
         return profileFocus;
     };

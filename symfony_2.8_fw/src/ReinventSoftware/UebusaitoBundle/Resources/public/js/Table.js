@@ -172,10 +172,8 @@ function Table() {
             $(value).find("th i").addClass("display_none");
         });
         
-        if (buttonsStatus === "hide")
-            $(idResult).find(".buttons").hide();
-        else
-            $(idResult).find(".buttons").show();
+        if (buttonsStatus === "show")
+            $(idResult).find(".buttons").removeClass("display_none");
     }
     
     function send() {

@@ -27,6 +27,9 @@ date.time: H:i:s
 "module_5": "Search"
 "module_6": "Empty"
 
+# Entity
+"entity.user.username": "Need min 4 max 20 character (Only . is allowed)."
+
 # ---
 # Classes
 
@@ -297,7 +300,7 @@ date.time: H:i:s
 "module_creation_5": "File name"
 
 # module_deletion.html.twig
-"module_deletion_1": "Module deletion form"
+"module_deletion_1": "Module deletion"
 "module_deletion_2": "Warning! If you delete the module is impossible return back."
 
 # module_profile.html.twig
@@ -345,7 +348,7 @@ date.time: H:i:s
 "page_creation_11": "Link"
 
 # page_deletion.html.twig
-"page_deletion_1": "Page deletion form"
+"page_deletion_1": "Page deletion"
 "page_deletion_2": "Warning! If you delete the page is impossible return back."
 "page_deletion_3": "All"
 "page_deletion_4": "Parent new"
@@ -414,33 +417,36 @@ date.time: H:i:s
 
 # profile.html.twig
 "profile_1": "Profile form"
-"profile_2": "Username"
-"profile_3": "Name"
-"profile_4": "Surname"
-"profile_5": "Email"
-"profile_6": "Telephone"
-"profile_7": "Born"
-"profile_8": "Gender"
-"profile_9": "Fiscal code"
-"profile_10:": "Company name"
-"profile_11": "Company code"
-"profile_12": "Website"
-"profile_13": "State"
-"profile_14": "City"
-"profile_15": "Zip"
-"profile_16": "Address"
+"profile_2": "Profile"
+"profile_3": "Username"
+"profile_4": "Name"
+"profile_5": "Surname"
+"profile_6": "Email"
+"profile_7": "Telephone"
+"profile_8": "Born"
+"profile_9": "Gender"
+"profile_10": "Fiscal code"
+"profile_11:": "Company name"
+"profile_12": "Company code"
+"profile_13": "Website"
+"profile_14": "State"
+"profile_15": "City"
+"profile_16": "Zip"
+"profile_17": "Address"
 
 # profile_credits.html.twig
 "profile_credits_1": "Profile credits form"
-"profile_credits_2": "Current credits:"
-"profile_credits_3": "One credit value:"
-"profile_credits_4": "Credits"
+"profile_credits_2": "Credits"
+"profile_credits_3": "Current credits:"
+"profile_credits_4": "One credit value:"
+"profile_credits_5": "Credits"
 
 # profile_password.html.twig
 "profile_password_1": "Profile password form"
-"profile_password_2": "Old"
-"profile_password_3": "New"
-"profile_password_4": "New confirm"
+"profile_password_2": "Password"
+"profile_password_3": "Old"
+"profile_password_4": "New"
+"profile_password_5": "New confirm"
 
 # role_creation.html.twig
 "role_creation_1": "Role creation form"

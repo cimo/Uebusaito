@@ -5,7 +5,7 @@
         <h3>{% trans %}settings_1{% endtrans %}</h3>
         <form id="form_cp_settings_modify" action="{{path("cp_settings_modify", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <fieldset class="accordion_container">
-                <legend class="title"><i class="fa fa-chevron-circle-up icon"></i> {% trans %}settings_2{% endtrans %}</legend>
+                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_2{% endtrans %}</legend>
                 <div class="content">
                     {{form_row(form.emailAdmin, {'label': "settings_3"})}}
                     {{form_row(form.template, {'label': "settings_4"})}}
@@ -36,7 +36,7 @@
             </fieldset>
             
             <fieldset class="accordion_container">
-                <legend class="title"><i class="fa fa-chevron-circle-up icon"></i> {% trans %}settings_7{% endtrans %}</legend>
+                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_7{% endtrans %}</legend>
                 <div class="content">
                     {{form_row(form.active, {'label': "settings_8"})}}
 
@@ -56,7 +56,7 @@
             </fieldset>
             
             <fieldset class="accordion_container">
-                <legend class="title"><i class="fa fa-chevron-circle-up icon"></i> {% trans %}settings_12{% endtrans %}</legend>
+                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_12{% endtrans %}</legend>
                 <div class="content">
                     <div class="form-group">
                         {{form_label(form.payPalSandbox, "settings_13")}}
@@ -97,7 +97,7 @@
             </fieldset>
             
             <fieldset class="accordion_container">
-                <legend class="title"><i class="fa fa-chevron-circle-up icon"></i> {% trans %}settings_17{% endtrans %}</legend>
+                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_17{% endtrans %}</legend>
                 <div class="content">
                     {{form_row(form.credits, {'label': "settings_18"})}}
                 </div>

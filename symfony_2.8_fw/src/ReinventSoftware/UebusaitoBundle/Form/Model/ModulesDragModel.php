@@ -24,7 +24,9 @@ class ModulesDragModel {
     public function setSortRight($value) {
         $this->sortRight = $value;
     }
+    
     // ---
+    
     public function getSortHeader() {
         return $this->sortHeader;
     }

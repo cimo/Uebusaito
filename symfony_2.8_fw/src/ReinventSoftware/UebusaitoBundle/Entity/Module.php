@@ -68,7 +68,9 @@ class Module {
     public function setActive($value) {
         $this->active = $value;
     }
+    
     // ---
+    
     public function getId() {
         return $this->id;
     }

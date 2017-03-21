@@ -14,7 +14,9 @@ class ChangePasswordModel {
     public function setPasswordConfirm($value) {
         $this->passwordConfirm = $value;
     }
+    
     // ---
+    
     public function getPassword() {
         return $this->password;
     }
