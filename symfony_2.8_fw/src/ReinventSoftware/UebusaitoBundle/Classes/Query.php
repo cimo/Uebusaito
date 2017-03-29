@@ -3,17 +3,13 @@ namespace ReinventSoftware\UebusaitoBundle\Classes;
 
 class Query {
     // Vars
-    private $entityManager;
-    
     private $connection;
     
     // Properties
       
     // Functions public
-    public function __construct($entityManager) {
-        $this->entityManager = $entityManager;
-        
-        $this->connection = $this->entityManager->getConnection();
+    public function __construct($connection) {
+        $this->connection = $connection;
     }
     
     public function selectUserIdWithHelpCodeFromDatabase($helpCode) {
@@ -108,15 +104,15 @@ class Query {
     
     public function selectPageFromDatabase($language, $id) {
         $query = $this->connection->prepare("SELECT pages.*,
-                                                    pages_titles.$language AS title,
-                                                    pages_arguments.$language AS argument,
-                                                    pages_menu_names.$language AS menu_name
-                                                    FROM pages, pages_titles, pages_arguments, pages_menu_names
-                                                WHERE pages.id = :id
-                                                AND pages_titles.id = pages.id
-                                                AND pages_arguments.id = pages.id
-                                                AND pages_menu_names.id = pages.id
-                                                ORDER BY pages.parent");
+                                                pages_titles.$language AS title,
+                                                pages_arguments.$language AS argument,
+                                                pages_menu_names.$language AS menu_name
+                                                FROM pages, pages_titles, pages_arguments, pages_menu_names
+                                            WHERE pages.id = :id
+                                            AND pages_titles.id = pages.id
+                                            AND pages_arguments.id = pages.id
+                                            AND pages_menu_names.id = pages.id
+                                            ORDER BY pages.parent");
         
         $query->bindValue(":id", $id);
         
@@ -128,25 +124,25 @@ class Query {
     public function selectAllPagesFromDatabase($language, $search = null) {
         if ($search == null) {
             $query = $this->connection->prepare("SELECT pages.*,
-                                                        pages_titles.$language AS title,
-                                                        pages_arguments.$language AS argument,
-                                                        pages_menu_names.$language AS menu_name
-                                                        FROM pages, pages_titles, pages_arguments, pages_menu_names
-                                                    WHERE pages_titles.id = pages.id
-                                                    AND pages_arguments.id = pages.id
-                                                    AND pages_menu_names.id = pages.id");
+                                                    pages_titles.$language AS title,
+                                                    pages_arguments.$language AS argument,
+                                                    pages_menu_names.$language AS menu_name
+                                                    FROM pages, pages_titles, pages_arguments, pages_menu_names
+                                                WHERE pages_titles.id = pages.id
+                                                AND pages_arguments.id = pages.id
+                                                AND pages_menu_names.id = pages.id");
         }
         else {
             $query = $this->connection->prepare("SELECT pages.*,
-                                                        pages_titles.$language AS title,
-                                                        pages_arguments.$language AS argument
-                                                    FROM pages, pages_titles, pages_arguments
-                                                    WHERE pages_titles.id = pages.id
-                                                    AND pages_arguments.id = pages.id
-                                                    AND pages.only_link = :onlyLink
-                                                    AND pages.id NOT IN (SELECT parent FROM pages WHERE parent is NOT NULL)
-                                                    AND (pages_titles.$language LIKE :search
-                                                    OR pages_arguments.$language LIKE :search)");
+                                                    pages_titles.$language AS title,
+                                                    pages_arguments.$language AS argument
+                                                FROM pages, pages_titles, pages_arguments
+                                                WHERE pages_titles.id = pages.id
+                                                AND pages_arguments.id = pages.id
+                                                AND pages.only_link = :onlyLink
+                                                AND pages.id NOT IN (SELECT parent FROM pages WHERE parent is NOT NULL)
+                                                AND (pages_titles.$language LIKE :search
+                                                OR pages_arguments.$language LIKE :search)");
             
             $query->bindValue(":onlyLink", 0);
             $query->bindValue(":search", "%$search%");
@@ -168,18 +164,24 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectUserFromDatabase($type, $value) {
-        if ($type == "id") {
+    public function selectUserFromDatabase($value) {
+        if (is_numeric($value) == true) {
             $query = $this->connection->prepare("SELECT * FROM users
                                                     WHERE id = :id");
             
             $query->bindValue(":id", $value);
         }
-        else if ($type == "email") {
+        else if (filter_var($value, FILTER_VALIDATE_EMAIL) === true) {
             $query = $this->connection->prepare("SELECT * FROM users
                                                     WHERE email = :email");
             
             $query->bindValue(":email", $value);
+        }
+        else {
+            $query = $this->connection->prepare("SELECT * FROM users
+                                                    WHERE username = :username");
+            
+            $query->bindValue(":username", $value);
         }
         
         $query->execute();

@@ -369,6 +369,20 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^1|^0/
+        loginAttempt:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
+        loginAttemptCount:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
         payPalSandbox:
             - NotBlank:
                 groups: [settings]

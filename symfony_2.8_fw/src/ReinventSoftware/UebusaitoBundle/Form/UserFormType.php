@@ -20,13 +20,11 @@ class UserFormType extends AbstractType {
     }
     
     // Vars
-    private $utility;
     
     // Properties
     
     // Functions public
-    public function __construct($utility) {
-        $this->utility = $utility;
+    public function __construct() {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {

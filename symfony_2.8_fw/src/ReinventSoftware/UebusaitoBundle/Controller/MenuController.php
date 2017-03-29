@@ -5,6 +5,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
 
 class MenuController extends Controller {
     // Vars
@@ -13,9 +15,10 @@ class MenuController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $requestStack;
     
     private $utility;
+    private $utilityPrivate;
+    private $query;
     
     private $response;
     
@@ -31,18 +34,19 @@ class MenuController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
         
-        $moduleRow = $this->utility->getQuery()->selectModuleFromDatabase(1);
-        $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale);
+        $moduleRow = $this->query->selectModuleFromDatabase(1);
+        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
         
-        $this->response['values']['url'] = $this->utility->getUrlRoot() . "/" . $this->requestStack->attributes->get("_locale");
-        $this->response['values']['pagesList'] = $this->utility->createPagesList($pageRows, false);
+        $this->response['values']['url'] = $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->attributes->get("_locale");
+        $this->response['values']['pagesList'] = $this->utilityPrivate->createPagesList($pageRows, false);
         
         return Array(
             'urlLocale' => $this->urlLocale,

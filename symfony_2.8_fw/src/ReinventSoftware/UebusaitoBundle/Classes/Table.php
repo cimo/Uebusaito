@@ -1,21 +1,31 @@
 <?php
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+
 class Table {
     // Vars
-    private $searchIndex;
-    private $paginationIndex;
+    private $container;
+    private $entityManager;
     
     private $utility;
+    private $utilityPrivate;
+    
+    private $searchIndex;
+    private $paginationIndex;
     
     // Properties
     
     // Functions public
-    public function __construct($utility) {
+    public function __construct($container, $entityManager) {
+        $this->container = $container;
+        $this->entityManager = $entityManager;
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        
         $this->searchIndex = "";
         $this->paginationIndex = "";
-        
-        $this->utility = $utility;
     }
     
     public function request($rows, $page, $sessionTag, $reverse, $flat = false) {
@@ -36,7 +46,7 @@ class Table {
         if ($sessionTag != "page")
             $list = array_slice($elements, $pagination['offset'], $pagination['show']);
         else
-            $list = $this->utility->createPagesList($elements, false, $pagination);
+            $list = $this->utilityPrivate->createPagesList($elements, false, $pagination);
         
         return Array(
             'search' => $search,

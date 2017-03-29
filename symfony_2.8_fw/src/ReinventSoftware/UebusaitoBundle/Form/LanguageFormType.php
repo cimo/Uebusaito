@@ -5,6 +5,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
+
 class LanguageFormType extends AbstractType {
     // AbstractType
     public function getName() {
@@ -20,23 +23,31 @@ class LanguageFormType extends AbstractType {
     }
     
     // Vars
+    private $container;
+    private $entityManager;
     private $urlLocale;
-    private $utility;
     private $type;
+    
+    private $utility;
+    private $query;
     
     // Properties
     
     // Functions public
-    public function __construct($urlLocale, $utility, $type) {
+    public function __construct($container, $entityManager, $urlLocale, $type) {
+        $this->container = $container;
+        $this->entityManager = $entityManager;
         $this->urlLocale = $urlLocale;
-        $this->utility = $utility;
         $this->type = $type;
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
         if ($this->type == "text") {
-            $choices = array_column($this->utility->getQuery()->selectAllLanguagesFromDatabase(), "code", "code");
-            $languageRow = $this->utility->getQuery()->selectLanguageFromDatabase($this->urlLocale);
+            $choices = array_column($this->query->selectAllLanguagesFromDatabase(), "code", "code");
+            $languageRow = $this->query->selectLanguageFromDatabase($this->urlLocale);
             
             $builder->add("codeText", "choice", Array(
                 'required' => true,

@@ -158,6 +158,9 @@ date.time: H:i:s
 
 # AuthenticationListener.php
 "authenticationListener_1": "Your level does not allow the access."
+"authenticationListener_2": "Bad credentials."
+"authenticationListener_3": "A lot attempts, these are the minutes that you have to wait: "
+"authenticationListener_4": "Attempt: "
 
 # ---
 # Form
@@ -482,13 +485,15 @@ date.time: H:i:s
 "settings_9": "Roles"
 "settings_10": "Https"
 "settings_11": "Registration user confirm admin"
-"settings_12": "Paypal"
-"settings_13": "PayPal sandbox"
-"settings_14": "PayPal business"
-"settings_15": "PayPal currency code"
-"settings_16": "PayPal credit amount"
-"settings_17": "Payment"
-"settings_18": "Credits"
+"settings_12": "Login attempt"
+"settings_13": "Login attempt count"
+"settings_14": "Paypal"
+"settings_15": "PayPal sandbox"
+"settings_16": "PayPal business"
+"settings_17": "PayPal currency code"
+"settings_18": "PayPal credit amount"
+"settings_19": "Payment"
+"settings_20": "Credits"
 
 # user_creation.html.twig
 "user_creation_1": "User creation form"

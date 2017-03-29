@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Mar 15, 2017 alle 00:20
+-- Generato il: Mar 29, 2017 alle 19:23
 -- Versione del server: 5.5.44-0ubuntu0.14.04.1
 -- Versione PHP: 5.5.9-1ubuntu4.14
 
@@ -257,6 +257,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '2,4',
   `https` tinyint(1) NOT NULL DEFAULT '1',
   `registration_user_confirm_admin` tinyint(1) NOT NULL DEFAULT '1',
+  `login_attempt` int(11) NOT NULL DEFAULT '15',
+  `login_attempt_count` int(11) NOT NULL DEFAULT '3',
   `payPal_sandbox` tinyint(1) NOT NULL DEFAULT '0',
   `payPal_business` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `payPal_currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'USD',
@@ -269,8 +271,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- Dump dei dati per la tabella `settings`
 --
 
-INSERT INTO `settings` (`id`, `email_admin`, `template`, `language`, `active`, `role_id`, `https`, `registration_user_confirm_admin`, `payPal_sandbox`, `payPal_business`, `payPal_currency_code`, `payPal_credit_amount`, `credits`) VALUES
-(1, 'user_1@reinventsoftware.org', 'basic', 'en', 1, '2,3,', 1, 0, 1, 'paypal@email.com', 'USD', '1.00', 1);
+INSERT INTO `settings` (`id`, `email_admin`, `template`, `language`, `active`, `role_id`, `https`, `registration_user_confirm_admin`, `login_attempt`, `login_attempt_count`, `payPal_sandbox`, `payPal_business`, `payPal_currency_code`, `payPal_credit_amount`, `credits`) VALUES
+(1, 'user_1@reinventsoftware.org', 'basic', 'en', 1, '2,3,', 1, 0, 15, 3, 1, 'paypal@email.com', 'USD', '1.00', 1);
 
 -- --------------------------------------------------------
 
@@ -302,6 +304,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date_registration` varchar(19) COLLATE utf8_unicode_ci DEFAULT '0000-00-00 00:00:00',
   `date_last_login` varchar(19) COLLATE utf8_unicode_ci DEFAULT '0000-00-00 00:00:00',
   `help_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attempt_login` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
@@ -309,10 +313,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dump dei dati per la tabella `users`
 --
 
-INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `company_code`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_last_login`, `help_code`) VALUES
-(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00136', 'Via', '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 12, 1, '2015-08-04 10:25:12', '2017-03-15 00:17:36', NULL),
-(2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 0, 1, '2015-09-10 17:39:31', '2017-03-08 18:17:34', NULL),
-(3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `company_code`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
+(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00136', 'Via', '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 12, 1, '2015-08-04 10:25:12', '2017-03-29 19:21:50', NULL, '93.57.95.188', 0),
+(2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 0, 1, '2015-09-10 17:39:31', '2017-03-29 19:18:10', NULL, NULL, 0),
+(3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, '2017-03-29 19:18:26', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 

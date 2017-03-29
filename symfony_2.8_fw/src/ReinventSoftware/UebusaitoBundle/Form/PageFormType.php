@@ -5,6 +5,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
+
 class PageFormType extends AbstractType {
     // AbstractType
     public function getName() {
@@ -20,21 +24,31 @@ class PageFormType extends AbstractType {
     }
     
     // Vars
+    private $container;
+    private $entityManager;
     private $urlLocale;
-    private $utility;
     private $page;
+    
+    private $utility;
+    private $utilityPrivate;
+    private $query;
     
     // Properties
     
     // Functions public
-    public function __construct($urlLocale, $utility, $page) {
+    public function __construct($container, $entityManager, $urlLocale, $page) {
+        $this->container = $container;
+        $this->entityManager = $entityManager;
         $this->urlLocale = $urlLocale;
-        $this->utility = $utility;
         $this->page = $page;
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale);
+        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale);
         
         if ($this->page->getId() == null) {
             $pageRow = Array(
@@ -48,7 +62,7 @@ class PageFormType extends AbstractType {
             );
         }
         else
-            $pageRow = $this->utility->getQuery()->selectPageFromDatabase($this->urlLocale, $this->page->getId());
+            $pageRow = $this->query->selectPageFromDatabase($this->urlLocale, $this->page->getId());
         
         $builder->add("language", "hidden", Array(
             'required' => true,
@@ -57,7 +71,7 @@ class PageFormType extends AbstractType {
         ->add("parent", "choice", Array(
             'required' => false,
             'empty_value' => "pageFormType_1",
-            'choices' => $this->utility->createPagesList($pageRows, true)
+            'choices' => $this->utilityPrivate->createPagesList($pageRows, true)
         ))
         ->add("title", "text", Array(
             'required' => true,

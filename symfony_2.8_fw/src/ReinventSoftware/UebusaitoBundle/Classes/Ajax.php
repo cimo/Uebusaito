@@ -3,15 +3,23 @@ namespace ReinventSoftware\UebusaitoBundle\Classes;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+
 class Ajax {
     // Vars
-    private $translator;
+    private $container;
+    private $entityManager;
+    
+    private $utility;
     
     // Properties
     
     // Functions public
-    public function __construct($translator) {
-        $this->translator = $translator;
+    public function __construct($container, $entityManager) {
+        $this->container = $container;
+        $this->entityManager = $entityManager;
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
     }
     
     public function response($array) {
@@ -23,7 +31,7 @@ class Ajax {
             $errors = Array();
             
             foreach ($elements->getErrors() as $error)
-                $errors[] = $this->translator->trans($error->getMessage());
+                $errors[] = $this->utility->getTranslator()->trans($error->getMessage());
             
             foreach ($elements->all() as $key => $value)
                 $errors[$key] = $this->errors($value);
@@ -31,7 +39,7 @@ class Ajax {
             return $errors;
         }
         else
-            return $this->translator->trans($elements);
+            return $this->utility->getTranslator()->trans($elements);
         
         return "";
     }

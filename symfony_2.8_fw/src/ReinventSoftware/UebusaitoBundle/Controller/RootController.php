@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
 
 class RootController extends Controller {
     // Vars
@@ -13,9 +14,9 @@ class RootController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $requestStack;
     
     private $utility;
+    private $query;
     
     private $response;
     
@@ -31,16 +32,17 @@ class RootController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
+        
         $this->utility->generateToken();
         $this->utility->configureCookie("PHPSESSID", 0, isset($_SERVER['HTTPS']), true);
         
         $this->response = Array();
         
         $token = isset($_SESSION['token']) == true ? $_SESSION['token'] : "";
-        $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        $sessionActivity = $this->utility->checkSessionOverTime();
         $settings = $this->utility->getSettings();
         
         $this->response['session']['token'] = $token;
@@ -55,11 +57,11 @@ class RootController extends Controller {
         $this->response['url']['public'] = $this->utility->getUrlPublic();
         $this->response['url']['view'] = $this->utility->getUrlView();
         
-        $this->response['modules']['header'] = $this->utility->getQuery()->selectAllModulesFromDatabase(null, "header");
-        $this->response['modules']['left'] = $this->utility->getQuery()->selectAllModulesFromDatabase(null, "left");
-        $this->response['modules']['center'] = $this->utility->getQuery()->selectAllModulesFromDatabase(null, "center");
-        $this->response['modules']['right'] = $this->utility->getQuery()->selectAllModulesFromDatabase(null, "right");
-        $this->response['modules']['footer'] = $this->utility->getQuery()->selectAllModulesFromDatabase(null, "footer");
+        $this->response['modules']['header'] = $this->query->selectAllModulesFromDatabase(null, "header");
+        $this->response['modules']['left'] = $this->query->selectAllModulesFromDatabase(null, "left");
+        $this->response['modules']['center'] = $this->query->selectAllModulesFromDatabase(null, "center");
+        $this->response['modules']['right'] = $this->query->selectAllModulesFromDatabase(null, "right");
+        $this->response['modules']['footer'] = $this->query->selectAllModulesFromDatabase(null, "footer");
         
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settings", $settings);

@@ -4,16 +4,18 @@ namespace ReinventSoftware\UebusaitoBundle\Controller\ControlPanel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\Table;
+
 use ReinventSoftware\UebusaitoBundle\Entity\User;
 
 use ReinventSoftware\UebusaitoBundle\Form\UserFormType;
 
 use ReinventSoftware\UebusaitoBundle\Form\UsersSelectionFormType;
 use ReinventSoftware\UebusaitoBundle\Form\Model\UsersSelectionModel;
-
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
 
 class UserController extends Controller {
     // Vars
@@ -22,10 +24,10 @@ class UserController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $requestStack;
-    private $translator;
     
     private $utility;
+    private $utilityPrivate;
+    private $query;
     private $ajax;
     private $table;
     
@@ -43,11 +45,10 @@ class UserController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
@@ -55,7 +56,7 @@ class UserController extends Controller {
         $user->setRoleId("1,");
         
         // Create form
-        $userFormType = new UserFormType($this->utility);
+        $userFormType = new UserFormType();
         $form = $this->createForm($userFormType, $user, Array(
             'validation_groups' => Array(
                 'user_creation'
@@ -63,23 +64,23 @@ class UserController extends Controller {
         ));
         $form->setData($user);
         
-        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
 
                 // Check form
                 if ($form->isValid() == true) {
-                    $message = $this->utility->configureUserProfilePassword($user, 2, $form);
+                    $message = $this->utilityPrivate->configureUserProfilePassword($user, 2, $form);
 
                     if ($message == "ok") {
-                        $this->utility->configureUserParameters($user);
+                        $this->utilityPrivate->configureUserParameters($user);
 
                         // Insert in database
                         $this->entityManager->persist($user);
@@ -87,13 +88,13 @@ class UserController extends Controller {
                         
                         mkdir("{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
 
-                        $this->response['messages']['success'] = $this->translator->trans("userController_1");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_1");
                     }
                     else
                         $this->response['messages']['error'] = $message;
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("userController_2");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_2");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -124,19 +125,18 @@ class UserController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
-        $this->table = new Table($this->utility);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->table = new Table($this->container, $this->entityManager);
         
         $this->listHtml = "";
         
         $this->response = Array();
         
         // Create form
-        $usersSelectionFormType = new UsersSelectionFormType($this->utility);
+        $usersSelectionFormType = new UsersSelectionFormType($this->container, $this->entityManager);
         $form = $this->createForm($usersSelectionFormType, new UsersSelectionModel(), Array(
             'validation_groups' => Array(
                 'users_selection'
@@ -144,7 +144,7 @@ class UserController extends Controller {
         ));
         
         // Pagination
-        $userRows = $this->utility->getQuery()->selectAllUsersFromDatabase(1);
+        $userRows = $this->query->selectAllUsersFromDatabase(1);
         
         $tableResult = $this->table->request($userRows, 20, "user", true, true);
         
@@ -155,15 +155,15 @@ class UserController extends Controller {
         $this->response['values']['list'] = $this->listHtml;
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
             $id = 0;
             
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
 
                 // Check form
                 if ($form->isValid() == true) {
@@ -171,12 +171,13 @@ class UserController extends Controller {
 
                     $this->selectionResult($id);
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $form->isValid() == false && $this->requestStack->request->get("event") == null) {
-                    $id = $this->requestStack->request->get("id") == "" ? 0 : $this->requestStack->request->get("id");
+                else if ($form->isValid() == false && isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
+                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
 
                     $this->selectionResult($id);
                 }
-                else if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true || (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "refresh")) {
+                else if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true ||
+                            (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "refresh")) {
                     $render = $this->renderView("UebusaitoBundle::render/control_panel/users_selection_desktop.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
                         'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -187,7 +188,7 @@ class UserController extends Controller {
                     $this->response['render'] = $render;
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("userController_3");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -218,11 +219,10 @@ class UserController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
@@ -231,27 +231,27 @@ class UserController extends Controller {
         $usernameOld = $user->getUsername();
         
         // Create form
-        $userFormType = new UserFormType($this->utility);
+        $userFormType = new UserFormType();
         $form = $this->createForm($userFormType, $user, Array(
             'validation_groups' => Array(
                 'user_profile'
             )
         ));
         
-        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
 
                 // Check form
                 if ($form->isValid() == true) {
-                    $message = $this->utility->configureUserProfilePassword($user, 2, $form);
+                    $message = $this->utilityPrivate->configureUserProfilePassword($user, 2, $form);
 
                     if ($message == "ok") {
                         rename("{$this->utility->getPathBundle()}/Resources/files/$usernameOld",
@@ -264,13 +264,13 @@ class UserController extends Controller {
                         $this->entityManager->persist($user);
                         $this->entityManager->flush();
 
-                        $this->response['messages']['success'] = $this->translator->trans("userController_4");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_4");
                     }
                     else
                         $this->response['messages']['error'] = $message;
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("userController_5");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_5");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -301,18 +301,17 @@ class UserController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
-        $this->table = new Table($this->utility);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->table = new Table($this->container, $this->entityManager);
         
         $this->listHtml = "";
         
         $this->response = Array();
         
-        $userRows = $this->utility->getQuery()->selectAllUsersFromDatabase(1);
+        $userRows = $this->query->selectAllUsersFromDatabase(1);
         
         $tableResult = $this->table->request($userRows, 20, "user", true, true);
         
@@ -322,18 +321,18 @@ class UserController extends Controller {
         $this->response['values']['pagination'] = $tableResult['pagination'];
         $this->response['values']['list'] = $this->listHtml;
         
-        $userRoleLevelRow = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == null) {
-                    if ($this->requestStack->request->get("id") > 1) {
-                        $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->requestStack->request->get("id"));
+                if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
+                    if ($this->utility->getRequestStack()->request->get("id") > 1) {
+                        $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->utility->getRequestStack()->request->get("id"));
 
                         // Remove from database
                         $this->entityManager->remove($user);
@@ -342,9 +341,9 @@ class UserController extends Controller {
                         $this->utility->removeDirRecursive("{$this->utility->getPathBundle()}/Resources/files/{$user->getUsername()}", true);
                     }
 
-                    $this->response['messages']['success'] = $this->translator->trans("userController_6");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "deleteAll") {
+                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "deleteAll") {
                     // Remove from database
                     $this->usersInDatabase();
                     
@@ -357,10 +356,10 @@ class UserController extends Controller {
                     
                     $this->response['render'] = $render;
 
-                    $this->response['messages']['success'] = $this->translator->trans("userController_7");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_7");
                 }
                 else
-                    $this->response['messages']['error'] = $this->translator->trans("userController_8");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_8");
             }
             
             return $this->ajax->response(Array(
@@ -385,14 +384,14 @@ class UserController extends Controller {
         
         if ($user != null) {
             // Create form
-            $userFormType = new UserFormType($this->utility);
+            $userFormType = new UserFormType();
             $formUserProfile = $this->createForm($userFormType, $user, Array(
                 'validation_groups' => Array(
                     'user_profile'
                 )
             ));
             
-            $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_user_roleId_field", true);
+            $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
             
             $render = $this->renderView("UebusaitoBundle::render/control_panel/user_profile.html.twig", Array(
                 'urlLocale' => $this->urlLocale,
@@ -405,13 +404,13 @@ class UserController extends Controller {
             $this->response['render'] = $render;
         }
         else
-            $this->response['messages']['error'] = $this->translator->trans("userController_3");
+            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
     }
     
     private function listHtml($userRows, $tableResult) {
         $roleLevel = Array();
         foreach ($userRows as $key => $value)
-            $roleLevel[] = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($value['role_id'], true);
+            $roleLevel[] = $this->query->selectUserRoleLevelFromDatabase($value['role_id'], true);
         
         foreach ($tableResult as $key => $value) {
             $this->listHtml .= "<tr>
@@ -441,9 +440,9 @@ class UserController extends Controller {
                 </td>
                 <td>";
                     if ($value['not_locked'] == 0)
-                        $this->listHtml .= $this->translator->trans("userController_9");
+                        $this->listHtml .= $this->utility->getTranslator()->trans("userController_9");
                     else
-                        $this->listHtml .= $this->translator->trans("userController_10");
+                        $this->listHtml .= $this->utility->getTranslator()->trans("userController_10");
                 $this->listHtml .= "</td>
                 <td class=\"horizontal_center\">
                     <button class=\"cp_user_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
@@ -453,10 +452,8 @@ class UserController extends Controller {
     }
     
     private function usersInDatabase() {
-        $connection = $this->entityManager->getConnection();
-        
-        $query = $connection->prepare("DELETE FROM users
-                                        WHERE id > :idExclude");
+        $query = $this->utility->getConnection()->prepare("DELETE FROM users
+                                                            WHERE id > :idExclude");
         
         $query->bindValue(":idExclude", 1);
 

@@ -4,10 +4,12 @@ namespace ReinventSoftware\UebusaitoBundle\Controller\ControlPanel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Form\SettingsFormType;
-
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+
+use ReinventSoftware\UebusaitoBundle\Form\SettingsFormType;
 
 class SettingController extends Controller {
     // Vars
@@ -16,13 +18,11 @@ class SettingController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $requestStack;
-    private $translator;
     
     private $utility;
+    private $utilityPrivate;
+    private $query;
     private $ajax;
-    
-    private $settings;
     
     private $response;
     
@@ -38,52 +38,49 @@ class SettingController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
-        
-        $this->settings = $this->utility->getSettings();
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
         $setting = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
         
         // Create form
-        $settingsFormType = new SettingsFormType($this->urlLocale, $this->utility);
+        $settingsFormType = new SettingsFormType($this->container, $this->entityManager, $this->urlLocale);
         $form = $this->createForm($settingsFormType, $setting, Array(
             'validation_groups' => Array(
                 'settings'
             )
         ));
         
-        $this->response['values']['rolesSelect'] = $this->utility->createRolesSelectHtml("form_settings_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_settings_roleId_field", true);
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
                 
                 // Check form
                 if ($form->isValid() == true) {
                     $https = $form->get("https")->getData();
                     
-                    if ($https != $this->settings['https'])
+                    if ($https != $this->utility->getSettings()['https'])
                         $this->response['action']['refresh'] = true;
                     else
-                        $this->response['messages']['success'] = $this->translator->trans("settingController_1");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_1");
                     
                     // Insert in database
                     $this->entityManager->persist($setting);
                     $this->entityManager->flush();
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("settingController_2");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_2");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -114,40 +111,39 @@ class SettingController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "delete") {
-                    $currentIndex = $this->requestStack->request->get("currentIndex");
+                if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "delete") {
+                    $currentIndex = $this->utility->getRequestStack()->request->get("currentIndex");
                     
                     if ($currentIndex > 2) {
-                        $languageRows = $this->utility->getQuery()->selectLanguageFromDatabase($currentIndex);
+                        $languageRows = $this->query->selectLanguageFromDatabase($currentIndex);
                         
                         $this->settingsInDatabase("delete", $currentIndex);
                         
                         unlink("{$this->utility->getPathBundle()}/Resources/translations/messages.{$languageRows['code']}.yml");
                         
-                        $this->response['messages']['success'] = $this->translator->trans("settingController_3");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_3");
                     }
                     else
-                        $this->response['messages']['error'] = $this->translator->trans("settingController_4");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_4");
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "create") {
-                    $code = $this->requestStack->request->get("code");
+                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "create") {
+                    $code = $this->utility->getRequestStack()->request->get("code");
                     
-                    $languageRows = $this->utility->getQuery()->selectAllLanguagesFromDatabase();
+                    $languageRows = $this->query->selectAllLanguagesFromDatabase();
                     
                     $exists = false;
                     
@@ -164,10 +160,10 @@ class SettingController extends Controller {
                         
                         touch("{$this->utility->getPathBundle()}/Resources/translations/messages.$code.yml");
                         
-                        $this->response['messages']['success'] = $this->translator->trans("settingController_5");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
                     }
                     else
-                        $this->response['messages']['error'] = $this->translator->trans("settingController_6");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_6");
                 }
             }
             
@@ -189,12 +185,10 @@ class SettingController extends Controller {
     
     // Functions private
     private function settingsInDatabase($type, $value) {
-        $connection = $this->entityManager->getConnection();
-        
         if ($type == "delete") {
-            $query = $connection->prepare("DELETE FROM languages
-                                            WHERE id > :idExclude
-                                            AND id = :id");
+            $query = $this->utility->getConnection()->prepare("DELETE FROM languages
+                                                                WHERE id > :idExclude
+                                                                AND id = :id");
 
             $query->bindValue(":idExclude", 2);
             $query->bindValue(":id", $value);
@@ -202,8 +196,8 @@ class SettingController extends Controller {
             $query->execute();
         }
         else if ($type == "create") {
-            $query = $connection->prepare("INSERT INTO languages (code)
-                                            VALUES (:code);");
+            $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code)
+                                                                VALUES (:code);");
             
             $query->bindValue(":code", $value);
             

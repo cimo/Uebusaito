@@ -4,16 +4,17 @@ namespace ReinventSoftware\UebusaitoBundle\Controller\ControlPanel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\Table;
+
 use ReinventSoftware\UebusaitoBundle\Entity\Role;
 
 use ReinventSoftware\UebusaitoBundle\Form\RoleFormType;
 
 use ReinventSoftware\UebusaitoBundle\Form\RolesSelectionFormType;
 use ReinventSoftware\UebusaitoBundle\Form\Model\RolesSelectionModel;
-
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
 
 class RoleController extends Controller {
     // Vars
@@ -22,10 +23,9 @@ class RoleController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $requestStack;
-    private $translator;
     
     private $utility;
+    private $query;
     private $ajax;
     private $table;
     
@@ -43,11 +43,9 @@ class RoleController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
@@ -62,13 +60,13 @@ class RoleController extends Controller {
         ));
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
 
                 // Check form
                 if ($form->isValid() == true) {
@@ -76,10 +74,10 @@ class RoleController extends Controller {
                     $this->entityManager->persist($role);
                     $this->entityManager->flush();
                     
-                    $this->response['messages']['success'] = $this->translator->trans("roleController_1");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_1");
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("roleController_2");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_2");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -110,19 +108,18 @@ class RoleController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
-        $this->table = new Table($this->utility);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->table = new Table($this->container, $this->entityManager);
         
         $this->listHtml = "";
         
         $this->response = Array();
         
         // Create form
-        $rolesSelectionFormType = new RolesSelectionFormType($this->utility);
+        $rolesSelectionFormType = new RolesSelectionFormType($this->container, $this->entityManager);
         $form = $this->createForm($rolesSelectionFormType, new RolesSelectionModel(), Array(
             'validation_groups' => Array(
                 'roles_selection'
@@ -130,7 +127,7 @@ class RoleController extends Controller {
         ));
         
         // Pagination
-        $userRoleRows = $this->utility->getQuery()->selectAllUserRolesFromDatabase();
+        $userRoleRows = $this->query->selectAllUserRolesFromDatabase();
         
         $tableResult = $this->table->request($userRoleRows, 20, "role", true, true);
         
@@ -141,15 +138,15 @@ class RoleController extends Controller {
         $this->response['values']['list'] = $this->listHtml;
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
             $id = 0;
             
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
                 
                 // Check form
                 if ($form->isValid() == true) {
@@ -157,12 +154,13 @@ class RoleController extends Controller {
                     
                     $this->selectionResult($id);
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $form->isValid() == false && $this->requestStack->request->get("event") == null) {
-                    $id = $this->requestStack->request->get("id") == "" ? 0 : $this->requestStack->request->get("id");
+                else if ($form->isValid() == false && isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
+                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
                     
                     $this->selectionResult($id);
                 }
-                else if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true || (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "refresh")) {
+                else if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true ||
+                            (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "refresh")) {
                     $render = $this->renderView("UebusaitoBundle::render/control_panel/roles_selection_desktop.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
                         'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -173,7 +171,7 @@ class RoleController extends Controller {
                     $this->response['render'] = $render;
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("roleController_3");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_3");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -204,11 +202,9 @@ class RoleController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
@@ -223,13 +219,13 @@ class RoleController extends Controller {
         ));
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
 
                 // Check form
                 if ($form->isValid() == true) {
@@ -237,10 +233,10 @@ class RoleController extends Controller {
                     $this->entityManager->persist($role);
                     $this->entityManager->flush();
                     
-                    $this->response['messages']['success'] = $this->translator->trans("roleController_4");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_4");
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("roleController_5");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_5");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -271,19 +267,18 @@ class RoleController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
-        $this->table = new Table($this->utility);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->table = new Table($this->container, $this->entityManager);
         
         $this->listHtml = "";
         
         $this->response = Array();
         
         // Pagination
-        $userRoleRows = $this->utility->getQuery()->selectAllUserRolesFromDatabase();
+        $userRoleRows = $this->query->selectAllUserRolesFromDatabase();
         
         $tableResult = $this->table->request($userRoleRows, 20, "role", true, true);
         
@@ -293,27 +288,29 @@ class RoleController extends Controller {
         $this->response['values']['pagination'] = $tableResult['pagination'];
         $this->response['values']['list'] = $this->listHtml;
         
-        $userRoleLevelRow = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == null) {
-                    if ($this->requestStack->request->get("id") > 2) {
-                        $role = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($this->requestStack->request->get("id"));
+                if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
+                    $id = $this->utility->getRequestStack()->request->get("id");
+                    
+                    if ($id > 2) {
+                        $role = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($id);
 
                         // Remove from database
                         $this->entityManager->remove($role);
                         $this->entityManager->flush();
                     }
                     
-                    $this->response['messages']['success'] = $this->translator->trans("roleController_6");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_6");
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "deleteAll") {
+                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "deleteAll") {
                     // Remove from database
                     $this->rolesInDatabase();
                     
@@ -326,10 +323,10 @@ class RoleController extends Controller {
                     
                     $this->response['render'] = $render;
 
-                    $this->response['messages']['success'] = $this->translator->trans("roleController_7");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_7");
                 }
                 else
-                    $this->response['messages']['error'] = $this->translator->trans("roleController_8");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_8");
             }
             
             return $this->ajax->response(Array(
@@ -372,7 +369,7 @@ class RoleController extends Controller {
             $this->response['render'] = $render;
         }
         else
-            $this->response['messages']['error'] = $this->translator->trans("roleController_3");
+            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_3");
     }
     
     private function listHtml($tableResult) {
@@ -396,10 +393,8 @@ class RoleController extends Controller {
     }
     
     private function rolesInDatabase() {
-        $connection = $this->entityManager->getConnection();
-        
-        $query = $connection->prepare("DELETE FROM users_roles
-                                        WHERE id > :idExclude");
+        $query = $this->utility->getConnection()->prepare("DELETE FROM users_roles
+                                                            WHERE id > :idExclude");
 
         $query->bindValue(":idExclude", 2);
 

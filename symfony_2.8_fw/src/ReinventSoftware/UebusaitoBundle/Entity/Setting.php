@@ -51,6 +51,16 @@ class Setting {
     private $registrationUserConfirmAdmin;
     
     /**
+     * @ORM\Column(name="login_attempt", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '15'")
+     */
+    private $loginAttempt;
+    
+    /**
+     * @ORM\Column(name="login_attempt_count", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '3'")
+     */
+    private $loginAttemptCount;
+    
+    /**
      * @ORM\Column(name="payPal_sandbox", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
     private $payPalSandbox;
@@ -101,6 +111,14 @@ class Setting {
     
     public function setRegistrationUserConfirmAdmin($value) {
         $this->registrationUserConfirmAdmin = $value;
+    }
+    
+    public function setLoginAttempt($value) {
+        $this->loginAttempt = $value;
+    }
+    
+    public function setLoginAttemptCount($value) {
+        $this->loginAttemptCount = $value;
     }
     
     public function setPayPalSandbox($value) {
@@ -155,6 +173,14 @@ class Setting {
     
     public function getRegistrationUserConfirmAdmin() {
         return $this->registrationUserConfirmAdmin;
+    }
+    
+    public function getLoginAttempt() {
+        return $this->loginAttempt;
+    }
+    
+    public function getLoginAttemptCount() {
+        return $this->loginAttemptCount;
     }
     
     public function getPayPalSandbox() {

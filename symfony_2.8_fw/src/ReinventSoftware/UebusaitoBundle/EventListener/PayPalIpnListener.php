@@ -5,10 +5,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
-use ReinventSoftware\UebusaitoBundle\Entity\Payment;
-
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\PayPal;
+
+use ReinventSoftware\UebusaitoBundle\Entity\Payment;
 
 class PayPalIpnListener {
     // Vars
@@ -16,6 +17,7 @@ class PayPalIpnListener {
     private $entityManager;
     
     private $utility;
+    private $query;
     
     // Properties
     
@@ -25,6 +27,7 @@ class PayPalIpnListener {
         $this->entityManager = $entityManager;
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
     }
     
     public function onKernelResponse(FilterResponseEvent $event) {
@@ -33,14 +36,14 @@ class PayPalIpnListener {
         $response  = $event->getResponse();
         
         if (strlen(strpos($request->getUri(), "cp_profile_credits_payPal")) > 0) {
-            $settingRows = $this->utility->getQuery()->selectAllSettingsFromDatabase();
+            $settingRows = $this->query->selectAllSettingsFromDatabase();
             
             $payPal = new PayPal(true, $settingRows['payPal_sandbox']);
             
             if ($payPal->ipn() == true) {
                 $payPalElements = $payPal->getElements();
 
-                $paymentRow = $this->utility->getQuery()->selectPaymentWithTransactionFromDatabase($payPalElements['txn_id']);
+                $paymentRow = $this->query->selectPaymentWithTransactionFromDatabase($payPalElements['txn_id']);
 
                 if ($paymentRow == false) {
                     if (isset($payPalElements['payment_status']) == true) {
@@ -75,16 +78,14 @@ class PayPalIpnListener {
     
     // Functions private
     private function updateCredits($payPalElements) {
-        $userRow = $this->utility->getQuery()->selectUserFromDatabase("id", $payPalElements['custom']);
+        $userRow = $this->query->selectUserFromDatabase($payPalElements['custom']);
         
         $id = $userRow['id'];
         $credits = $userRow['credits'] + $payPalElements['quantity'];
         
-        $connection = $this->entityManager->getConnection();
-        
-        $query = $connection->prepare("UPDATE users
-                                        SET credits = :credits
-                                        WHERE id = :id");
+        $query = $this->utility->getConnection()->prepare("UPDATE users
+                                                            SET credits = :credits
+                                                            WHERE id = :id");
         
         $query->bindValue(":credits", $credits);
         $query->bindValue(":id", $id);

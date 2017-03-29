@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
 
 class PageLogicController extends Controller {
     // Vars
@@ -13,10 +14,9 @@ class PageLogicController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $translator;
-    private $authorizationChecker;
     
     private $utility;
+    private $query;
     
     private $response;
     
@@ -32,34 +32,33 @@ class PageLogicController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->translator = $this->get("translator");
-        $this->authorizationChecker = $this->get("security.authorization_checker");
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
         
         $this->response = Array();
         
-        $moduleRow = $this->utility->getQuery()->selectModuleFromDatabase(3);
+        $moduleRow = $this->query->selectModuleFromDatabase(3);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
         
-        $pageRow = $this->utility->getQuery()->selectPageFromDatabase($this->urlLocale, $this->urlCurrentPageId);
+        $pageRow = $this->query->selectPageFromDatabase($this->urlLocale, $this->urlCurrentPageId);
         
         $this->response['values']['controllerAction'] = null;
-        $this->response['values']['title'] = $this->translator->trans("pageLogicController_1");
-        $this->response['values']['argument'] = $this->translator->trans("pageLogicController_2");
+        $this->response['values']['title'] = $this->utility->getTranslator()->trans("pageLogicController_1");
+        $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_2");
         
         if ($pageRow != false) {
             $this->response['values']['controllerAction'] = $pageRow['controller_action'];
             $this->response['values']['title'] = $pageRow['title'];
             $this->response['values']['argument'] = $pageRow['argument'];
             
-            if ($this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+            if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
                 if ($pageRow['protected'] == false && ($pageRow['id'] == 3 || $pageRow['id'] == 4)) {
                     // Page not available with login
                     $this->response['values']['controllerAction'] = null;
-                    $this->response['values']['argument'] = $this->translator->trans("pageLogicController_3");
+                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_3");
 
                     return Array(
                         'urlLocale' => $this->urlLocale,
@@ -69,7 +68,7 @@ class PageLogicController extends Controller {
                     );
                 }
                 else if ($pageRow['protected'] == true) {
-                    $userRoleLevelRow = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+                    $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
                     
                     $pageRoleIdExplode = explode(",", $pageRow['role_id']);
                     array_pop($pageRoleIdExplode);
@@ -77,10 +76,10 @@ class PageLogicController extends Controller {
                     $userRoleIdExplode =  explode(",", $this->getUser()->getRoleId());
                     array_pop($userRoleIdExplode);
                             
-                    if (in_array("ROLE_ADMIN", $userRoleLevelRow) == false && $this->utility->valueInSubArray($pageRoleIdExplode, $userRoleIdExplode) == false) {
+                    if ($this->utility->valueInSubArray($pageRoleIdExplode, $userRoleIdExplode) == false && in_array("ROLE_ADMIN", $userRoleLevelRow) == false) {
                         // Page not available for role
                         $this->response['values']['controllerAction'] = null;
-                        $this->response['values']['argument'] = $this->translator->trans("pageLogicController_4");
+                        $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_4");
 
                         return Array(
                             'urlLocale' => $this->urlLocale,
@@ -113,7 +112,7 @@ class PageLogicController extends Controller {
                 else {
                     // Page accessible only with login
                     $this->response['values']['controllerAction'] = null;
-                    $this->response['values']['argument'] = $this->translator->trans("pageLogicController_5");
+                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_5");
                     
                     return Array(
                         'urlLocale' => $this->urlLocale,

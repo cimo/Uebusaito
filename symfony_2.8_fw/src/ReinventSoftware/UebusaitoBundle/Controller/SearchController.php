@@ -4,12 +4,13 @@ namespace ReinventSoftware\UebusaitoBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Form\SearchFormType;
-use ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel;
-
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\Table;
+
+use ReinventSoftware\UebusaitoBundle\Form\SearchFormType;
+use ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel;
 
 class SearchController extends Controller {
     // Vars
@@ -18,10 +19,9 @@ class SearchController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $requestStack;
-    private $translator;
     
     private $utility;
+    private $query;
     private $ajax;
     private $table;
     
@@ -41,11 +41,10 @@ class SearchController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
@@ -57,19 +56,19 @@ class SearchController extends Controller {
             )
         ));
         
-        $moduleRow = $this->utility->getQuery()->selectModuleFromDatabase(5);
+        $moduleRow = $this->query->selectModuleFromDatabase(5);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
                 
                 // Check form
                 if ($form->isValid() == true) {
@@ -78,7 +77,7 @@ class SearchController extends Controller {
                     $this->response['values']['url'] = $this->utility->getUrlRoot() . "/" . $this->urlLocale . "/5/" . $words;
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("searchController_1");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("searchController_1");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -109,19 +108,18 @@ class SearchController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
-        $this->table = new Table($this->utility);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->table = new Table($this->container, $this->entityManager);
         
         $this->listHtml = "";
         
         $this->response = Array();
         
         // Pagination
-        $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale, $this->urlExtra);
+        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale, $this->urlExtra);
         
         $tableResult = $this->table->request($pageRows, 20, "searchResult", true, true);
         
@@ -151,7 +149,7 @@ class SearchController extends Controller {
             ));
         }
         else
-            $this->response['messages']['error'] = $this->translator->trans("searchController_1");
+            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("searchController_1");
         
         return Array(
             'urlLocale' => $this->urlLocale,
@@ -170,7 +168,7 @@ class SearchController extends Controller {
                     $this->listHtml .= "<p class=\"argument\">" . substr($value['argument'], 0, 200) . "...</p>";
                 else
                     $this->listHtml .= "<p class=\"argument\">{$value['argument']}</p>
-                <a href=\"". $this->utility->getUrlRoot() . "/" . $this->requestStack->get("_locale") . "/" . $value['id'] . "\">" . $this->translator->trans("searchController_2") . "</a>
+                <a href=\"". $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->get("_locale") . "/" . $value['id'] . "\">" . $this->utility->getTranslator()->trans("searchController_2") . "</a>
             </div>";
         }
     }

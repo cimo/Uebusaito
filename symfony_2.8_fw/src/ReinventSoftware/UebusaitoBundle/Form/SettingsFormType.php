@@ -7,6 +7,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
+
 class SettingsFormType extends AbstractType {
     // AbstractType
     public function getName() {
@@ -22,19 +26,29 @@ class SettingsFormType extends AbstractType {
     }
     
     // Vars
+    private $container;
+    private $entityManager;
     private $urlLocale;
+    
     private $utility;
+    private $utilityPrivate;
+    private $query;
     
     // Properties
     
     // Functions public
-    public function __construct($urlLocale, $utility) {
+    public function __construct($container, $entityManager, $urlLocale) {
+        $this->container = $container;
+        $this->entityManager = $entityManager;
         $this->urlLocale = $urlLocale;
-        $this->utility = $utility;
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $choices = array_column($this->utility->getQuery()->selectAllLanguagesFromDatabase(), "code", "code");
+        $choices = array_column($this->query->selectAllLanguagesFromDatabase(), "code", "code");
         
         $settings = $this->utility->getSettings();
         
@@ -43,7 +57,7 @@ class SettingsFormType extends AbstractType {
         ))
         ->add("template", "choice", Array(
             'required' => true,
-            'choices' => $this->utility->createTemplatesList(),
+            'choices' => $this->utilityPrivate->createTemplatesList(),
         ))
         ->add("language", "choice", Array(
             'required' => true,
@@ -76,6 +90,12 @@ class SettingsFormType extends AbstractType {
                 true => "settingsFormType_2"
             )
         ))
+        ->add("loginAttempt", "text", Array(
+            'required' => true
+        )) 
+        ->add("loginAttemptCount", "text", Array(
+            'required' => true
+        ))      
         ->add("payPalSandbox", "choice", Array(
             'required' => true,
             'choices' => Array(

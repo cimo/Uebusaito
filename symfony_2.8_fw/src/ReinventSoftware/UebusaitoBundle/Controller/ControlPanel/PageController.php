@@ -4,16 +4,18 @@ namespace ReinventSoftware\UebusaitoBundle\Controller\ControlPanel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\Table;
+
 use ReinventSoftware\UebusaitoBundle\Entity\Page;
 
 use ReinventSoftware\UebusaitoBundle\Form\PageFormType;
 
 use ReinventSoftware\UebusaitoBundle\Form\PagesSelectionFormType;
 use ReinventSoftware\UebusaitoBundle\Form\Model\PagesSelectionModel;
-
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
 
 class PageController extends Controller {
     // Vars
@@ -22,10 +24,10 @@ class PageController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $requestStack;
-    private $translator;
     
     private $utility;
+    private $utilityPrivate;
+    private $query;
     private $ajax;
     private $table;
     
@@ -45,34 +47,33 @@ class PageController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
         $page = new Page();
         
         // Create form
-        $pageFormType = new PageFormType($this->urlLocale, $this->utility, $page);
+        $pageFormType = new PageFormType($this->container, $this->entityManager, $this->urlLocale, $page);
         $form = $this->createForm($pageFormType, $page, Array(
             'validation_groups' => Array(
                 'page_creation'
             )
         ));
         
-        $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", true);
+        $this->response['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
 
                 // Check form
                 if ($form->isValid() == true) {
@@ -82,10 +83,10 @@ class PageController extends Controller {
 
                     $this->pagesInDatabase("insert", $form, null, $this->urlLocale);
 
-                    $this->response['messages']['success'] = $this->translator->trans("pageController_1");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_1");
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("pageController_2");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_2");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -116,19 +117,18 @@ class PageController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
-        $this->table = new Table($this->utility);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->table = new Table($this->container, $this->entityManager);
         
         $this->listHtml = "";
         
         $this->response = Array();
         
         // Create form
-        $pagesSelectionFormType = new PagesSelectionFormType($this->urlLocale, $this->utility);
+        $pagesSelectionFormType = new PagesSelectionFormType($this->container, $this->entityManager, $this->urlLocale);
         $form = $this->createForm($pagesSelectionFormType, new PagesSelectionModel(), Array(
             'validation_groups' => Array(
                 'pages_selection'
@@ -136,7 +136,7 @@ class PageController extends Controller {
         ));
         
         // Pagination
-        $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale);
+        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale);
         
         $tableResult = $this->table->request($pageRows, 20, "page", false, true);
         
@@ -147,15 +147,15 @@ class PageController extends Controller {
         $this->response['values']['list'] = $this->listHtml;
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
             $id = 0;
             
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
                 
                 // Check form
                 if ($form->isValid() == true) {
@@ -163,12 +163,13 @@ class PageController extends Controller {
                     
                     $this->selectionResult($id);
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $form->isValid() == false && $this->requestStack->request->get("event") == null) {
-                    $id = $this->requestStack->request->get("id") == "" ? 0 : $this->requestStack->request->get("id");
+                else if ($form->isValid() == false && isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
+                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
                     
                     $this->selectionResult($id);
                 }
-                else if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true || (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "refresh")) {
+                else if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true ||
+                            (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "refresh")) {
                     $render = $this->renderView("UebusaitoBundle::render/control_panel/pages_selection_desktop.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
                         'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -179,7 +180,7 @@ class PageController extends Controller {
                     $this->response['render'] = $render;
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("pageController_3");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -210,34 +211,33 @@ class PageController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
         $page = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($this->urlExtra);
         
         // Create form
-        $pageFormType = new PageFormType($this->urlLocale, $this->utility, $page);
+        $pageFormType = new PageFormType($this->container, $this->entityManager, $this->urlLocale, $page);
         $form = $this->createForm($pageFormType, $page, Array(
             'validation_groups' => Array(
                 'page_profile'
             )
         ));
         
-        $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", true);
+        $this->response['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                $form->handleRequest($this->requestStack);
+                $form->handleRequest($this->utility->getRequestStack());
 
                 // Check form
                 if ($form->isValid() == true) {
@@ -247,10 +247,10 @@ class PageController extends Controller {
 
                     $this->pagesInDatabase("update", $form, $page, null);
 
-                    $this->response['messages']['success'] = $this->translator->trans("pageController_4");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_4");
                 }
                 else {
-                    $this->response['messages']['error'] = $this->translator->trans("pageController_5");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_5");
                     $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
@@ -281,18 +281,18 @@ class PageController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->requestStack = $this->get("request_stack")->getCurrentRequest();
-        $this->translator = $this->get("translator");
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->translator);
-        $this->table = new Table($this->utility);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->table = new Table($this->container, $this->entityManager);
         
         $this->listHtml = "";
         
         $this->response = Array();
         
-        $pageRows = $this->utility->getQuery()->selectAllPagesFromDatabase($this->urlLocale);
+        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale);
         
         $tableResult = $this->table->request($pageRows, 20, "page", false, true);
         
@@ -302,37 +302,37 @@ class PageController extends Controller {
         $this->response['values']['pagination'] = $tableResult['pagination'];
         $this->response['values']['list'] = $this->listHtml;
         
-        $userRoleLevelRow = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
         
         // Request post
-        if ($this->requestStack->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
-            $sessionActivity = $this->utility->checkSessionOverTime($this->container, $this->requestStack);
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
+            $sessionActivity = $this->utility->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == null) {
-                    $id = $this->requestStack->request->get("id") == "" ? 0 : $this->requestStack->request->get("id");
+                if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
+                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
                     
                     $page = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
 
-                    $pageChildrenRows = $this->utility->getQuery()->selectAllPageChildrenIdFromDatabase($page);
+                    $pageChildrenRows = $this->query->selectAllPageChildrenIdFromDatabase($page);
                     
                     if ($pageChildrenRows == false) {
                         // Remove from database
                         $this->pagesInDatabase("delete", null, $page, null);
 
-                        $this->response['messages']['success'] = $this->translator->trans("pageController_6");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_6");
                     }
                     else {
                         // Popup
                         $this->response['values']['id'] = $id;
-                        $this->response['values']['text'] = "<p class=\"margin_bottom\">" . $this->translator->trans("pageController_7") . "</p>";
-                        $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"margin_bottom\">" . $this->translator->trans("pageController_8") . "</button>";
-                        $this->response['values']['select'] = $this->utility->createPagesSelectHtml($this->urlLocale, "cp_page_deletion_parent_new");
+                        $this->response['values']['text'] = "<p class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
+                        $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
+                        $this->response['values']['select'] = $this->utilityPrivate->createPagesSelectHtml($this->urlLocale, "cp_page_deletion_parent_new");
                     }
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "deleteAll") {
+                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "deleteAll") {
                     // Remove from database
                     $this->pagesInDatabase("deleteAll", null, null, null);
                     
@@ -345,10 +345,10 @@ class PageController extends Controller {
                     
                     $this->response['render'] = $render;
 
-                    $this->response['messages']['success'] = $this->translator->trans("pageController_9");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "parentAll") {
-                    $id = $this->requestStack->request->get("id") == "" ? 0 : $this->requestStack->request->get("id");
+                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "parentAll") {
+                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
                     
                     $page = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
                     
@@ -358,23 +358,23 @@ class PageController extends Controller {
                     // Remove from database
                     $this->pagesInDatabase("delete", null, $page, null);
 
-                    $this->response['messages']['success'] = $this->translator->trans("pageController_9");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
                 }
-                else if (isset($_SESSION['token']) == true && $this->requestStack->request->get("token") == $_SESSION['token'] && $this->requestStack->request->get("event") == "parentNew") {
-                    $id = $this->requestStack->request->get("id") == "" ? 0 : $this->requestStack->request->get("id");
+                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "parentNew") {
+                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
                     
                     $page = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
                     
                     // Change parent children in database
-                    $this->updatePageChildrenInDatabase($page, $this->requestStack->request->get("parentNew"));
+                    $this->updatePageChildrenInDatabase($page, $this->utility->getRequestStack()->request->get("parentNew"));
 
                     // Remove from database
                     $this->pagesInDatabase("delete", null, $page, null);
 
-                    $this->response['messages']['success'] = $this->translator->trans("pageController_10");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
                 }
                 else
-                    $this->response['messages']['error'] = $this->translator->trans("pageController_11");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_11");
             }
             
             return $this->ajax->response(Array(
@@ -399,14 +399,14 @@ class PageController extends Controller {
         
         if ($page != null) {
             // Create form
-            $pageFormType = new PageFormType($this->urlLocale, $this->utility, $page);
+            $pageFormType = new PageFormType($this->container, $this->entityManager, $this->urlLocale, $page);
             $formPageProfile = $this->createForm($pageFormType, $page, Array(
                 'validation_groups' => Array(
                     'page_profile'
                 )
             ));
             
-            $this->response['rolesSelect'] = $this->utility->createRolesSelectHtml("form_page_roleId_field", true);
+            $this->response['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
             
             $render = $this->renderView("UebusaitoBundle::render/control_panel/page_profile.html.twig", Array(
                 'urlLocale' => $this->urlLocale,
@@ -419,7 +419,7 @@ class PageController extends Controller {
             $this->response['render'] = $render;
         }
         else
-            $this->response['messages']['error'] = $this->translator->trans("pageController_3");
+            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
     }
     
     private function listHtml($tableResult) {
@@ -439,21 +439,21 @@ class PageController extends Controller {
                 </td>
                 <td>";
                     if ($value['protected'] == 0)
-                        $this->listHtml .= $this->translator->trans("pageController_12");
+                        $this->listHtml .= $this->utility->getTranslator()->trans("pageController_12");
                     else
-                        $this->listHtml .= $this->translator->trans("pageController_13");
+                        $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
                 $this->listHtml .= "</td>
                     <td>";
                         if ($value['show_in_menu'] == 0)
-                            $this->listHtml .= $this->translator->trans("pageController_12");
+                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_12");
                         else
-                            $this->listHtml .= $this->translator->trans("pageController_13");
+                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
                 $this->listHtml .= "</td>
                     <td>";
                         if ($value['only_link'] == 0)
-                            $this->listHtml .= $this->translator->trans("pageController_12");
+                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_12");
                         else
-                            $this->listHtml .= $this->translator->trans("pageController_13");
+                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
                 $this->listHtml .= "</td>
                 <td class=\"horizontal_center\">";
                     if ($value['id'] > 5)
@@ -467,17 +467,15 @@ class PageController extends Controller {
     }
     
     private function removePageChildrenInDatabase($page) {
-        $pageChildrenRows = $this->utility->getQuery()->selectAllPageChildrenIdFromDatabase($page);
+        $pageChildrenRows = $this->query->selectAllPageChildrenIdFromDatabase($page);
         
         foreach($pageChildrenRows as $key => $value) {
-            $connection = $this->entityManager->getConnection();
-
-            $query = $connection->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names FROM pages, pages_titles, pages_arguments, pages_menu_names
-                                            WHERE pages.id > :idExclude
-                                            AND pages.id = :id
-                                            AND pages_titles.id = :id
-                                            AND pages_arguments.id = :id
-                                            AND pages_menu_names.id = :id");
+            $query = $this->utility->getConnection()->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names FROM pages, pages_titles, pages_arguments, pages_menu_names
+                                                                WHERE pages.id > :idExclude
+                                                                AND pages.id = :id
+                                                                AND pages_titles.id = :id
+                                                                AND pages_arguments.id = :id
+                                                                AND pages_menu_names.id = :id");
             
             $query->bindValue(":idExclude", 5);
             $query->bindValue(":id", $value['id']);
@@ -487,11 +485,9 @@ class PageController extends Controller {
     }
     
     private function updatePageChildrenInDatabase($page, $parentNew) {
-        $connection = $this->entityManager->getConnection();
-        
-        $query = $connection->prepare("UPDATE pages
-                                        SET parent = :parentNew
-                                        WHERE parent = :id");
+        $query = $this->utility->getConnection()->prepare("UPDATE pages
+                                                            SET parent = :parentNew
+                                                            WHERE parent = :id");
         
         $query->bindValue(":parentNew", $parentNew);
         $query->bindValue(":id", $page->getId());
@@ -500,27 +496,25 @@ class PageController extends Controller {
     }
     
     private function pagesInDatabase($type, $form, $page, $urlLocale) {
-        $connection = $this->entityManager->getConnection();
-        
         if ($type == "insert") {
-            $query = $connection->prepare("INSERT INTO pages_titles (
-                                                pages_titles.$urlLocale
-                                            )
-                                            VALUES (
-                                                :title
-                                            );
-                                            INSERT INTO pages_arguments (
-                                                pages_arguments.$urlLocale
-                                            )
-                                            VALUES (
-                                                :argument
-                                            );
-                                            INSERT INTO pages_menu_names (
-                                                pages_menu_names.$urlLocale
-                                            )
-                                            VALUES (
-                                                :menuName
-                                            );");
+            $query = $this->utility->getConnection()->prepare("INSERT INTO pages_titles (
+                                                                    pages_titles.$urlLocale
+                                                                )
+                                                                VALUES (
+                                                                    :title
+                                                                );
+                                                                INSERT INTO pages_arguments (
+                                                                    pages_arguments.$urlLocale
+                                                                )
+                                                                VALUES (
+                                                                    :argument
+                                                                );
+                                                                INSERT INTO pages_menu_names (
+                                                                    pages_menu_names.$urlLocale
+                                                                )
+                                                                VALUES (
+                                                                    :menuName
+                                                                );");
             
             $query->bindValue(":title", $form->get("title")->getData());
             $query->bindValue(":argument", $form->get("argument")->getData());
@@ -531,13 +525,13 @@ class PageController extends Controller {
         else if ($type == "update") {
             $language = $form->get("language")->getData();
             
-            $query = $connection->prepare("UPDATE pages_titles, pages_arguments, pages_menu_names
-                                            SET pages_titles.$language = :title,
-                                                pages_arguments.$language = :argument,
-                                                pages_menu_names.$language = :menuName
-                                            WHERE pages_titles.id = :id
-                                            AND pages_arguments.id = :id
-                                            AND pages_menu_names.id = :id");
+            $query = $this->utility->getConnection()->prepare("UPDATE pages_titles, pages_arguments, pages_menu_names
+                                                                SET pages_titles.$language = :title,
+                                                                    pages_arguments.$language = :argument,
+                                                                    pages_menu_names.$language = :menuName
+                                                                WHERE pages_titles.id = :id
+                                                                AND pages_arguments.id = :id
+                                                                AND pages_menu_names.id = :id");
             
             $query->bindValue(":title", $form->get("title")->getData());
             $query->bindValue(":argument", $form->get("argument")->getData());
@@ -547,12 +541,12 @@ class PageController extends Controller {
             $query->execute();
         }
         else if ($type == "delete") {
-            $query = $connection->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names FROM pages, pages_titles, pages_arguments, pages_menu_names
-                                            WHERE pages.id > :idExclude
-                                            AND pages.id = :id
-                                            AND pages_titles.id = :id
-                                            AND pages_arguments.id = :id
-                                            AND pages_menu_names.id = :id");
+            $query = $this->utility->getConnection()->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names FROM pages, pages_titles, pages_arguments, pages_menu_names
+                                                                WHERE pages.id > :idExclude
+                                                                AND pages.id = :id
+                                                                AND pages_titles.id = :id
+                                                                AND pages_arguments.id = :id
+                                                                AND pages_menu_names.id = :id");
             
             $query->bindValue(":idExclude", 5);
             $query->bindValue(":id", $page->getId());
@@ -560,11 +554,11 @@ class PageController extends Controller {
             $query->execute();
         }
         else if ($type == "deleteAll") {
-            $query = $connection->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names FROM pages, pages_titles, pages_arguments, pages_menu_names
-                                            WHERE pages.id > :idExclude
-                                            AND pages_titles.id > :idExclude
-                                            AND pages_arguments.id > :idExclude
-                                            AND pages_menu_names.id > :idExclude");
+            $query = $this->utility->getConnection()->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names FROM pages, pages_titles, pages_arguments, pages_menu_names
+                                                                WHERE pages.id > :idExclude
+                                                                AND pages_titles.id > :idExclude
+                                                                AND pages_arguments.id > :idExclude
+                                                                AND pages_menu_names.id > :idExclude");
             
             $query->bindValue(":idExclude", 5);
             

@@ -4,9 +4,11 @@ namespace ReinventSoftware\UebusaitoBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Form\AuthenticationFormType;
-
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
+
+use ReinventSoftware\UebusaitoBundle\Form\AuthenticationFormType;
 
 class AuthenticationController extends Controller {
     // Vars
@@ -15,11 +17,10 @@ class AuthenticationController extends Controller {
     private $urlExtra;
     
     private $entityManager;
-    private $translator;
-    private $authenticationUtils;
-    private $authorizationChecker;
     
     private $utility;
+    private $utilityPrivate;
+    private $query;
     
     private $response;
     
@@ -35,15 +36,14 @@ class AuthenticationController extends Controller {
         $this->urlExtra = $urlExtra;
         
         $this->entityManager = $this->getDoctrine()->getManager();
-        $this->translator = $this->get("translator");
-        $this->authenticationUtils = $this->get("security.authentication_utils");
-        $this->authorizationChecker = $this->get("security.authorization_checker");
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
         
         $this->response = Array();
         
-        $moduleRow = $this->utility->getQuery()->selectModuleFromDatabase(2);
+        $moduleRow = $this->query->selectModuleFromDatabase(2);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
@@ -52,11 +52,11 @@ class AuthenticationController extends Controller {
         $authenticationFormType = new AuthenticationFormType();
         $form = $this->createForm($authenticationFormType, null);
         
-        if ($this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-            $this->utility->assignUserRole($this->getUser());
+        if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+            $this->utilityPrivate->assignUserRole($this->getUser());
             
             $this->response['values']['user'] = $this->getUser();
-            $this->response['values']['roleLevel'] = $this->utility->getQuery()->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId(), true);
+            $this->response['values']['roleLevel'] = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId(), true);
             
             return Array(
                 'urlLocale' => $this->urlLocale,
@@ -67,7 +67,7 @@ class AuthenticationController extends Controller {
             );
         }
         else
-            $this->response['messages']['error'] = $this->authenticationUtils->getLastAuthenticationError();
+            $this->response['messages']['error'] = $this->utility->getAuthenticationUtils()->getLastAuthenticationError();
         
         return Array(
             'urlLocale' => $this->urlLocale,

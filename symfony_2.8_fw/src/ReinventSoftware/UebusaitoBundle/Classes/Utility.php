@@ -1,42 +1,73 @@
 <?php
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
-use ReinventSoftware\UebusaitoBundle\Config;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
+use ReinventSoftware\UebusaitoBundle\Config;
+use ReinventSoftware\UebusaitoBundle\Classes\Query;
+
 class Utility {
     // Vars
-    private $config;
-    private $query;
-    
     private $container;
     private $entityManager;
     
     private $connection;
+    private $sessionMaxIdleTime;
     private $requestStack;
     private $translator;
     private $authorizationChecker;
+    private $authenticationUtils;
+    private $passwordEncoder;
+    private $tokenStorage;
     
-    private $settings;
+    private $config;
+    private $query;
     
     private $websiteName;
     
+    private $pathDocumentRoot;
     private $pathRoot;
     private $pathRootFull;
+    private $pathBundle;
     
     private $urlRoot;
     private $urlPublic;
     private $urlView;
     
+    private $settings;
+    
     // Properties
-    public function getQuery() {
-        return $this->query;
+    public function getConnection() {
+        return $this->connection;
     }
     
-    public function getSettings() {
-        return $this->settings;
+    public function getSessionMaxIdleTime() {
+        return $this->sessionMaxIdleTime;
+    }
+    
+    public function getRequestStack() {
+        return $this->requestStack;
+    }
+    
+    public function getTranslator() {
+        return $this->translator;
+    }
+    
+    public function getAuthorizationChecker() {
+        return $this->authorizationChecker;
+    }
+    
+    public function getAuthenticationUtils() {
+        return $this->authenticationUtils;
+    }
+    
+    public function getPasswordEncoder() {
+        return $this->passwordEncoder;
+    }
+    
+    public function getTokenStorage() {
+        return $this->tokenStorage;
     }
     
     public function getWebsiteName() {
@@ -70,21 +101,27 @@ class Utility {
     public function getUrlView() {
         return $this->urlView;
     }
+    
+    public function getSettings() {
+        return $this->settings;
+    }
       
     // Functions public
     public function __construct($container, $entityManager) {
-        $this->config = new Config();
-        $this->query = new Query($entityManager);
-        
         $this->container = $container;
         $this->entityManager = $entityManager;
         
         $this->connection = $this->entityManager->getConnection();
+        $this->sessionMaxIdleTime = $this->container->getParameter("session_max_idle_time");
         $this->requestStack = $this->container->get("request_stack")->getCurrentRequest();
         $this->translator = $this->container->get("translator");
         $this->authorizationChecker = $this->container->get("security.authorization_checker");
+        $this->authenticationUtils = $this->container->get("security.authentication_utils");
+        $this->passwordEncoder = $this->container->get("security.password_encoder");
+        $this->tokenStorage = $this->container->get("security.token_storage");
         
-        $this->settings = $this->query->selectAllSettingsFromDatabase();
+        $this->config = new Config();
+        $this->query = new Query($this->connection);
         
         $this->websiteName = $this->config->getName();
         
@@ -98,6 +135,8 @@ class Utility {
         $this->urlPublic = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot() . "/Resources/public";
         $this->urlView = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot() . "/Resources/views";
         
+        $this->settings = $this->query->selectAllSettingsFromDatabase();
+        
         $this->arrayColumnFix();
     }
     
@@ -105,14 +144,12 @@ class Utility {
         $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(21));
     }
     
-    public function checkSessionOverTime($container, $requestStack) {
-        $sessionMaxIdleTime = $container->getParameter("session_max_idle_time");
-        
-        if ($sessionMaxIdleTime > 0) {
+    public function checkSessionOverTime() {
+        if ($this->sessionMaxIdleTime > 0) {
             if ($this->requestStack->cookies->has("REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-                $timeLapse = time() - $requestStack->getSession()->getMetadataBag()->getLastUsed();
+                $timeLapse = time() - $this->requestStack->getSession()->getMetadataBag()->getLastUsed();
 
-                if ($timeLapse > $sessionMaxIdleTime) {
+                if ($timeLapse > $this->sessionMaxIdleTime) {
                     $this->sessionDestroy();
 
                     return $this->translator->trans("utility_1");
@@ -306,137 +343,25 @@ class Utility {
         return $elements;
     }
     
-    // ---
-    
-    public function configureUserProfilePassword($user, $type, $form) {
-        $userRow = $this->query->selectUserFromDatabase("id", $user->getId());
+    public function clientIp() {
+        $ip = "";
         
-        if ($type == 1) {
-            if (password_verify($form->get("old")->getData(), $userRow['password']) == false)
-                return $this->translator->trans("utility_2");
-
-            if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
-                return $this->translator->trans("utility_3");
-            
-            $user->setPassword($this->passwordEncoded($user, $type, $form));
-        }
-        else if ($type == 2) {
-            if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
-                if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
-                    return $this->translator->trans("utility_4");
-                
-                $user->setPassword($this->passwordEncoded($user, $type, $form));
-            }
-            else
-                $user->setPassword($userRow['password']);
-        }
+        if (getenv("HTTP_CLIENT_IP"))
+            $ip = getenv("HTTP_CLIENT_IP");
+        else if(getenv("HTTP_X_FORWARDED_FOR"))
+            $ip = getenv("HTTP_X_FORWARDED_FOR");
+        else if(getenv("HTTP_X_FORWARDED"))
+            $ip = getenv("HTTP_X_FORWARDED");
+        else if(getenv("HTTP_FORWARDED_FOR"))
+            $ip = getenv("HTTP_FORWARDED_FOR");
+        else if(getenv("HTTP_FORWARDED"))
+           $ip = getenv("HTTP_FORWARDED");
+        else if(getenv("REMOTE_ADDR"))
+            $ip = getenv("REMOTE_ADDR");
+        else
+            $ip = "UNKNOWN";
         
-        return "ok";
-    }
-    
-    public function configureUserParameters($user) {
-        $query = $this->connection->prepare("SELECT id FROM users
-                                                LIMIT 1");
-        
-        $query->execute();
-        
-        $rowsCount = $query->rowCount();
-        
-        if ($rowsCount == 0) {
-            $user->setRoleId("1,2,");
-            $user->setNotLocked(1);
-        }
-        else {
-            $user->setRoleId("1,");
-            $user->setNotLocked(0);
-        }
-        
-        $user->setCredits(0);
-    }
-    
-    public function assignUserRole($user) {
-        if ($user != null) {
-            $rolesExplode = explode(",", $user->getRoleId());
-            array_pop($rolesExplode);
-            
-            foreach($rolesExplode as $key => $value) {
-                $query = $this->connection->prepare("SELECT level FROM users_roles
-                                                        WHERE id = :value");
-
-                $query->bindValue(":value", $value);
-                
-                $query->execute();
-                
-                $rows = $query->fetch();
-                
-                $user->setRoles(Array(
-                    $rows['level']
-                ));
-            }
-        }
-    }
-    
-    public function createPagesSelectHtml($urlLocale, $selectId) {
-        $pageRows = $this->query->selectAllPagesFromDatabase($urlLocale);
-        
-        $pagesList = $this->createPagesList($pageRows, true);
-        
-        $html = "<p class=\"margin_clear\">" . $this->translator->trans("utility_5") . "</p>
-        <select id=\"$selectId\">
-            <option value=\"\">Select</option>";
-            foreach($pagesList as $key => $value)
-                $html .= "<option value=\"$key\">$value</option>";
-        $html .= "</select>";
-        
-        return $html;
-    }
-    
-    public function createRolesSelectHtml($selectId, $isRequired = false) {
-        $roleRows = $this->query->selectAllUserRolesFromDatabase();
-        
-        $required = $isRequired == true ? "required=\"required\"" : "";
-        
-        $html = "<select id=\"$selectId\" class=\"form-control\" $required>
-            <option value=\"\">Select</option>";
-            foreach($roleRows as $key => $value)
-                $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
-        $html .= "</select>";
-        
-        return $html;
-    }
-    
-    public function createPagesList($pagesRows, $onlyMenuName, $pagination = null) {
-        $pagesListHierarchy = $this->createPagesListHierarchy($pagesRows, $pagination);
-        
-        if ($onlyMenuName == true) {
-            $tag = "";
-            $parentId = 0;
-            $elements = Array();
-            $count = 0;
-
-            $pagesListOnlyMenuName = $this->createPagesListOnlyMenuName($pagesListHierarchy, $tag, $parentId, $elements, $count);
-            
-            return $pagesListOnlyMenuName;
-        }
-        
-        return $pagesListHierarchy;
-    }
-    
-    public function createTemplatesList() {
-        $templatesPath = "$this->pathRootFull/src/ReinventSoftware/UebusaitoBundle/Resources/public/images/templates";
-        
-        $scanDirElements = @scandir($templatesPath);
-        
-        $list = Array();
-        
-        if ($scanDirElements != false) {
-            foreach ($scanDirElements as $key => $value) {
-                if ($value != "." && $value != ".." && $value != ".htaccess" && is_dir("$templatesPath/$value") == true)
-                    $list[$value] = $value;
-            }
-        }
-        
-        return $list;
+        return $ip;
     }
     
     // Functions private
@@ -508,70 +433,5 @@ class Utility {
                 return $resultArray;
             }
         }
-    }
-    
-    // ---
-    
-    private function passwordEncoded($user, $type, $form) {
-        $encoder = $this->container->get("security.password_encoder");
-
-        if ($type == 1)
-            return $encoder->encodePassword($user, $form->get("new")->getData());
-        else if ($type == 2)
-            return $encoder->encodePassword($user, $form->get("password")->getData());
-    }
-    
-    private function createPagesListHierarchy($pagesRows, $pagination) {
-        $elements = array_slice($pagesRows, $pagination['offset'], $pagination['show']);
-        
-        $nodes = Array();
-        $tree = Array();
-        
-        foreach ($elements as $page) {
-            $nodes[$page['id']] = array_merge($page, Array(
-                'children' => Array()
-            ));
-        }
-        
-        foreach ($nodes as &$node) {
-            if ($node['parent'] == 0 || array_key_exists($node['parent'], $nodes) == false)
-                $tree[] = &$node;
-            else
-                $nodes[$node['parent']]['children'][] = &$node;
-        }
-        
-        unset($node);
-        unset($nodes);
-        
-        return $tree;
-    }
-    
-    private function createPagesListOnlyMenuName($pagesListHierarchy, &$tag, &$parentId, &$elements, &$count) {
-        foreach ($pagesListHierarchy as $key => $value) {
-            if ($value['parent'] == null) {
-                $count = 0;
-                
-                $tag = "-";
-            }
-            else if ($value['parent'] == $parentId) {
-                $count ++;
-                
-                $tag .= "-";
-            }
-            else {
-                $count --;
-                
-                $tag = substr($tag, 0, $count);
-            }
-            
-            $parentId = $value['id'];
-            
-            $elements[$value['id']] = "|$tag| " . $value['title'];
-            
-            if (count($value['children']) > 0)
-                $this->createPagesListOnlyMenuName($value['children'], $tag, $parentId, $elements, $count);
-        }
-        
-        return $elements;
     }
 }

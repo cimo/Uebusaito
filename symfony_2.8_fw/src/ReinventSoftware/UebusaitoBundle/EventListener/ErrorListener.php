@@ -14,12 +14,9 @@ class ErrorListener {
     // Vars
     private $container;
     private $entityManager;
-    
-    private $requestStack;
+    private $router;
     
     private $utility;
-    
-    private $router;
     
     // Properties
     
@@ -27,12 +24,9 @@ class ErrorListener {
     public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router) {
         $this->container = $container;
         $this->entityManager = $entityManager;
-        
-        $this->requestStack = $this->container->get("request_stack")->getCurrentRequest();
+        $this->router = $router;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        
-        $this->router = $router;
     }
     
     public function onKernelException(GetResponseForExceptionEvent $event) {
