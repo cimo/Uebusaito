@@ -161,7 +161,7 @@ class UtilityPrivate {
         $dateCurrent = new \DateTime();
         
         $interval = intval($dateLastLogin->diff($dateCurrent)->format("%i"));
-        $total = $this->utility->getSettings()['login_attempt'] - $interval;
+        $total = $this->utility->getSettings()['login_attempt_time'] - $interval;
         
         if ($total < 0)
             $total = 0;
@@ -171,23 +171,7 @@ class UtilityPrivate {
         
         $result = Array("", "");
         
-        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($userRow['role_id']);
-        
-        if (in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
-            $query = $this->utility->getConnection()->prepare("UPDATE users
-                                                                SET date_last_login = :dateLastLogin,
-                                                                    ip = :ip,
-                                                                    attempt_login = :attemptLogin
-                                                                WHERE id = :id");
-            
-            $query->bindValue(":dateLastLogin", $date);
-            $query->bindValue(":ip", $ip);
-            $query->bindValue(":attemptLogin", 0);
-            $query->bindValue(":id", $userRow['id']);
-
-            $query->execute();
-        }
-        else if (isset($userRow['id']) == true && $this->utility->getSettings()['login_attempt'] > 0) {
+        if (isset($userRow['id']) == true && $this->utility->getSettings()['login_attempt_time'] > 0) {
             $count = $userRow['attempt_login'] + 1;
             
             $query = $this->utility->getConnection()->prepare("UPDATE users

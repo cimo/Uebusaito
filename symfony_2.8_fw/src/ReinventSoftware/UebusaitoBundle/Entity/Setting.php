@@ -51,9 +51,9 @@ class Setting {
     private $registrationUserConfirmAdmin;
     
     /**
-     * @ORM\Column(name="login_attempt", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '15'")
+     * @ORM\Column(name="login_attempt_time", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '15'")
      */
-    private $loginAttempt;
+    private $loginAttemptTime;
     
     /**
      * @ORM\Column(name="login_attempt_count", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '3'")
@@ -113,8 +113,8 @@ class Setting {
         $this->registrationUserConfirmAdmin = $value;
     }
     
-    public function setLoginAttempt($value) {
-        $this->loginAttempt = $value;
+    public function setLoginAttemptTime($value) {
+        $this->loginAttemptTime = $value;
     }
     
     public function setLoginAttemptCount($value) {
@@ -175,8 +175,8 @@ class Setting {
         return $this->registrationUserConfirmAdmin;
     }
     
-    public function getLoginAttempt() {
-        return $this->loginAttempt;
+    public function getLoginAttemptTime() {
+        return $this->loginAttemptTime;
     }
     
     public function getLoginAttemptCount() {

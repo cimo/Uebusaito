@@ -369,7 +369,7 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^1|^0/
-        loginAttempt:
+        loginAttemptTime:
             - NotBlank:
                 groups: [settings]
             - Regex:

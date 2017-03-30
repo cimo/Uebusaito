@@ -79,7 +79,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                     $message = $this->utility->getTranslator()->trans("authenticationListener_1");
                 else {
                     if ($attemptLogin[1] == "lock")
-                        $message = $this->utility->getTranslator()->trans("authenticationListener_3") . $attemptLogin[2];
+                        $message = $this->utility->getTranslator()->trans("authenticationListener_3a") . $attemptLogin[2] . $this->utility->getTranslator()->trans("authenticationListener_3b");
                 }
                 
                 $this->response['messages']['error'] = $message;
@@ -105,7 +105,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                 $message = $this->utility->getTranslator()->trans("authenticationListener_2");
             else {
                 if ($attemptLogin[1] == "lock")
-                    $message = $this->utility->getTranslator()->trans("authenticationListener_3") . $attemptLogin[2];
+                    $message = $this->utility->getTranslator()->trans("authenticationListener_3a") . $attemptLogin[2] . $this->utility->getTranslator()->trans("authenticationListener_3b");
                 else if ($attemptLogin[1] == "try")
                     $message = $this->utility->getTranslator()->trans("authenticationListener_4") . "{$attemptLogin[2]} / " . $this->utility->getSettings()['login_attempt_count'];
             }

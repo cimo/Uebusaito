@@ -159,7 +159,8 @@ date.time: H:i:s
 # AuthenticationListener.php
 "authenticationListener_1": "Your level does not allow the access."
 "authenticationListener_2": "Bad credentials."
-"authenticationListener_3": "A lot attempts, these are the minutes that you have to wait: "
+"authenticationListener_3a": "A lot attempts, wait "
+"authenticationListener_3b": " minutes before retrying."
 "authenticationListener_4": "Attempt: "
 
 # ---
@@ -485,7 +486,7 @@ date.time: H:i:s
 "settings_9": "Roles"
 "settings_10": "Https"
 "settings_11": "Registration user confirm admin"
-"settings_12": "Login attempt"
+"settings_12": "Login attempt time"
 "settings_13": "Login attempt count"
 "settings_14": "Paypal"
 "settings_15": "PayPal sandbox"

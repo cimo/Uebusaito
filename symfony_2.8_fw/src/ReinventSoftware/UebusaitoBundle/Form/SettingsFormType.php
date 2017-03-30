@@ -90,7 +90,7 @@ class SettingsFormType extends AbstractType {
                 true => "settingsFormType_2"
             )
         ))
-        ->add("loginAttempt", "text", Array(
+        ->add("loginAttemptTime", "text", Array(
             'required' => true
         )) 
         ->add("loginAttemptCount", "text", Array(
