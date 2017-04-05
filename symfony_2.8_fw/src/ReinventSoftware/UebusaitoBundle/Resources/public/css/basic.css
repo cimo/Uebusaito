@@ -100,6 +100,10 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 
 .module_settings { display: none; position: absolute; top: -15px; left: -15px; background-color: #ffffff; border: 1px solid; padding: 3px; z-index: 1001; }
 
+.captcha { text-align: center; margin-bottom: 10px; }
+.captcha img { border: 1px solid #000000; }
+.captcha .icon { cursor: pointer; }
+
 #backdrop { position: fixed; top: 0; right: 0; bottom: 0; left: 0; opacity: 0.5; background-color: #000; z-index: 1040; }
 
 #loader { display: none; position: fixed; top: 35%; right: 0; left: 0; margin: 30px auto; width: 200px; height: 50px; padding-top: 8px; text-align: center; border: 1px solid #000000; background-color: #ffffff; overflow: hidden; -webkit-overflow-scrolling: touch; outline: 0; z-index: 1050; }

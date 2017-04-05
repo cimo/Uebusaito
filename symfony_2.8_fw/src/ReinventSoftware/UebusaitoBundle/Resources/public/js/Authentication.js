@@ -1,4 +1,4 @@
-/* global ajax */
+/* global ajax, captcha */
 
 var authentication = new Authentication();
 
@@ -10,6 +10,8 @@ function Authentication() {
     
     // Functions public
     self.init = function() {
+        captcha.reload();
+        
         $(".form_user_authentication input[name='_remember_me']").parents(".checkbox").addClass("remember_me_fix");
         
         $(".form_user_authentication").on("submit", "", function(event) {

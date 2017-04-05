@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\Captcha;
 
 class RootController extends Controller {
     // Vars
@@ -17,6 +19,8 @@ class RootController extends Controller {
     
     private $utility;
     private $query;
+    private $ajax;
+    private $captcha;
     
     private $response;
     
@@ -35,6 +39,8 @@ class RootController extends Controller {
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->captcha = new Captcha($this->container, $this->entityManager);
         
         $this->utility->generateToken();
         $this->utility->configureCookie("PHPSESSID", 0, isset($_SERVER['HTTPS']), true);
@@ -42,8 +48,18 @@ class RootController extends Controller {
         $this->response = Array();
         
         $token = isset($_SESSION['token']) == true ? $_SESSION['token'] : "";
+        
         $sessionActivity = $this->utility->checkSessionOverTime();
         $settings = $this->utility->getSettings();
+        $this->response['captcha'] = $this->captcha->create(7);
+        
+        $event = isset($_POST['event']) == true ? $_POST['event'] : "";
+        
+        if ($event == "captchaReload") {
+            return $this->ajax->response(Array(
+                'response' => $this->response
+            ));
+        }
         
         $this->response['session']['token'] = $token;
         $this->response['session']['activity'] = $sessionActivity;
@@ -65,6 +81,7 @@ class RootController extends Controller {
         
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settings", $settings);
+        $this->get("twig")->addGlobal("captcha", $this->response['captcha']);
         
         return Array(
             'urlLocale' => $this->urlLocale,

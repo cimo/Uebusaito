@@ -95,7 +95,14 @@ class SettingsFormType extends AbstractType {
         )) 
         ->add("loginAttemptCount", "text", Array(
             'required' => true
-        ))      
+        ))
+        ->add("captcha", "choice", Array(
+            'required' => true,
+            'choices' => Array(
+                false => "settingsFormType_1",
+                true => "settingsFormType_2"
+            )
+        ))
         ->add("payPalSandbox", "choice", Array(
             'required' => true,
             'choices' => Array(

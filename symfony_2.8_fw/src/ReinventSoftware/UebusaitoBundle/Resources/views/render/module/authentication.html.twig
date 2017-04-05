@@ -40,10 +40,12 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input class="btn btn-primary" type="submit" value="{% trans %}authentication_9{% endtrans %}"/>
-                        {{ form_widget(form._remember_me, {'label': "authentication_8"}) }}
+                        {{form_widget(form._remember_me, {'label': "authentication_8"})}}
                     </div>
                 </div>
                 
+                {{-include("UebusaitoBundle::include/captcha.html.twig")-}}
+                    
                 {{form_widget(form.token)}}
             </form>
             
