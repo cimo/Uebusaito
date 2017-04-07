@@ -101,8 +101,9 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 .module_settings { display: none; position: absolute; top: -15px; left: -15px; background-color: #ffffff; border: 1px solid; padding: 3px; z-index: 1001; }
 
 .captcha { text-align: center; margin-bottom: 10px; }
+.captcha .icon { position: relative; top: 2px; cursor: pointer; }
 .captcha img { border: 1px solid #000000; }
-.captcha .icon { cursor: pointer; }
+.captcha input { position: relative; top: 1px; }
 
 #backdrop { position: fixed; top: 0; right: 0; bottom: 0; left: 0; opacity: 0.5; background-color: #000; z-index: 1040; }
 

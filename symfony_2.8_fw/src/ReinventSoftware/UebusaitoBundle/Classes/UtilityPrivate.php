@@ -23,24 +23,24 @@ class UtilityPrivate {
         $this->query = new Query($this->utility->getConnection());
     }
     
-    public function configureUserProfilePassword($user, $type, $form) {
+    public function configureUserProfilePassword($type, $user, $form) {
         $userRow = $this->query->selectUserFromDatabase($user->getId());
         
-        if ($type == 1) {
+        if ($type == "withOld") {
             if (password_verify($form->get("old")->getData(), $userRow['password']) == false)
                 return $this->utility->getTranslator()->trans("utility_2");
 
             if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
                 return $this->utility->getTranslator()->trans("utility_3");
             
-            $user->setPassword($this->passwordEncodedLogic($user, $type, $form));
+            $user->setPassword($this->passwordEncoderLogic($type, $user, $form));
         }
-        else if ($type == 2) {
+        else if ($type == "withoutOld") {
             if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
                 if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
                     return $this->utility->getTranslator()->trans("utility_4");
                 
-                $user->setPassword($this->passwordEncodedLogic($user, $type, $form));
+                $user->setPassword($this->passwordEncoderLogic($type, $user, $form));
             }
             else
                 $user->setPassword($userRow['password']);
@@ -154,8 +154,100 @@ class UtilityPrivate {
         return $list;
     }
     
-    public function attemptLogin($type, $value) {
-        $userRow = $this->query->selectUserFromDatabase($value);
+    public function controlUrlParameters($parameters) {
+        $elements = Array(3);
+        
+        if (count($parameters) == 0) {
+            $elements[0] = isset($_SESSION['languageText']) === false ? $this->utility->getSettings()['language'] : $_SESSION['languageText'];
+            $elements[1] = 2;
+            $elements[2] = "";
+        }
+        else {
+            $languageRows = $this->query->selectAllLanguagesFromDatabase();
+            
+            $urlLocale = "";
+            
+            foreach ($languageRows as $key => $value) {
+                if ($parameters[0] == $value['code']) {
+                    $urlLocale = $parameters[0];
+                    
+                    break;
+                }
+            }
+            
+            if ($urlLocale == "")
+                $elements[0] = isset($_SESSION['languageText']) === false ? $this->utility->getSettings()['language'] : $_SESSION['languageText'];
+            else
+                $elements[0] = $urlLocale;
+            
+            $elements[1] = $this->utility->getRequestStack()->attributes->get("urlCurrentPageId");
+            $elements[2] = $this->utility->getRequestStack()->attributes->get("urlExtra");
+        }
+        
+        $_SESSION['languageText'] = $elements[0];
+        
+        return $elements;
+    }
+    
+    public function checkSessionOverTime() {
+        if ($this->utility->getSessionMaxIdleTime() > 0) {
+            if ($this->utility->getRequestStack()->cookies->has("REMEMBERME") == false && $this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+                $timeLapse = time() - $this->utility->getRequestStack()->getSession()->getMetadataBag()->getLastUsed();
+
+                if ($timeLapse > $this->utility->getSessionMaxIdleTime()) {
+                    $this->sessionDestroy();
+
+                    return $this->utility->getTranslator()->trans("utility_1");
+                }
+            }
+        }
+        
+        return "";
+    }
+    
+    public function checkRoleLevel($roleName, $userRoleId) {
+        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($userRoleId);
+        
+        if (is_array($roleName) == false) {
+            if (in_array($roleName, $userRoleLevelRow) == true)
+                return true;
+        }
+        else {
+            foreach ($roleName as $key => $value) {
+                if (in_array($value, $userRoleLevelRow) == true) {
+                    return true;
+                    
+                    break;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public function checkRoles($roleIdA, $roleIdB) {
+        $roleIdExplodeA = explode(",", $roleIdA);
+        array_pop($roleIdExplodeA);
+
+        $roleIdExplodeB =  explode(",", $roleIdB);
+        array_pop($roleIdExplodeB);
+        
+        if ($this->utility->valueInSubArray($roleIdExplodeA, $roleIdExplodeB) == true)
+            return true;
+        
+        return false;
+    }
+    
+    public function checkCaptcha($captcha) {
+        if ($this->utility->getSettings()['captcha'] == false ||
+                ($this->utility->getSettings()['captcha'] == true && isset($_SESSION['captcha']) == true && $_SESSION['captcha'] == $captcha))
+            return true;
+        
+        return false;
+    }
+    
+    public function checkAttemptLogin($type, $userId) {
+        $userRow = $this->query->selectUserFromDatabase($userId);
         
         $dateLastLogin = new \DateTime($userRow['date_last_login']);
         $dateCurrent = new \DateTime();
@@ -180,7 +272,7 @@ class UtilityPrivate {
                                                                     attempt_login = :attemptLogin
                                                                 WHERE id = :id");
             
-            if ($type == "loginSuccess") {
+            if ($type == "success") {
                 if ($count > $this->utility->getSettings()['login_attempt_count'] && $total > 0) {
                     $result[0] = "lock";
                     $result[1] = $total;
@@ -196,7 +288,7 @@ class UtilityPrivate {
                     $query->execute();
                 }
             }
-            else if ($type == "loginFailure") {
+            else if ($type == "failure") {
                 if ($count > $this->utility->getSettings()['login_attempt_count'] && $total > 0) {
                     $result[0] = "lock";
                     $result[1] = $total;
@@ -224,10 +316,10 @@ class UtilityPrivate {
     }
     
     // Functions private
-    private function passwordEncodedLogic($user, $type, $form) {
-        if ($type == 1)
+    private function passwordEncoderLogic($type, $user, $form) {
+        if ($type == "withOld")
             return $this->utility->getPasswordEncoder()->encodePassword($user, $form->get("new")->getData());
-        else if ($type == 2)
+        else if ($type == "withoutOld")
             return $this->utility->getPasswordEncoder()->encodePassword($user, $form->get("password")->getData());
     }
     

@@ -63,9 +63,9 @@ class ProfileController extends Controller {
             )
         ));
         
-        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
         
-        if (in_array("ROLE_ADMIN", $userRoleLevelRow) == false)
+        if ($chekRoleLevel == false)
             $form->remove("username");
         else
             $usernameOld = $this->getUser()->getUsername();
@@ -76,7 +76,7 @@ class ProfileController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -128,6 +128,7 @@ class ProfileController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
@@ -142,7 +143,7 @@ class ProfileController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -151,7 +152,7 @@ class ProfileController extends Controller {
                 
                 // Check form
                 if ($form->isValid() == true) {
-                    $message = $this->utilityPrivate->configureUserProfilePassword($this->getUser(), 1, $form);
+                    $message = $this->utilityPrivate->configureUserProfilePassword("withOld", $this->getUser(), $form);
                     
                     if ($message == "ok") {
                         // Insert in database
@@ -197,6 +198,7 @@ class ProfileController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
@@ -218,7 +220,7 @@ class ProfileController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;

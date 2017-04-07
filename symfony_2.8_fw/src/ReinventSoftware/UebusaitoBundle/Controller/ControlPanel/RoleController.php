@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\Table;
@@ -45,15 +46,16 @@ class RoleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
-        $role = new Role();
+        $roleEntity = new Role();
         
         // Create form
         $roleFormType = new RoleFormType();
-        $form = $this->createForm($roleFormType, $role, Array(
+        $form = $this->createForm($roleFormType, $roleEntity, Array(
             'validation_groups' => Array(
                 'role_creation'
             )
@@ -61,7 +63,7 @@ class RoleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -71,7 +73,7 @@ class RoleController extends Controller {
                 // Check form
                 if ($form->isValid() == true) {
                     // Insert in database
-                    $this->entityManager->persist($role);
+                    $this->entityManager->persist($roleEntity);
                     $this->entityManager->flush();
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_1");
@@ -110,6 +112,7 @@ class RoleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
@@ -141,7 +144,7 @@ class RoleController extends Controller {
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
             $id = 0;
             
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -204,15 +207,16 @@ class RoleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
-        $role = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($this->urlExtra);
+        $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($this->urlExtra);
         
         // Create form
         $roleFormType = new RoleFormType();
-        $form = $this->createForm($roleFormType, $role, Array(
+        $form = $this->createForm($roleFormType, $roleEntity, Array(
             'validation_groups' => Array(
                 'role_profile'
             )
@@ -220,7 +224,7 @@ class RoleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -230,7 +234,7 @@ class RoleController extends Controller {
                 // Check form
                 if ($form->isValid() == true) {
                     // Insert in database
-                    $this->entityManager->persist($role);
+                    $this->entityManager->persist($roleEntity);
                     $this->entityManager->flush();
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_4");
@@ -269,6 +273,7 @@ class RoleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
@@ -288,11 +293,11 @@ class RoleController extends Controller {
         $this->response['values']['pagination'] = $tableResult['pagination'];
         $this->response['values']['list'] = $this->listHtml;
         
-        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
         
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -301,10 +306,10 @@ class RoleController extends Controller {
                     $id = $this->utility->getRequestStack()->request->get("id");
                     
                     if ($id > 2) {
-                        $role = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($id);
+                        $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($id);
 
                         // Remove from database
-                        $this->entityManager->remove($role);
+                        $this->entityManager->remove($roleEntity);
                         $this->entityManager->flush();
                     }
                     
@@ -347,12 +352,12 @@ class RoleController extends Controller {
     
     // Functions private
     private function selectionResult($id) {
-        $role = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($id);
+        $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($id);
         
-        if ($role != null) {
+        if ($roleEntity != null) {
             // Create form
             $roleFormType = new RoleFormType();
-            $formRoleProfile = $this->createForm($roleFormType, $role, Array(
+            $formRoleProfile = $this->createForm($roleFormType, $roleEntity, Array(
                 'validation_groups' => Array(
                     'role_profile'
                 )
@@ -361,7 +366,7 @@ class RoleController extends Controller {
             $render = $this->renderView("UebusaitoBundle::render/control_panel/role_profile.html.twig", Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $role->getId(),
+                'urlExtra' => $roleEntity->getId(),
                 'response' => $this->response,
                 'form' => $formRoleProfile->createView()
             ));

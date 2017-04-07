@@ -48,40 +48,44 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         
         if ($requestStack->isXmlHttpRequest() == true) {
             $user = $this->utility->getTokenStorage()->getToken()->getUser();
-            
             $settingRows = $this->query->selectAllSettingsFromDatabase();
-            $settingRoleIdExplode = explode(",", $settingRows['role_id']);
-            array_pop($settingRoleIdExplode);
             
-            $userRoleIdExplode = explode(",", $user->getRoleId());
-            array_pop($userRoleIdExplode);
+            $checkCaptcha = $this->utilityPrivate->checkCaptcha($requestStack->request->get("captcha"));
+            $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("success", $user->getId());
+            $checkRoles = $this->utilityPrivate->checkRoles($settingRows['role_id'], $user->getRoleId());
             
-            $attemptLogin = $this->utilityPrivate->attemptLogin("loginSuccess", $user->getId());
-            
-            if ($this->utility->getSettings()['active'] == true && $attemptLogin[0] == true ||
-                    ($this->utility->getSettings()['active'] == false && $attemptLogin[0] == true && $this->utility->valueInSubArray($settingRoleIdExplode, $userRoleIdExplode) == true)) {
+            if ($checkCaptcha == true &&
+                    (($this->utility->getSettings()['active'] == true && $checkAttemptLogin[0] == true) ||
+                    ($this->utility->getSettings()['active'] == false && $checkAttemptLogin[0] == true && $checkRoles == true))) {
                 $user->setDateLastLogin(date("Y-m-d H:i:s"));
 
                 // Insert in database
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
-                
+
                 $this->response['values']['url'] = $referer;
             }
             else {
                 $languageText = isset($_SESSION['languageText']) == true ? $_SESSION['languageText'] : $this->utility->getSettings()['language'];
-                
+
                 $this->utility->sessionDestroy();
-                
+
                 $_SESSION['languageText'] = $languageText;
-                
-                if ($attemptLogin[0] == true)
-                    $message = $this->utility->getTranslator()->trans("authenticationListener_1");
-                else {
-                    if ($attemptLogin[1] == "lock")
-                        $message = $this->utility->getTranslator()->trans("authenticationListener_3a") . $attemptLogin[2] . $this->utility->getTranslator()->trans("authenticationListener_3b");
+
+                if ($checkCaptcha == false) {
+                    $message = $this->utility->getTranslator()->trans("captcha");
+                    
+                    $this->response['values']['captchaReload'] = true;
                 }
-                
+                else {
+                    if ($checkAttemptLogin[0] == true)
+                        $message = $this->utility->getTranslator()->trans("authenticationListener_1");
+                    else {
+                        if ($checkAttemptLogin[1] == "lock")
+                            $message = $this->utility->getTranslator()->trans("authenticationListener_3a") . $checkAttemptLogin[2] . $this->utility->getTranslator()->trans("authenticationListener_3b");
+                    }
+                }
+
                 $this->response['messages']['error'] = $message;
             }
             
@@ -99,15 +103,23 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($requestStack->isXmlHttpRequest() == true) {
             $username = $requestStack->request->get("_username");
             
-            $attemptLogin = $this->utilityPrivate->attemptLogin("loginFailure", $username);
+            $checkCaptcha = $this->utilityPrivate->checkCaptcha($requestStack->request->get("captcha"));
+            $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("failure", $username);
             
-            if ($attemptLogin[0] == true)
+            if ($checkCaptcha == true && $checkAttemptLogin[0] == true)
                 $message = $this->utility->getTranslator()->trans("authenticationListener_2");
             else {
-                if ($attemptLogin[1] == "lock")
-                    $message = $this->utility->getTranslator()->trans("authenticationListener_3a") . $attemptLogin[2] . $this->utility->getTranslator()->trans("authenticationListener_3b");
-                else if ($attemptLogin[1] == "try")
-                    $message = $this->utility->getTranslator()->trans("authenticationListener_4") . "{$attemptLogin[2]} / " . $this->utility->getSettings()['login_attempt_count'];
+                if ($checkCaptcha == false) {
+                    $message = $this->utility->getTranslator()->trans("captcha");
+                    
+                    $this->response['values']['captchaReload'] = true;
+                }
+                else {
+                    if ($checkAttemptLogin[1] == "lock")
+                        $message = $this->utility->getTranslator()->trans("authenticationListener_3a") . $checkAttemptLogin[2] . $this->utility->getTranslator()->trans("authenticationListener_3b");
+                    else if ($checkAttemptLogin[1] == "try")
+                        $message = $this->utility->getTranslator()->trans("authenticationListener_4") . "{$checkAttemptLogin[2]} / " . $this->utility->getSettings()['login_attempt_count'];
+                }
             }
             
             $this->response['messages']['error'] = $message;
@@ -126,7 +138,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($requestStack->isXmlHttpRequest() == true) {
             $baseUrl = $requestStack->getBaseUrl();
             $parameters = $this->utility->urlParameters($referer, $baseUrl);
-            $parameters = $this->utility->urlParametersControl($parameters);
+            $parameters = $this->utilityPrivate->controlUrlParameters($parameters);
             
             $this->response['values']['url'] = "$baseUrl/{$_SESSION['languageText']}/{$parameters[1]}/{$parameters[2]}";
             

@@ -81,7 +81,7 @@ class Setting {
     private $payPalCurrencyCode;
     
     /**
-     * @ORM\Column(name="payPal_credit_amount", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '1.00'")
+     * @ORM\Column(name="payPal_credit_amount", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '0.01'")
      */
     private $payPalCreditAmount;
     

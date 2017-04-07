@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 
 class RequestListener {
     // Vars
@@ -24,6 +25,7 @@ class RequestListener {
         $this->entityManager = $entityManager;
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
     }
     
     public function onKernelRequest(GetResponseEvent $event) {
@@ -32,7 +34,7 @@ class RequestListener {
         $completeUrl = $this->utility->getRequestStack()->getUri();
         $baseUrl = $this->utility->getRequestStack()->getBaseUrl();
         $parameters = $this->utility->urlParameters($completeUrl, $baseUrl);
-        $parameters = $this->utility->urlParametersControl($parameters);
+        $parameters = $this->utilityPrivate->controlUrlParameters($parameters);
         
         $request->setLocale($parameters[0]);
         

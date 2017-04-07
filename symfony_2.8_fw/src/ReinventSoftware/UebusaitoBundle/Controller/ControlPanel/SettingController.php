@@ -45,11 +45,11 @@ class SettingController extends Controller {
         
         $this->response = Array();
         
-        $setting = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
+        $settingEntity = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
         
         // Create form
         $settingsFormType = new SettingsFormType($this->container, $this->entityManager, $this->urlLocale);
-        $form = $this->createForm($settingsFormType, $setting, Array(
+        $form = $this->createForm($settingsFormType, $settingEntity, Array(
             'validation_groups' => Array(
                 'settings'
             )
@@ -59,7 +59,7 @@ class SettingController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -76,7 +76,7 @@ class SettingController extends Controller {
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_1");
                     
                     // Insert in database
-                    $this->entityManager->persist($setting);
+                    $this->entityManager->persist($settingEntity);
                     $this->entityManager->flush();
                 }
                 else {
@@ -113,6 +113,7 @@ class SettingController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
@@ -120,7 +121,7 @@ class SettingController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;

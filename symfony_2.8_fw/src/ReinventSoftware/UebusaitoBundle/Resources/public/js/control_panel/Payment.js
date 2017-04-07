@@ -83,7 +83,7 @@ function ControlPanelPayment() {
         });
         
         $(document).on("click", ".cp_payment_deletion", function() {
-            var id = $.trim($(this).parents("tr").find(".id_column").text());
+            var id = $.trim($(this).parents("tr").find(".id_column_hide").text());
             
             deletion(id);
         });
@@ -111,7 +111,7 @@ function ControlPanelPayment() {
         });
         
         $("#cp_payments_selection_send").on("click", "", function(event) {
-            var id = $.trim($("#cp_payments_selection_desktop").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
+            var id = $.trim($("#cp_payments_selection_desktop").find(".checkbox_column input:checked").parents("tr").find(".id_column_hide").text());
 
             ajax.send(
                 window.url.cpPaymentsSelection,

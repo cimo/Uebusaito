@@ -31,14 +31,12 @@ class PayPalIpnListener {
     }
     
     public function onKernelResponse(FilterResponseEvent $event) {
-        $kernel    = $event->getKernel();
-        $request   = $event->getRequest();
-        $response  = $event->getResponse();
+        $request = $event->getRequest();
         
-        if (strlen(strpos($request->getUri(), "cp_profile_credits_payPal")) > 0) {
+        if (strpos($request->getUri(), "cp_profile_credits_payPal") !== false) {
             $settingRows = $this->query->selectAllSettingsFromDatabase();
             
-            $payPal = new PayPal(true, $settingRows['payPal_sandbox']);
+            $payPal = new PayPal(true, false, $settingRows['payPal_sandbox']);
             
             if ($payPal->ipn() == true) {
                 $payPalElements = $payPal->getElements();
@@ -66,10 +64,10 @@ class PayPalIpnListener {
 
                             $this->updateCredits($payPalElements);
 
-                            error_log("Completed: " . print_r($payPalElements, true));
+                            error_log("Completed: " . print_r($payPalElements, true) . PHP_EOL);
                         }
                         else if ($payPalElements['payment_status'] == "Pending")
-                            error_log("Pending: " . print_r($payPalElements, true));
+                            error_log("Pending: " . print_r($payPalElements, true) . PHP_EOL);
                     }
                 }
             }

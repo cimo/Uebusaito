@@ -54,10 +54,10 @@ class AuthenticationController extends Controller {
         
         if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
             $this->utilityPrivate->assignUserRole($this->getUser());
-            
+
             $this->response['values']['user'] = $this->getUser();
             $this->response['values']['roleLevel'] = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId(), true);
-            
+
             return Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,

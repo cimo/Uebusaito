@@ -9,11 +9,11 @@ function Ajax() {
     // Properties
     
     // Functions public
-    self.send = function(url, method, data, loaderEnabled, callbackBefore, callbackSuccess, callbackError, callbackComplete) {
+    self.send = function(url, method, data, loaderEnabled, callbackBefore, callbackSuccess, callbackError, callbackComplete, messageHide) {
         if (loaderEnabled === true)
             loader.show();
         
-        if (window.session.activity === "")
+        if ((messageHide === undefined || messageHide === true) && window.session.activity === "")
             flashBag.hide();
         
         $.ajax({

@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\Table;
@@ -46,7 +47,8 @@ class PaymentController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = new Query($this->connection);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
@@ -55,18 +57,18 @@ class PaymentController extends Controller {
             $_SESSION['payments_user_id'] = $this->getUser()->getId();
         
         // Create form
-        $paymentsUserSelectionFormType = new PaymentsUserSelectionFormType($this->container, $this->entityManager, $this->getUser()->getId());
+        $paymentsUserSelectionFormType = new PaymentsUserSelectionFormType($this->container, $this->entityManager);
         $form = $this->createForm($paymentsUserSelectionFormType, new PaymentsUserSelectionModel(), Array(
             'validation_groups' => Array(
                 'payments_user_selection'
             )
         ));
         
-        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true && in_array("ROLE_MODERATOR", $userRoleLevelRow) == true) {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -114,7 +116,8 @@ class PaymentController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = new Query($this->connection);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
@@ -148,7 +151,7 @@ class PaymentController extends Controller {
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
             $id = 0;
             
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -211,7 +214,8 @@ class PaymentController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = new Query($this->connection);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
@@ -219,6 +223,7 @@ class PaymentController extends Controller {
         
         $this->response = Array();
         
+        // Pagination
         $paymentRows = $this->query->selectAllPaymentsFromDatabase($_SESSION['payments_user_id']);
         
         $tableResult = $this->table->request($paymentRows, 20, "payment", true, true);
@@ -229,11 +234,11 @@ class PaymentController extends Controller {
         $this->response['values']['pagination'] = $tableResult['pagination'];
         $this->response['values']['list'] = $this->listHtml;
         
-        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
         
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -304,10 +309,17 @@ class PaymentController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_2");
     }
     
-    private function listHtml($tableResult) {
-        foreach ($tableResult as $key => $value) {
+    private function listHtml($elements) {
+        $count = 0;
+        
+        foreach ($elements as $key => $value) {
+            $count ++;
+            
             $this->listHtml .= "<tr>
                 <td class=\"id_column\">
+                    {$count}
+                </td>
+                <td class=\"display_none id_column_hide\">
                     {$value['id']}
                 </td>
                 <td class=\"checkbox_column\">

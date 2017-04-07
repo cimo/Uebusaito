@@ -27,7 +27,6 @@ class PageFormType extends AbstractType {
     private $container;
     private $entityManager;
     private $urlLocale;
-    private $page;
     
     private $utility;
     private $utilityPrivate;
@@ -36,11 +35,10 @@ class PageFormType extends AbstractType {
     // Properties
     
     // Functions public
-    public function __construct($container, $entityManager, $urlLocale, $page) {
+    public function __construct($container, $entityManager, $urlLocale) {
         $this->container = $container;
         $this->entityManager = $entityManager;
         $this->urlLocale = $urlLocale;
-        $this->page = $page;
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
@@ -50,7 +48,7 @@ class PageFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale);
         
-        if ($this->page->getId() == null) {
+        if ($options['data']->getId() == null) {
             $pageRow = Array(
                 'title' => "",
                 'argument' => "",
@@ -62,7 +60,7 @@ class PageFormType extends AbstractType {
             );
         }
         else
-            $pageRow = $this->query->selectPageFromDatabase($this->urlLocale, $this->page->getId());
+            $pageRow = $this->query->selectPageFromDatabase($this->urlLocale, $options['data']->getId());
         
         $builder->add("language", "hidden", Array(
             'required' => true,

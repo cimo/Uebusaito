@@ -144,22 +144,6 @@ class Utility {
         $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(21));
     }
     
-    public function checkSessionOverTime() {
-        if ($this->sessionMaxIdleTime > 0) {
-            if ($this->requestStack->cookies->has("REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-                $timeLapse = time() - $this->requestStack->getSession()->getMetadataBag()->getLastUsed();
-
-                if ($timeLapse > $this->sessionMaxIdleTime) {
-                    $this->sessionDestroy();
-
-                    return $this->translator->trans("utility_1");
-                }
-            }
-        }
-        
-        return "";
-    }
-    
     public function sessionDestroy() {
         session_destroy();
         session_unset();
@@ -181,7 +165,7 @@ class Utility {
             setcookie($name, $value, $lifeTime, $currentCookieParams['path'], $currentCookieParams['domain'], $secure, $httpOnly);
     }
     
-    public function searchInFile($filePath, $word, $replace = null) {
+    public function searchInFile($filePath, $word, $replace) {
         $reading = fopen($filePath, "r");
         $writing = fopen($filePath + ".tmp", "w");
         
@@ -214,7 +198,7 @@ class Utility {
             @unlink($filePath + ".tmp");
     }
     
-    public function removeDirRecursive($path, $parent = true) {
+    public function removeDirRecursive($path, $parent) {
         if (file_exists($path) == true) {
             $rdi = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
             $rii = new RecursiveIteratorIterator($rdi, RecursiveIteratorIterator::CHILD_FIRST);
@@ -231,7 +215,7 @@ class Utility {
         }
     }
     
-    public function generateRandomString($length = 20) {
+    public function generateRandomString($length) {
         $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $charactersLength = strlen($characters);
         $randomString = "";
@@ -269,7 +253,7 @@ class Utility {
         return $bytes;
     }
     
-    public function arrayLike($elements, $like, $flat = false) {
+    public function arrayLike($elements, $like, $flat) {
         $result = Array();
         
         if ($flat == true) {
@@ -306,41 +290,6 @@ class Utility {
         array_shift($lastPathExplode);
         
         return $lastPathExplode;
-    }
-    
-    public function urlParametersControl($parameters) {
-        $elements = Array(3);
-        
-        if (count($parameters) == 0) {
-            $elements[0] = isset($_SESSION['languageText']) === false ? $this->settings['language'] : $_SESSION['languageText'];
-            $elements[1] = 2;
-            $elements[2] = "";
-        }
-        else {
-            $languageRows = $this->query->selectAllLanguagesFromDatabase();
-            
-            $urlLocale = "";
-            
-            foreach ($languageRows as $key => $value) {
-                if ($parameters[0] == $value['code']) {
-                    $urlLocale = $parameters[0];
-                    
-                    break;
-                }
-            }
-            
-            if ($urlLocale == "")
-                $elements[0] = isset($_SESSION['languageText']) === false ? $this->settings['language'] : $_SESSION['languageText'];
-            else
-                $elements[0] = $urlLocale;
-            
-            $elements[1] = $this->requestStack->attributes->get("urlCurrentPageId");
-            $elements[2] = $this->requestStack->attributes->get("urlExtra");
-        }
-        
-        $_SESSION['languageText'] = $elements[0];
-        
-        return $elements;
     }
     
     public function clientIp() {

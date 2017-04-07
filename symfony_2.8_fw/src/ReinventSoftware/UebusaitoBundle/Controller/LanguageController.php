@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 
@@ -39,13 +40,14 @@ class LanguageController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
         // Create form
-        $languageFormType = new LanguageFormType($this->container, $this->entityManager, $this->urlLocale, "text");
+        $languageFormType = new LanguageFormType("text", $this->container, $this->entityManager, $this->urlLocale);
         $form = $this->createForm($languageFormType, new LanguageModel(), Array(
             'validation_groups' => Array(
                 'language_text'
@@ -59,7 +61,7 @@ class LanguageController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -103,13 +105,14 @@ class LanguageController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
         // Create form
-        $languageFormType = new LanguageFormType($this->container, $this->entityManager, $this->urlLocale, "page");
+        $languageFormType = new LanguageFormType("page", $this->container, $this->entityManager, $this->urlLocale);
         $form = $this->createForm($languageFormType, new LanguageModel(), Array(
             'validation_groups' => Array(
                 'language_code'
@@ -121,7 +124,7 @@ class LanguageController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;

@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 
 class PageLogicController extends Controller {
@@ -34,14 +35,15 @@ class PageLogicController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         
         $this->response = Array();
         
-        $moduleRow = $this->query->selectModuleFromDatabase(3);
+        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find(3);
         
-        $this->response['module']['id'] = $moduleRow['id'];
-        $this->response['module']['label'] = $moduleRow['label'];
+        $this->response['module']['id'] = $moduleEntity->getId();
+        $this->response['module']['label'] = $moduleEntity->getLabel();
         
         $pageRow = $this->query->selectPageFromDatabase($this->urlLocale, $this->urlCurrentPageId);
         
@@ -68,15 +70,10 @@ class PageLogicController extends Controller {
                     );
                 }
                 else if ($pageRow['protected'] == true) {
-                    $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
-                    
-                    $pageRoleIdExplode = explode(",", $pageRow['role_id']);
-                    array_pop($pageRoleIdExplode);
-
-                    $userRoleIdExplode =  explode(",", $this->getUser()->getRoleId());
-                    array_pop($userRoleIdExplode);
+                    $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
+                    $checkRoles = $this->utilityPrivate->checkRoles($pageRow['role_id'], $this->getUser()->getRoleId());
                             
-                    if ($this->utility->valueInSubArray($pageRoleIdExplode, $userRoleIdExplode) == false && in_array("ROLE_ADMIN", $userRoleLevelRow) == false) {
+                    if ($chekRoleLevel == false && $checkRoles == false) {
                         // Page not available for role
                         $this->response['values']['controllerAction'] = null;
                         $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_4");

@@ -2,6 +2,7 @@
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 
 class Table {
     // Vars
@@ -28,7 +29,7 @@ class Table {
         $this->paginationIndex = "";
     }
     
-    public function request($rows, $page, $sessionTag, $reverse, $flat = false) {
+    public function request($rows, $page, $sessionTag, $reverse, $flat) {
         $newRows = $rows;
         
         if ($reverse == true)

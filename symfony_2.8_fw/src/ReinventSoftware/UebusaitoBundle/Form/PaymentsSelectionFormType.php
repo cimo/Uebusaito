@@ -36,6 +36,7 @@ class PaymentsSelectionFormType extends AbstractType {
     public function __construct($container, $entityManager, $userId) {
         $this->container = $container;
         $this->entityManager = $entityManager;
+        
         $this->userId = $userId;
         
         $this->utility = new Utility($this->container, $this->entityManager);

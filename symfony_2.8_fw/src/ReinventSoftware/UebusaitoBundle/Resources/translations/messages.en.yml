@@ -391,16 +391,15 @@ date.time: H:i:s
 
 # payment_profile.html.twig
 "payment_profile_1": "Payment profile"
-"payment_profile_2": "Id"
-"payment_profile_3": "Transaction"
-"payment_profile_4": "Date"
-"payment_profile_5": "Status"
-"payment_profile_6": "Payer"
-"payment_profile_7": "Receiver"
-"payment_profile_8": "Currency code"
-"payment_profile_9": "Item name"
-"payment_profile_10": "Amount"
-"payment_profile_11": "Quantity"
+"payment_profile_2": "Transaction"
+"payment_profile_3": "Date"
+"payment_profile_4": "Status"
+"payment_profile_5": "Payer"
+"payment_profile_6": "Receiver"
+"payment_profile_7": "Currency code"
+"payment_profile_8": "Item name"
+"payment_profile_9": "Amount"
+"payment_profile_10": "Quantity"
 
 # payments_selection.html.twig
 "payments_selection_1": "Payments selection form"
@@ -581,3 +580,7 @@ date.time: H:i:s
 
 # error.html.twig
 "error_1": "Error 404"
+
+# ---
+# Class
+"captcha": "Chaptcha code incorrect!"

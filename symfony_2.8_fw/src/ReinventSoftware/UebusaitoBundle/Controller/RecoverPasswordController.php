@@ -65,7 +65,7 @@ class RecoverPasswordController extends Controller {
             
             // Request post
             if ($this->utility->getRequestStack()->getMethod() == "POST") {
-                $sessionActivity = $this->utility->checkSessionOverTime();
+                $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
 
                 if ($sessionActivity != "")
                     $this->response['session']['activity'] = $sessionActivity;
@@ -79,7 +79,7 @@ class RecoverPasswordController extends Controller {
                         $user = $this->entityManager->getRepository("UebusaitoBundle:User")->loadUserByUsername($email);
 
                         if ($user != null) {
-                            $helpCode = $this->utility->generateRandomString();
+                            $helpCode = $this->utility->generateRandomString(20);
 
                             $user->setHelpCode($helpCode);
 
@@ -130,7 +130,7 @@ class RecoverPasswordController extends Controller {
             
             // Request post
             if ($this->utility->getRequestStack()->getMethod() == "POST") {
-                $sessionActivity = $this->utility->checkSessionOverTime();
+                $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
 
                 if ($sessionActivity != "")
                     $this->response['session']['activity'] = $sessionActivity;
@@ -139,7 +139,7 @@ class RecoverPasswordController extends Controller {
 
                     // Check form
                     if ($formChangePassword->isValid() == true) {
-                        $message = $this->utilityPrivate->configureUserProfilePassword($user, 2, $formChangePassword);
+                        $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $user, $formChangePassword);
 
                         if ($message == "ok") {
                             $user->setHelpCode(null);

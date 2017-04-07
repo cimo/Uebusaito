@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\Table;
@@ -50,6 +51,7 @@ class ModuleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
@@ -64,7 +66,7 @@ class ModuleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -134,16 +136,17 @@ class ModuleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
-        $module = new Module();
+        $moduleEntity = new Module();
         
         // Create form
         $moduleFormType = new ModuleFormType();
-        $form = $this->createForm($moduleFormType, $module, Array(
+        $form = $this->createForm($moduleFormType, $moduleEntity, Array(
             'validation_groups' => Array(
                 'module_creation'
             )
@@ -151,7 +154,7 @@ class ModuleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -168,7 +171,7 @@ class ModuleController extends Controller {
                     }
                     
                     // Insert in database
-                    $this->entityManager->persist($module);
+                    $this->entityManager->persist($moduleEntity);
                     $this->entityManager->flush();
 
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_3");
@@ -207,6 +210,7 @@ class ModuleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
@@ -238,7 +242,7 @@ class ModuleController extends Controller {
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
             $id = 0;
             
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -301,16 +305,17 @@ class ModuleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
         
-        $module = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($this->urlExtra);
+        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($this->urlExtra);
         
         // Create form
         $moduleFormType = new ModuleFormType();
-        $form = $this->createForm($moduleFormType, $module, Array(
+        $form = $this->createForm($moduleFormType, $moduleEntity, Array(
             'validation_groups' => Array(
                 'module_profile'
             )
@@ -318,7 +323,7 @@ class ModuleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -329,7 +334,7 @@ class ModuleController extends Controller {
                 if ($form->isValid() == true) {
                     $sortExplode = Array();
                     
-                    if ($form->get("position")->getData() == "" && $form->get("sort")->getData() == "") {
+                    if ($form->get("position")->getData() == null && $form->get("sort")->getData() == null) {
                         $moduleRow = $this->query->selectModuleFromDatabase($this->urlExtra);
                         
                         $form->getData()->setPosition($moduleRow['position']);
@@ -343,7 +348,7 @@ class ModuleController extends Controller {
                     }
                     
                     // Insert in database
-                    $this->entityManager->persist($module);
+                    $this->entityManager->persist($moduleEntity);
                     $this->entityManager->flush();
                     
                     if (count($sortExplode) > 0) {
@@ -387,6 +392,7 @@ class ModuleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
@@ -394,7 +400,7 @@ class ModuleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -443,6 +449,7 @@ class ModuleController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
@@ -451,6 +458,7 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
+        // Pagination
         $moduleRows = $this->query->selectAllModulesFromDatabase();
         
         $tableResult = $this->table->request($moduleRows, 20, "module", true, true);
@@ -461,11 +469,11 @@ class ModuleController extends Controller {
         $this->response['values']['pagination'] = $tableResult['pagination'];
         $this->response['values']['list'] = $this->listHtml;
         
-        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
         
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -474,10 +482,10 @@ class ModuleController extends Controller {
                     $id = $this->utility->getRequestStack()->request->get("id");
                     
                     if ($id > 4) {
-                        $module = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
+                        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
 
                         // Remove from database
-                        $this->entityManager->remove($module);
+                        $this->entityManager->remove($moduleEntity);
                         $this->entityManager->flush();
                     }
                     
@@ -520,15 +528,15 @@ class ModuleController extends Controller {
     
     // Functions private
     private function selectionResult($id) {
-        $module = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
+        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
         
-        if ($module != null) {
-            $this->response['modules']['position'] = $module->getPosition();
-            $this->response['modules']['sort'] = $this->query->selectAllModulesFromDatabase(null, $module->getPosition());
+        if ($moduleEntity != null) {
+            $this->response['modules']['position'] = $moduleEntity->getPosition();
+            $this->response['modules']['sort'] = $this->query->selectAllModulesFromDatabase(null, $moduleEntity->getPosition());
             
             // Create form
             $moduleFormType = new ModuleFormType();
-            $formModuleProfile = $this->createForm($moduleFormType, $module, Array(
+            $formModuleProfile = $this->createForm($moduleFormType, $moduleEntity, Array(
                 'validation_groups' => Array(
                     'module_profile'
                 )
@@ -537,7 +545,7 @@ class ModuleController extends Controller {
             $render = $this->renderView("UebusaitoBundle::render/control_panel/module_profile.html.twig", Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $module->getId(),
+                'urlExtra' => $moduleEntity->getId(),
                 'response' => $this->response,
                 'form' => $formModuleProfile->createView()
             ));
@@ -548,8 +556,8 @@ class ModuleController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
     }
     
-    private function listHtml($tableResult) {
-        foreach ($tableResult as $key => $value) {
+    private function listHtml($elements) {
+        foreach ($elements as $key => $value) {
             $this->listHtml .= "<tr>
                 <td class=\"id_column\">
                     {$value['id']}

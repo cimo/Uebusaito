@@ -4,6 +4,7 @@ namespace ReinventSoftware\UebusaitoBundle\Classes;
 class PayPal {
     // Vars
     private $debug;
+    private $certificate;
     private $sandbox;
     
     private $elements;
@@ -14,8 +15,9 @@ class PayPal {
     }
     
     // Functions public
-    public function __construct($debug, $sandbox) {
+    public function __construct($debug, $certificate, $sandbox) {
         $this->debug = $debug;
+        $this->certificate = $certificate;
         $this->sandbox = $sandbox;
         
         $this->elements = Array();
@@ -28,8 +30,14 @@ class PayPal {
         foreach ($contentExplode as $value) {
             $valueExplode = explode("=", $value);
 
-            if (count($valueExplode) == 2)
+            if (count($valueExplode) == 2) {
+                if ($valueExplode[0] === "payment_date") {
+                    if (substr_count($valueExplode[1], "+") === 1)
+                        $valueExplode[1] = str_replace("+", "%2B", $valueExplode[1]);
+                }
+                
                 $this->elements[$valueExplode[0]] = urldecode($valueExplode[1]);
+            }
         }
         
         $postFields = "cmd=_notify-validate";
@@ -47,9 +55,9 @@ class PayPal {
         }
         
         if ($this->sandbox == true)
-            $payPalUrl = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+            $payPalUrl = "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr";
         else
-            $payPalUrl = "https://www.paypal.com/cgi-bin/webscr";
+            $payPalUrl = "https://ipnpb.paypal.com/cgi-bin/webscr";
         
         $curl = curl_init($payPalUrl);
         
@@ -58,53 +66,45 @@ class PayPal {
         
         curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($curl, CURLOPT_SSLVERSION, 6);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+        
+        if ($this->certificate == true)
+            curl_setopt($curl, CURLOPT_CAINFO, dirname(__DIR__) . "/Resources/files/paypal.pem");
         
         if($this->debug == true) {
             curl_setopt($curl, CURLOPT_HEADER, 1);
             curl_setopt($curl, CURLINFO_HEADER_OUT, 1);
         }
         
+        curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($curl, CURLOPT_HTTPHEADER, Array('Connection: Close'));
         
         $curlResponse = curl_exec($curl);
+        $curlInfo = curl_getinfo($curl);
         
-        if (curl_errno($curl) != 0) {
-            if($this->debug == true)
-                error_log(date("[Y-m-d H:i e] ") . "Can't connect to PayPal to validate IPN message: " . curl_error($curl) . PHP_EOL);
-            
-            curl_close($curl);
-            
-            exit;
-        }
-        else {
-            if ($this->debug == true) {
-                error_log(date("[Y-m-d H:i e] ") . "HTTP request of validation request: " . curl_getinfo($curl, CURLINFO_HEADER_OUT) . " for IPN payload: $postFields " . PHP_EOL);
-                error_log(date("[Y-m-d H:i e] ") . "HTTP response of validation request: $curlResponse " . PHP_EOL);
+        if($this->debug == true) {
+            if ($curlInfo['http_code'] != 200) {
+                error_log(date("Y-m-d H:i e") . " - PayPal responded with http code: " . print_r($curlInfo['http_code'], true) . PHP_EOL);
+                
+                return false;
             }
-            
-            curl_close($curl);
         }
         
-        $tokens = explode("\r\n\r\n", trim($curlResponse));
-        $curlResponse = trim(end($tokens));
+        curl_close($curl);
         
-        if (strcmp($curlResponse, "VERIFIED") == 0) {
+        $curlResponse = preg_split("/^\r?$/m", $curlResponse);
+        $curlResponse = trim(end($curlResponse));
+        
+        if ($curlResponse == "VERIFIED") {
             if ($this->debug == true)
-                error_log(date("[Y-m-d H:i e] ") . "Verified IPN: $postFields " . PHP_EOL);
+                error_log(date("Y-m-d H:i e") . " - Verified IPN: " . print_r($postFields, true) . PHP_EOL);
             
             return true;
-        }
-        else if (strcmp ($curlResponse, "INVALID") == 0) {
-            if($this->debug == true)
-                error_log(date("[Y-m-d H:i e] ") . "Invalid IPN: $postFields " . PHP_EOL);
-            
-            return false;
         }
         
         return false;

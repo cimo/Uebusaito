@@ -2,6 +2,7 @@
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 
 class Captcha {
     // Vars
@@ -38,7 +39,7 @@ class Captcha {
         $color = imagecolorallocate($image, 255, 255, 255);
         $line = imagecolorallocate($image, 140, 140, 140);
         
-        imagestring($image, 5, 20, 10, $string, $color);
+        imagestring($image, 5, 20, 7, $string, $color);
         
         imageline($image, 0, 0, 50, 30, $line);
         imageline($image, 30, 0, 80, 30, $line);

@@ -52,23 +52,23 @@ class UserController extends Controller {
         
         $this->response = Array();
         
-        $user = new User();
-        $user->setRoleId("1,");
+        $userEntity = new User();
+        $userEntity->setRoleId("1,");
         
         // Create form
         $userFormType = new UserFormType();
-        $form = $this->createForm($userFormType, $user, Array(
+        $form = $this->createForm($userFormType, $userEntity, Array(
             'validation_groups' => Array(
                 'user_creation'
             )
         ));
-        $form->setData($user);
+        $form->setData($userEntity);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -77,13 +77,13 @@ class UserController extends Controller {
 
                 // Check form
                 if ($form->isValid() == true) {
-                    $message = $this->utilityPrivate->configureUserProfilePassword($user, 2, $form);
+                    $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
 
                     if ($message == "ok") {
-                        $this->utilityPrivate->configureUserParameters($user);
+                        $this->utilityPrivate->configureUserParameters($userEntity);
 
                         // Insert in database
-                        $this->entityManager->persist($user);
+                        $this->entityManager->persist($userEntity);
                         $this->entityManager->flush();
                         
                         mkdir("{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
@@ -127,6 +127,7 @@ class UserController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
@@ -158,7 +159,7 @@ class UserController extends Controller {
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
             $id = 0;
             
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -226,13 +227,13 @@ class UserController extends Controller {
         
         $this->response = Array();
         
-        $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->urlExtra);
+        $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->urlExtra);
         
-        $usernameOld = $user->getUsername();
+        $usernameOld = $userEntity->getUsername();
         
         // Create form
         $userFormType = new UserFormType();
-        $form = $this->createForm($userFormType, $user, Array(
+        $form = $this->createForm($userFormType, $userEntity, Array(
             'validation_groups' => Array(
                 'user_profile'
             )
@@ -242,7 +243,7 @@ class UserController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
@@ -251,17 +252,17 @@ class UserController extends Controller {
 
                 // Check form
                 if ($form->isValid() == true) {
-                    $message = $this->utilityPrivate->configureUserProfilePassword($user, 2, $form);
+                    $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
 
                     if ($message == "ok") {
                         rename("{$this->utility->getPathBundle()}/Resources/files/$usernameOld",
                                 "{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
                         
                         if ($form->get("notLocked")->getData() == true)
-                            $user->setHelpCode("");
+                            $userEntity->setHelpCode("");
                         
                         // Insert in database
-                        $this->entityManager->persist($user);
+                        $this->entityManager->persist($userEntity);
                         $this->entityManager->flush();
 
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_4");
@@ -303,6 +304,7 @@ class UserController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
@@ -311,6 +313,7 @@ class UserController extends Controller {
         
         $this->response = Array();
         
+        // Pagination
         $userRows = $this->query->selectAllUsersFromDatabase(1);
         
         $tableResult = $this->table->request($userRows, 20, "user", true, true);
@@ -321,24 +324,24 @@ class UserController extends Controller {
         $this->response['values']['pagination'] = $tableResult['pagination'];
         $this->response['values']['list'] = $this->listHtml;
         
-        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
         
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST" && in_array("ROLE_ADMIN", $userRoleLevelRow) == true) {
-            $sessionActivity = $this->utility->checkSessionOverTime();
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
+            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
                 if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
                     if ($this->utility->getRequestStack()->request->get("id") > 1) {
-                        $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->utility->getRequestStack()->request->get("id"));
+                        $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->utility->getRequestStack()->request->get("id"));
 
                         // Remove from database
-                        $this->entityManager->remove($user);
+                        $this->entityManager->remove($userEntity);
                         $this->entityManager->flush();
 
-                        $this->utility->removeDirRecursive("{$this->utility->getPathBundle()}/Resources/files/{$user->getUsername()}", true);
+                        $this->utility->removeDirRecursive("{$this->utility->getPathBundle()}/Resources/files/{$userEntity->getUsername()}", true);
                     }
 
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
@@ -380,12 +383,12 @@ class UserController extends Controller {
     
     // Functions private
     private function selectionResult($id) {
-        $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
+        $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
         
-        if ($user != null) {
+        if ($userEntity != null) {
             // Create form
             $userFormType = new UserFormType();
-            $formUserProfile = $this->createForm($userFormType, $user, Array(
+            $formUserProfile = $this->createForm($userFormType, $userEntity, Array(
                 'validation_groups' => Array(
                     'user_profile'
                 )
@@ -396,7 +399,7 @@ class UserController extends Controller {
             $render = $this->renderView("UebusaitoBundle::render/control_panel/user_profile.html.twig", Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $user->getId(),
+                'urlExtra' => $userEntity->getId(),
                 'response' => $this->response,
                 'form' => $formUserProfile->createView()
             ));

@@ -25,7 +25,6 @@ class PaymentsUserSelectionFormType extends AbstractType {
     // Vars
     private $container;
     private $entityManager;
-    private $userId;
     
     private $utility;
     private $query;
@@ -33,10 +32,9 @@ class PaymentsUserSelectionFormType extends AbstractType {
     // Properties
     
     // Functions public
-    public function __construct($container, $entityManager, $userId) {
+    public function __construct($container, $entityManager) {
         $this->container = $container;
         $this->entityManager = $entityManager;
-        $this->userId = $userId;
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
@@ -48,7 +46,9 @@ class PaymentsUserSelectionFormType extends AbstractType {
         $builder->add("userId", "choice", Array(
             'required' => true,
             'choices' => $choices,
-            'data' => $this->userId
+            'preferred_choices' => Array(
+                $_SESSION['payments_user_id']
+            )
         ));
     }
     

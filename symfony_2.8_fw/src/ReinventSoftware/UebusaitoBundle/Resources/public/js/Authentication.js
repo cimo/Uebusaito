@@ -26,8 +26,12 @@ function Authentication() {
                 function(xhr) {
                     $("#authentication_button").dropdown("toggle");
                     
-                    if (xhr.response.messages !== undefined)
+                    if (xhr.response.messages !== undefined) {
                         ajax.reply(xhr, "");
+                        
+                        if (xhr.response.values != undefined && xhr.response.values.captchaReload === true)
+                            captcha.image();
+                    }
                     else
                         window.location.href = xhr.response.values.url;
                 },

@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\Captcha;
@@ -38,6 +39,7 @@ class RootController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->captcha = new Captcha($this->container, $this->entityManager);
@@ -49,13 +51,13 @@ class RootController extends Controller {
         
         $token = isset($_SESSION['token']) == true ? $_SESSION['token'] : "";
         
-        $sessionActivity = $this->utility->checkSessionOverTime();
+        $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
         $settings = $this->utility->getSettings();
-        $this->response['captcha'] = $this->captcha->create(7);
+        $this->response['captchaImage'] = $this->captcha->create(7);
         
         $event = isset($_POST['event']) == true ? $_POST['event'] : "";
         
-        if ($event == "captchaReload") {
+        if ($event == "captchaImage") {
             return $this->ajax->response(Array(
                 'response' => $this->response
             ));
@@ -81,7 +83,7 @@ class RootController extends Controller {
         
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settings", $settings);
-        $this->get("twig")->addGlobal("captcha", $this->response['captcha']);
+        $this->get("twig")->addGlobal("captchaImage", $this->response['captchaImage']);
         
         return Array(
             'urlLocale' => $this->urlLocale,

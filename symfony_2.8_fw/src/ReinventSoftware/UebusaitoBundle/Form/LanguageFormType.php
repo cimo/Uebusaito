@@ -34,11 +34,12 @@ class LanguageFormType extends AbstractType {
     // Properties
     
     // Functions public
-    public function __construct($container, $entityManager, $urlLocale, $type) {
+    public function __construct($type, $container, $entityManager, $urlLocale) {
+        $this->type = $type;
+        
         $this->container = $container;
         $this->entityManager = $entityManager;
         $this->urlLocale = $urlLocale;
-        $this->type = $type;
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
