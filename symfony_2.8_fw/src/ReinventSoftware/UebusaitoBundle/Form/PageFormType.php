@@ -18,8 +18,7 @@ class PageFormType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(Array(
             'data_class' => "ReinventSoftware\UebusaitoBundle\Entity\Page",
-            'csrf_protection' => true,
-            'csrf_field_name' => "token"
+            'csrf_protection' => true
         ));
     }
     

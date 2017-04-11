@@ -59,7 +59,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                     ($this->utility->getSettings()['active'] == false && $checkAttemptLogin[0] == true && $checkRoles == true))) {
                 $user->setDateLastLogin(date("Y-m-d H:i:s"));
 
-                // Insert in database
+                // Update in database
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 

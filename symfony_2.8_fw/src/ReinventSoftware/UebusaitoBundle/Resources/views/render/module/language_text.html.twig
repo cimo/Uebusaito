@@ -15,7 +15,7 @@
         <form id="form_language_text" class="form_language_text display_inline" action="{{path("language_text", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_row(form.codeText, {'label': false})}}
 
-            {{form_widget(form.token)}}
+            {{form_widget(form._token)}}
         </form>
     </div>
 {% endblock %}

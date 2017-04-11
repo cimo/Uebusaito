@@ -199,7 +199,7 @@ function ControlPanelRole() {
                     window.url.cpRoleDeletion,
                     "post",
                     {
-                        'event': "",
+                        'event': "delete",
                         'id': id,
                         'token': window.session.token
                     },

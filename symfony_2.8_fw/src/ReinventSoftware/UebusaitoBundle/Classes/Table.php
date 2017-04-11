@@ -56,6 +56,13 @@ class Table {
         );
     }
     
+    public function checkPost() {
+        if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true)
+            return true;
+        
+        return false;
+    }
+    
     private function search($index, $value) {
         $this->searchIndex = $index;
         

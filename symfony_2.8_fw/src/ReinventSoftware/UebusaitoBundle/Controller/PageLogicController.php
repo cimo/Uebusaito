@@ -70,7 +70,7 @@ class PageLogicController extends Controller {
                     );
                 }
                 else if ($pageRow['protected'] == true) {
-                    $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
+                    $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
                     $checkRoles = $this->utilityPrivate->checkRoles($pageRow['role_id'], $this->getUser()->getRoleId());
                             
                     if ($chekRoleLevel == false && $checkRoles == false) {

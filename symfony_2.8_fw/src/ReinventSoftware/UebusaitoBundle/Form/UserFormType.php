@@ -14,8 +14,7 @@ class UserFormType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(Array(
             'data_class' => "ReinventSoftware\UebusaitoBundle\Entity\User",
-            'csrf_protection' => true,
-            'csrf_field_name' => "token"
+            'csrf_protection' => true
         ));
     }
     
@@ -65,7 +64,7 @@ class UserFormType extends AbstractType {
         ->add("companyName", "text", Array(
             'required' => false
         ))
-        ->add("companyCode", "text", Array(
+        ->add("vat", "text", Array(
             'required' => false
         ))
         ->add("website", "text", Array(

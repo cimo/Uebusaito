@@ -63,7 +63,7 @@ class ProfileController extends Controller {
             )
         ));
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($chekRoleLevel == false)
             $form->remove("username");
@@ -74,8 +74,10 @@ class ProfileController extends Controller {
         $form->remove("password");
         $form->remove("notLocked");
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
@@ -141,8 +143,10 @@ class ProfileController extends Controller {
             )
         ));
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
@@ -218,8 +222,10 @@ class ProfileController extends Controller {
         $this->response['values']['currentCredits'] = $currentCredits;
         $this->response['values']['payPalSandbox'] = $settingRows['payPal_sandbox'];
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")

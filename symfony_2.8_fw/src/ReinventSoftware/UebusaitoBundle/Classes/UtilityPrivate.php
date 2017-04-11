@@ -195,7 +195,7 @@ class UtilityPrivate {
                 $timeLapse = time() - $this->utility->getRequestStack()->getSession()->getMetadataBag()->getLastUsed();
 
                 if ($timeLapse > $this->utility->getSessionMaxIdleTime()) {
-                    $this->sessionDestroy();
+                    $this->utility->sessionDestroy();
 
                     return $this->utility->getTranslator()->trans("utility_1");
                 }
@@ -208,17 +208,11 @@ class UtilityPrivate {
     public function checkRoleLevel($roleName, $userRoleId) {
         $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($userRoleId);
         
-        if (is_array($roleName) == false) {
-            if (in_array($roleName, $userRoleLevelRow) == true)
+        foreach ($roleName as $key => $value) {
+            if (in_array($value, $userRoleLevelRow) == true) {
                 return true;
-        }
-        else {
-            foreach ($roleName as $key => $value) {
-                if (in_array($value, $userRoleLevelRow) == true) {
-                    return true;
-                    
-                    break;
-                }
+
+                break;
             }
         }
         
@@ -233,6 +227,13 @@ class UtilityPrivate {
         array_pop($roleIdExplodeB);
         
         if ($this->utility->valueInSubArray($roleIdExplodeA, $roleIdExplodeB) == true)
+            return true;
+        
+        return false;
+    }
+    
+    public function checkToken() {
+        if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'])
             return true;
         
         return false;

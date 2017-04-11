@@ -232,7 +232,7 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 groups: [user_creation, user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z]+$/
-        companyCode:
+        vat:
             - Regex:
                 groups: [user_creation, user_profile]
                 htmlPattern: false

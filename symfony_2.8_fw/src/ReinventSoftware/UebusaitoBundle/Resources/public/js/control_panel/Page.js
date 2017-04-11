@@ -223,7 +223,7 @@ function ControlPanelPage() {
                     window.url.cpPageDeletion,
                     "post",
                     {
-                        'event': "",
+                        'event': "delete",
                         'id': id,
                         'token': window.session.token
                     },

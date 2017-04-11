@@ -17,8 +17,7 @@ class PaymentsUserSelectionFormType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(Array(
             'data_class' => "ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel",
-            'csrf_protection' => true,
-            'csrf_field_name' => "token"
+            'csrf_protection' => true
         ));
     }
     

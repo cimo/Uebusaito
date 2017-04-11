@@ -1,11 +1,13 @@
 <ul id="menu_control_panel" class="nav nav-tabs">
-    <li>
-        <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">{% trans %}control_panel_1{% endtrans %}</a>
-    </li>
-    <li>
-        <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payments"})}}">{% trans %}control_panel_2{% endtrans %}</a>
-    </li>
-    {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}  
+    {% if is_granted("ROLE_USER") == true %}
+        <li>
+            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">{% trans %}control_panel_1{% endtrans %}</a>
+        </li>
+        <li>
+            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payments"})}}">{% trans %}control_panel_2{% endtrans %}</a>
+        </li>
+    {% endif %}
+    {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
         <li>
             <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_pages"})}}">{% trans %}control_panel_3{% endtrans %}</a>
         </li>
@@ -18,6 +20,8 @@
         <li>
             <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_roles"})}}">{% trans %}control_panel_6{% endtrans %}</a>
         </li>
+    {% endif %}
+    {% if is_granted("ROLE_ADMIN") == true %}
         <li>
             <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_settings"})}}">{% trans %}control_panel_7{% endtrans %}</a>
         </li>
@@ -25,16 +29,20 @@
 </ul>
 <div class="page_container clearfix">
     {% if urlExtra == "" or urlExtra == "cp_profile" %}
-        <p>{% trans %}control_panel_8{% endtrans %}</p>
-        {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-        {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:password", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-        {% if settings['credits'] == true %}
-            {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:credits", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+        {% if is_granted("ROLE_USER") == true %}
+            <p>{% trans %}control_panel_8{% endtrans %}</p>
+            {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+            {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:password", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+            {% if settings['credits'] == true %}
+                {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:credits", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+            {% endif %}
         {% endif %}
     {% elseif urlExtra == "cp_payments" %}
-        <p>{% trans %}control_panel_9{% endtrans %}</p>
-        
-        {{-render(controller("UebusaitoBundle:ControlPanel\\Payment:selection", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+        {% if is_granted("ROLE_USER") == true %}
+            <p>{% trans %}control_panel_9{% endtrans %}</p>
+            
+            {{-render(controller("UebusaitoBundle:ControlPanel\\Payment:selection", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+        {% endif %}
     {% elseif urlExtra == "cp_pages" or urlExtra == "cp_pages/create" or urlExtra == "cp_pages/modify" %}
         {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
             <p>{% trans %}control_panel_10{% endtrans %}</p>
@@ -100,7 +108,7 @@
             {% endif %}
         {% endif %}
     {% elseif urlExtra == "cp_settings" %}
-        {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
+        {% if is_granted("ROLE_ADMIN") == true %}
             <p>{% trans %}control_panel_14{% endtrans %}</p>
             
             {{-render(controller("UebusaitoBundle:ControlPanel\\Setting:modify", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}

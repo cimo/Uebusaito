@@ -229,8 +229,11 @@ function ControlPanelModule() {
                 true,
                 null,
                 function(xhr) {
-                    if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined)
+                    if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
                         $("#module_profile_sort").html(xhr.response.render);
+                        
+                        sortableButton();
+                    }
                     else
                         ajax.reply(xhr, "");
                 },
@@ -268,7 +271,7 @@ function ControlPanelModule() {
                     window.url.cpModuleDeletion,
                     "post",
                     {
-                        'event': "",
+                        'event': "delete",
                         'id': id,
                         'token': window.session.token
                     },

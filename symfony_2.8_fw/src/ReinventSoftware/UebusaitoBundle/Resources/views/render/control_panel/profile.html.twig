@@ -37,7 +37,7 @@
                     {% if (form.fiscalCode.vars.value != "") %}
                         {{form_row(form.fiscalCode, {'label': "profile_10"})}}
                         {{form_row(form.companyName, {'label': "profile_11"})}}
-                        {{form_row(form.companyCode, {'label': "profile_12"})}}
+                        {{form_row(form.vat, {'label': "profile_12"})}}
                     {% endif %}
 
                     {{form_row(form.website, {'label': "profile_13"})}}
@@ -46,7 +46,7 @@
                     {{form_row(form.zip, {'label': "profile_16"})}}
                     {{form_row(form.address, {'label': "profile_17"})}}
 
-                    {{form_widget(form.token)}}
+                    {{form_widget(form._token)}}
 
                     <input class="btn btn-primary margin_bottom" type="submit" value="{% trans %}button_3{% endtrans %}"/>
                 </div>

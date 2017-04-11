@@ -175,7 +175,7 @@ function ControlPanelPayment() {
                     window.url.cpPaymentDeletion,
                     "post",
                     {
-                        'event': "",
+                        'event': "delete",
                         'id': id,
                         'token': window.session.token
                     },

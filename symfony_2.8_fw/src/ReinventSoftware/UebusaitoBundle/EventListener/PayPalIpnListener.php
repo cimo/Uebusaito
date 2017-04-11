@@ -43,32 +43,30 @@ class PayPalIpnListener {
 
                 $paymentRow = $this->query->selectPaymentWithTransactionFromDatabase($payPalElements['txn_id']);
 
-                if ($paymentRow == false) {
-                    if (isset($payPalElements['payment_status']) == true) {
-                        if ($payPalElements['payment_status'] == "Completed") {
-                            $payment = new Payment();
-                            $payment->setUserId($payPalElements['custom']);
-                            $payment->setTransaction($payPalElements['txn_id']);
-                            $payment->setDate($payPalElements['payment_date']);
-                            $payment->setStatus($payPalElements['payment_status']);
-                            $payment->setPayer($payPalElements['payer_id']);
-                            $payment->setReceiver($payPalElements['receiver_id']);
-                            $payment->setCurrencyCode($payPalElements['mc_currency']);
-                            $payment->setItemName($payPalElements['item_name']);
-                            $payment->setAmount($payPalElements['mc_gross']);
-                            $payment->setQuantity($payPalElements['quantity']);
+                if ($paymentRow == false && isset($payPalElements['payment_status']) == true) {
+                    if ($payPalElements['payment_status'] == "Completed") {
+                        $payment = new Payment();
+                        $payment->setUserId($payPalElements['custom']);
+                        $payment->setTransaction($payPalElements['txn_id']);
+                        $payment->setDate($payPalElements['payment_date']);
+                        $payment->setStatus($payPalElements['payment_status']);
+                        $payment->setPayer($payPalElements['payer_id']);
+                        $payment->setReceiver($payPalElements['receiver_id']);
+                        $payment->setCurrencyCode($payPalElements['mc_currency']);
+                        $payment->setItemName($payPalElements['item_name']);
+                        $payment->setAmount($payPalElements['mc_gross']);
+                        $payment->setQuantity($payPalElements['quantity']);
 
-                            // Insert in database
-                            $this->entityManager->persist($payment);
-                            $this->entityManager->flush();
+                        // Insert in database
+                        $this->entityManager->persist($payment);
+                        $this->entityManager->flush();
 
-                            $this->updateCredits($payPalElements);
+                        $this->updateCredits($payPalElements);
 
-                            error_log("Completed: " . print_r($payPalElements, true) . PHP_EOL);
-                        }
-                        else if ($payPalElements['payment_status'] == "Pending")
-                            error_log("Pending: " . print_r($payPalElements, true) . PHP_EOL);
+                        error_log("Completed: " . print_r($payPalElements, true) . PHP_EOL);
                     }
+                    else if ($payPalElements['payment_status'] == "Pending")
+                        error_log("Pending: " . print_r($payPalElements, true) . PHP_EOL);
                 }
             }
         }

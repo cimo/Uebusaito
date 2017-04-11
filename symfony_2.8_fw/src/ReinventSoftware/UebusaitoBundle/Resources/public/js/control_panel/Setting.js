@@ -89,7 +89,7 @@ function ControlPanelSetting() {
                         window.url.cpSettingsLanguageManage,
                         "post",
                         {
-                            'event': "delete",
+                            'event': "deleteLanguage",
                             'currentIndex': currentIndex,
                             'token': window.session.token
                         },
@@ -122,7 +122,7 @@ function ControlPanelSetting() {
                 window.url.cpSettingsLanguageManage,
                 "post",
                 {
-                    'event': "create",
+                    'event': "createLanguage",
                     'code': code,
                     'token': window.session.token
                 },

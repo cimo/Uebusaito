@@ -195,7 +195,7 @@ function ControlPanelUser() {
                     window.url.cpUserDeletion,
                     "post",
                     {
-                        'event': "",
+                        'event': "delete",
                         'id': id,
                         'token': window.session.token
                     },

@@ -26,8 +26,6 @@ class SearchController extends Controller {
     private $ajax;
     private $table;
     
-    private $listHtml;
-    
     private $response;
     
     // Properties
@@ -116,8 +114,6 @@ class SearchController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
-        $this->listHtml = "";
-        
         $this->response = Array();
         
         // Pagination
@@ -125,11 +121,9 @@ class SearchController extends Controller {
         
         $tableResult = $this->table->request($pageRows, 20, "searchResult", true, true);
         
-        $this->listHtml($tableResult['list']);
-        
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml;
+        $this->response['values']['list'] = $this->listHtml($tableResult['list']);;
         
         $this->response['values']['results'] = $pageRows;
         
@@ -163,15 +157,19 @@ class SearchController extends Controller {
     
     // Functions private
     private function listHtml($tableResult) {
+        $listHtml = "";
+        
         foreach ($tableResult as $key => $value) {
-            $this->listHtml .= "<div class=\"box\">
+            $listHtml .= "<div class=\"box\">
                 <p class=\"title\"><b>{$value['title']}</b></p>";
                 if (strlen($value['argument']) > 200)
-                    $this->listHtml .= "<p class=\"argument\">" . substr($value['argument'], 0, 200) . "...</p>";
+                    $listHtml .= "<p class=\"argument\">" . substr($value['argument'], 0, 200) . "...</p>";
                 else
-                    $this->listHtml .= "<p class=\"argument\">{$value['argument']}</p>
+                    $listHtml .= "<p class=\"argument\">{$value['argument']}</p>
                 <a href=\"". $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->get("_locale") . "/" . $value['id'] . "\">" . $this->utility->getTranslator()->trans("searchController_2") . "</a>
             </div>";
         }
+        
+        return $listHtml;
     }
 }

@@ -14,7 +14,7 @@
             <form id="form_cp_modules_selection" action="{{path("cp_modules_selection", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                 {{form_row(form.id, {'label': "modules_selection_2"})}}
 
-                {{form_widget(form.token)}}
+                {{form_widget(form._token)}}
 
                 <input class="btn btn-primary" type="submit" value="{% trans %}button_4{% endtrans %}"/>
             </form>

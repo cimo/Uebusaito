@@ -29,8 +29,6 @@ class PaymentController extends Controller {
     private $ajax;
     private $table;
     
-    private $listHtml;
-    
     private $response;
     
     // Properties
@@ -121,8 +119,6 @@ class PaymentController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
-        $this->listHtml = "";
-        
         $this->response = Array();
         
         if (isset($_SESSION['payments_user_id']) == false)
@@ -141,14 +137,14 @@ class PaymentController extends Controller {
         
         $tableResult = $this->table->request($paymentRows, 20, "payment", true, true);
         
-        $this->listHtml($tableResult['list']);
-        
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml;
+        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
+        
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $id = 0;
             
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
@@ -164,13 +160,13 @@ class PaymentController extends Controller {
 
                     $this->selectionResult($id);
                 }
-                else if ($form->isValid() == false && isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
+                else if ($this->utility->getRequestStack()->request->get("event") == null && $this->utilityPrivate->checkToken() == true) {
                     $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
 
                     $this->selectionResult($id);
                 }
-                else if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true ||
-                            (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "refresh")) {
+                else if (($this->utility->getRequestStack()->request->get("event") == "refresh" && $this->utilityPrivate->checkToken() == true) ||
+                            $this->table->checkPost() == true) {
                     $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
                         'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -219,8 +215,6 @@ class PaymentController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
-        $this->listHtml = "";
-        
         $this->response = Array();
         
         // Pagination
@@ -228,13 +222,11 @@ class PaymentController extends Controller {
         
         $tableResult = $this->table->request($paymentRows, 20, "payment", true, true);
         
-        $this->listHtml($tableResult['list']);
-        
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml;
+        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
@@ -243,31 +235,27 @@ class PaymentController extends Controller {
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
-                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
+                if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
+                    $paymentsInDatabase = $this->paymentsInDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
                     
-                    $payment = $this->entityManager->getRepository("UebusaitoBundle:Payment")->find($id);
-                    
-                    // Remove from database
-                    $this->entityManager->remove($payment);
-                    $this->entityManager->flush();
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
+                    if ($paymentsInDatabase == true)
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
                 }
-                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "deleteAll") {
-                    // Remove from database
-                    $this->paymentsInDatabase();
+                else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
+                    $paymentsInDatabase = $this->paymentsInDatabase("deleteAll");
                     
-                    $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-                    
-                    $this->response['render'] = $render;
+                    if ($paymentsInDatabase == true) {
+                        $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
+                            'urlLocale' => $this->urlLocale,
+                            'urlCurrentPageId' => $this->urlCurrentPageId,
+                            'urlExtra' => $this->urlExtra,
+                            'response' => $this->response
+                        ));
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_4");
+                        $this->response['render'] = $render;
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_4");
+                    }
                 }
                 else
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_5");
@@ -310,12 +298,14 @@ class PaymentController extends Controller {
     }
     
     private function listHtml($elements) {
+        $listHtml = "";
+        
         $count = 0;
         
         foreach ($elements as $key => $value) {
             $count ++;
             
-            $this->listHtml .= "<tr>
+            $listHtml .= "<tr>
                 <td class=\"id_column\">
                     {$count}
                 </td>
@@ -342,14 +332,28 @@ class PaymentController extends Controller {
                 </td>
             </tr>";
         }
+        
+        return $listHtml;
     }
     
-    private function paymentsInDatabase() {
-        $query = $this->utility->getConnection()->prepare("DELETE FROM payments
-                                                            WHERE user_id = :userId");
-
-        $query->bindValue(":userId", $_SESSION['payments_user_id']);
-
-        $query->execute();
+    private function paymentsInDatabase($type, $id = null) {
+        if ($type == "delete") {
+            $query = $this->utility->getConnection()->prepare("DELETE FROM payments
+                                                                WHERE user_id = :userId
+                                                                AND id = :id");
+            
+            $query->bindValue(":userId", $_SESSION['payments_user_id']);
+            $query->bindValue(":id", $id);
+            
+            return $query->execute();
+        }
+        else if ($type == "deleteAll") {
+            $query = $this->utility->getConnection()->prepare("DELETE FROM payments
+                                                                WHERE user_id = :userId");
+            
+            $query->bindValue(":userId", $_SESSION['payments_user_id']);
+            
+            return $query->execute();
+        }
     }
 }

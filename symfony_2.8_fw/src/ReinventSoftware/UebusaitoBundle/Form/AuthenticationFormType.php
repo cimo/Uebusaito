@@ -13,8 +13,7 @@ class AuthenticationFormType extends AbstractType {
     
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(Array(
-            'csrf_protection' => true,
-            'csrf_field_name' => "token"
+            'csrf_protection' => true
         ));
     }
     

@@ -57,8 +57,10 @@ class SettingController extends Controller {
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_settings_roleId_field", true);
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
@@ -75,7 +77,7 @@ class SettingController extends Controller {
                     else
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_1");
                     
-                    // Insert in database
+                    // Update in database
                     $this->entityManager->persist($settingEntity);
                     $this->entityManager->flush();
                 }
@@ -119,29 +121,29 @@ class SettingController extends Controller {
         
         $this->response = Array();
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "delete") {
+                if ($this->utility->getRequestStack()->request->get("event") == "deleteLanguage" && $this->utilityPrivate->checkToken() == true) {
                     $currentIndex = $this->utility->getRequestStack()->request->get("currentIndex");
                     
-                    if ($currentIndex > 2) {
-                        $languageRows = $this->query->selectLanguageFromDatabase($currentIndex);
-                        
-                        $this->settingsInDatabase("delete", $currentIndex);
-                        
+                    $languageRows = $this->query->selectLanguageFromDatabase($currentIndex);
+
+                    $settingsInDatabase = $this->settingsInDatabase("deleteLanguage", $currentIndex);
+                    
+                    if ($settingsInDatabase == true) {
                         unlink("{$this->utility->getPathBundle()}/Resources/translations/messages.{$languageRows['code']}.yml");
                         
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_3");
                     }
-                    else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_4");
                 }
-                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "create") {
+                else if ($this->utility->getRequestStack()->request->get("event") == "createLanguage" && $this->utilityPrivate->checkToken() == true) {
                     $code = $this->utility->getRequestStack()->request->get("code");
                     
                     $languageRows = $this->query->selectAllLanguagesFromDatabase();
@@ -157,14 +159,16 @@ class SettingController extends Controller {
                     }
                     
                     if ($code != "" && $exists == false) {
-                        $this->settingsInDatabase("create", $code);
+                        $settingsInDatabase = $this->settingsInDatabase("insertLanguage", $code);
                         
-                        touch("{$this->utility->getPathBundle()}/Resources/translations/messages.$code.yml");
-                        
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
+                        if ($settingsInDatabase == true) {
+                            touch("{$this->utility->getPathBundle()}/Resources/translations/messages.$code.yml");
+                            
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
+                        }
                     }
                     else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_6");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_5");
                 }
             }
             
@@ -186,7 +190,7 @@ class SettingController extends Controller {
     
     // Functions private
     private function settingsInDatabase($type, $value) {
-        if ($type == "delete") {
+        if ($type == "deleteLanguage") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM languages
                                                                 WHERE id > :idExclude
                                                                 AND id = :id");
@@ -194,15 +198,15 @@ class SettingController extends Controller {
             $query->bindValue(":idExclude", 2);
             $query->bindValue(":id", $value);
 
-            $query->execute();
+            return $query->execute();
         }
-        else if ($type == "create") {
+        else if ($type == "insertLanguage") {
             $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code)
                                                                 VALUES (:code);");
             
             $query->bindValue(":code", $value);
             
-            $query->execute();
+            return $query->execute();
         }
     }
 }

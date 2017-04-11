@@ -33,8 +33,6 @@ class ModuleController extends Controller {
     private $ajax;
     private $table;
     
-    private $listHtml;
-    
     private $response;
     
     // Properties
@@ -64,8 +62,10 @@ class ModuleController extends Controller {
             )
         ));
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
@@ -152,8 +152,10 @@ class ModuleController extends Controller {
             )
         ));
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
@@ -215,8 +217,6 @@ class ModuleController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
-        $this->listHtml = "";
-        
         $this->response = Array();
         
         // Create form
@@ -232,14 +232,14 @@ class ModuleController extends Controller {
         
         $tableResult = $this->table->request($moduleRows, 7, "module", true, true);
         
-        $this->listHtml($tableResult['list']);
-        
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml;
+        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
+        
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $id = 0;
             
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
@@ -255,13 +255,13 @@ class ModuleController extends Controller {
                     
                     $this->selectionResult($id);
                 }
-                else if ($form->isValid() == false && isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
+                else if ($this->utility->getRequestStack()->request->get("event") == null && $this->utilityPrivate->checkToken() == true) {
                     $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
                     
                     $this->selectionResult($id);
                 }
-                else if ((isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "refresh") ||
-                            isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true) {
+                else if (($this->utility->getRequestStack()->request->get("event") == "refresh" && $this->utilityPrivate->checkToken() == true) ||
+                            $this->table->checkPost() == true) {
                     $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
                         'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -321,8 +321,10 @@ class ModuleController extends Controller {
             )
         ));
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
@@ -347,7 +349,7 @@ class ModuleController extends Controller {
                             $sortExplode = explode(",", $formDataSort);
                     }
                     
-                    // Insert in database
+                    // Update in database
                     $this->entityManager->persist($moduleEntity);
                     $this->entityManager->flush();
                     
@@ -398,15 +400,17 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
         // Request post
-        if ($this->utility->getRequestStack()->getMethod() == "POST") {
+        if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
             
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
                 // Check token
-                if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token']) {
+                if ($this->utilityPrivate->checkToken() == true) {
                     $this->response['modules']['sort'] = $this->query->selectAllModulesFromDatabase($this->utility->getRequestStack()->request->get("id"), $this->utility->getRequestStack()->request->get("position"));
                     
                     $render = $this->renderView("UebusaitoBundle::render/control_panel/module_profile_sort.html.twig", Array(
@@ -454,8 +458,6 @@ class ModuleController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
-        $this->listHtml = "";
-        
         $this->response = Array();
         
         // Pagination
@@ -463,13 +465,11 @@ class ModuleController extends Controller {
         
         $tableResult = $this->table->request($moduleRows, 20, "module", true, true);
         
-        $this->listHtml($tableResult['list']);
-        
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml;
+        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel("ROLE_ADMIN", $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
@@ -478,33 +478,27 @@ class ModuleController extends Controller {
             if ($sessionActivity != "")
                 $this->response['session']['activity'] = $sessionActivity;
             else {
-                if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == null) {
-                    $id = $this->utility->getRequestStack()->request->get("id");
+                if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
+                    $modulesInDatabase = $this->modulesInDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
                     
-                    if ($id > 4) {
-                        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
-
-                        // Remove from database
-                        $this->entityManager->remove($moduleEntity);
-                        $this->entityManager->flush();
-                    }
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
+                    if ($modulesInDatabase == true)
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
                 }
-                else if (isset($_SESSION['token']) == true && $this->utility->getRequestStack()->request->get("token") == $_SESSION['token'] && $this->utility->getRequestStack()->request->get("event") == "deleteAll") {
-                    // Remove from database
-                    $this->modulesInDatabase("deleteAll");
+                else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
+                    $modulesInDatabase = $this->modulesInDatabase("deleteAll");
                     
-                    $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-                    
-                    $this->response['render'] = $render;
+                    if ($modulesInDatabase == true) {
+                        $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
+                            'urlLocale' => $this->urlLocale,
+                            'urlCurrentPageId' => $this->urlCurrentPageId,
+                            'urlExtra' => $this->urlExtra,
+                            'response' => $this->response
+                        ));
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
+                        $this->response['render'] = $render;
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
+                    }
                 }
                 else
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_11");
@@ -557,8 +551,10 @@ class ModuleController extends Controller {
     }
     
     private function listHtml($elements) {
+        $listHtml = "";
+        
         foreach ($elements as $key => $value) {
-            $this->listHtml .= "<tr>
+            $listHtml .= "<tr>
                 <td class=\"id_column\">
                     {$value['id']}
                 </td>
@@ -573,28 +569,22 @@ class ModuleController extends Controller {
                 </td>
                 <td>";
                     if ($value['active'] == 0)
-                        $this->listHtml .= $this->utility->getTranslator()->trans("moduleController_12");
+                        $listHtml .= $this->utility->getTranslator()->trans("moduleController_12");
                     else
-                        $this->listHtml .= $this->utility->getTranslator()->trans("moduleController_13");
-                $this->listHtml .= "</td>
+                        $listHtml .= $this->utility->getTranslator()->trans("moduleController_13");
+                $listHtml .= "</td>
                 <td class=\"horizontal_center\">";
                     if ($value['id'] > 5)
-                        $this->listHtml .= "<button class=\"cp_module_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
+                        $listHtml .= "<button class=\"cp_module_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";
         }
+        
+        return $listHtml;
     }
     
     private function modulesInDatabase($type, $id = null, $sort = null, $position = null) {
-        if ($type == "deleteAll") {
-            $query = $this->utility->getConnection()->prepare("DELETE FROM modules
-                                                                WHERE id > :idExclude");
-
-            $query->bindValue(":idExclude", 4);
-
-            $query->execute();
-        }
-        else {
+        if ($type == "sort") {
             if ($position == null) {
                 $query = $this->utility->getConnection()->prepare("UPDATE modules
                                                                     SET sort = :sort
@@ -612,7 +602,25 @@ class ModuleController extends Controller {
             $query->bindValue(":sort", $sort);
             $query->bindValue(":id", $id);
             
-            $query->execute();
+            return $query->execute();
+        }
+        else if ($type == "delete") {
+            $query = $this->utility->getConnection()->prepare("DELETE FROM modules
+                                                                WHERE id > :idExclude
+                                                                AND id = :id");
+
+            $query->bindValue(":idExclude", 4);
+            $query->bindValue(":id", $id);
+
+            return $query->execute();
+        }
+        else if ($type == "deleteAll") {
+            $query = $this->utility->getConnection()->prepare("DELETE FROM modules
+                                                                WHERE id > :idExclude");
+
+            $query->bindValue(":idExclude", 4);
+
+            return $query->execute();
         }
     }
 }

@@ -44,7 +44,7 @@
                     {% if (urlExtra == "company") %}
                         {{form_row(form.fiscalCode, {'label': "registration_11"})}}
                         {{form_row(form.companyName, {'label': "registration_12"})}}
-                        {{form_row(form.companyCode, {'label': "registration_13"})}}
+                        {{form_row(form.vat, {'label': "registration_13"})}}
                     {% endif %}
 
                     {{form_row(form.website, {'label': "registration_14"})}}
@@ -71,7 +71,7 @@
                         </div>
                     </div>
 
-                    {{form_widget(form.token)}}
+                    {{form_widget(form._token)}}
 
                     <input class="btn btn-primary" type="submit" value="{% trans %}button_4{% endtrans %}"/>
                 </form>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Apr 07, 2017 alle 16:32
+-- Generato il: Apr 11, 2017 alle 15:24
 -- Versione del server: 5.5.54-0ubuntu0.14.04.1
 -- Versione PHP: 5.5.9-1ubuntu4.21
 
@@ -65,10 +65,10 @@ CREATE TABLE IF NOT EXISTS `modules` (
 INSERT INTO `modules` (`id`, `position`, `sort`, `name`, `label`, `file_name`, `active`) VALUES
 (1, 'header', 2, 'Menu root', 'module_1', 'menu_root.html.twig', 1),
 (2, 'left', 0, 'Authentication', 'module_2', 'authentication.html.twig', 1),
-(3, 'center', 0, 'Page', 'module_3', 'page.html.twig', 1),
+(3, 'center', 1, 'Page', 'module_3', 'page.html.twig', 1),
 (4, 'header', 0, 'Language', 'module_4', 'language_text.html.twig', 1),
 (5, 'header', 1, 'Search', 'module_5', 'search.html.twig', 1),
-(6, 'right', 1, 'Empty', 'module_6', 'empty.html.twig', 1);
+(6, 'right', 0, 'Empty', 'module_6', 'empty.html.twig', 1);
 
 -- --------------------------------------------------------
 
@@ -295,7 +295,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `gender` varchar(6) COLLATE utf8_unicode_ci DEFAULT 'male',
   `fiscal_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `company_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `company_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `vat` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `state` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -316,9 +316,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dump dei dati per la tabella `users`
 --
 
-INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `company_code`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
-(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00136', 'Via', '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 14, 1, '2015-08-04 10:25:12', '2017-04-07 16:30:52', NULL, '93.57.95.188', 0),
-(2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 0, 1, '2015-09-10 17:39:31', '2017-04-06 13:11:11', NULL, '93.57.95.188', 0),
+INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `vat`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
+(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00136', 'Via', '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 14, 1, '2015-08-04 10:25:12', '2017-04-11 11:14:48', NULL, '93.57.95.188', 0),
+(2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 11, 1, '2015-09-10 17:39:31', '2017-04-06 13:11:11', NULL, '93.57.95.188', 0),
 (3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, '2017-03-29 19:18:26', NULL, NULL, 0);
 
 -- --------------------------------------------------------

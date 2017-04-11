@@ -20,8 +20,7 @@ class SettingsFormType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(Array(
             'data_class' => "ReinventSoftware\UebusaitoBundle\Entity\Setting",
-            'csrf_protection' => true,
-            'csrf_field_name' => "token"
+            'csrf_protection' => true
         ));
     }
     

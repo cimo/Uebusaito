@@ -70,9 +70,9 @@ class User implements AdvancedUserInterface {
     private $companyName;
     
     /**
-     * @ORM\Column(name="company_code", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="vat", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $companyCode;
+    private $vat;
     
     /**
      * @ORM\Column(name="website", type="string", nullable=true, columnDefinition="varchar(255)")
@@ -179,8 +179,8 @@ class User implements AdvancedUserInterface {
         $this->companyName = $value;
     }
 
-    public function setCompanyCode($value) {
-        $this->companyCode = $value;
+    public function setVat($value) {
+        $this->vat = $value;
     }
 
     public function setWebsite($value) {
@@ -277,8 +277,8 @@ class User implements AdvancedUserInterface {
         return $this->companyName;
     }
 
-    public function getCompanyCode() {
-        return $this->companyCode;
+    public function getVat() {
+        return $this->vat;
     }
 
     public function getWebsite() {
