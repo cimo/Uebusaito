@@ -82,22 +82,22 @@ class ModuleController extends Controller {
 
                     if (count($sortHeaderExplode) > 0) {
                         foreach ($sortHeaderExplode as $key => $value)
-                            $this->modulesInDatabase("sort", $value, $key, "header");
+                            $this->modulesDatabase("sort", $value, $key, "header");
                     }
 
                     if (count($sortLeftExplode) > 0) {
                         foreach ($sortLeftExplode as $key => $value)
-                            $this->modulesInDatabase("sort", $value, $key, "left");
+                            $this->modulesDatabase("sort", $value, $key, "left");
                     }
 
                     if (count($sortCenterExplode) > 0) {
                         foreach ($sortCenterExplode as $key => $value)
-                            $this->modulesInDatabase("sort", $value, $key, "center");
+                            $this->modulesDatabase("sort", $value, $key, "center");
                     }
 
                     if (count($sortRightExplode) > 0) {
                         foreach ($sortRightExplode as $key => $value)
-                            $this->modulesInDatabase("sort", $value, $key, "right");
+                            $this->modulesDatabase("sort", $value, $key, "right");
                     }
 
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_1");
@@ -166,7 +166,7 @@ class ModuleController extends Controller {
                 // Check form
                 if ($form->isValid() == true) {
                     if ($form->get("sort")->getData() == "" && $form->get("active")->getData() == "") {
-                        $moduleRows = $this->query->selectAllModulesFromDatabase(null, $form->get("position")->getData());
+                        $moduleRows = $this->query->selectAllModulesDatabase(null, $form->get("position")->getData());
                         
                         $form->getData()->setSort(count($moduleRows));
                         $form->getData()->setActive(false);
@@ -228,7 +228,7 @@ class ModuleController extends Controller {
         ));
         
         // Pagination
-        $moduleRows = $this->query->selectAllModulesFromDatabase();
+        $moduleRows = $this->query->selectAllModulesDatabase();
         
         $tableResult = $this->table->request($moduleRows, 7, "module", true, true);
         
@@ -337,7 +337,7 @@ class ModuleController extends Controller {
                     $sortExplode = Array();
                     
                     if ($form->get("position")->getData() == null && $form->get("sort")->getData() == null) {
-                        $moduleRow = $this->query->selectModuleFromDatabase($this->urlExtra);
+                        $moduleRow = $this->query->selectModuleDatabase($this->urlExtra);
                         
                         $form->getData()->setPosition($moduleRow['position']);
                         $form->getData()->setSort($moduleRow['sort']);
@@ -355,7 +355,7 @@ class ModuleController extends Controller {
                     
                     if (count($sortExplode) > 0) {
                         foreach ($sortExplode as $key => $value)
-                            $this->modulesInDatabase("sort", $value, $key);
+                            $this->modulesDatabase("sort", $value, $key);
                     }
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
@@ -411,7 +411,7 @@ class ModuleController extends Controller {
             else {
                 // Check token
                 if ($this->utilityPrivate->checkToken() == true) {
-                    $this->response['modules']['sort'] = $this->query->selectAllModulesFromDatabase($this->utility->getRequestStack()->request->get("id"), $this->utility->getRequestStack()->request->get("position"));
+                    $this->response['modules']['sort'] = $this->query->selectAllModulesDatabase($this->utility->getRequestStack()->request->get("id"), $this->utility->getRequestStack()->request->get("position"));
                     
                     $render = $this->renderView("UebusaitoBundle::render/control_panel/module_profile_sort.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
@@ -461,7 +461,7 @@ class ModuleController extends Controller {
         $this->response = Array();
         
         // Pagination
-        $moduleRows = $this->query->selectAllModulesFromDatabase();
+        $moduleRows = $this->query->selectAllModulesDatabase();
         
         $tableResult = $this->table->request($moduleRows, 20, "module", true, true);
         
@@ -479,15 +479,15 @@ class ModuleController extends Controller {
                 $this->response['session']['activity'] = $sessionActivity;
             else {
                 if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
-                    $modulesInDatabase = $this->modulesInDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
+                    $modulesDatabase = $this->modulesDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
                     
-                    if ($modulesInDatabase == true)
+                    if ($modulesDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
                 }
                 else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $modulesInDatabase = $this->modulesInDatabase("deleteAll");
+                    $modulesDatabase = $this->modulesDatabase("deleteAll");
                     
-                    if ($modulesInDatabase == true) {
+                    if ($modulesDatabase == true) {
                         $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
                             'urlLocale' => $this->urlLocale,
                             'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -526,7 +526,7 @@ class ModuleController extends Controller {
         
         if ($moduleEntity != null) {
             $this->response['modules']['position'] = $moduleEntity->getPosition();
-            $this->response['modules']['sort'] = $this->query->selectAllModulesFromDatabase(null, $moduleEntity->getPosition());
+            $this->response['modules']['sort'] = $this->query->selectAllModulesDatabase(null, $moduleEntity->getPosition());
             
             // Create form
             $moduleFormType = new ModuleFormType();
@@ -583,7 +583,7 @@ class ModuleController extends Controller {
         return $listHtml;
     }
     
-    private function modulesInDatabase($type, $id = null, $sort = null, $position = null) {
+    private function modulesDatabase($type, $id = null, $sort = null, $position = null) {
         if ($type == "sort") {
             if ($position == null) {
                 $query = $this->utility->getConnection()->prepare("UPDATE modules

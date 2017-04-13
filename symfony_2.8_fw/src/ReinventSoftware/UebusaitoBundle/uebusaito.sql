@@ -93,10 +93,10 @@ CREATE TABLE IF NOT EXISTS `pages` (
 --
 
 INSERT INTO `pages` (`id`, `parent`, `controller_action`, `role_id`, `protected`, `show_in_menu`, `only_link`, `link`) VALUES
-(1, NULL, 'UebusaitoBundle:ControlPanel:index', '1,2,', 1, 0, 0, '-'),
+(1, NULL, 'UebusaitoBundle:ControlPanel:controlPanel', '1,2,', 1, 0, 0, '-'),
 (2, NULL, NULL, '1,2,', 0, 1, 0, '-'),
-(3, NULL, 'UebusaitoBundle:Registration:index', '1,2,', 0, 0, 0, '-'),
-(4, NULL, 'UebusaitoBundle:RecoverPassword:index', '1,2,', 0, 0, 0, '-'),
+(3, NULL, 'UebusaitoBundle:Registration:registration', '1,2,', 0, 0, 0, '-'),
+(4, NULL, 'UebusaitoBundle:RecoverPassword:recoverPassword', '1,2,', 0, 0, 0, '-'),
 (5, NULL, 'UebusaitoBundle:Search:result', '1,2,', 0, 0, 0, '-'),
 (6, NULL, NULL, '4,', 1, 1, 0, '-'),
 (7, NULL, NULL, '1,2,', 0, 1, 0, '-'),

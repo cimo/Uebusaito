@@ -49,10 +49,6 @@ class RootController extends Controller {
         
         $this->response = Array();
         
-        $token = isset($_SESSION['token']) == true ? $_SESSION['token'] : "";
-        
-        $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-        $settings = $this->utility->getSettings();
         $this->response['captchaImage'] = $this->captcha->create(7);
         
         $event = isset($_POST['event']) == true ? $_POST['event'] : "";
@@ -63,26 +59,26 @@ class RootController extends Controller {
             ));
         }
         
-        $this->response['session']['token'] = $token;
-        $this->response['session']['activity'] = $sessionActivity;
+        $this->response['session']['token'] = isset($_SESSION['token']) == true ? $_SESSION['token'] : "";
+        $this->response['session']['activity'] = $this->utilityPrivate->checkSessionOverTime();
         
-        $this->response['path']['documentRoot'] = $this->utility->getPathDocumentRoot();
         $this->response['path']['root'] = $this->utility->getPathRoot();
+        $this->response['path']['documentRoot'] = $this->utility->getPathDocumentRoot();
         $this->response['path']['rootFull'] = $this->utility->getPathRootFull();
-        $this->response['path']['bundle'] = $this->utility->getPathBundle();
+        $this->response['path']['bundleFull'] = $this->utility->getPathBundleFull();
         
         $this->response['url']['root'] = $this->utility->getUrlRoot();
-        $this->response['url']['public'] = $this->utility->getUrlPublic();
-        $this->response['url']['view'] = $this->utility->getUrlView();
+        $this->response['url']['bundle'] = $this->utility->getUrlBundle();
+        $this->response['url']['rootFull'] = $this->utility->getUrlRootFull();
         
-        $this->response['modules']['header'] = $this->query->selectAllModulesFromDatabase(null, "header");
-        $this->response['modules']['left'] = $this->query->selectAllModulesFromDatabase(null, "left");
-        $this->response['modules']['center'] = $this->query->selectAllModulesFromDatabase(null, "center");
-        $this->response['modules']['right'] = $this->query->selectAllModulesFromDatabase(null, "right");
-        $this->response['modules']['footer'] = $this->query->selectAllModulesFromDatabase(null, "footer");
+        $this->response['modules']['header'] = $this->query->selectAllModulesDatabase(null, "header");
+        $this->response['modules']['left'] = $this->query->selectAllModulesDatabase(null, "left");
+        $this->response['modules']['center'] = $this->query->selectAllModulesDatabase(null, "center");
+        $this->response['modules']['right'] = $this->query->selectAllModulesDatabase(null, "right");
+        $this->response['modules']['footer'] = $this->query->selectAllModulesDatabase(null, "footer");
         
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
-        $this->get("twig")->addGlobal("settings", $settings);
+        $this->get("twig")->addGlobal("settings", $this->utility->getSettings());
         $this->get("twig")->addGlobal("captchaImage", $this->response['captchaImage']);
         
         return Array(

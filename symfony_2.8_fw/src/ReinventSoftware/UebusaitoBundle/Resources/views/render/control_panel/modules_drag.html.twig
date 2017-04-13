@@ -6,7 +6,7 @@
         
         <input id="modules_drag_switch" type="checkbox" data-on-color="success" data-off-color="danger">
         
-        <form id="form_cp_modules_drag" action="{{path("cp_modules_drag", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_modules_drag" action="{{path("cp_modules_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_widget(form.sortHeader, {'label': "modules_drag_2"})}}
             {{form_widget(form.sortLeft, {'label': "modules_drag_3"})}}
             {{form_widget(form.sortCenter, {'label': "modules_drag_4"})}}

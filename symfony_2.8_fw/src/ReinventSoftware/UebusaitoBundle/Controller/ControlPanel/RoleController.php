@@ -130,7 +130,7 @@ class RoleController extends Controller {
         ));
         
         // Pagination
-        $userRoleRows = $this->query->selectAllUserRolesFromDatabase();
+        $userRoleRows = $this->query->selectAllUserRolesDatabase();
         
         $tableResult = $this->table->request($userRoleRows, 20, "role", true, true);
         
@@ -283,7 +283,7 @@ class RoleController extends Controller {
         $this->response = Array();
         
         // Pagination
-        $userRoleRows = $this->query->selectAllUserRolesFromDatabase();
+        $userRoleRows = $this->query->selectAllUserRolesDatabase();
         
         $tableResult = $this->table->request($userRoleRows, 20, "role", true, true);
         
@@ -301,15 +301,15 @@ class RoleController extends Controller {
                 $this->response['session']['activity'] = $sessionActivity;
             else {
                 if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
-                    $rolesInDatabase = $this->rolesInDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
+                    $rolesDatabase = $this->rolesDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
                     
-                    if ($rolesInDatabase == true)
+                    if ($rolesDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_6");
                 }
                 else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $rolesInDatabase = $this->rolesInDatabase("deleteAll");
+                    $rolesDatabase = $this->rolesDatabase("deleteAll");
                     
-                    if ($rolesInDatabase == true) {
+                    if ($rolesDatabase == true) {
                         $render = $this->renderView("UebusaitoBundle::render/control_panel/roles_selection_desktop.html.twig", Array(
                             'urlLocale' => $this->urlLocale,
                             'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -393,7 +393,7 @@ class RoleController extends Controller {
         return $listHtml;
     }
     
-    private function rolesInDatabase($type, $id = null) {
+    private function rolesDatabase($type, $id = null) {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM users_roles
                                                                 WHERE id > :idExclude

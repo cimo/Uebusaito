@@ -33,7 +33,7 @@ class RegistrationController extends Controller {
     /**
      * @Template("UebusaitoBundle:render:registration.html.twig")
      */
-    public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
+    public function registrationAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -49,9 +49,9 @@ class RegistrationController extends Controller {
         
         $userEntity = new User();
         
-        $userId = $this->query->selectUserIdWithHelpCodeFromDatabase($this->urlExtra);
+        $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
         
-        if ($userId == null) {
+        if ($userRow['id'] == null) {
             // Create form
             $userFormType = new UserFormType();
             $form = $this->createForm($userFormType, $userEntity, Array(
@@ -111,7 +111,7 @@ class RegistrationController extends Controller {
                                 $_SERVER['SERVER_ADMIN']
                             );
                             
-                            mkdir("{$this->utility->getPathBundle()}/Resources/files/{$userEntity->getUsername()}");
+                            mkdir("{$this->utility->getPathBundleFull()}/Resources/files/{$userEntity->getUsername()}");
 
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("registrationController_6");
                         }
@@ -133,7 +133,7 @@ class RegistrationController extends Controller {
             }
         }
         else {
-            $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($userId);
+            $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($userRow['id']);
             
             $userEntity->setNotLocked(1);
             $userEntity->setHelpCode(null);

@@ -15,7 +15,7 @@
 
     <div class="row">
         <div class="col-md-5">
-            <form id="form_cp_payments_selection" action="{{path("cp_payments_selection", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <form id="form_cp_payments_selection" action="{{path("cp_payments_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                 {{form_row(form.id, {'label': "payments_selection_2"})}}
 
                 {{form_widget(form._token)}}

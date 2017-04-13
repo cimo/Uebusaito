@@ -34,7 +34,7 @@ date.time: H:i:s
 # Classes
 
 # Utility.php
-"utility_1": "Session time is over, please reload the page."
+"utility_1": "Session time is over, please login again."
 "utility_2": "Old password doesn't match!"
 "utility_3": "New password and New confirm password doesn't match!"
 "utility_4": "Password and Confirm password doesn't match!"

@@ -30,7 +30,7 @@ class AuthenticationController extends Controller {
     /**
      * @Template("UebusaitoBundle:render:module/authentication.html.twig")
      */
-    public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
+    public function authenticationAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -43,7 +43,7 @@ class AuthenticationController extends Controller {
         
         $this->response = Array();
         
-        $moduleRow = $this->query->selectModuleFromDatabase(2);
+        $moduleRow = $this->query->selectModuleDatabase(2);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
@@ -56,7 +56,7 @@ class AuthenticationController extends Controller {
             $this->utilityPrivate->assignUserRole($this->getUser());
 
             $this->response['values']['user'] = $this->getUser();
-            $this->response['values']['roleLevel'] = $this->query->selectUserRoleLevelFromDatabase($this->getUser()->getRoleId(), true);
+            $this->response['values']['roleLevel'] = $this->query->selectUserRoleLevelDatabase($this->getUser()->getRoleId(), true);
 
             return Array(
                 'urlLocale' => $this->urlLocale,

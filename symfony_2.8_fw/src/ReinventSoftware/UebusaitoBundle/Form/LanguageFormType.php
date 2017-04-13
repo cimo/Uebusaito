@@ -46,8 +46,8 @@ class LanguageFormType extends AbstractType {
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
         if ($this->type == "text") {
-            $choices = array_column($this->query->selectAllLanguagesFromDatabase(), "code", "code");
-            $languageRow = $this->query->selectLanguageFromDatabase($this->urlLocale);
+            $choices = array_column($this->query->selectAllLanguagesDatabase(), "code", "code");
+            $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);
             
             $builder->add("codeText", "choice", Array(
                 'required' => true,

@@ -48,7 +48,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         
         if ($requestStack->isXmlHttpRequest() == true) {
             $user = $this->utility->getTokenStorage()->getToken()->getUser();
-            $settingRows = $this->query->selectAllSettingsFromDatabase();
+            $settingRows = $this->query->selectAllSettingsDatabase();
             
             $checkCaptcha = $this->utilityPrivate->checkCaptcha($requestStack->request->get("captcha"));
             $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("success", $user->getId());

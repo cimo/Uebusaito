@@ -24,7 +24,7 @@ class UtilityPrivate {
     }
     
     public function configureUserProfilePassword($type, $user, $form) {
-        $userRow = $this->query->selectUserFromDatabase($user->getId());
+        $userRow = $this->query->selectUserDatabase($user->getId());
         
         if ($type == "withOld") {
             if (password_verify($form->get("old")->getData(), $userRow['password']) == false)
@@ -92,7 +92,7 @@ class UtilityPrivate {
     }
     
     public function createPagesSelectHtml($urlLocale, $selectId) {
-        $pageRows = $this->query->selectAllPagesFromDatabase($urlLocale);
+        $pageRows = $this->query->selectAllPagesDatabase($urlLocale);
         
         $pagesList = $this->createPagesList($pageRows, true);
         
@@ -107,7 +107,7 @@ class UtilityPrivate {
     }
     
     public function createRolesSelectHtml($selectId, $isRequired = false) {
-        $roleRows = $this->query->selectAllUserRolesFromDatabase();
+        $roleRows = $this->query->selectAllUserRolesDatabase();
         
         $required = $isRequired == true ? "required=\"required\"" : "";
         
@@ -138,7 +138,7 @@ class UtilityPrivate {
     }
     
     public function createTemplatesList() {
-        $templatesPath = $this->utility->getPathRootFull() . "/src/ReinventSoftware/UebusaitoBundle/Resources/public/images/templates";
+        $templatesPath = "{$this->utility->getPathBundleFull()}/Resources/public/images/templates";
         
         $scanDirElements = @scandir($templatesPath);
         
@@ -163,7 +163,7 @@ class UtilityPrivate {
             $elements[2] = "";
         }
         else {
-            $languageRows = $this->query->selectAllLanguagesFromDatabase();
+            $languageRows = $this->query->selectAllLanguagesDatabase();
             
             $urlLocale = "";
             
@@ -206,7 +206,7 @@ class UtilityPrivate {
     }
     
     public function checkRoleLevel($roleName, $userRoleId) {
-        $userRoleLevelRow = $this->query->selectUserRoleLevelFromDatabase($userRoleId);
+        $userRoleLevelRow = $this->query->selectUserRoleLevelDatabase($userRoleId);
         
         foreach ($roleName as $key => $value) {
             if (in_array($value, $userRoleLevelRow) == true) {
@@ -248,7 +248,7 @@ class UtilityPrivate {
     }
     
     public function checkAttemptLogin($type, $userId) {
-        $userRow = $this->query->selectUserFromDatabase($userId);
+        $userRow = $this->query->selectUserDatabase($userId);
         
         $dateLastLogin = new \DateTime($userRow['date_last_login']);
         $dateCurrent = new \DateTime();

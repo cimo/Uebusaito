@@ -29,12 +29,12 @@ search_result:
 # Registration
 registration:
     path: /registration/{_locale}/{urlCurrentPageId}/{urlExtra}
-    defaults: {_controller: UebusaitoBundle:Registration:index}
+    defaults: {_controller: UebusaitoBundle:Registration:registration}
 
 # Recover password
 recover_password:
     path: /recover_password/{_locale}/{urlCurrentPageId}/{urlExtra}
-    defaults: {_controller: UebusaitoBundle:RecoverPassword:index}
+    defaults: {_controller: UebusaitoBundle:RecoverPassword:recoverPassword}
 
 # Authentication
 authentication_enter_check:
@@ -48,7 +48,7 @@ authentication_exit_check:
 # Control panel - Profile
 cp_profile:
     path: /cp_profile/{_locale}/{urlCurrentPageId}/{urlExtra}
-    defaults: {_controller: UebusaitoBundle:ControlPanel\Profile:index}
+    defaults: {_controller: UebusaitoBundle:ControlPanel\Profile:profile}
 
 cp_profile_password:
     path: /cp_profile_password/{_locale}/{urlCurrentPageId}/{urlExtra}

@@ -28,7 +28,7 @@ class MenuController extends Controller {
     /**
      * @Template("UebusaitoBundle:render:module/menu_root.html.twig")
      */
-    public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
+    public function menuRootAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -39,8 +39,8 @@ class MenuController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         
-        $moduleRow = $this->query->selectModuleFromDatabase(1);
-        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale);
+        $moduleRow = $this->query->selectModuleDatabase(1);
+        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];

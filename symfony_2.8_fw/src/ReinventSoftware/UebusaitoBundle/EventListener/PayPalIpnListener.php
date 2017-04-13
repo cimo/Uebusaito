@@ -34,14 +34,14 @@ class PayPalIpnListener {
         $request = $event->getRequest();
         
         if (strpos($request->getUri(), "cp_profile_credits_payPal") !== false) {
-            $settingRows = $this->query->selectAllSettingsFromDatabase();
+            $settingRows = $this->query->selectAllSettingsDatabase();
             
             $payPal = new PayPal(true, false, $settingRows['payPal_sandbox']);
             
             if ($payPal->ipn() == true) {
                 $payPalElements = $payPal->getElements();
 
-                $paymentRow = $this->query->selectPaymentWithTransactionFromDatabase($payPalElements['txn_id']);
+                $paymentRow = $this->query->selectPaymentWithTransactionDatabase($payPalElements['txn_id']);
 
                 if ($paymentRow == false && isset($payPalElements['payment_status']) == true) {
                     if ($payPalElements['payment_status'] == "Completed") {
@@ -74,7 +74,7 @@ class PayPalIpnListener {
     
     // Functions private
     private function updateCredits($payPalElements) {
-        $userRow = $this->query->selectUserFromDatabase($payPalElements['custom']);
+        $userRow = $this->query->selectUserDatabase($payPalElements['custom']);
         
         $id = $userRow['id'];
         $credits = $userRow['credits'] + $payPalElements['quantity'];

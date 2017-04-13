@@ -54,7 +54,7 @@ class LanguageController extends Controller {
             )
         ));
         
-        $moduleRow = $this->query->selectModuleFromDatabase(4);
+        $moduleRow = $this->query->selectModuleDatabase(4);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
@@ -119,7 +119,7 @@ class LanguageController extends Controller {
             )
         ));
         
-        $this->response['values']['languages'] = $this->query->selectAllLanguagesFromDatabase();
+        $this->response['values']['languages'] = $this->query->selectAllLanguagesDatabase();
         $this->response['settings'] = $this->utility->getSettings();
         
         // Request post
@@ -136,7 +136,7 @@ class LanguageController extends Controller {
                     $codePage = $form->get("codePage")->getData();
 
                     $this->response['values']['codePage'] = $codePage;
-                    $this->response['values']['pageFields'] = $this->query->selectPageFromDatabase($codePage, $this->urlExtra);
+                    $this->response['values']['pageFields'] = $this->query->selectPageDatabase($codePage, $this->urlExtra);
                 }
                 else {
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_2");

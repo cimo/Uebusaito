@@ -40,7 +40,7 @@ class RolesSelectionFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $choices = array_reverse(array_column($this->query->selectAllUserRolesFromDatabase(), "level", "id"), true);
+        $choices = array_reverse(array_column($this->query->selectAllUserRolesDatabase(), "level", "id"), true);
         
         $builder->add("id", "choice", Array(
             'required' => true,

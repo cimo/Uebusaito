@@ -341,6 +341,9 @@ function Utility() {
                 event.preventDefault();
                 event.stopPropagation();
                 
+                $(this).parent(".dropdown-menu").children("li.dropdown").find(".open").removeClass("open");
+                $(this).parent(".dropdown-menu").children("li.dropdown").removeClass("open");
+                
                 if ($(this).hasClass("open") === false)
                     $(this).addClass("open");
                 else

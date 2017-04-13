@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-5">
         <h3>{% trans %}settings_1{% endtrans %}</h3>
-        <form id="form_cp_settings_modify" action="{{path("cp_settings_modify", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_settings_modify" action="{{path("cp_settings_modify", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_2{% endtrans %}</legend>
                 <div class="content">

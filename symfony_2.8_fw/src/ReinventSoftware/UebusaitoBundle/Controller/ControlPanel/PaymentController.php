@@ -133,7 +133,7 @@ class PaymentController extends Controller {
         ));
         
         // Pagination
-        $paymentRows = $this->query->selectAllPaymentsFromDatabase($_SESSION['payments_user_id']);
+        $paymentRows = $this->query->selectAllPaymentsDatabase($_SESSION['payments_user_id']);
         
         $tableResult = $this->table->request($paymentRows, 20, "payment", true, true);
         
@@ -218,7 +218,7 @@ class PaymentController extends Controller {
         $this->response = Array();
         
         // Pagination
-        $paymentRows = $this->query->selectAllPaymentsFromDatabase($_SESSION['payments_user_id']);
+        $paymentRows = $this->query->selectAllPaymentsDatabase($_SESSION['payments_user_id']);
         
         $tableResult = $this->table->request($paymentRows, 20, "payment", true, true);
         
@@ -236,15 +236,15 @@ class PaymentController extends Controller {
                 $this->response['session']['activity'] = $sessionActivity;
             else {
                 if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
-                    $paymentsInDatabase = $this->paymentsInDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
+                    $paymentsDatabase = $this->paymentsDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
                     
-                    if ($paymentsInDatabase == true)
+                    if ($paymentsDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
                 }
                 else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $paymentsInDatabase = $this->paymentsInDatabase("deleteAll");
+                    $paymentsDatabase = $this->paymentsDatabase("deleteAll");
                     
-                    if ($paymentsInDatabase == true) {
+                    if ($paymentsDatabase == true) {
                         $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
                             'urlLocale' => $this->urlLocale,
                             'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -336,7 +336,7 @@ class PaymentController extends Controller {
         return $listHtml;
     }
     
-    private function paymentsInDatabase($type, $id = null) {
+    private function paymentsDatabase($type, $id = null) {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM payments
                                                                 WHERE user_id = :userId

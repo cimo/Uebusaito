@@ -47,7 +47,7 @@ class SettingsFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $choices = array_column($this->query->selectAllLanguagesFromDatabase(), "code", "code");
+        $choices = array_column($this->query->selectAllLanguagesDatabase(), "code", "code");
         
         $settings = $this->utility->getSettings();
         

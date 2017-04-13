@@ -36,7 +36,7 @@ class RecoverPasswordController extends Controller {
     /**
      * @Template("UebusaitoBundle:render:recover_password.html.twig")
      */
-    public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
+    public function recoverPasswordAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -50,10 +50,10 @@ class RecoverPasswordController extends Controller {
         
         $this->response = Array();
         
-        $userId = $this->query->selectUserIdWithHelpCodeFromDatabase($this->urlExtra);
+        $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
         
-        if ($userId == null) {
-            $this->response['values']['userId'] = $userId;
+        if ($userRow['id'] == null) {
+            $this->response['values']['userId'] = $userRow['id'];
             
             // Create form
             $recoverPasswordFormType = new RecoverPasswordFormType();
@@ -116,7 +116,7 @@ class RecoverPasswordController extends Controller {
             }
         }
         else {
-            $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($userId);
+            $user = $this->entityManager->getRepository("UebusaitoBundle:User")->find($userRow['id']);
             
             $this->response['values']['userId'] = $user->getId();
             

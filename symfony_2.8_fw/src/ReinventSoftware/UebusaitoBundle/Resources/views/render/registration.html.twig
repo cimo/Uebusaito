@@ -5,17 +5,17 @@
     
     <ul id="menu_registration" class="nav nav-tabs">
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': 3, 'urlExtra': "private"})}}">{% trans %}registration_1{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "private"})}}">{% trans %}registration_1{% endtrans %}</a>
         </li>
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': 3, 'urlExtra': "company"})}}">{% trans %}registration_2{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "company"})}}">{% trans %}registration_2{% endtrans %}</a>
         </li>
     </ul>
     <div class="page_container clearfix">
         <div class="row">
             <div class="col-md-5">
                 <h3 class="margin_clear">{% trans %}registration_3{% endtrans %}</h3>
-                <form id="form_user_registration" class="margin_top" action="{{path("registration", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                <form id="form_user_registration" class="margin_top" action="{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                     <div class="form-group">
                         {{form_label(form.username, "registration_4")}}
                         <div class="input-group">

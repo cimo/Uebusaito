@@ -3,10 +3,12 @@
 <div class="row">
     <div class="col-md-5">
         <h3>{% trans %}profile_1{% endtrans %}</h3>
-        <form id="form_cp_profile" action="{{path("cp_profile", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_profile" action="{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}profile_2{% endtrans %}</legend>
                 <div class="content">
+                    <img src="data:image/jpg;base64,{{avatar}}" alt="Avatar"/>
+                    
                     {% if is_granted("ROLE_ADMIN") == true %}
                         <div class="form-group">
                             {{form_label(form.username, "profile_3")}}

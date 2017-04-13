@@ -18,7 +18,7 @@ class ControlPanelController extends Controller {
     /**
      * @Template("UebusaitoBundle:render:control_panel.html.twig")
      */
-    public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
+    public function controlPanelAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;

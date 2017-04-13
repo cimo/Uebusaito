@@ -56,7 +56,7 @@ class SearchController extends Controller {
             )
         ));
         
-        $moduleRow = $this->query->selectModuleFromDatabase(5);
+        $moduleRow = $this->query->selectModuleDatabase(5);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
@@ -117,7 +117,7 @@ class SearchController extends Controller {
         $this->response = Array();
         
         // Pagination
-        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale, $this->urlExtra);
+        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale, $this->urlExtra);
         
         $tableResult = $this->table->request($pageRows, 20, "searchResult", true, true);
         

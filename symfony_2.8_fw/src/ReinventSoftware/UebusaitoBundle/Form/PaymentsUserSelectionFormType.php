@@ -40,7 +40,7 @@ class PaymentsUserSelectionFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $choices = array_column($this->query->selectAllUsersFromDatabase(), "username", "id");
+        $choices = array_column($this->query->selectAllUsersDatabase(), "username", "id");
         
         $builder->add("userId", "choice", Array(
             'required' => true,

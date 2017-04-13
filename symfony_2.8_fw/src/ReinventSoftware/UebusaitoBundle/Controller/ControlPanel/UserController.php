@@ -88,7 +88,7 @@ class UserController extends Controller {
                         $this->entityManager->persist($userEntity);
                         $this->entityManager->flush();
                         
-                        mkdir("{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
+                        mkdir("{$this->utility->getPathBundleFull()}/Resources/files/{$form->get("username")->getData()}");
 
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_1");
                     }
@@ -145,7 +145,7 @@ class UserController extends Controller {
         ));
         
         // Pagination
-        $userRows = $this->query->selectAllUsersFromDatabase(1);
+        $userRows = $this->query->selectAllUsersDatabase(1);
         
         $tableResult = $this->table->request($userRows, 20, "user", true, true);
         
@@ -257,8 +257,8 @@ class UserController extends Controller {
                     $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
 
                     if ($message == "ok") {
-                        rename("{$this->utility->getPathBundle()}/Resources/files/$usernameOld",
-                                "{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
+                        rename("{$this->utility->getPathBundleFull()}/Resources/files/$usernameOld",
+                                "{$this->utility->getPathBundleFull()}/Resources/files/{$form->get("username")->getData()}");
                         
                         if ($form->get("notLocked")->getData() == true)
                             $userEntity->setHelpCode("");
@@ -314,7 +314,7 @@ class UserController extends Controller {
         $this->response = Array();
         
         // Pagination
-        $userRows = $this->query->selectAllUsersFromDatabase(1);
+        $userRows = $this->query->selectAllUsersDatabase(1);
         
         $tableResult = $this->table->request($userRows, 20, "user", true, true);
         
@@ -334,27 +334,32 @@ class UserController extends Controller {
                 if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
                     $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->utility->getRequestStack()->request->get("id"));
 
-                    $usersInDatabase = $this->usersInDatabase("delete", $userEntity->getId());
+                    $usersDatabase = $this->usersDatabase("delete", $userEntity->getId());
                     
-                    if ($usersInDatabase == true) {
-                        $this->utility->removeDirRecursive("{$this->utility->getPathBundle()}/Resources/files/{$userEntity->getUsername()}", true);
+                    if ($usersDatabase == true) {
+                        $this->utility->removeDirRecursive("{$this->utility->getPathBundleFull()}/Resources/files/{$userEntity->getUsername()}", true);
                         
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
                     }
                 }
                 else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $usersInDatabase = $this->usersInDatabase("deleteAll");
+                    $userRows = $this->query->selectAllUsersDatabase(1);
                     
-                    if ($usersInDatabase == true) {
+                    $usersDatabase = $this->usersDatabase("deleteAll");
+                    
+                    if ($usersDatabase == true) {
+                        for ($i = 0; $i < count($userRows); $i ++)
+                            $this->utility->removeDirRecursive("{$this->utility->getPathBundleFull()}/Resources/files/{$userRows[$i]['username']}", true);
+                        
                         $render = $this->renderView("UebusaitoBundle::render/control_panel/users_selection_desktop.html.twig", Array(
                             'urlLocale' => $this->urlLocale,
                             'urlCurrentPageId' => $this->urlCurrentPageId,
                             'urlExtra' => $this->urlExtra,
                             'response' => $this->response
                         ));
-
+                        
                         $this->response['render'] = $render;
-
+                        
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_7");
                     }
                 }
@@ -412,7 +417,7 @@ class UserController extends Controller {
         
         $roleLevel = Array();
         foreach ($userRows as $key => $value)
-            $roleLevel[] = $this->query->selectUserRoleLevelFromDatabase($value['role_id'], true);
+            $roleLevel[] = $this->query->selectUserRoleLevelDatabase($value['role_id'], true);
         
         foreach ($tableResult as $key => $value) {
             $listHtml .= "<tr>
@@ -455,7 +460,7 @@ class UserController extends Controller {
         return $listHtml;
     }
     
-    private function usersInDatabase($type, $id = null) {
+    private function usersDatabase($type, $id = null) {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM users
                                                                 WHERE id > :idExclude

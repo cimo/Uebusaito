@@ -40,7 +40,7 @@ class UsersSelectionFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $choices = array_reverse(array_column($this->query->selectAllUsersFromDatabase(1), "username", "id"), true);
+        $choices = array_reverse(array_column($this->query->selectAllUsersDatabase(1), "username", "id"), true);
         
         $builder->add("id", "choice", Array(
             'required' => true,

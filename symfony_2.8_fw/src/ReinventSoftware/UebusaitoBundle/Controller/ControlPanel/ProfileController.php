@@ -39,7 +39,7 @@ class ProfileController extends Controller {
     /**
      * @Template("UebusaitoBundle:render:control_panel/profile.html.twig")
      */
-    public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -53,7 +53,9 @@ class ProfileController extends Controller {
         
         $this->response = Array();
         
-        $usernameOld = "";
+        $usernameOld = $this->getUser()->getUsername();
+        
+        $avatar = "{$this->utility->getPathBundleFull()}/Resources/files/$usernameOld/Avatar.jpg";
         
         // Create form
         $userFormType = new UserFormType();
@@ -67,8 +69,6 @@ class ProfileController extends Controller {
         
         if ($chekRoleLevel == false)
             $form->remove("username");
-        else
-            $usernameOld = $this->getUser()->getUsername();
         
         $form->remove("roleId");
         $form->remove("password");
@@ -87,8 +87,8 @@ class ProfileController extends Controller {
                 
                 // Check form
                 if ($form->isValid() == true) {
-                    rename("{$this->utility->getPathBundle()}/Resources/files/$usernameOld",
-                            "{$this->utility->getPathBundle()}/Resources/files/{$form->get("username")->getData()}");
+                    rename("{$this->utility->getPathBundleFull()}/Resources/files/$usernameOld",
+                            "{$this->utility->getPathBundleFull()}/Resources/files/{$form->get("username")->getData()}");
                     
                     // Insert in database
                     $this->entityManager->persist($this->getUser());
@@ -106,7 +106,8 @@ class ProfileController extends Controller {
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
                 'urlExtra' => $this->urlExtra,
-                'response' => $this->response
+                'response' => $this->response,
+                'avatar' => $avatar
             ));
         }
         
@@ -115,7 +116,8 @@ class ProfileController extends Controller {
             'urlCurrentPageId' => $this->urlCurrentPageId,
             'urlExtra' => $this->urlExtra,
             'response' => $this->response,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'avatar' => $avatar
         );
     }
     
@@ -207,7 +209,7 @@ class ProfileController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $currentCredits = $this->getUser() != null ? $this->getUser()->getCredits() : 0;
-        $settingRows = $this->query->selectAllSettingsFromDatabase();
+        $settingRows = $this->query->selectAllSettingsDatabase();
         
         $this->response = Array();
         

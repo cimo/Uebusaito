@@ -45,7 +45,7 @@ class PagesSelectionFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale);
+        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
         
         $builder->add("id", "choice", Array(
             'required' => true,

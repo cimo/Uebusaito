@@ -40,7 +40,7 @@ class ModulesSelectionFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $choices = array_reverse(array_column($this->query->selectAllModulesFromDatabase(), "name", "id"), true);
+        $choices = array_reverse(array_column($this->query->selectAllModulesDatabase(), "name", "id"), true);
         
         $builder->add("id", "choice", Array(
             'required' => true,

@@ -12,8 +12,8 @@ class Query {
         $this->connection = $connection;
     }
     
-    public function selectUserIdWithHelpCodeFromDatabase($helpCode) {
-        $query = $this->connection->prepare("SELECT id FROM users
+    public function selectUserWithHelpCodeDatabase($helpCode) {
+        $query = $this->connection->prepare("SELECT * FROM users
                                                 WHERE help_code IS NOT NULL
                                                 AND help_code = :helpCode");
         
@@ -21,14 +21,10 @@ class Query {
         
         $query->execute();
         
-        $rows = $query->fetch();
-        
-        $id = $rows['id'];
-        
-        return $id;
+        return $query->fetch();
     }
     
-    public function selectUserRoleLevelFromDatabase($roleId, $modify = false) {
+    public function selectUserRoleLevelDatabase($roleId, $modify = false) {
         $rolesExplode = explode(",", $roleId);
         array_pop($rolesExplode);
         
@@ -53,7 +49,7 @@ class Query {
         return $level;
     }
     
-    public function selectAllUserRolesFromDatabase($change = false) {
+    public function selectAllUserRolesDatabase($change = false) {
         $query = $this->connection->prepare("SELECT * FROM users_roles");
         
         $query->execute();
@@ -71,7 +67,7 @@ class Query {
         return $rows;
     }
     
-    public function selectAllSettingsFromDatabase() {
+    public function selectAllSettingsDatabase() {
         $query = $this->connection->prepare("SELECT * FROM settings");
         
         $query->execute();
@@ -79,7 +75,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectLanguageFromDatabase($value) {
+    public function selectLanguageDatabase($value) {
         if (is_numeric($value) == true)
             $query = $this->connection->prepare("SELECT * FROM languages
                                                     WHERE id = :value");
@@ -94,7 +90,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllLanguagesFromDatabase() {
+    public function selectAllLanguagesDatabase() {
         $query = $this->connection->prepare("SELECT * FROM languages");
         
         $query->execute();
@@ -102,7 +98,7 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectPageFromDatabase($language, $id) {
+    public function selectPageDatabase($language, $id) {
         $query = $this->connection->prepare("SELECT pages.*,
                                                 pages_titles.$language AS title,
                                                 pages_arguments.$language AS argument,
@@ -121,7 +117,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllPagesFromDatabase($language, $search = null) {
+    public function selectAllPagesDatabase($language, $search = null) {
         if ($search == null) {
             $query = $this->connection->prepare("SELECT pages.*,
                                                     pages_titles.$language AS title,
@@ -153,18 +149,18 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectAllPageChildrenIdFromDatabase($page) {
-        $query = $this->connection->prepare("SELECT id FROM pages
+    public function selectAllPageChildrenDatabase($id) {
+        $query = $this->connection->prepare("SELECT * FROM pages
                                                 WHERE parent = :id");
         
-        $query->bindValue(":id", $page->getId());
+        $query->bindValue(":id", $id);
         
         $query->execute();
         
         return $query->fetchAll();
     }
     
-    public function selectUserFromDatabase($value) {
+    public function selectUserDatabase($value) {
         if (is_numeric($value) == true) {
             $query = $this->connection->prepare("SELECT * FROM users
                                                     WHERE id = :id");
@@ -189,7 +185,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllUsersFromDatabase($idExcluded = 0) {
+    public function selectAllUsersDatabase($idExcluded = 0) {
         $query = $this->connection->prepare("SELECT * FROM users
                                                 WHERE id != :idExcluded");
         
@@ -200,7 +196,7 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectModuleFromDatabase($id) {
+    public function selectModuleDatabase($id) {
         $query = $this->connection->prepare("SELECT * FROM modules
                                                 WHERE id = :id");
 
@@ -211,7 +207,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllModulesFromDatabase($id = null, $position = null) {
+    public function selectAllModulesDatabase($id = null, $position = null) {
         if ($id == null && $position != null) {
             $query = $this->connection->prepare("SELECT * FROM modules
                                                     WHERE position = :position
@@ -237,7 +233,7 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectPaymentWithTransactionFromDatabase($transaction) {
+    public function selectPaymentWithTransactionDatabase($transaction) {
         $query = $this->connection->prepare("SELECT * FROM payments
                                                 WHERE transaction = :transaction");
         
@@ -248,7 +244,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllPaymentsFromDatabase($userId) {
+    public function selectAllPaymentsDatabase($userId) {
         $query = $this->connection->prepare("SELECT * FROM payments
                                                 WHERE user_id = :userId");
         
@@ -259,7 +255,7 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectAllPaymentsUserFromDatabase($userId) {
+    public function selectAllPaymentsUserDatabase($userId) {
         $query = $this->connection->prepare("SELECT * FROM payments
                                                 WHERE user_id != :userId
                                                 AND user_id > 1");

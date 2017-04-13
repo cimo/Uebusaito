@@ -27,7 +27,7 @@ class PageLogicController extends Controller {
     /**
      * @Template("UebusaitoBundle:render:module/page_logic.html.twig")
      */
-    public function indexAction($_locale, $urlCurrentPageId, $urlExtra) {
+    public function pageLogicAction($_locale, $urlCurrentPageId, $urlExtra) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = ($urlCurrentPageId <= 0 || empty($urlCurrentPageId) == true) ? 2 : $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -45,7 +45,7 @@ class PageLogicController extends Controller {
         $this->response['module']['id'] = $moduleEntity->getId();
         $this->response['module']['label'] = $moduleEntity->getLabel();
         
-        $pageRow = $this->query->selectPageFromDatabase($this->urlLocale, $this->urlCurrentPageId);
+        $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
         
         $this->response['values']['controllerAction'] = null;
         $this->response['values']['title'] = $this->utility->getTranslator()->trans("pageLogicController_1");

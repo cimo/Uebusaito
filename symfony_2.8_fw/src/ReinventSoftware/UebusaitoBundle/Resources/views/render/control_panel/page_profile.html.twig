@@ -6,7 +6,7 @@
 
         {{-render(controller("UebusaitoBundle:Language:page", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
 
-        <form id="form_cp_page_profile" action="{{path("cp_page_profile", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_page_profile" action="{{path("cp_page_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_row(form.language, {'label': "page_profile_2"})}}
             {{form_row(form.parent, {'label': "page_profile_3"})}}
             

@@ -1,29 +1,29 @@
 <ul id="menu_control_panel" class="nav nav-tabs">
     {% if is_granted("ROLE_USER") == true %}
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">{% trans %}control_panel_1{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">{% trans %}control_panel_1{% endtrans %}</a>
         </li>
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payments"})}}">{% trans %}control_panel_2{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payments"})}}">{% trans %}control_panel_2{% endtrans %}</a>
         </li>
     {% endif %}
     {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_pages"})}}">{% trans %}control_panel_3{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_pages"})}}">{% trans %}control_panel_3{% endtrans %}</a>
         </li>
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_users"})}}">{% trans %}control_panel_4{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_users"})}}">{% trans %}control_panel_4{% endtrans %}</a>
         </li>
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_modules"})}}">{% trans %}control_panel_5{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_modules"})}}">{% trans %}control_panel_5{% endtrans %}</a>
         </li>
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_roles"})}}">{% trans %}control_panel_6{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_roles"})}}">{% trans %}control_panel_6{% endtrans %}</a>
         </li>
     {% endif %}
     {% if is_granted("ROLE_ADMIN") == true %}
         <li>
-            <a href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_settings"})}}">{% trans %}control_panel_7{% endtrans %}</a>
+            <a href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_settings"})}}">{% trans %}control_panel_7{% endtrans %}</a>
         </li>
     {% endif %}
 </ul>
@@ -31,7 +31,7 @@
     {% if urlExtra == "" or urlExtra == "cp_profile" %}
         {% if is_granted("ROLE_USER") == true %}
             <p>{% trans %}control_panel_8{% endtrans %}</p>
-            {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+            {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:profile", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
             {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:password", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
             {% if settings['credits'] == true %}
                 {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:credits", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
@@ -47,8 +47,8 @@
         {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
             <p>{% trans %}control_panel_10{% endtrans %}</p>
             
-            <a class="btn btn-primary" href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_pages/create"})}}">{% trans %}button_1{% endtrans %}</a>
-            <a class="btn btn-primary" href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_pages/modify"})}}">{% trans %}button_5{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_pages/create"})}}">{% trans %}button_1{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_pages/modify"})}}">{% trans %}button_5{% endtrans %}</a>
             
             {% if urlExtra == "cp_pages/create" %}
                 {{-render(controller("UebusaitoBundle:ControlPanel\\Page:creation", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
@@ -62,8 +62,8 @@
         {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
             <p>{% trans %}control_panel_11{% endtrans %}</p>
             
-            <a class="btn btn-primary" href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_users/create"})}}">{% trans %}button_1{% endtrans %}</a>
-            <a class="btn btn-primary" href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_users/modify"})}}">{% trans %}button_5{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_users/create"})}}">{% trans %}button_1{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_users/modify"})}}">{% trans %}button_5{% endtrans %}</a>
             
             {% if urlExtra == "cp_users/create" %}
                 {{-render(controller("UebusaitoBundle:ControlPanel\\User:creation", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
@@ -81,8 +81,8 @@
                 {{-render(controller("UebusaitoBundle:ControlPanel\\Module:drag", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
             </div>
             
-            <a class="btn btn-primary" href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_modules/create"})}}">{% trans %}button_1{% endtrans %}</a>
-            <a class="btn btn-primary" href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_modules/modify"})}}">{% trans %}button_5{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_modules/create"})}}">{% trans %}button_1{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_modules/modify"})}}">{% trans %}button_5{% endtrans %}</a>
             
             {% if urlExtra == "cp_modules/create" %}
                 {{-render(controller("UebusaitoBundle:ControlPanel\\Module:creation", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
@@ -96,8 +96,8 @@
         {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
             <p>{% trans %}control_panel_13{% endtrans %}</p>
             
-            <a class="btn btn-primary" href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_roles/create"})}}">{% trans %}button_1{% endtrans %}</a>
-            <a class="btn btn-primary" href="{{path("index", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_roles/modify"})}}">{% trans %}button_5{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_roles/create"})}}">{% trans %}button_1{% endtrans %}</a>
+            <a class="btn btn-primary" href="{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_roles/modify"})}}">{% trans %}button_5{% endtrans %}</a>
             
             {% if urlExtra == "cp_roles/create" %}
                 {{-render(controller("UebusaitoBundle:ControlPanel\\Role:creation", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}

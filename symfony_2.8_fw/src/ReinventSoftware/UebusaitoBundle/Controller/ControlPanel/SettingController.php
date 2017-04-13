@@ -133,12 +133,12 @@ class SettingController extends Controller {
                 if ($this->utility->getRequestStack()->request->get("event") == "deleteLanguage" && $this->utilityPrivate->checkToken() == true) {
                     $currentIndex = $this->utility->getRequestStack()->request->get("currentIndex");
                     
-                    $languageRows = $this->query->selectLanguageFromDatabase($currentIndex);
+                    $languageRows = $this->query->selectLanguageDatabase($currentIndex);
 
-                    $settingsInDatabase = $this->settingsInDatabase("deleteLanguage", $currentIndex);
+                    $settingsDatabase = $this->settingsDatabase("deleteLanguage", $currentIndex);
                     
-                    if ($settingsInDatabase == true) {
-                        unlink("{$this->utility->getPathBundle()}/Resources/translations/messages.{$languageRows['code']}.yml");
+                    if ($settingsDatabase == true) {
+                        unlink("{$this->utility->getPathBundleFull()}/Resources/translations/messages.{$languageRows['code']}.yml");
                         
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_3");
                     }
@@ -146,7 +146,7 @@ class SettingController extends Controller {
                 else if ($this->utility->getRequestStack()->request->get("event") == "createLanguage" && $this->utilityPrivate->checkToken() == true) {
                     $code = $this->utility->getRequestStack()->request->get("code");
                     
-                    $languageRows = $this->query->selectAllLanguagesFromDatabase();
+                    $languageRows = $this->query->selectAllLanguagesDatabase();
                     
                     $exists = false;
                     
@@ -159,10 +159,10 @@ class SettingController extends Controller {
                     }
                     
                     if ($code != "" && $exists == false) {
-                        $settingsInDatabase = $this->settingsInDatabase("insertLanguage", $code);
+                        $settingsDatabase = $this->settingsDatabase("insertLanguage", $code);
                         
-                        if ($settingsInDatabase == true) {
-                            touch("{$this->utility->getPathBundle()}/Resources/translations/messages.$code.yml");
+                        if ($settingsDatabase == true) {
+                            touch("{$this->utility->getPathBundleFull()}/Resources/translations/messages.$code.yml");
                             
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
                         }
@@ -189,7 +189,7 @@ class SettingController extends Controller {
     }
     
     // Functions private
-    private function settingsInDatabase($type, $value) {
+    private function settingsDatabase($type, $value) {
         if ($type == "deleteLanguage") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM languages
                                                                 WHERE id > :idExclude

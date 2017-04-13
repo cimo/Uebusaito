@@ -45,7 +45,7 @@ class PageFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $pageRows = $this->query->selectAllPagesFromDatabase($this->urlLocale);
+        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
         
         if ($options['data']->getId() == null) {
             $pageRow = Array(
@@ -59,7 +59,7 @@ class PageFormType extends AbstractType {
             );
         }
         else
-            $pageRow = $this->query->selectPageFromDatabase($this->urlLocale, $options['data']->getId());
+            $pageRow = $this->query->selectPageDatabase($this->urlLocale, $options['data']->getId());
         
         $builder->add("language", "hidden", Array(
             'required' => true,

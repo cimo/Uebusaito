@@ -24,16 +24,16 @@ class Utility {
     private $config;
     private $query;
     
-    private $websiteName;
-    
     private $pathDocumentRoot;
     private $pathRoot;
     private $pathRootFull;
-    private $pathBundle;
+    private $pathBundleFull;
     
     private $urlRoot;
-    private $urlPublic;
-    private $urlView;
+    private $urlBundle;
+    private $urlRootFull;
+    
+    private $websiteName;
     
     private $settings;
     
@@ -70,36 +70,36 @@ class Utility {
         return $this->tokenStorage;
     }
     
-    public function getWebsiteName() {
-        return $this->websiteName;
+    public function getPathRoot() {
+        return $this->pathRoot;
     }
     
     public function getPathDocumentRoot() {
         return $this->pathDocumentRoot;
     }
     
-    public function getPathRoot() {
-        return $this->pathRoot;
-    }
-    
     public function getPathRootFull() {
         return $this->pathRootFull;
     }
     
-    public function getPathBundle() {
-        return $this->pathBundle;
+    public function getPathBundleFull() {
+        return $this->pathBundleFull;
     }
     
     public function getUrlRoot() {
         return $this->urlRoot;
     }
     
-    public function getUrlPublic() {
-        return $this->urlPublic;
+    public function getUrlBundle() {
+        return $this->urlBundle;
     }
     
-    public function getUrlView() {
-        return $this->urlView;
+    public function getUrlRootFull() {
+        return $this->urlRootFull;
+    }
+    
+    public function getWebsiteName() {
+        return $this->websiteName;
     }
     
     public function getSettings() {
@@ -123,19 +123,20 @@ class Utility {
         $this->config = new Config();
         $this->query = new Query($this->connection);
         
+        $protocol = isset($_SERVER['HTTPS']) == true ? "https://" : "http://";
+        
+        $this->pathRoot = $this->config->getPathRoot();
+        $this->pathDocumentRoot = $_SERVER['DOCUMENT_ROOT'];
+        $this->pathRootFull = $this->pathDocumentRoot . $this->pathRoot;
+        $this->pathBundleFull = "{$this->pathRootFull}/src/ReinventSoftware/UebusaitoBundle";
+        
+        $this->urlRoot = $this->config->getUrlRoot();
+        $this->urlBundle = "{$this->config->getUrlRoot()}/web/bundles/uebusaito";
+        $this->urlRootFull = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot() . $this->config->getFile();
+        
         $this->websiteName = $this->config->getName();
         
-        $this->pathDocumentRoot = $_SERVER['DOCUMENT_ROOT'];
-        $this->pathRoot = $this->config->getPathRoot();
-        $this->pathRootFull = $this->pathDocumentRoot . $this->pathRoot;
-        $this->pathBundle = "{$this->pathRootFull}/src/ReinventSoftware/UebusaitoBundle";
-        
-        $protocol = isset($_SERVER['HTTPS']) == true ? "https://" : "http://";
-        $this->urlRoot = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot() . $this->config->getFile();
-        $this->urlPublic = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot() . "/Resources/public";
-        $this->urlView = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot() . "/Resources/views";
-        
-        $this->settings = $this->query->selectAllSettingsFromDatabase();
+        $this->settings = $this->query->selectAllSettingsDatabase();
         
         $this->arrayColumnFix();
     }

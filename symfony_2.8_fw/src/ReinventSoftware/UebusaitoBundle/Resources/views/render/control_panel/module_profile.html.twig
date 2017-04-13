@@ -4,7 +4,7 @@
     <div class="col-md-5">
         <h3>{% trans %}module_profile_1{% endtrans %}</h3>
         
-        <form id="form_cp_module_profile" action="{{path("cp_module_profile", {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_module_profile" action="{{path("cp_module_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <div class="display_mobile">
                 <div class="form-group">
                     {{form_label(form.position, "module_profile_2")}}
