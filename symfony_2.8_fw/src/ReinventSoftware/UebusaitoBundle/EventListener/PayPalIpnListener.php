@@ -57,11 +57,11 @@ class PayPalIpnListener {
                         $payment->setAmount($payPalElements['mc_gross']);
                         $payment->setQuantity($payPalElements['quantity']);
 
+                        $this->updateCredits($payPalElements);
+                        
                         // Insert in database
                         $this->entityManager->persist($payment);
                         $this->entityManager->flush();
-
-                        $this->updateCredits($payPalElements);
 
                         error_log("Completed: " . print_r($payPalElements, true) . PHP_EOL);
                     }

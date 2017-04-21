@@ -72,7 +72,7 @@ function Language() {
     }
     
     function selectOnPage() {
-        var parameters = utility.urlParameters(window.location.href, url.rootFull);
+        var parameters = utility.urlParameters(settings.language);
         
         $("#language_flag").find("#language_flag_" + parameters[0]).addClass("language_page_flag_selected");
         $("#language_flag").find("input[name='form_language[codePage]']").val(parameters[0]);

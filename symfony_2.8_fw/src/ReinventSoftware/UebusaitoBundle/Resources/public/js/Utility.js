@@ -77,12 +77,14 @@ function Utility() {
         $("#" + formTag).submit();
     };
     
-    self.urlParameters = function(completeUrl, baseUrl) {
-        var lastPath = completeUrl.replace(baseUrl, "");
-        var lastPathSplit = lastPath.split("/");
-        lastPathSplit.shift();
+    self.urlParameters = function(language) {
+        var href = window.location.href;
         
-        return lastPathSplit;
+        var start = href.indexOf("/" + language + "/");
+        var split = href.substring(start, href.length).split("/");
+        split.shift();
+        
+        return split;
     };
     
     self.selectWithDisabledElement = function(id, xhr) {

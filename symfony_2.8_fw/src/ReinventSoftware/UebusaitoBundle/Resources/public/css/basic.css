@@ -246,6 +246,8 @@ body { margin-bottom: 150px; }
 
 .remember_me_fix { margin: 5px 0 5px 10px !important; display: inline-block !important; }
 
+.avatar { width: 100px; height: 100px; }
+
 .jqte { margin: 0 !important; }
 
 .jqte_editor { height: 250px !important; }

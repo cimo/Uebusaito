@@ -83,10 +83,6 @@ class RegistrationController extends Controller {
 
                             $url = $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->attributes->get("_locale") . "/" . $this->utility->getRequestStack()->attributes->get("urlCurrentPageId") . "/" . $helpCode;
 
-                            // Insert in database
-                            $this->entityManager->persist($userEntity);
-                            $this->entityManager->flush();
-                            
                             $message = "";
                             
                             if ($this->utility->getSettings()['registration_user_confirm_admin'] == true)
@@ -112,6 +108,12 @@ class RegistrationController extends Controller {
                             );
                             
                             mkdir("{$this->utility->getPathBundleFull()}/Resources/files/{$userEntity->getUsername()}");
+                            mkdir("{$this->utility->getPathBundleFull()}/Resources/public/images/users/{$userEntity->getUsername()}");
+                            mkdir("{$this->utility->getPathWeb()}/images/users/{$userEntity->getUsername()}");
+                            
+                            // Insert in database
+                            $this->entityManager->persist($userEntity);
+                            $this->entityManager->flush();
 
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("registrationController_6");
                         }

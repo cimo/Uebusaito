@@ -85,17 +85,17 @@ class RecoverPasswordController extends Controller {
 
                             $url = $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->attributes->get("_locale") . "/" . $this->utility->getRequestStack()->attributes->get("urlCurrentPageId") . "/" . $helpCode;
 
-                            // Insert in database
-                            $this->entityManager->persist($user);
-                            $this->entityManager->flush();
-
                             // Send email to user
                             $this->utility->sendEmail($user->getEmail(),
                                                         "Recover password",
                                                         "<p>Click on this link for reset your password:</p>" .
                                                         "<a href=\"$url\">$url</a>",
                                                         $_SERVER['SERVER_ADMIN']);
-
+                            
+                            // Insert in database
+                            $this->entityManager->persist($user);
+                            $this->entityManager->flush();
+                            
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_1");
                         }
                         else

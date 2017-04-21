@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Apr 11, 2017 alle 15:24
+-- Generato il: Apr 19, 2017 alle 16:52
 -- Versione del server: 5.5.54-0ubuntu0.14.04.1
 -- Versione PHP: 5.5.9-1ubuntu4.21
 
@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `vat`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
-(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00136', 'Via', '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 14, 1, '2015-08-04 10:25:12', '2017-04-11 11:14:48', NULL, '93.57.95.188', 0),
+(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 14, 1, '2015-08-04 10:25:12', '2017-04-19 16:25:19', NULL, '93.57.95.188', 0),
 (2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 11, 1, '2015-09-10 17:39:31', '2017-04-06 13:11:11', NULL, '93.57.95.188', 0),
 (3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, '2017-03-29 19:18:26', NULL, NULL, 0);
 

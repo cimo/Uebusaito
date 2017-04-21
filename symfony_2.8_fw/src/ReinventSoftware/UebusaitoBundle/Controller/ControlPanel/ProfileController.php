@@ -51,11 +51,11 @@ class ProfileController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->response = Array();
-        
         $usernameOld = $this->getUser()->getUsername();
         
-        $avatar = "{$this->utility->getPathBundleFull()}/Resources/files/$usernameOld/Avatar.jpg";
+        $avatar = "{$this->utility->getUrlBundle()}/images/users/$usernameOld/Avatar.jpg";
+        
+        $this->response = Array();
         
         // Create form
         $userFormType = new UserFormType();
@@ -89,12 +89,19 @@ class ProfileController extends Controller {
                 if ($form->isValid() == true) {
                     rename("{$this->utility->getPathBundleFull()}/Resources/files/$usernameOld",
                             "{$this->utility->getPathBundleFull()}/Resources/files/{$form->get("username")->getData()}");
+                    rename("{$this->utility->getPathBundleFull()}/Resources/public/images/users/$usernameOld",
+                            "{$this->utility->getPathBundleFull()}/Resources/public/images/users/{$form->get("username")->getData()}");
+                    rename("{$this->utility->getPathWeb()}/images/users/$usernameOld",
+                            "{$this->utility->getPathWeb()}/images/users/{$form->get("username")->getData()}");
                     
                     // Insert in database
                     $this->entityManager->persist($this->getUser());
                     $this->entityManager->flush();
                     
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_1");
+                    if ($form->get("username")->getData() != $usernameOld)
+                        $this->response['action']['refresh'] = true;
+                    else
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_1");
                 }
                 else {
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_2");

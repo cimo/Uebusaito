@@ -28,6 +28,7 @@ class Utility {
     private $pathRoot;
     private $pathRootFull;
     private $pathBundleFull;
+    private $pathWeb;
     
     private $urlRoot;
     private $urlBundle;
@@ -86,6 +87,10 @@ class Utility {
         return $this->pathBundleFull;
     }
     
+    public function getPathWeb() {
+        return $this->pathWeb;
+    }
+    
     public function getUrlRoot() {
         return $this->urlRoot;
     }
@@ -129,10 +134,11 @@ class Utility {
         $this->pathDocumentRoot = $_SERVER['DOCUMENT_ROOT'];
         $this->pathRootFull = $this->pathDocumentRoot . $this->pathRoot;
         $this->pathBundleFull = "{$this->pathRootFull}/src/ReinventSoftware/UebusaitoBundle";
+        $this->pathWeb = "{$this->pathRootFull}/web/bundles/uebusaito";
         
         $this->urlRoot = $this->config->getUrlRoot();
         $this->urlBundle = "{$this->config->getUrlRoot()}/web/bundles/uebusaito";
-        $this->urlRootFull = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot() . $this->config->getFile();
+        $this->urlRootFull = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot();
         
         $this->websiteName = $this->config->getName();
         

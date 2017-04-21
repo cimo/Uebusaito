@@ -7,7 +7,12 @@
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}profile_2{% endtrans %}</legend>
                 <div class="content">
-                    <img src="data:image/jpg;base64,{{avatar}}" alt="Avatar"/>
+                    <div class="form-group">
+                        <label class="control-label required" for="form_user_avatar">Avatar</label>
+                        <div class="input-group">
+                            <img class="avatar" src="{{avatar}}" alt="Avatar"/>
+                        </div>
+                    </div>
                     
                     {% if is_granted("ROLE_ADMIN") == true %}
                         <div class="form-group">

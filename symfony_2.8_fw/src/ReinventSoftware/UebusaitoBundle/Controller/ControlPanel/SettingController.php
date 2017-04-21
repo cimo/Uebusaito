@@ -70,16 +70,14 @@ class SettingController extends Controller {
                 
                 // Check form
                 if ($form->isValid() == true) {
-                    $https = $form->get("https")->getData();
-                    
-                    if ($https != $this->utility->getSettings()['https'])
-                        $this->response['action']['refresh'] = true;
-                    else
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_1");
-                    
                     // Update in database
                     $this->entityManager->persist($settingEntity);
                     $this->entityManager->flush();
+                    
+                    if ($form->get("https")->getData() != $this->utility->getSettings()['https'])
+                        $this->response['action']['refresh'] = true;
+                    else
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_1");
                 }
                 else {
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_2");
