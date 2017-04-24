@@ -24,15 +24,13 @@ class Utility {
     private $config;
     private $query;
     
-    private $pathDocumentRoot;
     private $pathRoot;
-    private $pathRootFull;
     private $pathBundleFull;
     private $pathWeb;
     
     private $urlRoot;
-    private $urlBundle;
     private $urlRootFull;
+    private $urlBundle;
     
     private $websiteName;
     
@@ -75,32 +73,24 @@ class Utility {
         return $this->pathRoot;
     }
     
-    public function getPathDocumentRoot() {
-        return $this->pathDocumentRoot;
+    public function getPathSrcBundle() {
+        return $this->pathSrcBundle;
     }
     
-    public function getPathRootFull() {
-        return $this->pathRootFull;
-    }
-    
-    public function getPathBundleFull() {
-        return $this->pathBundleFull;
-    }
-    
-    public function getPathWeb() {
-        return $this->pathWeb;
+    public function getPathWebBundle() {
+        return $this->pathWebBundle;
     }
     
     public function getUrlRoot() {
         return $this->urlRoot;
     }
     
-    public function getUrlBundle() {
-        return $this->urlBundle;
-    }
-    
     public function getUrlRootFull() {
         return $this->urlRootFull;
+    }
+    
+    public function getUrlWebBundle() {
+        return $this->urlWebBundle;
     }
     
     public function getWebsiteName() {
@@ -130,15 +120,13 @@ class Utility {
         
         $protocol = isset($_SERVER['HTTPS']) == true ? "https://" : "http://";
         
-        $this->pathRoot = $this->config->getPathRoot();
-        $this->pathDocumentRoot = $_SERVER['DOCUMENT_ROOT'];
-        $this->pathRootFull = $this->pathDocumentRoot . $this->pathRoot;
-        $this->pathBundleFull = "{$this->pathRootFull}/src/ReinventSoftware/UebusaitoBundle";
-        $this->pathWeb = "{$this->pathRootFull}/web/bundles/uebusaito";
+        $this->pathRoot = $_SERVER['DOCUMENT_ROOT'] . $this->config->getPathRoot();
+        $this->pathSrcBundle = "{$this->pathRoot}/src/ReinventSoftware/UebusaitoBundle";
+        $this->pathWebBundle = "{$this->pathRoot}/web/bundles/uebusaito";
         
         $this->urlRoot = $this->config->getUrlRoot();
-        $this->urlBundle = "{$this->config->getUrlRoot()}/web/bundles/uebusaito";
         $this->urlRootFull = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot();
+        $this->urlWebBundle = "{$this->config->getUrlRoot()}/web/bundles/uebusaito";
         
         $this->websiteName = $this->config->getName();
         
@@ -200,9 +188,9 @@ class Utility {
         fclose($writing);
         
         if ($checked == true) 
-            @rename($filePath + ".tmp", $filePath);
+            rename($filePath + ".tmp", $filePath);
         else
-            @unlink($filePath + ".tmp");
+            unlink($filePath + ".tmp");
     }
     
     public function removeDirRecursive($path, $parent) {
@@ -214,7 +202,7 @@ class Utility {
                 if ($file->isDir() == true)
                     rmdir($file->getRealPath());
                 else
-                    @unlink($file->getRealPath());
+                    unlink($file->getRealPath());
             }
 
             if ($parent == true)

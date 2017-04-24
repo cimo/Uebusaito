@@ -138,9 +138,9 @@ class UtilityPrivate {
     }
     
     public function createTemplatesList() {
-        $templatesPath = "{$this->utility->getPathBundleFull()}/Resources/public/images/templates";
+        $templatesPath = "{$this->utility->getPathSrcBundle()}/Resources/public/images/templates";
         
-        $scanDirElements = @scandir($templatesPath);
+        $scanDirElements = scandir($templatesPath);
         
         $list = Array();
         

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Apr 19, 2017 alle 16:52
+-- Generato il: Apr 24, 2017 alle 16:54
 -- Versione del server: 5.5.54-0ubuntu0.14.04.1
 -- Versione PHP: 5.5.9-1ubuntu4.21
 
@@ -227,22 +227,19 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `amount` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
 
 --
 -- Dump dei dati per la tabella `payments`
 --
 
 INSERT INTO `payments` (`id`, `user_id`, `transaction`, `date`, `status`, `payer`, `receiver`, `currency_code`, `item_name`, `amount`, `quantity`) VALUES
-(1, 1, '2JD600267M261441W', '08:56:43 Jun 22, 2016 PDT', 'Completed', 'WHQTT9QJGNFNC', '5CLM69V9C3PVW', 'USD', 'credits', '0.12', '12'),
-(2, 2, '419530066K1260733', '09:19:50 Jul 04, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
-(3, 2, '1KY910617X114632S', '05:16:37 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
-(4, 2, '19U375700V802405E', '05:31:11 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
-(5, 2, '7JV630061G061150L', '06:10:56 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
-(6, 2, '87V61799HN941194T', '06:15:57 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.05', '5'),
-(7, 2, '6FU073223W956013S', '06:26:31 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.02', '2'),
-(8, 1, '51B079453U535081E', '04:05:54 Apr 07, 2017 PDT', 'Completed', 'WHQTT9QJGNFNC', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
-(9, 1, '6H082026MF736073K', '04:17:30 Apr 07, 2017 PDT', 'Completed', 'WHQTT9QJGNFNC', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1');
+(1, 2, '419530066K1260733', '09:19:50 Jul 04, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
+(2, 2, '1KY910617X114632S', '05:16:37 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
+(3, 2, '19U375700V802405E', '05:31:11 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
+(4, 2, '7JV630061G061150L', '06:10:56 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.01', '1'),
+(5, 2, '87V61799HN941194T', '06:15:57 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.05', '5'),
+(6, 2, '6FU073223W956013S', '06:26:31 Jul 07, 2016 PDT', 'Completed', 'WGRYMAE6MYEP4', '5CLM69V9C3PVW', 'USD', 'credits', '0.02', '2');
 
 -- --------------------------------------------------------
 
@@ -317,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `vat`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
-(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 14, 1, '2015-08-04 10:25:12', '2017-04-19 16:25:19', NULL, '93.57.95.188', 0),
+(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2015-08-04 10:25:12', '2017-04-24 16:50:24', NULL, '93.57.95.188', 0),
 (2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 11, 1, '2015-09-10 17:39:31', '2017-04-06 13:11:11', NULL, '93.57.95.188', 0),
 (3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, '2017-03-29 19:18:26', NULL, NULL, 0);
 

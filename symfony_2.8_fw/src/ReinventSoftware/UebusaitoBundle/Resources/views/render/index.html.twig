@@ -30,7 +30,7 @@
             <p class="logo_desktop display_desktop">{{websiteName}}</p>
             <div class="sortable_column">
                 {% for value in response.modules.header %}
-                    {% if value.active == true and file_exists(response.path.bundleFull ~ "/Resources/views/module/" ~ value.file_name) %}
+                    {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
                         {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
                     {% endif %}
                 {% endfor %}
@@ -43,7 +43,7 @@
     {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         <div class="sortable_column">
             {% for value in response.modules.left %}
-                {% if value.active == true and file_exists(response.path.bundleFull ~ "/Resources/views/module/" ~ value.file_name) %}
+                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
                     {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
                 {% endif %}
             {% endfor %}
@@ -57,7 +57,7 @@
         
         <div class="sortable_column">
             {% for value in response.modules.center %}
-                {% if value.active == true and file_exists(response.path.bundleFull ~ "/Resources/views/module/" ~ value.file_name) %}
+                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
                     {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
                 {% endif %}
             {% endfor %}
@@ -89,7 +89,7 @@
     {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         <div class="sortable_column">
             {% for value in response.modules.right %}
-                {% if value.active == true and file_exists(response.path.bundleFull ~ "/Resources/views/module/" ~ value.file_name) %}
+                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
                     {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
                 {% endif %}
             {% endfor %}
@@ -100,7 +100,7 @@
 {% block footerContainer %}
     {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         {% for value in response.modules.footer %}
-            {% if value.active == true and file_exists(response.path.bundleFull ~ "/Resources/views/module/" ~ value.file_name) %}
+            {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
                 {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
             {% endif %}
         {% endfor %}
@@ -119,15 +119,14 @@
         
         var path = {
             'root': "{{response.path.root}}",
-            'documentRoot': "{{response.path.documentRoot}}",
-            'rootFull': "{{response.path.rootFull}}",
-            'bundleFull': "{{response.path.bundleFull}}"
+            'srcBundle': "{{response.path.srcBundle}}",
+            'webBundle': "{{response.path.webBundle}}"
         };
         
         var url = {
             'root': "{{response.url.root}}",
-            'bundle': "{{response.url.bundle}}",
             'rootFull': "{{response.url.rootFull}}",
+            'webBundle': "{{response.url.webBundle}}",
             'error': "{{path("error")}}",
             'index': "{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'languageText': "{{path("language_text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",

@@ -136,7 +136,7 @@ class SettingController extends Controller {
                     $settingsDatabase = $this->settingsDatabase("deleteLanguage", $currentIndex);
                     
                     if ($settingsDatabase == true) {
-                        unlink("{$this->utility->getPathBundleFull()}/Resources/translations/messages.{$languageRows['code']}.yml");
+                        unlink("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.{$languageRows['code']}.yml");
                         
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_3");
                     }
@@ -160,7 +160,7 @@ class SettingController extends Controller {
                         $settingsDatabase = $this->settingsDatabase("insertLanguage", $code);
                         
                         if ($settingsDatabase == true) {
-                            touch("{$this->utility->getPathBundleFull()}/Resources/translations/messages.$code.yml");
+                            touch("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
                             
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
                         }

@@ -63,13 +63,12 @@ class RootController extends Controller {
         $this->response['session']['activity'] = $this->utilityPrivate->checkSessionOverTime();
         
         $this->response['path']['root'] = $this->utility->getPathRoot();
-        $this->response['path']['documentRoot'] = $this->utility->getPathDocumentRoot();
-        $this->response['path']['rootFull'] = $this->utility->getPathRootFull();
-        $this->response['path']['bundleFull'] = $this->utility->getPathBundleFull();
+        $this->response['path']['srcBundle'] = $this->utility->getPathSrcBundle();
+        $this->response['path']['webBundle'] = $this->utility->getPathWebBundle();
         
         $this->response['url']['root'] = $this->utility->getUrlRoot();
-        $this->response['url']['bundle'] = $this->utility->getUrlBundle();
         $this->response['url']['rootFull'] = $this->utility->getUrlRootFull();
+        $this->response['url']['webBundle'] = $this->utility->getUrlWebBundle();
         
         $this->response['modules']['header'] = $this->query->selectAllModulesDatabase(null, "header");
         $this->response['modules']['left'] = $this->query->selectAllModulesDatabase(null, "left");
