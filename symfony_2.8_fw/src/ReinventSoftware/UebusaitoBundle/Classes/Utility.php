@@ -25,12 +25,12 @@ class Utility {
     private $query;
     
     private $pathRoot;
-    private $pathBundleFull;
-    private $pathWeb;
+    private $pathSrcBundle;
+    private $pathWebBundle;
     
     private $urlRoot;
     private $urlRootFull;
-    private $urlBundle;
+    private $urlWebBundle;
     
     private $websiteName;
     
@@ -126,7 +126,7 @@ class Utility {
         
         $this->urlRoot = $this->config->getUrlRoot();
         $this->urlRootFull = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot();
-        $this->urlWebBundle = "{$this->config->getUrlRoot()}/web/bundles/uebusaito";
+        $this->urlWebBundle = "{$this->config->getUrlRoot()}/bundles/uebusaito";
         
         $this->websiteName = $this->config->getName();
         

@@ -127,7 +127,7 @@ class SearchController extends Controller {
         
         $this->response['values']['results'] = $pageRows;
         
-        if (isset($_POST['searchWritten']) == true && isset($_POST['paginationCurrent']) == true) {
+        if ($this->table->checkPost() == true) {
             $render = $this->renderView("UebusaitoBundle::render/search_result.html.twig", Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,

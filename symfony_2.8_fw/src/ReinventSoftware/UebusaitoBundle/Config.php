@@ -33,8 +33,8 @@ class Config {
     // Functions public
     public function __construct() {
         $this->pathRoot = "/uebusaito/symfony_2.8_fw";
-        $this->urlRoot = "/uebusaito/symfony_2.8_fw";
-        $this->file = "/web/app_dev.php";
+        $this->urlRoot = "/uebusaito/symfony_2.8_fw/web";
+        $this->file = "/app_dev.php";
         $this->databaseConnectionFields = Array("", "", "");
         $this->name = "Uebusaito 1.0";
     }
