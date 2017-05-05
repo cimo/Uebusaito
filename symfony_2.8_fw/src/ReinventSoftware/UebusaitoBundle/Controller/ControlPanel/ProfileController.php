@@ -9,6 +9,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\Upload;
 
 use ReinventSoftware\UebusaitoBundle\Form\UserFormType;
 
@@ -30,6 +31,7 @@ class ProfileController extends Controller {
     private $utilityPrivate;
     private $query;
     private $ajax;
+    private $upload;
     
     private $response;
     
@@ -275,6 +277,25 @@ class ProfileController extends Controller {
     
     public function creditsPayPalAction($_locale, $urlCurrentPageId, $urlExtra) {
         return new Response();
+    }
+    
+    public function uploadAction($_locale, $urlCurrentPageId, $urlExtra) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->upload = new Upload($this->container, $this->entityManager);
+        
+        return $this->ajax->response(Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->upload->processFile("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$this->getUser()->getUsername()}")
+        ));
     }
     
     // Functions private

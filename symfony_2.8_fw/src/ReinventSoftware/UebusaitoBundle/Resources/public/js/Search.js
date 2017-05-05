@@ -20,10 +20,13 @@ function Search() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     $("#search_button").dropdown("toggle");

@@ -1,4 +1,4 @@
-/* global ajax */
+/* global ajax, upload */
 
 var controlPanelProfile = new ControlPanelProfile();
 
@@ -10,14 +10,19 @@ function ControlPanelProfile() {
     
     // Functions public
     self.init = function() {
+        upload.processFile("single");
+        
         $("#form_cp_profile").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -46,10 +51,13 @@ function ControlPanelProfile() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -63,10 +71,13 @@ function ControlPanelProfile() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);

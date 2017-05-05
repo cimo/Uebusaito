@@ -27,10 +27,13 @@ function ControlPanelModule() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -44,10 +47,13 @@ function ControlPanelModule() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -87,13 +93,16 @@ function ControlPanelModule() {
         
         $(document).on("click", "#cp_modules_selection_desktop_result .refresh", function() {
             ajax.send(
+                true,
+                false,
                 window.url.cpModulesSelection,
                 "post",
                 {
                     'event': "refresh",
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -113,13 +122,16 @@ function ControlPanelModule() {
                     popupEasy.close();
                     
                     ajax.send(
+                        true,
+                        false,
                         window.url.cpModuleDeletion,
                         "post",
                         {
                             'event': "deleteAll",
                             'token': window.session.token
                         },
-                        true,
+                        "json",
+                        false,
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -146,13 +158,16 @@ function ControlPanelModule() {
             var id = $.trim($("#cp_modules_selection_desktop_result").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
+                true,
+                false,
                 window.url.cpModulesSelection,
                 "post",
                 {
                     'id': id,
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_module_selection_result").html("");
                 },
@@ -168,10 +183,13 @@ function ControlPanelModule() {
             event.preventDefault();
 
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_module_selection_result").html("");
                 },
@@ -219,6 +237,8 @@ function ControlPanelModule() {
             var position = $(this).val();
             
             ajax.send(
+                true,
+                false,
                 window.url.cpModuleProfileSort,
                 "post",
                 {
@@ -226,7 +246,8 @@ function ControlPanelModule() {
                     'position': position,
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
@@ -246,10 +267,13 @@ function ControlPanelModule() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -268,6 +292,8 @@ function ControlPanelModule() {
                 popupEasy.close();
 
                 ajax.send(
+                    true,
+                    false,
                     window.url.cpModuleDeletion,
                     "post",
                     {
@@ -275,7 +301,8 @@ function ControlPanelModule() {
                         'id': id,
                         'token': window.session.token
                     },
-                    true,
+                    "json",
+                    false,
                     function() {
                         $("#cp_module_selection_result").html("");
                     },

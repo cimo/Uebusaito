@@ -336,6 +336,18 @@ function Utility() {
         });
     };
     
+    self.progressBar = function(start, end) {
+        if (start !== undefined && end !== undefined) {
+            var progress = start / end;
+            var percentage = Math.ceil(progress * 100);
+        }
+        else
+            percentage = 0;
+        
+        $("#progressBar").find(".progress-bar").css("width", percentage + "%");
+        $("#progressBar").find("span").text(percentage + "%");
+    };
+    
     // Bootstrap fix
     self.bootstrapMenuFix = function(tag) {
         $(tag).find("ul li.dropdown").on("click", "", function(event) {

@@ -62,6 +62,10 @@ cp_profile_credits_payPal:
     path: /cp_profile_credits_payPal/{_locale}/{urlCurrentPageId}/{urlExtra}
     defaults: {_controller: UebusaitoBundle:ControlPanel\Profile:creditsPayPal}
 
+cp_profile_upload:
+    path: /cp_profile_upload/{_locale}/{urlCurrentPageId}/{urlExtra}
+    defaults: {_controller: UebusaitoBundle:ControlPanel\Profile:upload}
+
 # Control panel - Payments
 cp_payments_user_selection:
     path: /cp_payments_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}

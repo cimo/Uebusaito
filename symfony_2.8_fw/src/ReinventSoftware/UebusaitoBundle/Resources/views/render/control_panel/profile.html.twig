@@ -8,6 +8,7 @@
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}profile_2{% endtrans %}</legend>
                 <div class="content">
                     <div class="form-group">
+                        {{-include("UebusaitoBundle::include/upload.html.twig")-}}
                         <label class="control-label required" for="form_user_avatar">Avatar</label>
                         <div class="input-group">
                             <img class="avatar" src="{{avatar}}" alt="Avatar"/>

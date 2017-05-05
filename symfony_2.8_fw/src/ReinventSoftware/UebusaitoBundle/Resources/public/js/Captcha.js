@@ -16,12 +16,15 @@ function Captcha() {
     
     self.image = function() {
         ajax.send(
+            true,
+            false,
             window.url.index,
             "post",
             {
                 'event': "captchaImage"
             },
-            true,
+            "json",
+            false,
             null,
             function(xhr) {
                 ajax.reply(xhr, "");
@@ -30,8 +33,7 @@ function Captcha() {
                     $(".captcha").find("img").prop("src", "data:image/png;base64," + xhr.response.captchaImage);
             },
             null,
-            null,
-            false
+            null
         );
     };
     

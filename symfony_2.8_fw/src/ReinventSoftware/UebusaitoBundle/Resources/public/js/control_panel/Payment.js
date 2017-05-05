@@ -33,13 +33,16 @@ function ControlPanelPayment() {
         
         $(document).on("click", "#cp_payments_selection_desktop_result .refresh", function() {
             ajax.send(
+                true,
+                false,
                 window.url.cpPaymentsSelection,
                 "post",
                 {
                     'event': "refresh",
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -59,13 +62,16 @@ function ControlPanelPayment() {
                     popupEasy.close();
                     
                     ajax.send(
+                        true,
+                        false,
                         window.url.cpPaymentDeletion,
                         "post",
                         {
                             'event': "deleteAll",
                             'token': window.session.token
                         },
-                        true,
+                        "json",
+                        false,
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -92,10 +98,13 @@ function ControlPanelPayment() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_payment_selection_result").html("");
                 },
@@ -114,13 +123,16 @@ function ControlPanelPayment() {
             var id = $.trim($("#cp_payments_selection_desktop").find(".checkbox_column input:checked").parents("tr").find(".id_column_hide").text());
 
             ajax.send(
+                true,
+                false,
                 window.url.cpPaymentsSelection,
                 "post",
                 {
                     'id': id,
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_payment_selection_result").html("");
                 },
@@ -136,10 +148,13 @@ function ControlPanelPayment() {
             event.preventDefault();
 
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_payment_selection_result").html("");
                 },
@@ -172,6 +187,8 @@ function ControlPanelPayment() {
                 popupEasy.close();
 
                 ajax.send(
+                    true,
+                    false,
                     window.url.cpPaymentDeletion,
                     "post",
                     {
@@ -179,7 +196,8 @@ function ControlPanelPayment() {
                         'id': id,
                         'token': window.session.token
                     },
-                    true,
+                    "json",
+                    false,
                     function() {
                         $("#cp_payment_selection_result").html("");
                     },

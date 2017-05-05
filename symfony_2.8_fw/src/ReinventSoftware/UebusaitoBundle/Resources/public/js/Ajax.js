@@ -9,19 +9,19 @@ function Ajax() {
     // Properties
     
     // Functions public
-    self.send = function(url, method, data, loaderEnabled, callbackBefore, callbackSuccess, callbackError, callbackComplete, messageHide) {
+    self.send = function(loaderEnabled, messageHide, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete) {
         if (loaderEnabled === true)
             loader.show();
         
-        if ((messageHide === undefined || messageHide === true) && window.session.activity === "")
+        if (messageHide === true && window.session.activity === "")
             flashBag.hide();
         
         $.ajax({
             'url': url,
             'method': method,
             'data': data,
-            'dataType': "json",
-            'cache': false,
+            'dataType': dataType,
+            'cache': cache,
             beforeSend: function() {
                 if (callbackBefore !== null)
                     callbackBefore();

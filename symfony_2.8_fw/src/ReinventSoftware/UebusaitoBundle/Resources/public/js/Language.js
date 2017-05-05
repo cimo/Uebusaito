@@ -16,10 +16,13 @@ function Language() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     $("#language_button").dropdown("toggle");
@@ -42,10 +45,13 @@ function Language() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined) {

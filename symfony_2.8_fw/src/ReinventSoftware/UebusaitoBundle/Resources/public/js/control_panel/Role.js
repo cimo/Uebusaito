@@ -29,10 +29,13 @@ function ControlPanelRole() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -54,13 +57,16 @@ function ControlPanelRole() {
         
         $(document).on("click", "#cp_roles_selection_desktop_result .refresh", function() {
             ajax.send(
+                true,
+                false,
                 window.url.cpRolesSelection,
                 "post",
                 {
                     'event': "refresh",
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -80,13 +86,16 @@ function ControlPanelRole() {
                     popupEasy.close();
                     
                     ajax.send(
+                        true,
+                        false,
                         window.url.cpRoleDeletion,
                         "post",
                         {
                             'event': "deleteAll",
                             'token': window.session.token
                         },
-                        true,
+                        "json",
+                        false,
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -113,13 +122,16 @@ function ControlPanelRole() {
             var id = $.trim($("#cp_roles_selection_desktop_result").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
+                true,
+                false,
                 window.url.cpRolesSelection,
                 "post",
                 {
                     'id': id,
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_role_selection_result").html("");
                 },
@@ -135,10 +147,13 @@ function ControlPanelRole() {
             event.preventDefault();
 
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_role_selection_result").html("");
                 },
@@ -174,10 +189,13 @@ function ControlPanelRole() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -196,6 +214,8 @@ function ControlPanelRole() {
                 popupEasy.close();
 
                 ajax.send(
+                    true,
+                    false,
                     window.url.cpRoleDeletion,
                     "post",
                     {
@@ -203,7 +223,8 @@ function ControlPanelRole() {
                         'id': id,
                         'token': window.session.token
                     },
-                    true,
+                    "json",
+                    false,
                     function() {
                         $("#cp_role_selection_result").html("");
                     },

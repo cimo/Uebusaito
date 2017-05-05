@@ -394,3 +394,20 @@ legend {
         right: 10px;
     }
 }
+
+#progressBar {
+    margin-bottom: 0px !important;
+    margin-top: 4px;
+    
+    .progress-bar {
+        span {
+            margin-left: 5px;
+        }
+    }
+}
+
+#upload {
+    .row {
+        display: none;
+    }
+}

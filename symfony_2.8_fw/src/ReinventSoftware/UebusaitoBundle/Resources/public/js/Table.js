@@ -183,9 +183,12 @@ function Table() {
         };
         
         ajax.send(
+            true,
+            false,
             urlRequest,
             "post",
             data,
+            "json",
             false,
             function() {
                 $(idResult).find("table tbody").addClass("visibility_hidden");

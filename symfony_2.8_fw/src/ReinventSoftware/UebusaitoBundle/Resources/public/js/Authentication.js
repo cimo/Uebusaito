@@ -18,10 +18,13 @@ function Authentication() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     $("#authentication_button").dropdown("toggle");
@@ -44,12 +47,15 @@ function Authentication() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 event.target.href,
                 "post",
                 {
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     if (xhr.response.messages !== undefined)

@@ -42,10 +42,13 @@ function ControlPanelPage() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -67,13 +70,16 @@ function ControlPanelPage() {
         
         $(document).on("click", "#cp_pages_selection_desktop_result .refresh", function() {
             ajax.send(
+                true,
+                false,
                 window.url.cpPagesSelection,
                 "post",
                 {
                     'event': "refresh",
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -93,13 +99,16 @@ function ControlPanelPage() {
                     popupEasy.close();
                     
                     ajax.send(
+                        true,
+                        false,
                         window.url.cpPageDeletion,
                         "post",
                         {
                             'event': "deleteAll",
                             'token': window.session.token
                         },
-                        true,
+                        "json",
+                        false,
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -126,13 +135,16 @@ function ControlPanelPage() {
             var id = $.trim($("#cp_pages_selection_desktop").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
+                true,
+                false,
                 window.url.cpPagesSelection,
                 "post",
                 {
                     'id': id,
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_page_selection_result").html("");
                 },
@@ -148,10 +160,13 @@ function ControlPanelPage() {
             event.preventDefault();
 
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 function() {
                     $("#cp_page_selection_result").html("");
                 },
@@ -195,10 +210,13 @@ function ControlPanelPage() {
             event.preventDefault();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -220,6 +238,8 @@ function ControlPanelPage() {
                 popupEasy.close();
 
                 ajax.send(
+                    true,
+                    false,
                     window.url.cpPageDeletion,
                     "post",
                     {
@@ -227,7 +247,8 @@ function ControlPanelPage() {
                         'id': id,
                         'token': window.session.token
                     },
-                    true,
+                    "json",
+                    false,
                     function() {
                         $("#cp_page_selection_result").html("");
                     },
@@ -246,6 +267,8 @@ function ControlPanelPage() {
                                 popupEasy.close();
                                 
                                 ajax.send(
+                                    true,
+                                    false,
                                     window.url.cpPageDeletion,
                                     "post",
                                     {
@@ -253,7 +276,8 @@ function ControlPanelPage() {
                                         'id': id,
                                         'token': window.session.token
                                     },
-                                    true,
+                                    "json",
+                                    false,
                                     function() {
                                         $("#cp_page_selection_result").html("");
                                     },
@@ -271,6 +295,8 @@ function ControlPanelPage() {
                                 popupEasy.close();
                                 
                                 ajax.send(
+                                    true,
+                                    false,
                                     window.url.cpPageDeletion,
                                     "post",
                                     {
@@ -279,7 +305,8 @@ function ControlPanelPage() {
                                         'parentNew': $(this).val(),
                                         'token': window.session.token
                                     },
-                                    true,
+                                    "json",
+                                    false,
                                     function() {
                                         $("#cp_page_selection_result").html("");
                                     },

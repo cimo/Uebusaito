@@ -30,10 +30,13 @@ function ControlPanelSetting() {
             $("#settings_language_manage_container").hide();
             
             ajax.send(
+                true,
+                false,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -86,6 +89,8 @@ function ControlPanelSetting() {
                     popupEasy.close();
                     
                     ajax.send(
+                        true,
+                        false,
                         window.url.cpSettingsLanguageManage,
                         "post",
                         {
@@ -93,7 +98,8 @@ function ControlPanelSetting() {
                             'currentIndex': currentIndex,
                             'token': window.session.token
                         },
-                        true,
+                        "json",
+                        false,
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -119,6 +125,8 @@ function ControlPanelSetting() {
             var code = $("#form_settings_languageManage").val();
             
             ajax.send(
+                true,
+                false,
                 window.url.cpSettingsLanguageManage,
                 "post",
                 {
@@ -126,7 +134,8 @@ function ControlPanelSetting() {
                     'code': code,
                     'token': window.session.token
                 },
-                true,
+                "json",
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
