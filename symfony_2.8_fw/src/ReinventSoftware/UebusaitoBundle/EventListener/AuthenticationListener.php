@@ -73,7 +73,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                 $_SESSION['languageText'] = $languageText;
 
                 if ($checkCaptcha == false) {
-                    $message = $this->utility->getTranslator()->trans("captcha");
+                    $message = $this->utility->getTranslator()->trans("captcha_1");
                     
                     $this->response['values']['captchaReload'] = true;
                 }
@@ -110,7 +110,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                 $message = $this->utility->getTranslator()->trans("authenticationListener_2");
             else {
                 if ($checkCaptcha == false) {
-                    $message = $this->utility->getTranslator()->trans("captcha");
+                    $message = $this->utility->getTranslator()->trans("captcha_1");
                     
                     $this->response['values']['captchaReload'] = true;
                 }

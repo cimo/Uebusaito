@@ -28,17 +28,17 @@ class UtilityPrivate {
         
         if ($type == "withOld") {
             if (password_verify($form->get("old")->getData(), $userRow['password']) == false)
-                return $this->utility->getTranslator()->trans("utility_2");
+                return $this->utility->getTranslator()->trans("class_utility_2");
 
             if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
-                return $this->utility->getTranslator()->trans("utility_3");
+                return $this->utility->getTranslator()->trans("class_utility_3");
             
             $user->setPassword($this->passwordEncoderLogic($type, $user, $form));
         }
         else if ($type == "withoutOld") {
             if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
                 if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
-                    return $this->utility->getTranslator()->trans("utility_4");
+                    return $this->utility->getTranslator()->trans("class_utility_4");
                 
                 $user->setPassword($this->passwordEncoderLogic($type, $user, $form));
             }
@@ -96,7 +96,7 @@ class UtilityPrivate {
         
         $pagesList = $this->createPagesList($pageRows, true);
         
-        $html = "<p class=\"margin_clear\">" . $this->utility->getTranslator()->trans("utility_5") . "</p>
+        $html = "<p class=\"margin_clear\">" . $this->utility->getTranslator()->trans("class_utility_5") . "</p>
         <select id=\"$selectId\">
             <option value=\"\">Select</option>";
             foreach($pagesList as $key => $value)
@@ -197,7 +197,7 @@ class UtilityPrivate {
                 if ($timeLapse > $this->utility->getSessionMaxIdleTime()) {
                     $this->utility->sessionDestroy();
 
-                    return $this->utility->getTranslator()->trans("utility_1");
+                    return $this->utility->getTranslator()->trans("class_utility_1");
                 }
             }
         }

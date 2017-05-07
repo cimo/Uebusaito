@@ -10,12 +10,13 @@ function Upload() {
     var chunkSize = 1000000;
     
     var file = null;
+    var tmp = 0;
     var uploadStarted = false;
-    var uploadAborted = false;
     var uploadPaused = false;
+    var uploadAborted = false;
+    var uploadFinished = false;
     var chunkCurrent = 0;
     var chunkPause = 0;
-    var uploadDataKey = 0;
     var timeStart = 0;
     var totalTime = 0;
     var timeLeft = 0;
@@ -28,37 +29,33 @@ function Upload() {
             $("#upload").find(".file").prop("multiple", "multiple");
         
         $(document).on("change", "#upload .file", function() {
-            resetValue("show");
+            if ($("#upload").find(".file")[0].files[0] !== undefined)
+                resetValue("show");
+            else
+                resetValue("hide");
         });
         
-        $(document).on("click", "#upload .start", function() {
-            file = $("#upload").find(".file")[0].files[0];
-
-            if (file !== undefined) {
-                uploadStarted = true;
-
-                $("#upload").find(".start").val("Pause");
-                $("#upload").find(".text").text("Uploading...");
-                
-                if (file.size > maxSize) {
-                    $("#upload").find(".text").text("The file you have chosen is too large.");
-                    
-                    return;
-                }
-
-                chunkCurrent = Math.ceil(file.size / chunkSize);
-
-                sendFile(0);
-            }
+        $(document).on("click", "#upload .button_1 span", function() {
+            if (uploadStarted === false && uploadPaused === false)
+                start();
+            else if (uploadStarted === true && uploadPaused === false)
+                pause();
+            else if (uploadStarted === true && uploadPaused === true)
+                resume();
         });
         
-        $(document).on("click", "#upload .abort", function() {
+        $(document).on("click", "#upload .button_2 span", function() {
             abort();
+        });
+        
+        $(document).on("click", "#upload_text_close", function() {
+            if (uploadFinished === true)
+                message(false, "");
         });
     };
     
     // Functions private
-    function sendFile(chunk) {
+    function sendChunk(chunk) {
         timeStart = new Date().getTime();
         
         if (uploadAborted === true)
@@ -67,7 +64,7 @@ function Upload() {
         if (uploadPaused === true) {
             chunkPause = chunk;
             
-            $("#upload").find(".text").text("Paused...");
+            message(true, window.text.uploadTextA);
             
             return;
         }
@@ -77,41 +74,42 @@ function Upload() {
         
         var reader = new FileReader();
         
-        var isInternetExplorer = ((navigator.userAgent.indexOf("MSIE") !== -1));
-
         var blob = file.slice(start, stop);
         
-        if (isInternetExplorer === true)
+        if (navigator.userAgent.indexOf("MSIE") !== -1)
             reader.readAsArrayBuffer(blob);
         else
             reader.readAsBinaryString(blob);
 
         reader.onloadend = function() {
             var xhr = new XMLHttpRequest();
-            xhr.open("post", window.url.cpProfileUpload + "?action=upload&key=" + uploadDataKey, true);
+            xhr.open("post", window.url.cpProfileUpload + "?action=start&tmp=" + tmp, true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     var jsonParse = JSON.parse(xhr.response);
                     
-                    if (xhr.status !== 200) {
-                        $("#upload").find(".text").text(jsonParse.response.errorText);
-                        
+                    if (xhr.status !== 200)
                         return;
-                    }
                     
                     if (jsonParse.response.status === 0) {
-                        if (chunk === 0 || uploadDataKey === 0)
-                            uploadDataKey = jsonParse.response.key;
+                        if (chunk === 0 || tmp === 0)
+                            tmp = jsonParse.response.tmp;
 
                         if (chunk < chunkCurrent) {
                             progress(chunk + 1);
-                            sendFile(chunk + 1);
+                            
+                            sendChunk(chunk + 1);
                         }
                     }
-                    else if (jsonParse.response.status === 1)
-                        sendFileData();
+                    else if (jsonParse.response.status === 1) {
+                        message(true, jsonParse.response.text);
+                        
+                        return;
+                    }
+                    else if (jsonParse.response.status === 2)
+                        sendComplete();
                 }
             };
             
@@ -126,91 +124,135 @@ function Upload() {
             totalTime += (new Date().getTime() - timeStart);
             
             timeLeft = Math.ceil((totalTime / start) * (chunkCurrent - start) / 100);
+            
+            message(true, timeLeft + window.text.uploadTextC);
         }
-        
-        $("#upload").find(".text").text(timeLeft + " seconds remaining.");
     };
     
-    function sendFileData() {
-        var data = "key=" + uploadDataKey + "&name=" + file.name;
-        
+    function sendComplete() {
         var xhr = new XMLHttpRequest();
-        xhr.open("post", window.url.cpProfileUpload + "?action=finish", true);
+        xhr.open("post", window.url.cpProfileUpload + "?action=finish&tmp=" + tmp + "&name=" + file.name, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
                 var jsonParse = JSON.parse(xhr.response);
 
-                if (xhr.status !== 200) {
-                    $("#upload").find(".text").text(jsonParse.response.errorText);
-
+                if (xhr.status !== 200)
                     return;
-                }
                 
                 resetValue("hide");
                 
+                uploadFinished = true;
+                
                 if (jsonParse.response !== null)
-                    $("#upload").find(".text").text(jsonParse.response.text);
+                    message(true, jsonParse.response.text);
             }
         };
         
-        xhr.send(data);
+        xhr.send("");
+    }
+    
+    function start() {
+        file = $("#upload").find(".file")[0].files[0];
+
+        if (file !== undefined) {
+            uploadStarted = true;
+            uploadFinished = false;
+            
+            message(true, window.text.uploadTextB);
+            
+            $("#upload").find(".button_1 span").text(window.text.uploadButtonB);
+
+            if (file.size > maxSize) {
+                 message(true, window.text.uploadTextD);
+
+                return;
+            }
+
+            chunkCurrent = Math.ceil(file.size / chunkSize);
+
+            sendChunk(0);
+        }
+    }
+    
+    function pause() {
+        uploadPaused = true;
+        
+        $("#upload").find(".button_1 i").removeClass("fa-play").addClass("fa-pause");
+        $("#upload").find(".button_1 span").text(window.text.uploadButtonC);
+    }
+    
+    function resume() {
+        uploadPaused = false;
+        
+        $("#upload").find(".button_1 i").removeClass("fa-pause").addClass("fa-play");
+        $("#upload").find(".button_1 span").text(window.text.uploadButtonB);
+        
+        sendChunk(chunkPause);
     }
     
     function abort() {
         uploadAborted = true;
         
-        var data = "key=" + uploadDataKey;
-        
         var xhr = new XMLHttpRequest();
-        xhr.open("post", window.url.cpProfileUpload + "?action=abort", true);
+        xhr.open("post", window.url.cpProfileUpload + "?action=abort&tmp=" + tmp, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
                 var jsonParse = JSON.parse(xhr.response);
                 
-                if(xhr.status !== 200) {
-                    $("#upload").find(".text").text(jsonParse.response.errorText);
-                    
+                if(xhr.status !== 200)
                     return;
-                }
                 
                 resetValue("hide");
                 
+                uploadFinished = true;
+                
                 if (jsonParse.response !== null)
-                    $("#upload").find(".text").text(jsonParse.response.text);
+                    message(true, jsonParse.response.text);
             }
         };
-
-        //Send the request
-        xhr.send(data);
+        
+        xhr.send("");
     };
     
     function resetValue(type) {
         utility.progressBar();
         
-        $("#upload").find(".text").text("");
-        $("#upload").find(".start").val("Start");
+        message(false, "");
+        
+        $("#upload").find(".button_1 i").removeClass("fa-pause").addClass("fa-play");
+        $("#upload").find(".button_1 span").text(window.text.uploadButtonA);
         
         if (type === "show")
-            $("#upload").find(".row").show();
+            $("#upload").find(".container_controls").show();
         else if (type === "hide") {
             $("#upload").find(".file").val("");
             
-            $("#upload").find(".row").hide();
+            $("#upload").find(".container_controls").hide();
         }
         
         file = null;
+        tmp = 0;
         uploadStarted = false;
-        uploadAborted = false;
         uploadPaused = false;
+        uploadAborted = false;
+        uploadFinished = false;
         chunkCurrent = 0;
         chunkPause = 0;
-        uploadDataKey = 0;
         timeStart = 0;
         totalTime = 0;
         timeLeft = 0;
+    }
+    
+    function message(show, text) {
+        if (show === true)
+            $("#upload").find(".container_text").show();
+        else
+            $("#upload").find(".container_text").hide();
+        
+        $("#upload").find(".text p").text(text);
     }
 }

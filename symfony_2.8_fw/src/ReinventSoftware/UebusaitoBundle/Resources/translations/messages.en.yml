@@ -34,11 +34,18 @@ date.time: H:i:s
 # Classes
 
 # Utility.php
-"utility_1": "Session time is over, please login again."
-"utility_2": "Old password doesn't match!"
-"utility_3": "New password and New confirm password doesn't match!"
-"utility_4": "Password and Confirm password doesn't match!"
-"utility_5": "Select parent:"
+"class_utility_1": "Session time is over, please login again."
+"class_utility_2": "Old password doesn't match!"
+"class_utility_3": "New password and New confirm password doesn't match!"
+"class_utility_4": "Password and Confirm password doesn't match!"
+"class_utility_5": "Select parent:"
+
+# Upload.php
+"class_upload_1": "Error chunk size."
+"class_upload_2": "Error max size."
+"class_upload_3": "File uploaded successfully."
+"class_upload_4": "Unable to move file to "
+"class_upload_5": "Upload aborted."
 
 # ---
 # Controller / Control panel
@@ -219,6 +226,10 @@ date.time: H:i:s
 "table_2": "Previous"
 "table_3": "Next"
 
+# upload.html.twig
+"upload_1": "Start"
+"upload_2": "Abort"
+
 # ---
 # Views / Render
 
@@ -259,6 +270,13 @@ date.time: H:i:s
 "index_18": "Really delete this role?"
 "index_19": "Really delete all roles?"
 "index_20": "Really delete this language?"
+"index_21": "Paused..."
+"index_22": "Uploading..."
+"index_23": " seconds remaining."
+"index_24": "The file you have chosen is too large."
+"index_25": "Start"
+"index_26": "Pause"
+"index_27": "Resume"
 
 # recover_password.html.twig
 "recover_password_1": "Recover password form"
@@ -581,5 +599,5 @@ date.time: H:i:s
 "error_1": "Error 404"
 
 # ---
-# Class
-"captcha": "Chaptcha code incorrect!"
+# Captcha
+"captcha_1": "Chaptcha code incorrect!"

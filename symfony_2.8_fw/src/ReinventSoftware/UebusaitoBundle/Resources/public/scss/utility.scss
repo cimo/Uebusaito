@@ -178,8 +178,14 @@ legend {
 .vertical_middle {
     vertical-align: middle;
 }
+.horizontal_left {
+    text-align: left;
+}
 .horizontal_center {
     text-align: center;
+}
+.horizontal_right {
+    text-align: right;
 }
 
 .overflow_hidden {
@@ -397,17 +403,37 @@ legend {
 
 #progressBar {
     margin-bottom: 0px !important;
-    margin-top: 4px;
+    margin-top: 8px;
     
     .progress-bar {
         span {
             margin-left: 5px;
+            color: #000000;
         }
     }
 }
 
 #upload {
-    .row {
+    .container_text {
+        display: none;
+        
+        .text {
+            position: relative;
+            margin: 10px 0px;
+            padding: 10px;
+            
+            p {
+                margin: 0;
+            }
+            .fa-close {
+                cursor: pointer;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+        }
+    }
+    .container_controls {
         display: none;
     }
 }

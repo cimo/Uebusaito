@@ -294,7 +294,11 @@ class ProfileController extends Controller {
             'urlLocale' => $this->urlLocale,
             'urlCurrentPageId' => $this->urlCurrentPageId,
             'urlExtra' => $this->urlExtra,
-            'response' => $this->upload->processFile("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$this->getUser()->getUsername()}")
+            'response' => $this->upload->processFile(
+                "{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$this->getUser()->getUsername()}",
+                2147483648,
+                1000000
+            )
         ));
     }
     

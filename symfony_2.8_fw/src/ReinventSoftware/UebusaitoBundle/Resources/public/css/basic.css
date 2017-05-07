@@ -69,7 +69,11 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 
 .vertical_middle { vertical-align: middle; }
 
+.horizontal_left { text-align: left; }
+
 .horizontal_center { text-align: center; }
+
+.horizontal_right { text-align: right; }
 
 .overflow_hidden { overflow: hidden; }
 
@@ -129,10 +133,14 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 #flashBag_popup ul { margin-bottom: 0; }
 #flashBag_popup .fa-close { cursor: pointer; position: absolute; top: 10px; right: 10px; }
 
-#progressBar { margin-bottom: 0px !important; margin-top: 4px; }
-#progressBar .progress-bar span { margin-left: 5px; }
+#progressBar { margin-bottom: 0px !important; margin-top: 8px; }
+#progressBar .progress-bar span { margin-left: 5px; color: #000000; }
 
-#upload .row { display: none; }
+#upload .container_text { display: none; }
+#upload .container_text .text { position: relative; margin: 10px 0px; padding: 10px; }
+#upload .container_text .text p { margin: 0; }
+#upload .container_text .text .fa-close { cursor: pointer; position: absolute; top: 10px; right: 10px; }
+#upload .container_controls { display: none; }
 
 @media (max-width: 992px) { .message_single_page i { font-size: 12em; color: #cecece; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000; margin-bottom: 40px; }
   .message_single_page p { font-family: "acme", sans-serif; font-size: 35px; color: #ffffff; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000; }
