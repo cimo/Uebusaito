@@ -71,7 +71,6 @@ class PageFormType extends AbstractType {
             'choices' => $this->utilityPrivate->createPagesList($pageRows, true)
         ))
         ->add("title", "text", Array(
-            'required' => true,
             'data' => $pageRow['title']
         ))
         ->add("controllerAction", "text", Array(

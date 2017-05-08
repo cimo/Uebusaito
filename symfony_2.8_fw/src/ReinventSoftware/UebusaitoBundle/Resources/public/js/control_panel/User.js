@@ -28,7 +28,7 @@ function ControlPanelUser() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -56,7 +56,7 @@ function ControlPanelUser() {
         $(document).on("click", "#cp_users_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpUsersSelection,
                 "post",
                 {
@@ -85,7 +85,7 @@ function ControlPanelUser() {
                     
                     ajax.send(
                         true,
-                        false,
+                        true,
                         window.url.cpUserDeletion,
                         "post",
                         {
@@ -121,7 +121,7 @@ function ControlPanelUser() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpUsersSelection,
                 "post",
                 {
@@ -146,7 +146,7 @@ function ControlPanelUser() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -186,7 +186,7 @@ function ControlPanelUser() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -211,7 +211,7 @@ function ControlPanelUser() {
 
                 ajax.send(
                     true,
-                    false,
+                    true,
                     window.url.cpUserDeletion,
                     "post",
                     {

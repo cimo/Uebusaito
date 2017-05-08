@@ -85,8 +85,8 @@ class UserController extends Controller {
                         $this->utilityPrivate->configureUserParameters($userEntity);
                         
                         mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
-                        mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$form->get("username")->getData()}");
-                        mkdir("{$this->utility->getPathWebBundle()}/images/users/{$form->get("username")->getData()}");
+                        mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
+                        mkdir("{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
 
                         // Insert in database
                         $this->entityManager->persist($userEntity);
@@ -263,13 +263,13 @@ class UserController extends Controller {
                             rename("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld",
                                     "{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
                         
-                        if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/$usernameOld") == true)
-                            rename("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/$usernameOld",
-                                    "{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$form->get("username")->getData()}");
+                        if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld") == true)
+                            rename("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld",
+                                    "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
                         
-                        if (file_exists("{$this->utility->getPathWebBundle()}/images/users/$usernameOld") == true)
-                            rename("{$this->utility->getPathWebBundle()}/images/users/$usernameOld",
-                                    "{$this->utility->getPathWebBundle()}/images/users/{$form->get("username")->getData()}");
+                        if (file_exists("{$this->utility->getPathWebBundle()}/files/$usernameOld") == true)
+                            rename("{$this->utility->getPathWebBundle()}/files/$usernameOld",
+                                    "{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
                         
                         if ($form->get("notLocked")->getData() == true)
                             $userEntity->setHelpCode("");
@@ -346,8 +346,8 @@ class UserController extends Controller {
                     $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->utility->getRequestStack()->request->get("id"));
                     
                     $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}", true);
-                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$userEntity->getUsername()}", true);
-                    $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/images/users/{$userEntity->getUsername()}", true);
+                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userEntity->getUsername()}", true);
+                    $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userEntity->getUsername()}", true);
 
                     $usersDatabase = $this->usersDatabase("delete", $userEntity->getId());
                     
@@ -359,11 +359,11 @@ class UserController extends Controller {
 
                     for ($i = 0; $i < count($userRows); $i ++) {
                         $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userRows[$i]['username']}", true);
-                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$userRows[$i]['username']}", true);
-                        $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/images/users/{$userRows[$i]['username']}", true);
+                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userRows[$i]['username']}", true);
+                        $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userRows[$i]['username']}", true);
                     }
 
-                    $usersDatabase = $this->usersDatabase("deleteAll");
+                    $usersDatabase = $this->usersDatabase("deleteAll", null);
                     
                     if ($usersDatabase == true) {
                         $render = $this->renderView("UebusaitoBundle::render/control_panel/users_selection_desktop.html.twig", Array(
@@ -475,7 +475,7 @@ class UserController extends Controller {
         return $listHtml;
     }
     
-    private function usersDatabase($type, $id = null) {
+    private function usersDatabase($type, $id) {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM users
                                                                 WHERE id > :idExclude

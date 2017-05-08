@@ -45,7 +45,7 @@ class MenuController extends Controller {
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
         
-        $this->response['values']['url'] = $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->attributes->get("_locale");
+        $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->utility->getRequestStack()->attributes->get("_locale")}";
         $this->response['values']['pagesList'] = $this->utilityPrivate->createPagesList($pageRows, false);
         
         return Array(

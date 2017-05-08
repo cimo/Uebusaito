@@ -6,12 +6,14 @@
 {% endblock %}
 {% block moduleContainer %}
     <div class="margin_bottom">
-        <div class="page-header page_header">
-            <h1 class="page_header_h1">{{response.values.title}}</h1>
-        </div>
+        {% if response.values.title != "" %}
+            <div class="page-header page_header">
+                <h1 class="page_header_h1">{{response.values.title}}</h1>
+            </div>
+        {% endif %}
         <div>
             <div class="margin_top margin_bottom">{{response.values.argument|raw}}</div>
-            {% if response.values.controllerAction is not empty %}
+            {% if response.values.controllerAction != "" %}
                 {{-render(controller(response.values.controllerAction, {'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
             {% endif %}
         </div>

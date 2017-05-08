@@ -43,7 +43,7 @@ function ControlPanelPage() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -71,7 +71,7 @@ function ControlPanelPage() {
         $(document).on("click", "#cp_pages_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpPagesSelection,
                 "post",
                 {
@@ -100,7 +100,7 @@ function ControlPanelPage() {
                     
                     ajax.send(
                         true,
-                        false,
+                        true,
                         window.url.cpPageDeletion,
                         "post",
                         {
@@ -136,7 +136,7 @@ function ControlPanelPage() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpPagesSelection,
                 "post",
                 {
@@ -161,7 +161,7 @@ function ControlPanelPage() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -211,7 +211,7 @@ function ControlPanelPage() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -239,7 +239,7 @@ function ControlPanelPage() {
 
                 ajax.send(
                     true,
-                    false,
+                    true,
                     window.url.cpPageDeletion,
                     "post",
                     {
@@ -268,7 +268,7 @@ function ControlPanelPage() {
                                 
                                 ajax.send(
                                     true,
-                                    false,
+                                    true,
                                     window.url.cpPageDeletion,
                                     "post",
                                     {
@@ -296,7 +296,7 @@ function ControlPanelPage() {
                                 
                                 ajax.send(
                                     true,
-                                    false,
+                                    true,
                                     window.url.cpPageDeletion,
                                     "post",
                                     {

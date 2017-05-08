@@ -55,11 +55,11 @@
             <ul class="nav navbar-nav">
                 {% macro createRecursiveStructure(url, pagesList) %}
                     {% for value in pagesList %}
-                        {% if (value.show_in_menu == 1) %}
-                            {% if (value.children != null) %}
+                        {% if value.show_in_menu == 1 %}
+                            {% if value.children != null %}
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="{{url}}/{{value.id}}">{{value.menu_name}}</a>
-                                    {% if value.children is not empty %}
+                                    {% if value.children != "" %}
                                         <ul class="dropdown-menu dropdown_menu_fix">
                                             {{_self.createRecursiveStructure(url, value.children)}}
                                         </ul>
@@ -73,7 +73,7 @@
                                         <a href="{{url}}/{{value.id}}">{{value.menu_name}}</a>
                                     {% endif %}
 
-                                    {% if value.children is not empty %}
+                                    {% if value.children != "" %}
                                         <ul>
                                             {{_self.createRecursiveStructure(url, value.children)}}
                                         </ul>

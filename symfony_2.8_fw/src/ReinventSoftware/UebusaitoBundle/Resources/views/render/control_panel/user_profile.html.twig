@@ -1,7 +1,7 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <h3>{% trans %}user_profile_1{% endtrans %}</h3>
         <form id="form_cp_user_profile" action="{{path("cp_user_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <div class="form-group">
@@ -41,7 +41,7 @@
             {{form_row(form.born, {'label': "user_profile_8"})}}
             {{form_row(form.gender, {'label': "user_profile_9"})}}
 
-            {% if (form.fiscalCode.vars.value != "") %}
+            {% if form.fiscalCode.vars.value != "" %}
                 {{form_row(form.fiscalCode, {'label': "user_profile_10"})}}
                 {{form_row(form.companyName, {'label': "user_profile_11"})}}
                 {{form_row(form.vat, {'label': "user_profile_12"})}}

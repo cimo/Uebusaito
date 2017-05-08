@@ -138,9 +138,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-        title:
-            - NotBlank:
-                groups: [page_creation, page_profile]
         roleId:
             - NotBlank:
                 groups: [page_creation, page_profile]

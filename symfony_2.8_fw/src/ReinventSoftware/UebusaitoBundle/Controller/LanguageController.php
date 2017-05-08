@@ -70,7 +70,7 @@ class LanguageController extends Controller {
                 
                 // Check form
                 if ($form->isValid() == true)
-                    $this->response['values']['url'] = $this->utility->getUrlRoot() . "/" . $form->get("codeText")->getData() . "/" . $this->utility->getRequestStack()->attributes->get("urlCurrentPageId") . "/" . $this->utility->getRequestStack()->attributes->get("urlExtra");
+                    $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$form->get("codeText")->getData()}/{$this->utility->getRequestStack()->attributes->get("urlCurrentPageId")}/{$this->utility->getRequestStack()->attributes->get("urlExtra")}";
                 else {
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_1");
                     $this->response['errors'] = $this->ajax->errors($form);

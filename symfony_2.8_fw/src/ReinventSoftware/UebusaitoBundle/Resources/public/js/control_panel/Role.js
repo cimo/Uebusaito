@@ -30,7 +30,7 @@ function ControlPanelRole() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -58,7 +58,7 @@ function ControlPanelRole() {
         $(document).on("click", "#cp_roles_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpRolesSelection,
                 "post",
                 {
@@ -87,7 +87,7 @@ function ControlPanelRole() {
                     
                     ajax.send(
                         true,
-                        false,
+                        true,
                         window.url.cpRoleDeletion,
                         "post",
                         {
@@ -123,7 +123,7 @@ function ControlPanelRole() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpRolesSelection,
                 "post",
                 {
@@ -148,7 +148,7 @@ function ControlPanelRole() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -190,7 +190,7 @@ function ControlPanelRole() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -215,7 +215,7 @@ function ControlPanelRole() {
 
                 ajax.send(
                     true,
-                    false,
+                    true,
                     window.url.cpRoleDeletion,
                     "post",
                     {

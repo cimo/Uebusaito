@@ -403,7 +403,6 @@ legend {
 
 #progressBar {
     margin-bottom: 0px !important;
-    margin-top: 8px;
     
     .progress-bar {
         span {
@@ -414,12 +413,15 @@ legend {
 }
 
 #upload {
-    .container_text {
+    .file {
+        margin-bottom: 5px;
+    }
+    .container_box {
         display: none;
         
         .text {
             position: relative;
-            margin: 10px 0px;
+            margin: 5px 0px;
             padding: 10px;
             
             p {
@@ -435,5 +437,17 @@ legend {
     }
     .container_controls {
         display: none;
+        
+        .container_progressBar {
+            display: inline-block;
+            vertical-align: middle;
+            width: 50%;
+            margin-bottom: 5px;
+        }
+        .container_buttons {
+            display: inline-block;
+            vertical-align: middle;
+            margin-bottom: 5px;
+        }
     }
 }

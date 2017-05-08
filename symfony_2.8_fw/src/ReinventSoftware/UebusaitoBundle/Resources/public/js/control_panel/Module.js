@@ -28,7 +28,7 @@ function ControlPanelModule() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -48,7 +48,7 @@ function ControlPanelModule() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -94,7 +94,7 @@ function ControlPanelModule() {
         $(document).on("click", "#cp_modules_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpModulesSelection,
                 "post",
                 {
@@ -123,7 +123,7 @@ function ControlPanelModule() {
                     
                     ajax.send(
                         true,
-                        false,
+                        true,
                         window.url.cpModuleDeletion,
                         "post",
                         {
@@ -159,7 +159,7 @@ function ControlPanelModule() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpModulesSelection,
                 "post",
                 {
@@ -184,7 +184,7 @@ function ControlPanelModule() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -238,7 +238,7 @@ function ControlPanelModule() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpModuleProfileSort,
                 "post",
                 {
@@ -268,7 +268,7 @@ function ControlPanelModule() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -293,7 +293,7 @@ function ControlPanelModule() {
 
                 ajax.send(
                     true,
-                    false,
+                    true,
                     window.url.cpModuleDeletion,
                     "post",
                     {

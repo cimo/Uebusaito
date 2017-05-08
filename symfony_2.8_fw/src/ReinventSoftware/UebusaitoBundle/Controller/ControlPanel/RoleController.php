@@ -307,7 +307,7 @@ class RoleController extends Controller {
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_6");
                 }
                 else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $rolesDatabase = $this->rolesDatabase("deleteAll");
+                    $rolesDatabase = $this->rolesDatabase("deleteAll", null);
                     
                     if ($rolesDatabase == true) {
                         $render = $this->renderView("UebusaitoBundle::render/control_panel/roles_selection_desktop.html.twig", Array(
@@ -393,7 +393,7 @@ class RoleController extends Controller {
         return $listHtml;
     }
     
-    private function rolesDatabase($type, $id = null) {
+    private function rolesDatabase($type, $id) {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM users_roles
                                                                 WHERE id > :idExclude

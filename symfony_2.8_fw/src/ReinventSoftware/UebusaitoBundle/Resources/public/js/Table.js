@@ -184,7 +184,7 @@ function Table() {
         
         ajax.send(
             true,
-            false,
+            true,
             urlRequest,
             "post",
             data,

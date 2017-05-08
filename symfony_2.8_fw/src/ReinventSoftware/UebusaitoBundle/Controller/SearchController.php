@@ -74,7 +74,7 @@ class SearchController extends Controller {
                 if ($form->isValid() == true) {
                     $words = $form->get("words")->getData();
                     
-                    $this->response['values']['url'] = $this->utility->getUrlRoot() . "/" . $this->urlLocale . "/5/" . $words;
+                    $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/5/$words";
                 }
                 else {
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("searchController_1");
@@ -166,7 +166,7 @@ class SearchController extends Controller {
                     $listHtml .= "<p class=\"argument\">" . substr($value['argument'], 0, 200) . "...</p>";
                 else
                     $listHtml .= "<p class=\"argument\">{$value['argument']}</p>
-                <a href=\"". $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->get("_locale") . "/" . $value['id'] . "\">" . $this->utility->getTranslator()->trans("searchController_2") . "</a>
+                <a href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->utility->getRequestStack()->get("_locale")}/{$value['id']}\">{$this->utility->getTranslator()->trans("searchController_2")}</a>
             </div>";
         }
         

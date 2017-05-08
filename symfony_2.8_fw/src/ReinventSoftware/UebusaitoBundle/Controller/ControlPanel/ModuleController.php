@@ -355,7 +355,7 @@ class ModuleController extends Controller {
                     
                     if (count($sortExplode) > 0) {
                         foreach ($sortExplode as $key => $value)
-                            $this->modulesDatabase("sort", $value, $key);
+                            $this->modulesDatabase("sort", $value, $key, null);
                     }
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
@@ -479,13 +479,13 @@ class ModuleController extends Controller {
                 $this->response['session']['activity'] = $sessionActivity;
             else {
                 if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
-                    $modulesDatabase = $this->modulesDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
+                    $modulesDatabase = $this->modulesDatabase("delete", $this->utility->getRequestStack()->request->get("id"), null, null);
                     
                     if ($modulesDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
                 }
                 else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $modulesDatabase = $this->modulesDatabase("deleteAll");
+                    $modulesDatabase = $this->modulesDatabase("deleteAll", null, null, null);
                     
                     if ($modulesDatabase == true) {
                         $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
@@ -583,7 +583,7 @@ class ModuleController extends Controller {
         return $listHtml;
     }
     
-    private function modulesDatabase($type, $id = null, $sort = null, $position = null) {
+    private function modulesDatabase($type, $id, $sort, $position) {
         if ($type == "sort") {
             if ($position == null) {
                 $query = $this->utility->getConnection()->prepare("UPDATE modules

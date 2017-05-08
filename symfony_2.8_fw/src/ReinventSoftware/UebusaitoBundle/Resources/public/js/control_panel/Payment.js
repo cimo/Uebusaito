@@ -34,7 +34,7 @@ function ControlPanelPayment() {
         $(document).on("click", "#cp_payments_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpPaymentsSelection,
                 "post",
                 {
@@ -63,7 +63,7 @@ function ControlPanelPayment() {
                     
                     ajax.send(
                         true,
-                        false,
+                        true,
                         window.url.cpPaymentDeletion,
                         "post",
                         {
@@ -99,7 +99,7 @@ function ControlPanelPayment() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -124,7 +124,7 @@ function ControlPanelPayment() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpPaymentsSelection,
                 "post",
                 {
@@ -149,7 +149,7 @@ function ControlPanelPayment() {
 
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -188,7 +188,7 @@ function ControlPanelPayment() {
 
                 ajax.send(
                     true,
-                    false,
+                    true,
                     window.url.cpPaymentDeletion,
                     "post",
                     {

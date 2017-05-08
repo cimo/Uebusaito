@@ -31,7 +31,7 @@ function ControlPanelSetting() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -90,7 +90,7 @@ function ControlPanelSetting() {
                     
                     ajax.send(
                         true,
-                        false,
+                        true,
                         window.url.cpSettingsLanguageManage,
                         "post",
                         {
@@ -126,7 +126,7 @@ function ControlPanelSetting() {
             
             ajax.send(
                 true,
-                false,
+                true,
                 window.url.cpSettingsLanguageManage,
                 "post",
                 {

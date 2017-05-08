@@ -32,6 +32,7 @@ class Utility {
     private $urlRootFull;
     private $urlWebBundle;
     
+    private $websiteFile;
     private $websiteName;
     
     private $settings;
@@ -93,6 +94,10 @@ class Utility {
         return $this->urlWebBundle;
     }
     
+    public function getWebsiteFile() {
+        return $this->websiteFile;
+    }
+    
     public function getWebsiteName() {
         return $this->websiteName;
     }
@@ -128,6 +133,7 @@ class Utility {
         $this->urlRootFull = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot();
         $this->urlWebBundle = "{$this->config->getUrlRoot()}/bundles/uebusaito";
         
+        $this->websiteFile = $this->config->getFile();
         $this->websiteName = $this->config->getName();
         
         $this->settings = $this->query->selectAllSettingsDatabase();

@@ -55,7 +55,7 @@ class ProfileController extends Controller {
         
         $usernameOld = $this->getUser()->getUsername();
         
-        $avatar = "{$this->utility->getUrlWebBundle()}/images/users/$usernameOld/Avatar.jpg";
+        $avatar = "{$this->utility->getUrlWebBundle()}/files/$usernameOld/Avatar.jpg";
         
         $this->response = Array();
         
@@ -93,13 +93,13 @@ class ProfileController extends Controller {
                         rename("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld",
                                 "{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
                     
-                    if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/$usernameOld") == true)
-                        rename("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/$usernameOld",
-                                "{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$form->get("username")->getData()}");
+                    if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld") == true)
+                        rename("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld",
+                                "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
                     
-                    if (file_exists("{$this->utility->getPathWebBundle()}/images/users/$usernameOld") == true)
-                        rename("{$this->utility->getPathWebBundle()}/images/users/$usernameOld",
-                                "{$this->utility->getPathWebBundle()}/images/users/{$form->get("username")->getData()}");
+                    if (file_exists("{$this->utility->getPathWebBundle()}/files/$usernameOld") == true)
+                        rename("{$this->utility->getPathWebBundle()}/files/$usernameOld",
+                                "{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
                     
                     // Insert in database
                     $this->entityManager->persist($this->getUser());
@@ -295,7 +295,7 @@ class ProfileController extends Controller {
             'urlCurrentPageId' => $this->urlCurrentPageId,
             'urlExtra' => $this->urlExtra,
             'response' => $this->upload->processFile(
-                "{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$this->getUser()->getUsername()}",
+                "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}",
                 2147483648,
                 1000000
             )

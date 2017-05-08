@@ -17,7 +17,7 @@ function Captcha() {
     self.image = function() {
         ajax.send(
             true,
-            false,
+            true,
             window.url.index,
             "post",
             {

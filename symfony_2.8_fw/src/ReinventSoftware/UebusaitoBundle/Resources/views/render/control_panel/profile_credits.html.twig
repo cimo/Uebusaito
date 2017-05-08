@@ -1,7 +1,7 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <h3>{% trans %}profile_credits_1{% endtrans %}</h3>
         <form id="form_cp_profile_credits" action="{{path("cp_profile_credits", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <fieldset class="accordion_container">
@@ -26,7 +26,7 @@
         </form>
     </div>
 </div>
-{% if (response.values.payPalSandbox == true) %}
+{% if response.values.payPalSandbox == true %}
     <form id="form_cp_profile_credits_paypal" class="visibility_hidden" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 {% else %}
     <form id="form_cp_profile_credits_paypal" class="visibility_hidden" action="https://www.paypal.com/cgi-bin/webscr" method="post">

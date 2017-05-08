@@ -14,7 +14,7 @@
     {% form_theme form "bootstrap_3_layout.html.twig" %}
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <form id="form_cp_payments_selection" action="{{path("cp_payments_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                 {{form_row(form.id, {'label': "payments_selection_2"})}}
 

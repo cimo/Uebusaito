@@ -242,7 +242,7 @@ class PaymentController extends Controller {
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
                 }
                 else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $paymentsDatabase = $this->paymentsDatabase("deleteAll");
+                    $paymentsDatabase = $this->paymentsDatabase("deleteAll", null);
                     
                     if ($paymentsDatabase == true) {
                         $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
@@ -336,7 +336,7 @@ class PaymentController extends Controller {
         return $listHtml;
     }
     
-    private function paymentsDatabase($type, $id = null) {
+    private function paymentsDatabase($type, $id) {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM payments
                                                                 WHERE user_id = :userId

@@ -10,6 +10,10 @@ class Config {
     private $name;
     
     // Properties
+    public function getDatabaseConnectionFields() {
+        return $this->databaseConnectionFields;
+    }
+    
     public function getPathRoot() {
         return $this->pathRoot;
     }
@@ -22,20 +26,16 @@ class Config {
         return $this->file;
     }
     
-    public function getDatabaseConnectionFields() {
-        return $this->databaseConnectionFields;
-    }
-    
     public function getName() {
         return $this->name;
     }
     
     // Functions public
     public function __construct() {
+        $this->databaseConnectionFields = Array("", "", "");
         $this->pathRoot = "/uebusaito/symfony_2.8_fw";
         $this->urlRoot = "/uebusaito/symfony_2.8_fw/web";
         $this->file = "/app_dev.php";
-        $this->databaseConnectionFields = Array("", "", "");
         $this->name = "Uebusaito 1.0";
     }
     

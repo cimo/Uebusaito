@@ -133,13 +133,16 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 #flashBag_popup ul { margin-bottom: 0; }
 #flashBag_popup .fa-close { cursor: pointer; position: absolute; top: 10px; right: 10px; }
 
-#progressBar { margin-bottom: 0px !important; margin-top: 8px; }
+#progressBar { margin-bottom: 0px !important; }
 #progressBar .progress-bar span { margin-left: 5px; color: #000000; }
 
-#upload .container_text { display: none; }
-#upload .container_text .text { position: relative; margin: 10px 0px; padding: 10px; }
-#upload .container_text .text p { margin: 0; }
-#upload .container_text .text .fa-close { cursor: pointer; position: absolute; top: 10px; right: 10px; }
+#upload .file { margin-bottom: 5px; }
+#upload .container_box { display: none; }
+#upload .container_box .text { position: relative; margin: 5px 0px; padding: 10px; }
+#upload .container_box .text p { margin: 0; }
+#upload .container_box .text .fa-close { cursor: pointer; position: absolute; top: 10px; right: 10px; }
 #upload .container_controls { display: none; }
+#upload .container_controls .container_progressBar { display: inline-block; vertical-align: middle; width: 50%; margin-bottom: 5px; }
+#upload .container_controls .container_buttons { display: inline-block; vertical-align: middle; margin-bottom: 5px; }
 
 /*# sourceMappingURL=utility.css.map */

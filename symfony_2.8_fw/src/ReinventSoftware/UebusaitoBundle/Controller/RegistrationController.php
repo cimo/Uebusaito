@@ -108,8 +108,8 @@ class RegistrationController extends Controller {
                             );
                             
                             mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}");
-                            mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/images/users/{$userEntity->getUsername()}");
-                            mkdir("{$this->utility->getPathWebBundle()}/images/users/{$userEntity->getUsername()}");
+                            mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userEntity->getUsername()}");
+                            mkdir("{$this->utility->getPathWebBundle()}/files/{$userEntity->getUsername()}");
                             
                             // Insert in database
                             $this->entityManager->persist($userEntity);

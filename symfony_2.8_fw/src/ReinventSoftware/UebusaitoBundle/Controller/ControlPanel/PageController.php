@@ -83,7 +83,7 @@ class PageController extends Controller {
                     $this->entityManager->persist($pageEntity);
                     $this->entityManager->flush();
                     
-                    $pagesDatabase = $this->pagesDatabase("insert", $form, null, $this->urlLocale);
+                    $pagesDatabase = $this->pagesDatabase("insert", null, $this->urlLocale, $form);
 
                     if ($pagesDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_1");
@@ -249,7 +249,7 @@ class PageController extends Controller {
                     $this->entityManager->persist($pageEntity);
                     $this->entityManager->flush();
 
-                    $pagesDatabase = $this->pagesDatabase("update", $form, $pageEntity, null);
+                    $pagesDatabase = $this->pagesDatabase("update", $pageEntity->getId(), null, $form);
 
                     if ($pagesDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_4");
@@ -319,7 +319,7 @@ class PageController extends Controller {
                     $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
                     
                     if ($pageChildrenRows == false) {
-                        $pagesDatabase = $this->pagesDatabase("delete", null, $id, null);
+                        $pagesDatabase = $this->pagesDatabase("delete", $id, null, null);
 
                         if ($pagesDatabase == true)
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_6");
@@ -353,7 +353,7 @@ class PageController extends Controller {
                     
                     $this->removePageChildrenDatabase($id);
                     
-                    $pagesDatabase = $this->pagesDatabase("delete", null, $id, null);
+                    $pagesDatabase = $this->pagesDatabase("delete", $id, null, null);
 
                     if ($pagesDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
@@ -363,7 +363,7 @@ class PageController extends Controller {
                     
                     $this->updatePageChildrenDatabase($id, $this->utility->getRequestStack()->request->get("parentNew"));
                     
-                    $pagesDatabase = $this->pagesDatabase("delete", null, $id, null);
+                    $pagesDatabase = $this->pagesDatabase("delete", $id, null, null);
                     
                     if ($pagesDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
@@ -469,7 +469,7 @@ class PageController extends Controller {
         for ($i = 0; $i < count($pageChildrenRows); $i ++)
             $this->removePageChildrenDatabase($pageChildrenRows[$i]['id']);
         
-        $this->pagesDatabase("delete", null, $id, null);
+        $this->pagesDatabase("delete", $id, null, null);
     }
     
     private function updatePageChildrenDatabase($id, $parentNew) {
@@ -483,7 +483,7 @@ class PageController extends Controller {
         $query->execute();
     }
     
-    private function pagesDatabase($type, $form, $id, $urlLocale) {
+    private function pagesDatabase($type, $id, $urlLocale, $form) {
         if ($type == "insert") {
             $query = $this->utility->getConnection()->prepare("INSERT INTO pages_titles (
                                                                     pages_titles.$urlLocale

@@ -127,7 +127,7 @@ function Upload() {
             
             message(true, timeLeft + window.text.uploadTextC);
         }
-    };
+    }
     
     function sendComplete() {
         var xhr = new XMLHttpRequest();
@@ -216,7 +216,7 @@ function Upload() {
         };
         
         xhr.send("");
-    };
+    }
     
     function resetValue(type) {
         utility.progressBar();
@@ -249,9 +249,9 @@ function Upload() {
     
     function message(show, text) {
         if (show === true)
-            $("#upload").find(".container_text").show();
+            $("#upload").find(".container_box").show();
         else
-            $("#upload").find(".container_text").hide();
+            $("#upload").find(".container_box").hide();
         
         $("#upload").find(".text p").text(text);
     }
