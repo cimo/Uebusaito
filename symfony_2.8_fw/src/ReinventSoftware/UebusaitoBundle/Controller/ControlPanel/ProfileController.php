@@ -287,18 +287,41 @@ class ProfileController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->upload = new Upload($this->container, $this->entityManager);
+        
+        $this->response = Array();
+        
+        $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($sessionActivity != "")
+            $this->response['session']['activity'] = $sessionActivity;
+        else {
+            $path = "";
+            
+            if ($this->getUser() != null)
+                $path = "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}";
+            
+            $this->response['upload']['inputType'] = "single";
+            $this->response['upload']['maxSize'] = 0;
+            $this->response['upload']['chunkSize'] = 1000000;
+            $this->response['upload']['extensions'] = Array('jpeg', 'jpg', 'png', 'gif');
+            
+            $this->response['upload']['processFile'] = $this->upload->processFile(
+                $path,
+                $this->response['upload']['inputType'],
+                $this->response['upload']['maxSize'],
+                $this->response['upload']['chunkSize'],
+                $this->response['upload']['extensions']
+            );
+        }
         
         return $this->ajax->response(Array(
             'urlLocale' => $this->urlLocale,
             'urlCurrentPageId' => $this->urlCurrentPageId,
             'urlExtra' => $this->urlExtra,
-            'response' => $this->upload->processFile(
-                "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}",
-                2147483648,
-                1000000
-            )
+            'response' => $this->response
         ));
     }
     

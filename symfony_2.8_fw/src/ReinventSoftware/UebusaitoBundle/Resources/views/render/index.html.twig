@@ -118,6 +118,7 @@
         };
         
         var path = {
+            'documentRoot': "{{response.path.documentRoot}}",
             'root': "{{response.path.root}}",
             'srcBundle': "{{response.path.srcBundle}}",
             'webBundle': "{{response.path.webBundle}}"
@@ -125,7 +126,6 @@
         
         var url = {
             'root': "{{response.url.root}}",
-            'rootFull': "{{response.url.rootFull}}",
             'webBundle': "{{response.url.webBundle}}",
             'error': "{{path("error")}}",
             'index': "{{path("index", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
@@ -173,27 +173,26 @@
             'ok': "{{"index_4"|trans}}",
             'abort': "{{"index_5"|trans}}",
             'ajaxConnectionError': "{{"index_6"|trans}}",
-            'ajaxInProgress': "{{"index_7"|trans}}",
-            'changeReload': "{{"index_8"|trans}}",
-            'changePageLanguage': "{{"index_9"|trans}}",
-            'deletePayment': "{{"index_10"|trans}}",
-            'deleteAllPayments': "{{"index_11"|trans}}",
-            'deletePage': "{{"index_12"|trans}}",
-            'deleteAllPages': "{{"index_13"|trans}}",
-            'deleteUser': "{{"index_14"|trans}}",
-            'deleteAllUsers': "{{"index_15"|trans}}",
-            'deleteModule': "{{"index_16"|trans}}",
-            'deleteAllModules': "{{"index_17"|trans}}",
-            'deleteRole': "{{"index_18"|trans}}",
-            'deleteAllRoles': "{{"index_19"|trans}}",
-            'deleteLanguageManage': "{{"index_20"|trans}}",
-            'uploadTextA': "{{"index_21"|trans}}",
-            'uploadTextB': "{{"index_22"|trans}}",
-            'uploadTextC': "{{"index_23"|trans}}",
-            'uploadTextD': "{{"index_24"|trans}}",
-            'uploadButtonA': "{{"index_25"|trans}}",
-            'uploadButtonB': "{{"index_26"|trans}}",
-            'uploadButtonC': "{{"index_27"|trans}}"
+            'changeReload': "{{"index_7"|trans}}",
+            'changePageLanguage': "{{"index_8"|trans}}",
+            'deletePayment': "{{"index_9"|trans}}",
+            'deleteAllPayments': "{{"index_10"|trans}}",
+            'deletePage': "{{"index_11"|trans}}",
+            'deleteAllPages': "{{"index_12"|trans}}",
+            'deleteUser': "{{"index_13"|trans}}",
+            'deleteAllUsers': "{{"index_14"|trans}}",
+            'deleteModule': "{{"index_15"|trans}}",
+            'deleteAllModules': "{{"index_16"|trans}}",
+            'deleteRole': "{{"index_17"|trans}}",
+            'deleteAllRoles': "{{"index_18"|trans}}",
+            'deleteLanguageManage': "{{"index_19"|trans}}",
+            'uploadTextA': "{{"index_20"|trans}}",
+            'uploadTextB': "{{"index_21"|trans}}",
+            'uploadTextC': "{{"index_22"|trans}}",
+            'uploadTextD': "{{"index_23"|trans}}",
+            'uploadButtonA': "{{"index_24"|trans}}",
+            'uploadButtonB': "{{"index_25"|trans}}",
+            'uploadButtonC': "{{"index_26"|trans}}"
         };
         
         var settings = {

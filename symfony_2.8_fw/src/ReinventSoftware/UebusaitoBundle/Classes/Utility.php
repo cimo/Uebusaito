@@ -29,7 +29,6 @@ class Utility {
     private $pathWebBundle;
     
     private $urlRoot;
-    private $urlRootFull;
     private $urlWebBundle;
     
     private $websiteFile;
@@ -86,10 +85,6 @@ class Utility {
         return $this->urlRoot;
     }
     
-    public function getUrlRootFull() {
-        return $this->urlRootFull;
-    }
-    
     public function getUrlWebBundle() {
         return $this->urlWebBundle;
     }
@@ -129,8 +124,7 @@ class Utility {
         $this->pathSrcBundle = "{$this->pathRoot}/src/ReinventSoftware/UebusaitoBundle";
         $this->pathWebBundle = "{$this->pathRoot}/web/bundles/uebusaito";
         
-        $this->urlRoot = $this->config->getUrlRoot();
-        $this->urlRootFull = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot();
+        $this->urlRoot = $protocol . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot();
         $this->urlWebBundle = "{$this->config->getUrlRoot()}/bundles/uebusaito";
         
         $this->websiteFile = $this->config->getFile();
@@ -205,10 +199,12 @@ class Utility {
             $rii = new RecursiveIteratorIterator($rdi, RecursiveIteratorIterator::CHILD_FIRST);
 
             foreach($rii as $file) {
-                if ($file->isDir() == true)
-                    rmdir($file->getRealPath());
-                else
-                    unlink($file->getRealPath());
+                if (file_exists($file->getRealPath()) == true) {
+                    if ($file->isDir() == true)
+                        rmdir($file->getRealPath());
+                    else
+                        unlink($file->getRealPath());
+                }
             }
 
             if ($parent == true)

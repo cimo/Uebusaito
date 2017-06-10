@@ -63,7 +63,7 @@ function ControlPanelPage() {
     function selection() {
         var table = new Table();
         table.setButtonsStatus("show");
-        table.init(window.url.cpPagesSelection, "#cp_pages_selection_desktop_result");
+        table.init(window.url.cpPagesSelection, "#cp_pages_selection_desktop_result", true);
         table.search(true);
         table.pagination(true);
         table.sort(true);
@@ -71,7 +71,7 @@ function ControlPanelPage() {
         $(document).on("click", "#cp_pages_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                true,
+                false,
                 window.url.cpPagesSelection,
                 "post",
                 {
@@ -100,7 +100,7 @@ function ControlPanelPage() {
                     
                     ajax.send(
                         true,
-                        true,
+                        false,
                         window.url.cpPageDeletion,
                         "post",
                         {
@@ -125,7 +125,7 @@ function ControlPanelPage() {
             );
         });
         
-        $(document).on("click", ".cp_page_deletion", function() {
+        $(document).on("click", "#cp_pages_selection_desktop_result .cp_page_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deletion(id);
@@ -239,7 +239,7 @@ function ControlPanelPage() {
 
                 ajax.send(
                     true,
-                    true,
+                    false,
                     window.url.cpPageDeletion,
                     "post",
                     {

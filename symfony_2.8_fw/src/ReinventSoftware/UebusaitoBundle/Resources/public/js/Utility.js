@@ -8,9 +8,20 @@ function Utility() {
     
     var watchExecuted = false;
     
+    var isMobile = false;
+    
     var modulePositionValue = "";
     
+    var touchMove = false;
+    
     // Properties
+    self.getIsMobile = function() {
+        return isMobile;
+    };
+    
+    self.getTouchMove = function() {
+        return touchMove;
+    };
     
     // Functions public
     self.watch = function(tag, callback) {
@@ -29,7 +40,7 @@ function Utility() {
     };
     
     self.mobileCheck = function(fix) {
-        var isMobile = false;
+        isMobile = false;
         
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) === true) {
             isMobile = true;
@@ -481,7 +492,7 @@ function Utility() {
             'up': $.noop,
             'down': $.noop
         }, isTouch = "ontouchend" in document;
-        
+
         // Fix jquery > 3
         //$.event.props.push("touches");
 
@@ -493,6 +504,8 @@ function Utility() {
                 var startX;
                 var startY;
                 var isMoving = false;
+
+                touchMove = false;
 
                 function cancelTouch() {
                     element.off("mousemove.swipe touchmove.swipe", onTouchMove);
@@ -509,6 +522,8 @@ function Utility() {
                         var offsetY = startY - y;
 
                         if (Math.abs(offsetX) >= (options.min.x || options.min)) {
+                            touchMove = true;
+
                             cancelTouch();
 
                             if (offsetX > 0)
@@ -517,6 +532,8 @@ function Utility() {
                                 options.right();
                         }
                         else if (Math.abs(offsetY) >= (options.min.y || options.min)) {
+                            touchMove = true;
+
                             cancelTouch();
 
                             if (offsetY > 0)
@@ -529,18 +546,24 @@ function Utility() {
 
                 function onTouchStart(event) {
                     event.preventDefault();
-                    
+
                     if (event.touches !== undefined) {
                         startX = isTouch ? event.touches[0].pageX : event.pageX;
                         startY = isTouch ? event.touches[0].pageY : event.pageY;
-                        
+
                         isMoving = true;
-                        
+
                         element.on("mousemove.swipe touchmove.swipe", onTouchMove);
                     }
                 }
 
+                function onTouchEnd(event) {
+                    if (event.touches !== undefined)
+                        touchMove = false;
+                }
+
                 element.on("mousedown touchstart", onTouchStart);
+                element.on("mouseup touchend", onTouchEnd);
             });
         };
     };

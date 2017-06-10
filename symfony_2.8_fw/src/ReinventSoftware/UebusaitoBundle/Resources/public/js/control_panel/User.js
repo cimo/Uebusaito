@@ -48,7 +48,7 @@ function ControlPanelUser() {
     function selection() {
         var table = new Table();
         table.setButtonsStatus("show");
-        table.init(window.url.cpUsersSelection, "#cp_users_selection_desktop_result");
+        table.init(window.url.cpUsersSelection, "#cp_users_selection_desktop_result", true);
         table.search(true);
         table.pagination(true);
         table.sort(true);
@@ -56,7 +56,7 @@ function ControlPanelUser() {
         $(document).on("click", "#cp_users_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                true,
+                false,
                 window.url.cpUsersSelection,
                 "post",
                 {
@@ -85,7 +85,7 @@ function ControlPanelUser() {
                     
                     ajax.send(
                         true,
-                        true,
+                        false,
                         window.url.cpUserDeletion,
                         "post",
                         {
@@ -110,7 +110,7 @@ function ControlPanelUser() {
             );
         });
         
-        $(document).on("click", ".cp_user_deletion", function() {
+        $(document).on("click", "#cp_users_selection_desktop_result .cp_user_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deletion(id);
@@ -211,7 +211,7 @@ function ControlPanelUser() {
 
                 ajax.send(
                     true,
-                    true,
+                    false,
                     window.url.cpUserDeletion,
                     "post",
                     {

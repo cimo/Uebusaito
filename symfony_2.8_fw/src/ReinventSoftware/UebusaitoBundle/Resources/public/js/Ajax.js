@@ -42,7 +42,7 @@ function Ajax() {
                 flashBag.hide();
                 
                 if (xhr.status === 408 || status === "timeout")
-                    self.send(url, method, data, callbackBefore, callbackSuccess, callbackError, callbackComplete);
+                    self.send(loaderEnabled, messageHide, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete);
                 else {
                     if (callbackError !== null)
                         callbackError(xhr);

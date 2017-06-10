@@ -62,12 +62,12 @@ class RootController extends Controller {
         $this->response['session']['token'] = isset($_SESSION['token']) == true ? $_SESSION['token'] : "";
         $this->response['session']['activity'] = $this->utilityPrivate->checkSessionOverTime();
         
+        $this->response['path']['documentRoot'] = $_SERVER['DOCUMENT_ROOT'];
         $this->response['path']['root'] = $this->utility->getPathRoot();
         $this->response['path']['srcBundle'] = $this->utility->getPathSrcBundle();
         $this->response['path']['webBundle'] = $this->utility->getPathWebBundle();
         
         $this->response['url']['root'] = $this->utility->getUrlRoot();
-        $this->response['url']['rootFull'] = $this->utility->getUrlRootFull();
         $this->response['url']['webBundle'] = $this->utility->getUrlWebBundle();
         
         $this->response['modules']['header'] = $this->query->selectAllModulesDatabase(null, "header");

@@ -1,5 +1,28 @@
 @import "utility.scss";
 
+.container-fluid {
+    overflow: hidden;
+}
+
+.logo_desktop {
+    display: none;
+    font-family: "acme", sans-serif;
+    font-size: 75px;
+    color: #ffffff;
+    text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000;
+    margin: 0;
+}
+.logo_mobile {
+    display: none;
+    font-family: "acme", sans-serif;
+    font-size: 24px;
+    color: #ffffff;
+    text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 2px 2px #000000;
+    margin: 0;
+}
+
+/* --- */
+
 @media(max-width: $maxWidth) {
     .message_single_page {
         i {
@@ -272,29 +295,6 @@
         }
     }
 }
-
-.container-fluid {
-    overflow: hidden;
-}
-
-.logo_desktop {
-    display: none;
-    font-family: "acme", sans-serif;
-    font-size: 75px;
-    color: #ffffff;
-    text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000;
-    margin: 0;
-}
-.logo_mobile {
-    display: none;
-    font-family: "acme", sans-serif;
-    font-size: 24px;
-    color: #ffffff;
-    text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 2px 2px #000000;
-    margin: 0;
-}
-
-/**/
 
 body {
     margin-bottom: 150px;

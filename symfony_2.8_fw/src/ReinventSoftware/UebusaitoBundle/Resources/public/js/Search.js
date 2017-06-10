@@ -11,7 +11,7 @@ function Search() {
     // Functions public
     self.init = function() {
         var table = new Table();
-        table.init(window.url.searchResult, "#search_result");
+        table.init(window.url.searchResult, "#search_result", false);
         table.search(true);
         table.pagination(true);
         table.sort(true);

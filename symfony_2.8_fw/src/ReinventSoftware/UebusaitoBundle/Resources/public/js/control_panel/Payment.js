@@ -26,7 +26,7 @@ function ControlPanelPayment() {
     function selection() {
         var table = new Table();
         table.setButtonsStatus("show");
-        table.init(window.url.cpPaymentsSelection, "#cp_payments_selection_desktop_result");
+        table.init(window.url.cpPaymentsSelection, "#cp_payments_selection_desktop_result", true);
         table.search(true);
         table.pagination(true);
         table.sort(true);
@@ -34,7 +34,7 @@ function ControlPanelPayment() {
         $(document).on("click", "#cp_payments_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                true,
+                false,
                 window.url.cpPaymentsSelection,
                 "post",
                 {
@@ -63,7 +63,7 @@ function ControlPanelPayment() {
                     
                     ajax.send(
                         true,
-                        true,
+                        false,
                         window.url.cpPaymentDeletion,
                         "post",
                         {
@@ -88,7 +88,7 @@ function ControlPanelPayment() {
             );
         });
         
-        $(document).on("click", ".cp_payment_deletion", function() {
+        $(document).on("click", "#cp_payments_selection_desktop_result .cp_payment_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column_hide").text());
             
             deletion(id);
@@ -188,7 +188,7 @@ function ControlPanelPayment() {
 
                 ajax.send(
                     true,
-                    true,
+                    false,
                     window.url.cpPaymentDeletion,
                     "post",
                     {

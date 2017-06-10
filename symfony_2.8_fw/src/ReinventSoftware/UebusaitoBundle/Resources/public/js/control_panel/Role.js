@@ -50,7 +50,7 @@ function ControlPanelRole() {
     function selection() {
         var table = new Table();
         table.setButtonsStatus("show");
-        table.init(window.url.cpRolesSelection, "#cp_roles_selection_desktop_result");
+        table.init(window.url.cpRolesSelection, "#cp_roles_selection_desktop_result", true);
         table.search(true);
         table.pagination(true);
         table.sort(true);
@@ -58,7 +58,7 @@ function ControlPanelRole() {
         $(document).on("click", "#cp_roles_selection_desktop_result .refresh", function() {
             ajax.send(
                 true,
-                true,
+                false,
                 window.url.cpRolesSelection,
                 "post",
                 {
@@ -87,7 +87,7 @@ function ControlPanelRole() {
                     
                     ajax.send(
                         true,
-                        true,
+                        false,
                         window.url.cpRoleDeletion,
                         "post",
                         {
@@ -112,7 +112,7 @@ function ControlPanelRole() {
             );
         });
         
-        $(document).on("click", ".cp_role_deletion", function() {
+        $(document).on("click", "#cp_roles_selection_desktop_result .cp_role_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deletion(id);
@@ -215,7 +215,7 @@ function ControlPanelRole() {
 
                 ajax.send(
                     true,
-                    true,
+                    false,
                     window.url.cpRoleDeletion,
                     "post",
                     {

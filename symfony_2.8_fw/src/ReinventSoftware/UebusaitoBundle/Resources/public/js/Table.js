@@ -6,6 +6,7 @@ function Table() {
     
     var urlRequest = "";
     var idResult = "";
+    var oneElement = "";
     
     var current = 0;
     var total = 0;
@@ -20,15 +21,17 @@ function Table() {
     };
     
     // Functions public
-    self.init = function(url, id) {
+    self.init = function(url, id, single) {
         urlRequest = url;
         idResult = id;
+        oneElement = single;
         
         status();
         
         utility.linkPreventDefault();
         
-        utility.selectOnlyOneElement(idResult + " .table_tbody");
+        if (oneElement === true)
+            utility.selectOnlyOneElement(idResult + " .table_tbody");
     };
     
     self.search = function(delegate) {
@@ -209,7 +212,8 @@ function Table() {
                 
                 utility.linkPreventDefault();
                 
-                utility.selectOnlyOneElement(idResult + " .table_tbody");
+                if (oneElement === true)
+                    utility.selectOnlyOneElement(idResult + " .table_tbody");
             },
             null,
             null

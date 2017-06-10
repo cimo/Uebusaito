@@ -109,6 +109,14 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 .captcha img { border: 1px solid #000000; }
 .captcha input { position: relative; top: 1px; }
 
+.rotate_45 { -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg); }
+
+.rotate_135 { -webkit-transform: rotate(135deg); -moz-transform: rotate(135deg); -ms-transform: rotate(135deg); -o-transform: rotate(135deg); transform: rotate(135deg); }
+
+.rotate_225 { -webkit-transform: rotate(225deg); -moz-transform: rotate(225deg); -ms-transform: rotate(225deg); -o-transform: rotate(225deg); transform: rotate(225deg); }
+
+.rotate_315 { -webkit-transform: rotate(315deg); -moz-transform: rotate(315deg); -ms-transform: rotate(315deg); -o-transform: rotate(315deg); transform: rotate(315deg); }
+
 #backdrop { position: fixed; top: 0; right: 0; bottom: 0; left: 0; opacity: 0.5; background-color: #000; z-index: 1040; }
 
 #loader { display: none; position: fixed; top: 35%; right: 0; left: 0; margin: 30px auto; width: 200px; height: 50px; padding-top: 8px; text-align: center; border: 1px solid #000000; background-color: #ffffff; overflow: hidden; -webkit-overflow-scrolling: touch; outline: 0; z-index: 1050; }
@@ -136,6 +144,7 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 #progressBar { margin-bottom: 0px !important; }
 #progressBar .progress-bar span { margin-left: 5px; color: #000000; }
 
+#upload { display: none; }
 #upload .file { margin-bottom: 5px; }
 #upload .container_box { display: none; }
 #upload .container_box .text { position: relative; margin: 5px 0px; padding: 10px; }
@@ -145,6 +154,13 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 #upload .container_controls .container_progressBar { display: inline-block; vertical-align: middle; width: 50%; margin-bottom: 5px; }
 #upload .container_controls .container_buttons { display: inline-block; vertical-align: middle; margin-bottom: 5px; }
 
+.container-fluid { overflow: hidden; }
+
+.logo_desktop { display: none; font-family: "acme", sans-serif; font-size: 75px; color: #ffffff; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000; margin: 0; }
+
+.logo_mobile { display: none; font-family: "acme", sans-serif; font-size: 24px; color: #ffffff; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 2px 2px #000000; margin: 0; }
+
+/* --- */
 @media (max-width: 992px) { .message_single_page i { font-size: 12em; color: #cecece; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000; margin-bottom: 40px; }
   .message_single_page p { font-family: "acme", sans-serif; font-size: 35px; color: #ffffff; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000; }
   .nav_bar_fix { margin-bottom: 55px; }
@@ -191,13 +207,6 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
   #panel_id_5 .search_input { cursor: pointer; position: absolute; width: 34px; height: 33px; background-color: #000000; border-radius: 4px; }
   #panel_id_5 .search_input .fa-search { position: absolute; top: 10px; left: 11px; color: #ffffff; }
   #panel_id_5 .form-group input { padding-left: 40px; } }
-.container-fluid { overflow: hidden; }
-
-.logo_desktop { display: none; font-family: "acme", sans-serif; font-size: 75px; color: #ffffff; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000; margin: 0; }
-
-.logo_mobile { display: none; font-family: "acme", sans-serif; font-size: 24px; color: #ffffff; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 2px 2px #000000; margin: 0; }
-
-/**/
 body { margin-bottom: 150px; }
 
 .navbar-default { background-color: #2f343a; min-height: auto !important; }

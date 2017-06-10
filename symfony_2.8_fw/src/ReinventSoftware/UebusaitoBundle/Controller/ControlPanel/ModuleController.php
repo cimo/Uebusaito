@@ -230,7 +230,7 @@ class ModuleController extends Controller {
         // Pagination
         $moduleRows = $this->query->selectAllModulesDatabase();
         
-        $tableResult = $this->table->request($moduleRows, 7, "module", true, true);
+        $tableResult = $this->table->request($moduleRows, 20, "module", true, true);
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];

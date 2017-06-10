@@ -1,4 +1,4 @@
-/* global ajax, upload */
+/* global ajax, upload, popupEasy */
 
 var controlPanelProfile = new ControlPanelProfile();
 
@@ -10,7 +10,7 @@ function ControlPanelProfile() {
     
     // Functions public
     self.init = function() {
-        upload.processFile("single");
+        upload.processFile();
         
         $("#form_cp_profile").on("submit", "", function(event) {
             event.preventDefault();
