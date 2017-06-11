@@ -1,7 +1,11 @@
 <div class="margin_bottom">
     <div id="language_flag">
         {% for value in response.values.languages %}
-            <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.settings['template'] ~ "/lang/" ~ value.code ~ ".png")}}" alt="{{value.code}}.png"/>
+            {% if (file_exists(urlRoot ~ "/bundles/uebusaito/images/templates/" ~ response.settings['template'] ~ "/lang/" ~ value.code ~ ".png") == true) %}
+                <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.settings['template'] ~ "/lang/" ~ value.code ~ ".png")}}" alt="{{value.code}}.png"/>
+            {% else %}
+                <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.settings['template'] ~ "/lang/empty.png")}}" alt="{{value.code}}.png"/>
+            {% endif %}
         {% endfor %}
     </div>
     <form id="form_language_page" action="{{path("language_page", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
@@ -10,3 +14,8 @@
         {{form_widget(form._token)}}
     </form>
 </div>
+<script>
+    var textLanguagePage = {
+        'changePageLanguage': "{{"language_page_1"|trans}}"
+    };
+</script>

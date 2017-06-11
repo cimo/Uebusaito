@@ -42,6 +42,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    # cimo +
+    globals:
+        urlRoot: %kernel.root_dir%/../web
 
 # Doctrine Configuration
 doctrine:

@@ -94,7 +94,7 @@ function ControlPanelPage() {
         $(document).on("click", "#cp_pages_selection_desktop_result .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                window.text.deleteAllPages,
+                window.textPage.deleteAllPages,
                 function() {
                     popupEasy.close();
                     
@@ -233,7 +233,7 @@ function ControlPanelPage() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            window.text.deletePage,
+            window.textPage.deletePage,
             function() {
                 popupEasy.close();
 

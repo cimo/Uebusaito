@@ -129,14 +129,14 @@ class SettingController extends Controller {
                 $this->response['session']['activity'] = $sessionActivity;
             else {
                 if ($this->utility->getRequestStack()->request->get("event") == "deleteLanguage" && $this->utilityPrivate->checkToken() == true) {
-                    $currentIndex = $this->utility->getRequestStack()->request->get("currentIndex");
+                    $code = $this->utility->getRequestStack()->request->get("code");
                     
-                    $languageRows = $this->query->selectLanguageDatabase($currentIndex);
-
-                    $settingsDatabase = $this->settingsDatabase("deleteLanguage", $currentIndex);
+                    $settingsDatabase = $this->settingsDatabase("deleteLanguage", $code);
                     
                     if ($settingsDatabase == true) {
-                        unlink("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.{$languageRows['code']}.yml");
+                        unlink("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
+                        
+                        $this->settingsDatabase("deleteLanguageInPage", $code);
                         
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_3");
                     }
@@ -161,6 +161,8 @@ class SettingController extends Controller {
                         
                         if ($settingsDatabase == true) {
                             touch("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
+                            
+                            $this->settingsDatabase("insertLanguageInPage", $code);
                             
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
                         }
@@ -187,24 +189,46 @@ class SettingController extends Controller {
     }
     
     // Functions private
-    private function settingsDatabase($type, $value) {
+    private function settingsDatabase($type, $code) {
         if ($type == "deleteLanguage") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM languages
                                                                 WHERE id > :idExclude
-                                                                AND id = :id");
+                                                                AND code = :code");
 
             $query->bindValue(":idExclude", 2);
-            $query->bindValue(":id", $value);
+            $query->bindValue(":code", $code);
 
             return $query->execute();
         }
+        else if ($type == "deleteLanguageInPage") {
+            $codeTmp = is_string($code) == true ? $code : "";
+            $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
+            $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
+            
+            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles DROP $codeTmp;
+                                                                ALTER TABLE pages_arguments DROP $codeTmp;
+                                                                ALTER TABLE pages_menu_names DROP $codeTmp;");
+            
+            $query->execute();
+        }
         else if ($type == "insertLanguage") {
             $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code)
-                                                                VALUES (:code);");
+                                                                VALUES (:code)");
             
-            $query->bindValue(":code", $value);
+            $query->bindValue(":code", $code);
             
             return $query->execute();
+        }
+        else if ($type == "insertLanguageInPage") {
+            $codeTmp = is_string($code) == true ? $code : "";
+            $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
+            $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
+            
+            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles ADD $codeTmp VARCHAR(255);
+                                                                ALTER TABLE pages_arguments ADD $codeTmp LONGTEXT;
+                                                                ALTER TABLE pages_menu_names ADD $codeTmp VARCHAR(255);");
+            
+            $query->execute();
         }
     }
 }

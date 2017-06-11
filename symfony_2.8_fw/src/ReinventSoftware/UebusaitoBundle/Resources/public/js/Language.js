@@ -86,7 +86,7 @@ function Language() {
         $("#language_flag img").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {
                 popupEasy.create(window.text.warning,
-                    window.text.changePageLanguage,
+                    window.textLanguagePage.changePageLanguage,
                     function() {
                         popupEasy.close();
 

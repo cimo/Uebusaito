@@ -66,12 +66,14 @@ function ControlPanelSetting() {
     
     // Function private
     function languageManage() {
-        var currentIndex = 1;
+        var index = 1;
+        var code = "";
         
         $("#form_settings_language").on("change", "", function() {
-            currentIndex = $(this).prop("selectedIndex");
+            index = $(this).prop("selectedIndex");
+            code = $("#form_settings_language").find("option").eq(index).val();
             
-            if (currentIndex > 2)
+            if (index > 2)
                 $("#settings_language_manage_minus").addClass("button_icon_inline");
             else
                 $("#settings_language_manage_minus").removeClass("button_icon_inline");
@@ -84,7 +86,7 @@ function ControlPanelSetting() {
         $("#settings_language_manage_minus").on("click", "", function() {
             popupEasy.create(
                 window.text.warning,
-                window.text.deleteLanguageManage,
+                window.textSetting.deleteLanguageManage,
                 function() {
                     popupEasy.close();
                     
@@ -95,7 +97,7 @@ function ControlPanelSetting() {
                         "post",
                         {
                             'event': "deleteLanguage",
-                            'currentIndex': currentIndex,
+                            'code': code,
                             'token': window.session.token
                         },
                         "json",
@@ -108,7 +110,8 @@ function ControlPanelSetting() {
                                 $("#settings_language_manage_minus").removeClass("button_icon_inline");
                                 $("#settings_language_manage_container").hide();
                                 
-                                $("#form_settings_language").find("option").eq(currentIndex).remove();
+                                $("#form_settings_language").find("option").eq(index).remove();
+                                $("#form_language_codeText").find("option").eq(index).remove();
                             }
                         },
                         null,
@@ -142,6 +145,7 @@ function ControlPanelSetting() {
                     
                     if (xhr.response.messages.success !== undefined) {
                         $("#form_settings_language").append("<option value=\"" + code + "\">" + code + "</option>");
+                        $("#form_language_codeText").append("<option value=\"" + code + "\">" + code + "</option>");
                         
                         $("#settings_language_manage_erase").click();
                     }

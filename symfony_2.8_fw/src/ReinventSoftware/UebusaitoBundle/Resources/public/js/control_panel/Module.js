@@ -117,7 +117,7 @@ function ControlPanelModule() {
         $(document).on("click", "#cp_modules_selection_desktop_result .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                window.text.deleteAllModules,
+                window.textModule.deleteAllModules,
                 function() {
                     popupEasy.close();
                     
@@ -287,7 +287,7 @@ function ControlPanelModule() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            window.text.deleteModule,
+            window.textModule.deleteModule,
             function() {
                 popupEasy.close();
 

@@ -41,11 +41,11 @@ date.time: H:i:s
 "class_utility_5": "Select parent:"
 
 # Upload.php
-"class_upload_1": "Error max size."
-"class_upload_2": "Error chunk size."
-"class_upload_3": "Error only this extensions are allowed: "
+"class_upload_1": "Error max size, limit is: "
+"class_upload_2": "Error type, only this are allowed: "
+"class_upload_3": "Error chunk size."
 "class_upload_4": "File uploaded successfully."
-"class_upload_5": "Unable to move file to "
+"class_upload_5": "Unable to move file to path."
 "class_upload_6": "Upload aborted."
 
 # ---
@@ -230,6 +230,12 @@ date.time: H:i:s
 # upload.html.twig
 "upload_1": "Start"
 "upload_2": "Abort"
+"upload_3": "Paused..."
+"upload_4": "Uploading..."
+"upload_5": " seconds remaining."
+"upload_6": "Start"
+"upload_7": "Pause"
+"upload_8": "Resume"
 
 # ---
 # Views / Render
@@ -249,6 +255,17 @@ date.time: H:i:s
 "control_panel_12": "Modules section."
 "control_panel_13": "Roles section."
 "control_panel_14": "Settings section."
+"control_panel_15": "Really delete this payment?"
+"control_panel_16": "Really delete all payments?"
+"control_panel_17": "Really delete this page?"
+"control_panel_18": "Really delete all pages?"
+"control_panel_19": "Really delete this user?"
+"control_panel_20": "Really delete all users?"
+"control_panel_21": "Really delete this module?"
+"control_panel_22": "Really delete all modules?"
+"control_panel_23": "Really delete this role?"
+"control_panel_24": "Really delete all roles?"
+"control_panel_25": "Really delete this language?"
 
 # index.html.twig
 "index_1": "WEBSITE CURRENTLY"
@@ -258,25 +275,9 @@ date.time: H:i:s
 "index_5": "Abort"
 "index_6": "Connection error, please reload the page."
 "index_7": "After this change, for secure reason, you must login again."
-"index_8": "Change page language without save data?"
-"index_9": "Really delete this payment?"
-"index_10": "Really delete all payments?"
-"index_11": "Really delete this page?"
-"index_12": "Really delete all pages?"
-"index_13": "Really delete this user?"
-"index_14": "Really delete all users?"
-"index_15": "Really delete this module?"
-"index_16": "Really delete all modules?"
-"index_17": "Really delete this role?"
-"index_18": "Really delete all roles?"
-"index_19": "Really delete this language?"
-"index_20": "Paused..."
-"index_21": "Uploading..."
-"index_22": " seconds remaining."
-"index_23": "The file you have chosen is too large."
-"index_24": "Start"
-"index_25": "Pause"
-"index_26": "Resume"
+
+# language_page.html.twig
+"language_page_1": "Change page language without save data?"
 
 # recover_password.html.twig
 "recover_password_1": "Recover password form"

@@ -81,7 +81,7 @@ function ControlPanelRole() {
         $(document).on("click", "#cp_roles_selection_desktop_result .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                window.text.deleteAllRoles,
+                window.textRole.deleteAllRoles,
                 function() {
                     popupEasy.close();
                     
@@ -209,7 +209,7 @@ function ControlPanelRole() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            window.text.deleteRole,
+            window.textRole.deleteRole,
             function() {
                 popupEasy.close();
 

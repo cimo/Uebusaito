@@ -304,16 +304,16 @@ class ProfileController extends Controller {
                 $path = "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}";
             
             $this->response['upload']['inputType'] = "single";
-            $this->response['upload']['maxSize'] = 0;
+            $this->response['upload']['maxSize'] = 2097152;
+            $this->response['upload']['type'] = Array('image/jpeg', 'image/png', 'image/gif');
             $this->response['upload']['chunkSize'] = 1000000;
-            $this->response['upload']['extensions'] = Array('jpeg', 'jpg', 'png', 'gif');
             
             $this->response['upload']['processFile'] = $this->upload->processFile(
                 $path,
                 $this->response['upload']['inputType'],
                 $this->response['upload']['maxSize'],
-                $this->response['upload']['chunkSize'],
-                $this->response['upload']['extensions']
+                $this->response['upload']['type'],
+                $this->response['upload']['chunkSize']
             );
         }
         

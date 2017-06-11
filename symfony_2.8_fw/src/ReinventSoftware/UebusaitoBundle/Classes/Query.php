@@ -75,15 +75,11 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectLanguageDatabase($value) {
-        if (is_numeric($value) == true)
-            $query = $this->connection->prepare("SELECT * FROM languages
-                                                    WHERE id = :value");
-        else
-            $query = $this->connection->prepare("SELECT * FROM languages
-                                                    WHERE code = :value");
+    public function selectLanguageDatabase($code) {
+        $query = $this->connection->prepare("SELECT * FROM languages
+                                                WHERE code = :code");
         
-        $query->bindValue(":value", $value);
+        $query->bindValue(":code", $code);
         
         $query->execute();
         

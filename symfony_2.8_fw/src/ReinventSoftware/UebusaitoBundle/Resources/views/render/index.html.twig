@@ -30,7 +30,7 @@
             <p class="logo_desktop display_desktop">{{websiteName}}</p>
             <div class="sortable_column">
                 {% for value in response.modules.header %}
-                    {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
+                    {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                         {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
                     {% endif %}
                 {% endfor %}
@@ -43,7 +43,7 @@
     {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         <div class="sortable_column">
             {% for value in response.modules.left %}
-                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
+                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                     {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
                 {% endif %}
             {% endfor %}
@@ -57,7 +57,7 @@
         
         <div class="sortable_column">
             {% for value in response.modules.center %}
-                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
+                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                     {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
                 {% endif %}
             {% endfor %}
@@ -89,7 +89,7 @@
     {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         <div class="sortable_column">
             {% for value in response.modules.right %}
-                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
+                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                     {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
                 {% endif %}
             {% endfor %}
@@ -100,7 +100,7 @@
 {% block footerContainer %}
     {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         {% for value in response.modules.footer %}
-            {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) %}
+            {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                 {{-include("UebusaitoBundle::module/" ~ value.file_name)-}}
             {% endif %}
         {% endfor %}
@@ -173,26 +173,7 @@
             'ok': "{{"index_4"|trans}}",
             'abort': "{{"index_5"|trans}}",
             'ajaxConnectionError': "{{"index_6"|trans}}",
-            'changeReload': "{{"index_7"|trans}}",
-            'changePageLanguage': "{{"index_8"|trans}}",
-            'deletePayment': "{{"index_9"|trans}}",
-            'deleteAllPayments': "{{"index_10"|trans}}",
-            'deletePage': "{{"index_11"|trans}}",
-            'deleteAllPages': "{{"index_12"|trans}}",
-            'deleteUser': "{{"index_13"|trans}}",
-            'deleteAllUsers': "{{"index_14"|trans}}",
-            'deleteModule': "{{"index_15"|trans}}",
-            'deleteAllModules': "{{"index_16"|trans}}",
-            'deleteRole': "{{"index_17"|trans}}",
-            'deleteAllRoles': "{{"index_18"|trans}}",
-            'deleteLanguageManage': "{{"index_19"|trans}}",
-            'uploadTextA': "{{"index_20"|trans}}",
-            'uploadTextB': "{{"index_21"|trans}}",
-            'uploadTextC': "{{"index_22"|trans}}",
-            'uploadTextD': "{{"index_23"|trans}}",
-            'uploadButtonA': "{{"index_24"|trans}}",
-            'uploadButtonB': "{{"index_25"|trans}}",
-            'uploadButtonC': "{{"index_26"|trans}}"
+            'changeReload': "{{"index_7"|trans}}"
         };
         
         var settings = {

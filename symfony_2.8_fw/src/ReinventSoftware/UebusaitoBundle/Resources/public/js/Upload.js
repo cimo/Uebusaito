@@ -8,8 +8,8 @@ function Upload() {
     
     var inputType = "";
     var maxSize = 0;
+    var type = new Array();
     var chunkSize = 0;
-    var extensions = new Array();
     
     var file = null;
     var tmp = 0;
@@ -26,18 +26,21 @@ function Upload() {
     
     // Functions public
     self.processFile = function() {
-        $("#upload").show();
-        
         if (inputType === "multiple")
             $("#upload").find(".file").prop("multiple", "multiple");
 
-        $(document).on("change", "#upload .file", function() {
+        $("#upload .file").on("change", "", function() {
+            file = $("#upload").find(".file")[0].files[0];
+            
             ajax.send(
                 false,
                 false,
-                window.url.cpProfileUpload,
+                window.url.cpProfileUpload + "?action=change",
                 "post",
-                {},
+                {
+                    'fileSize': file.size,
+                    'fileType': file.type
+                },
                 "json",
                 false,
                 null,
@@ -45,48 +48,49 @@ function Upload() {
                     if (xhr.response.upload !== undefined) {
                         inputType = xhr.response.upload.inputType;
                         maxSize = xhr.response.upload.maxSize;
+                        type = xhr.response.upload.type;
                         chunkSize = xhr.response.upload.chunkSize;
-                        extensions = xhr.response.upload.extensions;
                         
-                        file = $("#upload").find(".file")[0].files[0];
+                        if (xhr.response.upload.processFile !== null) {
+                            if (xhr.response.upload.processFile.status === 1) {
+                                resetValue("hide");
 
-                        if (file.size > maxSize || extensions === false) {
-                            resetValue("hide");
+                                message(true, xhr.response.upload.processFile.text);
 
-                            message(true, window.text.uploadTextD);
-
-                            return;
+                                return;
+                            }
                         }
 
-                        if (file !== null)
+                        if (file !== null) {
                             resetValue("show");
+                            
+                            $("#upload .button_1").off("click").on("click", "", function() {
+                                if (inputType === "single" && $("#upload").find(".file").prop("multiple") === true)
+                                    return;
+
+                                if (uploadStarted === false && uploadPaused === false)
+                                    start();
+                                else if (uploadStarted === true && uploadPaused === false)
+                                    pause();
+                                else if (uploadStarted === true && uploadPaused === true)
+                                    resume();
+                            });
+
+                            $("#upload .button_2").off("click").on("click", "", function() {
+                                abort();
+                            });
+                            
+                            $("#upload_text_close").off("click").on("click", "", function() {
+                                message(false, "");
+                            });
+                        } 
                         else
                             resetValue("hide");
-                        
-                        $(document).on("click", "#upload .button_1 span", function() {
-                            if (inputType === "single" && $("#upload").find(".file").prop("multiple") === true)
-                                return;
-
-                            if (uploadStarted === false && uploadPaused === false)
-                                start();
-                            else if (uploadStarted === true && uploadPaused === false)
-                                pause();
-                            else if (uploadStarted === true && uploadPaused === true)
-                                resume();
-                        });
-
-                        $(document).on("click", "#upload .button_2 span", function() {
-                            abort();
-                        });
                     }
                 },
                 null,
                 null
             );
-        });
-
-        $(document).on("click", "#upload_text_close", function() {
-            message(false, "");
         });
     };
     
@@ -95,9 +99,9 @@ function Upload() {
         if (file !== null) {
             uploadStarted = true;
             
-            message(true, window.text.uploadTextB);
+            message(true, window.textUpload.uploadTextB);
             
-            $("#upload").find(".button_1 span").text(window.text.uploadButtonB);
+            $("#upload").find(".button_1 span").text(window.textUpload.uploadButtonB);
             
             chunkCurrent = Math.ceil(file.size / chunkSize);
 
@@ -109,14 +113,14 @@ function Upload() {
         uploadPaused = true;
         
         $("#upload").find(".button_1 i").removeClass("fa-play").addClass("fa-pause");
-        $("#upload").find(".button_1 span").text(window.text.uploadButtonC);
+        $("#upload").find(".button_1 span").text(window.textUpload.uploadButtonC);
     }
     
     function resume() {
         uploadPaused = false;
         
         $("#upload").find(".button_1 i").removeClass("fa-pause").addClass("fa-play");
-        $("#upload").find(".button_1 span").text(window.text.uploadButtonB);
+        $("#upload").find(".button_1 span").text(window.textUpload.uploadButtonB);
         
         sendChunk(chunkPause);
     }
@@ -153,7 +157,7 @@ function Upload() {
             
             timeLeft = Math.ceil((totalTime / start) * (chunkCurrent - start) / 100);
             
-            message(true, timeLeft + window.text.uploadTextC);
+            message(true, timeLeft + window.textUpload.uploadTextC);
         }
     }
     
@@ -166,7 +170,7 @@ function Upload() {
         if (uploadPaused === true) {
             chunkPause = chunk;
             
-            message(true, window.text.uploadTextA);
+            message(true, window.textUpload.uploadTextA);
             
             return;
         }
@@ -247,7 +251,7 @@ function Upload() {
         else
             $("#upload").find(".container_box").hide();
         
-        $("#upload").find(".text p").text(text);
+        $("#upload").find(".text p").html(text);
     }
     
     function resetValue(type) {
@@ -256,7 +260,7 @@ function Upload() {
         message(false, "");
         
         $("#upload").find(".button_1 i").removeClass("fa-pause").addClass("fa-play");
-        $("#upload").find(".button_1 span").text(window.text.uploadButtonA);
+        $("#upload").find(".button_1 span").text(window.textUpload.uploadButtonA);
         
         if (type === "show")
             $("#upload").find(".container_controls").show();
