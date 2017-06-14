@@ -206,6 +206,10 @@ function ControlPanelPage() {
             profileFocus = true;
         });
         
+        $("#form_cp_page_profile").find(".jqte_editor").focus(function() {
+            profileFocus = true;
+        });
+        
         $("#form_cp_page_profile").on("submit", "", function(event) {
             event.preventDefault();
             

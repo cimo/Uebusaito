@@ -11,6 +11,7 @@ function ControlPanelProfile() {
     // Functions public
     self.init = function() {
         upload.processFile();
+        upload.setTagRefreshImage(".img-thumbnail.avatar");
         
         $("#form_cp_profile").on("submit", "", function(event) {
             event.preventDefault();

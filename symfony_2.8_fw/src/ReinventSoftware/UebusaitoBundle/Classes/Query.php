@@ -119,7 +119,7 @@ class Query {
                                                     pages_titles.$language AS title,
                                                     pages_arguments.$language AS argument,
                                                     pages_menu_names.$language AS menu_name
-                                                    FROM pages, pages_titles, pages_arguments, pages_menu_names
+                                                FROM pages, pages_titles, pages_arguments, pages_menu_names
                                                 WHERE pages_titles.id = pages.id
                                                 AND pages_arguments.id = pages.id
                                                 AND pages_menu_names.id = pages.id");
@@ -127,17 +127,23 @@ class Query {
         else {
             $query = $this->connection->prepare("SELECT pages.*,
                                                     pages_titles.$language AS title,
-                                                    pages_arguments.$language AS argument
-                                                FROM pages, pages_titles, pages_arguments
+                                                    pages_arguments.$language AS argument,
+                                                    pages_menu_names.$language AS menu_name
+                                                FROM pages, pages_titles, pages_arguments, pages_menu_names
                                                 WHERE pages_titles.id = pages.id
                                                 AND pages_arguments.id = pages.id
+                                                AND pages_menu_names.id = pages.id
                                                 AND pages.only_link = :onlyLink
-                                                AND pages.id NOT IN (SELECT parent FROM pages WHERE parent is NOT NULL)
+                                                AND pages.id > :idStart
                                                 AND (pages_titles.$language LIKE :search
-                                                OR pages_arguments.$language LIKE :search)");
+                                                OR pages_arguments.$language LIKE :search
+                                                OR pages_menu_names.$language LIKE :search)");
             
             $query->bindValue(":onlyLink", 0);
+            $query->bindValue(":idStart", 5);
             $query->bindValue(":search", "%$search%");
+            
+            //NOT IN (SELECT parent FROM pages WHERE parent is NOT NULL)
         }
         
         $query->execute();
@@ -254,9 +260,10 @@ class Query {
     public function selectAllPaymentsUserDatabase($userId) {
         $query = $this->connection->prepare("SELECT * FROM payments
                                                 WHERE user_id != :userId
-                                                AND user_id > 1");
+                                                AND user_id > :userIdStart");
         
         $query->bindValue(":userId", $userId);
+        $query->bindValue(":userIdStart", 1);
         
         $query->execute();
         

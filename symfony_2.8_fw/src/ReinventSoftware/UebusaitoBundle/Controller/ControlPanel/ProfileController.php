@@ -307,13 +307,19 @@ class ProfileController extends Controller {
             $this->response['upload']['maxSize'] = 2097152;
             $this->response['upload']['type'] = Array('image/jpeg', 'image/png', 'image/gif');
             $this->response['upload']['chunkSize'] = 1000000;
+            $this->response['upload']['nameOverwrite'] = "Avatar";
+            $this->response['upload']['imageWidth'] = 250;
+            $this->response['upload']['imageHeight'] = 250;
             
             $this->response['upload']['processFile'] = $this->upload->processFile(
                 $path,
                 $this->response['upload']['inputType'],
                 $this->response['upload']['maxSize'],
                 $this->response['upload']['type'],
-                $this->response['upload']['chunkSize']
+                $this->response['upload']['chunkSize'],
+                $this->response['upload']['nameOverwrite'],
+                $this->response['upload']['imageWidth'],
+                $this->response['upload']['imageHeight']
             );
         }
         

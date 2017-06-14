@@ -10,6 +10,9 @@ function Upload() {
     var maxSize = 0;
     var type = new Array();
     var chunkSize = 0;
+    var nameOverwrite = "";
+    var imageWidth = 0;
+    var imageHeight = 0;
     
     var file = null;
     var tmp = 0;
@@ -22,7 +25,12 @@ function Upload() {
     var totalTime = 0;
     var timeLeft = 0;
     
+    var tagRefreshImage = "";
+    
     // Properties
+    self.setTagRefreshImage = function(value) {
+        tagRefreshImage = value;
+    };
     
     // Functions public
     self.processFile = function() {
@@ -33,7 +41,7 @@ function Upload() {
             file = $("#upload").find(".file")[0].files[0];
             
             ajax.send(
-                false,
+                true,
                 false,
                 window.url.cpProfileUpload + "?action=change",
                 "post",
@@ -50,6 +58,9 @@ function Upload() {
                         maxSize = xhr.response.upload.maxSize;
                         type = xhr.response.upload.type;
                         chunkSize = xhr.response.upload.chunkSize;
+                        nameOverwrite = xhr.response.upload.nameOverwrite;
+                        imageWidth = xhr.response.upload.imageWidth;
+                        imageHeight = xhr.response.upload.imageHeight;
                         
                         if (xhr.response.upload.processFile !== null) {
                             if (xhr.response.upload.processFile.status === 1) {
@@ -210,6 +221,8 @@ function Upload() {
                         }
                     }
                     else if (jsonParse.response.upload.processFile.status === 1) {
+                        resetValue("hide");
+                        
                         message(true, jsonParse.response.upload.processFile.text);
                         
                         return;
@@ -239,6 +252,8 @@ function Upload() {
                 
                 if (jsonParse.response.upload.processFile !== null)
                     message(true, jsonParse.response.upload.processFile.text);
+                
+                refreshImage();
             }
         };
         
@@ -282,4 +297,11 @@ function Upload() {
         totalTime = 0;
         timeLeft = 0;
     }
+    
+    function refreshImage() {
+        if (tagRefreshImage !== "") {
+            var src = $(tagRefreshImage).prop("src");
+            $(tagRefreshImage).prop("src", src + "?" + new Date().getTime());
+        }
+    };
 }

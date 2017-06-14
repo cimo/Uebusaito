@@ -43,10 +43,11 @@ date.time: H:i:s
 # Upload.php
 "class_upload_1": "Error max size, limit is: "
 "class_upload_2": "Error type, only this are allowed: "
-"class_upload_3": "Error chunk size."
-"class_upload_4": "File uploaded successfully."
-"class_upload_5": "Unable to move file to path."
-"class_upload_6": "Upload aborted."
+"class_upload_3": "Error measures, only this are allowed: "
+"class_upload_4": "Error chunk size."
+"class_upload_5": "File uploaded successfully."
+"class_upload_6": "Unable to move file to path."
+"class_upload_7": "Upload aborted."
 
 # ---
 # Controller / Control panel
