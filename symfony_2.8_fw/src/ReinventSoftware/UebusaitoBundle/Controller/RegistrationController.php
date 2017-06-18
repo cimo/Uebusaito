@@ -47,6 +47,19 @@ class RegistrationController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $userEntity = new User();
         
         $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
@@ -62,68 +75,62 @@ class RegistrationController extends Controller {
             
             // Request post
             if ($this->utility->getRequestStack()->getMethod() == "POST") {
-                $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
+                $form->handleRequest($this->utility->getRequestStack());
 
-                if ($sessionActivity != "")
-                    $this->response['session']['activity'] = $sessionActivity;
-                else {
-                    $form->handleRequest($this->utility->getRequestStack());
-                    
-                    // Check form
-                    if ($form->isValid() == true) {
-                        $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
+                // Check form
+                if ($form->isValid() == true) {
+                    $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
 
-                        if ($message == "ok") {
-                            $this->utilityPrivate->configureUserParameters($userEntity);
+                    if ($message == "ok") {
+                        $this->utilityPrivate->configureUserParameters($userEntity);
 
-                            $helpCode = $this->utility->generateRandomString(20);
+                        $helpCode = $this->utility->generateRandomString(20);
 
-                            $userEntity->setDateRegistration(date("Y-m-d H:i:s"));
-                            $userEntity->setHelpCode($helpCode);
+                        $userEntity->setDateRegistration(date("Y-m-d H:i:s"));
+                        $userEntity->setHelpCode($helpCode);
 
-                            $url = $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->attributes->get("_locale") . "/" . $this->utility->getRequestStack()->attributes->get("urlCurrentPageId") . "/" . $helpCode;
+                        $url = $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->attributes->get("_locale") . "/" . $this->utility->getRequestStack()->attributes->get("urlCurrentPageId") . "/" . $helpCode;
 
-                            $message = "";
-                            
-                            if ($this->utility->getSettings()['registration_user_confirm_admin'] == true)
-                                $message = "<p>" . $this->utility->getTranslator()->trans("registrationController_1") . "</p><a href=\"$url\">$url</a>";
-                            else {
-                                $message = "<p>" . $this->utility->getTranslator()->trans("registrationController_2") . "</p>";
-                                
-                                // Send email to admin
-                                $this->utility->sendEmail(
-                                    $this->utility->getSettings()['email_admin'],
-                                    $this->utility->getTranslator()->trans("registrationController_3"),
-                                    "<p>" . $this->utility->getTranslator()->trans("registrationController_4") . "<b>" . $userEntity->getUsername() . "</b>. " . $this->utility->getTranslator()->trans("registrationController_5") . "</p>",
-                                    $_SERVER['SERVER_ADMIN']
-                                );
-                            }
-                            
-                            // Send email to user
+                        $message = "";
+
+                        if ($this->utility->getSettings()['registration_user_confirm_admin'] == true)
+                            $message = "<p>" . $this->utility->getTranslator()->trans("registrationController_1") . "</p><a href=\"$url\">$url</a>";
+                        else {
+                            $message = "<p>" . $this->utility->getTranslator()->trans("registrationController_2") . "</p>";
+
+                            // Send email to admin
                             $this->utility->sendEmail(
-                                $userEntity->getEmail(),
+                                $this->utility->getSettings()['email_admin'],
                                 $this->utility->getTranslator()->trans("registrationController_3"),
-                                $message,
+                                "<p>" . $this->utility->getTranslator()->trans("registrationController_4") . "<b>" . $userEntity->getUsername() . "</b>. " . $this->utility->getTranslator()->trans("registrationController_5") . "</p>",
                                 $_SERVER['SERVER_ADMIN']
                             );
-                            
-                            mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}");
-                            mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userEntity->getUsername()}");
-                            mkdir("{$this->utility->getPathWebBundle()}/files/{$userEntity->getUsername()}");
-                            
-                            // Insert in database
-                            $this->entityManager->persist($userEntity);
-                            $this->entityManager->flush();
-
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("registrationController_6");
                         }
-                        else
-                            $this->response['messages']['error'] = $message;
+
+                        // Send email to user
+                        $this->utility->sendEmail(
+                            $userEntity->getEmail(),
+                            $this->utility->getTranslator()->trans("registrationController_3"),
+                            $message,
+                            $_SERVER['SERVER_ADMIN']
+                        );
+
+                        mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}");
+                        mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userEntity->getUsername()}");
+                        mkdir("{$this->utility->getPathWebBundle()}/files/{$userEntity->getUsername()}");
+
+                        // Insert in database
+                        $this->entityManager->persist($userEntity);
+                        $this->entityManager->flush();
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("registrationController_6");
                     }
-                    else {
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("registrationController_7");
-                        $this->response['errors'] = $this->ajax->errors($form);
-                    }
+                    else
+                        $this->response['messages']['error'] = $message;
+                }
+                else {
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("registrationController_7");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
                 
                 return $this->ajax->response(Array(

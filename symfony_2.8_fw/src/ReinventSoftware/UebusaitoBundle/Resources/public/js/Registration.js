@@ -23,6 +23,12 @@ function Registration() {
                 false,
                 null,
                 function(xhr) {
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,

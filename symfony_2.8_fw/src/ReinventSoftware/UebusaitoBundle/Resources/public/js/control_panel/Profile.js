@@ -26,6 +26,18 @@ function ControlPanelProfile() {
                 false,
                 null,
                 function(xhr) {
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
                     if (xhr.response.action !== undefined && xhr.response.action.refresh === true) {
@@ -61,6 +73,12 @@ function ControlPanelProfile() {
                 false,
                 null,
                 function(xhr) {
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -81,6 +99,12 @@ function ControlPanelProfile() {
                 false,
                 null,
                 function(xhr) {
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
                     if (xhr.response.errors === undefined) {

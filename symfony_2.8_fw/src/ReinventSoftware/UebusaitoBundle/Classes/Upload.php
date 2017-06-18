@@ -176,7 +176,7 @@ class Upload {
                 if ($this->nameOverwrite != "")
                     $this->name =  $this->nameOverwrite . "." . pathinfo($this->name, PATHINFO_EXTENSION);
 
-                rename($this->path . "/" . $this->tmp, $this->path . "/" . $this->name);
+                @rename($this->path . "/" . $this->tmp, $this->path . "/" . $this->name);
 
                 return Array(
                     'text' => $this->utility->getTranslator()->trans("class_upload_5")

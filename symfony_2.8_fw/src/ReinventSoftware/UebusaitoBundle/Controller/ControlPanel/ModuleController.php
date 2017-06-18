@@ -54,6 +54,19 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Create form
         $modulesDragFormType = new ModulesDragFormType();
         $form = $this->createForm($modulesDragFormType, new ModulesDragModel(), Array(
@@ -66,46 +79,40 @@ class ModuleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $sortHeaderExplode = explode(",", $form->get("sortHeader")->getData());
+                $sortLeftExplode = explode(",", $form->get("sortLeft")->getData());
+                $sortCenterExplode = explode(",", $form->get("sortCenter")->getData());
+                $sortRightExplode = explode(",", $form->get("sortRight")->getData());
+
+                if (count($sortHeaderExplode) > 0) {
+                    foreach ($sortHeaderExplode as $key => $value)
+                        $this->modulesDatabase("sort", $value, $key, "header");
+                }
+
+                if (count($sortLeftExplode) > 0) {
+                    foreach ($sortLeftExplode as $key => $value)
+                        $this->modulesDatabase("sort", $value, $key, "left");
+                }
+
+                if (count($sortCenterExplode) > 0) {
+                    foreach ($sortCenterExplode as $key => $value)
+                        $this->modulesDatabase("sort", $value, $key, "center");
+                }
+
+                if (count($sortRightExplode) > 0) {
+                    foreach ($sortRightExplode as $key => $value)
+                        $this->modulesDatabase("sort", $value, $key, "right");
+                }
+
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_1");
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-
-                // Check form
-                if ($form->isValid() == true) {
-                    $sortHeaderExplode = explode(",", $form->get("sortHeader")->getData());
-                    $sortLeftExplode = explode(",", $form->get("sortLeft")->getData());
-                    $sortCenterExplode = explode(",", $form->get("sortCenter")->getData());
-                    $sortRightExplode = explode(",", $form->get("sortRight")->getData());
-
-                    if (count($sortHeaderExplode) > 0) {
-                        foreach ($sortHeaderExplode as $key => $value)
-                            $this->modulesDatabase("sort", $value, $key, "header");
-                    }
-
-                    if (count($sortLeftExplode) > 0) {
-                        foreach ($sortLeftExplode as $key => $value)
-                            $this->modulesDatabase("sort", $value, $key, "left");
-                    }
-
-                    if (count($sortCenterExplode) > 0) {
-                        foreach ($sortCenterExplode as $key => $value)
-                            $this->modulesDatabase("sort", $value, $key, "center");
-                    }
-
-                    if (count($sortRightExplode) > 0) {
-                        foreach ($sortRightExplode as $key => $value)
-                            $this->modulesDatabase("sort", $value, $key, "right");
-                    }
-
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_1");
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_2");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_2");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -142,6 +149,19 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $moduleEntity = new Module();
         
         // Create form
@@ -156,32 +176,26 @@ class ModuleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                if ($form->get("sort")->getData() == "" && $form->get("active")->getData() == "") {
+                    $moduleRows = $this->query->selectAllModulesDatabase(null, $form->get("position")->getData());
+
+                    $form->getData()->setSort(count($moduleRows));
+                    $form->getData()->setActive(false);
+                }
+
+                // Insert in database
+                $this->entityManager->persist($moduleEntity);
+                $this->entityManager->flush();
+
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_3");
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-
-                // Check form
-                if ($form->isValid() == true) {
-                    if ($form->get("sort")->getData() == "" && $form->get("active")->getData() == "") {
-                        $moduleRows = $this->query->selectAllModulesDatabase(null, $form->get("position")->getData());
-                        
-                        $form->getData()->setSort(count($moduleRows));
-                        $form->getData()->setActive(false);
-                    }
-                    
-                    // Insert in database
-                    $this->entityManager->persist($moduleEntity);
-                    $this->entityManager->flush();
-
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_3");
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_4");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_4");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -219,6 +233,19 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Create form
         $modulesSelectionFormType = new ModulesSelectionFormType($this->container, $this->entityManager);
         $form = $this->createForm($modulesSelectionFormType, new ModulesSelectionModel(), Array(
@@ -242,39 +269,33 @@ class ModuleController extends Controller {
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $id = 0;
             
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $id = $form->get("id")->getData();
+
+                $this->selectionResult($id);
+            }
+            else if ($this->utility->getRequestStack()->request->get("event") == null && $this->utilityPrivate->checkToken() == true) {
+                $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
+
+                $this->selectionResult($id);
+            }
+            else if (($this->utility->getRequestStack()->request->get("event") == "refresh" && $this->utilityPrivate->checkToken() == true) ||
+                        $this->table->checkPost() == true) {
+                $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+
+                $this->response['render'] = $render;
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true) {
-                    $id = $form->get("id")->getData();
-                    
-                    $this->selectionResult($id);
-                }
-                else if ($this->utility->getRequestStack()->request->get("event") == null && $this->utilityPrivate->checkToken() == true) {
-                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
-                    
-                    $this->selectionResult($id);
-                }
-                else if (($this->utility->getRequestStack()->request->get("event") == "refresh" && $this->utilityPrivate->checkToken() == true) ||
-                            $this->table->checkPost() == true) {
-                    $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-                    
-                    $this->response['render'] = $render;
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -311,6 +332,19 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($this->urlExtra);
         
         // Create form
@@ -325,45 +359,39 @@ class ModuleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
-            else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true) {
-                    $sortExplode = Array();
-                    
-                    if ($form->get("position")->getData() == null && $form->get("sort")->getData() == null) {
-                        $moduleRow = $this->query->selectModuleDatabase($this->urlExtra);
-                        
-                        $form->getData()->setPosition($moduleRow['position']);
-                        $form->getData()->setSort($moduleRow['sort']);
-                    }
-                    else {
-                        $formDataSort = $form->get("sort")->getData();
-                        
-                        if ($formDataSort != null)
-                            $sortExplode = explode(",", $formDataSort);
-                    }
-                    
-                    // Update in database
-                    $this->entityManager->persist($moduleEntity);
-                    $this->entityManager->flush();
-                    
-                    if (count($sortExplode) > 0) {
-                        foreach ($sortExplode as $key => $value)
-                            $this->modulesDatabase("sort", $value, $key, null);
-                    }
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $sortExplode = Array();
+
+                if ($form->get("position")->getData() == null && $form->get("sort")->getData() == null) {
+                    $moduleRow = $this->query->selectModuleDatabase($this->urlExtra);
+
+                    $form->getData()->setPosition($moduleRow['position']);
+                    $form->getData()->setSort($moduleRow['sort']);
                 }
                 else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_7");
-                    $this->response['errors'] = $this->ajax->errors($form);
+                    $formDataSort = $form->get("sort")->getData();
+
+                    if ($formDataSort != null)
+                        $sortExplode = explode(",", $formDataSort);
                 }
+
+                // Update in database
+                $this->entityManager->persist($moduleEntity);
+                $this->entityManager->flush();
+
+                if (count($sortExplode) > 0) {
+                    foreach ($sortExplode as $key => $value)
+                        $this->modulesDatabase("sort", $value, $key, null);
+                }
+
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
+            }
+            else {
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_7");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -400,31 +428,38 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
-            else {
-                // Check token
-                if ($this->utilityPrivate->checkToken() == true) {
-                    $this->response['modules']['sort'] = $this->query->selectAllModulesDatabase($this->utility->getRequestStack()->request->get("id"), $this->utility->getRequestStack()->request->get("position"));
-                    
-                    $render = $this->renderView("UebusaitoBundle::render/control_panel/module_profile_sort.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-                    
-                    $this->response['render'] = $render;
-                }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_8");
+            // Check token
+            if ($this->utilityPrivate->checkToken() == true) {
+                $this->response['modules']['sort'] = $this->query->selectAllModulesDatabase($this->utility->getRequestStack()->request->get("id"), $this->utility->getRequestStack()->request->get("position"));
+
+                $render = $this->renderView("UebusaitoBundle::render/control_panel/module_profile_sort.html.twig", Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+
+                $this->response['render'] = $render;
             }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_8");
             
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
@@ -460,6 +495,19 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Pagination
         $moduleRows = $this->query->selectAllModulesDatabase();
         
@@ -473,36 +521,30 @@ class ModuleController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
-            else {
-                if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
-                    $modulesDatabase = $this->modulesDatabase("delete", $this->utility->getRequestStack()->request->get("id"), null, null);
-                    
-                    if ($modulesDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
-                }
-                else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $modulesDatabase = $this->modulesDatabase("deleteAll", null, null, null);
-                    
-                    if ($modulesDatabase == true) {
-                        $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
-                            'urlLocale' => $this->urlLocale,
-                            'urlCurrentPageId' => $this->urlCurrentPageId,
-                            'urlExtra' => $this->urlExtra,
-                            'response' => $this->response
-                        ));
+            if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
+                $modulesDatabase = $this->modulesDatabase("delete", $this->utility->getRequestStack()->request->get("id"), null, null);
 
-                        $this->response['render'] = $render;
-
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
-                    }
-                }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_11");
+                if ($modulesDatabase == true)
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
             }
+            else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
+                $modulesDatabase = $this->modulesDatabase("deleteAll", null, null, null);
+
+                if ($modulesDatabase == true) {
+                    $render = $this->renderView("UebusaitoBundle::render/control_panel/modules_selection_desktop.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
+
+                    $this->response['render'] = $render;
+
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
+                }
+            }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_11");
             
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,

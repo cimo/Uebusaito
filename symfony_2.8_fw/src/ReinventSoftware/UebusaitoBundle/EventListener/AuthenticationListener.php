@@ -69,7 +69,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                 $languageText = isset($_SESSION['languageText']) == true ? $_SESSION['languageText'] : $this->utility->getSettings()['language'];
 
                 $this->utility->sessionDestroy();
-
+                
                 $_SESSION['languageText'] = $languageText;
 
                 if ($checkCaptcha == false) {

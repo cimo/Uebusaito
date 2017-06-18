@@ -190,19 +190,17 @@ class UtilityPrivate {
     }
     
     public function checkSessionOverTime() {
+        if (isset($_SESSION['user_activity']) == false)
+            $_SESSION['user_activity'] = "";
+        
         if ($this->utility->getSessionMaxIdleTime() > 0) {
             if ($this->utility->getRequestStack()->cookies->has("REMEMBERME") == false && $this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
                 $timeLapse = time() - $this->utility->getRequestStack()->getSession()->getMetadataBag()->getLastUsed();
 
-                if ($timeLapse > $this->utility->getSessionMaxIdleTime()) {
-                    $this->utility->sessionDestroy();
-
-                    return $this->utility->getTranslator()->trans("class_utility_1");
-                }
+                if ($timeLapse > $this->utility->getSessionMaxIdleTime())
+                    $_SESSION['user_activity'] = $this->utility->getTranslator()->trans("class_utility_1");
             }
         }
-        
-        return "";
     }
     
     public function checkRoleLevel($roleName, $userRoleId) {

@@ -53,11 +53,24 @@ class ProfileController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->response = Array();
+        
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $usernameOld = $this->getUser()->getUsername();
         
         $avatar = "{$this->utility->getUrlWebBundle()}/files/$usernameOld/Avatar.jpg";
-        
-        $this->response = Array();
         
         // Create form
         $userFormType = new UserFormType();
@@ -80,40 +93,34 @@ class ProfileController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld") == true)
+                    @rename("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld",
+                            "{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
+
+                if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld") == true)
+                    @rename("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld",
+                            "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
+
+                if (file_exists("{$this->utility->getPathWebBundle()}/files/$usernameOld") == true)
+                    @rename("{$this->utility->getPathWebBundle()}/files/$usernameOld",
+                            "{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
+
+                // Insert in database
+                $this->entityManager->persist($this->getUser());
+                $this->entityManager->flush();
+
+                if ($form->get("username")->getData() != $usernameOld)
+                    $this->response['action']['refresh'] = true;
+                else
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_1");
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true) {
-                    if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld") == true)
-                        rename("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld",
-                                "{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
-                    
-                    if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld") == true)
-                        rename("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld",
-                                "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
-                    
-                    if (file_exists("{$this->utility->getPathWebBundle()}/files/$usernameOld") == true)
-                        rename("{$this->utility->getPathWebBundle()}/files/$usernameOld",
-                                "{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
-                    
-                    // Insert in database
-                    $this->entityManager->persist($this->getUser());
-                    $this->entityManager->flush();
-                    
-                    if ($form->get("username")->getData() != $usernameOld)
-                        $this->response['action']['refresh'] = true;
-                    else
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_1");
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_2");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_2");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -151,6 +158,19 @@ class ProfileController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Create form
         $passwordFormType = new PasswordFormType();
         $form = $this->createForm($passwordFormType, new PasswordModel(), Array(
@@ -163,31 +183,25 @@ class ProfileController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $message = $this->utilityPrivate->configureUserProfilePassword("withOld", $this->getUser(), $form);
+
+                if ($message == "ok") {
+                    // Insert in database
+                    $this->entityManager->persist($this->getUser());
+                    $this->entityManager->flush();
+
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_3");
+                }
+                else
+                    $this->response['messages']['error'] = $message;
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true) {
-                    $message = $this->utilityPrivate->configureUserProfilePassword("withOld", $this->getUser(), $form);
-                    
-                    if ($message == "ok") {
-                        // Insert in database
-                        $this->entityManager->persist($this->getUser());
-                        $this->entityManager->flush();
-                        
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_3");
-                    }
-                    else
-                        $this->response['messages']['error'] = $message;
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_4");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_4");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -222,10 +236,23 @@ class ProfileController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->response = Array();
+        
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $currentCredits = $this->getUser() != null ? $this->getUser()->getCredits() : 0;
         $settingRows = $this->query->selectAllSettingsDatabase();
-        
-        $this->response = Array();
         
         // Create form
         $creditsFormType = new CreditsFormType();
@@ -242,20 +269,14 @@ class ProfileController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
+            $form->handleRequest($this->utility->getRequestStack());
             
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            // Check form
+            if ($form->isValid() == true)
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_5");
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true)
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_5");
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_6");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_6");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
 
             return $this->ajax->response(Array(
@@ -293,35 +314,42 @@ class ProfileController extends Controller {
         
         $this->response = Array();
         
-        $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
+        $this->utilityPrivate->checkSessionOverTime();
         
-        if ($sessionActivity != "")
-            $this->response['session']['activity'] = $sessionActivity;
-        else {
-            $path = "";
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
             
-            if ($this->getUser() != null)
-                $path = "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}";
-            
-            $this->response['upload']['inputType'] = "single";
-            $this->response['upload']['maxSize'] = 2097152;
-            $this->response['upload']['type'] = Array('image/jpeg', 'image/png', 'image/gif');
-            $this->response['upload']['chunkSize'] = 1000000;
-            $this->response['upload']['nameOverwrite'] = "Avatar";
-            $this->response['upload']['imageWidth'] = 250;
-            $this->response['upload']['imageHeight'] = 250;
-            
-            $this->response['upload']['processFile'] = $this->upload->processFile(
-                $path,
-                $this->response['upload']['inputType'],
-                $this->response['upload']['maxSize'],
-                $this->response['upload']['type'],
-                $this->response['upload']['chunkSize'],
-                $this->response['upload']['nameOverwrite'],
-                $this->response['upload']['imageWidth'],
-                $this->response['upload']['imageHeight']
-            );
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
         }
+        
+        $path = "";
+
+        if ($this->getUser() != null)
+            $path = "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}";
+
+        $this->response['upload']['inputType'] = "single";
+        $this->response['upload']['maxSize'] = 2097152;
+        $this->response['upload']['type'] = Array('image/jpeg', 'image/png', 'image/gif');
+        $this->response['upload']['chunkSize'] = 1000000;
+        $this->response['upload']['nameOverwrite'] = "Avatar";
+        $this->response['upload']['imageWidth'] = 250;
+        $this->response['upload']['imageHeight'] = 250;
+
+        $this->response['upload']['processFile'] = $this->upload->processFile(
+            $path,
+            $this->response['upload']['inputType'],
+            $this->response['upload']['maxSize'],
+            $this->response['upload']['type'],
+            $this->response['upload']['chunkSize'],
+            $this->response['upload']['nameOverwrite'],
+            $this->response['upload']['imageWidth'],
+            $this->response['upload']['imageHeight']
+        );
         
         return $this->ajax->response(Array(
             'urlLocale' => $this->urlLocale,

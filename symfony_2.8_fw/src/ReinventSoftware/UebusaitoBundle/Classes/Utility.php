@@ -188,7 +188,7 @@ class Utility {
         fclose($writing);
         
         if ($checked == true) 
-            rename($filePath + ".tmp", $filePath);
+            @rename($filePath + ".tmp", $filePath);
         else
             unlink($filePath + ".tmp");
     }

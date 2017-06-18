@@ -11,7 +11,7 @@
 <div id="flashBag" class="{{class}}" style="{{style}}">
     <i id="flashBag_close" class="fa fa-close"></i>
     <div class="content">
-        {% for value in app.session.flashbag.get(type) %}
+        {% for value in app.session.flashBag.get(type) %}
             <p>{{value}}</p>
         {% endfor %}
     </div>

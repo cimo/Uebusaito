@@ -113,8 +113,8 @@
     <!-- Javascript -->
     <script type="text/javascript">
         var session = {
-            'token': "{{response.session.token}}",
-            'activity': "{{response.session.activity}}"
+            'token': "{{php_session.token}}",
+            'userActivity': "{{php_session.user_activity}}"
         };
         
         var path = {

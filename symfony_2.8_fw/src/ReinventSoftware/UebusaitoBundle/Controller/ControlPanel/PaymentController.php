@@ -51,6 +51,19 @@ class PaymentController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         if (isset($_SESSION['payments_user_id']) == false)
             $_SESSION['payments_user_id'] = $this->getUser()->getId();
         
@@ -66,24 +79,18 @@ class PaymentController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                if ($form->get("userId")->getData() != null)
+                    $_SESSION['payments_user_id'] = $form->get("userId")->getData();
+
+                $this->response['messages']['success'] = "";
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true) {
-                    if ($form->get("userId")->getData() != null)
-                        $_SESSION['payments_user_id'] = $form->get("userId")->getData();
-                    
-                    $this->response['messages']['success'] = "";
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_1");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_1");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -121,6 +128,19 @@ class PaymentController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         if (isset($_SESSION['payments_user_id']) == false)
             $_SESSION['payments_user_id'] = $this->getUser()->getId();
         
@@ -147,39 +167,33 @@ class PaymentController extends Controller {
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $id = 0;
             
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $id = $form->get("id")->getData();
+
+                $this->selectionResult($id);
+            }
+            else if ($this->utility->getRequestStack()->request->get("event") == null && $this->utilityPrivate->checkToken() == true) {
+                $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
+
+                $this->selectionResult($id);
+            }
+            else if (($this->utility->getRequestStack()->request->get("event") == "refresh" && $this->utilityPrivate->checkToken() == true) ||
+                        $this->table->checkPost() == true) {
+                $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+
+                $this->response['render'] = $render;
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true) {
-                    $id = $form->get("id")->getData();
-
-                    $this->selectionResult($id);
-                }
-                else if ($this->utility->getRequestStack()->request->get("event") == null && $this->utilityPrivate->checkToken() == true) {
-                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
-
-                    $this->selectionResult($id);
-                }
-                else if (($this->utility->getRequestStack()->request->get("event") == "refresh" && $this->utilityPrivate->checkToken() == true) ||
-                            $this->table->checkPost() == true) {
-                    $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-
-                    $this->response['render'] = $render;
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_2");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_2");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -217,6 +231,19 @@ class PaymentController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Pagination
         $paymentRows = $this->query->selectAllPaymentsDatabase($_SESSION['payments_user_id']);
         
@@ -230,36 +257,30 @@ class PaymentController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
-            else {
-                if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
-                    $paymentsDatabase = $this->paymentsDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
-                    
-                    if ($paymentsDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
-                }
-                else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $paymentsDatabase = $this->paymentsDatabase("deleteAll", null);
-                    
-                    if ($paymentsDatabase == true) {
-                        $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
-                            'urlLocale' => $this->urlLocale,
-                            'urlCurrentPageId' => $this->urlCurrentPageId,
-                            'urlExtra' => $this->urlExtra,
-                            'response' => $this->response
-                        ));
+            if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
+                $paymentsDatabase = $this->paymentsDatabase("delete", $this->utility->getRequestStack()->request->get("id"));
 
-                        $this->response['render'] = $render;
-
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_4");
-                    }
-                }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_5");
+                if ($paymentsDatabase == true)
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
             }
+            else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
+                $paymentsDatabase = $this->paymentsDatabase("deleteAll", null);
+
+                if ($paymentsDatabase == true) {
+                    $render = $this->renderView("UebusaitoBundle::render/control_panel/payments_selection_desktop.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
+
+                    $this->response['render'] = $render;
+
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_4");
+                }
+            }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_5");
             
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,

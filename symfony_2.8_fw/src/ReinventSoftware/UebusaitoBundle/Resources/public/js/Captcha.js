@@ -27,6 +27,12 @@ function Captcha() {
             false,
             null,
             function(xhr) {
+                if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                    ajax.reply(xhr, "");
+
+                    return;
+                }
+
                 ajax.reply(xhr, "");
 
                 if (xhr.response.captchaImage !== undefined)

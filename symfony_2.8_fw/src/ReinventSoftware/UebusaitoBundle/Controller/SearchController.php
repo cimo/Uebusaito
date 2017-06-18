@@ -48,6 +48,19 @@ class SearchController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Create form
         $searchFormType = new SearchFormType();
         $form = $this->createForm($searchFormType, new SearchModel(), Array(
@@ -63,25 +76,19 @@ class SearchController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
-            else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true) {
-                    $words = $form->get("words")->getData();
-                    
-                    $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/5/$words";
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("searchController_1");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $words = $form->get("words")->getData();
+
+                $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/5/$words";
             }
-            
+            else {
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("searchController_1");
+                $this->response['errors'] = $this->ajax->errors($form);
+            }
+
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,

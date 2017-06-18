@@ -50,6 +50,19 @@ class RecoverPasswordController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
         
         if ($userRow['id'] == null) {
@@ -65,46 +78,40 @@ class RecoverPasswordController extends Controller {
             
             // Request post
             if ($this->utility->getRequestStack()->getMethod() == "POST") {
-                $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
+                $formRecoverPassword->handleRequest($this->utility->getRequestStack());
 
-                if ($sessionActivity != "")
-                    $this->response['session']['activity'] = $sessionActivity;
+                // Check form
+                if ($formRecoverPassword->isValid() == true) {
+                    $email = $formRecoverPassword->get("email")->getData();
+
+                    $user = $this->entityManager->getRepository("UebusaitoBundle:User")->loadUserByUsername($email);
+
+                    if ($user != null) {
+                        $helpCode = $this->utility->generateRandomString(20);
+
+                        $user->setHelpCode($helpCode);
+
+                        $url = $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->attributes->get("_locale") . "/" . $this->utility->getRequestStack()->attributes->get("urlCurrentPageId") . "/" . $helpCode;
+
+                        // Send email to user
+                        $this->utility->sendEmail($user->getEmail(),
+                                                    "Recover password",
+                                                    "<p>Click on this link for reset your password:</p>" .
+                                                    "<a href=\"$url\">$url</a>",
+                                                    $_SERVER['SERVER_ADMIN']);
+
+                        // Insert in database
+                        $this->entityManager->persist($user);
+                        $this->entityManager->flush();
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_1");
+                    }
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_2");
+                }
                 else {
-                    $formRecoverPassword->handleRequest($this->utility->getRequestStack());
-
-                    // Check form
-                    if ($formRecoverPassword->isValid() == true) {
-                        $email = $formRecoverPassword->get("email")->getData();
-
-                        $user = $this->entityManager->getRepository("UebusaitoBundle:User")->loadUserByUsername($email);
-
-                        if ($user != null) {
-                            $helpCode = $this->utility->generateRandomString(20);
-
-                            $user->setHelpCode($helpCode);
-
-                            $url = $this->utility->getUrlRoot() . "/" . $this->utility->getRequestStack()->attributes->get("_locale") . "/" . $this->utility->getRequestStack()->attributes->get("urlCurrentPageId") . "/" . $helpCode;
-
-                            // Send email to user
-                            $this->utility->sendEmail($user->getEmail(),
-                                                        "Recover password",
-                                                        "<p>Click on this link for reset your password:</p>" .
-                                                        "<a href=\"$url\">$url</a>",
-                                                        $_SERVER['SERVER_ADMIN']);
-                            
-                            // Insert in database
-                            $this->entityManager->persist($user);
-                            $this->entityManager->flush();
-                            
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_1");
-                        }
-                        else
-                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_2");
-                    }
-                    else {
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_3");
-                        $this->response['errors'] = $this->ajax->errors($formRecoverPassword);
-                    }
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_3");
+                    $this->response['errors'] = $this->ajax->errors($formRecoverPassword);
                 }
                 
                 return $this->ajax->response(Array(
@@ -130,33 +137,27 @@ class RecoverPasswordController extends Controller {
             
             // Request post
             if ($this->utility->getRequestStack()->getMethod() == "POST") {
-                $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
+                $formChangePassword->handleRequest($this->utility->getRequestStack());
 
-                if ($sessionActivity != "")
-                    $this->response['session']['activity'] = $sessionActivity;
+                // Check form
+                if ($formChangePassword->isValid() == true) {
+                    $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $user, $formChangePassword);
+
+                    if ($message == "ok") {
+                        $user->setHelpCode(null);
+
+                        // Insert in database
+                        $this->entityManager->persist($user);
+                        $this->entityManager->flush();
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_4");
+                    }
+                    else
+                        $this->response['messages']['error'] = $message;
+                }
                 else {
-                    $formChangePassword->handleRequest($this->utility->getRequestStack());
-
-                    // Check form
-                    if ($formChangePassword->isValid() == true) {
-                        $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $user, $formChangePassword);
-
-                        if ($message == "ok") {
-                            $user->setHelpCode(null);
-
-                            // Insert in database
-                            $this->entityManager->persist($user);
-                            $this->entityManager->flush();
-
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_4");
-                        }
-                        else
-                            $this->response['messages']['error'] = $message;
-                    }
-                    else {
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_5");
-                        $this->response['errors'] = $this->ajax->errors($formChangePassword);
-                    }
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_5");
+                    $this->response['errors'] = $this->ajax->errors($formChangePassword);
                 }
                 
                 return $this->ajax->response(Array(

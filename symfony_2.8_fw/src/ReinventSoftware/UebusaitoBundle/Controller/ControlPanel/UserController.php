@@ -52,6 +52,19 @@ class UserController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $userEntity = new User();
         $userEntity->setRoleId("1,");
         
@@ -70,37 +83,31 @@ class UserController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
+
+                if ($message == "ok") {
+                    $this->utilityPrivate->configureUserParameters($userEntity);
+
+                    mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
+                    mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
+                    mkdir("{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
+
+                    // Insert in database
+                    $this->entityManager->persist($userEntity);
+                    $this->entityManager->flush();
+
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_1");
+                }
+                else
+                    $this->response['messages']['error'] = $message;
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-
-                // Check form
-                if ($form->isValid() == true) {
-                    $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
-
-                    if ($message == "ok") {
-                        $this->utilityPrivate->configureUserParameters($userEntity);
-                        
-                        mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
-                        mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
-                        mkdir("{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
-
-                        // Insert in database
-                        $this->entityManager->persist($userEntity);
-                        $this->entityManager->flush();
-                        
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_1");
-                    }
-                    else
-                        $this->response['messages']['error'] = $message;
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_2");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_2");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -138,6 +145,19 @@ class UserController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Create form
         $usersSelectionFormType = new UsersSelectionFormType($this->container, $this->entityManager);
         $form = $this->createForm($usersSelectionFormType, new UsersSelectionModel(), Array(
@@ -161,39 +181,33 @@ class UserController extends Controller {
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
             $id = 0;
             
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $id = $form->get("id")->getData();
+
+                $this->selectionResult($id);
+            }
+            else if ($this->utility->getRequestStack()->request->get("event") == null && $this->utilityPrivate->checkToken() == true) {
+                $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
+
+                $this->selectionResult($id);
+            }
+            else if (($this->utility->getRequestStack()->request->get("event") == "refresh" && $this->utilityPrivate->checkToken() == true) ||
+                        $this->table->checkPost() == true) {
+                $render = $this->renderView("UebusaitoBundle::render/control_panel/users_selection_desktop.html.twig", Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+
+                $this->response['render'] = $render;
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-
-                // Check form
-                if ($form->isValid() == true) {
-                    $id = $form->get("id")->getData();
-
-                    $this->selectionResult($id);
-                }
-                else if ($this->utility->getRequestStack()->request->get("event") == null && $this->utilityPrivate->checkToken() == true) {
-                    $id = $this->utility->getRequestStack()->request->get("id") == "" ? 0 : $this->utility->getRequestStack()->request->get("id");
-
-                    $this->selectionResult($id);
-                }
-                else if (($this->utility->getRequestStack()->request->get("event") == "refresh" && $this->utilityPrivate->checkToken() == true) ||
-                            $this->table->checkPost() == true) {
-                    $render = $this->renderView("UebusaitoBundle::render/control_panel/users_selection_desktop.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-
-                    $this->response['render'] = $render;
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -229,6 +243,19 @@ class UserController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->urlExtra);
         
         $usernameOld = $userEntity->getUsername();
@@ -247,46 +274,40 @@ class UserController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
+
+                if ($message == "ok") {
+                    if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld") == true)
+                        @rename("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld",
+                                "{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
+
+                    if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld") == true)
+                        @rename("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld",
+                                "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
+
+                    if (file_exists("{$this->utility->getPathWebBundle()}/files/$usernameOld") == true)
+                        @rename("{$this->utility->getPathWebBundle()}/files/$usernameOld",
+                                "{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
+
+                    if ($form->get("notLocked")->getData() == true)
+                        $userEntity->setHelpCode("");
+
+                    // Update in database
+                    $this->entityManager->persist($userEntity);
+                    $this->entityManager->flush();
+
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_4");
+                }
+                else
+                    $this->response['messages']['error'] = $message;
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-
-                // Check form
-                if ($form->isValid() == true) {
-                    $message = $this->utilityPrivate->configureUserProfilePassword("withoutOld", $userEntity, $form);
-
-                    if ($message == "ok") {
-                        if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld") == true)
-                            rename("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld",
-                                    "{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
-                        
-                        if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld") == true)
-                            rename("{$this->utility->getPathSrcBundle()}/Resources/public/files/$usernameOld",
-                                    "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
-                        
-                        if (file_exists("{$this->utility->getPathWebBundle()}/files/$usernameOld") == true)
-                            rename("{$this->utility->getPathWebBundle()}/files/$usernameOld",
-                                    "{$this->utility->getPathWebBundle()}/files/{$form->get("username")->getData()}");
-                        
-                        if ($form->get("notLocked")->getData() == true)
-                            $userEntity->setHelpCode("");
-                        
-                        // Update in database
-                        $this->entityManager->persist($userEntity);
-                        $this->entityManager->flush();
-
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_4");
-                    }
-                    else
-                        $this->response['messages']['error'] = $message;
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_5");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_5");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -324,6 +345,19 @@ class UserController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Pagination
         $userRows = $this->query->selectAllUsersDatabase(1);
         
@@ -337,50 +371,44 @@ class UserController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST" && $chekRoleLevel == true) {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
-            else {
-                if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
-                    $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->utility->getRequestStack()->request->get("id"));
-                    
-                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}", true);
-                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userEntity->getUsername()}", true);
-                    $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userEntity->getUsername()}", true);
+            if ($this->utility->getRequestStack()->request->get("event") == "delete" && $this->utilityPrivate->checkToken() == true) {
+                $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->utility->getRequestStack()->request->get("id"));
 
-                    $usersDatabase = $this->usersDatabase("delete", $userEntity->getId());
-                    
-                    if ($usersDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
-                }
-                else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
-                    $userRows = $this->query->selectAllUsersDatabase(1);
+                $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}", true);
+                $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userEntity->getUsername()}", true);
+                $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userEntity->getUsername()}", true);
 
-                    for ($i = 0; $i < count($userRows); $i ++) {
-                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userRows[$i]['username']}", true);
-                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userRows[$i]['username']}", true);
-                        $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userRows[$i]['username']}", true);
-                    }
+                $usersDatabase = $this->usersDatabase("delete", $userEntity->getId());
 
-                    $usersDatabase = $this->usersDatabase("deleteAll", null);
-                    
-                    if ($usersDatabase == true) {
-                        $render = $this->renderView("UebusaitoBundle::render/control_panel/users_selection_desktop.html.twig", Array(
-                            'urlLocale' => $this->urlLocale,
-                            'urlCurrentPageId' => $this->urlCurrentPageId,
-                            'urlExtra' => $this->urlExtra,
-                            'response' => $this->response
-                        ));
-                        
-                        $this->response['render'] = $render;
-                        
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_7");
-                    }
-                }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_8");
+                if ($usersDatabase == true)
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
             }
+            else if ($this->utility->getRequestStack()->request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken() == true) {
+                $userRows = $this->query->selectAllUsersDatabase(1);
+
+                for ($i = 0; $i < count($userRows); $i ++) {
+                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userRows[$i]['username']}", true);
+                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userRows[$i]['username']}", true);
+                    $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userRows[$i]['username']}", true);
+                }
+
+                $usersDatabase = $this->usersDatabase("deleteAll", null);
+
+                if ($usersDatabase == true) {
+                    $render = $this->renderView("UebusaitoBundle::render/control_panel/users_selection_desktop.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
+
+                    $this->response['render'] = $render;
+
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_7");
+                }
+            }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_8");
             
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,

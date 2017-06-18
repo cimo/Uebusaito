@@ -45,6 +45,12 @@ function ControlPanelPayment() {
                 false,
                 null,
                 function(xhr) {
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
                     ajax.reply(xhr, "");
                     
                     table.populate(xhr);
@@ -74,6 +80,12 @@ function ControlPanelPayment() {
                         false,
                         null,
                         function(xhr) {
+                            if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                                ajax.reply(xhr, "");
+
+                                return;
+                            }
+
                             ajax.reply(xhr, "");
 
                             table.populate(xhr);
@@ -109,6 +121,12 @@ function ControlPanelPayment() {
                     $("#cp_payment_selection_result").html("");
                 },
                 function(xhr) {
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.messages.success !== undefined)
                         location.reload();
                     else
@@ -137,6 +155,12 @@ function ControlPanelPayment() {
                     $("#cp_payment_selection_result").html("");
                 },
                 function(xhr) {
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
                     selectionResult(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -159,6 +183,12 @@ function ControlPanelPayment() {
                     $("#cp_payment_selection_result").html("");
                 },
                 function(xhr) {
+                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                        ajax.reply(xhr, "");
+
+                        return;
+                    }
+                    
                     selectionResult(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -202,6 +232,12 @@ function ControlPanelPayment() {
                         $("#cp_payment_selection_result").html("");
                     },
                     function(xhr) {
+                        if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
+                            ajax.reply(xhr, "");
+
+                            return;
+                        }
+
                         ajax.reply(xhr, "");
                     },
                     null,

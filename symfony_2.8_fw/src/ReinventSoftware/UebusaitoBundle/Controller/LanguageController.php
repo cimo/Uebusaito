@@ -46,6 +46,19 @@ class LanguageController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Create form
         $languageFormType = new LanguageFormType("text", $this->container, $this->entityManager, $this->urlLocale);
         $form = $this->createForm($languageFormType, new LanguageModel(), Array(
@@ -61,20 +74,14 @@ class LanguageController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true)
+                $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$form->get("codeText")->getData()}/{$this->utility->getRequestStack()->attributes->get("urlCurrentPageId")}/{$this->utility->getRequestStack()->attributes->get("urlExtra")}";
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-                
-                // Check form
-                if ($form->isValid() == true)
-                    $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$form->get("codeText")->getData()}/{$this->utility->getRequestStack()->attributes->get("urlCurrentPageId")}/{$this->utility->getRequestStack()->attributes->get("urlExtra")}";
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_1");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_1");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
@@ -111,6 +118,19 @@ class LanguageController extends Controller {
         
         $this->response = Array();
         
+        $this->utilityPrivate->checkSessionOverTime();
+        
+        if ($_SESSION['user_activity'] != "" ) {
+            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
         // Create form
         $languageFormType = new LanguageFormType("page", $this->container, $this->entityManager, $this->urlLocale);
         $form = $this->createForm($languageFormType, new LanguageModel(), Array(
@@ -124,24 +144,18 @@ class LanguageController extends Controller {
         
         // Request post
         if ($this->utility->getRequestStack()->getMethod() == "POST") {
-            $sessionActivity = $this->utilityPrivate->checkSessionOverTime();
-            
-            if ($sessionActivity != "")
-                $this->response['session']['activity'] = $sessionActivity;
+            $form->handleRequest($this->utility->getRequestStack());
+
+            // Check form
+            if ($form->isValid() == true) {
+                $codePage = $form->get("codePage")->getData();
+
+                $this->response['values']['codePage'] = $codePage;
+                $this->response['values']['pageFields'] = $this->query->selectPageDatabase($codePage, $this->urlExtra);
+            }
             else {
-                $form->handleRequest($this->utility->getRequestStack());
-
-                // Check form
-                if ($form->isValid() == true) {
-                    $codePage = $form->get("codePage")->getData();
-
-                    $this->response['values']['codePage'] = $codePage;
-                    $this->response['values']['pageFields'] = $this->query->selectPageDatabase($codePage, $this->urlExtra);
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_2");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_2");
+                $this->response['errors'] = $this->ajax->errors($form);
             }
             
             return $this->ajax->response(Array(
