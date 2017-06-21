@@ -33,13 +33,13 @@ class RoleFormType extends AbstractType {
             'required' => true
         ));
         
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $data = $event->getData();
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {
+            $data = $formEvent->getData();
             
             $level = strtoupper($data->getLevel());
             $data->setLevel($level);
             
-            $event->setData($data);
+            $formEvent->setData($data);
         });
     }
     

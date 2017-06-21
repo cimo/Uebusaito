@@ -139,8 +139,7 @@ class Utility {
         $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(21));
     }
     
-    public function sessionDestroy() {
-        session_destroy();
+    public function sessionUnset() {
         session_unset();
         
         $cookies = Array(

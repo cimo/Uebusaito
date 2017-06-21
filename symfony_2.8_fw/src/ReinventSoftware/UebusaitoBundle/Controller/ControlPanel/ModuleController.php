@@ -54,19 +54,6 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         // Create form
         $modulesDragFormType = new ModulesDragFormType();
         $form = $this->createForm($modulesDragFormType, new ModulesDragModel(), Array(
@@ -149,19 +136,6 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         $moduleEntity = new Module();
         
         // Create form
@@ -232,19 +206,6 @@ class ModuleController extends Controller {
         $this->table = new Table($this->container, $this->entityManager);
         
         $this->response = Array();
-        
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
         
         // Create form
         $modulesSelectionFormType = new ModulesSelectionFormType($this->container, $this->entityManager);
@@ -332,19 +293,6 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($this->urlExtra);
         
         // Create form
@@ -428,19 +376,6 @@ class ModuleController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         // Request post
@@ -494,19 +429,6 @@ class ModuleController extends Controller {
         $this->table = new Table($this->container, $this->entityManager);
         
         $this->response = Array();
-        
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
         
         // Pagination
         $moduleRows = $this->query->selectAllModulesDatabase();

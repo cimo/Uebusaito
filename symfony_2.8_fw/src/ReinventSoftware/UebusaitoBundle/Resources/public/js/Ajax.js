@@ -27,6 +27,14 @@ function Ajax() {
                     callbackBefore();
             },
             success: function(xhr) {
+                if (xhr.userActivity !== undefined && xhr.userActivity !== "") {
+                    window.session.userActivity = xhr.userActivity;
+                    
+                    self.reply(xhr, "");
+                    
+                    return;
+                }
+                
                 if (callbackSuccess !== null)
                     callbackSuccess(xhr);
                 

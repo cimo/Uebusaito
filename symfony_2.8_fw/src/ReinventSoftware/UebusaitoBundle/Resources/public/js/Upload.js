@@ -53,12 +53,6 @@ function Upload() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     if (xhr.response.upload !== undefined) {
                         inputType = xhr.response.upload.inputType;
                         maxSize = xhr.response.upload.maxSize;

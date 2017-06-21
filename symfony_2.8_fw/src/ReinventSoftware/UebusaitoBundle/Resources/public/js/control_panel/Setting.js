@@ -39,12 +39,6 @@ function ControlPanelSetting() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
                     $("#form_settings_languageManage").prop("name", propNameOld);
@@ -110,12 +104,6 @@ function ControlPanelSetting() {
                         false,
                         null,
                         function(xhr) {
-                            if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                                ajax.reply(xhr, "");
-
-                                return;
-                            }
-
                             ajax.reply(xhr, "");
                             
                             if (xhr.response.messages.success !== undefined) {
@@ -153,12 +141,6 @@ function ControlPanelSetting() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "");
                     
                     if (xhr.response.messages.success !== undefined) {

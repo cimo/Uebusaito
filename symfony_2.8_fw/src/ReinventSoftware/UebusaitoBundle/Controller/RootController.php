@@ -3,7 +3,6 @@ namespace ReinventSoftware\UebusaitoBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
@@ -45,24 +44,11 @@ class RootController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->captcha = new Captcha($this->container, $this->entityManager);
         
+        $this->response = Array();
+        
         $this->utility->generateToken();
         
         $this->utility->configureCookie("PHPSESSID", 0, isset($_SERVER['HTTPS']), false);
-        
-        $this->response = Array();
-        
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "") {
-            $referer = $this->utility->getRequestStack()->headers->get("referer");
-            $baseUrl = $this->utility->getRequestStack()->getBaseUrl();
-            $parameters = $this->utility->urlParameters($referer, $baseUrl);
-            $parameters = $this->utilityPrivate->controlUrlParameters($parameters);
-
-            $url = $this->generateUrl("authentication_exit_check", Array('_locale' => $_SESSION['languageText'], 'urlCurrentPageId' => $parameters[1], 'urlExtra' => $parameters[2]));
-            
-            return new RedirectResponse($url);
-        }
         
         $this->response['captchaImage'] = $this->captcha->create(7);
         
@@ -92,6 +78,9 @@ class RootController extends Controller {
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settings", $this->utility->getSettings());
         $this->get("twig")->addGlobal("captchaImage", $this->response['captchaImage']);
+        
+        if (isset($_SESSION['overTime']) == false)
+            $_SESSION['user_activity'] = "";
         
         return Array(
             'urlLocale' => $this->urlLocale,

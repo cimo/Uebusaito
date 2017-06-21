@@ -110,6 +110,7 @@
 {% endblock %}
 
 {% block javascript %}
+    {{dump(php_session)}}
     <!-- Javascript -->
     <script type="text/javascript">
         var session = {

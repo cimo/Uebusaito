@@ -16,6 +16,7 @@ class RequestListener {
     private $entityManager;
     
     private $utility;
+    private $utilityPrivate;
     
     // Properties
     
@@ -37,6 +38,10 @@ class RequestListener {
         $parameters = $this->utilityPrivate->controlUrlParameters($parameters);
         
         $request->setLocale($parameters[0]);
+        
+        if ($this->utilityPrivate->checkSessionOverTime() == "ajax") {
+            exit();
+        }
         
         if (HttpKernelInterface::MASTER_REQUEST != $event->getRequestType())
             return;

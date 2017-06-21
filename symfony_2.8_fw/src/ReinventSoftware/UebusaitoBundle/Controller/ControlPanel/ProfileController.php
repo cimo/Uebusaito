@@ -55,19 +55,6 @@ class ProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         $usernameOld = $this->getUser()->getUsername();
         
         $avatar = "{$this->utility->getUrlWebBundle()}/files/$usernameOld/Avatar.jpg";
@@ -158,19 +145,6 @@ class ProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         // Create form
         $passwordFormType = new PasswordFormType();
         $form = $this->createForm($passwordFormType, new PasswordModel(), Array(
@@ -238,19 +212,6 @@ class ProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         $currentCredits = $this->getUser() != null ? $this->getUser()->getCredits() : 0;
         $settingRows = $this->query->selectAllSettingsDatabase();
         
@@ -313,19 +274,6 @@ class ProfileController extends Controller {
         $this->upload = new Upload($this->container, $this->entityManager);
         
         $this->response = Array();
-        
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
         
         $path = "";
 

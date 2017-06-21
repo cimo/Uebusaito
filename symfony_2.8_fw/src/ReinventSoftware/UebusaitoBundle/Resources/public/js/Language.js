@@ -25,12 +25,6 @@ function Language() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     $("#language_button").dropdown("toggle");
                     
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined)
@@ -60,12 +54,6 @@ function Language() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined) {
                         $("#form_cp_page_profile").find("input[name='form_page[language]']").val(xhr.response.values.codePage);
                         $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageFields.title);

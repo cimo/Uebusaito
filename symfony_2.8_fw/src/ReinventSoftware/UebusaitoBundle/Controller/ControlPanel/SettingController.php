@@ -45,19 +45,6 @@ class SettingController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         $settingEntity = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
         
         // Create form
@@ -125,19 +112,6 @@ class SettingController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->response = Array();
-        
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         

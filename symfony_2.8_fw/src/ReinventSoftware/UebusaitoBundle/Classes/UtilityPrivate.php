@@ -1,6 +1,8 @@
 <?php
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 
@@ -12,6 +14,8 @@ class UtilityPrivate {
     private $utility;
     private $query;
     
+    private $test;
+    
     // Properties
       
     // Functions public
@@ -21,6 +25,8 @@ class UtilityPrivate {
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
+        
+        $this->test = false;
     }
     
     public function configureUserProfilePassword($type, $user, $form) {
@@ -158,7 +164,7 @@ class UtilityPrivate {
         $elements = Array(3);
         
         if (count($parameters) == 0) {
-            $elements[0] = isset($_SESSION['languageText']) === false ? $this->utility->getSettings()['language'] : $_SESSION['languageText'];
+            $elements[0] = isset($_SESSION['language_text']) === false ? $this->utility->getSettings()['language'] : $_SESSION['language_text'];
             $elements[1] = 2;
             $elements[2] = "";
         }
@@ -176,7 +182,7 @@ class UtilityPrivate {
             }
             
             if ($urlLocale == "")
-                $elements[0] = isset($_SESSION['languageText']) === false ? $this->utility->getSettings()['language'] : $_SESSION['languageText'];
+                $elements[0] = isset($_SESSION['language_text']) === false ? $this->utility->getSettings()['language'] : $_SESSION['language_text'];
             else
                 $elements[0] = $urlLocale;
             
@@ -184,7 +190,7 @@ class UtilityPrivate {
             $elements[2] = $this->utility->getRequestStack()->attributes->get("urlExtra");
         }
         
-        $_SESSION['languageText'] = $elements[0];
+        $_SESSION['language_text'] = $elements[0];
         
         return $elements;
     }
@@ -197,10 +203,32 @@ class UtilityPrivate {
             if ($this->utility->getRequestStack()->cookies->has("REMEMBERME") == false && $this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
                 $timeLapse = time() - $this->utility->getRequestStack()->getSession()->getMetadataBag()->getLastUsed();
 
-                if ($timeLapse > $this->utility->getSessionMaxIdleTime())
+                if ($timeLapse > 30/*$this->utility->getSessionMaxIdleTime()*/) {
+                    $_SESSION['overTime'] = true;
+                    
                     $_SESSION['user_activity'] = $this->utility->getTranslator()->trans("class_utility_1");
+                }
             }
         }
+        
+        if (isset($_SESSION['overTime']) == true && $_SESSION['overTime'] == true) {
+            if ($this->utility->getRequestStack()->isXmlHttpRequest() == true) {
+                echo json_encode(Array(
+                    'userActivity' => $_SESSION['user_activity']
+                ));
+                
+                return "ajax";
+            }
+            else {
+                unset($_SESSION['overTime']);
+                
+                $this->container->get("security.context")->setToken(null);
+                
+                return "redirect";
+            }
+        }
+        
+        return "";
     }
     
     public function checkRoleLevel($roleName, $userRoleId) {

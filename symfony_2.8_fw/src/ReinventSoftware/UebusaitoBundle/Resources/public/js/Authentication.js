@@ -27,12 +27,6 @@ function Authentication() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     $("#authentication_button").dropdown("toggle");
                     
                     if (xhr.response.messages !== undefined) {
@@ -64,12 +58,6 @@ function Authentication() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     if (xhr.response.messages !== undefined)
                         ajax.reply(xhr, "");
                     else

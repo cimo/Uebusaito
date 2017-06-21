@@ -51,12 +51,6 @@ function ControlPanelPage() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -88,12 +82,6 @@ function ControlPanelPage() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "");
                     
                     table.populate(xhr);
@@ -123,12 +111,6 @@ function ControlPanelPage() {
                         false,
                         null,
                         function(xhr) {
-                            if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                                ajax.reply(xhr, "");
-
-                                return;
-                            }
-
                             ajax.reply(xhr, "");
 
                             table.populate(xhr);
@@ -167,12 +149,6 @@ function ControlPanelPage() {
                     $("#cp_page_selection_result").html("");
                 },
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     selectionResult(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -195,12 +171,6 @@ function ControlPanelPage() {
                     $("#cp_page_selection_result").html("");
                 },
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     selectionResult(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -253,12 +223,6 @@ function ControlPanelPage() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
                     if ($.isEmptyObject(xhr.response.messages.success) === false)
@@ -293,12 +257,6 @@ function ControlPanelPage() {
                         $("#cp_page_selection_result").html("");
                     },
                     function(xhr) {
-                        if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                            ajax.reply(xhr, "");
-
-                            return;
-                        }
-
                         if (xhr.response.messages !== undefined)
                             ajax.reply(xhr, "");
                         else if ($.isEmptyObject(xhr.response.values) === false) {
@@ -328,12 +286,6 @@ function ControlPanelPage() {
                                         $("#cp_page_selection_result").html("");
                                     },
                                     function(xhr) {
-                                        if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                                            ajax.reply(xhr, "");
-
-                                            return;
-                                        }
-
                                         popupEasy.close();
 
                                         ajax.reply(xhr, "");
@@ -363,12 +315,6 @@ function ControlPanelPage() {
                                         $("#cp_page_selection_result").html("");
                                     },
                                     function(xhr) {
-                                        if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                                            ajax.reply(xhr, "");
-
-                                            return;
-                                        }
-
                                         popupEasy.close();
 
                                         ajax.reply(xhr, "");

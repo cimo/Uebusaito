@@ -51,19 +51,6 @@ class RoleController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         $roleEntity = new Role();
         
         // Create form
@@ -127,19 +114,6 @@ class RoleController extends Controller {
         $this->table = new Table($this->container, $this->entityManager);
         
         $this->response = Array();
-        
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
         
         // Create form
         $rolesSelectionFormType = new RolesSelectionFormType($this->container, $this->entityManager);
@@ -226,19 +200,6 @@ class RoleController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
         $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($this->urlExtra);
         
         // Create form
@@ -302,19 +263,6 @@ class RoleController extends Controller {
         $this->table = new Table($this->container, $this->entityManager);
         
         $this->response = Array();
-        
-        $this->utilityPrivate->checkSessionOverTime();
-        
-        if ($_SESSION['user_activity'] != "" ) {
-            $this->response['session']['userActivity'] = $_SESSION['user_activity'];
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
         
         // Pagination
         $userRoleRows = $this->query->selectAllUserRolesDatabase();

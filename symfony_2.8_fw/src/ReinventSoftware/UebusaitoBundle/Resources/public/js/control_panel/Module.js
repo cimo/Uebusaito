@@ -36,12 +36,6 @@ function ControlPanelModule() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -62,12 +56,6 @@ function ControlPanelModule() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -117,12 +105,6 @@ function ControlPanelModule() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "");
                     
                     table.populate(xhr);
@@ -152,12 +134,6 @@ function ControlPanelModule() {
                         false,
                         null,
                         function(xhr) {
-                            if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                                ajax.reply(xhr, "");
-
-                                return;
-                            }
-
                             ajax.reply(xhr, "");
 
                             table.populate(xhr);
@@ -196,12 +172,6 @@ function ControlPanelModule() {
                     $("#cp_module_selection_result").html("");
                 },
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     selectionResult(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -224,12 +194,6 @@ function ControlPanelModule() {
                     $("#cp_module_selection_result").html("");
                 },
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     selectionResult(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -286,12 +250,6 @@ function ControlPanelModule() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
                         $("#module_profile_sort").html(xhr.response.render);
                         
@@ -318,12 +276,6 @@ function ControlPanelModule() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -355,12 +307,6 @@ function ControlPanelModule() {
                         $("#cp_module_selection_result").html("");
                     },
                     function(xhr) {
-                        if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                            ajax.reply(xhr, "");
-
-                            return;
-                        }
-
                         ajax.reply(xhr, "");
                     },
                     null,

@@ -36,12 +36,6 @@ function ControlPanelUser() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -73,12 +67,6 @@ function ControlPanelUser() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "");
                     
                     table.populate(xhr);
@@ -108,12 +96,6 @@ function ControlPanelUser() {
                         false,
                         null,
                         function(xhr) {
-                            if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                                ajax.reply(xhr, "");
-
-                                return;
-                            }
-
                             ajax.reply(xhr, "");
 
                             table.populate(xhr);
@@ -152,12 +134,6 @@ function ControlPanelUser() {
                     $("#cp_user_selection_result").html("");
                 },
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     selectionResult(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -180,12 +156,6 @@ function ControlPanelUser() {
                     $("#cp_user_selection_result").html("");
                 },
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     selectionResult(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -224,12 +194,6 @@ function ControlPanelUser() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
@@ -261,12 +225,6 @@ function ControlPanelUser() {
                         $("#cp_user_selection_result").html("");
                     },
                     function(xhr) {
-                        if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                            ajax.reply(xhr, "");
-
-                            return;
-                        }
-
                         ajax.reply(xhr, "");
                     },
                     null,

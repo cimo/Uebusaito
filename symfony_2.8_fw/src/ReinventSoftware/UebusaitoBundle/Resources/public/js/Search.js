@@ -29,12 +29,6 @@ function Search() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.session !== undefined && xhr.response.session.userActivity !== "") {
-                        ajax.reply(xhr, "");
-
-                        return;
-                    }
-                    
                     $("#search_button").dropdown("toggle");
                     
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined)

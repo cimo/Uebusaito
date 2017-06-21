@@ -126,13 +126,13 @@ class SettingsFormType extends AbstractType {
             )
         ));
         
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $data = $event->getData();
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {
+            $data = $formEvent->getData();
             
             $payPalCurrencyCode = strtoupper($data->getPayPalCurrencyCode());
             $data->setPayPalCurrencyCode($payPalCurrencyCode);
             
-            $event->setData($data);
+            $formEvent->setData($data);
         });
     }
     

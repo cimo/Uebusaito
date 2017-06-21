@@ -66,12 +66,8 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                 $this->response['values']['url'] = $referer;
             }
             else {
-                $languageText = isset($_SESSION['languageText']) == true ? $_SESSION['languageText'] : $this->utility->getSettings()['language'];
-
-                $this->utility->sessionDestroy();
+                $this->container->get("security.context")->setToken(null);
                 
-                $_SESSION['languageText'] = $languageText;
-
                 if ($checkCaptcha == false) {
                     $message = $this->utility->getTranslator()->trans("captcha_1");
                     
@@ -134,13 +130,14 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
     
     public function onLogoutSuccess(Request $requestStack) {
         $referer = $requestStack->headers->get("referer");
+        $baseUrl = $requestStack->getBaseUrl();
+        $parameters = $this->utility->urlParameters($referer, $baseUrl);
+        $parameters = $this->utilityPrivate->controlUrlParameters($parameters);
+        
+        $url = "$baseUrl/{$_SESSION['language_text']}/{$parameters[1]}/{$parameters[2]}";
         
         if ($requestStack->isXmlHttpRequest() == true) {
-            $baseUrl = $requestStack->getBaseUrl();
-            $parameters = $this->utility->urlParameters($referer, $baseUrl);
-            $parameters = $this->utilityPrivate->controlUrlParameters($parameters);
-            
-            $this->response['values']['url'] = "$baseUrl/{$_SESSION['languageText']}/{$parameters[1]}/{$parameters[2]}";
+            $this->response['values']['url'] = $url;
             
             return $this->ajax->response(Array(
                 'response' => $this->response
