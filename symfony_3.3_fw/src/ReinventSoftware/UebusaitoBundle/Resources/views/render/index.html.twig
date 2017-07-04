@@ -1,0 +1,225 @@
+{% extends "@UebusaitoBundleViews/layout/layout_site.html.twig" %}
+
+{% block headMeta %}
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{% endblock %}
+
+{% block headLink %}
+    <!-- Favicon -->
+    <link href="{{asset("bundles/uebusaito/images/templates/" ~ settings['template'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
+    <!-- Css -->
+    <link href="{{asset("bundles/uebusaito/css/lib/jquery-ui_1.12.1.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/lib/jquery-ui_1.12.1_structure.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/lib/jquery-te_1.4.0.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/lib/bootstrap_3.3.7.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/lib/bootstrap-switch_3.3.2.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/lib/font-awesome_4.7.0_custom.min.css")}}" rel="stylesheet">
+    <link href="{{asset("bundles/uebusaito/css/basic.css")}}" rel="stylesheet"/>
+{% endblock%}
+
+{% block bodyIncludeTop %}
+    <div class="nav_bar_fix">
+        <p class="logo_desktop display_desktop">{{websiteName}}</p>
+    </div>
+    
+    {% if app.request.get("error") is defined and app.request.get("error") is not empty %}
+        {{-include("@UebusaitoBundleViews/render/static/error.html.twig")-}}
+    {% endif %}
+{% endblock %}
+
+{% if app.request.get("error") is not defined %}
+    {% block headerContainer %}
+        {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+            <div class="sortable_column">
+                {% for value in response.modules.header %}
+                    {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
+                        {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block columnLeftContainer %}
+        {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+            <div class="sortable_column">
+                {% for value in response.modules.left %}
+                    {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
+                        {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block columnCenterContainer %}
+        {{-include("@UebusaitoBundleViews/include/flashBag.html.twig")-}}
+        
+        {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+            <div class="sortable_column">
+                {% for value in response.modules.center %}
+                    {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
+                        {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="margin_top">
+                {% if settings['active'] == false %}
+                    {% if urlExtra == "authentication_maintenance" %}
+                        <div class="sortable_column">
+                            {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': settings['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                        </div>
+                    {% else %}
+                        <div class="sortable_column">
+                            <div class="message_single_page horizontal_center">
+                                <a href="{{path("root_render", {'_locale': settings['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "authentication_maintenance"})}}"><i class="fa fa-wrench"></i></a>
+                                <p>{% trans %}index_1{% endtrans %}</p>
+                                <p>{% trans %}index_2{% endtrans %}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block columnRightContainer %}
+        {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+            <div class="sortable_column">
+                {% for value in response.modules.right %}
+                    {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
+                        {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
+{% endif %}
+
+{% block footerContainer %}
+    {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+        {% for value in response.modules.footer %}
+            {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
+                {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    {{-include("@UebusaitoBundleViews/include/footer.html.twig")-}}
+{% endblock %}    
+
+{% block bodyIncludeDown %}
+    {{-include("@UebusaitoBundleViews/include/loader.html.twig")-}}
+    {{-include("@UebusaitoBundleViews/include/popup_easy.html.twig")-}}
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        var session = {
+            'token': "{{php_session.token}}",
+            'userActivity': "{{php_session.user_activity}}"
+        };
+
+        var path = {
+            'documentRoot': "{{response.path.documentRoot}}",
+            'root': "{{response.path.root}}",
+            'srcBundle': "{{response.path.srcBundle}}",
+            'webBundle': "{{response.path.webBundle}}"
+        };
+
+        var url = {
+            'root': "{{response.url.root}}",
+            'webBundle': "{{response.url.webBundle}}",
+            'rootRender': "{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'languageText': "{{path("language_text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'languagePage': "{{path("language_page", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'searchModule': "{{path("search_module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'searchRender': "{{path("search_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'registration': "{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'recoverPassword': "{{path("recover_password", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'authentication': "{{path("authentication", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'authenticationEnterCheck': "{{path("authentication_enter_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'authenticationExitCheck': "{{path("authentication_exit_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'controlPanel': "{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpProfile': "{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpProfilePassword': "{{path("cp_profile_password", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpProfileCredits': "{{path("cp_profile_credits", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpProfileCreditsPayPal': "{{path("cp_profile_credits_payPal", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpProfileUpload': "{{path("cp_profile_upload", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPaymentsUserSelection': "{{path("cp_payments_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPaymentsSelection': "{{path("cp_payments_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPaymentDeletion': "{{path("cp_payment_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPageCreation': "{{path("cp_page_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPagesSelection': "{{path("cp_pages_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPageProfile': "{{path("cp_page_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPageDeletion': "{{path("cp_page_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpUserCreation': "{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpUsersSelection': "{{path("cp_users_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpUserProfile': "{{path("cp_user_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpUserDeletion': "{{path("cp_user_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpModulesDrag': "{{path("cp_modules_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpModuleCreation': "{{path("cp_module_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpModulesSelection': "{{path("cp_modules_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpModuleProfile': "{{path("cp_module_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpModuleProfileSort': "{{path("cp_module_profile_sort", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpModuleDeletion': "{{path("cp_module_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpRoleCreation': "{{path("cp_role_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpRolesSelection': "{{path("cp_roles_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpRoleProfile': "{{path("cp_role_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpRoleDeletion': "{{path("cp_role_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpSettingsModify': "{{path("cp_settings_modify", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpSettingsLanguageManage': "{{path("cp_settings_language_manage", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"
+        };
+
+        var text = {
+            'warning': "{{"index_3"|trans}}",
+            'ok': "{{"index_4"|trans}}",
+            'abort': "{{"index_5"|trans}}",
+            'ajaxConnectionError': "{{"index_6"|trans}}",
+            'changeReload': "{{"index_7"|trans}}"
+        };
+
+        var settings = {
+            'maxWidth': "992px",
+            'minWidth': "992px",
+            'template': "{{settings['template']}}",
+            'language': "{{settings['language']}}",
+            'active': "{{settings['active']}}"
+        };
+    </script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery_3.1.1.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery-ui_1.12.1.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery-mobile_1.5.0.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery-te_1.4.0.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/bootstrap_3.3.7.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/bootstrap-switch_3.3.2.min.js")}}"></script>
+    <!--[if lte IE 9]>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/media-match_2.0.2.min.js")}}"></script>
+    <![endif]-->
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Utility.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Ajax.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Loader.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/FlashBag.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/PopupEasy.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Table.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Captcha.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Upload.js")}}"></script>
+
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Language.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Search.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Authentication.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Registration.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/RecoverPassword.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Profile.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Payment.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Page.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/User.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Module.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Role.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Setting.js")}}"></script>
+
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Index.js")}}"></script>
+{% endblock %}

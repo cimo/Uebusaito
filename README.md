@@ -8,9 +8,10 @@ This is a open source cms with symfony framework
 | Full responsive (smartphone, tablet, pc) |
 | Multibrowser (Chrome, firefox, internet explorer, opera, safari) |
 | Dynamic multilanguage |
-| Registration (private / company) and recover password |
-| Session check time |
+| Login, registration and recover password |
+| Search in website |
 | Credit and paypal payment |
+| Upload file system |
 | Extend with module system |
 
 | Control panel |
@@ -33,43 +34,31 @@ This is a open source cms with symfony framework
 	
 	sudo chmod a+x /usr/local/bin/symfony
 	
-	sudo symfony new /YOUR_PATH/symfony_2.8_fw 2.8
+	sudo symfony new /YOUR_PATH/symfony_3.3_fw 3.3
 	
-	sudo chown -R YOUR_USER:www-data /YOUR_PATH/symfony_2.8_fw
+	sudo chmod 775 /YOUR_PATH/symfony_3.3_fw
 	
-	sudo chmod 775 /YOUR_PATH/symfony_2.8_fw
+	sudo chown -R YOUR_USER:www-data /YOUR_PATH/symfony_3.3_fw
+	
+	sudo find /YOUR_PATH/symfony_3.3_fw -type d -exec chmod 775 {} \;
+	
+	sudo find /YOUR_PATH/symfony_3.3_fw -type f -exec chmod 664 {} \;
 
-2) Download this git and copy <b>"symfony_2.8_fw"</b> content in <b>"/YOUR_PATH/symfony_2.8_fw"</b> (Replace all).
+2) Download this git and copy <b>"symfony_3.3_fw"</b> content in <b>"/YOUR_PATH/symfony_3.3_fw"</b> (Replace all).
 
-3) Insert in your mysql database <b>"/symfony_2.8_fw/src/ReinventSoftware/UebusaitoBundle/uebusaito.sql"</b>.
+3) Insert in your mysql database <b>"/symfony_3.3_fw/src/ReinventSoftware/UebusaitoBundle/uebusaito.sql"</b>.
 
 4) On linux, open terminal and write:
 
-	cd /YOUR_PATH/symfony_2.8_fw
+	cd /YOUR_PATH/symfony_3.3_fw
 	
-	sudo rm -R src/AppBundle
+	sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
 	
-	sudo chmod 775 src
+	sudo -u www-data php bin/console assets:install --symlink --relative
 	
-	sudo chmod 664 app/config/routing.yml
-	
-	sudo chmod 664 app/AppKernel.php
-	
-	sudo chmod 775 web/bundles
-	
-	sudo chmod -R 775 app/cache
-	
-	sudo chmod -R 775 app/logs
-	
-	sudo -u www-data php app/console cache:clear --env=dev
-	
-	sudo -u www-data php app/console cache:clear --env=prod
-	
-	sudo -u www-data php app/console assets:install --symlink --relative
-	
-	sudo -u www-data php app/console server:run YOUR_IP:80
+	sudo -u www-data php bin/console server:start YOUR_IP:80
 
-5) Go on your browser and write <b>"https://YOUR_IP/symfony_2.8_fw/web/app_dev.php"</b>
+5) Go on your browser and write <b>"https://YOUR_IP/symfony_3.3_fw/web/app_dev.php"</b>
 
 6) For admin login use <b>"user_1, Password1"</b>.
 

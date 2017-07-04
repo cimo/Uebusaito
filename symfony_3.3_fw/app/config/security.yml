@@ -1,0 +1,58 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    # cimo +
+    encoders:
+        ReinventSoftware\UebusaitoBundle\Entity\User: bcrypt
+    role_hierarchy:
+        ROLE_USER: [ROLE_USER]
+        ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN]
+        ROLE_MODERATOR: [ROLE_USER, ROLE_MODERATOR]
+    access_control:
+        - { path: /_profiler/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /_wdt/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        # cimo -
+        #in_memory:
+            #memory: ~
+        # cimo +
+        user_db:
+            entity: { class: UebusaitoBundle:User, property: username }
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        # cimo :
+        main:
+            #anonymous: ~
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~
+            anonymous: ~
+            provider: user_db
+            pattern: ^/
+            stateless: false
+            remember_me:
+                secret: '%secret%'
+                lifetime: 3600
+                path: /
+                domain: ~
+                secure: true
+                httponly: true
+            form_login:
+                login_path: root_render
+                check_path: authentication_enter_check
+                success_handler: uebusaito.authentication_listener
+                failure_handler: uebusaito.authentication_listener
+            logout:
+                target: root_render
+                path: authentication_exit_check
+                success_handler: uebusaito.authentication_listener

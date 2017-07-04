@@ -1,0 +1,6 @@
+<div id="search_render">
+    {{-include("@UebusaitoBundleViews/include/table.html.twig")-}}
+    
+    <p class="text">{% trans %}search_render_1{% endtrans %} {{response.values.results|length}}</p>
+    {{response.values.list|raw}}
+</div>
