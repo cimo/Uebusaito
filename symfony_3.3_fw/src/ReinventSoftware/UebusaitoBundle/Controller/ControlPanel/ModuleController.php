@@ -403,7 +403,7 @@ class ModuleController extends Controller {
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($this->utilityPrivate->checkToken($request) == true) {
-                $this->response['modules']['sort'] = $this->query->selectAllModulesDatabase($request->get("id"), $request->get("position"));
+                $this->response['values']['moduleRows'] = $this->query->selectAllModulesDatabase($request->get("id"), $request->get("position"));
 
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/module_profile_sort.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
@@ -518,7 +518,7 @@ class ModuleController extends Controller {
         $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
         
         if ($moduleEntity != null) {
-            $this->response['modules']['sort'] = $this->query->selectAllModulesDatabase(null, $moduleEntity->getPosition());
+            $this->response['values']['moduleRows'] = $this->query->selectAllModulesDatabase(null, $moduleEntity->getPosition());
             
             // Form
             $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(

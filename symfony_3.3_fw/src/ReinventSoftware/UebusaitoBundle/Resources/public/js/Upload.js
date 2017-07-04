@@ -253,7 +253,7 @@ function Upload() {
                 if (jsonParse.response.upload.processFile !== null)
                     message(true, jsonParse.response.upload.processFile.text);
                 
-                refreshImage();
+                utility.refreshImage(tagRefreshImage);
             }
         };
         
@@ -298,10 +298,10 @@ function Upload() {
         timeLeft = 0;
     }
     
-    function refreshImage() {
+    /*function refreshImage() {
         if (tagRefreshImage !== "") {
             var src = $(tagRefreshImage).prop("src");
             $(tagRefreshImage).prop("src", src + "?" + new Date().getTime());
         }
-    };
+    };*/
 }

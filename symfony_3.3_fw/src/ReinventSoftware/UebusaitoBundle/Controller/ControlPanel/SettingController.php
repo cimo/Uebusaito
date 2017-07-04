@@ -62,12 +62,12 @@ class SettingController extends Controller {
         
         $settingEntity = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
         
-        $settingRows = $this->query->selectAllSettingsDatabase();
+        $settingRow = $this->query->selectSettingDatabase();
         
         // Form
         $form = $this->createForm(SettingsFormType::class, $settingEntity, Array(
             'validation_groups' => Array('settings'),
-            'settingRows' => $settingRows,
+            'settingRow' => $settingRow,
             'choicesTemplate' => $this->utilityPrivate->createTemplatesList(),
             'choicesLanguage' => array_column($this->query->selectAllLanguagesDatabase(), "code", "code")
         ));
@@ -81,7 +81,7 @@ class SettingController extends Controller {
                 $this->entityManager->persist($settingEntity);
                 $this->entityManager->flush();
 
-                if ($form->get("https")->getData() != $settingRows['https'])
+                if ($form->get("https")->getData() != $settingRow['https'])
                     $this->response['action']['refresh'] = true;
                 else
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_1");

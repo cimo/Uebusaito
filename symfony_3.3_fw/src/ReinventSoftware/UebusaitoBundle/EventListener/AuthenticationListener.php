@@ -28,7 +28,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
     private $query;
     private $ajax;
     
-    private $settingRows;
+    private $settingRow;
     
     // Properties
     
@@ -44,7 +44,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->settingRows = $this->query->selectAllSettingsDatabase();
+        $this->settingRow = $this->query->selectSettingDatabase();
     }
     
     public function onAuthenticationSuccess(Request $request, TokenInterface $token) {
@@ -53,11 +53,11 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($request->isXmlHttpRequest() == true) {
             $user = $token->getUser();
             
-            $checkCaptcha = $this->utilityPrivate->checkCaptcha($this->settingRows, $request->get("captcha"));
-            $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("success", $user->getId(), $this->settingRows);
-            $checkInRoles = $this->utilityPrivate->checkInRoles($this->settingRows['role_id'], $user->getRoleId());
+            $checkCaptcha = $this->utilityPrivate->checkCaptcha($this->settingRow, $request->get("captcha"));
+            $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("success", $user->getId(), $this->settingRow);
+            $checkInRoles = $this->utilityPrivate->checkInRoles($this->settingRow['role_id'], $user->getRoleId());
             
-            if ($checkCaptcha == true && (($this->settingRows['active'] == true && $checkAttemptLogin[0] == true) || ($this->settingRows['active'] == false && $checkAttemptLogin[0] == true && $checkInRoles == true)))
+            if ($checkCaptcha == true && (($this->settingRow['active'] == true && $checkAttemptLogin[0] == true) || ($this->settingRow['active'] == false && $checkAttemptLogin[0] == true && $checkInRoles == true)))
                 $this->response['values']['url'] = $referer;
             else {
                 $token->setToken(null);
@@ -93,8 +93,8 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($request->isXmlHttpRequest() == true) {
             $username = $request->get("_username");
             
-            $checkCaptcha = $this->utilityPrivate->checkCaptcha($this->settingRows, $request->get("captcha"));
-            $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("failure", $username, $this->settingRows);
+            $checkCaptcha = $this->utilityPrivate->checkCaptcha($this->settingRow, $request->get("captcha"));
+            $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("failure", $username, $this->settingRow);
             
             if ($checkCaptcha == true && $checkAttemptLogin[0] == true)
                 $message = $this->utility->getTranslator()->trans("authenticationListener_2");
@@ -108,7 +108,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                     if ($checkAttemptLogin[1] == "lock")
                         $message = $this->utility->getTranslator()->trans("authenticationListener_3a") . $checkAttemptLogin[2] . $this->utility->getTranslator()->trans("authenticationListener_3b");
                     else if ($checkAttemptLogin[1] == "try")
-                        $message = $this->utility->getTranslator()->trans("authenticationListener_4") . "{$checkAttemptLogin[2]} / " . $this->settingRows['login_attempt_count'];
+                        $message = $this->utility->getTranslator()->trans("authenticationListener_4") . "{$checkAttemptLogin[2]} / " . $this->settingRow['login_attempt_count'];
                 }
             }
             

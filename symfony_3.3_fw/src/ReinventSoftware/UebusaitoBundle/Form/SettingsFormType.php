@@ -19,7 +19,7 @@ class SettingsFormType extends AbstractType {
             'data_class' => "ReinventSoftware\UebusaitoBundle\Entity\Setting",
             'csrf_protection' => true,
             'validation_groups' => null,
-            'settingRows' => null,
+            'settingRow' => null,
             'choicesTemplate' => null,
             'choicesLanguage' => null
         ));
@@ -37,7 +37,7 @@ class SettingsFormType extends AbstractType {
             'required' => true,
             'choices' => $options['choicesLanguage'],
             'preferred_choices' => Array(
-                $options['settingRows']['language']
+                $options['settingRow']['language']
             )
         ))
         ->add("active", ChoiceType::class, Array(

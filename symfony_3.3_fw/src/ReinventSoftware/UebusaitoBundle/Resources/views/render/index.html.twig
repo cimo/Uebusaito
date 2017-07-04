@@ -8,7 +8,7 @@
 
 {% block headLink %}
     <!-- Favicon -->
-    <link href="{{asset("bundles/uebusaito/images/templates/" ~ settings['template'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
+    <link href="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
     <!-- Css -->
     <link href="{{asset("bundles/uebusaito/css/lib/jquery-ui_1.12.1.min.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/lib/jquery-ui_1.12.1_structure.min.css")}}" rel="stylesheet"/>
@@ -31,7 +31,7 @@
 
 {% if app.request.get("error") is not defined %}
     {% block headerContainer %}
-        {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+        {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
             <div class="sortable_column">
                 {% for value in response.modules.header %}
                     {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -43,7 +43,7 @@
     {% endblock %}
 
     {% block columnLeftContainer %}
-        {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+        {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
             <div class="sortable_column">
                 {% for value in response.modules.left %}
                     {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -57,7 +57,7 @@
     {% block columnCenterContainer %}
         {{-include("@UebusaitoBundleViews/include/flashBag.html.twig")-}}
         
-        {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+        {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
             <div class="sortable_column">
                 {% for value in response.modules.center %}
                     {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -67,15 +67,15 @@
             </div>
         {% else %}
             <div class="margin_top">
-                {% if settings['active'] == false %}
+                {% if settingRow['active'] == false %}
                     {% if urlExtra == "authentication_maintenance" %}
                         <div class="sortable_column">
-                            {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': settings['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                            {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                         </div>
                     {% else %}
                         <div class="sortable_column">
                             <div class="message_single_page horizontal_center">
-                                <a href="{{path("root_render", {'_locale': settings['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "authentication_maintenance"})}}"><i class="fa fa-wrench"></i></a>
+                                <a href="{{path("root_render", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "authentication_maintenance"})}}"><i class="fa fa-wrench"></i></a>
                                 <p>{% trans %}index_1{% endtrans %}</p>
                                 <p>{% trans %}index_2{% endtrans %}</p>
                             </div>
@@ -87,7 +87,7 @@
     {% endblock %}
 
     {% block columnRightContainer %}
-        {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+        {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
             <div class="sortable_column">
                 {% for value in response.modules.right %}
                     {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -100,7 +100,7 @@
 {% endif %}
 
 {% block footerContainer %}
-    {% if (settings['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
+    {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" %}
         {% for value in response.modules.footer %}
             {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                 {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
@@ -185,9 +185,9 @@
         var settings = {
             'maxWidth': "992px",
             'minWidth': "992px",
-            'template': "{{settings['template']}}",
-            'language': "{{settings['language']}}",
-            'active': "{{settings['active']}}"
+            'template': "{{settingRow['template']}}",
+            'language': "{{settingRow['language']}}",
+            'active': "{{settingRow['active']}}"
         };
     </script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery_3.1.1.min.js")}}"></script>

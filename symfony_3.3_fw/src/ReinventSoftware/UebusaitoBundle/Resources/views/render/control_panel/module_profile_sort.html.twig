@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-xs-9">
         <ul class="list-group margin_clear_bottom">
-            {% for value in response.modules.sort %}
+            {% for value in response.values.moduleRows %}
                 <li id="module_profile_sort_{{value.id}}" class="list-group-item">
                     <input class="display_inline margin_clear vertical_middle" type="checkbox"/>
                     <p class="display_inline margin_clear vertical_middle">{{value.name}}</p>

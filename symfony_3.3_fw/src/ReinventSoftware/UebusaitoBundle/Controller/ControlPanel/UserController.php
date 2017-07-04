@@ -398,13 +398,13 @@ class UserController extends Controller {
         $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
         
         if ($userEntity != null) {
+            $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
+            
             // Form
             $form = $this->createForm(UserFormType::class, $userEntity, Array(
                 'validation_groups' => Array('user_profile')
             ));
             $form->handleRequest($request);
-            
-            $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
             
             $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/user_profile.html.twig", Array(
                 'urlLocale' => $this->urlLocale,

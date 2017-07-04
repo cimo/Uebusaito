@@ -67,8 +67,11 @@ class Query {
         return $rows;
     }
     
-    public function selectAllSettingsDatabase() {
-        $query = $this->connection->prepare("SELECT * FROM settings");
+    public function selectSettingDatabase() {
+        $query = $this->connection->prepare("SELECT * FROM settings
+                                                WHERE id = :id");
+        
+        $query->bindValue(":id", 1);
         
         $query->execute();
         
@@ -142,8 +145,6 @@ class Query {
             $query->bindValue(":onlyLink", 0);
             $query->bindValue(":idStart", 5);
             $query->bindValue(":search", "%$search%");
-            
-            //NOT IN (SELECT parent FROM pages WHERE parent is NOT NULL)
         }
         
         $query->execute();

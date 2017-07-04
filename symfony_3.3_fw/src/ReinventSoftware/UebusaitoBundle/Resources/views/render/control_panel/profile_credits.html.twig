@@ -8,7 +8,7 @@
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}profile_credits_2{% endtrans %}</legend>
                 <div class="content">
                     <p><b>{% trans %}profile_credits_3{% endtrans %}</b> {{response.values.currentCredits}}</p>
-                    <p><b>{% trans %}profile_credits_4{% endtrans %}</b> {{settings['payPal_credit_amount']}} <u>{{settings['payPal_currency_code']|upper}}</u></p>
+                    <p><b>{% trans %}profile_credits_4{% endtrans %}</b> {{settingRow['payPal_credit_amount']}} <u>{{settingRow['payPal_currency_code']|upper}}</u></p>
                     <div class="form-group">
                         {{form_label(form.credits, "profile_credits_5")}}
                         <div class="input-group">
@@ -33,16 +33,16 @@
 {% endif %}
     <input type="hidden" name="cmd" value="_xclick"/>
     <!-- Setting -->
-    <input type="hidden" name="business" value="{{settings['payPal_business']}}"/>
+    <input type="hidden" name="business" value="{{settingRow['payPal_business']}}"/>
     <input type="hidden" name="notify_url" value="{{app.request.schemeAndHttpHost ~ path("cp_profile_credits_payPal", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"/>
     <input type="hidden" name="return" value="{{app.request.schemeAndHttpHost ~ path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"/>
     <input type="hidden" name="cancel_return" value="{{app.request.schemeAndHttpHost ~ path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"/>
     <input type="hidden" name="no_shipping" value="1"/>
     <input type="hidden" name="no_note" value="1"/>
     <!-- Payment -->
-    <input type="hidden" name="currency_code" value="{{settings['payPal_currency_code']|upper}}"/>
+    <input type="hidden" name="currency_code" value="{{settingRow['payPal_currency_code']|upper}}"/>
     <input type="hidden" name="item_name" value="credits"/>
-    <input type="hidden" name="amount" value="{{settings['payPal_credit_amount']}}"/>
+    <input type="hidden" name="amount" value="{{settingRow['payPal_credit_amount']}}"/>
     <input type="hidden" name="quantity" value=""/>
     <input type="hidden" name="custom" value="{{app.user.id}}"/>
 </form>

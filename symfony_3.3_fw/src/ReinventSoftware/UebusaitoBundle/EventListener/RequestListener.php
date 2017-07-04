@@ -35,9 +35,9 @@ class RequestListener {
         if (HttpKernelInterface::MASTER_REQUEST != $event->getRequestType())
             return;
         
-        $settingRows = $this->query->selectAllSettingsDatabase();
+        $settingRow = $this->query->selectSettingDatabase();
         
-        if ($settingRows['https'] == true) {
+        if ($settingRow['https'] == true) {
             if ($request->isSecure() == false) {
                 $request->server->set("HTTPS", true);
                 $request->server->set("SERVER_PORT", 443);

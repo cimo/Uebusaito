@@ -124,8 +124,8 @@ class LanguageController extends Controller {
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
-        $this->response['values']['languages'] = $this->query->selectAllLanguagesDatabase();
-        $this->response['settings'] = $this->query->selectAllSettingsDatabase();
+        $this->response['values']['languageRows'] = $this->query->selectAllLanguagesDatabase();
+        $this->response['values']['settingRow'] = $this->query->selectSettingDatabase();
         
         // Form
         $form = $this->createForm(LanguageFormType::class, null, Array(
@@ -141,7 +141,7 @@ class LanguageController extends Controller {
                 $codePage = $form->get("codePage")->getData();
 
                 $this->response['values']['codePage'] = $codePage;
-                $this->response['values']['pageFields'] = $this->query->selectPageDatabase($codePage, $this->urlExtra);
+                $this->response['values']['pageRow'] = $this->query->selectPageDatabase($codePage, $this->urlExtra);
             }
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_2");

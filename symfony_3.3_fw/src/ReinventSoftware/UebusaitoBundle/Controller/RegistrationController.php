@@ -76,7 +76,7 @@ class RegistrationController extends Controller {
                     $message = $this->utilityPrivate->assigUserPassword("withoutOld", $userEntity, $form);
 
                     if ($message == "ok") {
-                        $settingRows = $this->query->selectAllSettingsDatabase();
+                        $settingRow = $this->query->selectSettingDatabase();
                         
                         $this->utilityPrivate->configureUserParameters($userEntity);
 
@@ -89,14 +89,14 @@ class RegistrationController extends Controller {
 
                         $message = "";
 
-                        if ($settingRows['registration_user_confirm_admin'] == true)
+                        if ($settingRow['registration_user_confirm_admin'] == true)
                             $message = "<p>" . $this->utility->getTranslator()->trans("registrationController_1") . "</p><a href=\"$url\">$url</a>";
                         else {
                             $message = "<p>" . $this->utility->getTranslator()->trans("registrationController_2") . "</p>";
 
                             // Send email to admin
                             $this->utility->sendEmail(
-                                $settingRows['email_admin'],
+                                $settingRow['email_admin'],
                                 $this->utility->getTranslator()->trans("registrationController_3"),
                                 "<p>" . $this->utility->getTranslator()->trans("registrationController_4") . "<b>" . $userEntity->getUsername() . "</b>. " . $this->utility->getTranslator()->trans("registrationController_5") . "</p>",
                                 $_SERVER['SERVER_ADMIN']

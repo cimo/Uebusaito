@@ -5,8 +5,6 @@ $(document).ready(function() {
     
     utility.mobileCheck(true);
     
-    utility.watch("#flashBag", flashBag.sessionActivity);
-    
     utility.bootstrapMenuFix("#menu_root_navbar");
     
     utility.bootstrapMenuActiveFix(

@@ -11,7 +11,7 @@
     {% form_theme form "bootstrap_3_layout.html.twig" %}
 
     <div class="language_container horizontal_center">
-        <img id="language_flag_{{app.request.getLocale()}}" class="language_text_flag display_inline" src="{{asset("bundles/uebusaito/images/templates/" ~ settings['template'] ~ "/lang/" ~ app.request.getLocale() ~ ".png")}}" alt="{{app.request.getLocale()}}.png"/>
+        <img id="language_flag_{{app.request.getLocale()}}" class="language_text_flag display_inline" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/lang/" ~ app.request.getLocale() ~ ".png")}}" alt="{{app.request.getLocale()}}.png"/>
         <form id="form_language_text" class="form_language_text display_inline" action="{{path("language_text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_row(form.codeText, {'label': false})}}
 

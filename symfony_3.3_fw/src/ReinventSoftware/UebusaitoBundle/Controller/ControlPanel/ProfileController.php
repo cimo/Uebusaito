@@ -227,10 +227,10 @@ class ProfileController extends Controller {
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
-        $settingRows = $this->query->selectAllSettingsDatabase();
+        $settingRow = $this->query->selectSettingDatabase();
         
         $this->response['values']['currentCredits'] = $this->getUser() != null ? $this->getUser()->getCredits() : 0;
-        $this->response['values']['payPalSandbox'] = $settingRows['payPal_sandbox'];
+        $this->response['values']['payPalSandbox'] = $settingRow['payPal_sandbox'];
         
         // Form
         $form = $this->createForm(CreditsFormType::class, null, Array(

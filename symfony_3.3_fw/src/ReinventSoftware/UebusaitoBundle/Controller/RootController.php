@@ -89,7 +89,7 @@ class RootController extends Controller {
         
         $this->get("twig")->addGlobal("php_session", $_SESSION);
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
-        $this->get("twig")->addGlobal("settings", $this->query->selectAllSettingsDatabase());
+        $this->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
         $this->get("twig")->addGlobal("captchaImage", $this->response['captchaImage']);
         
         return Array(

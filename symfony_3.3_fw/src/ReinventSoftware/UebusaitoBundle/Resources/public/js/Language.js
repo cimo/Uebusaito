@@ -56,10 +56,10 @@ function Language() {
                 function(xhr) {
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined) {
                         $("#form_cp_page_profile").find("input[name='form_page[language]']").val(xhr.response.values.codePage);
-                        $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageFields.title);
-                        $("#form_cp_page_profile").find(".jqte_editor").html(xhr.response.values.pageFields.argument);
-                        $("#form_cp_page_profile").find("textarea[name='form_page[argument]']").val(xhr.response.values.pageFields.argument);
-                        $("#form_cp_page_profile").find("input[name='form_page[menuName]']").val(xhr.response.values.pageFields.menu_name);
+                        $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageRow.title);
+                        $("#form_cp_page_profile").find(".jqte_editor").html(xhr.response.values.pageRow.argument);
+                        $("#form_cp_page_profile").find("textarea[name='form_page[argument]']").val(xhr.response.values.pageRow.argument);
+                        $("#form_cp_page_profile").find("input[name='form_page[menuName]']").val(xhr.response.values.pageRow.menu_name);
                     }
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);

@@ -65,7 +65,7 @@ class PageController extends Controller {
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
-        $this->response['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
         
         $pageEntity = new Page();
         
@@ -234,7 +234,7 @@ class PageController extends Controller {
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
-        $this->response['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
         
         $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($this->urlExtra);
         
@@ -404,7 +404,7 @@ class PageController extends Controller {
         $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
         
         if ($pageEntity != null) {
-            $this->response['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
+            $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
             
             $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
             

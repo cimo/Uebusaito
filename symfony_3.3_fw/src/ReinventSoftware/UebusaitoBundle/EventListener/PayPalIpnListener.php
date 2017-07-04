@@ -34,9 +34,9 @@ class PayPalIpnListener {
         $request = $event->getRequest();
         
         if (strpos($request->getUri(), "cp_profile_credits_payPal") !== false) {
-            $settingRows = $this->query->selectAllSettingsDatabase();
+            $settingRow = $this->query->selectSettingDatabase();
             
-            $payPal = new PayPal(true, false, $settingRows['payPal_sandbox']);
+            $payPal = new PayPal(true, false, $settingRow['payPal_sandbox']);
             
             if ($payPal->ipn() == true) {
                 $payPalElements = $payPal->getElements();

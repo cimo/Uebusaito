@@ -219,7 +219,7 @@ function ControlPanelModule() {
     function profile(xhr) {
         var sort = "";
 
-        $.each(xhr.response.modules.sort, function(key, value) {
+        $.each(xhr.response.values.moduleRows, function(key, value) {
             sort += value.id + ",";
         });
 

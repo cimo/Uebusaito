@@ -1,4 +1,4 @@
-/* global ajax, upload, popupEasy */
+/* global utility, ajax, upload, popupEasy */
 
 var controlPanelProfile = new ControlPanelProfile();
 

@@ -33,7 +33,7 @@
             <p>{% trans %}control_panel_8{% endtrans %}</p>
             {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
             {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:password", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-            {% if settings['credits'] == true %}
+            {% if settingRow['credits'] == true %}
                 {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:credits", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
             {% endif %}
         {% endif %}

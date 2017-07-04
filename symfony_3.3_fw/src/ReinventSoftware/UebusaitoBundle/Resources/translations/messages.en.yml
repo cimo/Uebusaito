@@ -131,6 +131,7 @@ date.time: H:i:s
 
 # LanguageController.php
 "languageController_1": "Change language text not completed!"
+"languageController_2": "Change language page not completed!"
 
 # PageLogicController.php
 "pageLogicController_1": "Page empty"

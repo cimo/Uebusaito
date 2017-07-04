@@ -161,21 +161,21 @@ class UtilityPrivate {
         return false;
     }
     
-    public function checkCaptcha($settingRows, $captcha) {
-        if ($settingRows['captcha'] == false || ($settingRows['captcha'] == true && isset($_SESSION['captcha']) == true && $_SESSION['captcha'] == $captcha))
+    public function checkCaptcha($settingRow, $captcha) {
+        if ($settingRow['captcha'] == false || ($settingRow['captcha'] == true && isset($_SESSION['captcha']) == true && $_SESSION['captcha'] == $captcha))
             return true;
         
         return false;
     }
     
-    public function checkAttemptLogin($type, $userValue, $settingRows) {
+    public function checkAttemptLogin($type, $userValue, $settingRow) {
         $userRow = $this->query->selectUserDatabase($userValue);
         
         $dateTimeCurrentLogin = new \DateTime($userRow['date_current_login']);
         $dateTimeCurrent = new \DateTime();
         
         $interval = intval($dateTimeCurrentLogin->diff($dateTimeCurrent)->format("%i"));
-        $total = $settingRows['login_attempt_time'] - $interval;
+        $total = $settingRow['login_attempt_time'] - $interval;
         
         if ($total < 0)
             $total = 0;
@@ -185,7 +185,7 @@ class UtilityPrivate {
         
         $result = Array("", "");
         
-        if (isset($userRow['id']) == true && $settingRows['login_attempt_time'] > 0) {
+        if (isset($userRow['id']) == true && $settingRow['login_attempt_time'] > 0) {
             $count = $userRow['attempt_login'] + 1;
             
             $query = $this->utility->getConnection()->prepare("UPDATE users
@@ -196,7 +196,7 @@ class UtilityPrivate {
                                                                 WHERE id = :id");
             
             if ($type == "success") {
-                if ($count > $settingRows['login_attempt_count'] && $total > 0) {
+                if ($count > $settingRow['login_attempt_count'] && $total > 0) {
                     $result[0] = "lock";
                     $result[1] = $total;
                     
@@ -213,12 +213,12 @@ class UtilityPrivate {
                 }
             }
             else if ($type == "failure") {
-                if ($count > $settingRows['login_attempt_count'] && $total > 0) {
+                if ($count > $settingRow['login_attempt_count'] && $total > 0) {
                     $result[0] = "lock";
                     $result[1] = $total;
                 }
                 else {
-                    if ($count > $settingRows['login_attempt_count'])
+                    if ($count > $settingRow['login_attempt_count'])
                         $count = 1;
                     
                     $query->bindValue(":dateCurrentLogin", $dateCurrent);
@@ -256,17 +256,19 @@ class UtilityPrivate {
                 $timeLapse = time() - $_SESSION['timestamp'];
 
                 if ($timeLapse > $this->utility->getSessionMaxIdleTime()) {
-                    $_SESSION['user_activity'] = $this->utility->getTranslator()->trans("class_utilityPrivate_1");
+                    $userActivity = $this->utility->getTranslator()->trans("class_utilityPrivate_1");
                     
                     if ($request->isXmlHttpRequest() == true) {
                         echo json_encode(Array(
-                            'userActivity' => $_SESSION['user_activity']
+                            'userActivity' => $userActivity
                         ));
 
                         exit();
                     }
                     else
                         $this->utility->getTokenStorage()->setToken(null);
+                    
+                    $_SESSION['user_activity'] = $userActivity;
                     
                     unset($_SESSION['timestamp']);
                 }
