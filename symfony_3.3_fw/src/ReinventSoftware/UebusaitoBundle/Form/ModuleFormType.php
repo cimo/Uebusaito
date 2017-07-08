@@ -49,8 +49,8 @@ class ModuleFormType extends AbstractType {
         ->add("active", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "moduleFormType_6" => false,
-                "moduleFormType_7" => true
+                "moduleFormType_6" => "0",
+                "moduleFormType_7" => "1"
             )
         ));
     }

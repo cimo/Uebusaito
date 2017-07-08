@@ -318,7 +318,7 @@ function ControlPanelModule() {
     }
     
     function resetView() {
-        widthType = utility.widthCheck(992);
+        widthType = utility.checkWidth(992);
         
         if ((widthType === "desktop" || widthType === "mobile") && widthTypeOld !== widthType) {
             $("#modules_drag_switch").bootstrapSwitch("state", false, true);

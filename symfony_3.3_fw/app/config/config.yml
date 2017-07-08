@@ -31,8 +31,8 @@ framework:
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
         # cimo +
         name: uebusaito
-        cookie_secure: true
-        cookie_httponly: true
+        #cookie_secure: true
+        #cookie_httponly: true
     fragments: ~
     http_method_override: true
     assets: ~

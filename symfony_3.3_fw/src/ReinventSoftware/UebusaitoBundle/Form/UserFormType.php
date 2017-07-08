@@ -88,8 +88,8 @@ class UserFormType extends AbstractType {
         ->add("notLocked", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "userFormType_4" => false,
-                "userFormType_5" => true
+                "userFormType_4" => "0",
+                "userFormType_5" => "1"
             )
         ));
     }

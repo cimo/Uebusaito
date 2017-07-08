@@ -27,21 +27,6 @@ function ControlPanelProfile() {
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
-                    
-                    if (xhr.response.action !== undefined && xhr.response.action.refresh === true) {
-                        popupEasy.create(
-                            window.text.warning,
-                            window.text.changeReload,
-                            function() {
-                                popupEasy.close();
-                            },
-                            null
-                        );
-                    }
-                    
-                    $("#popup_easy").on("hidden.bs.modal", "", function() {
-                        $(".logout_button").click();
-                    });
                 },
                 null,
                 null

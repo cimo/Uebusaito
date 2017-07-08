@@ -242,7 +242,7 @@ function ControlPanelRole() {
     }
     
     function resetView() {
-        widthType = utility.widthCheck(992);
+        widthType = utility.checkWidth(992);
         
         if ((widthType === "desktop" || widthType === "mobile") && widthTypeOld !== widthType) {
             $("#cp_roles_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);

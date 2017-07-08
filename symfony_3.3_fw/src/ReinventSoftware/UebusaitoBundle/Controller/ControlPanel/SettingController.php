@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
@@ -81,13 +82,21 @@ class SettingController extends Controller {
                 $this->entityManager->persist($settingEntity);
                 $this->entityManager->flush();
 
-                if ($form->get("https")->getData() != $settingRow['https'])
-                    $this->response['action']['refresh'] = true;
+                if ($form->get("https")->getData() != $settingRow['https']) {
+                    $this->utility->getTokenStorage()->setToken(null);
+                    
+                    $message = $this->utility->getTranslator()->trans("settingController_1");
+                    
+                    $_SESSION['count_root'] = 1;
+                    $_SESSION['user_activity'] = $message;
+                    
+                    $this->response['messages']['info'] = $message;
+                }
                 else
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_1");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_2");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_2");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_3");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -147,7 +156,7 @@ class SettingController extends Controller {
 
                     $this->settingsDatabase("deleteLanguageInPage", $code);
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_3");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
                 }
             }
             else if ($request->get("event") == "createLanguage" && $this->utilityPrivate->checkToken($request) == true) {
@@ -173,11 +182,11 @@ class SettingController extends Controller {
 
                         $this->settingsDatabase("insertLanguageInPage", $code);
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
                     }
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_5");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_6");
             }
             
             return $this->ajax->response(Array(

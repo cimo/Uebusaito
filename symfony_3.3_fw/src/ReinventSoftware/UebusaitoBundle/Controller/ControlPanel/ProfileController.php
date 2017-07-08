@@ -103,13 +103,21 @@ class ProfileController extends Controller {
                 $this->entityManager->persist($this->getUser());
                 $this->entityManager->flush();
 
-                if ($form->get("username")->getData() != $usernameOld)
-                    $this->response['action']['refresh'] = true;
+                if ($form->get("username")->getData() != $usernameOld) {
+                    $this->utility->getTokenStorage()->setToken(null);
+                    
+                    $message = $this->utility->getTranslator()->trans("profileController_1");
+                    
+                    $_SESSION['count_root'] = 1;
+                    $_SESSION['user_activity'] = $message;
+                    
+                    $this->response['messages']['info'] = $message;
+                }
                 else
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_1");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_2");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_2");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_3");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -174,13 +182,13 @@ class ProfileController extends Controller {
                     $this->entityManager->persist($this->getUser());
                     $this->entityManager->flush();
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_3");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_4");
                 }
                 else
                     $this->response['messages']['error'] = $message;
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_4");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_5");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -242,9 +250,9 @@ class ProfileController extends Controller {
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true)
-                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_5");
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_6");
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_6");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_7");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
 

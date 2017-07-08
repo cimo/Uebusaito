@@ -4,6 +4,7 @@ namespace ReinventSoftware\UebusaitoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,8 +44,8 @@ class SettingsFormType extends AbstractType {
         ->add("active", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "settingsFormType_1" => false,
-                "settingsFormType_2" => true
+                "settingsFormType_1" => "0",
+                "settingsFormType_2" => "1"
             )
         ))
         ->add("roleId", TextType::class, Array(
@@ -53,15 +54,15 @@ class SettingsFormType extends AbstractType {
         ->add("https", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "settingsFormType_1" => false,
-                "settingsFormType_2" => true
+                "settingsFormType_1" => "0",
+                "settingsFormType_2" => "1"
             )
         ))
         ->add("registrationUserConfirmAdmin", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "settingsFormType_1" => false,
-                "settingsFormType_2" => true
+                "settingsFormType_1" => "0",
+                "settingsFormType_2" => "1"
             )
         ))
         ->add("loginAttemptTime", TextType::class, Array(
@@ -73,15 +74,15 @@ class SettingsFormType extends AbstractType {
         ->add("captcha", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "settingsFormType_1" => false,
-                "settingsFormType_2" => true
+                "settingsFormType_1" => "0",
+                "settingsFormType_2" => "1"
             )
         ))
         ->add("payPalSandbox", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "settingsFormType_1" => false,
-                "settingsFormType_2" => true
+                "settingsFormType_1" => "0",
+                "settingsFormType_2" => "1"
             )
         ))
         ->add("payPalBusiness", TextType::class, Array(
@@ -96,12 +97,12 @@ class SettingsFormType extends AbstractType {
         ->add("credits", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "settingsFormType_1" => false,
-                "settingsFormType_2" => true
+                "settingsFormType_1" => "0",
+                "settingsFormType_2" => "1"
             )
         ));
         
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $formEvent) {
             $data = $formEvent->getData();
             
             $payPalCurrencyCode = strtoupper($data->getPayPalCurrencyCode());

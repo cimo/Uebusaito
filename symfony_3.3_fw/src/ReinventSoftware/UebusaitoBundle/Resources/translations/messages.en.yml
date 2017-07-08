@@ -90,12 +90,13 @@ date.time: H:i:s
 "paymentController_5": "Payment not deleted!"
 
 # ProfileController.php
-"profileController_1": "Profile modified."
-"profileController_2": "Profile not modified!"
-"profileController_3": "Password modified."
-"profileController_4": "Password not modified!"
-"profileController_5": "Send to PayPal..."
-"profileController_6": "Not sended to PayPal!"
+"profileController_1": "Username has changed, please login again."
+"profileController_2": "Profile modified."
+"profileController_3": "Profile not modified!"
+"profileController_4": "Password modified."
+"profileController_5": "Password not modified!"
+"profileController_6": "Send to PayPal..."
+"profileController_7": "Not sended to PayPal!"
 
 # RoleController.php
 "roleController_1": "Role creation completed."
@@ -108,11 +109,12 @@ date.time: H:i:s
 "roleController_8": "Role not deleted!"
 
 # SettingController.php
-"settingController_1": "Settings update complete."
-"settingController_2": "Settings not saved!"
-"settingController_3": "Language deletion completed."
-"settingController_4": "Language creation completed."
-"settingController_5": "Language not created!"
+"settingController_1": "Protocol value has changed, please login again (if you have changed from https to http you need close and to open browser for to do login)."
+"settingController_2": "Settings update complete."
+"settingController_3": "Settings not saved!"
+"settingController_4": "Language deletion completed."
+"settingController_5": "Language creation completed."
+"settingController_6": "Language not created!"
 
 # UserController.php
 "userController_1": "User creation completed."
@@ -275,7 +277,6 @@ date.time: H:i:s
 "index_4": "Ok"
 "index_5": "Abort"
 "index_6": "Connection error, please reload the page."
-"index_7": "After this change, for secure reason, you must login again."
 
 # language_page.html.twig
 "language_page_1": "Change page language without save data?"

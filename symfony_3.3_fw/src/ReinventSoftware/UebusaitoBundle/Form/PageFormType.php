@@ -66,16 +66,16 @@ class PageFormType extends AbstractType {
         ->add("protected", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "pageFormType_2" => false,
-                "pageFormType_3" => true
+                "pageFormType_2" => "0",
+                "pageFormType_3" => "1"
             )
         ))
         ->add("showInMenu", ChoiceType::class, Array(
             'required' => true,
             'data' => $pageRow['show_in_menu'],
             'choices' => Array(
-                "pageFormType_2" => false,
-                "pageFormType_3" => true
+                "pageFormType_2" => "0",
+                "pageFormType_3" => "1"
             )
         ))
         ->add("menuName", TextType::class, Array(
@@ -86,8 +86,8 @@ class PageFormType extends AbstractType {
             'required' => true,
             'data' => $pageRow['only_link'],
             'choices' => Array(
-                "pageFormType_2" => false,
-                "pageFormType_3" => true
+                "pageFormType_2" => "0",
+                "pageFormType_3" => "1"
             )
         ))
         ->add("link", TextType::class, Array(

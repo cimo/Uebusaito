@@ -1,6 +1,6 @@
 @import "utility.scss";
 
-.logo_desktop {
+.logo_big {
     display: none;
     font-family: "acme", sans-serif;
     font-size: 75px;
@@ -8,7 +8,7 @@
     text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000;
     margin: 0;
 }
-.logo_mobile {
+.logo_small {
     display: none;
     font-family: "acme", sans-serif;
     font-size: 24px;
@@ -16,28 +16,24 @@
     text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 2px 2px #000000;
     margin: 0;
 }
+.logo_message {
+    font-family: "acme", sans-serif;
+    font-size: 40px;
+    text-align: center;
+    margin: 0px;
+}
 
 /* --- */
 
 @media(max-width: $maxWidth) {
-    .message_single_page {
-        i {
-            font-size: 12em;
-            color: #cecece;
-            text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000;
-            margin-bottom: 40px;
-        }
-        p {
-            font-family: "acme", sans-serif;
-            font-size: 35px;
-            color: #ffffff;
-            text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000;
-        }
+    .h1_big {
+        font-size: 30px;
     }
     
     .nav_bar_fix {
         margin-bottom: 55px;
     }
+    
     .navbar-default {
         position: fixed;
         top: 0;
@@ -160,19 +156,8 @@
     }
 }
 @media(min-width: $minWidth) {
-    .message_single_page {
-        i {
-            font-size: 15em;
-            color: #cecece;
-            text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000;
-            margin-bottom: 40px;
-        }
-        p {
-            font-family: "acme", sans-serif;
-            font-size: 75px;
-            color: #ffffff;
-            text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000;
-        }
+    .h1_big {
+        font-size: 100px;
     }
     
     .search_input {
@@ -180,8 +165,9 @@
     }
     
     .nav_bar_fix {
-        margin-bottom: 0;
+        margin-bottom: 0px;
     }
+    
     .navbar-default {
         position: relative;
         
@@ -293,7 +279,7 @@
 }
 
 body {
-    margin-bottom: 150px;
+    margin-bottom: 140px;
 }
 
 .navbar-default {

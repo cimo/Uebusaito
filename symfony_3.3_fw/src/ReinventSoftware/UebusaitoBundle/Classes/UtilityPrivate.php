@@ -263,7 +263,7 @@ class UtilityPrivate {
                             'userActivity' => $userActivity
                         ));
 
-                        exit();
+                        exit;
                     }
                     else
                         $this->utility->getTokenStorage()->setToken(null);
@@ -274,6 +274,16 @@ class UtilityPrivate {
                 }
                 else
                     $_SESSION['timestamp'] = time();
+            }
+        }
+        
+        if (isset($_SESSION['user_activity']) == true) {
+            if ($request->isXmlHttpRequest() == true && $_SESSION['user_activity'] != "") {
+                echo json_encode(Array(
+                    'userActivity' => $_SESSION['user_activity']
+                ));
+
+                exit;
             }
         }
         

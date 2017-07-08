@@ -378,7 +378,7 @@ function ControlPanelPage() {
     }
     
     function resetView() {
-        widthType = utility.widthCheck(992);
+        widthType = utility.checkWidth(992);
         
         if ((widthType === "desktop" || widthType === "mobile") && widthTypeOld !== widthType) {
             $("#cp_pages_selection_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
