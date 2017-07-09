@@ -155,13 +155,12 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 #upload .container_controls .container_progressBar { display: inline-block; vertical-align: middle; width: 50%; margin-bottom: 5px; }
 #upload .container_controls .container_buttons { display: inline-block; vertical-align: middle; margin-bottom: 5px; }
 
-.logo_big { display: none; font-family: "acme", sans-serif; font-size: 75px; color: #ffffff; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 5px 5px #000000; margin: 0; }
+.logo_big { display: none; font-family: "acme", sans-serif; font-size: 75px; color: #ffffff; text-shadow: 2px 0 0 #000000, -2px 0 0 #000000, 0 2px 0 #000000, 0 -2px 0 #000000, 1px 1px #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000; margin: 0px 0px 0px 10px; }
 
-.logo_small { display: none; font-family: "acme", sans-serif; font-size: 24px; color: #ffffff; text-shadow: -1px 0 #000000, 0 1px #000000, 1px -1px #000000, 2px 2px #000000; margin: 0; }
+.logo_small { display: none; font-family: "acme", sans-serif; font-size: 24px; color: #ffffff; margin: 0px; }
 
-.logo_message { font-family: "acme", sans-serif; font-size: 40px; text-align: center; margin: 0px; }
+.logo_message { font-family: "acme", sans-serif; font-size: 40px; color: #ffffff; text-shadow: 2px 0 0 #000000, -2px 0 0 #000000, 0 2px 0 #000000, 0 -2px 0 #000000, 1px 1px #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000; text-align: center; margin: 0px; }
 
-/* --- */
 @media (max-width: 992px) { .h1_big { font-size: 30px; }
   .nav_bar_fix { margin-bottom: 55px; }
   .navbar-default { position: fixed; top: 0; left: 0; right: 0; border-width: 0 0 1px; border-radius: 0; -webkit-box-shadow: 0px 0px 20px #444444; -moz-box-shadow: 0px 0px 20px #444444; -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=20, Direction=0, Color='#444444')"; filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=20, Direction=0, Color='#444444')"; box-shadow: 0px 0px 20px #444444; }

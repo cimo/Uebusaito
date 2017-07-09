@@ -20,14 +20,15 @@
 {% endblock%}
 
 {% block bodyIncludeTop %}
-    <div class="nav_bar_fix">
+    {% if settingRow['active'] == true %}
+        <div class="nav_bar_fix">
+            <p class="logo_big display_desktop">{{websiteName}}</p>
+        </div>
+    {% else %}
         <p class="logo_big display_desktop">{{websiteName}}</p>
-        {% if settingRow['active'] == false %}
-            <p class="logo_message display_mobile">{{websiteName}}</p>
-        {% endif %}
-    </div>
+        <p class="logo_message display_mobile">{{websiteName}}</p>
+    {% endif %}
 {% endblock %}
-
 
     {% block headerContainer %}
         {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "authentication_maintenance" and app.request.get("error") is null %}
