@@ -135,7 +135,7 @@ class RoleController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
         
         // Form
         $form = $this->createForm(RolesSelectionFormType::class, null, Array(
@@ -290,7 +290,7 @@ class RoleController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
@@ -361,7 +361,7 @@ class RoleController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_3");
     }
     
-    private function listHtml($tableResult) {
+    private function createListHtml($tableResult) {
         $listHtml = "";
         
         foreach ($tableResult as $key => $value) {

@@ -108,7 +108,7 @@ class ProfileController extends Controller {
                     
                     $message = $this->utility->getTranslator()->trans("profileController_1");
                     
-                    $_SESSION['count_root'] = 1;
+                    $_SESSION['user_activity_count'] = 1;
                     $_SESSION['user_activity'] = $message;
                     
                     $this->response['messages']['info'] = $message;
@@ -323,18 +323,22 @@ class ProfileController extends Controller {
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
-        $path = "";
+        $path = Array();
 
-        if ($this->getUser() != null)
-            $path = "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}";
+        if ($this->getUser() != null) {
+            array_push($path, "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}");
+            
+            if ($this->utility->getSupportSymlink() == false)
+                array_push($path, "{$this->utility->getPathRoot()}/web/bundles/uebusaito/files/{$this->getUser()->getUsername()}");
+        }
 
         $this->response['upload']['inputType'] = "single";
         $this->response['upload']['maxSize'] = 2097152;
-        $this->response['upload']['type'] = Array('image/jpeg', 'image/png', 'image/gif');
+        $this->response['upload']['type'] = Array('image/jpeg');
         $this->response['upload']['chunkSize'] = 1000000;
         $this->response['upload']['nameOverwrite'] = "Avatar";
-        $this->response['upload']['imageWidth'] = 250;
-        $this->response['upload']['imageHeight'] = 250;
+        $this->response['upload']['imageWidth'] = 150;
+        $this->response['upload']['imageHeight'] = 150;
 
         $this->response['upload']['processFile'] = $this->upload->processFile(
             $path,

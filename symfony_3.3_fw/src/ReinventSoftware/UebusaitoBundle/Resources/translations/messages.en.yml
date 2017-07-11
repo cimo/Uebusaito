@@ -135,12 +135,12 @@ date.time: H:i:s
 "languageController_1": "Change language text not completed!"
 "languageController_2": "Change language page not completed!"
 
-# PageLogicController.php
-"pageLogicController_1": "Page empty"
-"pageLogicController_2": "This page dosen't exist!"
-"pageLogicController_3": "This page isn't available if you are logged!"
-"pageLogicController_4": "This page isn't available for your role!"
-"pageLogicController_5": "Need login for show content!"
+# PageViewController.php
+"pageViewController_1": "Page empty"
+"pageViewController_2": "This page dosen't exist!"
+"pageViewController_3": "This page isn't available if you are logged!"
+"pageViewController_4": "This page isn't available for your role!"
+"pageViewController_5": "Need login for show content!"
 
 # RecoverPasswordController.php
 "recoverPasswordController_1": "Recover completed. Check your email for the instructions."
@@ -360,16 +360,17 @@ date.time: H:i:s
 
 # page_creation.html.twig
 "page_creation_1": "Page creation form"
-"page_creation_2": "Parent"
-"page_creation_3": "Title"
-"page_creation_4": "Controller action"
-"page_creation_5": "Argument"
-"page_creation_6": "Roles"
-"page_creation_7": "Protected"
-"page_creation_8": "Show in menu"
-"page_creation_9": "Menu name"
-"page_creation_10": "Only link"
-"page_creation_11": "Link"
+"page_creation_2": "Alias"
+"page_creation_3": "Parent"
+"page_creation_4": "Title"
+"page_creation_5": "Controller action"
+"page_creation_6": "Argument"
+"page_creation_7": "Roles"
+"page_creation_8": "Protected"
+"page_creation_9": "Show in menu"
+"page_creation_10": "Menu name"
+"page_creation_11": "Only link"
+"page_creation_12": "Link"
 
 # page_deletion.html.twig
 "page_deletion_1": "Page deletion"
@@ -380,16 +381,17 @@ date.time: H:i:s
 # page_profile.html.twig
 "page_profile_1": "Page profile form"
 "page_profile_2": "Language"
-"page_profile_3": "Parent"
-"page_profile_4": "Title"
-"page_profile_5": "Controller action"
-"page_profile_6": "Argument"
-"page_profile_7": "Roles"
-"page_profile_8": "Protected"
-"page_profile_9": "Show in menu"
-"page_profile_10": "Menu name"
-"page_profile_11": "Only link"
-"page_profile_12": "Link"
+"page_profile_3": "Alias"
+"page_profile_4": "Parent"
+"page_profile_5": "Title"
+"page_profile_6": "Controller action"
+"page_profile_7": "Argument"
+"page_profile_8": "Roles"
+"page_profile_9": "Protected"
+"page_profile_10": "Show in menu"
+"page_profile_11": "Menu name"
+"page_profile_12": "Only link"
+"page_profile_13": "Link"
 
 # pages_selection.html.twig
 "pages_selection_1": "Pages selection form"
@@ -398,12 +400,13 @@ date.time: H:i:s
 # pages_selection_desktop.html.twig
 "pages_selection_desktop_1": "Id"
 "pages_selection_desktop_2": "Select"
-"pages_selection_desktop_3": "Titles"
-"pages_selection_desktop_4": "Menu names"
-"pages_selection_desktop_5": "Protected"
-"pages_selection_desktop_6": "Show in menu"
-"pages_selection_desktop_7": "Only link"
-"pages_selection_desktop_8": "Remove"
+"pages_selection_desktop_3": "Alias"
+"pages_selection_desktop_4": "Titles"
+"pages_selection_desktop_5": "Menu names"
+"pages_selection_desktop_6": "Protected"
+"pages_selection_desktop_7": "Show in menu"
+"pages_selection_desktop_8": "Only link"
+"pages_selection_desktop_9": "Remove"
 
 # payment_deletion.html.twig
 "payment_deletion_1": "Payment deletion"

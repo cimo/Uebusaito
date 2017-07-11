@@ -133,7 +133,7 @@ class SearchController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($tableResult['list']);;
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);;
         
         $this->response['values']['results'] = $pageRows;
         
@@ -166,7 +166,7 @@ class SearchController extends Controller {
     }
     
     // Functions private
-    private function listHtml($tableResult) {
+    private function createListHtml($tableResult) {
         $listHtml = "";
         
         foreach ($tableResult as $key => $value) {

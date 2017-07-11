@@ -75,14 +75,14 @@ class UtilityPrivate {
             if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
                 return $this->utility->getTranslator()->trans("class_utilityPrivate_3");
             
-            $user->setPassword($this->passwordEncoderLogic($type, $user, $form));
+            $user->setPassword($this->createPasswordEncoder($type, $user, $form));
         }
         else if ($type == "withoutOld") {
             if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
                 if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
                     return $this->utility->getTranslator()->trans("class_utilityPrivate_4");
                 
-                $user->setPassword($this->passwordEncoderLogic($type, $user, $form));
+                $user->setPassword($this->createPasswordEncoder($type, $user, $form));
             }
             else
                 $user->setPassword($userRow['password']);
@@ -243,9 +243,8 @@ class UtilityPrivate {
     public function checkSessionOverTime($request, $root = false) {
         if ($root == true) {
             if (isset($_SESSION['user_activity']) == false) {
+                $_SESSION['user_activity_count'] = 0;
                 $_SESSION['user_activity'] = "";
-                
-                $_SESSION['count_root'] = 0;
             }
         }
         
@@ -288,12 +287,11 @@ class UtilityPrivate {
         }
         
         if ($root == true && $_SESSION['user_activity'] != "") {
-            $_SESSION['count_root'] ++;
+            $_SESSION['user_activity_count'] ++;
 
-            if ($_SESSION['count_root'] > 2) {
+            if ($_SESSION['user_activity_count'] > 2) {
+                $_SESSION['user_activity_count'] = 0;
                 $_SESSION['user_activity'] = "";
-                
-                $_SESSION['count_root'] = 0;
             }
         }
     }
@@ -326,7 +324,7 @@ class UtilityPrivate {
     }
     
     // Functions private
-    private function passwordEncoderLogic($type, $user, $form) {
+    private function createPasswordEncoder($type, $user, $form) {
         if ($type == "withOld")
             return $this->utility->getPasswordEncoder()->encodePassword($user, $form->get("new")->getData());
         else if ($type == "withoutOld")
@@ -365,20 +363,23 @@ class UtilityPrivate {
                 
                 $tag = "-";
             }
-            else if ($value['parent'] == $parentId) {
+            else if ($value['parent'] != null && $parentId != null && $value['parent'] < $parentId) {
+                $count --;
+                
+                if ($count == 1)
+                    $tag = substr($tag, 0, 2);
+                else
+                    $tag = substr($tag, 0, $count);
+            }
+            else if ($value['parent'] != null && $value['parent'] != $parentId) {
                 $count ++;
                 
                 $tag .= "-";
             }
-            else {
-                $count --;
-                
-                $tag = substr($tag, 0, $count);
-            }
             
-            $parentId = $value['id'];
+            $parentId = $value['parent'];
             
-            $elements[$value['id']] = "|$tag| " . $value['title'];
+            $elements[$value['id']] = "|$tag| " . $value['alias'];
             
             if (count($value['children']) > 0)
                 $this->createPagesListOnlyMenuName($value['children'], $tag, $parentId, $elements, $count);

@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
@@ -87,7 +86,7 @@ class SettingController extends Controller {
                     
                     $message = $this->utility->getTranslator()->trans("settingController_1");
                     
-                    $_SESSION['count_root'] = 1;
+                    $_SESSION['user_activity_count'] = 1;
                     $_SESSION['user_activity'] = $message;
                     
                     $this->response['messages']['info'] = $message;

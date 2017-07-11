@@ -30,6 +30,8 @@ class Utility {
     private $urlRoot;
     private $urlWebBundle;
     
+    private $supportSymlink;
+    
     private $websiteFile;
     private $websiteName;
     
@@ -82,6 +84,10 @@ class Utility {
         return $this->urlWebBundle;
     }
     
+    public function getSupportSymlink() {
+        return $this->supportSymlink;
+    }
+    
     public function getWebsiteFile() {
         return $this->websiteFile;
     }
@@ -112,6 +118,8 @@ class Utility {
         
         $this->urlRoot = $this->config->getProtocol() . $_SERVER['HTTP_HOST'] . $this->config->getUrlRoot();
         $this->urlWebBundle = "{$this->config->getUrlRoot()}/bundles/uebusaito";
+        
+        $this->supportSymlink = $this->config->getSupportSymlink();
         
         $this->websiteFile = $this->config->getFile();
         $this->websiteName = $this->config->getName();

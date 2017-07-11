@@ -138,7 +138,7 @@ class PaymentController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
         
         // Form
         $form = $this->createForm(PaymentsSelectionFormType::class, null, Array(
@@ -229,7 +229,7 @@ class PaymentController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
@@ -295,7 +295,7 @@ class PaymentController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_2");
     }
     
-    private function listHtml($elements) {
+    private function createListHtml($elements) {
         $listHtml = "";
         
         $count = 0;

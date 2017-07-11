@@ -185,7 +185,7 @@ function ControlPanelPage() {
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
             $("#cp_page_selection_result").html(xhr.response.render);
 
-            profile();
+            profile(xhr);
             
             $("#cp_page_deletion").on("click", "", function() {
                deletion(xhr.urlExtra);
@@ -193,7 +193,7 @@ function ControlPanelPage() {
         }
     }
     
-    function profile() {
+    function profile(xhr) {
         fieldsVisibility("#form_cp_page_profile");
         
         $("#form_page_argument").jqte();
@@ -201,6 +201,8 @@ function ControlPanelPage() {
         utility.wordTag("#form_page_roleId");
         
         language.page();
+        
+        utility.selectWithDisabledElement("#form_page_parent", xhr);
         
         $("#form_cp_page_profile").find(".form-control").focus(function() {
             profileFocus = true;

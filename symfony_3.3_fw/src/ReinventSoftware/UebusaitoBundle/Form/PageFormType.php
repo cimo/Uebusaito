@@ -28,6 +28,7 @@ class PageFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         if ($options['pageRow'] == null) {
             $pageRow = Array(
+                'alias' => "",
                 'title' => "",
                 'argument' => "",
                 'role_id' => "1,2,",
@@ -44,12 +45,17 @@ class PageFormType extends AbstractType {
             'required' => true,
             'data' => $options['urlLocale']
         ))
+        ->add("alias", TextType::class, Array(
+            'required' => true,
+            'data' => $pageRow['alias']
+        ))
         ->add("parent", ChoiceType::class, Array(
             'required' => false,
             'placeholder' => "pageFormType_1",
             'choices' => $options['choicesParent']
         ))
         ->add("title", TextType::class, Array(
+            'required' => false,
             'data' => $pageRow['title']
         ))
         ->add("controllerAction", TextType::class, Array(

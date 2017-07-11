@@ -52,8 +52,8 @@ class PageViewController extends Controller {
         $this->response['module']['label'] = $moduleEntity->getLabel();
         
         $this->response['values']['controllerAction'] = null;
-        $this->response['values']['title'] = $this->utility->getTranslator()->trans("pageLogicController_1");
-        $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_2");
+        $this->response['values']['title'] = $this->utility->getTranslator()->trans("pageViewController_1");
+        $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_2");
         
         $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
         
@@ -66,7 +66,7 @@ class PageViewController extends Controller {
                 if ($pageRow['protected'] == false && ($pageRow['id'] == 3 || $pageRow['id'] == 4)) {
                     // Page not available with login
                     $this->response['values']['controllerAction'] = null;
-                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_3");
+                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_3");
 
                     return Array(
                         'urlLocale' => $this->urlLocale,
@@ -82,7 +82,7 @@ class PageViewController extends Controller {
                     if ($chekRoleLevel == false && $checkInRoles == false) {
                         // Page not available for role
                         $this->response['values']['controllerAction'] = null;
-                        $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_4");
+                        $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_4");
 
                         return Array(
                             'urlLocale' => $this->urlLocale,
@@ -115,7 +115,7 @@ class PageViewController extends Controller {
                 else {
                     // Page accessible only with login
                     $this->response['values']['controllerAction'] = null;
-                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageLogicController_5");
+                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_5");
                     
                     return Array(
                         'urlLocale' => $this->urlLocale,

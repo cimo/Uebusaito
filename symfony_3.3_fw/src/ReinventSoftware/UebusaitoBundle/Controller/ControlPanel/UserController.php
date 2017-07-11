@@ -152,7 +152,7 @@ class UserController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($userRows, $tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($userRows, $tableResult['list']);
         
         // Form
         $form = $this->createForm(UsersSelectionFormType::class, null, Array(
@@ -333,7 +333,7 @@ class UserController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($userRows, $tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($userRows, $tableResult['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
@@ -420,7 +420,7 @@ class UserController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
     }
     
-    private function listHtml($userRows, $tableResult) {
+    private function createListHtml($userRows, $tableResult) {
         $listHtml = "";
         
         $roleLevel = Array();

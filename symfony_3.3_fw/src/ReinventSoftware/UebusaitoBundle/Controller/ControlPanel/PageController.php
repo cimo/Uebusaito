@@ -151,7 +151,7 @@ class PageController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtmlLogic($tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
         
         // Form
         $form = $this->createForm(PagesSelectionFormType::class, null, Array(
@@ -320,7 +320,7 @@ class PageController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtmlLogic($tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
@@ -404,6 +404,7 @@ class PageController extends Controller {
         $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
         
         if ($pageEntity != null) {
+            $this->response['values']['id'] = $id;
             $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
             
             $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
@@ -424,14 +425,14 @@ class PageController extends Controller {
                 'response' => $this->response,
                 'form' => $form->createView()
             ));
-
+            
             $this->response['render'] = $render;
         }
         else
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
     }
     
-    private function listHtmlLogic($elements) {
+    private function createListHtml($elements) {
         foreach ($elements as $key => $value) {
             $this->listHtml .= "<tr>
                 <td class=\"id_column\">
@@ -439,6 +440,9 @@ class PageController extends Controller {
                 </td>
                 <td class=\"checkbox_column\">
                     <input class=\"display_inline margin_clear\" type=\"checkbox\"/>
+                </td>
+                <td>
+                    {$value['alias']}
                 </td>
                 <td>
                     {$value['title']}
@@ -471,7 +475,7 @@ class PageController extends Controller {
             </tr>";
             
             if (count($value['children']) > 0)
-                $this->listHtmlLogic($value['children']);
+                $this->createListHtml($value['children']);
         }
         
         return $this->listHtml;

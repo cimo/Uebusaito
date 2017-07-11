@@ -297,11 +297,4 @@ function Upload() {
         totalTime = 0;
         timeLeft = 0;
     }
-    
-    /*function refreshImage() {
-        if (tagRefreshImage !== "") {
-            var src = $(tagRefreshImage).prop("src");
-            $(tagRefreshImage).prop("src", src + "?" + new Date().getTime());
-        }
-    };*/
 }

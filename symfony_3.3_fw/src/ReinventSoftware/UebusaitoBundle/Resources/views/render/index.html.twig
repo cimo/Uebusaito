@@ -20,13 +20,15 @@
 {% endblock%}
 
 {% block bodyIncludeTop %}
-    {% if settingRow['active'] == true %}
-        <div class="nav_bar_fix">
-            <p class="logo_big display_desktop">{{websiteName}}</p>
+    <div class="logo_big display_desktop">
+        <img class="display_inline_block" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo_icon.png")}}"/>
+        <p class="display_inline_block">{{websiteName}}</p>
+    </div>
+    {% if (settingRow['active'] == false and is_granted("IS_AUTHENTICATED_FULLY") == false) or urlExtra == "authentication_maintenance" %}
+        <div class="logo_small display_mobile">
+            <img class="display_inline_block" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo_icon.png")}}"/>
+            <p class="display_inline_block">{{websiteName}}</p>
         </div>
-    {% else %}
-        <p class="logo_big display_desktop">{{websiteName}}</p>
-        <p class="logo_message display_mobile">{{websiteName}}</p>
     {% endif %}
 {% endblock %}
 

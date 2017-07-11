@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 08, 2017 alle 13:31
+-- Generato il: Lug 11, 2017 alle 12:58
 -- Versione del server: 5.5.55-0ubuntu0.14.04.1
 -- Versione PHP: 5.5.9-1ubuntu4.21
 
@@ -78,6 +78,7 @@ INSERT INTO `modules` (`id`, `position`, `sort`, `name`, `label`, `file_name`, `
 
 CREATE TABLE IF NOT EXISTS `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `controller_action` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,2,',
@@ -92,20 +93,20 @@ CREATE TABLE IF NOT EXISTS `pages` (
 -- Dump dei dati per la tabella `pages`
 --
 
-INSERT INTO `pages` (`id`, `parent`, `controller_action`, `role_id`, `protected`, `show_in_menu`, `only_link`, `link`) VALUES
-(1, NULL, 'UebusaitoBundle:ControlPanel:render', '1,2,', 1, 0, 0, '-'),
-(2, NULL, NULL, '1,2,', 0, 1, 0, '-'),
-(3, NULL, 'UebusaitoBundle:Registration:render', '1,2,', 0, 0, 0, '-'),
-(4, NULL, 'UebusaitoBundle:RecoverPassword:render', '1,2,', 0, 0, 0, '-'),
-(5, NULL, 'UebusaitoBundle:Search:render', '1,2,', 0, 0, 0, '-'),
-(6, NULL, NULL, '4,', 1, 1, 0, '-'),
-(7, NULL, NULL, '1,2,', 0, 1, 0, '-'),
-(8, 7, NULL, '1,2,', 0, 1, 0, '-'),
-(9, 8, NULL, '1,2,', 0, 1, 0, '-'),
-(10, 8, NULL, '1,2,', 0, 1, 0, '-'),
-(11, 9, NULL, '1,2,', 0, 1, 0, '-'),
-(12, 7, NULL, '1,2,', 0, 1, 1, 'http://www.google.it'),
-(13, 11, NULL, '1,2,', 0, 1, 0, '-');
+INSERT INTO `pages` (`id`, `alias`, `parent`, `controller_action`, `role_id`, `protected`, `show_in_menu`, `only_link`, `link`) VALUES
+(1, 'control_panel', NULL, 'UebusaitoBundle:ControlPanel:render', '1,2,', 1, 0, 0, '-'),
+(2, 'home', NULL, NULL, '1,2,', 0, 1, 0, '-'),
+(3, 'registration', NULL, 'UebusaitoBundle:Registration:render', '1,2,', 0, 0, 0, '-'),
+(4, 'recover_password', NULL, 'UebusaitoBundle:RecoverPassword:render', '1,2,', 0, 0, 0, '-'),
+(5, 'search', NULL, 'UebusaitoBundle:Search:render', '1,2,', 0, 0, 0, '-'),
+(6, 'test', NULL, NULL, '4,', 1, 1, 0, '-'),
+(7, 'test_parent', NULL, NULL, '1,2,', 0, 1, 0, '-'),
+(8, 'test_children_1', 7, NULL, '1,2,', 0, 1, 0, '-'),
+(9, 'test_children_2', 8, NULL, '1,2,', 0, 1, 0, '-'),
+(10, 'test_2', 8, NULL, '1,2,', 0, 1, 0, '-'),
+(11, 'test_children_3', 9, NULL, '1,2,', 0, 1, 0, '-'),
+(12, 'test_1', 7, NULL, '1,2,', 0, 1, 1, 'http://www.google.it'),
+(13, 'test_children_4', 11, NULL, '1,2,', 0, 1, 0, '-');
 
 -- --------------------------------------------------------
 
@@ -128,11 +129,11 @@ CREATE TABLE IF NOT EXISTS `pages_arguments` (
 
 INSERT INTO `pages_arguments` (`id`, `en`, `it`, `jp`) VALUES
 (1, 'Here you can administrate the website, choise the section on bottom menu.', 'Argomento pannello di controllo.', NULL),
-(2, 'This is a cms created with symfony framework.', 'Argomento home.', 'ホームノアーギュメント。'),
+(2, 'This is a cms created with symfony framework.', 'Argomento home.', 'ホームのアーギュメント。'),
 (3, 'Registration argument.', 'Argomento registrazione.', NULL),
 (4, 'Recover password argument.', 'Argomento recupero password.', NULL),
-(5, 'Search argument.', 'Argomento cerca.', 'サーチノアーギュメント。'),
-(6, 'Test argument.', 'Argomento test.', 'テストノアーギュメント。'),
+(5, 'Search argument.', 'Argomento cerca.', 'サーチのアーギュメント。'),
+(6, 'Test argument.', 'Argomento test.', 'テストのアーギュメント。'),
 (7, 'Test parent argument.', 'Argomento test genitore.', NULL),
 (8, 'Test children 1 argument.', 'Argomento test figlio 1.', NULL),
 (9, 'Test children 2 argument.', 'Argomento test figlio 2.', NULL),
@@ -194,11 +195,11 @@ CREATE TABLE IF NOT EXISTS `pages_titles` (
 --
 
 INSERT INTO `pages_titles` (`id`, `en`, `it`, `jp`) VALUES
-(1, 'Control panel title', 'Titolo pannello di controllo', 'コントロールパネルノタイトル'),
-(2, 'Home title', 'Titolo home', 'ホームノタイトル'),
-(3, 'Registration title', 'Titolo registrazione', '登録ノタイトル'),
-(4, 'Recover password title', 'Titolo recupero password', 'パスワードを回復ノタイトル'),
-(5, 'Search title', 'Titolo cerca', 'サーチノタイトル'),
+(1, 'Control panel title', 'Titolo pannello di controllo', 'コントロールパネルのタイトル'),
+(2, 'Home title', 'Titolo home', 'ホームのタイトル'),
+(3, 'Registration title', 'Titolo registrazione', '登録のタイトル'),
+(4, 'Recover password title', 'Titolo recupero password', 'パスワードを回復のタイトル'),
+(5, 'Search title', 'Titolo cerca', 'サーチのタイトル'),
 (6, NULL, NULL, NULL),
 (7, 'Test parent title', 'Titolo test genitore', NULL),
 (8, 'Test children 1 title', 'Titolo test figlio 1', NULL),
@@ -315,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `vat`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_current_login`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
-(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'http://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2016-08-04 10:25:12', '2017-07-08 12:52:28', '2017-07-08 12:51:29', NULL, '95.247.79.253', 0),
+(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'https://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2016-08-04 10:25:12', '2017-07-11 12:25:22', '2017-07-11 09:29:02', NULL, '95.236.60.210', 0),
 (2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 11, 1, '2016-09-10 17:39:31', '2017-07-03 18:12:48', '2017-07-03 18:11:33', NULL, '95.247.79.253', 0),
 (3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, 0);
 

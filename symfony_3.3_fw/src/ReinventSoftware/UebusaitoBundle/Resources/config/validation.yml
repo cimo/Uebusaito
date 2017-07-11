@@ -133,6 +133,13 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_profile]
                 htmlPattern: false
                 pattern: /^[a-z]+$/
+        alias:
+            - NotBlank:
+                groups: [page_creation, page_profile]
+            - Regex:
+                groups: [page_creation, page_profile]
+                htmlPattern: false
+                pattern: /^[a-z_0-9]+$/
         parent:
             - Regex:
                 groups: [page_creation, page_profile]

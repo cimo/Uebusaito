@@ -230,7 +230,7 @@ class ModuleController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
         
         // Form
         $form = $this->createForm(ModulesSelectionFormType::class, null, Array(
@@ -467,7 +467,7 @@ class ModuleController extends Controller {
         
         $this->response['values']['search'] = $tableResult['search'];
         $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->listHtml($tableResult['list']);
+        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
@@ -541,7 +541,7 @@ class ModuleController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
     }
     
-    private function listHtml($elements) {
+    private function createListHtml($elements) {
         $listHtml = "";
         
         foreach ($elements as $key => $value) {

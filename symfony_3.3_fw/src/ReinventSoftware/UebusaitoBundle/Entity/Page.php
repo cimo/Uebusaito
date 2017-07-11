@@ -16,6 +16,11 @@ class Page {
     private $id;
     
     /**
+     * @ORM\Column(name="alias", type="string", columnDefinition="varchar(255) NOT NULL")
+     */
+    private $alias;
+    
+    /**
      * @ORM\Column(name="parent", type="integer", nullable=true, columnDefinition="int(11)")
      */
     private $parent;
@@ -61,6 +66,10 @@ class Page {
      * @ORM\Column(name="link", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $link;
+    
+    public function setAlias($value) {
+        $this->alias = $value;
+    }
     
     public function setParent($value) {
         $this->parent = $value;
@@ -110,6 +119,10 @@ class Page {
     
     public function getId() {
         return $this->id;
+    }
+    
+    public function getAlias() {
+        return $this->alias;
     }
     
     public function getParent() {

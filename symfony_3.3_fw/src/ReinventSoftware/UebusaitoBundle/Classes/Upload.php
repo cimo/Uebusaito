@@ -34,7 +34,7 @@ class Upload {
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         
-        $this->path = "";
+        $this->path = Array();
         $this->inputType = "";
         $this->maxSize = 0;
         $this->type = Array();
@@ -110,30 +110,38 @@ class Upload {
         $content = file_get_contents("php://input");
 
         if ($content != false) {
-            $fopen = fopen($this->path . "/" . $this->tmp, "a");
-            
-            if ($this->maxSize > 0 && filesize($this->path . "/" . $this->tmp) > $this->maxSize) {
-                unlink($this->path . "/" . $this->tmp);
-                
-                return Array(
-                    'status' => 1,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_1") . "<b>" . $this->utility->sizeUnits($this->maxSize) . "</b>"
-                );
-            }
-            else if ($this->checkChunkSize() == false) {
-                return Array(
-                    'status' => 1,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_4")
-                );
-            }
-            else {
-                fwrite($fopen, $content);
-                fclose($fopen);
-                
-                return Array(
-                    'status' => 0,
-                    'tmp' => $this->tmp
-                );
+            foreach($this->path as $key => $value) {
+                $fopen = fopen($value . "/" . $this->tmp, "a");
+
+                if ($this->maxSize > 0 && filesize($value . "/" . $this->tmp) > $this->maxSize) {
+                    fclose($fopen);
+                    
+                    unlink($value . "/" . $this->tmp);
+                    
+                    return Array(
+                        'status' => 1,
+                        'text' => $this->utility->getTranslator()->trans("class_upload_1") . "<b>" . $this->utility->sizeUnits($this->maxSize) . "</b>"
+                    );
+                }
+                else if ($this->checkChunkSize($value) == false) {
+                    fclose($fopen);
+                    
+                    return Array(
+                        'status' => 1,
+                        'text' => $this->utility->getTranslator()->trans("class_upload_4")
+                    );
+                }
+                else {
+                    fwrite($fopen, $content);
+                    fclose($fopen);
+                    
+                    if ($key == count($this->path) - 1) {
+                        return Array(
+                            'status' => 0,
+                            'tmp' => $this->tmp
+                        );
+                    }
+                }
             }
         }
         else {
@@ -144,74 +152,86 @@ class Upload {
     }
     
     function finish() {
-        if (file_exists($this->path . "/" . $this->tmp) == true) {
-            if ($this->imageWidth > 0 ||  $this->imageHeight > 0)
-                $imageSize = getimagesize($this->path . "/" . $this->tmp);
-            
-            if ($this->maxSize > 0 && filesize($this->path . "/" . $this->tmp) > $this->maxSize) {
-                unlink($this->path . "/" . $this->tmp);
-                
-                return Array(
-                    'status' => 1,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_1") . "<b>" . $this->utility->sizeUnits($this->maxSize) . "</b>"
-                );
-            }
-            else if (in_array(mime_content_type($this->path . "/" . $this->tmp), $this->type) === false) {
-                unlink($this->path . "/" . $this->tmp);
-                
-                return Array(
-                    'status' => 1,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_2") . "<b>" . implode(", ", $this->type) . "</b>"
-                );
-            }
-            else if ($this->imageWidth > 0 && $imageSize[0] > $this->imageWidth || $this->imageHeight > 0 && $imageSize[1] > $this->imageHeight) {
-                unlink($this->path . "/" . $this->tmp);
+        foreach($this->path as $key => $value) {
+            if (file_exists($value . "/" . $this->tmp) == true) {
+                if ($this->imageWidth > 0 ||  $this->imageHeight > 0)
+                    $imageSize = getimagesize($value . "/" . $this->tmp);
 
-                return Array(
-                    'status' => 1,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_3") . "<b>{$this->imageWidth} px - {$this->imageHeight} px</b>"
-                );
+                if ($this->maxSize > 0 && filesize($value . "/" . $this->tmp) > $this->maxSize) {
+                    unlink($value . "/" . $this->tmp);
+                    
+                    if ($key == count($this->path) - 1) {
+                        return Array(
+                            'status' => 1,
+                            'text' => $this->utility->getTranslator()->trans("class_upload_1") . "<b>" . $this->utility->sizeUnits($this->maxSize) . "</b>"
+                        );
+                    }
+                }
+                else if (in_array(mime_content_type($value . "/" . $this->tmp), $this->type) === false) {
+                    unlink($value . "/" . $this->tmp);
+                    
+                    if ($key == count($this->path) - 1) {
+                        return Array(
+                            'status' => 1,
+                            'text' => $this->utility->getTranslator()->trans("class_upload_2") . "<b>" . implode(", ", $this->type) . "</b>"
+                        );
+                    }
+                }
+                else if ($this->imageWidth > 0 && $imageSize[0] > $this->imageWidth || $this->imageHeight > 0 && $imageSize[1] > $this->imageHeight) {
+                    unlink($value . "/" . $this->tmp);
+                    
+                    if ($key == count($this->path) - 1) {
+                        return Array(
+                            'status' => 1,
+                            'text' => $this->utility->getTranslator()->trans("class_upload_3") . "<b>{$this->imageWidth} px - {$this->imageHeight} px</b>"
+                        );
+                    }
+                }
+                else {
+                    if ($this->nameOverwrite != "")
+                        $this->name =  $this->nameOverwrite . "." . pathinfo($this->name, PATHINFO_EXTENSION);
+
+                    @rename($value . "/" . $this->tmp, $value . "/" . $this->name);
+                    
+                    if ($key == count($this->path) - 1) {
+                        return Array(
+                            'text' => $this->utility->getTranslator()->trans("class_upload_5")
+                        );
+                    }
+                }
             }
             else {
-                if ($this->nameOverwrite != "")
-                    $this->name =  $this->nameOverwrite . "." . pathinfo($this->name, PATHINFO_EXTENSION);
-
-                @rename($this->path . "/" . $this->tmp, $this->path . "/" . $this->name);
-
                 return Array(
-                    'text' => $this->utility->getTranslator()->trans("class_upload_5")
+                    'text' => $this->utility->getTranslator()->trans("class_upload_6")
                 );
             }
-        }
-        else {
-            return Array(
-                'text' => $this->utility->getTranslator()->trans("class_upload_6")
-            );
         }
     }
     
     function abort() {
-        if (file_exists($this->path . "/" . $this->tmp) == true)
-            unlink($this->path . "/" . $this->tmp);
+        foreach($this->path as $key => $value) {
+            if (file_exists($value . "/" . $this->tmp) == true)
+                unlink($value . "/" . $this->tmp);
+        }
         
         return Array(
             'text' => $this->utility->getTranslator()->trans("class_upload_7")
         );
     }
     
-    function checkChunkSize() {
-        $fopen = fopen($this->path . "/check_" . $this->tmp, "a");
+    function checkChunkSize($value) {
+        $fopen = fopen($value . "/check_" . $this->tmp, "a");
         $fstat = fstat($fopen);
         $size = array_slice($fstat, 13)['size'];
         fclose($fopen);
 
         if ($size > $this->chunkSize) {
-            unlink($this->path . "/check_" . $this->tmp);
+            unlink($value . "/check_" . $this->tmp);
 
             return false;
         }
         else
-            unlink($this->path . "/check_" . $this->tmp);
+            unlink($value . "/check_" . $this->tmp);
         
         return true;
     }

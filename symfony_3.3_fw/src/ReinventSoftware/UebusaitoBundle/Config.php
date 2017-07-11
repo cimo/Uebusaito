@@ -3,14 +3,19 @@ namespace ReinventSoftware\UebusaitoBundle;
 
 class Config {
     // Vars
+    private $databaseConnectionFields;
     private $protocol;
     private $pathRoot;
     private $urlRoot;
+    private $supportSymlink;
     private $file;
-    private $databaseConnectionFields;
     private $name;
     
     // Properties
+    public function getDatabaseConnectionFields() {
+        return $this->databaseConnectionFields;
+    }
+    
     public function getProtocol() {
         return $this->protocol;
     }
@@ -23,12 +28,12 @@ class Config {
         return $this->urlRoot;
     }
     
-    public function getFile() {
-        return $this->file;
+    public function getSupportSymlink() {
+        return $this->supportSymlink;
     }
     
-    public function getDatabaseConnectionFields() {
-        return $this->databaseConnectionFields;
+    public function getFile() {
+        return $this->file;
     }
     
     public function getName() {
@@ -37,11 +42,12 @@ class Config {
     
     // Functions public
     public function __construct() {
+        $this->databaseConnectionFields = Array("", "", "");
         $this->protocol = isset($_SERVER['HTTPS']) == true ? "https://" : "http://";
         $this->pathRoot = "/uebusaito/symfony_3.3_fw";
         $this->urlRoot = "/uebusaito/symfony_3.3_fw/web";
+        $this->supportSymlink = true;
         $this->file = "/app_dev.php";
-        $this->databaseConnectionFields = Array("", "", "");
         $this->name = "Uebusaito 1.0";
     }
     

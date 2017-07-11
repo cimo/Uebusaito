@@ -4,22 +4,22 @@
     <div class="col-md-12">
         <h3>{% trans %}page_creation_1{% endtrans %}</h3>
         <form id="form_cp_page_creation" action="{{path("cp_page_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            {{form_row(form.parent, {'label': "page_creation_2"})}}
-            
             <div class="form-group">
-                {{form_label(form.title, "page_creation_3")}}
+                {{form_label(form.alias, "page_creation_2")}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-header"></i></span>
-                    {{form_errors(form.title)}}
-                    {{form_widget(form.title)}}
+                    {{form_errors(form.alias)}}
+                    {{form_widget(form.alias)}}
                 </div>
             </div>
             
-            {{form_row(form.controllerAction, {'label': "page_creation_4"})}}
-            {{form_row(form.argument, {'label': "page_creation_5"})}}
+            {{form_row(form.parent, {'label': "page_creation_3"})}}
+            {{form_row(form.title, {'label': "page_creation_4"})}}
+            {{form_row(form.controllerAction, {'label': "page_creation_5"})}}
+            {{form_row(form.argument, {'label': "page_creation_6"})}}
             
             <div id="form_page_roleId_wordTag_container" class="form-group">
-                {{form_label(form.roleId, "page_creation_6")}}
+                {{form_label(form.roleId, "page_creation_7")}}
                 {{form_errors(form.roleId)}}
                 {{form_widget(form.roleId)}}
                 <div class="input-group">
@@ -28,11 +28,11 @@
                 </div>
             </div>
                 
-            {{form_row(form.protected, {'label': "page_creation_7"})}}
-            {{form_row(form.showInMenu, {'label': "page_creation_8"})}}
-            {{form_row(form.menuName, {'label': "page_creation_9"})}}
-            {{form_row(form.onlyLink, {'label': "page_creation_10"})}}
-            {{form_row(form.link, {'label': "page_creation_11"})}}
+            {{form_row(form.protected, {'label': "page_creation_8"})}}
+            {{form_row(form.showInMenu, {'label': "page_creation_9"})}}
+            {{form_row(form.menuName, {'label': "page_creation_10"})}}
+            {{form_row(form.onlyLink, {'label': "page_creation_11"})}}
+            {{form_row(form.link, {'label': "page_creation_12"})}}
 
             {{form_widget(form._token)}}
 
