@@ -16,19 +16,24 @@ class Setting {
     private $id;
     
     /**
-     * @ORM\Column(name="email_admin", type="string", columnDefinition="varchar(255) NOT NULL")
-     */
-    private $emailAdmin;
-    
-    /**
      * @ORM\Column(name="template", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'uebusaito'")
      */
     private $template;
     
     /**
+     * @ORM\Column(name="template_style", type="integer", columnDefinition="int(1) NOT NULL DEFAULT '1'")
+     */
+    private $templateStyle;
+    
+    /**
      * @ORM\Column(name="language", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT 'en'")
      */
     private $language;
+    
+    /**
+     * @ORM\Column(name="email_admin", type="string", columnDefinition="varchar(255) NOT NULL")
+     */
+    private $emailAdmin;
     
     /**
      * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
@@ -90,16 +95,20 @@ class Setting {
      */
     private $credits;
     
-    public function setEmailAdmin($value) {
-        $this->emailAdmin = $value;
-    }
-    
     public function setTemplate($value) {
         $this->template = $value;
     }
     
+    public function setTemplateStyle($value) {
+        $this->templateStyle = $value;
+    }
+    
     public function setLanguage($value) {
         $this->language = $value;
+    }
+    
+    public function setEmailAdmin($value) {
+        $this->emailAdmin = $value;
     }
     
     public function setActive($value) {
@@ -156,16 +165,20 @@ class Setting {
         return $this->id;
     }
     
-    public function getEmailAdmin() {
-        return $this->emailAdmin;
-    }
-    
     public function getTemplate() {
         return $this->template;
     }
     
+    public function getTemplateStyle() {
+        return $this->templateStyle;
+    }
+    
     public function getLanguage() {
         return $this->language;
+    }
+    
+    public function getEmailAdmin() {
+        return $this->emailAdmin;
     }
     
     public function getActive() {

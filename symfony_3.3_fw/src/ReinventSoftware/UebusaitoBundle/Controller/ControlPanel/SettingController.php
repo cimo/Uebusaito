@@ -77,10 +77,13 @@ class SettingController extends Controller {
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
+                if ($form->get("templateStyle")->getData() != $settingRow['template_style'])
+                    $this->modulesDatabase($form->get("templateStyle")->getData());
+                
                 // Update in database
                 $this->entityManager->persist($settingEntity);
                 $this->entityManager->flush();
-
+                    
                 if ($form->get("https")->getData() != $settingRow['https']) {
                     $this->utility->getTokenStorage()->setToken(null);
                     
@@ -243,6 +246,92 @@ class SettingController extends Controller {
             $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles ADD $codeTmp VARCHAR(255);
                                                                 ALTER TABLE pages_arguments ADD $codeTmp LONGTEXT;
                                                                 ALTER TABLE pages_menu_names ADD $codeTmp VARCHAR(255);");
+            
+            $query->execute();
+        }
+    }
+    
+    private function modulesDatabase($templateStyle) {
+        if ($templateStyle == 1) {
+            $query = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                SET position_tmp = :positionTmp,
+                                                                    position = :position
+                                                                WHERE id != :id
+                                                                AND position_tmp = :position");
+            
+            $query->bindValue(":id", 3);
+            $query->bindValue(":positionTmp", "");
+            $query->bindValue(":position", "right");
+            
+            $query->execute();
+            
+            $query->bindValue(":positionTmp", "");
+            $query->bindValue(":position", "left");
+            
+            $query->execute();
+        }
+        else if ($templateStyle == 2 || $templateStyle == 3 || $templateStyle == 4) {
+            $query = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                SET position_tmp = :positionTmp,
+                                                                    position = :position
+                                                                WHERE position = :positionTmp");
+            
+            if ($templateStyle == 2) {
+                $query->bindValue(":positionTmp", "right");
+                $query->bindValue(":position", "center");
+                
+                $query->execute();
+                
+                $query = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                    SET position_tmp = :positionTmp,
+                                                                        position = :position
+                                                                    WHERE position_tmp = :position");
+
+                $query->bindValue(":positionTmp", "");
+                $query->bindValue(":position", "left");
+            }
+            else if ($templateStyle == 3) {
+                $query->bindValue(":positionTmp", "left");
+                $query->bindValue(":position", "center");
+                
+                $query->execute();
+                
+                $query = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                    SET position_tmp = :positionTmp,
+                                                                        position = :position
+                                                                    WHERE position_tmp = :position");
+
+                $query->bindValue(":positionTmp", "");
+                $query->bindValue(":position", "right");
+            }
+            else if ($templateStyle == 4) {
+                $query->bindValue(":positionTmp", "right");
+                $query->bindValue(":position", "center");
+
+                $query->execute();
+
+                $query->bindValue(":positionTmp", "left");
+                $query->bindValue(":position", "center");
+            }
+            
+            $query->execute();
+        }
+        
+        $this->modulesSort("left");
+        $this->modulesSort("center");
+        $this->modulesSort("right");
+    }
+    
+    private function modulesSort($position) {
+        $moduleRows = $this->query->selectAllModulesDatabase(null, $position);
+        
+        foreach($moduleRows as $key => $value) {
+            $query = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                SET sort = :sort
+                                                                WHERE id = :id");
+            
+            $query->bindValue(":sort", $key);
+            $query->bindValue(":id", $value['id']);
             
             $query->execute();
         }

@@ -7,8 +7,20 @@
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_2{% endtrans %}</legend>
                 <div class="content">
-                    {{form_row(form.emailAdmin, {'label': "settings_3"})}}
-                    {{form_row(form.template, {'label': "settings_4"})}}
+                    {{form_row(form.template, {'label': "settings_3"})}}
+                    
+                    <div class="form-group">
+                        {{form_label(form.templateStyle, "settings_4")}}
+                        <div class="input-group">
+                            {{form_errors(form.templateStyle)}}
+                            {% for key, value in form.templateStyle %}
+                                <div class="display_inline_block">
+                                    {{form_widget(value)}}
+                                    <img class="display_inline_block margin_right" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/template_style_" ~ key ~ ".png")}}"/>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         {{form_label(form.language, "settings_5")}}
@@ -38,10 +50,11 @@
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_7{% endtrans %}</legend>
                 <div class="content">
-                    {{form_row(form.active, {'label': "settings_8"})}}
+                    {{form_row(form.emailAdmin, {'label': "settings_8"})}}
+                    {{form_row(form.active, {'label': "settings_9"})}}
 
                     <div id="form_settings_roleId_wordTag_container" class="form-group">
-                        {{form_label(form.roleId, "settings_9")}}
+                        {{form_label(form.roleId, "settings_10")}}
                         {{form_errors(form.roleId)}}
                         {{form_widget(form.roleId)}}
                         <div class="input-group">
@@ -50,19 +63,19 @@
                         </div>
                     </div>
 
-                    {{form_row(form.https, {'label': "settings_10"})}}
-                    {{form_row(form.registrationUserConfirmAdmin, {'label': "settings_11"})}}
-                    {{form_row(form.loginAttemptTime, {'label': "settings_12"})}}
-                    {{form_row(form.loginAttemptCount, {'label': "settings_13"})}}
-                    {{form_row(form.captcha, {'label': "settings_14"})}}
+                    {{form_row(form.https, {'label': "settings_11"})}}
+                    {{form_row(form.registrationUserConfirmAdmin, {'label': "settings_12"})}}
+                    {{form_row(form.loginAttemptTime, {'label': "settings_13"})}}
+                    {{form_row(form.loginAttemptCount, {'label': "settings_14"})}}
+                    {{form_row(form.captcha, {'label': "settings_15"})}}
                 </div>
             </fieldset>
             
             <fieldset class="accordion_container">
-                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_15{% endtrans %}</legend>
+                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_16{% endtrans %}</legend>
                 <div class="content">
                     <div class="form-group">
-                        {{form_label(form.payPalSandbox, "settings_16")}}
+                        {{form_label(form.payPalSandbox, "settings_17")}}
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
                             {{form_errors(form.payPalSandbox)}}
@@ -71,7 +84,7 @@
                     </div>
 
                     <div class="form-group">
-                        {{form_label(form.payPalBusiness, "settings_17")}}
+                        {{form_label(form.payPalBusiness, "settings_18")}}
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
                             {{form_errors(form.payPalBusiness)}}
@@ -80,7 +93,7 @@
                     </div>
 
                     <div class="form-group">
-                        {{form_label(form.payPalCurrencyCode, "settings_18")}}
+                        {{form_label(form.payPalCurrencyCode, "settings_19")}}
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
                             {{form_errors(form.payPalCurrencyCode)}}
@@ -89,7 +102,7 @@
                     </div>
 
                     <div class="form-group">
-                        {{form_label(form.payPalCreditAmount, "settings_19")}}
+                        {{form_label(form.payPalCreditAmount, "settings_20")}}
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
                             {{form_errors(form.payPalCreditAmount)}}
@@ -100,9 +113,9 @@
             </fieldset>
             
             <fieldset class="accordion_container">
-                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_20{% endtrans %}</legend>
+                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_21{% endtrans %}</legend>
                 <div class="content">
-                    {{form_row(form.credits, {'label': "settings_21"})}}
+                    {{form_row(form.credits, {'label': "settings_22"})}}
                 </div>
             </fieldset>
 

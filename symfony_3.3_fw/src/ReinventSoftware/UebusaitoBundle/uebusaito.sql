@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 11, 2017 alle 12:58
+-- Generato il: Lug 14, 2017 alle 12:15
 -- Versione del server: 5.5.55-0ubuntu0.14.04.1
 -- Versione PHP: 5.5.9-1ubuntu4.21
 
@@ -50,6 +50,7 @@ INSERT INTO `languages` (`id`, `code`) VALUES
 CREATE TABLE IF NOT EXISTS `modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` varchar(6) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'center',
+  `position_tmp` varchar(6) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `sort` int(11) DEFAULT '0',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -62,13 +63,13 @@ CREATE TABLE IF NOT EXISTS `modules` (
 -- Dump dei dati per la tabella `modules`
 --
 
-INSERT INTO `modules` (`id`, `position`, `sort`, `name`, `label`, `file_name`, `active`) VALUES
-(1, 'header', 2, 'Menu root', 'module_1', 'menu_root.html.twig', 1),
-(2, 'left', 0, 'Authentication', 'module_2', 'authentication.html.twig', 1),
-(3, 'center', 0, 'Page', 'module_3', 'page_view.html.twig', 1),
-(4, 'header', 0, 'Language', 'module_4', 'language_text.html.twig', 1),
-(5, 'header', 1, 'Search', 'module_5', 'search.html.twig', 1),
-(6, 'right', 0, 'Empty', 'module_6', 'empty.html.twig', 1);
+INSERT INTO `modules` (`id`, `position`, `position_tmp`, `sort`, `name`, `label`, `file_name`, `active`) VALUES
+(1, 'header', '', 2, 'Menu root', 'module_1', 'menu_root.html.twig', 1),
+(2, 'left', '', 0, 'Authentication', 'module_2', 'authentication.html.twig', 1),
+(3, 'center', '', 0, 'Page', 'module_3', 'page_view.html.twig', 1),
+(4, 'header', '', 0, 'Language', 'module_4', 'language_text.html.twig', 1),
+(5, 'header', '', 1, 'Search', 'module_5', 'search.html.twig', 1),
+(6, 'right', '', 0, 'Empty', 'module_6', 'empty.html.twig', 1);
 
 -- --------------------------------------------------------
 
@@ -252,6 +253,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email_admin` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `template` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'basic',
+  `template_style` int(1) NOT NULL DEFAULT '1',
   `language` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'en',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '2,4',
@@ -272,8 +274,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- Dump dei dati per la tabella `settings`
 --
 
-INSERT INTO `settings` (`id`, `email_admin`, `template`, `language`, `active`, `role_id`, `https`, `registration_user_confirm_admin`, `login_attempt_time`, `login_attempt_count`, `captcha`, `payPal_sandbox`, `payPal_business`, `payPal_currency_code`, `payPal_credit_amount`, `credits`) VALUES
-(1, 'user_1@reinventsoftware.org', 'basic', 'en', 1, '2,3,', 1, 0, 15, 3, 0, 1, 'paypal.business@gmail.com', 'USD', '0.01', 1);
+INSERT INTO `settings` (`id`, `email_admin`, `template`, `template_style`, `language`, `active`, `role_id`, `https`, `registration_user_confirm_admin`, `login_attempt_time`, `login_attempt_count`, `captcha`, `payPal_sandbox`, `payPal_business`, `payPal_currency_code`, `payPal_credit_amount`, `credits`) VALUES
+(1, 'user_1@reinventsoftware.org', 'basic', 1, 'en', 1, '2,3,', 1, 0, 15, 3, 0, 1, 'paypal.business@gmail.com', 'USD', '0.01', 1);
 
 -- --------------------------------------------------------
 
@@ -316,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `vat`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_current_login`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
-(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'https://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2016-08-04 10:25:12', '2017-07-11 12:25:22', '2017-07-11 09:29:02', NULL, '95.236.60.210', 0),
+(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'https://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2016-08-04 10:25:12', '2017-07-14 11:44:46', '2017-07-13 23:46:03', NULL, '95.236.60.210', 0),
 (2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 11, 1, '2016-09-10 17:39:31', '2017-07-03 18:12:48', '2017-07-03 18:11:33', NULL, '95.247.79.253', 0),
 (3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, 0);
 

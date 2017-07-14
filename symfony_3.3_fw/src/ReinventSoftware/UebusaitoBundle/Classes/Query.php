@@ -221,7 +221,7 @@ class Query {
         else if ($id != null && $position != null) {
             $query = $this->connection->prepare("SELECT * FROM modules
                                                     WHERE position = :position
-                                                    UNION
+                                                UNION
                                                 SELECT * FROM modules
                                                     WHERE id = :id");
             

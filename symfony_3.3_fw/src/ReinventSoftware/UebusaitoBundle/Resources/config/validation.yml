@@ -324,13 +324,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Role:
 
 ReinventSoftware\UebusaitoBundle\Entity\Setting:
     properties:
-        emailAdmin:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
         template:
             - NotBlank:
                 groups: [settings]
@@ -338,6 +331,13 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_0-9]+$/
+        templateStyle:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[1-4]+$/
         language:
             - NotBlank:
                 groups: [settings]
@@ -345,6 +345,13 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[a-z]{2}$/
+        emailAdmin:
+            - NotBlank:
+                groups: [settings]
+            - Regex:
+                groups: [settings]
+                htmlPattern: false
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
         active:
             - NotBlank:
                 groups: [settings]
