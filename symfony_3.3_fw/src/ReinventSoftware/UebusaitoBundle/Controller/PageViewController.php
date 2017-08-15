@@ -44,6 +44,8 @@ class PageViewController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find(3);
@@ -60,7 +62,7 @@ class PageViewController extends Controller {
         if ($pageRow != false) {
             $this->response['values']['controllerAction'] = $pageRow['controller_action'];
             $this->response['values']['title'] = $pageRow['title'];
-            $this->response['values']['argument'] = $pageRow['argument'];
+            $this->response['values']['argument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "utf-8");
             
             if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
                 if ($pageRow['protected'] == false && ($pageRow['id'] == 3 || $pageRow['id'] == 4)) {

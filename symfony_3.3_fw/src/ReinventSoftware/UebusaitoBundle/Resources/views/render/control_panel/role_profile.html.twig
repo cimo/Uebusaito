@@ -15,7 +15,7 @@
             
             {{form_widget(form._token)}}
 
-            <input class="btn btn-primary" type="submit" value="{% trans %}button_3{% endtrans %}"/>
+            <input class="button_custom" type="submit" value="{% trans %}button_3{% endtrans %}"/>
         </form>
         
         {% if is_granted("ROLE_ADMIN") == true and urlExtra > 2 %}

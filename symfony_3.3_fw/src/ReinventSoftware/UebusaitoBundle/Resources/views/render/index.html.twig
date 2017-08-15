@@ -12,22 +12,27 @@
     <!-- Css -->
     <link href="{{asset("bundles/uebusaito/css/lib/jquery-ui_1.12.1.min.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/lib/jquery-ui_1.12.1_structure.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/lib/jquery-te_1.4.0.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/lib/bootstrap_3.3.7.min.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/lib/bootstrap-switch_3.3.2.min.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/lib/font-awesome_4.7.0_custom.min.css")}}" rel="stylesheet">
     <link href="{{asset("bundles/uebusaito/css/" ~ settingRow['template'] ~ ".css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/loader_1.0.0.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/flashBag_1.0.0.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/table_1.0.0.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/captcha_1.0.0.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/upload_1.0.0.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/wysiwyg_1.0.0.css")}}" rel="stylesheet"/>
 {% endblock%}
 
 {% block bodyIncludeTop %}
     <div class="logo_big display_desktop">
-        <img class="display_inline_block" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo_icon.png")}}"/>
-        <p class="display_inline_block">{{websiteName}}</p>
+        <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+        <p class="logo_text">{{websiteName}}</p>
     </div>
     {% if (settingRow['active'] == false and is_granted("IS_AUTHENTICATED_FULLY") == false) or urlExtra == "authentication_maintenance" %}
         <div class="logo_small display_mobile">
-            <img class="display_inline_block" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo_icon.png")}}"/>
-            <p class="display_inline_block">{{websiteName}}</p>
+            <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+            <p class="logo_text">{{websiteName}}</p>
         </div>
     {% endif %}
 {% endblock %}
@@ -80,8 +85,8 @@
                                 <a href="{{path("root_render", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "authentication_maintenance"})}}">
                                     <i class="fa fa-wrench fa-5x"></i>
                                 </a>
-                                <h1 class="h1_big">{% trans %}index_1{% endtrans %}</h1>
-                                <h1 class="h1_big">{% trans %}index_2{% endtrans %}</h1>
+                                <h1 class="title_big">{% trans %}index_1{% endtrans %}</h1>
+                                <h1 class="title_big">{% trans %}index_2{% endtrans %}</h1>
                             </div>
                         {% endif %}
                     {% endif %}
@@ -181,12 +186,18 @@
             'warning': "{{"index_3"|trans}}",
             'ok': "{{"index_4"|trans}}",
             'abort': "{{"index_5"|trans}}",
-            'ajaxConnectionError': "{{"index_6"|trans}}"
+            'ajaxConnectionError': "{{"index_6"|trans}}",
+            'wysiwyg_1': "{{"wysiwyg_1"|trans}}",
+            'wysiwyg_2': "{{"wysiwyg_2"|trans}}",
+            'wysiwyg_3': "{{"wysiwyg_3"|trans}}",
+            'wysiwyg_4': "{{"wysiwyg_4"|trans}}",
+            'wysiwyg_5': "{{"wysiwyg_5"|trans}}"
         };
 
         var settings = {
-            'maxWidth': "992px",
-            'minWidth': "992px",
+            'maxWidth': 992,
+            'middleWidth': 1300,
+            'minWidth': 993,
             'template': "{{settingRow['template']}}",
             'language': "{{settingRow['language']}}",
             'active': "{{settingRow['active']}}"
@@ -195,20 +206,20 @@
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery_3.1.1.min.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery-ui_1.12.1.min.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery-mobile_1.5.0.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery-te_1.4.0.min.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/bootstrap_3.3.7.min.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/bootstrap-switch_3.3.2.min.js")}}"></script>
     <!--[if lte IE 9]>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/media-match_2.0.2.min.js")}}"></script>
     <![endif]-->
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Utility.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Ajax.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Loader.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/FlashBag.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/PopupEasy.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Table.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Captcha.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Upload.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Utility_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Ajax_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Loader_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/FlashBag_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/PopupEasy_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Table_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Captcha_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Upload_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Wysiwyg_1.0.0.js")}}"></script>
 
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Language.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Search.js")}}"></script>

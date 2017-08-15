@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
+-- version 4.5.4.1deb2ubuntu2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 14, 2017 alle 12:15
--- Versione del server: 5.5.55-0ubuntu0.14.04.1
--- Versione PHP: 5.5.9-1ubuntu4.21
+-- Creato il: Ago 15, 2017 alle 23:17
+-- Versione del server: 5.7.19-0ubuntu0.16.04.1
+-- Versione PHP: 7.0.18-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `uebusaito`
@@ -26,11 +26,10 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `languages`
 --
 
-CREATE TABLE IF NOT EXISTS `languages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+CREATE TABLE `languages` (
+  `id` int(11) NOT NULL,
+  `code` varchar(2) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `languages`
@@ -47,17 +46,16 @@ INSERT INTO `languages` (`id`, `code`) VALUES
 -- Struttura della tabella `modules`
 --
 
-CREATE TABLE IF NOT EXISTS `modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `modules` (
+  `id` int(11) NOT NULL,
   `position` varchar(6) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'center',
   `position_tmp` varchar(6) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `sort` int(11) DEFAULT '0',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `active` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+  `active` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `modules`
@@ -77,8 +75,8 @@ INSERT INTO `modules` (`id`, `position`, `position_tmp`, `sort`, `name`, `label`
 -- Struttura della tabella `pages`
 --
 
-CREATE TABLE IF NOT EXISTS `pages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pages` (
+  `id` int(11) NOT NULL,
   `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `parent` int(11) DEFAULT NULL,
   `controller_action` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -86,9 +84,8 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `protected` tinyint(1) NOT NULL DEFAULT '0',
   `show_in_menu` tinyint(1) NOT NULL DEFAULT '1',
   `only_link` tinyint(1) NOT NULL DEFAULT '1',
-  `link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
+  `link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `pages`
@@ -115,33 +112,31 @@ INSERT INTO `pages` (`id`, `alias`, `parent`, `controller_action`, `role_id`, `p
 -- Struttura della tabella `pages_arguments`
 --
 
-CREATE TABLE IF NOT EXISTS `pages_arguments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pages_arguments` (
+  `id` int(11) NOT NULL,
   `en` longtext COLLATE utf8_unicode_ci,
   `it` longtext COLLATE utf8_unicode_ci,
-  `jp` longtext COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`),
-  KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
+  `jp` longtext COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `pages_arguments`
 --
 
 INSERT INTO `pages_arguments` (`id`, `en`, `it`, `jp`) VALUES
-(1, 'Here you can administrate the website, choise the section on bottom menu.', 'Argomento pannello di controllo.', NULL),
-(2, 'This is a cms created with symfony framework.', 'Argomento home.', 'ホームのアーギュメント。'),
-(3, 'Registration argument.', 'Argomento registrazione.', NULL),
-(4, 'Recover password argument.', 'Argomento recupero password.', NULL),
-(5, 'Search argument.', 'Argomento cerca.', 'サーチのアーギュメント。'),
-(6, 'Test argument.', 'Argomento test.', 'テストのアーギュメント。'),
-(7, 'Test parent argument.', 'Argomento test genitore.', NULL),
-(8, 'Test children 1 argument.', 'Argomento test figlio 1.', NULL),
-(9, 'Test children 2 argument.', 'Argomento test figlio 2.', NULL),
-(10, 'Test 2 argument.', 'Argomento test 2.', NULL),
-(11, 'Test children 3 argument.', 'Argomento test figlio 3.', NULL),
-(12, 'Test 1 argument.', 'Argomento test 1.', NULL),
-(13, 'Test children 4 argument.', 'Argomento test figlio 4.', NULL);
+(1, '&lt;p&gt;Here you can administrate the website, choise the section on bottom menu.&lt;/p&gt;', '&lt;p&gt;Argomento pannello di controllo.&lt;/p&gt;', '&lt;p&gt;コントロールパネルのアーギュメント。&lt;/p&gt;'),
+(2, '&lt;p&gt;This is a cms created with symfony framework.&lt;/p&gt;', '&lt;p&gt;Argomento home.&lt;/p&gt;', '&lt;p&gt;ホームのアーギュメント。&lt;/p&gt;'),
+(3, '&lt;p&gt;Registration argument.&lt;/p&gt;', '&lt;p&gt;Argomento registrazione.&lt;/p&gt;', '&lt;p&gt;登録のアーギュメント。&lt;/p&gt;'),
+(4, '&lt;p&gt;Recover password argument.&lt;/p&gt;', '&lt;p&gt;Argomento recupero password.&lt;/p&gt;', '&lt;p&gt;パスワードを回復のアーギュメント。&lt;/p&gt;'),
+(5, '&lt;p&gt;Search argument.&lt;/p&gt;', '&lt;p&gt;Argomento cerca.&lt;/p&gt;', '&lt;p&gt;サーチのアーギュメント。&lt;/p&gt;'),
+(6, '&lt;p&gt;Test argument.&lt;/p&gt;', '&lt;p&gt;Argomento test.&lt;/p&gt;', NULL),
+(7, '&lt;p&gt;Test parent argument.&lt;/p&gt;', '&lt;p&gt;Argomento test genitore.&lt;/p&gt;', NULL),
+(8, '&lt;p&gt;Test children 1 argument.&lt;/p&gt;', '&lt;p&gt;Argomento test figlio 1.&lt;/p&gt;', NULL),
+(9, '&lt;p&gt;Test children 2 argument.&lt;/p&gt;', '&lt;p&gt;Argomento test figlio 2.&lt;/p&gt;', NULL),
+(10, '&lt;p&gt;Test 2 argument.&lt;/p&gt;', '&lt;p&gt;Argomento test 2.&lt;/p&gt;', NULL),
+(11, '&lt;p&gt;Test children 3 argument.&lt;/p&gt;', '&lt;p&gt;Argomento test figlio 3.&lt;/p&gt;', NULL),
+(12, '&lt;p&gt;Test 1 argument.&lt;/p&gt;', '&lt;p&gt;Argomento test 1.&lt;/p&gt;', NULL),
+(13, '&lt;p&gt;Test children 4 argument.&lt;/p&gt;', '&lt;p&gt;Argomento test figlio 4.&lt;/p&gt;', NULL);
 
 -- --------------------------------------------------------
 
@@ -149,13 +144,12 @@ INSERT INTO `pages_arguments` (`id`, `en`, `it`, `jp`) VALUES
 -- Struttura della tabella `pages_menu_names`
 --
 
-CREATE TABLE IF NOT EXISTS `pages_menu_names` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `en` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `it` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
+CREATE TABLE `pages_menu_names` (
+  `id` int(11) NOT NULL,
+  `en` varchar(255) COLLATE utf8_unicode_ci DEFAULT '-',
+  `it` varchar(255) COLLATE utf8_unicode_ci DEFAULT '-',
+  `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT '-'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `pages_menu_names`
@@ -163,18 +157,18 @@ CREATE TABLE IF NOT EXISTS `pages_menu_names` (
 
 INSERT INTO `pages_menu_names` (`id`, `en`, `it`, `jp`) VALUES
 (1, '-', '-', '-'),
-(2, 'Home', 'Home', 'ホーム'),
+(2, 'Home', 'Home', '-'),
 (3, '-', '-', '-'),
 (4, '-', '-', '-'),
 (5, '-', '-', '-'),
-(6, 'Test', 'Test', 'テスト'),
-(7, 'Test parent', 'Test genitore', NULL),
-(8, 'Test children 1', 'Test figlio 1', NULL),
-(9, 'Test children 2', 'Test figlio 2', NULL),
-(10, 'Test 2', 'Test 2', NULL),
-(11, 'Test children 3', 'Test figlio 3', NULL),
-(12, 'Test 1', 'Test 1', NULL),
-(13, 'Test children 4', 'Test figlio 4', NULL);
+(6, 'Test', 'Test', '-'),
+(7, 'Test parent', 'Test genitore', '-'),
+(8, 'Test children 1', 'Test figlio 1', '-'),
+(9, 'Test children 2', 'Test figlio 2', '-'),
+(10, 'Test 2', 'Test 2', '-'),
+(11, 'Test children 3', 'Test figlio 3', '-'),
+(12, 'Test 1', 'Test 1', '-'),
+(13, 'Test children 4', 'Test figlio 4', '-');
 
 -- --------------------------------------------------------
 
@@ -182,14 +176,12 @@ INSERT INTO `pages_menu_names` (`id`, `en`, `it`, `jp`) VALUES
 -- Struttura della tabella `pages_titles`
 --
 
-CREATE TABLE IF NOT EXISTS `pages_titles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pages_titles` (
+  `id` int(11) NOT NULL,
   `en` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `it` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=14 ;
+  `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `pages_titles`
@@ -216,8 +208,8 @@ INSERT INTO `pages_titles` (`id`, `en`, `it`, `jp`) VALUES
 -- Struttura della tabella `payments`
 --
 
-CREATE TABLE IF NOT EXISTS `payments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `transaction` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -227,9 +219,8 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
   `item_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `amount` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+  `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `payments`
@@ -249,8 +240,8 @@ INSERT INTO `payments` (`id`, `user_id`, `transaction`, `date`, `status`, `payer
 -- Struttura della tabella `settings`
 --
 
-CREATE TABLE IF NOT EXISTS `settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL,
   `email_admin` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `template` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'basic',
   `template_style` int(1) NOT NULL DEFAULT '1',
@@ -266,16 +257,15 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `payPal_business` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `payPal_currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'USD',
   `payPal_credit_amount` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0.01',
-  `credits` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+  `credits` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `settings`
 --
 
 INSERT INTO `settings` (`id`, `email_admin`, `template`, `template_style`, `language`, `active`, `role_id`, `https`, `registration_user_confirm_admin`, `login_attempt_time`, `login_attempt_count`, `captcha`, `payPal_sandbox`, `payPal_business`, `payPal_currency_code`, `payPal_credit_amount`, `credits`) VALUES
-(1, 'user_1@reinventsoftware.org', 'basic', 1, 'en', 1, '2,3,', 1, 0, 15, 3, 0, 1, 'paypal.business@gmail.com', 'USD', '0.01', 1);
+(1, 'cimo@reinventsoftware.org', 'basic', 1, 'en', 1, '2,3,', 1, 0, 15, 3, 0, 1, 'paypal.business@gmail.com', 'USD', '0.01', 1);
 
 -- --------------------------------------------------------
 
@@ -283,8 +273,8 @@ INSERT INTO `settings` (`id`, `email_admin`, `template`, `template_style`, `lang
 -- Struttura della tabella `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
   `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,2,',
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -309,16 +299,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date_last_login` varchar(19) COLLATE utf8_unicode_ci DEFAULT '0000-00-00 00:00:00',
   `help_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `attempt_login` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+  `attempt_login` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `users`
 --
 
 INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `vat`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_current_login`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
-(1, '1,2,', 'user_1', 'cimo', 'dago', 'user_1@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'https://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2016-08-04 10:25:12', '2017-07-14 11:44:46', '2017-07-13 23:46:03', NULL, '95.236.60.210', 0),
+(1, '1,2,', 'cimo', 'cimo', 'dago', 'cimo@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'https://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2016-08-04 10:25:12', '2017-08-15 23:13:03', '2017-08-15 23:12:04', NULL, '79.35.223.203', 0),
 (2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 11, 1, '2016-09-10 17:39:31', '2017-07-03 18:12:48', '2017-07-03 18:11:33', NULL, '95.247.79.253', 0),
 (3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, 0);
 
@@ -328,11 +317,10 @@ INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `t
 -- Struttura della tabella `users_roles`
 --
 
-CREATE TABLE IF NOT EXISTS `users_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'ROLE_USER',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+CREATE TABLE `users_roles` (
+  `id` int(11) NOT NULL,
+  `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'ROLE_USER'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `users_roles`
@@ -344,6 +332,126 @@ INSERT INTO `users_roles` (`id`, `level`) VALUES
 (3, 'ROLE_MODERATOR'),
 (4, 'ROLE_TEST');
 
+--
+-- Indici per le tabelle scaricate
+--
+
+--
+-- Indici per le tabelle `languages`
+--
+ALTER TABLE `languages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `modules`
+--
+ALTER TABLE `modules`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `pages`
+--
+ALTER TABLE `pages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `pages_arguments`
+--
+ALTER TABLE `pages_arguments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id` (`id`);
+
+--
+-- Indici per le tabelle `pages_menu_names`
+--
+ALTER TABLE `pages_menu_names`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `pages_titles`
+--
+ALTER TABLE `pages_titles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id` (`id`);
+
+--
+-- Indici per le tabelle `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `users_roles`
+--
+ALTER TABLE `users_roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT per le tabelle scaricate
+--
+
+--
+-- AUTO_INCREMENT per la tabella `languages`
+--
+ALTER TABLE `languages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT per la tabella `modules`
+--
+ALTER TABLE `modules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT per la tabella `pages`
+--
+ALTER TABLE `pages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT per la tabella `pages_arguments`
+--
+ALTER TABLE `pages_arguments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT per la tabella `pages_menu_names`
+--
+ALTER TABLE `pages_menu_names`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT per la tabella `pages_titles`
+--
+ALTER TABLE `pages_titles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT per la tabella `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT per la tabella `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT per la tabella `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT per la tabella `users_roles`
+--
+ALTER TABLE `users_roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

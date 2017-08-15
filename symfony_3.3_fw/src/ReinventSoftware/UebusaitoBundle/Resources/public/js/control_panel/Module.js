@@ -6,19 +6,13 @@ function ControlPanelModule() {
     // Vars
     var self = this;
     
-    var widthType = "";
-    var widthTypeOld = "";
+    var selectionSended = false;
+    var selectionId = -1;
     
     // Properties
     
     // Functions public
-    $(window).resize(function() {
-        resetView();
-    });
-    
     self.init = function() {
-        resetView();
-        
         sortableDrag();
         
         selection();
@@ -62,6 +56,40 @@ function ControlPanelModule() {
                 null
             );
         });
+    };
+    
+    self.changeView = function() {
+        $("#modules_drag_switch").bootstrapSwitch("state", false, true);
+        utility.sortableDragModules(false, "#form_modules_drag_sort");
+
+        if (utility.getWidthType() === "desktop") {
+            if (selectionSended === true) {
+                selectionId = $("#cp_modules_selection_mobile").find("select option:selected").val();
+
+                selectionSended = false;
+            }
+
+            if (selectionId >= 0) {
+                $("#cp_modules_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+
+                var idColumns = $("#cp_modules_selection_desktop_result").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+
+                $.each(idColumns, function(key, value) {
+                    if ($(value).text().trim() === String(selectionId))
+                        $(value).parents("tr").find(".checkbox_column input").prop("checked", true);
+                });
+            }
+        }
+        else {
+            if (selectionSended === true) {
+                selectionId = $("#cp_modules_selection_desktop_result").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+
+                selectionSended = false;
+            }
+
+            if (selectionId > 0)
+                $("#cp_modules_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+        }
     };
     
     // Function private
@@ -117,7 +145,7 @@ function ControlPanelModule() {
         $(document).on("click", "#cp_modules_selection_desktop_result .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                window.textModule.deleteAllModules,
+                "<p>" + window.textModule.deleteAllModules + "</p>",
                 function() {
                     popupEasy.close();
                     
@@ -206,6 +234,8 @@ function ControlPanelModule() {
         ajax.reply(xhr, tag);
         
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
+            selectionSended = true;
+            
             $("#cp_module_selection_result").html(xhr.response.render);
 
             profile(xhr);
@@ -285,7 +315,7 @@ function ControlPanelModule() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            window.textModule.deleteModule,
+            "<p>" + window.textModule.deleteModule + "</p>",
             function() {
                 popupEasy.close();
 
@@ -315,20 +345,5 @@ function ControlPanelModule() {
                 popupEasy.close();
             }
         );
-    }
-    
-    function resetView() {
-        widthType = utility.checkWidth(992);
-        
-        if ((widthType === "desktop" || widthType === "mobile") && widthTypeOld !== widthType) {
-            $("#modules_drag_switch").bootstrapSwitch("state", false, true);
-            utility.sortableDragModules(false, "#form_modules_drag_sort");
-            
-            $("#cp_modules_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);
-            $("#cp_modules_selection_mobile").find("select").val("");
-            $("#cp_module_selection_result").html("");
-            
-            widthTypeOld = widthType;
-        }
     }
 }

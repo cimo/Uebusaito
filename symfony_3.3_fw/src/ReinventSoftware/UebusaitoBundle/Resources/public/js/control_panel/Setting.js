@@ -71,7 +71,7 @@ function ControlPanelSetting() {
         $("#settings_language_manage_minus").on("click", "", function() {
             popupEasy.create(
                 window.text.warning,
-                window.textSetting.deleteLanguageManage,
+                "<p>" + window.textSetting.deleteLanguageManage + "</p>",
                 function() {
                     popupEasy.close();
                     

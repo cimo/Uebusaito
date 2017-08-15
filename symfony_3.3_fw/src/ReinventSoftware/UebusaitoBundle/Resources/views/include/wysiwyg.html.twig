@@ -1,0 +1,199 @@
+<div id="wysiwyg">
+    <div class="toolbar">
+        <i class="fa fa-code" data-command="source"></i>
+        <i class="fa fa-undo" data-command="undo"></i>
+        <i class="fa fa-repeat" data-command="redo"></i>
+        <i class="fa fa-eraser" data-command="remove_attribute"></i>
+        <div>
+            <i class="fa fa-commenting-o"></i><input data-command="foreColor" type="color"/>
+            <i class="fa fa-commenting"></i><input data-command="hiliteColor" type="color"/>
+        </div>
+        <select data-command="formatBlock">
+            <option value="">{{"wysiwyg_18"|trans}}</option>
+            <option value="p">P</option>
+            <option value="h1">H1</option>
+            <option value="h2">H2</option>
+            <option value="h3">H3</option>
+            <option value="h4">H4</option>
+            <option value="h5">H5</option>
+            <option value="h6">H6</option>
+        </select>
+        <select data-command="fontSize">
+            <option value="">{{"wysiwyg_19"|trans}}</option>
+            <option value="1">Size 1</option>
+            <option value="2">Size 2</option>
+            <option value="3">Size 3</option>
+            <option value="4">Size 4</option>
+            <option value="5">Size 5</option>
+            <option value="6">Size 6</option>
+            <option value="7">Size 7</option>
+        </select>
+        <i class="fa fa-bold" data-command="bold"></i>
+        <i class="fa fa-italic" data-command="italic"></i>
+        <i class="fa fa-underline" data-command="underline"></i>
+        <i class="fa fa-strikethrough" data-command="strikeThrough"></i>
+        <i class="fa fa-align-left" data-command="justifyLeft"></i>
+        <i class="fa fa-align-center" data-command="justifyCenter"></i>
+        <i class="fa fa-align-right" data-command="justifyRight"></i>
+        <i class="fa fa-align-justify" data-command="justifyFull"></i>
+        <i class="fa fa-indent" data-command="indent"></i>
+        <i class="fa fa-outdent" data-command="outdent"></i>
+        <i class="fa fa-list-ul" data-command="insertUnorderedList"></i>
+        <i class="fa fa-list-ol" data-command="insertOrderedList"></i>
+        <i class="fa fa-subscript" data-command="subscript"></i>
+        <i class="fa fa-superscript" data-command="superscript"></i>
+        <i class="fa fa-link" data-command="createlink"></i>
+        <i class="fa fa-image" data-command="insertimage"></i>
+        <i class="fa fa-square" data-command="button"></i>
+        <i class="fa fa-table" data-command="table_html"></i>
+        <i class="fa fa-square-o" data-command="table_div"></i>
+        <div class="popup_settings">
+            <div class="only_link">
+                <p><b>{{"wysiwyg_20"|trans}}</b></p>
+                <div class="position">
+                    <i class="fa fa-trash" data-command="link_remove"></i>
+                </div>
+                <div class="attribute">
+                    <p>{{"wysiwyg_2"|trans}}</p>
+                    <input name="link_href" value=""/>
+                    <div>
+                        <p class="display_inline_block">{{"wysiwyg_3"|trans}}</p>
+                        <input class="display_inline_block" name="link_text" value=""/>
+                    </div>
+                </div>
+                <a class="button_custom" href="#" data-command="link_ok">Ok</a>
+            </div>
+            <div class="only_image">
+                <p><b>{{"wysiwyg_21"|trans}}</b></p>
+                <div class="position">
+                    <i class="fa fa-trash" data-command="image_remove"></i>
+                </div>
+                <div class="attribute">
+                    <p>{{"wysiwyg_5"|trans}}</p>
+                    <input name="image_src" value=""/>
+                </div>
+                <div class="size">
+                    <div>
+                        <p class="display_inline_block">{{"wysiwyg_6"|trans}}</p>
+                        <input class="display_inline_block" name="image_responsive" type="checkbox" value=""/>
+                    </div>
+                    <div>
+                        <p style="width: 50px;" class="display_inline_block">{{"wysiwyg_7"|trans}}</p>
+                        <input class="display_inline_block" name="image_width" value=""/>
+                    </div>
+                    <div>
+                        <p style="width: 50px;" class="display_inline_block">{{"wysiwyg_8"|trans}}</p>
+                        <input class="display_inline_block" name="image_height" value=""/>
+                    </div>
+                </div>
+                <a class="button_custom" href="#" data-command="image_ok">Ok</a>
+            </div>
+            <div class="only_button">
+                <p><b>{{"wysiwyg_22"|trans}}</b></p>
+                <div class="position">
+                    <i class="fa fa-trash" data-command="button_remove"></i>
+                </div>
+                <div class="attribute">
+                    <p class="display_block">{{"wysiwyg_10"|trans}}</p>
+                    <textarea class="display_block" name="button_style"></textarea>
+                    <p>{{"wysiwyg_11"|trans}}</p>
+                    <input name="button_class" value=""/>
+                    <p>{{"wysiwyg_12"|trans}}</p>
+                    <input name="button_href" value=""/>
+                    <p>{{"wysiwyg_13"|trans}}</p>
+                    <input name="button_text" value=""/>
+                </div>
+                <a class="button_custom" href="#" data-command="button_ok">Ok</a>
+            </div>
+            <div class="only_table">
+                <p><b>{{"wysiwyg_23"|trans}}</b></p>
+                <div class="position">
+                    <i class="fa fa-align-left only_table_html" data-command="table_justify_left"></i>
+                    <i class="fa fa-align-center only_table_html" data-command="table_justify_center"></i>
+                    <i class="fa fa-align-right only_table_html" data-command="table_justify_right"></i>
+                    <i class="fa fa-trash" data-command="table_remove"></i>
+                </div>
+                <div class="attribute">
+                    <p>{{"wysiwyg_17"|trans}}</p>
+                    <input name="table_width" value=""/>
+                    <i class="fa fa-table" data-command="table_width"></i>
+                    <i class="fa fa-columns" data-command="column_width"></i>
+                    <div class="only_table_div">
+                        <p>{{"wysiwyg_24"|trans}}</p>
+                        <input name="table_margin" value=""/>
+                        <i class="fa fa-table" data-command="table_margin"></i>
+                    </div>
+                    <p>{{"wysiwyg_25"|trans}}</p>
+                    <div>
+                        <p class="display_inline_block">{{"wysiwyg_26"|trans}}</p>
+                        <input class="display_inline_block" name="table_padding_desktop" type="checkbox" value=""/>
+                        <p class="display_inline_block">{{"wysiwyg_27"|trans}}</p>
+                        <input class="display_inline_block" name="table_padding_mobile" type="checkbox" value=""/>
+                    </div>
+                    <input name="table_padding" value=""/>
+                    <i class="fa fa-columns" data-command="table_padding"></i>
+                </div>
+                <div class="offset only_table_div">
+                    <p>{{"wysiwyg_28"|trans}}</p>
+                    <input name="table_offset" value=""/>
+                    <i class="fa fa-align-center" data-command="table_offset"></i>
+                </div>
+                <div class="color">
+                    <p>{{"wysiwyg_29"|trans}}</p>
+                    <input type="color"/>
+                    <i class="fa fa-table" data-command="table_color"></i>
+                    <i class="fa fa-columns" data-command="column_color"></i>
+                </div>
+                <div class="layout">
+                    <div>
+                        <p>{{"wysiwyg_30"|trans}}</p>
+                        <i class="fa fa-plus" data-command="table_add_row"></i>
+                        <i class="fa fa-minus" data-command="table_remove_row"></i>
+                        <i class="fa fa-ellipsis-h only_table_div" data-command="table_merge_column_b"></i>
+                    </div>
+                    <div>
+                        <p>{{"wysiwyg_31"|trans}}</p>
+                        <i class="fa fa-plus" data-command="table_add_column"></i>
+                        <i class="fa fa-minus" data-command="table_remove_column"></i>
+                    </div>
+                </div>
+                <div class="colspan only_table_html">
+                    <div>
+                        <p>{{"wysiwyg_32"|trans}}</p>
+                        <input class="display_inline_block" name="table_rowspan" value=""/>
+                        <i class="fa fa-ellipsis-h" data-command="table_merge_column_a"></i>
+                    </div>
+                    <div>
+                        <p>{{"wysiwyg_33"|trans}}</p>
+                        <input class="display_inline_block" name="table_colspan" value=""/>
+                        <i style="padding-left: 9px; padding-right: 9px;" class="fa fa-ellipsis-v" data-command="table_merge_column_b"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <iframe class="editor" src="about:blank"></iframe>
+    <div class="source" contenteditable="true"></div>
+</div>
+        
+<script type="text/javascript">
+    var textWysiwyg = {
+        'link_1': "{{"wysiwyg_1"|trans}}",
+        'link_2': "{{"wysiwyg_2"|trans}}",
+        'link_3': "{{"wysiwyg_3"|trans}}",
+        'image_1': "{{"wysiwyg_4"|trans}}",
+        'image_2': "{{"wysiwyg_5"|trans}}",
+        'image_3': "{{"wysiwyg_6"|trans}}",
+        'image_4': "{{"wysiwyg_7"|trans}}",
+        'image_5': "{{"wysiwyg_8"|trans}}",
+        'button_1': "{{"wysiwyg_9"|trans}}",
+        'button_2': "{{"wysiwyg_10"|trans}}",
+        'button_3': "{{"wysiwyg_11"|trans}}",
+        'button_4': "{{"wysiwyg_12"|trans}}",
+        'button_5': "{{"wysiwyg_13"|trans}}",
+        'table_1': "{{"wysiwyg_14"|trans}}",
+        'table_2': "{{"wysiwyg_15"|trans}}",
+        'table_3': "{{"wysiwyg_16"|trans}}",
+        'table_4': "{{"wysiwyg_17"|trans}}"
+    };
+</script>

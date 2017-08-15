@@ -1,20 +1,6 @@
-{% if app.session.flashBag.has("info") %}
-    {% set class = "alert alert-info" %}
-    {% set style = "display: block;" %}
-    {% set type = "warning" %}
-{%else%}
-    {% set class = "" %}
-    {% set style = "display: none;" %}
-    {% set type = "" %}
-{% endif %}
-
-<div id="flashBag" class="{{class}}" style="{{style}}">
+<div id="flashBag">
     <i id="flashBag_close" class="fa fa-close"></i>
-    <div class="content">
-        {% for value in app.session.flashBag.get(type) %}
-            <p>{{value}}</p>
-        {% endfor %}
-    </div>
+    <div class="content"></div>
 </div>
 <div id="flashBag_popup">
     <i id="flashBag_popup_close" class="fa fa-close"></i>

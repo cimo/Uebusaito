@@ -61,6 +61,8 @@ class ProfileController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $usernameOld = $this->getUser()->getUsername();
@@ -163,6 +165,8 @@ class ProfileController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         // Form
@@ -233,6 +237,8 @@ class ProfileController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $settingRow = $this->query->selectSettingDatabase();
@@ -293,6 +299,8 @@ class ProfileController extends Controller {
         
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         return new Response();
@@ -320,6 +328,8 @@ class ProfileController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->upload = new Upload($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         

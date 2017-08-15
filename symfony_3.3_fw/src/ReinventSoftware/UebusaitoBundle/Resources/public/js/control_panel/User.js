@@ -6,19 +6,13 @@ function ControlPanelUser() {
     // Vars
     var self = this;
     
-    var widthType = "";
-    var widthTypeOld = "";
+    var selectionSended = false;
+    var selectionId = -1;
     
     // Properties
     
     // Functions public
-    $(window).resize(function() {
-        resetView();
-    });
-    
     self.init = function() {
-        resetView();
-        
         selection();
         
         utility.wordTag("#form_user_roleId");
@@ -42,6 +36,37 @@ function ControlPanelUser() {
                 null
             );
         });
+    };
+    
+    self.changeView = function() {
+        if (utility.getWidthType() === "desktop") {
+            if (selectionSended === true) {
+                selectionId = $("#cp_users_selection_mobile").find("select option:selected").val();
+
+                selectionSended = false;
+            }
+
+            if (selectionId >= 0) {
+                $("#cp_users_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+
+                var idColumns = $("#cp_users_selection_desktop_result").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+
+                $.each(idColumns, function(key, value) {
+                    if ($(value).text().trim() === String(selectionId))
+                        $(value).parents("tr").find(".checkbox_column input").prop("checked", true);
+                });
+            }
+        }
+        else {
+            if (selectionSended === true) {
+                selectionId = $("#cp_users_selection_desktop_result").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+
+                selectionSended = false;
+            }
+
+            if (selectionId > 0)
+                $("#cp_users_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+        }
     };
     
     // Function private
@@ -79,7 +104,7 @@ function ControlPanelUser() {
         $(document).on("click", "#cp_users_selection_desktop_result .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                window.textUser.deleteAllUsers,
+                "<p>" + window.textUser.deleteAllUsers + "</p>",
                 function() {
                     popupEasy.close();
                     
@@ -168,6 +193,8 @@ function ControlPanelUser() {
         ajax.reply(xhr, tag);
         
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
+            selectionSended = true;
+            
             $("#cp_user_selection_result").html(xhr.response.render);
 
             profile();
@@ -205,7 +232,7 @@ function ControlPanelUser() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            window.textUser.deleteUser,
+            "<p>" + window.textUser.deleteUser + "</p>",
             function() {
                 popupEasy.close();
 
@@ -235,17 +262,5 @@ function ControlPanelUser() {
                 popupEasy.close();
             }
         );
-    }
-    
-    function resetView() {
-        widthType = utility.checkWidth(992);
-        
-        if ((widthType === "desktop" || widthType === "mobile") && widthTypeOld !== widthType) {
-            $("#cp_users_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);
-            $("#cp_users_selection_mobile").find("select").val("");
-            $("#cp_user_selection_result").html("");
-            
-            widthTypeOld = widthType;
-        }
     }
 }

@@ -22,6 +22,7 @@
             {{form_row(form.title, {'label': "page_profile_5"})}}
             {{form_row(form.controllerAction, {'label': "page_profile_6"})}}
             {{form_row(form.argument, {'label': "page_profile_7"})}}
+            {{-include("@UebusaitoBundleViews/include/wysiwyg.html.twig")-}}
             
             <div id="form_page_roleId_wordTag_container" class="form-group">
                 {{form_label(form.roleId, "page_profile_8")}}
@@ -41,7 +42,7 @@
 
             {{form_widget(form._token)}}
 
-            <input class="btn btn-primary" type="submit" value="{% trans %}button_3{% endtrans %}"/>
+            <input class="button_custom" type="submit" value="{% trans %}button_3{% endtrans %}"/>
         </form>
         
         {% if is_granted("ROLE_ADMIN") == true and urlExtra > 5 %}

@@ -28,6 +28,7 @@ date.time: H:i:s
 "module_6": "Empty"
 
 # Entity
+"entity.user.password": "Need min 8 max 20 character."
 "entity.user.username": "Need min 4 max 20 character (Only . is allowed)."
 
 # ---
@@ -161,7 +162,7 @@ date.time: H:i:s
 
 # SearchController.php
 "searchController_1": "Search not completed!"
-"searchController_2": "Go to content..."
+"searchController_2": "Go to content"
 
 # ---
 # EventListener
@@ -612,3 +613,39 @@ date.time: H:i:s
 # ---
 # Captcha
 "captcha_1": "Chaptcha code incorrect!"
+
+# ---
+# Wysiwyg
+"wysiwyg_1": "Link creation"
+"wysiwyg_2": "Href: "
+"wysiwyg_3": "Text: "
+"wysiwyg_4": "Image creation"
+"wysiwyg_5": "Name with extension: "
+"wysiwyg_6": "Responsive: "
+"wysiwyg_7": "Width: "
+"wysiwyg_8": "Height: "
+"wysiwyg_9": "Button creation"
+"wysiwyg_10": "Style: "
+"wysiwyg_11": "Class: "
+"wysiwyg_12": "Href: "
+"wysiwyg_13": "Text: "
+"wysiwyg_14": "Table creation"
+"wysiwyg_15": "Rows: "
+"wysiwyg_16": "Columns: "
+"wysiwyg_17": "Width: "
+"wysiwyg_18": "Format"
+"wysiwyg_19": "Size"
+"wysiwyg_20": "Link settings"
+"wysiwyg_21": "Image settings"
+"wysiwyg_22": "Button settings"
+"wysiwyg_23": "Table settings"
+"wysiwyg_24": "Margin (Left - Right): "
+"wysiwyg_25": "Padding: "
+"wysiwyg_26": "Desktop: "
+"wysiwyg_27": "Mobile: "
+"wysiwyg_28": "Offset: "
+"wysiwyg_29": "Color: "
+"wysiwyg_30": "Row: "
+"wysiwyg_31": "Column: "
+"wysiwyg_32": "Rowspan: "
+"wysiwyg_33": "Colspan: "

@@ -128,7 +128,8 @@ class Utility {
     }
     
     public function generateToken() {
-        $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(21));
+        if (isset($_SESSION['token']) == false)
+            $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(21));
     }
     
     public function configureCookie($name, $lifeTime, $secure, $httpOnly) {

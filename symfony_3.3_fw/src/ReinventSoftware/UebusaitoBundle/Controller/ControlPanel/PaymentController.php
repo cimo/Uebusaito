@@ -58,6 +58,8 @@ class PaymentController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         if (isset($_SESSION['payments_user_id']) == false)
@@ -126,6 +128,8 @@ class PaymentController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         if (isset($_SESSION['payments_user_id']) == false)
@@ -162,8 +166,7 @@ class PaymentController extends Controller {
 
                 $this->selectionResult($id);
             }
-            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) ||
-                        $this->table->checkPost() == true) {
+            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) || $this->table->checkPost() == true) {
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/payments_selection_desktop.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -219,6 +222,8 @@ class PaymentController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -326,7 +331,7 @@ class PaymentController extends Controller {
                     {$value['payer']}
                 </td>
                 <td class=\"horizontal_center\">
-                    <button class=\"cp_payment_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
+                    <button class=\"cp_payment_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";
         }

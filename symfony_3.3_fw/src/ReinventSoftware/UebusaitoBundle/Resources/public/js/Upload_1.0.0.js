@@ -25,11 +25,13 @@ function Upload() {
     var totalTime = 0;
     var timeLeft = 0;
     
-    var tagRefreshImage = "";
+    var tagImageRefresh = "";
+    
+    var progressBarId = "progressBar_upload";
     
     // Properties
-    self.setTagRefreshImage = function(value) {
-        tagRefreshImage = value;
+    self.setTagImageRefresh = function(value) {
+        tagImageRefresh = value;
     };
     
     // Functions public
@@ -110,9 +112,9 @@ function Upload() {
         if (file !== null) {
             uploadStarted = true;
             
-            message(true, window.textUpload.uploadTextB);
+            message(true, window.textUpload.uploadText_2);
             
-            $("#upload").find(".button_1 span").text(window.textUpload.uploadButtonB);
+            $("#upload").find(".button_1 span").text(window.textUpload.uploadButton_2);
             
             chunkCurrent = Math.ceil(file.size / chunkSize);
 
@@ -124,14 +126,14 @@ function Upload() {
         uploadPaused = true;
         
         $("#upload").find(".button_1 i").removeClass("fa-play").addClass("fa-pause");
-        $("#upload").find(".button_1 span").text(window.textUpload.uploadButtonC);
+        $("#upload").find(".button_1 span").text(window.textUpload.uploadButton_3);
     }
     
     function resume() {
         uploadPaused = false;
         
         $("#upload").find(".button_1 i").removeClass("fa-pause").addClass("fa-play");
-        $("#upload").find(".button_1 span").text(window.textUpload.uploadButtonB);
+        $("#upload").find(".button_1 span").text(window.textUpload.uploadButton_2);
         
         sendChunk(chunkPause);
     }
@@ -161,14 +163,14 @@ function Upload() {
     }
     
     function progress(start) {
-        utility.progressBar(start, chunkCurrent);
+        utility.progressBar(progressBarId, start, chunkCurrent);
         
         if (start % 5 === 0) {
             totalTime += (new Date().getTime() - timeStart);
             
             timeLeft = Math.ceil((totalTime / start) * (chunkCurrent - start) / 100);
             
-            message(true, timeLeft + window.textUpload.uploadTextC);
+            message(true, timeLeft + window.textUpload.uploadText_3);
         }
     }
     
@@ -181,7 +183,7 @@ function Upload() {
         if (uploadPaused === true) {
             chunkPause = chunk;
             
-            message(true, window.textUpload.uploadTextA);
+            message(true, window.textUpload.uploadText_1);
             
             return;
         }
@@ -253,7 +255,7 @@ function Upload() {
                 if (jsonParse.response.upload.processFile !== null)
                     message(true, jsonParse.response.upload.processFile.text);
                 
-                utility.refreshImage(tagRefreshImage);
+                utility.imageRefresh(tagImageRefresh, 1);
             }
         };
         
@@ -270,12 +272,12 @@ function Upload() {
     }
     
     function resetValue(type) {
-        utility.progressBar();
+        utility.progressBar(progressBarId);
         
         message(false, "");
         
         $("#upload").find(".button_1 i").removeClass("fa-pause").addClass("fa-play");
-        $("#upload").find(".button_1 span").text(window.textUpload.uploadButtonA);
+        $("#upload").find(".button_1 span").text(window.textUpload.uploadButton_1);
         
         if (type === "show")
             $("#upload").find(".container_controls").show();

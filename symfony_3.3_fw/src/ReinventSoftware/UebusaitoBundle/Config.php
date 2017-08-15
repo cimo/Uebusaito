@@ -48,7 +48,7 @@ class Config {
         $this->urlRoot = "/uebusaito/symfony_3.3_fw/web";
         $this->supportSymlink = true;
         $this->file = "/app_dev.php";
-        $this->name = "Uebusaito 1.0";
+        $this->name = "Uebusaito";
     }
     
     // Functions private

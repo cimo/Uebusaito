@@ -59,6 +59,8 @@ class RoleController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $roleEntity = new Role();
@@ -125,6 +127,8 @@ class RoleController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -214,6 +218,8 @@ class RoleController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($this->urlExtra);
@@ -280,6 +286,8 @@ class RoleController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -377,7 +385,7 @@ class RoleController extends Controller {
                 </td>";
                 $listHtml .= "<td class=\"horizontal_center\">";
                     if ($value['id'] > 2)
-                        $listHtml .= "<button class=\"cp_role_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
+                        $listHtml .= "<button class=\"cp_role_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";
         }

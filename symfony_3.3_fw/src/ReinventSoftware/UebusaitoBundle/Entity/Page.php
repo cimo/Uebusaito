@@ -142,7 +142,7 @@ class Page {
     }
     
     public function getArgument() {
-        return $this->argument;
+        return html_entity_decode($this->argument, ENT_QUOTES, "utf-8");
     }
     
     public function getProtected() {

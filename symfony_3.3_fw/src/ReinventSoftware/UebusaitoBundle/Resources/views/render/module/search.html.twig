@@ -12,7 +12,7 @@
 
     <div class="search_container">
         <form id="form_search_module" class="form_search_module display_inline" action="{{path("search_module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            <div class="form_search_module_button search_input">
+            <div class="button_search">
                 <i class="fa fa-search"></i>
             </div>
             {{form_row(form.words, {'label': false})}}

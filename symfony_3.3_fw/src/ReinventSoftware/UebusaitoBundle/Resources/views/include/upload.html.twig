@@ -12,23 +12,23 @@
     </div>
     <div class="row container_controls">
         <div class="col-md-12">
-            <div class="container_progressBar">
+            <div id="progressBar_upload" class="container_progressBar">
                 {{-include("@UebusaitoBundleViews/include/progressBar.html.twig")-}}
             </div>
             <div class="container_buttons">
-                <p class="btn btn-success button_1"><i class="fa fa-play"></i> <span>{% trans %}upload_1{% endtrans %}</span></p>
-                <p class="btn btn-danger button_2"><i class="fa fa-stop"></i> <span>{% trans %}upload_2{% endtrans %}</span></p>
+                <p class="button_1 button_custom_success"><i class="fa fa-play"></i> <span>{% trans %}upload_1{% endtrans %}</span></p>
+                <p class="button_2 button_custom_danger"><i class="fa fa-stop"></i> <span>{% trans %}upload_2{% endtrans %}</span></p>
             </div>
         </div>
     </div>
 </div>
-<script>
+<script type="text/javascript">
     var textUpload = {
-        'uploadTextA': "{{"upload_3"|trans}}",
-        'uploadTextB': "{{"upload_4"|trans}}",
-        'uploadTextC': "{{"upload_5"|trans}}",
-        'uploadButtonA': "{{"upload_6"|trans}}",
-        'uploadButtonB': "{{"upload_7"|trans}}",
-        'uploadButtonC': "{{"upload_8"|trans}}"
+        'uploadText_1': "{{"upload_3"|trans}}",
+        'uploadText_2': "{{"upload_4"|trans}}",
+        'uploadText_3': "{{"upload_5"|trans}}",
+        'uploadButton_1': "{{"upload_6"|trans}}",
+        'uploadButton_2': "{{"upload_7"|trans}}",
+        'uploadButton_3': "{{"upload_8"|trans}}"
     };
 </script>

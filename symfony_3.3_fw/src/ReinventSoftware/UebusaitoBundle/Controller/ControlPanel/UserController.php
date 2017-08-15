@@ -60,6 +60,8 @@ class UserController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
@@ -143,6 +145,8 @@ class UserController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         // Pagination
@@ -176,8 +180,7 @@ class UserController extends Controller {
 
                 $this->selectionResult($id, $request);
             }
-            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) ||
-                        $this->table->checkPost() == true) {
+            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) || $this->table->checkPost() == true) {
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/users_selection_desktop.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -231,6 +234,8 @@ class UserController extends Controller {
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -323,6 +328,8 @@ class UserController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -460,7 +467,7 @@ class UserController extends Controller {
                         $listHtml .= $this->utility->getTranslator()->trans("userController_10");
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">
-                    <button class=\"cp_user_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
+                    <button class=\"cp_user_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";
         }

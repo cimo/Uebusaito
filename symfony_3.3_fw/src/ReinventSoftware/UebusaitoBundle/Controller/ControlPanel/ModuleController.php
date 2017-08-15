@@ -61,6 +61,8 @@ class ModuleController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         // Form
@@ -146,6 +148,8 @@ class ModuleController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $moduleEntity = new Module();
@@ -220,6 +224,8 @@ class ModuleController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -310,6 +316,8 @@ class ModuleController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($this->urlExtra);
@@ -335,15 +343,16 @@ class ModuleController extends Controller {
                 }
                 else {
                     $formDataSort = $form->get("sort")->getData();
+                    $form->getData()->setSort(0);
 
                     if ($formDataSort != null)
                         $sortExplode = explode(",", $formDataSort);
                 }
-
+                
                 // Update in database
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
-
+                
                 if (count($sortExplode) > 0) {
                     foreach ($sortExplode as $key => $value)
                         $this->modulesDatabase("sort", $value, $key, null);
@@ -396,6 +405,8 @@ class ModuleController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -457,6 +468,8 @@ class ModuleController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -566,7 +579,7 @@ class ModuleController extends Controller {
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">";
                     if ($value['id'] > 5)
-                        $listHtml .= "<button class=\"cp_module_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
+                        $listHtml .= "<button class=\"cp_module_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";
         }

@@ -56,6 +56,8 @@ class LanguageController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $moduleRow = $this->query->selectModuleDatabase(4);
@@ -139,9 +141,12 @@ class LanguageController extends Controller {
         if ($request->isMethod("POST") == true) {
             if ($form->isValid() == true) {
                 $codePage = $form->get("codePage")->getData();
-
+                $pageRow = $this->query->selectPageDatabase($codePage, $this->urlExtra);
+                
                 $this->response['values']['codePage'] = $codePage;
-                $this->response['values']['pageRow'] = $this->query->selectPageDatabase($codePage, $this->urlExtra);
+                $this->response['values']['pageTitle'] = $pageRow['title'];
+                $this->response['values']['pageArgument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "utf-8");
+                $this->response['values']['pageMenuName'] = $pageRow['menu_name'];
             }
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_2");

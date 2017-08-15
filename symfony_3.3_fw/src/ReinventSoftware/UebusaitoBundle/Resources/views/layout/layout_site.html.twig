@@ -16,29 +16,27 @@
         {% block bodyIncludeTop %}{% endblock %}
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 container_header">
                     {% block headerContainer %}{% endblock %}
                 </div>
             </div>
             <div class="row">
                 {% if (settingRow['template_style'] == 1 or settingRow['template_style'] == 2) %}
-                    <div class="col-md-2 display_desktop">
+                    <div class="col-md-2 container_left display_desktop">
                         {% block columnLeftContainer %}{% endblock %}
                     </div>
                 {% endif %}
-                <div class="col-md-{{templateStyleColumnCenter}}">
+                <div class="col-md-{{templateStyleColumnCenter}} container_center">
                     {% block columnCenterContainer %}{% endblock %}
                 </div>
                 {% if (settingRow['template_style'] == 1 or settingRow['template_style'] == 3) %}
-                    <div class="col-md-2 display_desktop">
+                    <div class="col-md-2 container_right display_desktop">
                         {% block columnRightContainer %}{% endblock %}
                     </div>
                 {% endif %}
             </div>
         </div>
-        <footer class="footer_fix">
-            {% block footerContainer %}{% endblock %}
-        </footer>
+        <footer class="footer_fix">{% block footerContainer %}{% endblock %}</footer>
         {% block bodyIncludeDown %}{% endblock %}
         {% block javascript %}{% endblock %}
     </body>

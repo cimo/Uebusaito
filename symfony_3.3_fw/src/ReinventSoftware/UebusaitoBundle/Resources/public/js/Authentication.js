@@ -14,6 +14,13 @@ function Authentication() {
         
         $(".form_user_authentication input[name='_remember_me']").parents(".checkbox").addClass("remember_me_fix");
         
+        $(".button_authentication_desktop").find("i").on("click", "", function() {
+            if ($(this).parent().next().css("display") === "none")
+                $(this).parent().next().show();
+            else
+                $(this).parent().next().hide();
+        });
+        
         $(".form_user_authentication").on("submit", "", function(event) {
             event.preventDefault();
             
@@ -27,12 +34,12 @@ function Authentication() {
                 false,
                 null,
                 function(xhr) {
-                    $("#authentication_button").dropdown("toggle");
+                    $("#authentication_button_mobile").dropdown("toggle");
                     
                     if (xhr.response.messages !== undefined) {
                         ajax.reply(xhr, "");
                         
-                        if (xhr.response.values != undefined && xhr.response.values.captchaReload === true)
+                        if (xhr.response.values !== undefined && xhr.response.values.captchaReload === true)
                             captcha.image();
                     }
                     else

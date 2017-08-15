@@ -57,6 +57,8 @@ class RecoverPasswordController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);

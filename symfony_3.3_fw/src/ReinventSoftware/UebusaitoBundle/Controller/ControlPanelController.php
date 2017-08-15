@@ -45,6 +45,8 @@ class ControlPanelController extends Controller {
         
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         return Array(

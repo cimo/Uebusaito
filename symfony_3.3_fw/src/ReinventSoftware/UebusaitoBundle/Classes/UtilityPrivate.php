@@ -240,6 +240,21 @@ class UtilityPrivate {
         return Array(true, $result[0], $result[1]);
     }
     
+    public function checkLanguage($request) {
+        if ($request->request->get('form_language')['codeText'] != null)
+            $_SESSION['formLanguageCodeText'] = $request->request->get('form_language')['codeText'];
+        
+        if (isset($_SESSION['formLanguageCodeText']) === false) {
+            $settingRows = $this->query->selectSettingDatabase();
+            
+            $_SESSION['formLanguageCodeText'] = $settingRows['language'];
+        }
+        
+        $request->setLocale($_SESSION['formLanguageCodeText']);
+        
+        return $_SESSION['formLanguageCodeText'];
+    }
+    
     public function checkSessionOverTime($request, $root = false) {
         if ($root == true) {
             if (isset($_SESSION['user_activity']) == false) {

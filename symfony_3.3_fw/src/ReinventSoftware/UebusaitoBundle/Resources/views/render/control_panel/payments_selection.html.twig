@@ -8,7 +8,7 @@
         {{-include("@UebusaitoBundleViews/render/control_panel/payments_selection_desktop.html.twig")-}}
     </div>
     
-    <button id="cp_payments_selection_send" class="btn btn-primary" type="button">{% trans %}button_4{% endtrans %}</button>
+    <button id="cp_payments_selection_send" class="button_custom" type="button">{% trans %}button_4{% endtrans %}</button>
 </div>
 <div id="cp_payments_selection_mobile" class="display_mobile">
     {% form_theme form "bootstrap_3_layout.html.twig" %}
@@ -20,7 +20,7 @@
 
                 {{form_widget(form._token)}}
 
-                <input class="btn btn-primary" type="submit" value="{% trans %}button_4{% endtrans %}"/>
+                <input class="button_custom" type="submit" value="{% trans %}button_4{% endtrans %}"/>
             </form>
         </div>
     </div>

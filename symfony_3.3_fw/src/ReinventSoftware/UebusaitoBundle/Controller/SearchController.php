@@ -58,6 +58,8 @@ class SearchController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $moduleRow = $this->query->selectModuleDatabase(5);
@@ -124,6 +126,8 @@ class SearchController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         // Pagination
@@ -172,11 +176,15 @@ class SearchController extends Controller {
         foreach ($tableResult as $key => $value) {
             $listHtml .= "<div class=\"box\">
                 <p class=\"title\"><b>{$value['title']}</b></p>";
-                if (strlen($value['argument']) > 200)
-                    $listHtml .= "<p class=\"argument\">" . substr($value['argument'], 0, 200) . "...</p>";
+                
+                $argumentText = preg_replace("/<(.*?)>/", " ", html_entity_decode($value['argument'], ENT_QUOTES, "utf-8"));
+                
+                if (strlen($argumentText) > 200)
+                    $listHtml .= "<p class=\"argument\">" . substr($argumentText, 0, 200) . "...</p>";
                 else
-                    $listHtml .= "<p class=\"argument\">{$value['argument']}</p>
-                <a href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/{$value['id']}\">{$this->utility->getTranslator()->trans("searchController_2")}</a>
+                    $listHtml .= "<p class=\"argument\">{$argumentText}</p>";
+            
+                $listHtml .= "<i class=\"fa fa-paper-plane-o\"></i> <a href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/{$value['id']}\">{$this->utility->getTranslator()->trans("searchController_2")}</a>
             </div>";
         }
         

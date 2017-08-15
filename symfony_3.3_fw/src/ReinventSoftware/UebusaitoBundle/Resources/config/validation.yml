@@ -3,21 +3,46 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PasswordModel:
         old:
             - NotBlank:
                 groups: [profile_password]
+            - Regex:
+                groups: [profile_password]
+                htmlPattern: false
+                pattern: /^.{8,20}$/
+                message: entity.user.password
         new:
             - NotBlank:
                 groups: [profile_password]
+            - Regex:
+                groups: [profile_password]
+                htmlPattern: false
+                pattern: /^.{8,20}$/
+                message: entity.user.password
         newConfirm:
             - NotBlank:
                 groups: [profile_password]
+            - Regex:
+                groups: [profile_password]
+                htmlPattern: false
+                pattern: /^.{8,20}$/
+                message: entity.user.password
 
 ReinventSoftware\UebusaitoBundle\Form\Model\ChangePasswordModel:
     properties:
         password:
             - NotBlank:
                 groups: [change_password]
+            - Regex:
+                groups: [change_password]
+                htmlPattern: false
+                pattern: /^{8,20}$/
+                message: entity.user.password
         passwordConfirm:
             - NotBlank:
                 groups: [change_password]
+            - Regex:
+                groups: [change_password]
+                htmlPattern: false
+                pattern: /^{8,20}$/
+                message: entity.user.password
 
 ReinventSoftware\UebusaitoBundle\Form\Model\RecoverPasswordModel:
     properties:
@@ -139,7 +164,7 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
             - Regex:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
-                pattern: /^[a-z_0-9]+$/
+                pattern: /^[a-zA-Z_0-9]+$/
         parent:
             - Regex:
                 groups: [page_creation, page_profile]
@@ -269,9 +294,19 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
         password:
             - NotBlank:
                 groups: [registration, user_creation]
+            - Regex:
+                groups: [registration, user_creation]
+                htmlPattern: false
+                pattern: /^{8,20}$/
+                message: entity.user.password
         passwordConfirm:
             - NotBlank:
                 groups: [registration, user_creation]
+            - Regex:
+                groups: [registration, user_creation]
+                htmlPattern: false
+                pattern: /^{8,20}$/
+                message: entity.user.password
         notLocked:
             - NotBlank:
                 groups: [user_profile]

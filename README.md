@@ -12,7 +12,9 @@ This is a open source cms with symfony framework
 | Search in website |
 | Credit and paypal payment |
 | Upload file system |
+| Wysiwyg page creation (Create page without code) |
 | Extend with module system |
+| Scss style |
 
 | Control panel |
 |:---|
@@ -61,6 +63,6 @@ This is a open source cms with symfony framework
 
 5) Go on your browser and write <b>"https://YOUR_IP/symfony_3.3_fw/web/app_dev.php"</b>
 
-6) For admin login use <b>"user_1, Password1"</b>.
+6) For admin login use <b>"cimo, Password1"</b>.
 
 <b>By CIMO - www.reinventsoftware.org</b>

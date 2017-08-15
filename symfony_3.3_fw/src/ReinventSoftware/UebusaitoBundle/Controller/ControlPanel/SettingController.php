@@ -56,6 +56,8 @@ class SettingController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_settings_roleId_field", true);
@@ -142,6 +144,8 @@ class SettingController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -243,9 +247,9 @@ class SettingController extends Controller {
             $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
             $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
             
-            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles ADD $codeTmp VARCHAR(255);
-                                                                ALTER TABLE pages_arguments ADD $codeTmp LONGTEXT;
-                                                                ALTER TABLE pages_menu_names ADD $codeTmp VARCHAR(255);");
+            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles ADD $codeTmp VARCHAR(255) DEFAULT NULL;
+                                                                ALTER TABLE pages_arguments ADD $codeTmp LONGTEXT DEFAULT NULL;
+                                                                ALTER TABLE pages_menu_names ADD $codeTmp VARCHAR(255) DEFAULT '-';");
             
             $query->execute();
         }

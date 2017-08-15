@@ -44,6 +44,8 @@ class MenuRootController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $moduleRow = $this->query->selectModuleDatabase(1);
@@ -54,6 +56,7 @@ class MenuRootController extends Controller {
         
         $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}";
         $this->response['values']['pagesList'] = $this->utilityPrivate->createPagesList($pageRows, false);
+        $this->response['values']['modules'] = $this->query->selectAllModulesDatabase();
         
         return Array(
             'urlLocale' => $this->urlLocale,

@@ -57,6 +57,8 @@ class RootController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->captcha = new Captcha($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utility->generateToken();
         
         $this->utility->configureCookie("uebusaito", 0, isset($_SERVER['HTTPS']), true);

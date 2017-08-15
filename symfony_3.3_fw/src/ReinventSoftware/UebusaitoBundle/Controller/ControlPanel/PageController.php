@@ -63,6 +63,8 @@ class PageController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
@@ -140,6 +142,8 @@ class PageController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
         
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        
         $this->utilityPrivate->checkSessionOverTime($request);
         
         $this->listHtml = "";
@@ -175,8 +179,7 @@ class PageController extends Controller {
 
                 $this->selectionResult($id, $request);
             }
-            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) ||
-                        $this->table->checkPost() == true) {
+            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) || $this->table->checkPost() == true) {
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/pages_selection_desktop.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -231,6 +234,8 @@ class PageController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -308,6 +313,8 @@ class PageController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->table = new Table($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
         $this->utilityPrivate->checkSessionOverTime($request);
         
@@ -470,7 +477,7 @@ class PageController extends Controller {
                 $this->listHtml .= "</td>
                 <td class=\"horizontal_center\">";
                     if ($value['id'] > 5)
-                        $this->listHtml .= "<button class=\"cp_page_deletion btn btn-danger\"><i class=\"fa fa-remove\"></i></button>
+                        $this->listHtml .= "<button class=\"cp_page_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";
             
@@ -523,7 +530,10 @@ class PageController extends Controller {
                                                                 );");
             
             $query->bindValue(":title", $form->get("title")->getData());
-            $query->bindValue(":argument", $form->get("argument")->getData());
+            
+            $argumentHtmlEntities = htmlentities($form->get("argument")->getData(), ENT_QUOTES, "utf-8");
+            $query->bindValue(":argument", $argumentHtmlEntities);
+            
             $query->bindValue(":menuName", $form->get("menuName")->getData());
             
             return $query->execute();
@@ -540,7 +550,10 @@ class PageController extends Controller {
                                                                 AND pages_menu_names.id = :id");
             
             $query->bindValue(":title", $form->get("title")->getData());
-            $query->bindValue(":argument", $form->get("argument")->getData());
+            
+            $argumentHtmlEntities = htmlentities($form->get("argument")->getData(), ENT_QUOTES, "utf-8");
+            $query->bindValue(":argument", $argumentHtmlEntities);
+            
             $query->bindValue(":menuName", $form->get("menuName")->getData());
             $query->bindValue(":id", $id);
             

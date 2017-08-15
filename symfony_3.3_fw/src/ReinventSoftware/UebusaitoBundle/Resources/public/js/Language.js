@@ -1,4 +1,4 @@
-/* global utility, ajax, popupEasy, controlPanelPage, settings */
+/* global utility, ajax, popupEasy, loader, controlPanelPage, settings */
 
 var language = new Language();
 
@@ -56,10 +56,9 @@ function Language() {
                 function(xhr) {
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined) {
                         $("#form_cp_page_profile").find("input[name='form_page[language]']").val(xhr.response.values.codePage);
-                        $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageRow.title);
-                        $("#form_cp_page_profile").find(".jqte_editor").html(xhr.response.values.pageRow.argument);
-                        $("#form_cp_page_profile").find("textarea[name='form_page[argument]']").val(xhr.response.values.pageRow.argument);
-                        $("#form_cp_page_profile").find("input[name='form_page[menuName]']").val(xhr.response.values.pageRow.menu_name);
+                        $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageTitle);
+                        $("#wysiwyg").find(".editor").contents().find("body").html(xhr.response.values.pageArgument);
+                        $("#form_cp_page_profile").find("input[name='form_page[menuName]']").val(xhr.response.values.pageMenuName);
                     }
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -73,6 +72,8 @@ function Language() {
     // Functions private
     function selectOnModule() {
         $(".form_language_codeText").on("change", "", function() {
+            loader.show();
+            
             $(this).parents(".form_language_text").submit();
         });
     }
@@ -80,13 +81,14 @@ function Language() {
     function selectOnPage() {
         var parameters = utility.urlParameters(settings.language);
         
-        $("#language_flag").find("#language_flag_" + parameters[0]).addClass("language_page_flag_selected");
+        $("#language_flag").find("#language_flag_" + parameters[0]).addClass("button_flag");
         $("#language_flag").find("input[name='form_language[codePage]']").val(parameters[0]);
         
         $("#language_flag img").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {
-                popupEasy.create(window.text.warning,
-                    window.textLanguagePage.changePageLanguage,
+                popupEasy.create(
+                    window.text.warning,
+                    "<p>" + window.textLanguagePage.changePageLanguage + "</p>",
                     function() {
                         popupEasy.close();
 
@@ -105,8 +107,8 @@ function Language() {
     function formPageFlagSubmit(event) {
         controlPanelPage.setProfileFocus(false);
         
-        $("#language_flag").children().removeClass("language_page_flag_selected");
-        $(event.target).addClass("language_page_flag_selected");
+        $("#language_flag").children().removeClass("button_flag");
+        $(event.target).addClass("button_flag");
 
         var alt = $(event.target).prop("alt");
         var altSplit = alt.split(".");

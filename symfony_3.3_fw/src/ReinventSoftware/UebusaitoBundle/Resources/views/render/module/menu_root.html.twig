@@ -5,11 +5,11 @@
     {{response.module.label|trans}}
 {% endblock %}
 {% block moduleContainer %}
-    <div class="nav_bar_fix">
+    <div class="navbar_fix">
         <nav id="menu_root" class="navbar navbar-default">
             <div class="navbar-header">
                 <div class="navbar_header_content">
-                    <button id="menu_root_nav_button" class="navbar-toggle collapsed btn" data-toggle="collapse" data-target="#menu_root_navbar">
+                    <button id="menu_root_nav_button" class="navbar-toggle collapsed">
                         <span class="sr-only">Menu</span>
                         <span class="icon-bar top-bar"></span>
                         <span class="icon-bar middle-bar"></span>
@@ -18,41 +18,47 @@
                 </div>
                 <div class="navbar_header_content">
                     <div class="logo_small display_mobile">
-                        <img class="display_inline_block" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo_icon.png")}}"/>
-                        <p class="display_inline_block">{{websiteName}}</p>
+                        <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                        <p class="logo_text">{{websiteName}}</p>
                     </div>
                 </div>
                 <div class="display_inline float_right">
-                    <div class="navbar_header_content navbar_header_icon">
-                        <div class="dropdown">
-                            <button id="authentication_button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-user fa-lg"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% if (response.values.modules[4]['active'] == true) %}
+                        <div class="navbar_header_content navbar_header_icon">
+                            <div class="dropdown">
+                                <button id="search_button" class="dropdown-toggle button_custom" data-toggle="dropdown">
+                                    <i class="fa fa-search fa-lg"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    {{-render(controller("UebusaitoBundle:Search:module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="navbar_header_content navbar_header_icon">
-                        <div class="dropdown">
-                            <button id="search_button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-search fa-lg"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                {{-render(controller("UebusaitoBundle:Search:module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% endif %}
+                    {% if (response.values.modules[3]['active'] == true) %}
+                        <div class="navbar_header_content navbar_header_icon">
+                            <div class="dropdown">
+                                <button id="language_button" class="dropdown-toggle button_custom" data-toggle="dropdown">
+                                    <i class="fa fa-globe fa-lg"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    {{-render(controller("UebusaitoBundle:Language:text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="navbar_header_content navbar_header_icon">
-                        <div class="dropdown">
-                            <button id="language_button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-globe fa-lg"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                {{-render(controller("UebusaitoBundle:Language:text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% endif %}
+                    {% if (response.values.modules[1]['active'] == true) %}
+                        <div class="navbar_header_content navbar_header_icon">
+                            <div class="dropdown">
+                                <button id="authentication_button_mobile" class="dropdown-toggle button_custom" data-toggle="dropdown">
+                                    <i class="fa fa-user fa-lg"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div id="menu_root_navbar" class="navbar-collapse collapse">
@@ -65,6 +71,7 @@
                                 {% if value.children != null %}
                                     <li class="dropdown">
                                         <a class="dropdown-toggle" data-toggle="dropdown" href="{{url}}/{{value.id}}">{{value.menu_name}}</a>
+                                        <span></span>
                                         {% if value.children != "" %}
                                             <ul class="dropdown-menu dropdown_menu_fix">
                                                 {{self.recursiveList(url, value.children)}}
@@ -77,6 +84,7 @@
                                             <a href="{{value.link}}" target="_blank">{{value.menu_name}}</a>
                                         {% else %}
                                             <a href="{{url}}/{{value.id}}">{{value.menu_name}}</a>
+                                            <span></span>
                                         {% endif %}
 
                                         {% if value.children != "" %}
