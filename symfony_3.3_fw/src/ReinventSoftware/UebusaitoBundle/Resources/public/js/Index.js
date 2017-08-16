@@ -8,7 +8,7 @@ $(document).ready(function() {
     
     utility.checkMobile(true);
     
-    utility.checkWidth(window.settings.maxWidth);
+    utility.checkWidth(window.settings.widthMobile);
     
     utility.imageError($("#panel_id_3").find("img"));
     
@@ -52,7 +52,7 @@ $(document).ready(function() {
     controlPanelSetting.init();
     
     $(window).resize(function() {
-        utility.checkWidth(window.settings.maxWidth);
+        utility.checkWidth(window.settings.widthMobile);
         
         utility.bootstrapMenuFixChangeView("#menu_root_navbar");
         

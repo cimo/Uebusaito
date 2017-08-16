@@ -65,10 +65,10 @@ function Utility() {
     };
     
     self.checkWidth = function(width) {
-        if (window.matchMedia("(min-width: " + (width + 1) + "px)").matches === true)
-            widthType = "desktop";
-        else
+        if (window.matchMedia("(max-width: " + width + "px)").matches === true)
             widthType = "mobile";
+        else
+            widthType = "desktop";
     };
     
     self.postIframe = function(action, method, elements) {
@@ -176,30 +176,42 @@ function Utility() {
         var moduleSettingsObject = $(".module_settings");
         
         if (type === true) {
+            var elementUi = null;
+            
             columnsObject.addClass("sortable_column_enabled");
             moduleSettingsObject.show();
             
             columnsObject.sortable({
                 'cursor': "move",
-                cursorAt: {
-                    'top': 0,
-                    'left': 0
-                },
                 'placeholder': "sortable_placeholder",
                 'tolerance': "pointer",
                 'revert': true,
                 'connectWith': ".sortable_column",
                 'handle': ".module_move",
+                cursorAt: {
+                    'top': 0,
+                    'left': 0
+                },
                 start: function(event, ui) {
                     ui.placeholder.height(ui.item.height());
                 },
                 helper: function(event, ui) {
+                    if ($(ui).hasClass("display_desktop") === true) {
+                        elementUi = $(ui);
+                        elementUi.removeClass("display_desktop");
+                    }
+                    else
+                        elementUi = null;
+                    
                     var clone = $(ui).clone();
                     clone.css({'position': "absolute"});
                     
                     return clone.get(0);
                 },
                 stop: function(event, ui) {
+                    if (elementUi !== null)
+                        elementUi.addClass("display_desktop");
+                    
                     ui.placeholder.height(0);
                 }
             }).disableSelection();

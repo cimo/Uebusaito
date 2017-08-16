@@ -1,6 +1,6 @@
 @import "utility_1.0.0.scss";
 
-@media(min-width: $minWidth) {
+@media(min-width: $widthDesktop) {
     .search_input {
         width: 30%;
     }

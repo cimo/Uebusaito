@@ -1,6 +1,6 @@
-$maxWidth: "992px";
-$middleWidth: "1300px";
-$minWidth: "993px";
+$widthMiddle: "1640px";
+$widthMobile: "1050px";
+$widthDesktop: "1051px";
 
 $panelShadow: 0px 5px 5px #474747;
 $panelShadowStrength: 5;
@@ -26,7 +26,7 @@ $panelShadowColor: #474747;
 @include fontFace("pt_sans", "../fonts/pt_sans");
 @include fontFace("archivo_black", "../fonts/archivo_black");
 
-@media(max-width: $maxWidth) {
+@media(max-width: $widthMobile) {
     .display_desktop {
         display: none !important;
     }
@@ -34,7 +34,7 @@ $panelShadowColor: #474747;
         display: block !important;
     }
 }
-@media(min-width: $minWidth) {
+@media(min-width: $widthDesktop) {
     .display_desktop {
         display: block !important;
     }

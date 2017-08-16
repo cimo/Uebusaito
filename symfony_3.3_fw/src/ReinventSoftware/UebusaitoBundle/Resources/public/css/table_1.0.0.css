@@ -1,8 +1,8 @@
 @font-face { font-family: "pt_sans"; src: url("../fonts/pt_sans.eot"), url("../fonts/pt_sans.eot?#iefix") format("embedded-opentype"), url("../fonts/pt_sans.woff2") format("woff2"), url("../fonts/pt_sans.woff") format("woff"), url("../fonts/pt_sans.ttf") format("truetype"); font-weight: normal; font-style: normal; }
 @font-face { font-family: "archivo_black"; src: url("../fonts/archivo_black.eot"), url("../fonts/archivo_black.eot?#iefix") format("embedded-opentype"), url("../fonts/archivo_black.woff2") format("woff2"), url("../fonts/archivo_black.woff") format("woff"), url("../fonts/archivo_black.ttf") format("truetype"); font-weight: normal; font-style: normal; }
-@media (max-width: 992px) { .display_desktop { display: none !important; }
+@media (max-width: 1050px) { .display_desktop { display: none !important; }
   .display_mobile { display: block !important; } }
-@media (min-width: 993px) { .display_desktop { display: block !important; }
+@media (min-width: 1051px) { .display_desktop { display: block !important; }
   .display_mobile { display: none !important; } }
 @-webkit-viewport { width: device-width; }
 @-moz-viewport { width: device-width; }
@@ -110,7 +110,7 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
 
 .ui-resizable-e { width: 15px; }
 
-@media (min-width: 993px) { .search_input { width: 30%; } }
+@media (min-width: 1051px) { .search_input { width: 30%; } }
 .search_input { margin-bottom: 20px; }
 .search_input input { padding-left: 35px; }
 

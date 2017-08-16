@@ -1,4 +1,4 @@
-#flashBag { display: none; position: relative; }
+#flashBag { display: none; position: relative; margin-bottom: 10px; }
 #flashBag p { margin: 0; }
 #flashBag ul { margin-bottom: 0; }
 #flashBag .fa-close { cursor: pointer; position: absolute; top: 10px; right: 10px; }
