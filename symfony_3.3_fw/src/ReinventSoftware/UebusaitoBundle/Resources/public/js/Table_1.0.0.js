@@ -253,7 +253,7 @@ function Table() {
     
     function resizeColumn() {
         $(function() {
-            $("table tbody tr td").resizable({
+            $(idResult).find("table tbody tr td").resizable({
                 handles: "e"
             });
         });

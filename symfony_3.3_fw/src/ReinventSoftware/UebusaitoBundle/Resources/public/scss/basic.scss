@@ -1,0 +1,763 @@
+@import "utility_1.0.0.scss";
+
+$logoTextColor: #4089c9;
+
+$navbarHeightDesktop: 80px;
+$navbarHeightMobile: 60px;
+$navbarBackgroundColor: #2f343a;
+$navbarIconBarBackgroundColor: #ffffff;
+$navbarNavButtonBackgroundColor: initial;
+$navbarNavButtonColor: #ffffff;
+$navbarNavButtonHoverBackgroundColor: #337ab7;
+$navbarNavButtonHoverColor: #ffffff;
+$navbarNavButtonActiveBackgroundColor: #73766f;
+$navbarNavButtonActiveColor: #ffffff;
+$navbarNavButtonActiveHoverBackgroundColor: #337ab7;
+$navbarNavButtonActiveHoverColor: #ffffff;
+$navbarNavButtonDropdownBackgroundColor: initial;
+$navbarNavButtonDropdownColor: #ffffff;
+$navbarNavButtonDropdownHoverBackgroundColor: #337ab7;
+$navbarNavButtonDropdownHoverColor: #ffffff;
+$navbarNavButtonDropdownOpenBackgroundColor: #f4f4f4;
+$navbarNavButtonDropdownOpenColor: #000000;
+$navbarNavButtonDropdownOpenHoverBackgroundColor: #337ab7;
+$navbarNavButtonDropdownOpenHoverColor: #ffffff;
+$navbarNavButtonDropdownActiveBackgroundColor: #73766f;
+$navbarNavButtonDropdownActiveColor: #ffffff;
+$navbarNavButtonDropdownActiveHoverBackgroundColor: #337ab7;
+$navbarNavButtonDropdownActiveHoverColor: #ffffff;
+$navbarNavDropdownMenuBackgroundColor: #f4f4f4;
+$navbarNavDropdownMenuBorder: 1px solid #e7e7e7;
+$navbarNavButtonDropdownMenuBackgroundColor: initial;
+$navbarNavButtonDropdownMenuColor: #000000;
+$navbarNavButtonDropdownMenuHoverBackgroundColor: #337ab7;
+$navbarNavButtonDropdownMenuHoverColor: #ffffff;
+$navbarNavButtonDropdownMenuActiveBackgroundColor: #73766f;
+$navbarNavButtonDropdownMenuActiveColor: #ffffff;
+$navbarNavButtonDropdownMenuActiveHoverBackgroundColor: #337ab7;
+$navbarNavButtonDropdownMenuActiveHoverColor: #ffffff;
+
+$spaceBottom: 120px;
+$textColor: #4089c9;
+
+$panelBackgroundColor: #f4f4f4;
+$panelBorder: 1px solid #e7e7e7;
+$panelShadow: 0px 5px 5px #474747;
+$panelShadowStrength: 5;
+$panelShadowColor: #474747;
+
+$buttonCustomBackgroundColor: #337ab7;
+$buttonCustomColor: #ffffff;
+$buttonCustomBorder: 1px solid #2e6da4;
+$buttonCustomBorderRadius: 4px;
+$buttonCustomHoverBackgroundColor: #286090;
+$buttonCustomHoverColor: #ffffff;
+$buttonCustomHoverBorderColor: #204d74;
+$buttonCustomActiveBackgroundColor: #204d74;
+$buttonCustomActiveColor: #ffffff;
+$buttonCustomActiveBorderColor: #122b40;
+$buttonCustomFocusColor: #ffffff;
+
+$buttonCustomSuccessBackgroundColor: #5cb85c;
+$buttonCustomSuccessColor: #ffffff;
+$buttonCustomSuccessBorder: 1px solid #4cae4c;
+$buttonCustomSuccessBorderRadius: 4px;
+$buttonCustomSuccessHoverBackgroundColor: #449d44;
+$buttonCustomSuccessHoverColor: #ffffff;
+$buttonCustomSuccessHoverBorderColor: #398439;
+$buttonCustomSuccessActiveBackgroundColor: #449d44;
+$buttonCustomSuccessActiveColor: #ffffff;
+$buttonCustomSuccessActiveBorderColor: #398439;
+$buttonCustomSuccessFocusColor: #ffffff;
+
+$buttonCustomDangerBackgroundColor: #d9534f;
+$buttonCustomDangerColor: #ffffff;
+$buttonCustomDangerBorder: 1px solid #d43f3a;
+$buttonCustomDangerBorderRadius: 4px;
+$buttonCustomDangerHoverBackgroundColor: #c9302c;
+$buttonCustomDangerHoverColor: #ffffff;
+$buttonCustomDangerHoverBorderColor: #ac2925;
+$buttonCustomDangerActiveBackgroundColor: #c9302c;
+$buttonCustomDangerActiveColor: #ffffff;
+$buttonCustomDangerActiveBorderColor: #ac2925;
+$buttonCustomDangerFocusColor: #ffffff;
+
+$buttonSearchBackgroundColor: #000000;
+$buttonSearchColor: #ffffff;
+
+$buttonAuthenticationDesktopColor: #ffffff;
+
+$buttonFlagBorder: 1px solid #327db6;
+
+$footerBackgroundColor: #2f343a;
+$footerColor: #ffffff;
+
+@media(max-width: $widthMiddle) {
+    .logo_big_margin_bottom {
+    }
+    
+    .logo_big {
+        .logo_text {
+            top: 7px !important;
+            font-size: 30px !important;
+        }
+    }
+}
+@media(max-width: $widthMobile) {
+    .navbar_fix {
+        height: $navbarHeightMobile !important;
+        
+        .navbar-default {
+            border: initial !important;
+            border-radius: 0 !important;
+            min-height: 46px !important;
+
+            .navbar-header {
+                display: block !important;
+                float: none !important;
+                margin-top: 7px;
+
+                .navbar_header_content {
+                    display: inline-block;
+                    vertical-align: middle;
+
+                    .navbar-toggle {
+                        display: block;
+                        margin: 0;
+                        border: none;
+                        background: transparent;
+                        padding: 9px 5px;
+
+                        .icon-bar {
+                            width: 22px;
+                            background-color: $navbarIconBarBackgroundColor;
+                            transition: all 0.2s;
+
+                            &.top-bar {
+                                transform: rotate(45deg);
+                                transform-origin: 10% 10%;
+                            }
+                            &.middle-bar {
+                                opacity: 0;
+                            }
+                            &.bottom-bar {
+                                transform: rotate(-45deg);
+                                transform-origin: 10% 90%;
+                            }
+                        }
+
+                        &.collapsed {
+                            .top-bar {
+                                transform: rotate(0);
+                            }
+                            .middle-bar {
+                                opacity: 1;
+                            }
+                            .bottom-bar {
+                                transform: rotate(0);
+                            }
+                        }
+                    }
+
+                    .dropdown-menu {
+                        padding: 5px;
+                        background-color: $panelBackgroundColor;
+                        border: $panelBorder;
+                        
+                        -webkit-box-shadow: $panelShadow;
+                        -moz-box-shadow: $panelShadow;
+                        -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')" !important;
+                        filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')" !important;
+                        box-shadow: $panelShadow;
+
+                        .panel, .panel_clean {
+                            margin: 0 !important;
+                            padding: 0 !important;
+                            border: initial !important;
+                        }
+                    }
+                }
+
+                .navbar_header_icon {
+                    padding-right: 2px;
+                    
+                    .dropdown-toggle {
+                        margin-left: 0;
+                        margin-right: 0;
+                    }
+                }
+            }
+
+            .navbar-collapse {
+                display: block !important;
+                margin-top: 7px;
+                border-top: $panelBorder;
+                
+                .navbar-nav {
+                    display: none;
+                    margin: 0 -15px;
+                    float: none;
+                    
+                    -webkit-box-shadow: $panelShadow;
+                    -moz-box-shadow: $panelShadow;
+                    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
+                    filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
+                    box-shadow: $panelShadow;
+                    
+                    li {
+                        float: none;
+                        
+                        a {
+                            padding-top: 10px;
+                            padding-bottom: 10px;
+                        }
+                        
+                        &.dropdown {
+                            ul {
+                                &.dropdown-menu {
+                                    position: static;
+                                    float: none;
+                                    border: initial !important;
+                                    border-top: $panelBorder !important;
+                                    
+                                    -webkit-box-shadow: none !important;
+                                    -moz-box-shadow: none !important;
+                                    -ms-filter: none !important;
+                                    filter: none !important;
+                                    box-shadow: none !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    .title_big {
+        font-size: 30px;
+    }
+    
+    #panel_id_1 {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+}
+@media(min-width: $widthDesktop) {
+    .title_big {
+        font-size: 100px;
+    }
+    
+    .button_authentication_desktop {
+        display: none;
+        position: absolute;
+        top: 27px;
+        right: 35px;
+        color: $buttonAuthenticationDesktopColor;
+        cursor: pointer;
+        z-index: 1010;
+    }
+    
+    #panel_id_4 {
+        position: absolute;
+        top: 31px;
+        right: 40px;
+        z-index: 1010;
+    }
+    
+    #panel_id_5 {
+        position: absolute;
+        top: 31px;
+        right: 195px;
+        z-index: 1010;
+    }
+}
+
+body {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    min-height: 100%;
+    
+    font-family: "pt_sans", sans-serif;
+    font-size: 14px;
+}
+
+table, .table {
+    font-family: "pt_sans", sans-serif;
+    font-size: 14px;
+}
+
+p {
+    margin: 0;
+}
+
+.logo_big {
+    .logo_svg {
+        width: 100px;
+    }
+    
+    .logo_text {
+        font-family: "archivo_black", sans-serif;
+        display: inline-block;
+        position: relative;
+        top: 14px;
+        font-size: 40px;
+        color: $logoTextColor;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+}
+.logo_small {
+    .logo_svg {
+        width: 30px;
+    }
+    
+    .logo_text {
+        font-family: "archivo_black", sans-serif;
+        display: inline-block;
+        position: relative;
+        font-size: 10px;
+        color: $logoTextColor;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+}
+
+.image_preload {
+    min-height: 40px;
+    min-width: 40px;
+    background: url(../images/templates/basic/image_preload.gif) no-repeat 50% 50%;
+}
+
+.container-fluid {
+    margin-bottom: $spaceBottom;
+}
+
+.navbar_fix {
+    height: $navbarHeightDesktop;
+    
+    .navbar-default {
+        background-color: $navbarBackgroundColor;
+        border: $panelBorder;
+        z-index: 1000;
+
+        -webkit-box-shadow: $panelShadow;
+        -moz-box-shadow: $panelShadow;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
+        filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
+        box-shadow: $panelShadow;
+
+        .navbar-header {
+            display: none;
+        }
+        
+        .navbar-collapse {
+            .navbar-nav {
+                background-color: $navbarBackgroundColor;
+                
+                li {
+                    > a {
+                        background-color: $navbarNavButtonBackgroundColor;
+                        color: $navbarNavButtonColor;
+
+                        &:hover {
+                            background-color: $navbarNavButtonHoverBackgroundColor;
+                            color: $navbarNavButtonHoverColor;
+                        }
+                    }
+
+                    &.active {
+                        > a {
+                            background-color: $navbarNavButtonActiveBackgroundColor;
+                            color: $navbarNavButtonActiveColor;
+
+                            &:hover {
+                                background-color: $navbarNavButtonActiveHoverBackgroundColor;
+                                color: $navbarNavButtonActiveHoverColor;
+                            }
+                        }
+                    }
+                    &.dropdown {
+                        > a {
+                            background-color: $navbarNavButtonDropdownBackgroundColor;
+                            color: $navbarNavButtonDropdownColor;
+
+                            &:hover {
+                                background-color: $navbarNavButtonDropdownHoverBackgroundColor;
+                                color: $navbarNavButtonDropdownHoverColor;
+                            }
+                        }
+
+                        &.open {
+                            > a {
+                                background-color: $navbarNavButtonDropdownOpenBackgroundColor;
+                                color: $navbarNavButtonDropdownOpenColor;
+
+                                &:hover {
+                                    background-color: $navbarNavButtonDropdownOpenHoverBackgroundColor;
+                                    color: $navbarNavButtonDropdownOpenHoverColor;
+                                }
+                            }
+                        }
+                        &.active {
+                            > a {
+                                background-color: $navbarNavButtonDropdownActiveBackgroundColor;
+                                color: $navbarNavButtonDropdownActiveColor;
+
+                                &:hover {
+                                    background-color: $navbarNavButtonDropdownActiveHoverBackgroundColor;
+                                    color: $navbarNavButtonDropdownActiveHoverColor;
+                                }
+                            }
+                        }
+
+                        ul {
+                            &.dropdown-menu {
+                                background-color: $navbarNavDropdownMenuBackgroundColor;
+                                border: $navbarNavDropdownMenuBorder;
+                                border-radius: 0;
+
+                                -webkit-box-shadow: $panelShadow;
+                                -moz-box-shadow: $panelShadow;
+                                -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')" !important;
+                                filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')" !important;
+                                box-shadow: $panelShadow;
+
+                                li {
+                                    > a {
+                                        background-color: $navbarNavButtonDropdownMenuBackgroundColor;
+                                        color: $navbarNavButtonDropdownMenuColor;
+
+                                        &:hover {
+                                            background-color: $navbarNavButtonDropdownMenuHoverBackgroundColor;
+                                            color: $navbarNavButtonDropdownMenuHoverColor;
+                                        }
+                                    }
+
+                                    &.active {
+                                        > a {
+                                            background-color: $navbarNavButtonDropdownMenuActiveBackgroundColor;
+                                            color: $navbarNavButtonDropdownMenuActiveColor;
+
+                                            &:hover {
+                                                background-color: $navbarNavButtonDropdownMenuActiveHoverBackgroundColor;
+                                                color: $navbarNavButtonDropdownMenuActiveHoverColor;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    .dropdown-menu {
+                        .dropdown-menu {
+                            top: 0;
+                            left: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.nav-tabs {
+    border-bottom: 0;
+}
+
+.panel {
+    position: relative;
+    background-color: $panelBackgroundColor;
+    border: $panelBorder;
+    padding-right: 15px;
+    padding-left: 15px;
+    
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-filter: none;
+    filter: none;
+    box-shadow: none;
+}
+.panel_clean {
+    position: relative;
+}
+
+.panel-heading {
+    padding: 10px 0;
+    border-bottom: $panelBorder;
+}
+.panel-body {
+    padding: 15px 0;
+}
+
+.page_header {
+    margin: 0;
+    margin-bottom: 20px;
+    
+    h1, h2, h3, h4, h5, h6, h7 {
+        margin-top: 0;
+    }
+}
+.page_container {
+    padding: 25px 15px;
+    border: $panelBorder;
+    padding-top: 10px;
+}
+
+.button_custom {
+    display: inline-block;
+    padding: 5px 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 2px;
+    margin-right: 2px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    text-decoration: none;
+    outline: 0;
+    background-color: $buttonCustomBackgroundColor;
+    color: $buttonCustomColor;
+    border: $buttonCustomBorder;
+    border-radius: $buttonCustomBorderRadius;
+
+    &:hover {
+        text-decoration: none;
+        background-color: $buttonCustomHoverBackgroundColor;
+        color: $buttonCustomHoverColor;
+        border-color: $buttonCustomHoverBorderColor;
+    }
+    &:active {
+        text-decoration: none;
+        background-color: $buttonCustomActiveBackgroundColor;
+        color: $buttonCustomActiveColor;
+        border-color: $buttonCustomActiveBorderColor;
+    }
+    &:focus {
+        text-decoration: none;
+        color: $buttonCustomFocusColor;
+    }
+}
+.button_custom_success {
+    @extend .button_custom;
+    
+    background-color: $buttonCustomSuccessBackgroundColor;
+    color: $buttonCustomSuccessColor;
+    border: $buttonCustomSuccessBorder;
+    border-radius: $buttonCustomSuccessBorderRadius;
+
+    &:hover {
+        text-decoration: none;
+        background-color: $buttonCustomSuccessHoverBackgroundColor;
+        color: $buttonCustomSuccessHoverColor;
+        border-color: $buttonCustomSuccessHoverBorderColor;
+    }
+    &:active {
+        text-decoration: none;
+        background-color: $buttonCustomSuccessActiveBackgroundColor;
+        color: $buttonCustomSuccessActiveColor;
+        border-color: $buttonCustomSuccessActiveBorderColor;
+    }
+    &:focus {
+        text-decoration: none;
+        color: $buttonCustomSuccessFocusColor;
+    }
+}
+.button_custom_danger {
+    @extend .button_custom;
+    
+    background-color: $buttonCustomDangerBackgroundColor;
+    color: $buttonCustomDangerColor;
+    border: $buttonCustomDangerBorder;
+    border-radius: $buttonCustomDangerBorderRadius;
+
+    &:hover {
+        text-decoration: none;
+        background-color: $buttonCustomDangerHoverBackgroundColor;
+        color: $buttonCustomDangerHoverColor;
+        border-color: $buttonCustomDangerHoverBorderColor;
+    }
+    &:active {
+        text-decoration: none;
+        background-color: $buttonCustomDangerActiveBackgroundColor;
+        color: $buttonCustomDangerActiveColor;
+        border-color: $buttonCustomDangerActiveBorderColor;
+    }
+    &:focus {
+        text-decoration: none;
+        color: $buttonCustomDangerFocusColor;
+    }
+}
+
+.button_icon_inline {
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    top: -7px;
+    left: 10px;
+    cursor: pointer;
+}
+
+.button_sort {
+    display: block;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.button_payPal {
+    background: url("../images/templates/reinvent_software/button_payPal.png") no-repeat;
+    cursor: pointer;
+    width: 100px;
+    height: 38px;
+    border: none;
+}
+
+.button_search {
+    cursor: pointer;
+    position: absolute;
+    width: 33px;
+    height: 34px;
+    background-color: $buttonSearchBackgroundColor;
+    border-radius: 4px;
+    z-index: 4;
+
+    i {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: $buttonSearchColor;
+    }
+}
+
+.button_flag {
+    border: $buttonFlagBorder;
+}
+
+.accordion_container {
+    .title {
+        cursor: pointer;
+    }
+    
+    .content {
+        display: none;
+    }
+}
+
+.remember_me_fix {
+    margin: 5px 0 5px 10px !important;
+    display: inline-block !important;
+}
+
+.avatar {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.authentication_maintenance {
+    display: block !important;
+    position: initial !important;
+    width: 320px !important;
+    margin: auto !important;
+    
+    -webkit-box-shadow: $panelShadow;
+    -moz-box-shadow: $panelShadow;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')" !important;
+    filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')" !important;
+    box-shadow: $panelShadow;
+}
+
+.footer_fix {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $spaceBottom;
+    background-color: $footerBackgroundColor;
+    text-align: center;
+    color: $footerColor;
+}
+.footer_icons {
+    margin-bottom: 10px;
+}
+.footer_icons {
+    div {
+        display: inline-block;
+        text-align: center;
+        min-width: 50px;
+        font-size: 28px;
+    }
+}
+
+#_remember_me {
+    position: relative;
+    top: 2px;
+    right: 2px;
+}
+
+#language_flag {
+    img {
+        cursor: pointer;
+        padding: 2px;
+    }
+}
+
+#panel_id_3 {
+    .argument {
+        h1, h2, h3, h4, h5, h6, h7 {
+            margin-top: 0;
+        }
+    }
+}
+
+#panel_id_4 {
+    .module_settings {
+        display: none !important;
+    }
+    
+    .form-group {
+        display: inline;
+        margin-bottom: 0;
+        
+        select {
+            width: 70%;
+            padding: 0;
+        }
+    }
+}
+
+#panel_id_5 {
+    .module_settings {
+        display: none !important;
+    }
+    
+    .form-group {
+        margin-bottom: 0;
+        
+        input {
+            padding-left: 35px;
+        }
+    }
+}
+
+#search_render {
+    .text {
+        margin-bottom: 10px;
+    }
+    
+    .box {
+        border: $panelBorder;
+        padding: 10px;
+        margin: 10px;
+        
+        .title {
+            text-decoration: underline;
+        }
+        
+        .argument {
+            margin: 0;
+        }
+    }
+}
