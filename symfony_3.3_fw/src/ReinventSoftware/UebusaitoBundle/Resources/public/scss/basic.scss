@@ -234,8 +234,31 @@ $footerColor: #ffffff;
         }
     }
     
-    .title_big {
-        font-size: 30px;
+    .maintenance_content {
+        margin: 0px 10px 20px 10px;
+        
+        img {
+            width: 100%;
+        }
+        
+        a {
+            top: 8%;
+            left: 18%;
+            font-size: 20px;
+        }
+        
+        p {
+            &.text_1 {
+                top: 36%;
+                left: 28%;
+                font-size: 15px;
+            }
+            &.text_2 {
+                top: 46%;
+                left: 26%;
+                font-size: 15px;
+            }
+        }
     }
     
     #panel_id_1 {
@@ -244,10 +267,6 @@ $footerColor: #ffffff;
     }
 }
 @media(min-width: $widthDesktop) {
-    .title_big {
-        font-size: 100px;
-    }
-    
     .button_authentication_desktop {
         display: none;
         position: absolute;
@@ -256,6 +275,33 @@ $footerColor: #ffffff;
         color: $buttonAuthenticationDesktopColor;
         cursor: pointer;
         z-index: 1010;
+    }
+    
+    .maintenance_content {
+        margin: -20px 10px 20px 10px;
+        
+        img {
+            width: 55%;
+        }
+        
+        a {
+            top: 9%;
+            left: 32%;
+            font-size: 35px;
+        }
+        
+        p {
+            &.text_1 {
+                top: 38%;
+                left: 38%;
+                font-size: 32px;
+            }
+            &.text_2 {
+                top: 45%;
+                left: 36%;
+                font-size: 35px;
+            }
+        }
     }
     
     #panel_id_4 {
@@ -657,7 +703,7 @@ p {
     max-height: 150px;
 }
 
-.authentication_maintenance {
+.maintenance_authentication {
     display: block !important;
     position: initial !important;
     width: 320px !important;
@@ -668,6 +714,26 @@ p {
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')" !important;
     filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')" !important;
     box-shadow: $panelShadow;
+}
+.maintenance_content {
+    position: relative;
+    text-align: center;
+    
+    img {
+        height: auto;
+    }
+    
+    a {
+        position: absolute;
+    }
+    
+    p {
+        position: absolute;
+    }
+}
+
+.error_title {
+    font-size: 100px;
 }
 
 .footer_fix {
