@@ -11,7 +11,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
+use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
 use ReinventSoftware\UebusaitoBundle\Entity\Page;
 
@@ -32,7 +32,7 @@ class PageController extends Controller {
     private $utilityPrivate;
     private $query;
     private $ajax;
-    private $table;
+    private $tableAndPagination;
     
     private $listHtml;
     
@@ -65,7 +65,7 @@ class PageController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
         
@@ -140,22 +140,21 @@ class PageController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $this->listHtml = "";
         
-        // Pagination
         $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
         
-        $tableResult = $this->table->request($pageRows, 20, "page", false, true);
+        $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "page", false, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
         // Form
         $form = $this->createForm(PagesSelectionFormType::class, null, Array(
@@ -174,12 +173,12 @@ class PageController extends Controller {
 
                 $this->selectionResult($id, $request);
             }
-            else if ($request->get("event") == null && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == null && $this->utility->checkToken($request) == true) {
                 $id = $request->get("id") == "" ? 0 : $request->get("id");
 
                 $this->selectionResult($id, $request);
             }
-            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) || $this->table->checkPost() == true) {
+            else if (($request->get("event") == "refresh" && $this->utility->checkToken($request) == true) || $this->tableAndPagination->checkPost() == true) {
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/pages_selection_desktop.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -237,7 +236,7 @@ class PageController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
         
@@ -312,27 +311,26 @@ class PageController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $this->listHtml = "";
         
-        // Pagination
         $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
         
-        $tableResult = $this->table->request($pageRows, 20, "page", false, true);
+        $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "page", false, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "delete" && $this->utilityPrivate->checkToken($request) == true) {
+            if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
                 $id = $request->get("id");
 
                 $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
@@ -351,7 +349,7 @@ class PageController extends Controller {
                     $this->response['values']['select'] = $this->utilityPrivate->createPagesSelectHtml($this->urlLocale, "cp_page_deletion_parent_new");
                 }
             }
-            else if ($request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
                 $pagesDatabase = $this->pagesDatabase("deleteAll", null, null, null);
 
                 if ($pagesDatabase == true) {
@@ -367,7 +365,7 @@ class PageController extends Controller {
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
                 }
             }
-            else if ($request->get("event") == "parentAll" && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == "parentAll" && $this->utility->checkToken($request) == true) {
                 $id = $request->get("id");
 
                 $this->removePageChildrenDatabase($id);
@@ -377,7 +375,7 @@ class PageController extends Controller {
                 if ($pagesDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
             }
-            else if ($request->get("event") == "parentNew" && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == "parentNew" && $this->utility->checkToken($request) == true) {
                 $id = $request->get("id");
 
                 $this->updatePageChildrenDatabase($id, $request->get("parentNew"));

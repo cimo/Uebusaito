@@ -58,7 +58,7 @@ class SettingController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_settings_roleId_field", true);
         
@@ -147,12 +147,12 @@ class SettingController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "deleteLanguage" && $this->utilityPrivate->checkToken($request) == true) {
+            if ($request->get("event") == "deleteLanguage" && $this->utility->checkToken($request) == true) {
                 $code = $request->get("code");
 
                 $settingsDatabase = $this->settingsDatabase("deleteLanguage", $code);
@@ -165,7 +165,7 @@ class SettingController extends Controller {
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
                 }
             }
-            else if ($request->get("event") == "createLanguage" && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == "createLanguage" && $this->utility->checkToken($request) == true) {
                 $code = $request->get("code");
 
                 $languageRows = $this->query->selectAllLanguagesDatabase();

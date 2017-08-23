@@ -2,7 +2,6 @@
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 
 class Captcha {
     // Vars
@@ -10,7 +9,6 @@ class Captcha {
     private $entityManager;
     
     private $utility;
-    private $utilityPrivate;
     
     // Properties
     
@@ -20,7 +18,6 @@ class Captcha {
         $this->entityManager = $entityManager;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
     }
     
     public function create($length) {

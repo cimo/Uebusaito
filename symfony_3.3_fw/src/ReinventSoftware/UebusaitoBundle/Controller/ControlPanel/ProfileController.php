@@ -63,7 +63,7 @@ class ProfileController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $usernameOld = $this->getUser()->getUsername();
         
@@ -167,7 +167,7 @@ class ProfileController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         // Form
         $form = $this->createForm(PasswordFormType::class, null, Array(
@@ -239,7 +239,7 @@ class ProfileController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $settingRow = $this->query->selectSettingDatabase();
         
@@ -301,7 +301,7 @@ class ProfileController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         return new Response();
     }
@@ -331,7 +331,7 @@ class ProfileController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $path = Array();
 

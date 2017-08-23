@@ -61,7 +61,7 @@ class RootController extends Controller {
         
         $this->utility->generateToken();
         
-        $this->utility->configureCookie("uebusaito", 0, isset($_SERVER['HTTPS']), true);
+        $this->utility->configureCookie(session_name(), 0, isset($_SERVER['HTTPS']), true);
         
         $this->response['captchaImage'] = $this->captcha->create(7);
         
@@ -87,7 +87,7 @@ class RootController extends Controller {
         $this->response['modules']['right'] = $this->query->selectAllModulesDatabase(null, "right");
         $this->response['modules']['footer'] = $this->query->selectAllModulesDatabase(null, "footer");
         
-        $this->utilityPrivate->checkSessionOverTime($request, true);
+        $this->utility->checkSessionOverTime($request, true);
         
         $this->get("twig")->addGlobal("php_session", $_SESSION);
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());

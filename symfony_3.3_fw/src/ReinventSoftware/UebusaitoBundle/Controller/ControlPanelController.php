@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 
 class ControlPanelController extends Controller {
@@ -19,6 +20,7 @@ class ControlPanelController extends Controller {
     
     private $response;
     
+    private $utility;
     private $utilityPrivate;
     
     // Properties
@@ -43,11 +45,12 @@ class ControlPanelController extends Controller {
         
         $this->response = Array();
         
+        $this->utility = new Utility($this->container, $this->entityManager);
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         return Array(
             'urlLocale' => $this->urlLocale,

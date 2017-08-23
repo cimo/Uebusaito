@@ -53,7 +53,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($request->isXmlHttpRequest() == true) {
             $user = $token->getUser();
             
-            $checkCaptcha = $this->utilityPrivate->checkCaptcha($this->settingRow, $request->get("captcha"));
+            $checkCaptcha = $this->utility->checkCaptcha($this->settingRow['captcha'], $request->get("captcha"));
             $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("success", $user->getId(), $this->settingRow);
             $checkInRoles = $this->utilityPrivate->checkInRoles($this->settingRow['role_id'], $user->getRoleId());
             
@@ -93,7 +93,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($request->isXmlHttpRequest() == true) {
             $username = $request->get("_username");
             
-            $checkCaptcha = $this->utilityPrivate->checkCaptcha($this->settingRow, $request->get("captcha"));
+            $checkCaptcha = $this->utility->checkCaptcha($this->settingRow['captcha'], $request->get("captcha"));
             $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("failure", $username, $this->settingRow);
             
             if ($checkCaptcha == true && $checkAttemptLogin[0] == true)

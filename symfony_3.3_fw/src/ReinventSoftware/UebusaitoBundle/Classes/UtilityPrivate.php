@@ -70,17 +70,17 @@ class UtilityPrivate {
         
         if ($type == "withOld") {
             if (password_verify($form->get("old")->getData(), $userRow['password']) == false)
-                return $this->utility->getTranslator()->trans("class_utilityPrivate_2");
+                return $this->utility->getTranslator()->trans("class_utilityPrivate_1");
 
             if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
-                return $this->utility->getTranslator()->trans("class_utilityPrivate_3");
+                return $this->utility->getTranslator()->trans("class_utilityPrivate_2");
             
             $user->setPassword($this->createPasswordEncoder($type, $user, $form));
         }
         else if ($type == "withoutOld") {
             if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
                 if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
-                    return $this->utility->getTranslator()->trans("class_utilityPrivate_4");
+                    return $this->utility->getTranslator()->trans("class_utilityPrivate_3");
                 
                 $user->setPassword($this->createPasswordEncoder($type, $user, $form));
             }
@@ -96,7 +96,7 @@ class UtilityPrivate {
         
         $pagesList = $this->createPagesList($pageRows, true);
         
-        $html = "<p class=\"margin_clear\">" . $this->utility->getTranslator()->trans("class_utilityPrivate_5") . "</p>
+        $html = "<p class=\"margin_clear\">" . $this->utility->getTranslator()->trans("class_utilityPrivate_4") . "</p>
         <select id=\"$selectId\">
             <option value=\"\">Select</option>";
             foreach($pagesList as $key => $value)
@@ -152,20 +152,6 @@ class UtilityPrivate {
         }
         
         return $list;
-    }
-    
-    public function checkToken($request) {
-        if (isset($_SESSION['token']) == true && $request->get("token") == $_SESSION['token'])
-            return true;
-        
-        return false;
-    }
-    
-    public function checkCaptcha($settingRow, $captcha) {
-        if ($settingRow['captcha'] == false || ($settingRow['captcha'] == true && isset($_SESSION['captcha']) == true && $_SESSION['captcha'] == $captcha))
-            return true;
-        
-        return false;
     }
     
     public function checkAttemptLogin($type, $userValue, $settingRow) {
@@ -253,62 +239,6 @@ class UtilityPrivate {
         $request->setLocale($_SESSION['formLanguageCodeText']);
         
         return $_SESSION['formLanguageCodeText'];
-    }
-    
-    public function checkSessionOverTime($request, $root = false) {
-        if ($root == true) {
-            if (isset($_SESSION['user_activity']) == false) {
-                $_SESSION['user_activity_count'] = 0;
-                $_SESSION['user_activity'] = "";
-            }
-        }
-        
-        if ($request->cookies->has("REMEMBERME") == false && $this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-            if (isset($_SESSION['timestamp']) == false)
-                $_SESSION['timestamp'] = time();
-            else {
-                $timeLapse = time() - $_SESSION['timestamp'];
-
-                if ($timeLapse > $this->utility->getSessionMaxIdleTime()) {
-                    $userActivity = $this->utility->getTranslator()->trans("class_utilityPrivate_1");
-                    
-                    if ($request->isXmlHttpRequest() == true) {
-                        echo json_encode(Array(
-                            'userActivity' => $userActivity
-                        ));
-
-                        exit;
-                    }
-                    else
-                        $this->utility->getTokenStorage()->setToken(null);
-                    
-                    $_SESSION['user_activity'] = $userActivity;
-                    
-                    unset($_SESSION['timestamp']);
-                }
-                else
-                    $_SESSION['timestamp'] = time();
-            }
-        }
-        
-        if (isset($_SESSION['user_activity']) == true) {
-            if ($request->isXmlHttpRequest() == true && $_SESSION['user_activity'] != "") {
-                echo json_encode(Array(
-                    'userActivity' => $_SESSION['user_activity']
-                ));
-
-                exit;
-            }
-        }
-        
-        if ($root == true && $_SESSION['user_activity'] != "") {
-            $_SESSION['user_activity_count'] ++;
-
-            if ($_SESSION['user_activity_count'] > 2) {
-                $_SESSION['user_activity_count'] = 0;
-                $_SESSION['user_activity'] = "";
-            }
-        }
     }
     
     public function checkRoleLevel($roleName, $userRoleId) {

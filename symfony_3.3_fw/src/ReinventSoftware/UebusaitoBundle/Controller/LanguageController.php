@@ -58,7 +58,7 @@ class LanguageController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $moduleRow = $this->query->selectModuleDatabase(4);
         $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);
@@ -124,7 +124,7 @@ class LanguageController extends Controller {
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $this->response['values']['languageRows'] = $this->query->selectAllLanguagesDatabase();
         $this->response['values']['settingRow'] = $this->query->selectSettingDatabase();

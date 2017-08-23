@@ -11,7 +11,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
+use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
 use ReinventSoftware\UebusaitoBundle\Entity\User;
 
@@ -32,7 +32,7 @@ class UserController extends Controller {
     private $utilityPrivate;
     private $query;
     private $ajax;
-    private $table;
+    private $tableAndPagination;
     
     // Properties
     
@@ -62,7 +62,7 @@ class UserController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
         
@@ -143,20 +143,19 @@ class UserController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
-        // Pagination
         $userRows = $this->query->selectAllUsersDatabase(1);
         
-        $tableResult = $this->table->request($userRows, 20, "user", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($userRows, 20, "user", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($userRows, $tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($userRows, $tableAndPagination['list']);
         
         // Form
         $form = $this->createForm(UsersSelectionFormType::class, null, Array(
@@ -175,12 +174,12 @@ class UserController extends Controller {
 
                 $this->selectionResult($id, $request);
             }
-            else if ($request->get("event") == null && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == null && $this->utility->checkToken($request) == true) {
                 $id = $request->get("id") == "" ? 0 : $request->get("id");
 
                 $this->selectionResult($id, $request);
             }
-            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) || $this->table->checkPost() == true) {
+            else if (($request->get("event") == "refresh" && $this->utility->checkToken($request) == true) || $this->tableAndPagination->checkPost() == true) {
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/users_selection_desktop.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -237,7 +236,7 @@ class UserController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
         
@@ -327,25 +326,24 @@ class UserController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
-        // Pagination
         $userRows = $this->query->selectAllUsersDatabase(1);
         
-        $tableResult = $this->table->request($userRows, 20, "user", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($userRows, 20, "user", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($userRows, $tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($userRows, $tableAndPagination['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "delete" && $this->utilityPrivate->checkToken($request) == true) {
+            if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
                 $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($request->get("id"));
 
                 $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}", true);
@@ -357,7 +355,7 @@ class UserController extends Controller {
                 if ($usersDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
             }
-            else if ($request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
                 $userRows = $this->query->selectAllUsersDatabase(1);
 
                 for ($i = 0; $i < count($userRows); $i ++) {

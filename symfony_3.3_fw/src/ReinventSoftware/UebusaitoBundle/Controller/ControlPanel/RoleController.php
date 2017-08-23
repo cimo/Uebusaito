@@ -11,7 +11,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
+use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
 use ReinventSoftware\UebusaitoBundle\Entity\Role;
 
@@ -31,7 +31,7 @@ class RoleController extends Controller {
     private $utility;
     private $query;
     private $ajax;
-    private $table;
+    private $tableAndPagination;
     
     // Properties
     
@@ -61,7 +61,7 @@ class RoleController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $roleEntity = new Role();
         
@@ -126,20 +126,19 @@ class RoleController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
-        // Pagination
         $userRoleRows = $this->query->selectAllUserRolesDatabase();
         
-        $tableResult = $this->table->request($userRoleRows, 20, "role", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($userRoleRows, 20, "role", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
         // Form
         $form = $this->createForm(RolesSelectionFormType::class, null, Array(
@@ -158,12 +157,12 @@ class RoleController extends Controller {
 
                 $this->selectionResult($id, $request);
             }
-            else if ($request->get("event") == null && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == null && $this->utility->checkToken($request) == true) {
                 $id = $request->get("id") == "" ? 0 : $request->get("id");
 
                 $this->selectionResult($id, $request);
             }
-            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) || $this->table->checkPost() == true) {
+            else if (($request->get("event") == "refresh" && $this->utility->checkToken($request) == true) || $this->tableAndPagination->checkPost() == true) {
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/roles_selection_desktop.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -220,7 +219,7 @@ class RoleController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($this->urlExtra);
         
@@ -285,31 +284,30 @@ class RoleController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
-        // Pagination
         $userRoleRows = $this->query->selectAllUserRolesDatabase();
         
-        $tableResult = $this->table->request($userRoleRows, 20, "role", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($userRoleRows, 20, "role", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "delete" && $this->utilityPrivate->checkToken($request) == true) {
+            if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
                 $rolesDatabase = $this->rolesDatabase("delete", $request->get("id"));
 
                 if ($rolesDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_6");
             }
-            else if ($request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
                 $rolesDatabase = $this->rolesDatabase("deleteAll", null);
 
                 if ($rolesDatabase == true) {

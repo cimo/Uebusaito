@@ -1,4 +1,6 @@
 <?php
+// Version 1.0.0
+
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
 use Symfony\Component\HttpFoundation\JsonResponse;

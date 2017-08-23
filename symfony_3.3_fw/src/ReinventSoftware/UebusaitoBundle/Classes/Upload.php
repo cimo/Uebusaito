@@ -2,7 +2,6 @@
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 
 class Upload {
     // Vars
@@ -10,7 +9,6 @@ class Upload {
     private $entityManager;
     
     private $utility;
-    private $utilityPrivate;
     
     private $path;
     private $inputType;
@@ -32,7 +30,6 @@ class Upload {
         $this->entityManager = $entityManager;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         
         $this->path = Array();
         $this->inputType = "";

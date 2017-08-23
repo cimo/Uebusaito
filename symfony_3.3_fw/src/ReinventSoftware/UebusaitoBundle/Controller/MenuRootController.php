@@ -46,7 +46,7 @@ class MenuRootController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $moduleRow = $this->query->selectModuleDatabase(1);
         $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);

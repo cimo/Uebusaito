@@ -10,11 +10,10 @@ function Search() {
     
     // Functions public
     self.init = function() {
-        var table = new Table();
-        table.init(window.url.searchRender, "#search_render", false);
-        table.search(true);
-        table.pagination(true);
-        table.sort(true);
+        var tableAndPagination = new TableAndPagination();
+        tableAndPagination.init(window.url.searchRender, "#search_render", false);
+        tableAndPagination.search(true);
+        tableAndPagination.pagination(true);
         
         $(".form_search_module").on("submit", "", function(event) {
             event.preventDefault();

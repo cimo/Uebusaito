@@ -11,7 +11,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
+use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
 use ReinventSoftware\UebusaitoBundle\Form\PaymentsUserSelectionFormType;
 use ReinventSoftware\UebusaitoBundle\Form\PaymentsSelectionFormType;
@@ -29,7 +29,7 @@ class PaymentController extends Controller {
     private $utility;
     private $query;
     private $ajax;
-    private $table;
+    private $tableAndPagination;
     
     // Properties
     
@@ -60,7 +60,7 @@ class PaymentController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         if (isset($_SESSION['payments_user_id']) == false)
             $_SESSION['payments_user_id'] = $this->getUser()->getId();
@@ -126,23 +126,22 @@ class PaymentController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         if (isset($_SESSION['payments_user_id']) == false)
             $_SESSION['payments_user_id'] = $this->getUser()->getId();
         
-        // Pagination
         $paymentRows = $this->query->selectAllPaymentsDatabase($_SESSION['payments_user_id']);
         
-        $tableResult = $this->table->request($paymentRows, 20, "payment", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($paymentRows, 20, "payment", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
         // Form
         $form = $this->createForm(PaymentsSelectionFormType::class, null, Array(
@@ -161,12 +160,12 @@ class PaymentController extends Controller {
 
                 $this->selectionResult($id);
             }
-            else if ($request->get("event") == null && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == null && $this->utility->checkToken($request) == true) {
                 $id = $request->get("id") == "" ? 0 : $request->get("id");
 
                 $this->selectionResult($id);
             }
-            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) || $this->table->checkPost() == true) {
+            else if (($request->get("event") == "refresh" && $this->utility->checkToken($request) == true) || $this->tableAndPagination->checkPost() == true) {
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/payments_selection_desktop.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -221,31 +220,31 @@ class PaymentController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         // Pagination
         $paymentRows = $this->query->selectAllPaymentsDatabase($_SESSION['payments_user_id']);
         
-        $tableResult = $this->table->request($paymentRows, 20, "payment", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($paymentRows, 20, "payment", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "delete" && $this->utilityPrivate->checkToken($request) == true) {
+            if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
                 $paymentsDatabase = $this->paymentsDatabase("delete", $request->get("id"));
 
                 if ($paymentsDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
             }
-            else if ($request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
                 $paymentsDatabase = $this->paymentsDatabase("deleteAll", null);
 
                 if ($paymentsDatabase == true) {

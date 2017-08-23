@@ -11,7 +11,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
+use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
 use ReinventSoftware\UebusaitoBundle\Entity\Module;
 
@@ -33,7 +33,7 @@ class ModuleController extends Controller {
     private $utilityPrivate;
     private $query;
     private $ajax;
-    private $table;
+    private $tableAndPagination;
     
     // Properties
     
@@ -63,7 +63,7 @@ class ModuleController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         // Form
         $form = $this->createForm(ModulesDragFormType::class, null, Array(
@@ -150,7 +150,7 @@ class ModuleController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $moduleEntity = new Module();
         
@@ -223,25 +223,24 @@ class ModuleController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
-        // Pagination
         $moduleRows = $this->query->selectAllModulesDatabase();
         
-        $tableResult = $this->table->request($moduleRows, 20, "module", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($moduleRows, 20, "module", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
         // Form
         $form = $this->createForm(ModulesSelectionFormType::class, null, Array(
             'validation_groups' => Array('modules_selection'),
-            'choicesId' => array_reverse(array_column($this->query->selectAllModulesDatabase(), "id", "name"), true)
+            'choicesId' => array_reverse(array_column($moduleRows, "id", "name"), true)
         ));
         $form->handleRequest($request);
         
@@ -255,12 +254,12 @@ class ModuleController extends Controller {
 
                 $this->selectionResult($id, $request);
             }
-            else if ($request->get("event") == null && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == null && $this->utility->checkToken($request) == true) {
                 $id = $request->get("id") == "" ? 0 : $request->get("id");
 
                 $this->selectionResult($id, $request);
             }
-            else if (($request->get("event") == "refresh" && $this->utilityPrivate->checkToken($request) == true) || $this->table->checkPost() == true) {
+            else if (($request->get("event") == "refresh" && $this->utility->checkToken($request) == true) || $this->tableAndPagination->checkPost() == true) {
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/modules_selection_desktop.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -318,7 +317,7 @@ class ModuleController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($this->urlExtra);
         
@@ -408,12 +407,12 @@ class ModuleController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($this->utilityPrivate->checkToken($request) == true) {
+            if ($this->utility->checkToken($request) == true) {
                 $this->response['values']['moduleRows'] = $this->query->selectAllModulesDatabase($request->get("id"), $request->get("position"));
 
                 $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/module_profile_sort.html.twig", Array(
@@ -467,31 +466,30 @@ class ModuleController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
-        // Pagination
         $moduleRows = $this->query->selectAllModulesDatabase();
         
-        $tableResult = $this->table->request($moduleRows, 20, "module", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($moduleRows, 20, "module", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
         $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "delete" && $this->utilityPrivate->checkToken($request) == true) {
+            if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
                 $modulesDatabase = $this->modulesDatabase("delete", $request->get("id"), null, null);
 
                 if ($modulesDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
             }
-            else if ($request->get("event") == "deleteAll" && $this->utilityPrivate->checkToken($request) == true) {
+            else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
                 $modulesDatabase = $this->modulesDatabase("deleteAll", null, null, null);
 
                 if ($modulesDatabase == true) {

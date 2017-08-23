@@ -11,7 +11,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 use ReinventSoftware\UebusaitoBundle\Classes\Query;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Table;
+use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
 use ReinventSoftware\UebusaitoBundle\Form\SearchFormType;
 
@@ -29,7 +29,7 @@ class SearchController extends Controller {
     private $utilityPrivate;
     private $query;
     private $ajax;
-    private $table;
+    private $tableAndPagination;
     
     // Properties
     
@@ -60,7 +60,7 @@ class SearchController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $moduleRow = $this->query->selectModuleDatabase(5);
         
@@ -124,24 +124,23 @@ class SearchController extends Controller {
         $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
         $this->query = new Query($this->utility->getConnection());
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->table = new Table($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
-        // Pagination
         $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale, $this->urlExtra);
         
-        $tableResult = $this->table->request($pageRows, 20, "searchRender", true, true);
+        $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "searchRender", true, true);
         
-        $this->response['values']['search'] = $tableResult['search'];
-        $this->response['values']['pagination'] = $tableResult['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableResult['list']);;
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
         
-        $this->response['values']['results'] = $pageRows;
+        $this->response['values']['countResults'] = count($pageRows);
         
-        if ($this->table->checkPost() == true) {
+        if ($this->tableAndPagination->checkPost() == true) {
             $render = $this->renderView("@UebusaitoBundleViews/render/search.html.twig", Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,

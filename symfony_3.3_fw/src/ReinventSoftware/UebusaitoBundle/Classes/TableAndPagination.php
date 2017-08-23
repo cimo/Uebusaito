@@ -4,7 +4,7 @@ namespace ReinventSoftware\UebusaitoBundle\Classes;
 use ReinventSoftware\UebusaitoBundle\Classes\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
 
-class Table {
+class TableAndPagination {
     // Vars
     private $container;
     private $entityManager;
@@ -35,12 +35,12 @@ class Table {
         if ($reverse == true)
             $newRows = array_reverse($rows, true);
         
-        // Table - search
+        // Search
         $searchWritten = isset($_POST['searchWritten']) == true ? $_POST['searchWritten'] : -1;
         $search = $this->search($sessionTag . "Search", $searchWritten);
         $elements = $this->utility->arrayLike($newRows, $search['value'], $flat);
         
-        // Table - pagination
+        // Pagination
         $paginationCurrent = isset($_POST['paginationCurrent']) == true ? $_POST['paginationCurrent'] : -1;
         $pagination = $this->pagination($sessionTag . "Pagination", $paginationCurrent, count($elements), $page);
         

@@ -112,12 +112,12 @@ function ControlPanelModule() {
     }
     
     function selection() {
-        var table = new Table();
-        table.setButtonsStatus("show");
-        table.init(window.url.cpModulesSelection, "#cp_modules_selection_desktop_result", true);
-        table.search(true);
-        table.pagination(true);
-        table.sort(true);
+        var tableAndPagination = new TableAndPagination();
+        tableAndPagination.setButtonsStatus("show");
+        tableAndPagination.init(window.url.cpModulesSelection, "#cp_modules_selection_desktop_result", true);
+        tableAndPagination.search(true);
+        tableAndPagination.pagination(true);
+        tableAndPagination.sort(true);
         
         $(document).on("click", "#cp_modules_selection_desktop_result .refresh", function() {
             ajax.send(
@@ -135,7 +135,7 @@ function ControlPanelModule() {
                 function(xhr) {
                     ajax.reply(xhr, "");
                     
-                    table.populate(xhr);
+                    tableAndPagination.populate(xhr);
                 },
                 null,
                 null
@@ -164,7 +164,7 @@ function ControlPanelModule() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            table.populate(xhr);
+                            tableAndPagination.populate(xhr);
                         },
                         null,
                         null
@@ -310,6 +310,13 @@ function ControlPanelModule() {
                 null
             );
         });
+        
+        var selected = $("#form_modules_selection_id").find(":selected").val();
+        
+        if ($("#panel_id_" + selected).parent().hasClass("settings_hide") === true) {
+            $("#form_module_position").parents(".form-group").hide();
+            $("#module_profile_sort").hide();
+        }
     }
     
     function deletion(id) {

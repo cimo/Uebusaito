@@ -60,7 +60,7 @@ class RegistrationController extends Controller {
         
         $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
         
-        $this->utilityPrivate->checkSessionOverTime($request);
+        $this->utility->checkSessionOverTime($request);
         
         $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
         

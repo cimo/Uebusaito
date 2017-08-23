@@ -71,12 +71,12 @@ function ControlPanelUser() {
     
     // Function private
     function selection() {
-        var table = new Table();
-        table.setButtonsStatus("show");
-        table.init(window.url.cpUsersSelection, "#cp_users_selection_desktop_result", true);
-        table.search(true);
-        table.pagination(true);
-        table.sort(true);
+        var tableAndPagination = new TableAndPagination();
+        tableAndPagination.setButtonsStatus("show");
+        tableAndPagination.init(window.url.cpUsersSelection, "#cp_users_selection_desktop_result", true);
+        tableAndPagination.search(true);
+        tableAndPagination.pagination(true);
+        tableAndPagination.sort(true);
         
         $(document).on("click", "#cp_users_selection_desktop_result .refresh", function() {
             ajax.send(
@@ -94,7 +94,7 @@ function ControlPanelUser() {
                 function(xhr) {
                     ajax.reply(xhr, "");
                     
-                    table.populate(xhr);
+                    tableAndPagination.populate(xhr);
                 },
                 null,
                 null
@@ -123,7 +123,7 @@ function ControlPanelUser() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            table.populate(xhr);
+                            tableAndPagination.populate(xhr);
                         },
                         null,
                         null
