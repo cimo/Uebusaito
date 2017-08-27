@@ -230,7 +230,7 @@ date.time: H:i:s
 # Views / Include
 
 # loader.html.twig
-"loading_1": "Loading..."
+"loader_1": "Loading..."
 
 # table.html.twig
 "table_1": "Search"

@@ -1,7 +1,7 @@
 Uebusaito
 ==============
 
-This is a open source cms with symfony framework
+This is a open source cms with symfony framework.
 
 | Features |
 |:---|

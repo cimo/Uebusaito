@@ -2,13 +2,13 @@
 controlPanelRole, controlPanelSetting */
 
 $(document).ready(function() {
-    utility.linkPreventDefault();
-    
-    utility.watch("#flashBag", flashBag.sessionActivity);
-    
     utility.checkMobile(true);
     
     utility.checkWidth(window.settings.widthMobile);
+    
+    utility.linkPreventDefault();
+    
+    utility.watch("#flashBag", flashBag.sessionActivity);
     
     utility.imageError($("#panel_id_3").find("img"));
     
