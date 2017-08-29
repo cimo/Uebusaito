@@ -7,9 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
@@ -29,7 +28,7 @@ class UserController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $tableAndPagination;
@@ -57,14 +56,14 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_user_roleId_field", true);
         
         $userEntity = new User();
         $userEntity->setRoleId("1,");
@@ -76,14 +75,14 @@ class UserController extends Controller {
         $form->setData($userEntity);
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                $message = $this->utilityPrivate->assigUserPassword("withoutOld", $userEntity, $form);
+                $message = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
 
                 if ($message == "ok") {
-                    $this->utilityPrivate->configureUserParameters($userEntity);
+                    $this->uebusaitoUtility->configureUserParameters($userEntity);
 
                     mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
                     mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
@@ -140,12 +139,12 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -155,7 +154,7 @@ class UserController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($userRows, $tableAndPagination['list']);
+        $this->response['values']['list'] = $this->createHtmlList($userRows, $tableAndPagination['list']);
         
         // Form
         $form = $this->createForm(UsersSelectionFormType::class, null, Array(
@@ -164,7 +163,7 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             $id = 0;
@@ -231,14 +230,14 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_user_roleId_field", true);
         
         // Form
         $form = $this->createForm(UserFormType::class, null, Array(
@@ -246,13 +245,13 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
                 $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($this->urlExtra);
                 
-                $message = $this->utilityPrivate->assigUserPassword("withoutOld", $userEntity, $form);
+                $message = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
 
                 if ($message == "ok") {
                     $usernameOld = $userEntity->getUsername();
@@ -323,12 +322,12 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -338,9 +337,9 @@ class UserController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($userRows, $tableAndPagination['list']);
+        $this->response['values']['list'] = $this->createHtmlList($userRows, $tableAndPagination['list']);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
@@ -403,7 +402,7 @@ class UserController extends Controller {
         $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
         
         if ($userEntity != null) {
-            $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_user_roleId_field", true);
+            $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_user_roleId_field", true);
             
             // Form
             $form = $this->createForm(UserFormType::class, $userEntity, Array(
@@ -425,7 +424,7 @@ class UserController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
     }
     
-    private function createListHtml($userRows, $tableResult) {
+    private function createHtmlList($userRows, $tableResult) {
         $listHtml = "";
         
         $roleLevel = Array();

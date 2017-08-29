@@ -6,9 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 
 class PageViewController extends Controller {
     // Vars
@@ -21,7 +20,7 @@ class PageViewController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     
     // Properties
@@ -41,10 +40,10 @@ class PageViewController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -78,8 +77,8 @@ class PageViewController extends Controller {
                     );
                 }
                 else if ($pageRow['protected'] == true) {
-                    $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
-                    $checkInRoles = $this->utilityPrivate->checkInRoles($pageRow['role_id'], $this->getUser()->getRoleId());
+                    $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+                    $checkInRoles = $this->uebusaitoUtility->checkInRoles($pageRow['role_id'], $this->getUser()->getRoleId());
                             
                     if ($chekRoleLevel == false && $checkInRoles == false) {
                         // Page not available for role

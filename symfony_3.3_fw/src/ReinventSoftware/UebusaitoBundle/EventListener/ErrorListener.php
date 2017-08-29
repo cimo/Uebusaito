@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
 
 class ErrorListener {
     // Vars

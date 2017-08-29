@@ -7,9 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
@@ -26,7 +25,7 @@ class SearchController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $tableAndPagination;
@@ -54,11 +53,11 @@ class SearchController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -121,12 +120,12 @@ class SearchController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -136,9 +135,9 @@ class SearchController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
+        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
         
-        $this->response['values']['countResults'] = count($pageRows);
+        $this->response['values']['countResults'] = count($tableAndPagination['list']);
         
         if ($this->tableAndPagination->checkPost() == true) {
             $render = $this->renderView("@UebusaitoBundleViews/render/search.html.twig", Array(
@@ -169,7 +168,7 @@ class SearchController extends Controller {
     }
     
     // Functions private
-    private function createListHtml($tableResult) {
+    private function createHtmlList($tableResult) {
         $listHtml = "";
         
         foreach ($tableResult as $key => $value) {

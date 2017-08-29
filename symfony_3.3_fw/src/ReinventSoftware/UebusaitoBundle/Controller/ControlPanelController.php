@@ -7,8 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 
 class ControlPanelController extends Controller {
     // Vars
@@ -21,7 +21,7 @@ class ControlPanelController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     
     // Properties
     
@@ -46,9 +46,9 @@ class ControlPanelController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         

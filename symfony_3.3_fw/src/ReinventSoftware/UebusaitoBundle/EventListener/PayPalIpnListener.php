@@ -5,8 +5,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\PayPal;
 
 use ReinventSoftware\UebusaitoBundle\Entity\Payment;
@@ -27,7 +26,7 @@ class PayPalIpnListener {
         $this->entityManager = $entityManager;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
     }
     
     public function onKernelResponse(FilterResponseEvent $event) {

@@ -1,6 +1,6 @@
 services:
     uebusaito.file.twig.extension:
-        class: ReinventSoftware\UebusaitoBundle\Classes\TwigExtension
+        class: ReinventSoftware\UebusaitoBundle\Classes\System\TwigExtension
         tags:
             - { name: twig.extension }
     

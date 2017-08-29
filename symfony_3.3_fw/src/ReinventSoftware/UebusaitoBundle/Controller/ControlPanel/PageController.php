@@ -7,9 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
@@ -29,7 +28,7 @@ class PageController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $tableAndPagination;
@@ -59,15 +58,15 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_page_roleId_field", true);
         
         $pageEntity = new Page();
         
@@ -78,11 +77,11 @@ class PageController extends Controller {
             'validation_groups' => Array('page_creation'),
             'pageRow' => null,
             'urlLocale' => $this->urlLocale,
-            'choicesParent' => array_flip($this->utilityPrivate->createPagesList($pageRows, true))
+            'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true))
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -137,12 +136,12 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -154,16 +153,16 @@ class PageController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
+        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
         
         // Form
         $form = $this->createForm(PagesSelectionFormType::class, null, Array(
             'validation_groups' => Array('pages_selection'),
-            'choicesId' => array_flip($this->utilityPrivate->createPagesList($pageRows, true))
+            'choicesId' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true))
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             $id = 0;
@@ -230,15 +229,15 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_page_roleId_field", true);
         
         $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($this->urlExtra);
         
@@ -249,11 +248,11 @@ class PageController extends Controller {
             'validation_groups' => Array('page_profile'),
             'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
             'urlLocale' => $this->urlLocale,
-            'choicesParent' => array_flip($this->utilityPrivate->createPagesList($pageRows, true))
+            'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true))
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -308,12 +307,12 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -325,9 +324,9 @@ class PageController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
+        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
@@ -346,7 +345,7 @@ class PageController extends Controller {
                     $this->response['values']['id'] = $id;
                     $this->response['values']['text'] = "<p class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
                     $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
-                    $this->response['values']['select'] = $this->utilityPrivate->createPagesSelectHtml($this->urlLocale, "cp_page_deletion_parent_new");
+                    $this->response['values']['select'] = $this->uebusaitoUtility->createHtmlPages($this->urlLocale, "cp_page_deletion_parent_new");
                 }
             }
             else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
@@ -410,7 +409,7 @@ class PageController extends Controller {
         
         if ($pageEntity != null) {
             $this->response['values']['id'] = $id;
-            $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_page_roleId_field", true);
+            $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_page_roleId_field", true);
             
             $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
             
@@ -419,7 +418,7 @@ class PageController extends Controller {
                 'validation_groups' => Array('page_profile'),
                 'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
                 'urlLocale' => $this->urlLocale,
-                'choicesParent' => array_flip($this->utilityPrivate->createPagesList($pageRows, true))
+                'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true))
             ));
             $form->handleRequest($request);
             
@@ -437,7 +436,7 @@ class PageController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
     }
     
-    private function createListHtml($elements) {
+    private function createHtmlList($elements) {
         foreach ($elements as $key => $value) {
             $this->listHtml .= "<tr>
                 <td class=\"id_column\">
@@ -480,7 +479,7 @@ class PageController extends Controller {
             </tr>";
             
             if (count($value['children']) > 0)
-                $this->createListHtml($value['children']);
+                $this->createHtmlList($value['children']);
         }
         
         return $this->listHtml;

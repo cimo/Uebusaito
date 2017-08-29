@@ -1,7 +1,9 @@
 <?php
+// Version 1.0.0
+
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
 
 class Captcha {
     // Vars

@@ -7,9 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 
 use ReinventSoftware\UebusaitoBundle\Form\LanguageFormType;
@@ -25,7 +24,7 @@ class LanguageController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     private $ajax;
     
@@ -52,11 +51,11 @@ class LanguageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -120,8 +119,8 @@ class LanguageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->utility->checkSessionOverTime($request);

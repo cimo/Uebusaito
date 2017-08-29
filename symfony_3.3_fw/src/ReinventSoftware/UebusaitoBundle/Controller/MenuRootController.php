@@ -6,9 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 
 class MenuRootController extends Controller {
     // Vars
@@ -21,7 +20,7 @@ class MenuRootController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     
     // Properties
@@ -41,10 +40,10 @@ class MenuRootController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -55,7 +54,7 @@ class MenuRootController extends Controller {
         $this->response['module']['label'] = $moduleRow['label'];
         
         $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}";
-        $this->response['values']['pagesList'] = $this->utilityPrivate->createPagesList($pageRows, false);
+        $this->response['values']['pagesList'] = $this->uebusaitoUtility->createPagesList($pageRows, false);
         $this->response['values']['modules'] = $this->query->selectAllModulesDatabase();
         
         return Array(

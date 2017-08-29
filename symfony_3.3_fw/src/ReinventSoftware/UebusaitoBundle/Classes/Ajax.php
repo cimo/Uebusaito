@@ -5,7 +5,7 @@ namespace ReinventSoftware\UebusaitoBundle\Classes;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
 
 class Ajax {
     // Vars

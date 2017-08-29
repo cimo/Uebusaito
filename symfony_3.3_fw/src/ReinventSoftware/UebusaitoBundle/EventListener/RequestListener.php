@@ -7,8 +7,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
 
 class RequestListener {
     // Vars
@@ -26,7 +25,7 @@ class RequestListener {
         $this->entityManager = $entityManager;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
     }
     
     public function onKernelRequest(GetResponseEvent $event) {

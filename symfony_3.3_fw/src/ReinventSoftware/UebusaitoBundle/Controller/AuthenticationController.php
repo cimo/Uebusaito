@@ -7,9 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 
 use ReinventSoftware\UebusaitoBundle\Form\AuthenticationFormType;
 
@@ -24,7 +23,7 @@ class AuthenticationController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     
     // Properties
@@ -50,10 +49,10 @@ class AuthenticationController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -67,7 +66,7 @@ class AuthenticationController extends Controller {
         $form->handleRequest($request);
         
         if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-            $this->utilityPrivate->assignUserRole($this->getUser());
+            $this->uebusaitoUtility->assignUserRole($this->getUser());
 
             $this->response['values']['user'] = $this->getUser();
             $this->response['values']['roleLevel'] = $this->query->selectUserRoleLevelDatabase($this->getUser()->getRoleId(), true);

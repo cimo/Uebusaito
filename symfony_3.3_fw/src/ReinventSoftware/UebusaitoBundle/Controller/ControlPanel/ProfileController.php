@@ -8,9 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\Upload;
 
@@ -29,7 +28,7 @@ class ProfileController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $upload;
@@ -57,11 +56,11 @@ class ProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -74,7 +73,7 @@ class ProfileController extends Controller {
             'validation_groups' => Array('profile')
         ));
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($chekRoleLevel == false)
             $form->remove("username");
@@ -85,7 +84,7 @@ class ProfileController extends Controller {
         
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -162,10 +161,10 @@ class ProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -175,11 +174,11 @@ class ProfileController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                $message = $this->utilityPrivate->assigUserPassword("withOld", $this->getUser(), $form);
+                $message = $this->uebusaitoUtility->assigUserPassword("withOld", $this->getUser(), $form);
 
                 if ($message == "ok") {
                     // Insert in database
@@ -233,11 +232,11 @@ class ProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -252,7 +251,7 @@ class ProfileController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true)
@@ -297,9 +296,9 @@ class ProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -325,11 +324,11 @@ class ProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->upload = new Upload($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         

@@ -7,9 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 
 use ReinventSoftware\UebusaitoBundle\Form\SettingsFormType;
@@ -25,7 +24,7 @@ class SettingController extends Controller {
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     private $ajax;
     
@@ -52,15 +51,15 @@ class SettingController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['rolesSelect'] = $this->utilityPrivate->createRolesSelectHtml("form_settings_roleId_field", true);
+        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_settings_roleId_field", true);
         
         $settingEntity = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
         
@@ -70,12 +69,12 @@ class SettingController extends Controller {
         $form = $this->createForm(SettingsFormType::class, $settingEntity, Array(
             'validation_groups' => Array('settings'),
             'settingRow' => $settingRow,
-            'choicesTemplate' => $this->utilityPrivate->createTemplatesList(),
+            'choicesTemplate' => $this->uebusaitoUtility->createTemplatesList(),
             'choicesLanguage' => array_column($this->query->selectAllLanguagesDatabase(), "code", "code")
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -141,15 +140,15 @@ class SettingController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($request->get("event") == "deleteLanguage" && $this->utility->checkToken($request) == true) {

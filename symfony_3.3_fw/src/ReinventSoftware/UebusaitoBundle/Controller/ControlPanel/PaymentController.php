@@ -7,9 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
@@ -54,11 +53,11 @@ class PaymentController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -72,7 +71,7 @@ class PaymentController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -123,12 +122,12 @@ class PaymentController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -141,7 +140,7 @@ class PaymentController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
+        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
         
         // Form
         $form = $this->createForm(PaymentsSelectionFormType::class, null, Array(
@@ -150,7 +149,7 @@ class PaymentController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             $id = 0;
@@ -217,12 +216,12 @@ class PaymentController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->utilityPrivate->checkLanguage($request);
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -233,9 +232,9 @@ class PaymentController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createListHtml($tableAndPagination['list']);
+        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
         
-        $chekRoleLevel = $this->utilityPrivate->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
@@ -299,7 +298,7 @@ class PaymentController extends Controller {
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_2");
     }
     
-    private function createListHtml($elements) {
+    private function createHtmlList($elements) {
         $listHtml = "";
         
         $count = 0;

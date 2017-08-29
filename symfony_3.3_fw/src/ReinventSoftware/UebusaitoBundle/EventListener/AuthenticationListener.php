@@ -11,9 +11,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
-use ReinventSoftware\UebusaitoBundle\Classes\Query;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 
 class AuthenticationListener implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface, LogoutSuccessHandlerInterface {
@@ -24,7 +23,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
     private $response;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     private $query;
     private $ajax;
     
@@ -40,8 +39,8 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
-        $this->query = new Query($this->utility->getConnection());
+        $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->settingRow = $this->query->selectSettingDatabase();
@@ -54,8 +53,8 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
             $user = $token->getUser();
             
             $checkCaptcha = $this->utility->checkCaptcha($this->settingRow['captcha'], $request->get("captcha"));
-            $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("success", $user->getId(), $this->settingRow);
-            $checkInRoles = $this->utilityPrivate->checkInRoles($this->settingRow['role_id'], $user->getRoleId());
+            $checkAttemptLogin = $this->uebusaitoUtility->checkAttemptLogin("success", $user->getId(), $this->settingRow);
+            $checkInRoles = $this->uebusaitoUtility->checkInRoles($this->settingRow['role_id'], $user->getRoleId());
             
             if ($checkCaptcha == true && (($this->settingRow['active'] == true && $checkAttemptLogin[0] == true) || ($this->settingRow['active'] == false && $checkAttemptLogin[0] == true && $checkInRoles == true)))
                 $this->response['values']['url'] = $referer;
@@ -94,7 +93,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
             $username = $request->get("_username");
             
             $checkCaptcha = $this->utility->checkCaptcha($this->settingRow['captcha'], $request->get("captcha"));
-            $checkAttemptLogin = $this->utilityPrivate->checkAttemptLogin("failure", $username, $this->settingRow);
+            $checkAttemptLogin = $this->uebusaitoUtility->checkAttemptLogin("failure", $username, $this->settingRow);
             
             if ($checkCaptcha == true && $checkAttemptLogin[0] == true)
                 $message = $this->utility->getTranslator()->trans("authenticationListener_2");

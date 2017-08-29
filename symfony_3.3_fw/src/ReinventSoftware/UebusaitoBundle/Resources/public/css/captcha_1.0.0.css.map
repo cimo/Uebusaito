@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,QAAS,GACL,UAAU,EAAE,MAAM,EAClB,aAAa,EAAE,IAAI;AAEnB,cAAM,GACF,QAAQ,EAAE,QAAQ,EAClB,GAAG,EAAE,GAAG,EACR,MAAM,EAAE,OAAO;AAEnB,YAAI,GACA,MAAM,EAAE,iBAAiB;AAE7B,cAAM,GACF,QAAQ,EAAE,QAAQ,EAClB,GAAG,EAAE,GAAG",
-"sources": ["../scss/captcha_1.0.0.scss"],
-"names": [],
-"file": "captcha_1.0.0.css"
-}

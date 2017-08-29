@@ -1,8 +1,10 @@
 <?php
+// Version 1.0.0
+
 namespace ReinventSoftware\UebusaitoBundle\Classes;
 
-use ReinventSoftware\UebusaitoBundle\Classes\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UtilityPrivate;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
+use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 
 class TableAndPagination {
     // Vars
@@ -10,7 +12,7 @@ class TableAndPagination {
     private $entityManager;
     
     private $utility;
-    private $utilityPrivate;
+    private $uebusaitoUtility;
     
     private $searchIndex;
     private $paginationIndex;
@@ -23,7 +25,7 @@ class TableAndPagination {
         $this->entityManager = $entityManager;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->utilityPrivate = new UtilityPrivate($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         
         $this->searchIndex = "";
         $this->paginationIndex = "";
@@ -47,7 +49,7 @@ class TableAndPagination {
         if ($sessionTag != "page")
             $list = array_slice($elements, $pagination['offset'], $pagination['show']);
         else
-            $list = $this->utilityPrivate->createPagesList($elements, false, $pagination);
+            $list = $this->uebusaitoUtility->createPagesList($elements, false, $pagination);
         
         return Array(
             'search' => $search,

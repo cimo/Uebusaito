@@ -10,18 +10,18 @@
     <!-- Favicon -->
     <link href="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
     <!-- Css -->
-    <link href="{{asset("bundles/uebusaito/css/lib/jquery-ui_1.12.1.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/lib/jquery-ui_1.12.1_structure.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/lib/bootstrap_3.3.7.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/lib/bootstrap-switch_3.3.2.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/lib/font-awesome_4.7.0_custom.min.css")}}" rel="stylesheet">
-    <link href="{{asset("bundles/uebusaito/css/" ~ settingRow['template'] ~ ".css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/loader_1.0.0.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/flashBag_1.0.0.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/table_and_pagination_1.0.0.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/captcha_1.0.0.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/upload_1.0.0.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/wysiwyg_1.0.0.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/library/jquery-ui_1.12.1.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/library/jquery-ui_1.12.1_structure.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/library/bootstrap_3.3.7.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/library/bootstrap-switch_3.3.2.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/library/font-awesome_4.7.0_custom.min.css")}}" rel="stylesheet">
+    <link href="{{asset("bundles/uebusaito/css/system/" ~ settingRow['template'] ~ ".css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/loader.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/flashBag.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/table_and_pagination.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/captcha.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/upload.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/wysiwyg.css")}}" rel="stylesheet"/>
 {% endblock%}
 
 {% block headerContainer %}
@@ -207,36 +207,37 @@
             'active': "{{settingRow['active']}}"
         };
     </script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery_3.1.1.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery-ui_1.12.1.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/jquery-mobile_1.5.0.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/bootstrap_3.3.7.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/bootstrap-switch_3.3.2.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery_3.1.1.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery-ui_1.12.1.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery-mobile_1.5.0.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/bootstrap_3.3.7.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/bootstrap-switch_3.3.2.min.js")}}"></script>
     <!--[if lte IE 9]>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/lib/media-match_2.0.2.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/media-match_2.0.2.min.js")}}"></script>
     <![endif]-->
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Utility_1.0.0.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Ajax_1.0.0.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Loader_1.0.0.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/FlashBag_1.0.0.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/PopupEasy_1.0.0.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/TableAndPagination_1.0.0.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Captcha_1.0.0.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Upload_1.0.0.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Wysiwyg_1.0.0.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Utility.js")}}"></script>
+    
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Ajax.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Loader.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/FlashBag.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/PopupEasy.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/TableAndPagination.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Captcha.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Upload.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Wysiwyg.js")}}"></script>
 
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Language.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Search.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Authentication.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Registration.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/RecoverPassword.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Profile.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Payment.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Page.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/User.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Module.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Role.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/control_panel/Setting.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Language.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Search.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Authentication.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Registration.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/RecoverPassword.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Profile.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Payment.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Page.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/User.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Module.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Role.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Setting.js")}}"></script>
 
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/js/Index.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Index.js")}}"></script>
 {% endblock %}
