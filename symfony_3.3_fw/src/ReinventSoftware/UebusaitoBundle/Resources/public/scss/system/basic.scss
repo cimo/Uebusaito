@@ -241,21 +241,22 @@ $footerColor: #ffffff;
             width: 100%;
         }
         
-        a {
-            top: 8%;
-            left: 18%;
+        div {
+            top: 1%;
             font-size: 20px;
+            
+            a {
+                color: #ffffff;
+            }
         }
         
         p {
             &.text_1 {
                 top: 36%;
-                left: 28%;
                 font-size: 15px;
             }
             &.text_2 {
                 top: 46%;
-                left: 26%;
                 font-size: 15px;
             }
         }
@@ -284,21 +285,22 @@ $footerColor: #ffffff;
             width: 55%;
         }
         
-        a {
-            top: 9%;
-            left: 32%;
+        div {
+            top: 1%;
             font-size: 35px;
+            
+            a {
+                color: #ffffff;
+            }
         }
         
         p {
             &.text_1 {
                 top: 38%;
-                left: 38%;
                 font-size: 32px;
             }
             &.text_2 {
                 top: 45%;
-                left: 36%;
                 font-size: 35px;
             }
         }
@@ -723,12 +725,16 @@ p {
         height: auto;
     }
     
-    a {
+    div {
         position: absolute;
+        left: 0;
+        right: 0;
     }
     
     p {
         position: absolute;
+        left: 0;
+        right: 0;
     }
 }
 

@@ -88,7 +88,7 @@ function Language() {
             if (controlPanelPage.getProfileFocus() === true) {
                 popupEasy.create(
                     window.text.warning,
-                    "<p>" + window.textLanguagePage.changePageLanguage + "</p>",
+                    "<p>" + window.textLanguagePage.label_1 + "</p>",
                     function() {
                         popupEasy.close();
 

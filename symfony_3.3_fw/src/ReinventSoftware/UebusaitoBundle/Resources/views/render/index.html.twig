@@ -85,10 +85,12 @@
                         {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% else %}
                         <div class="maintenance_content">
-                            <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/work_in_progress.svg")}}">
-                            <a href="{{path("root_render", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "maintenance_authentication"})}}">
-                                <i class="fa fa-wrench"></i>
-                            </a>
+                            <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/maintenance.svg")}}">
+                            <div>
+                                <a href="{{path("root_render", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "maintenance_authentication"})}}">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                            </div>
                             <p class="text_1">{% trans %}index_1{% endtrans %}</p>
                             <p class="text_2">{% trans %}index_2{% endtrans %}</p>
                         </div>
@@ -190,12 +192,7 @@
             'warning': "{{"index_3"|trans}}",
             'ok': "{{"index_4"|trans}}",
             'abort': "{{"index_5"|trans}}",
-            'ajaxConnectionError': "{{"index_6"|trans}}",
-            'wysiwyg_1': "{{"wysiwyg_1"|trans}}",
-            'wysiwyg_2': "{{"wysiwyg_2"|trans}}",
-            'wysiwyg_3': "{{"wysiwyg_3"|trans}}",
-            'wysiwyg_4': "{{"wysiwyg_4"|trans}}",
-            'wysiwyg_5': "{{"wysiwyg_5"|trans}}"
+            'ajaxConnectionError': "{{"index_6"|trans}}"
         };
 
         var settings = {

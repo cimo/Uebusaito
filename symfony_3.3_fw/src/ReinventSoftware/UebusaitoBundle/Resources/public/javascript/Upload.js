@@ -114,9 +114,9 @@ function Upload() {
         if (file !== null) {
             uploadStarted = true;
             
-            message(true, window.textUpload.uploadText_2);
+            message(true, window.textUpload.label_2);
             
-            $("#upload").find(".button_1 span").text(window.textUpload.uploadButton_2);
+            $("#upload").find(".button_1 span").text(window.textUpload.label_5);
             
             chunkCurrent = Math.ceil(file.size / chunkSize);
 
@@ -128,14 +128,14 @@ function Upload() {
         uploadPaused = true;
         
         $("#upload").find(".button_1 i").removeClass("fa-play").addClass("fa-pause");
-        $("#upload").find(".button_1 span").text(window.textUpload.uploadButton_3);
+        $("#upload").find(".button_1 span").text(window.textUpload.label_6);
     }
     
     function resume() {
         uploadPaused = false;
         
         $("#upload").find(".button_1 i").removeClass("fa-pause").addClass("fa-play");
-        $("#upload").find(".button_1 span").text(window.textUpload.uploadButton_2);
+        $("#upload").find(".button_1 span").text(window.textUpload.label_5);
         
         sendChunk(chunkPause);
     }
@@ -172,7 +172,7 @@ function Upload() {
             
             timeLeft = Math.ceil((totalTime / start) * (chunkCurrent - start) / 100);
             
-            message(true, timeLeft + window.textUpload.uploadText_3);
+            message(true, timeLeft + window.textUpload.label_3);
         }
     }
     
@@ -185,7 +185,7 @@ function Upload() {
         if (uploadPaused === true) {
             chunkPause = chunk;
             
-            message(true, window.textUpload.uploadText_1);
+            message(true, window.textUpload.label_1);
             
             return;
         }
@@ -279,7 +279,7 @@ function Upload() {
         message(false, "");
         
         $("#upload").find(".button_1 i").removeClass("fa-pause").addClass("fa-play");
-        $("#upload").find(".button_1 span").text(window.textUpload.uploadButton_1);
+        $("#upload").find(".button_1 span").text(window.textUpload.label_4);
         
         if (type === "show")
             $("#upload").find(".container_controls").show();

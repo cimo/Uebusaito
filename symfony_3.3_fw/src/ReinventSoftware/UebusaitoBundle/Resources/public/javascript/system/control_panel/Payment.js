@@ -82,7 +82,7 @@ function ControlPanelPayment() {
         $(document).on("click", "#cp_payments_selection_desktop_result .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                "<p>" + window.textPayment.deleteAllPayments + "</p>",
+                "<p>" + window.textPayment.label_2 + "</p>",
                 function() {
                     popupEasy.close();
                     
@@ -209,7 +209,7 @@ function ControlPanelPayment() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            "<p>" + window.textPayment.deletePayment + "</p>",
+            "<p>" + window.textPayment.label_1 + "</p>",
             function() {
                 popupEasy.close();
 

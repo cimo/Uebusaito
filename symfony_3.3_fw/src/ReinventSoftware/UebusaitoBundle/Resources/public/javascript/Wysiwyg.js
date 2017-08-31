@@ -338,9 +338,9 @@ function Wysiwyg() {
     
     function createLink() {
         popupEasy.create(
-            window.textWysiwyg.link_1,
-            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.link_2 + "</p><input style=\"width: 100%;\" id=\"link_href\" value=\"https://\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 40px;\">" + window.textWysiwyg.link_3 + "</p><input style=\"display: inline-block;\" id=\"link_text\" value=\"\"/></div>",
+            window.textWysiwyg.label_1,
+            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.label_2 + "</p><input style=\"width: 100%;\" id=\"link_href\" value=\"https://\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 40px;\">" + window.textWysiwyg.label_3 + "</p><input style=\"display: inline-block;\" id=\"link_text\" value=\"\"/></div>",
             function() {
                 var href = $("#link_href").val();
                 var text = $("#link_text").val();
@@ -361,11 +361,11 @@ function Wysiwyg() {
     
     function createImage() {
         popupEasy.create(
-            window.textWysiwyg.image_1,
-            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.image_2 + "</p><input style=\"width: 100%;\" id=\"image_src\" value=\"\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.image_3 + "</p><input style=\"display: inline-block;\" id=\"image_responsive\" type=\"checkbox\" value=\"\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.image_4 + "</p><input style=\"display: inline-block;\" id=\"image_width\" value=\"\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.image_5 + "</p><input style=\"display: inline-block;\" id=\"image_height\" value=\"\"/></div>",
+            window.textWysiwyg.label_4,
+            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.label_5 + "</p><input style=\"width: 100%;\" id=\"image_src\" value=\"\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_6 + "</p><input style=\"display: inline-block;\" id=\"image_responsive\" type=\"checkbox\" value=\"\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_7 + "</p><input style=\"display: inline-block;\" id=\"image_width\" value=\"\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_8 + "</p><input style=\"display: inline-block;\" id=\"image_height\" value=\"\"/></div>",
             function() {
                 var src = $("#image_src").val();
                 var pathFull = window.url.webBundle + "/images/templates/" + window.settings.template + "/" + src;
@@ -398,11 +398,11 @@ function Wysiwyg() {
     
     function createButton() {
         popupEasy.create(
-            window.textWysiwyg.button_1,
-            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.button_2 + "</p><textarea style=\"width: 100%; height: 100px; resize: none;\" id=\"button_style\"></textarea></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.button_3 + "</p><input style=\"display: inline-block;\" id=\"button_class\" value=\"button_custom\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.button_4 + "</p><input style=\"display: inline-block;\" id=\"button_href\" value=\"#\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.button_5 + "</p><input style=\"display: inline-block;\" id=\"button_text\" value=\"\"/></div>",
+            window.textWysiwyg.label_9,
+            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.label_10 + "</p><textarea style=\"width: 100%; height: 100px; resize: none;\" id=\"button_style\"></textarea></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_11 + "</p><input style=\"display: inline-block;\" id=\"button_class\" value=\"button_custom\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_12 + "</p><input style=\"display: inline-block;\" id=\"button_href\" value=\"#\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_13 + "</p><input style=\"display: inline-block;\" id=\"button_text\" value=\"\"/></div>",
             function() {
                 var style = $("#button_style").val();
                 var classes = $("#button_class").val();
@@ -428,10 +428,10 @@ function Wysiwyg() {
     function createTable(command) {
         if (command === "table_html") {
             popupEasy.create(
-                window.textWysiwyg.table_1,
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.table_2 + "</p><input style=\"display: inline-block;\" id=\"table_row\" value=\"1\"/></div>" +
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.table_3 + "</p><input style=\"display: inline-block;\" id=\"table_td\" value=\"1\"/></div>" +
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.table_4 + "</p><input style=\"display: inline-block;\" id=\"table_width\" value=\"100%\"/></div>",
+                window.textWysiwyg.label_14,
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_15 + "</p><input style=\"display: inline-block;\" id=\"table_row\" value=\"1\"/></div>" +
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_16 + "</p><input style=\"display: inline-block;\" id=\"table_td\" value=\"1\"/></div>" +
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_17 + "</p><input style=\"display: inline-block;\" id=\"table_width\" value=\"100%\"/></div>",
                 function() {
                     var row = $("#table_row").val();
                     var column = $("#table_td").val();
@@ -462,10 +462,10 @@ function Wysiwyg() {
         }
         else if (command === "table_div") {
             popupEasy.create(
-                window.textWysiwyg.table_1,
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.table_2 + "</p><input style=\"display: inline-block;\" id=\"table_row\" value=\"1\"/></div>" +
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.table_3 + "</p><input style=\"display: inline-block;\" id=\"table_td\" value=\"3\"/></div>" +
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.table_4 + "</p><input style=\"display: inline-block;\" id=\"table_width\" value=\"col-md-4\"/></div>",
+                window.textWysiwyg.label_14,
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_15 + "</p><input style=\"display: inline-block;\" id=\"table_row\" value=\"1\"/></div>" +
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_16 + "</p><input style=\"display: inline-block;\" id=\"table_td\" value=\"3\"/></div>" +
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_17 + "</p><input style=\"display: inline-block;\" id=\"table_width\" value=\"col-md-4\"/></div>",
                 function() {
                     var row = $("#table_row").val();
                     var column = $("#table_td").val();

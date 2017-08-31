@@ -134,16 +134,18 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
   .navbar_fix .navbar-default .navbar-collapse .navbar-nav li.dropdown ul.dropdown-menu { position: static; float: none; border: initial !important; border-top: 1px solid #e7e7e7 !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; -ms-filter: none !important; filter: none !important; box-shadow: none !important; }
   .maintenance_content { margin: 0px 10px 20px 10px; }
   .maintenance_content img { width: 100%; }
-  .maintenance_content a { top: 8%; left: 18%; font-size: 20px; }
-  .maintenance_content p.text_1 { top: 36%; left: 28%; font-size: 15px; }
-  .maintenance_content p.text_2 { top: 46%; left: 26%; font-size: 15px; }
+  .maintenance_content div { top: 1%; font-size: 20px; }
+  .maintenance_content div a { color: #ffffff; }
+  .maintenance_content p.text_1 { top: 36%; font-size: 15px; }
+  .maintenance_content p.text_2 { top: 46%; font-size: 15px; }
   #panel_id_1 { margin-left: -15px; margin-right: -15px; } }
 @media (min-width: 1051px) { .button_authentication_desktop { display: none; position: absolute; top: 27px; right: 35px; color: #ffffff; cursor: pointer; z-index: 1010; }
   .maintenance_content { margin: -20px 10px 20px 10px; }
   .maintenance_content img { width: 55%; }
-  .maintenance_content a { top: 9%; left: 32%; font-size: 35px; }
-  .maintenance_content p.text_1 { top: 38%; left: 38%; font-size: 32px; }
-  .maintenance_content p.text_2 { top: 45%; left: 36%; font-size: 35px; }
+  .maintenance_content div { top: 1%; font-size: 35px; }
+  .maintenance_content div a { color: #ffffff; }
+  .maintenance_content p.text_1 { top: 38%; font-size: 32px; }
+  .maintenance_content p.text_2 { top: 45%; font-size: 35px; }
   #panel_id_4 { position: absolute; top: 31px; right: 40px; z-index: 1010; }
   #panel_id_5 { position: absolute; top: 31px; right: 195px; z-index: 1010; } }
 body { position: absolute; top: 0; right: 0; left: 0; min-height: 100%; font-family: "pt_sans", sans-serif; font-size: 14px; }
@@ -235,8 +237,8 @@ p { margin: 0; }
 
 .maintenance_content { position: relative; text-align: center; }
 .maintenance_content img { height: auto; }
-.maintenance_content a { position: absolute; }
-.maintenance_content p { position: absolute; }
+.maintenance_content div { position: absolute; left: 0; right: 0; }
+.maintenance_content p { position: absolute; left: 0; right: 0; }
 
 .error_title { font-size: 100px; }
 

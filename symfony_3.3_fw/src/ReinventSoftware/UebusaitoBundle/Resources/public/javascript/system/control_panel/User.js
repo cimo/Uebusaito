@@ -104,7 +104,7 @@ function ControlPanelUser() {
         $(document).on("click", "#cp_users_selection_desktop_result .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                "<p>" + window.textUser.deleteAllUsers + "</p>",
+                "<p>" + window.textUser.label_2 + "</p>",
                 function() {
                     popupEasy.close();
                     
@@ -232,7 +232,7 @@ function ControlPanelUser() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            "<p>" + window.textUser.deleteUser + "</p>",
+            "<p>" + window.textUser.label_1 + "</p>",
             function() {
                 popupEasy.close();
 
