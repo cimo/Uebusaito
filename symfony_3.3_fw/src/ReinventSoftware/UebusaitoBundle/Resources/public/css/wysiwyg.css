@@ -10,6 +10,6 @@
 #wysiwyg .toolbar .popup_settings input[type='color'] { margin-bottom: 5px; }
 #wysiwyg .toolbar .popup_settings textarea { resize: none; }
 #wysiwyg .editor { border: 1px solid; width: 100%; height: 700px; }
-#wysiwyg .source { display: none; position: absolute; top: 28px; border: 1px solid; width: 100%; height: 700px; background-color: #faf9f9; padding: 5px; overflow-y: scroll; }
+#wysiwyg .source { display: none; position: absolute; top: 31px; border: 1px solid; width: 100%; height: 700px; background-color: #faf9f9; padding: 5px; overflow-y: scroll; }
 
 /*# sourceMappingURL=wysiwyg.css.map */
