@@ -206,7 +206,7 @@ date.time: H:i:s
 "rolesSelectionFormType_1": "Select"
 
 # SearchFormType.php
-"searchType_1": "Words"
+"searchType_1": "Search in the site"
 
 # SettingsFormType.php
 "settingsFormType_1": "Type 1"
