@@ -2,8 +2,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h3>{% trans %}module_profile_1{% endtrans %}</h3>
-        
+        <h3 class="form_title">{% trans %}module_profile_1{% endtrans %}</h3>
         <form id="form_cp_module_profile" action="{{path("cp_module_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <div class="display_mobile">
                 <div class="form-group">
@@ -20,7 +19,6 @@
                     {{-include("@UebusaitoBundleViews/render/control_panel/module_profile_sort.html.twig")-}}
                 </div>
             </div>
-            
             <div class="form-group">
                 {{form_label(form.name, "module_profile_4")}}
                 <div class="input-group">

@@ -516,6 +516,11 @@ p {
     border-bottom: 0;
 }
 
+.form_title {
+    visibility: hidden;
+    margin: 0;
+}
+
 .panel {
     position: relative;
     background-color: $panelBackgroundColor;

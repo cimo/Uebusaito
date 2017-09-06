@@ -187,6 +187,8 @@ p { margin: 0; }
 
 .nav-tabs { border-bottom: 0; }
 
+.form_title { visibility: hidden; margin: 0; }
+
 .panel { position: relative; background-color: #f4f4f4; border: 1px solid #e7e7e7; padding-right: 15px; padding-left: 15px; -webkit-box-shadow: none; -moz-box-shadow: none; -ms-filter: none; filter: none; box-shadow: none; }
 
 .panel_clean { position: relative; }

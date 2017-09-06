@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h3>{% trans %}settings_1{% endtrans %}</h3>
+        <h3 class="form_title">{% trans %}settings_1{% endtrans %}</h3>
         <form id="form_cp_settings_modify" action="{{path("cp_settings_modify", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_2{% endtrans %}</legend>
@@ -21,7 +21,6 @@
                             {% endfor %}
                         </div>
                     </div>
-
                     <div class="form-group">
                         {{form_label(form.language, "settings_5")}}
                         <div class="input-group">
@@ -33,7 +32,6 @@
                             <i id="settings_language_manage_minus" class="fa fa-minus-circle fa-2x display_none"></i>
                         </div>
                     </div>
-
                     <div id="settings_language_manage_container" class="form-group display_none">
                         <label class="control-label" for="form_settings_languageManage">{% trans %}settings_6{% endtrans %}</label>
                         <div class="input-group">
@@ -46,7 +44,6 @@
                     </div>
                 </div>
             </fieldset>
-            
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_7{% endtrans %}</legend>
                 <div class="content">
@@ -70,7 +67,6 @@
                     {{form_row(form.captcha, {'label': "settings_15"})}}
                 </div>
             </fieldset>
-            
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_16{% endtrans %}</legend>
                 <div class="content">
@@ -82,7 +78,6 @@
                             {{form_widget(form.payPalSandbox)}}
                         </div>
                     </div>
-
                     <div class="form-group">
                         {{form_label(form.payPalBusiness, "settings_18")}}
                         <div class="input-group">
@@ -91,7 +86,6 @@
                             {{form_widget(form.payPalBusiness)}}
                         </div>
                     </div>
-
                     <div class="form-group">
                         {{form_label(form.payPalCurrencyCode, "settings_19")}}
                         <div class="input-group">
@@ -100,7 +94,6 @@
                             {{form_widget(form.payPalCurrencyCode)}}
                         </div>
                     </div>
-
                     <div class="form-group">
                         {{form_label(form.payPalCreditAmount, "settings_20")}}
                         <div class="input-group">
@@ -111,7 +104,6 @@
                     </div>
                 </div>
             </fieldset>
-            
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}settings_21{% endtrans %}</legend>
                 <div class="content">
