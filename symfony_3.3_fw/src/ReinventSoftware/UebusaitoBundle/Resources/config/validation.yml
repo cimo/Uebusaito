@@ -366,7 +366,7 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
                 groups: [settings]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_0-9]+$/
-        templateStyle:
+        templateColumn:
             - NotBlank:
                 groups: [settings]
             - Regex:

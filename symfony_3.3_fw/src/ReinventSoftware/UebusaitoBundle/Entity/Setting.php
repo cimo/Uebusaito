@@ -21,9 +21,9 @@ class Setting {
     private $template;
     
     /**
-     * @ORM\Column(name="template_style", type="integer", columnDefinition="int(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="template_column", type="integer", columnDefinition="int(1) NOT NULL DEFAULT '1'")
      */
-    private $templateStyle;
+    private $templateColumn;
     
     /**
      * @ORM\Column(name="language", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT 'en'")
@@ -100,7 +100,7 @@ class Setting {
     }
     
     public function setTemplateStyle($value) {
-        $this->templateStyle = $value;
+        $this->templateColumn = $value;
     }
     
     public function setLanguage($value) {
@@ -169,8 +169,8 @@ class Setting {
         return $this->template;
     }
     
-    public function getTemplateStyle() {
-        return $this->templateStyle;
+    public function getTemplateColumn() {
+        return $this->templateColumn;
     }
     
     public function getLanguage() {

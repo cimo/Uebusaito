@@ -113,7 +113,7 @@ class UebusaitoUtility {
         $required = $isRequired == true ? "required=\"required\"" : "";
         
         $html = "<select id=\"$selectId\" class=\"form-control\" $required>
-            <option value=\"\">Select</option>";
+            <option value=\"\">" . $this->utility->getTranslator()->trans("class_uebusaitoUtility_5") . "</option>";
             foreach($roleRows as $key => $value)
                 $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
         $html .= "</select>";

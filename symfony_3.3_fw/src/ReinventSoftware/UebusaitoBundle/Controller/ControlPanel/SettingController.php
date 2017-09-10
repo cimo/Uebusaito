@@ -78,8 +78,8 @@ class SettingController extends Controller {
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                if ($form->get("templateStyle")->getData() != $settingRow['template_style'])
-                    $this->modulesDatabase($form->get("templateStyle")->getData());
+                if ($form->get("templateColumn")->getData() != $settingRow['template_column'])
+                    $this->modulesDatabase($form->get("templateColumn")->getData());
                 
                 // Update in database
                 $this->entityManager->persist($settingEntity);
@@ -254,8 +254,8 @@ class SettingController extends Controller {
         }
     }
     
-    private function modulesDatabase($templateStyle) {
-        if ($templateStyle == 1) {
+    private function modulesDatabase($templateColumn) {
+        if ($templateColumn == 1) {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
                                                                 SET position_tmp = :positionTmp,
                                                                     position = :position
@@ -273,13 +273,13 @@ class SettingController extends Controller {
             
             $query->execute();
         }
-        else if ($templateStyle == 2 || $templateStyle == 3 || $templateStyle == 4) {
+        else if ($templateColumn == 2 || $templateColumn == 3 || $templateColumn == 4) {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
                                                                 SET position_tmp = :positionTmp,
                                                                     position = :position
                                                                 WHERE position = :positionTmp");
             
-            if ($templateStyle == 2) {
+            if ($templateColumn == 2) {
                 $query->bindValue(":positionTmp", "right");
                 $query->bindValue(":position", "center");
                 
@@ -293,7 +293,7 @@ class SettingController extends Controller {
                 $query->bindValue(":positionTmp", "");
                 $query->bindValue(":position", "left");
             }
-            else if ($templateStyle == 3) {
+            else if ($templateColumn == 3) {
                 $query->bindValue(":positionTmp", "left");
                 $query->bindValue(":position", "center");
                 
@@ -307,7 +307,7 @@ class SettingController extends Controller {
                 $query->bindValue(":positionTmp", "");
                 $query->bindValue(":position", "right");
             }
-            else if ($templateStyle == 4) {
+            else if ($templateColumn == 4) {
                 $query->bindValue(":positionTmp", "right");
                 $query->bindValue(":position", "center");
 

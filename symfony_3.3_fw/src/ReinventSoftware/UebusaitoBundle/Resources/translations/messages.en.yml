@@ -42,6 +42,7 @@ date.time: H:i:s
 "class_uebusaitoUtility_2": "New password and New confirm password doesn't match!"
 "class_uebusaitoUtility_3": "Password and Confirm password doesn't match!"
 "class_uebusaitoUtility_4": "Select parent:"
+"class_uebusaitoUtility_5": "Select"
 
 # Upload.php
 "class_upload_1": "Error max size, limit is: "
@@ -232,10 +233,12 @@ date.time: H:i:s
 # loader.html.twig
 "loader_1": "Loading..."
 
-# table.html.twig
-"table_1": "Search"
-"table_2": "Previous"
-"table_3": "Next"
+# table_and_pagination.html.twig
+"table_and_pagination_1": "Refresh"
+"table_and_pagination_2": "Delete all"
+"table_and_pagination_3": "Search"
+"table_and_pagination_4": "Previous"
+"table_and_pagination_5": "Next"
 
 # upload.html.twig
 "upload_1": "Start"
@@ -318,7 +321,7 @@ date.time: H:i:s
 "registration_20": "Password confirm"
 
 # search.html.twig
-"search_render_1": "Items found:"
+"search_render_1": "Elements found:"
 
 # ---
 # Views / Render / Control panel
@@ -408,8 +411,8 @@ date.time: H:i:s
 "pages_selection_desktop_1": "Id"
 "pages_selection_desktop_2": "Select"
 "pages_selection_desktop_3": "Alias"
-"pages_selection_desktop_4": "Titles"
-"pages_selection_desktop_5": "Menu names"
+"pages_selection_desktop_4": "Title"
+"pages_selection_desktop_5": "Menu name"
 "pages_selection_desktop_6": "Protected"
 "pages_selection_desktop_7": "Show in menu"
 "pages_selection_desktop_8": "Only link"
@@ -507,7 +510,7 @@ date.time: H:i:s
 "settings_1": "Settings form"
 "settings_2": "Style"
 "settings_3": "Template"
-"settings_4": "Template style"
+"settings_4": "Template column"
 "settings_5": "Language"
 "settings_6": "Language manage"
 "settings_7": "Security"
@@ -515,8 +518,8 @@ date.time: H:i:s
 "settings_9": "Active"
 "settings_10": "Maintenance roles"
 "settings_11": "Https"
-"settings_12": "Registration user confirm admin"
-"settings_13": "Login attempt time"
+"settings_12": "Registration user confirm by admin"
+"settings_13": "Login attempt time (minuts)"
 "settings_14": "Login attempt count"
 "settings_15": "Captcha"
 "settings_16": "Paypal"

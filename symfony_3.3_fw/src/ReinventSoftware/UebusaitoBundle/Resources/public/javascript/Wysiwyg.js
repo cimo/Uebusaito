@@ -28,6 +28,8 @@ function Wysiwyg() {
             $(containerTag).hide();
 
             $(saveElement).click(function() {
+                $("#wysiwyg").find(".toolbar .popup_settings input, .toolbar .popup_settings textarea").prop("disabled", true);
+                
                 fillField("source");
             });
 
@@ -104,12 +106,12 @@ function Wysiwyg() {
             );
             $("#wysiwyg").find(".editor").contents().find("head").append($("<link/>", {
                 rel: "stylesheet",
-                href: window.url.webBundle + "/css/library/bootstrap_3.3.7.min.css",
+                href: window.url.root + "/Resources/public/css/library/bootstrap_3.3.7.min.css",
                 type: "text/css"
             }));
             $("#wysiwyg").find(".editor").contents().find("head").append($("<link/>", {
                 rel: "stylesheet",
-                href: window.url.webBundle + "/css/system/" + window.settings.template + ".css",
+                href: window.url.root + "/Resources/public/css/system/" + window.settings.template + ".css",
                 type: "text/css"
             }));
             $("#wysiwyg").find(".editor").contents().find("body").prop("contenteditable", "true");
@@ -298,6 +300,8 @@ function Wysiwyg() {
         $("#wysiwyg").find(".editor").contents().on("contextmenu", "", function(event) {
             event.preventDefault();
             
+            $("#wysiwyg").find(".toolbar .popup_settings input, .toolbar .popup_settings textarea").prop("disabled", false);
+            
             if ($(event.target).not(".button").is("a") === true || $(event.target).is("img") === true || $(event.target).is("a.button") === true
                     || $(event.target).is("td") === true || $(event.target).is("div.column") === true || $(event.target).parents("td").length > 0 || $(event.target).parents("div.column").length > 0)
                 $("#wysiwyg").find(".toolbar .popup_settings").show();
@@ -338,9 +342,9 @@ function Wysiwyg() {
     
     function createLink() {
         popupEasy.create(
-            window.textWysiwyg.label_1,
-            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.label_2 + "</p><input style=\"width: 100%;\" id=\"link_href\" value=\"https://\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 40px;\">" + window.textWysiwyg.label_3 + "</p><input style=\"display: inline-block;\" id=\"link_text\" value=\"\"/></div>",
+            "Link creation",
+            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">Href: </p><input style=\"width: 100%;\" id=\"link_href\" value=\"https://\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 40px;\">Text: </p><input style=\"display: inline-block;\" id=\"link_text\" value=\"\"/></div>",
             function() {
                 var href = $("#link_href").val();
                 var text = $("#link_text").val();
@@ -361,14 +365,14 @@ function Wysiwyg() {
     
     function createImage() {
         popupEasy.create(
-            window.textWysiwyg.label_4,
-            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.label_5 + "</p><input style=\"width: 100%;\" id=\"image_src\" value=\"\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_6 + "</p><input style=\"display: inline-block;\" id=\"image_responsive\" type=\"checkbox\" value=\"\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_7 + "</p><input style=\"display: inline-block;\" id=\"image_width\" value=\"\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_8 + "</p><input style=\"display: inline-block;\" id=\"image_height\" value=\"\"/></div>",
+            "Image creation",
+            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">Name with extension: </p><input style=\"width: 100%;\" id=\"image_src\" value=\"\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">Responsive: </p><input style=\"display: inline-block;\" id=\"image_responsive\" type=\"checkbox\" value=\"\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">Width: </p><input style=\"display: inline-block;\" id=\"image_width\" value=\"\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">Height: </p><input style=\"display: inline-block;\" id=\"image_height\" value=\"\"/></div>",
             function() {
                 var src = $("#image_src").val();
-                var pathFull = window.url.webBundle + "/images/templates/" + window.settings.template + "/" + src;
+                var pathFull = window.url.root + "/Resources/public/images/templates/" + window.settings.template + "/" + src;
                 
                 var responsive = $("#image_responsive").prop("checked");
                 var classes = "";
@@ -398,11 +402,11 @@ function Wysiwyg() {
     
     function createButton() {
         popupEasy.create(
-            window.textWysiwyg.label_9,
-            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">" + window.textWysiwyg.label_10 + "</p><textarea style=\"width: 100%; height: 100px; resize: none;\" id=\"button_style\"></textarea></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_11 + "</p><input style=\"display: inline-block;\" id=\"button_class\" value=\"button_custom\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_12 + "</p><input style=\"display: inline-block;\" id=\"button_href\" value=\"#\"/></div>" +
-            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">" + window.textWysiwyg.label_13 + "</p><input style=\"display: inline-block;\" id=\"button_text\" value=\"\"/></div>",
+            "Button creation",
+            "<div style=\"margin-bottom: 5px;\"><p style=\"margin: 0;\">Style: </p><textarea style=\"width: 100%; height: 100px; resize: none;\" id=\"button_style\"></textarea></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">Class: </p><input style=\"display: inline-block;\" id=\"button_class\" value=\"button_custom\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">Href: </p><input style=\"display: inline-block;\" id=\"button_href\" value=\"#\"/></div>" +
+            "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">Text: </p><input style=\"display: inline-block;\" id=\"button_text\" value=\"\"/></div>",
             function() {
                 var style = $("#button_style").val();
                 var classes = $("#button_class").val();
@@ -428,10 +432,10 @@ function Wysiwyg() {
     function createTable(command) {
         if (command === "table_html") {
             popupEasy.create(
-                window.textWysiwyg.label_14,
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_15 + "</p><input style=\"display: inline-block;\" id=\"table_row\" value=\"1\"/></div>" +
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_16 + "</p><input style=\"display: inline-block;\" id=\"table_td\" value=\"1\"/></div>" +
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_17 + "</p><input style=\"display: inline-block;\" id=\"table_width\" value=\"100%\"/></div>",
+                "Table creation",
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">Rows: </p><input style=\"display: inline-block;\" id=\"table_row\" value=\"1\"/></div>" +
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">Columns: </p><input style=\"display: inline-block;\" id=\"table_td\" value=\"1\"/></div>" +
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">Width: </p><input style=\"display: inline-block;\" id=\"table_width\" value=\"100%\"/></div>",
                 function() {
                     var row = $("#table_row").val();
                     var column = $("#table_td").val();
@@ -462,10 +466,10 @@ function Wysiwyg() {
         }
         else if (command === "table_div") {
             popupEasy.create(
-                window.textWysiwyg.label_14,
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_15 + "</p><input style=\"display: inline-block;\" id=\"table_row\" value=\"1\"/></div>" +
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_16 + "</p><input style=\"display: inline-block;\" id=\"table_td\" value=\"3\"/></div>" +
-                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">" + window.textWysiwyg.label_17 + "</p><input style=\"display: inline-block;\" id=\"table_width\" value=\"col-md-4\"/></div>",
+                "Table creation",
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">Rows: </p><input style=\"display: inline-block;\" id=\"table_row\" value=\"1\"/></div>" +
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">Columns: </p><input style=\"display: inline-block;\" id=\"table_td\" value=\"3\"/></div>" +
+                "<div style=\"margin-bottom: 5px;\"><p style=\"display: inline-block; margin: 0; width: 80px;\">Width: </p><input style=\"display: inline-block;\" id=\"table_width\" value=\"col-md-4\"/></div>",
                 function() {
                     var row = $("#table_row").val();
                     var column = $("#table_td").val();
@@ -525,7 +529,7 @@ function Wysiwyg() {
         }
         else if (command === "image_ok") {
             var src = $("#wysiwyg").find(".toolbar .popup_settings input[name='image_src']").val();
-            var pathFull = window.url.webBundle + "/images/templates/" + window.settings.template + "/" + src;
+            var pathFull = window.url.root + "/Resources/public/images/templates/" + window.settings.template + "/" + src;
             
             var responsive = $("#wysiwyg").find(".toolbar .popup_settings input[name='image_responsive']").prop("checked");
             var classes = "";
@@ -963,7 +967,7 @@ function Wysiwyg() {
             $("#wysiwyg").find(".toolbar .popup_settings .only_button").hide();
             $("#wysiwyg").find(".toolbar .popup_settings .only_table").hide();
             
-            var src = $(event.target)[0].src.replace(window.location.origin + window.url.webBundle + "/images/templates/" + window.settings.template + "/", "");
+            var src = $(event.target)[0].src.replace(window.location.origin + window.url.root + "/Resources/public/images/templates/" + window.settings.template + "/", "");
             var responsive = $(event.target).hasClass("img-responsive");
             var width = $(event.target)[0].style.width;
             var height = $(event.target)[0].style.width;

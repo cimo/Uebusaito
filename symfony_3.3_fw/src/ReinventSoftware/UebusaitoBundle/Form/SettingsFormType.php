@@ -30,7 +30,7 @@ class SettingsFormType extends AbstractType {
             'required' => true,
             'choices' => $options['choicesTemplate'],
         ))
-        ->add("templateStyle", ChoiceType::class, Array(
+        ->add("templateColumn", ChoiceType::class, Array(
             'required' => true,
             'expanded' => true,
             'choices' => [

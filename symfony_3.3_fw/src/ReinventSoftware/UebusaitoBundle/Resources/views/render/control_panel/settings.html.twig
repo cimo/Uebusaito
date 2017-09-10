@@ -10,13 +10,13 @@
                     {{form_row(form.template, {'label': "settings_3"})}}
                     
                     <div class="form-group">
-                        {{form_label(form.templateStyle, "settings_4")}}
+                        {{form_label(form.templateColumn, "settings_4")}}
                         <div class="input-group">
-                            {{form_errors(form.templateStyle)}}
-                            {% for key, value in form.templateStyle %}
+                            {{form_errors(form.templateColumn)}}
+                            {% for key, value in form.templateColumn %}
                                 <div class="display_inline_block">
                                     {{form_widget(value)}}
-                                    <img class="display_inline_block margin_right" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/template_style_" ~ key ~ ".png")}}"/>
+                                    <img class="display_inline_block margin_right" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/template_column_" ~ key ~ ".png")}}"/>
                                 </div>
                             {% endfor %}
                         </div>

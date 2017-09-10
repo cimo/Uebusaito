@@ -79,10 +79,8 @@ function Language() {
     }
     
     function selectOnPage() {
-        var parameters = utility.urlParameters(settings.language);
-        
-        $("#language_flag").find("#language_flag_" + parameters[0]).addClass("button_flag");
-        $("#language_flag").find("input[name='form_language[codePage]']").val(parameters[0]);
+        $("#language_flag").find("#language_flag_" + $("#form_language_codeText").val()).addClass("button_flag");
+        $("#language_flag").find("input[name='form_language[codePage]']").val($("#form_language_codeText").val());
         
         $("#language_flag img").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {

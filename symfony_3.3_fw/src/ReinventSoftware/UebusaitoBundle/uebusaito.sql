@@ -244,7 +244,7 @@ CREATE TABLE `settings` (
   `id` int(11) NOT NULL,
   `email_admin` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `template` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'basic',
-  `template_style` int(1) NOT NULL DEFAULT '1',
+  `template_column` int(1) NOT NULL DEFAULT '1',
   `language` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'en',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '2,4',
@@ -264,7 +264,7 @@ CREATE TABLE `settings` (
 -- Dump dei dati per la tabella `settings`
 --
 
-INSERT INTO `settings` (`id`, `email_admin`, `template`, `template_style`, `language`, `active`, `role_id`, `https`, `registration_user_confirm_admin`, `login_attempt_time`, `login_attempt_count`, `captcha`, `payPal_sandbox`, `payPal_business`, `payPal_currency_code`, `payPal_credit_amount`, `credits`) VALUES
+INSERT INTO `settings` (`id`, `email_admin`, `template`, `template_column`, `language`, `active`, `role_id`, `https`, `registration_user_confirm_admin`, `login_attempt_time`, `login_attempt_count`, `captcha`, `payPal_sandbox`, `payPal_business`, `payPal_currency_code`, `payPal_credit_amount`, `credits`) VALUES
 (1, 'cimo@reinventsoftware.org', 'basic', 1, 'en', 1, '2,3,', 1, 0, 15, 3, 0, 1, 'paypal.business@gmail.com', 'USD', '0.01', 1);
 
 -- --------------------------------------------------------
