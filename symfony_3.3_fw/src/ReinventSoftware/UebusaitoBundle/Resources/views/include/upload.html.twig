@@ -1,0 +1,34 @@
+<div id="upload">
+    <input class="file" type="file" name="file"/>
+    <div class="row container_box">
+        <div class="col-md-12">
+            <div class="bg-warning text">
+                <i id="upload_text_close" class="fa fa-close"></i>
+                <div>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row container_controls">
+        <div class="col-md-12">
+            <div id="progressBar_upload" class="container_progressBar">
+                {{-include("@UebusaitoBundleViews/include/progressBar.html.twig")-}}
+            </div>
+            <div class="container_buttons">
+                <p class="button_1 button_custom_success"><i class="fa fa-play"></i> <span>{% trans %}upload_1{% endtrans %}</span></p>
+                <p class="button_2 button_custom_danger"><i class="fa fa-stop"></i> <span>{% trans %}upload_2{% endtrans %}</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var textUpload = {
+        'label_1': "{{"upload_3"|trans}}",
+        'label_2': "{{"upload_4"|trans}}",
+        'label_3': "{{"upload_5"|trans}}",
+        'label_4': "{{"upload_6"|trans}}",
+        'label_5': "{{"upload_7"|trans}}",
+        'label_6': "{{"upload_8"|trans}}"
+    };
+</script>

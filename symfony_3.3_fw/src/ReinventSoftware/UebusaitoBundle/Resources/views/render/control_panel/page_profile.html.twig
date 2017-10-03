@@ -1,0 +1,52 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="form_title">{% trans %}page_profile_1{% endtrans %}</h3>
+
+        {{-render(controller("UebusaitoBundle:Language:page", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+
+        <form id="form_cp_page_profile" action="{{path("cp_page_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            {{form_row(form.language, {'label': "page_profile_2"})}}
+            
+            <div class="form-group">
+                {{form_label(form.alias, "page_profile_3")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-header"></i></span>
+                    {{form_errors(form.alias)}}
+                    {{form_widget(form.alias)}}
+                </div>
+            </div>
+            
+            {{form_row(form.parent, {'label': "page_profile_4"})}}
+            {{form_row(form.title, {'label': "page_profile_5"})}}
+            {{form_row(form.controllerAction, {'label': "page_profile_6"})}}
+            {{form_row(form.argument, {'label': "page_profile_7"})}}
+            {{-include("@UebusaitoBundleViews/include/wysiwyg.html.twig")-}}
+            
+            <div id="form_page_roleId_wordTag_container" class="form-group">
+                {{form_label(form.roleId, "page_profile_8")}}
+                {{form_errors(form.roleId)}}
+                {{form_widget(form.roleId)}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                    {{response.values.rolesSelect|raw}}
+                </div>
+            </div>
+            
+            {{form_row(form.protected, {'label': "page_profile_9"})}}
+            {{form_row(form.showInMenu, {'label': "page_profile_10"})}}
+            {{form_row(form.menuName, {'label': "page_profile_11"})}}
+            {{form_row(form.onlyLink, {'label': "page_profile_12"})}}
+            {{form_row(form.link, {'label': "page_profile_13"})}}
+
+            {{form_widget(form._token)}}
+
+            <input class="button_custom" type="submit" value="{% trans %}button_3{% endtrans %}"/>
+        </form>
+        
+        {% if is_granted("ROLE_ADMIN") == true and urlExtra > 5 %}
+            {{-render(controller("UebusaitoBundle:ControlPanel\\Page:deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+        {% endif %}
+    </div>
+</div>

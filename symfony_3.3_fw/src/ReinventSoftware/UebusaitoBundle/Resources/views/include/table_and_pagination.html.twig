@@ -1,0 +1,25 @@
+<div class="buttons margin_bottom display_none">
+    <button class="button_custom refresh">{% trans %}table_and_pagination_1{% endtrans %}</button>
+    <button class="delete_all button_custom_danger">{% trans %}table_and_pagination_2{% endtrans %}</button>
+</div>
+<div class="input-group pull-right search_input">
+    <div class="button_search">
+        <i class="fa fa-search"></i>
+    </div>
+    <input class="form-control" type="text" placeholder="{% trans %}table_and_pagination_3{% endtrans %}" value="{{response.values.search.value}}"/>
+</div>
+<div class="clearfix"></div>
+<ul class="pagination-controle pagination margin_clear">
+    <li class="previous">
+        <a href="#">{% trans %}table_and_pagination_4{% endtrans %}</a>
+    </li>
+    <li>
+        <span class="text">{{response.values.pagination.text}}</span>
+    </li>
+    <li class="next">
+        <a href="#">{% trans %}table_and_pagination_5{% endtrans %}</a>
+    </li>
+</ul>
+<div class="table_spinner">
+    <i class="display_none fa fa-cog fa-spin fa-5x"></i>
+</div>

@@ -1,0 +1,33 @@
+{{-include("@UebusaitoBundleViews/include/table_and_pagination.html.twig")-}}
+
+<div class="overflow_y_hidden">
+    <table class="table table-bordered table-striped">
+        <thead class="table_thead">
+            <tr>
+                <th class="cursor_pointer">
+                    {% trans %}roles_selection_desktop_1{% endtrans %}
+                    <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-caret-up"></i>
+                </th>
+                <th class="cursor_pointer">
+                    {% trans %}roles_selection_desktop_2{% endtrans %}
+                    <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-caret-up"></i>
+                </th>
+                <th class="cursor_pointer">
+                    {% trans %}roles_selection_desktop_3{% endtrans %}
+                    <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-caret-up"></i>
+                </th>
+                <th class="cursor_pointer">
+                    {% trans %}roles_selection_desktop_4{% endtrans %}
+                    <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-caret-up"></i>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="table_tbody">
+            {{response.values.list|raw}}
+        </tbody>
+    </table>
+</div>

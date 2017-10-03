@@ -1,0 +1,42 @@
+{% if (settingRow['template_column'] == 1) %}
+    {% set templateColumnCenter = "8" %}
+{% elseif (settingRow['template_column'] == 2 or settingRow['template_column'] == 3) %}
+    {% set templateColumnCenter = "10" %}
+{% elseif (settingRow['template_column'] == 4) %}
+    {% set templateColumnCenter = "12" %}
+{% endif %}
+<!DOCTYPE html>
+<html lang="{{app.request.getLocale()}}">
+    <head>
+        <title>{{websiteName}}</title>
+        {% block headMeta %}{% endblock %}
+        {% block headLink %}{% endblock %}
+    </head>
+    <body class="user_select_none">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 container_header">
+                    {% block headerContainer %}{% endblock %}
+                </div>
+            </div>
+            <div class="row">
+                {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 2) %}
+                    <div class="col-md-2 container_left display_desktop">
+                        {% block columnLeftContainer %}{% endblock %}
+                    </div>
+                {% endif %}
+                <div class="col-md-{{templateColumnCenter}} container_center">
+                    {% block columnCenterContainer %}{% endblock %}
+                </div>
+                {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 3) %}
+                    <div class="col-md-2 container_right display_desktop">
+                        {% block columnRightContainer %}{% endblock %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <footer class="footer_fix">{% block footerContainer %}{% endblock %}</footer>
+        {% block bodyIncludeDown %}{% endblock %}
+        {% block javascript %}{% endblock %}
+    </body>
+</html>

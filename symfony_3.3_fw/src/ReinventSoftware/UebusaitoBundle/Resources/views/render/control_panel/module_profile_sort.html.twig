@@ -1,0 +1,17 @@
+<label class="control-label" for="form_module_sort">{% trans %}module_profile_sort_1{% endtrans %}</label>
+<div class="row">
+    <div class="col-xs-9">
+        <ul class="list-group margin_clear_bottom">
+            {% for value in response.values.moduleRows %}
+                <li id="module_profile_sort_{{value.id}}" class="list-group-item">
+                    <input class="display_inline margin_clear vertical_middle" type="checkbox"/>
+                    <p class="display_inline margin_clear vertical_middle">{{value.name}}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-xs-3 horizontal_center">
+        <i id="module_profile_sort_button_up" class="fa fa-caret-square-o-up button_sort"></i>
+        <i id="module_profile_sort_button_down" class="fa fa-caret-square-o-down button_sort"></i>
+    </div>
+</div>

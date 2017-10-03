@@ -1,0 +1,19 @@
+// Version 1.0.0
+
+.captcha {
+    text-align: center;
+    margin-bottom: 10px;
+    
+    .icon {
+        position: relative;
+        top: 2px;
+        cursor: pointer;
+    }
+    img {
+        border: 1px solid #000000;
+    }
+    input {
+        position: relative;
+        top: 1px;
+    }
+}

@@ -1,0 +1,48 @@
+{% form_theme form "bootstrap_3_layout.html.twig" %}
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 class="form_title">{% trans %}profile_credits_1{% endtrans %}</h3>
+        <form id="form_cp_profile_credits" action="{{path("cp_profile_credits", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <fieldset class="accordion_container">
+                <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}profile_credits_2{% endtrans %}</legend>
+                <div class="content">
+                    <p><b>{% trans %}profile_credits_3{% endtrans %}</b> {{response.values.currentCredits}}</p>
+                    <p><b>{% trans %}profile_credits_4{% endtrans %}</b> {{settingRow['payPal_credit_amount']}} <u>{{settingRow['payPal_currency_code']|upper}}</u></p>
+                    <div class="form-group">
+                        {{form_label(form.credits, "profile_credits_5")}}
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
+                            {{form_errors(form.credits)}}
+                            {{form_widget(form.credits)}}
+                        </div>
+                    </div>
+
+                    {{form_widget(form._token)}}
+
+                    <input class="button_payPal margin_bottom" type="submit" value=""/>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% if response.values.payPalSandbox == true %}
+    <form id="form_cp_profile_credits_paypal" class="visibility_hidden" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+{% else %}
+    <form id="form_cp_profile_credits_paypal" class="visibility_hidden" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+{% endif %}
+    <input type="hidden" name="cmd" value="_xclick"/>
+    <!-- Setting -->
+    <input type="hidden" name="business" value="{{settingRow['payPal_business']}}"/>
+    <input type="hidden" name="notify_url" value="{{app.request.schemeAndHttpHost ~ path("cp_profile_credits_payPal", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"/>
+    <input type="hidden" name="return" value="{{app.request.schemeAndHttpHost ~ path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"/>
+    <input type="hidden" name="cancel_return" value="{{app.request.schemeAndHttpHost ~ path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"/>
+    <input type="hidden" name="no_shipping" value="1"/>
+    <input type="hidden" name="no_note" value="1"/>
+    <!-- Payment -->
+    <input type="hidden" name="currency_code" value="{{settingRow['payPal_currency_code']|upper}}"/>
+    <input type="hidden" name="item_name" value="credits"/>
+    <input type="hidden" name="amount" value="{{settingRow['payPal_credit_amount']}}"/>
+    <input type="hidden" name="quantity" value=""/>
+    <input type="hidden" name="custom" value="{{app.user.id}}"/>
+</form>
