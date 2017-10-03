@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Creato il: Ago 15, 2017 alle 23:17
+-- Creato il: Ott 03, 2017 alle 11:33
 -- Versione del server: 5.7.19-0ubuntu0.16.04.1
--- Versione PHP: 7.0.18-0ubuntu0.16.04.1
+-- Versione PHP: 7.0.22-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -307,7 +307,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `username`, `name`, `surname`, `email`, `telephone`, `born`, `gender`, `fiscal_code`, `company_name`, `vat`, `website`, `state`, `city`, `zip`, `address`, `password`, `credits`, `not_locked`, `date_registration`, `date_current_login`, `date_last_login`, `help_code`, `ip`, `attempt_login`) VALUES
-(1, '1,2,', 'cimo', 'cimo', 'dago', 'cimo@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'https://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2016-08-04 10:25:12', '2017-08-15 23:13:03', '2017-08-15 23:12:04', NULL, '79.35.223.203', 0),
+(1, '1,2,', 'cimo', 'cimo', 'dago', 'cimo@reinventsoftware.org', '3491234567', '1984-04-11', 'm', NULL, NULL, NULL, 'https://www.reinventsoftware.org', 'Italia', 'Roma', '00100', 'Via', '$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi', 0, 1, '2016-08-04 10:25:12', '2017-10-03 11:26:29', '2017-09-10 05:17:46', NULL, '87.13.230.234', 0),
 (2, '1,4,', 'test_1', NULL, NULL, 'test_1@reinventsoftware.org', NULL, '1960-12-30', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2', 11, 1, '2016-09-10 17:39:31', '2017-07-03 18:12:48', '2017-07-03 18:11:33', NULL, '95.247.79.253', 0),
 (3, '1,', 'test_2', NULL, NULL, 'test_2@reinventsoftware.org', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq', 0, 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL, 0);
 
