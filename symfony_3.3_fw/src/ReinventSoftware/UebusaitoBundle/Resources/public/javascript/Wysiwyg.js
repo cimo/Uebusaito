@@ -969,7 +969,7 @@ function Wysiwyg() {
             $("#wysiwyg").find(".toolbar .popup_settings .only_button").hide();
             $("#wysiwyg").find(".toolbar .popup_settings .only_table").hide();
             
-            var src = $(event.target)[0].src.replace(window.location.origin + window.url.root + "/bundles/uebusaito/images/templates/" + window.settings.template + "/", "");
+            var src = $(event.target)[0].src.replace(window.url.root + "/bundles/uebusaito/images/templates/" + window.settings.template + "/", "");
             var responsive = $(event.target).hasClass("img-responsive");
             var width = $(event.target)[0].style.width;
             var height = $(event.target)[0].style.width;
