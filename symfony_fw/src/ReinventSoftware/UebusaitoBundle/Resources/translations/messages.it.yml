@@ -1,0 +1,660 @@
+# Date
+date.day: d-m-Y
+date.time: H:i:s
+
+# Lang
+"it": "it"
+"en": "en"
+"jp": "jp"
+
+# Role
+"Admin": "Admin"
+"User": "Utente"
+"Moderator": "Moderatore"
+
+# Button
+"button_1": "Creare"
+"button_2": "Cancellare"
+"button_3": "Aggiornare"
+"button_4": "Inviare"
+"button_5": "Modificare"
+
+# Module
+"module_1": "Menu root"
+"module_2": "Autenticazione"
+"module_3": "Pagina"
+"module_4": "Lingua"
+"module_5": "Ricerca"
+"module_6": "Vuoto"
+
+# Entity
+"entity.user.password": "Servono min 8 max 20 caratteri."
+"entity.user.username": "Servono min 4 max 20 caratteri (Solo . è permesso)."
+
+# ---
+# Classes
+
+# Utility.php
+"class_utility_1": "Il tempo della sessione è terminato, perfavore rifai il login."
+
+# UebusaitoUtility.php
+"class_uebusaitoUtility_1": "La vecchia password non corrisponde!"
+"class_uebusaitoUtility_2": "Nuova password e Conferma nuova password non corrispondono!"
+"class_uebusaitoUtility_3": "Password e Conferma password non corrispondono!"
+"class_uebusaitoUtility_4": "Seleziona genitore:"
+"class_uebusaitoUtility_5": "Seleziona"
+
+# Upload.php
+"class_upload_1": "Errore dimensione massima, il limite è: "
+"class_upload_2": "Errore tipo, solo questo è permesso: "
+"class_upload_3": "Errore misure, solo queste sono permesse: "
+"class_upload_4": "Errore dimensione chunk."
+"class_upload_5": "File caricato con successo."
+"class_upload_6": "Inpossibile spostare il file al percorso"
+"class_upload_7": "Upload cancellato."
+
+# ---
+# Controller / Control panel
+
+# ModuleController.php
+"moduleController_1": "Ordinamento moduli completato."
+"moduleController_2": "Moduli non ordinati!"
+"moduleController_3": "Creazione modulo completata."
+"moduleController_4": "Modulo non creato!"
+"moduleController_5": "Modulo non selezionato!"
+"moduleController_6": "Aggiornamento modulo completato."
+"moduleController_7": "Aggiornamento modulo non completato!"
+"moduleController_8": "Problema ordinamento con il profilo del modulo!"
+"moduleController_9": "Cancellazione modulo completata."
+"moduleController_10": "Cancellazione di tutti i moduli completata."
+"moduleController_11": "Modulo non cancellato!"
+"moduleController_12": "No"
+"moduleController_13": "Si"
+
+# PageController.php
+"pageController_1": "Creazione pagina completata."
+"pageController_2": "Pagina non creata!"
+"pageController_3": "Pagina non selezionata!"
+"pageController_4": "Aggiornamento pagina completato."
+"pageController_5": "Aggiornamento pagina non completato!"
+"pageController_6": "Cancellazione pagina completata."
+"pageController_7": "Questa pagina contiene altre pagine, scegli un'azione:"
+"pageController_8": "Delete all page"
+"pageController_9": "Cancellazione di tutte le pagine completata."
+"pageController_10": "Cambia genitore."
+"pageController_11": "Pagina non cancellata!"
+"pageController_12": "No"
+"pageController_13": "Si"
+
+# PaymentController.php
+"paymentController_1": "Utente non selezionato!"
+"paymentController_2": "Pagamento non selezionato!"
+"paymentController_3": "Cancellazione pagamento completata."
+"paymentController_4": "Cancellazione di tutti i pagamenti completata."
+"paymentController_5": "Pagamento non cancellato!"
+
+# ProfileController.php
+"profileController_1": "L'username è stato modificato, perfavore rifai il login."
+"profileController_2": "Profilo modificato."
+"profileController_3": "Profilo non modificato!"
+"profileController_4": "Password modificata."
+"profileController_5": "Password non modificata!"
+"profileController_6": "Invio a PayPal..."
+"profileController_7": "Non inviato a PayPal!"
+
+# RoleController.php
+"roleController_1": "Creazione ruolo completata."
+"roleController_2": "Creazione ruolo non completata!"
+"roleController_3": "Ruolo non selezionato!"
+"roleController_4": "Aggiornamento ruolo completato."
+"roleController_5": "Aggiornamento ruolo non completato!"
+"roleController_6": "Cancellazione ruolo completata."
+"roleController_7": "Cancellazione di tutti i ruoli completata."
+"roleController_8": "Ruolo non cancellato!"
+
+# SettingController.php
+"settingController_1": "Il valore del protocollo è cambato, perfavore rifai il login (se hai cambiato da https ad http devi chiudere e riaprire il browser per rifare il login)."
+"settingController_2": "Aggiornamento impostazioni completato."
+"settingController_3": "Impostazioni non salvate!"
+"settingController_4": "Cancellazione lingua completato."
+"settingController_5": "Creazione lingua completato."
+"settingController_6": "Lingua non creata!"
+
+# UserController.php
+"userController_1": "Creazione utente completata."
+"userController_2": "Utente non creato!"
+"userController_3": "Utente non selezionato!"
+"userController_4": "Aggiornamento utente completato."
+"userController_5": "Aggiornamento utente non completato!"
+"userController_6": "Cancellazione utente completata."
+"userController_7": "Cancellazione di tutti gli utenti completata."
+"userController_8": "Utente non cancellato!"
+"userController_9": "No"
+"userController_10": "Si"
+
+# ---
+# Controller
+
+# LanguageController.php
+"languageController_1": "Cambio lingua testi non completato!"
+"languageController_2": "Cambio lingua pagine non completato!"
+
+# PageViewController.php
+"pageViewController_1": "Pagina vuota"
+"pageViewController_2": "Questa pagina non esiste!"
+"pageViewController_3": "Questa pagina non è disponibile se sei loggato!"
+"pageViewController_4": "Questa pagina non è disponibile per il tuo ruolo!"
+"pageViewController_5": "Devi fare il login per vedere il contenuto!"
+
+# RecoverPasswordController.php
+"recoverPasswordController_1": "Recupero completato. Controlla la tua email per le istruzioni."
+"recoverPasswordController_2": "Nessun utente trovato con questa email!"
+"recoverPasswordController_3": "Recupero non completato!"
+"recoverPasswordController_4": "Cambio password completato."
+"recoverPasswordController_5": "Cambio password non completato!"
+
+# RegistrationController.php
+"registrationController_1": "Grazie per la tua registrazione. Per attivare il tuo account clicca sul link:"
+"registrationController_2": "Grazie per la tua registrazione. Attendi la conferma da parte dell'amministratore. Riceverai un'email quando il tuo account sarà attivo."
+"registrationController_3": "Registrazione"
+"registrationController_4": "Registrazione da parte dell'utente:"
+"registrationController_5": "Devi attivare questo utente."
+"registrationController_6": "Registrazione completata."
+"registrationController_7": "Registrazione non completata!"
+"registrationController_8": "Grazie per la tua attivazione. Ora puoi usare il tuo account."
+
+# SearchController.php
+"searchController_1": "Ricerca non completata!"
+"searchController_2": "Vai al contenuto"
+
+# ---
+# EventListener
+
+# AuthenticationListener.php
+"authenticationListener_1": "Il tuo ruolo non permette l'accesso."
+"authenticationListener_2": "Il tuo account è bloccato."
+"authenticationListener_3": "Credenziali errate."
+"authenticationListener_4a": "Molti tentativi, attendi "
+"authenticationListener_4b": " minuti prima di riprovare."
+"authenticationListener_5": "Tentativi: "
+
+# ---
+# Form
+
+# ModuleFormType.php
+"moduleFormType_1": "Seleziona"
+"moduleFormType_2": "Header"
+"moduleFormType_3": "Sinistra"
+"moduleFormType_4": "Centro"
+"moduleFormType_5": "Destra"
+"moduleFormType_6": "No"
+"moduleFormType_7": "Si"
+
+# ModulesSelectionFormType.php
+"modulesSelectionFormType_1": "Seleziona"
+
+# PageFormType.php
+"pageFormType_1": "Seleziona"
+"pageFormType_2": "No"
+"pageFormType_3": "Si"
+"pageFormType_4": "Questa pagina"
+
+# PagesSelectionFormType.php
+"pagesSelectionFormType_1": "Seleziona"
+
+# PaymentsSelectionFormType.php
+"paymentsSelectionFormType_1": "Seleziona"
+
+# RolesSelectionFormType.php
+"rolesSelectionFormType_1": "Seleziona"
+
+# SearchFormType.php
+"searchType_1": "Cerca nel sito"
+
+# SettingsFormType.php
+"settingsFormType_1": "Tipo 1"
+"settingsFormType_2": "Tipo 2"
+"settingsFormType_3": "Tipo 3"
+"settingsFormType_4": "Tipo 4"
+"settingsFormType_5": "No"
+"settingsFormType_6": "Si"
+
+# UserFormType.php
+"userFormType_1": "Seleziona"
+"userFormType_2": "Uomo"
+"userFormType_3": "Donna"
+"userFormType_4": "No"
+"userFormType_5": "Si"
+
+# UsersSelectionFormType.php
+"usersSelectionFormType_1": "Seleziona"
+
+# ---
+# Views / Include
+
+# loader.html.twig
+"loader_1": "Caricamento..."
+
+# table_and_pagination.html.twig
+"table_and_pagination_1": "Ricarica"
+"table_and_pagination_2": "Cancella tutto"
+"table_and_pagination_3": "Cerca"
+"table_and_pagination_4": "Precedente"
+"table_and_pagination_5": "Successivo"
+
+# upload.html.twig
+"upload_1": "Iniziare"
+"upload_2": "Annullare"
+"upload_3": "Pausa..."
+"upload_4": "Caricamento..."
+"upload_5": " secondi rimanenti."
+"upload_6": "Inizio"
+"upload_7": "Pausa"
+"upload_8": "Riprendere"
+
+# ---
+# Views / Render
+
+# control_panel.html.twig
+"control_panel_1": "Profilo"
+"control_panel_2": "Pagamenti"
+"control_panel_3": "Pagine"
+"control_panel_4": "Utenti"
+"control_panel_5": "Moduli"
+"control_panel_6": "Ruoli"
+"control_panel_7": "Impostazioni"
+"control_panel_8": "Sezione profilo."
+"control_panel_9": "Sezione pagamenti."
+"control_panel_10": "Sezione pagine."
+"control_panel_11": "Sezione utenti."
+"control_panel_12": "Sezione moduli."
+"control_panel_13": "Sezione ruoli."
+"control_panel_14": "Sezione impostazioni."
+"control_panel_15": "Cancellare realmente questo pagamento?"
+"control_panel_16": "Cancellare realmente tutti i pagamenti?"
+"control_panel_17": "Cancellare realmente questa pagina?"
+"control_panel_18": "Cancellare realmente tutte le pagine?"
+"control_panel_19": "Cancellare realmente questo utente?"
+"control_panel_20": "Cancellare realmente tutti gli utenti?"
+"control_panel_21": "Cancellare realemente questo modulo?"
+"control_panel_22": "Cancellare relamente tutti i moduli?"
+"control_panel_23": "Cancellare relamente questo ruolo?"
+"control_panel_24": "Cancellare realemente tutti i ruoli?"
+"control_panel_25": "Cancellare relamente questa lingua?"
+
+# index.html.twig
+"index_1": "SITO ATTUALMENTE"
+"index_2": "IN MANUTENZIONE"
+"index_3": "Attenzione!"
+"index_4": "Ok"
+"index_5": "Annullare"
+"index_6": "Errire connessione, perfavore ricarica la pagina."
+
+# language_page.html.twig
+"language_page_1": "Cambiare la lingua della pagina senza salvare?"
+
+# recover_password.html.twig
+"recover_password_1": "Form recupero password"
+"recover_password_2": "Email"
+"recover_password_3": "Form cambio password"
+"recover_password_4": "Password"
+"recover_password_5": "Conferma password"
+
+# registration.html.twig
+"registration_1": "Privato"
+"registration_2": "Azienda"
+"registration_3": "Form registrazione"
+"registration_4": "Username"
+"registration_5": "Nome"
+"registration_6": "Cognome"
+"registration_7": "Email"
+"registration_8": "Telefono"
+"registration_9": "Data di nascita"
+"registration_10": "Sesso"
+"registration_11": "Codice fiscale"
+"registration_12": "Nome azienda"
+"registration_13": "Iva"
+"registration_14": "Sito web"
+"registration_15": "Stato"
+"registration_16": "Città"
+"registration_17": "Cap"
+"registration_18": "Indirizzo"
+"registration_19": "Password"
+"registration_20": "Conferma password"
+
+# search.html.twig
+"search_render_1": "Elementi trovati:"
+
+# ---
+# Views / Render / Control panel
+
+# module_creation.html.twig
+"module_creation_1": "Form creazione modulo"
+"module_creation_2": "Posizione"
+"module_creation_3": "Nome"
+"module_creation_4": "Etichetta"
+"module_creation_5": "Nome file"
+
+# module_deletion.html.twig
+"module_deletion_1": "Cancellazione modulo"
+"module_deletion_2": "Attenzione! Se cancelli il modulo è impossibile tornare indietro."
+
+# module_profile.html.twig
+"module_profile_1": "Form profilo modulo"
+"module_profile_2": "Posizione"
+"module_profile_3": "Ordinamento"
+"module_profile_4": "Nome"
+"module_profile_5": "Etichetta"
+"module_profile_6": "Nome file"
+"module_profile_7": "Attivo"
+
+# module_profile_sort.html.twig
+"module_profile_sort_1": "Ordinamento"
+
+# modules_drag.html.twig
+"modules_drag_1": "Form ordinamento moduli"
+"modules_drag_2": "Header"
+"modules_drag_3": "Sinistra"
+"modules_drag_4": "Centro"
+"modules_drag_5": "Destra"
+
+# modules_selection.html.twig
+"modules_selection_1": "Form selezione moduli"
+"modules_selection_2": "Moduli"
+
+# modules_selection_desktop.html.twig
+"modules_selection_desktop_1": "Id"
+"modules_selection_desktop_2": "Seleziona"
+"modules_selection_desktop_3": "Nome"
+"modules_selection_desktop_4": "Nome file"
+"modules_selection_desktop_5": "Attivo"
+"modules_selection_desktop_6": "Cancella"
+
+# page_creation.html.twig
+"page_creation_1": "Form creazione pagina"
+"page_creation_2": "Alias"
+"page_creation_3": "Genitore"
+"page_creation_4": "Titolo"
+"page_creation_5": "Azione controller"
+"page_creation_6": "Argomento"
+"page_creation_7": "Ruolo"
+"page_creation_8": "Protetto"
+"page_creation_9": "Visualizza nel menù"
+"page_creation_10": "Posizione nel menù"
+"page_creation_11": "Nome menù"
+"page_creation_12": "Solo link"
+"page_creation_13": "Link"
+
+# page_deletion.html.twig
+"page_deletion_1": "Cancellazione pagina"
+"page_deletion_2": "Attenzione! Se cancelli la pagina è impossibile tornare indietro."
+"page_deletion_3": "Tutto"
+"page_deletion_4": "Nuovo genitore"
+
+# page_profile.html.twig
+"page_profile_1": "Form profilo pagina"
+"page_profile_2": "Lingua"
+"page_profile_3": "Alias"
+"page_profile_4": "Genitore"
+"page_profile_5": "Titolo"
+"page_profile_6": "Azione controller"
+"page_profile_7": "Argomento"
+"page_profile_8": "Ruolo"
+"page_profile_9": "Protetto"
+"page_profile_10": "Visualizza nel menù"
+"page_profile_11": "Posizione nel menù"
+"page_profile_12": "Nome menù"
+"page_profile_13": "Solo link"
+"page_profile_14": "Link"
+
+# pages_selection.html.twig
+"pages_selection_1": "Form selezione pagine"
+"pages_selection_2": "Pagine"
+
+# pages_selection_desktop.html.twig
+"pages_selection_desktop_1": "Id"
+"pages_selection_desktop_2": "Seleziona"
+"pages_selection_desktop_3": "Alias"
+"pages_selection_desktop_4": "Titolo"
+"pages_selection_desktop_5": "Nome menù"
+"pages_selection_desktop_6": "Protetto"
+"pages_selection_desktop_7": "Visualizza nel menù"
+"pages_selection_desktop_8": "Solo link"
+"pages_selection_desktop_9": "Cancella"
+
+# payment_deletion.html.twig
+"payment_deletion_1": "Cancellazione pagamento"
+"payment_deletion_2": "Attenzione! Se cancelli il pagamento è impossibile tornare indietro."
+
+# payment_profile.html.twig
+"payment_profile_1": "Profilo pagamento"
+"payment_profile_2": "Transazione"
+"payment_profile_3": "Data"
+"payment_profile_4": "Stato"
+"payment_profile_5": "Pagatore"
+"payment_profile_6": "Ricevente"
+"payment_profile_7": "Valuta"
+"payment_profile_8": "Nome oggetto"
+"payment_profile_9": "Importo"
+"payment_profile_10": "Quantità"
+
+# payments_selection.html.twig
+"payments_selection_1": "Form selezione pagamenti"
+"payments_selection_2": "Pagamenti"
+
+# payments_selection_desktop.html.twig
+"payments_selection_desktop_1": "Id"
+"payments_selection_desktop_2": "Seleziona"
+"payments_selection_desktop_3": "Transazione"
+"payments_selection_desktop_4": "Data"
+"payments_selection_desktop_5": "Stato"
+"payments_selection_desktop_6": "Pagatore"
+"payments_selection_desktop_7": "Cancella"
+
+# payments_user_selection.html.twig
+"payments_user_selection_1": "Form selezione pagamenti utenti"
+"payments_user_selection_2": "Utenti"
+
+# profile.html.twig
+"profile_1": "Form profilo"
+"profile_2": "Profilo"
+"profile_3": "Username"
+"profile_4": "Nome"
+"profile_5": "Cognome"
+"profile_6": "Email"
+"profile_7": "Telefono"
+"profile_8": "Data di nascita"
+"profile_9": "Sesso"
+"profile_10": "Codice fiscale"
+"profile_11:": "Nome azienda"
+"profile_12": "Iva"
+"profile_13": "Sito web"
+"profile_14": "Stato"
+"profile_15": "Città"
+"profile_16": "Cap"
+"profile_17": "Indirizzo"
+
+# profile_credits.html.twig
+"profile_credits_1": "Form profilo crediti"
+"profile_credits_2": "Crediti"
+"profile_credits_3": "Crediti corretti:"
+"profile_credits_4": "Valore di un credito:"
+"profile_credits_5": "Crediti"
+
+# profile_password.html.twig
+"profile_password_1": "Form profilo password"
+"profile_password_2": "Password"
+"profile_password_3": "Vecchia"
+"profile_password_4": "Nuova"
+"profile_password_5": "Conferma nuova"
+
+# role_creation.html.twig
+"role_creation_1": "Form creazione ruolo"
+"role_creation_2": "Livello"
+
+# role_deletion.html.twig
+"role_deletion_1": "Cancellazione ruolo"
+"role_deletion_2": "Attenzione! Se cancelli il ruolo è impossibile tornare indietro."
+
+# role_profile.html.twig
+"role_profile_1": "Form profilo ruolo"
+"role_profile_2": "Livello"
+
+# roles_selection.html.twig
+"roles_selection_1": "Form selezione ruoli"
+"roles_selection_2": "Ruoli"
+
+# roles_selection_desktop.html.twig
+"roles_selection_desktop_1": "Id"
+"roles_selection_desktop_2": "Seleziona"
+"roles_selection_desktop_3": "Livello"
+"roles_selection_desktop_4": "Cancella"
+
+# settings.html.twig
+"settings_1": "Form impostazioni"
+"settings_2": "Stile"
+"settings_3": "Template"
+"settings_4": "Colonne template"
+"settings_5": "Lingua"
+"settings_6": "Gestione lingua"
+"settings_7": "Sicurezza"
+"settings_8": "Email admin"
+"settings_9": "Attivo"
+"settings_10": "Ruoli manutenzione"
+"settings_11": "Https"
+"settings_12": "Conferma registrazione utente dall'admin"
+"settings_13": "Tempo tentativi login (minuti)"
+"settings_14": "Conteggio tentativi login"
+"settings_15": "Captcha"
+"settings_16": "Paypal"
+"settings_17": "PayPal sandbox"
+"settings_18": "PayPal business"
+"settings_19": "PayPal valuta"
+"settings_20": "PayPal valore credito"
+"settings_21": "Pagamento"
+"settings_22": "Crediti"
+
+# user_creation.html.twig
+"user_creation_1": "Form creazione utente"
+"user_creation_2": "Username"
+"user_creation_3": "Ruolo"
+"user_creation_4": "Nome"
+"user_creation_5": "Cognome"
+"user_creation_6": "Email"
+"user_creation_7": "Telefono"
+"user_creation_8": "Data di nascita"
+"user_creation_9": "Sesso"
+"user_creation_10": "Codice fiscale"
+"user_creation_11": "Nome azienda"
+"user_creation_12": "Iva"
+"user_creation_13": "Sito web"
+"user_creation_14": "Stato"
+"user_creation_15": "Città"
+"user_creation_16": "Cap"
+"user_creation_17": "Indirizzo"
+"user_creation_18": "Password"
+"user_creation_19": "Conferma password"
+
+# user_deletion.html.twig
+"user_deletion_1": "Cancellazione utente"
+"user_deletion_2": "Attenzione! Se cancelli l'utente è impossibile tornare indietro."
+
+# user_profile.html.twig
+"user_profile_1": "Form profilo utente"
+"user_profile_2": "Username"
+"user_profile_3": "Ruolo"
+"user_profile_4": "Nome"
+"user_profile_5": "Cognome"
+"user_profile_6": "Email"
+"user_profile_7": "Telefono"
+"user_profile_8": "Data di nascita"
+"user_profile_9": "Sesso"
+"user_profile_10": "Codice fiscale"
+"user_profile_11": "Nome azienda"
+"user_profile_12": "Iva"
+"user_profile_13": "Sito web"
+"user_profile_14": "Stato"
+"user_profile_15": "Città"
+"user_profile_16": "Cap"
+"user_profile_17": "Indirizzo"
+"user_profile_18": "Password"
+"user_profile_19": "Conferma password"
+"user_profile_20": "Non bloccato"
+
+# users_selection.html.twig
+"users_selection_1": "Form selezione utenti"
+"users_selection_2": "Utenti"
+
+# users_selection_desktop.html.twig
+"users_selection_desktop_1": "Id"
+"users_selection_desktop_2": "Seleziona"
+"users_selection_desktop_3": "Username"
+"users_selection_desktop_4": "Ruolo"
+"users_selection_desktop_5": "Nome"
+"users_selection_desktop_6": "Cognome"
+"users_selection_desktop_7": "Email"
+"users_selection_desktop_8": "Nome azienda"
+"users_selection_desktop_9": "Non bloccato"
+"users_selection_desktop_10": "Cancella"
+
+# ---
+# Views / Render / Module
+
+# authentication.html.twig
+"authentication_1": "Benvenuto:"
+"authentication_2": "Ruolo:"
+"authentication_3": "Ultimo login:"
+"authentication_4": "Pannello di controllo"
+"authentication_5": "Logout"
+"authentication_6": "Username"
+"authentication_7": "Password"
+"authentication_8": "Ricordami"
+"authentication_9": "Login"
+"authentication_10": "Registrazione"
+"authentication_11": "Password dimenticata?"
+
+# ---
+# Views / Render / Static
+
+# error.html.twig
+"error_1": "Errore: "
+
+# ---
+# Captcha
+"captcha_1": "Codice chaptcha non corretto!"
+
+# ---
+# Wysiwyg
+"wysiwyg_1": "Creazione link"
+"wysiwyg_2": "Href: "
+"wysiwyg_3": "Testo: "
+"wysiwyg_4": "Creazione immagine"
+"wysiwyg_5": "Nome con estensione: "
+"wysiwyg_6": "Responsive: "
+"wysiwyg_7": "Larghezza: "
+"wysiwyg_8": "Altezza: "
+"wysiwyg_9": "Creazione pulsanti"
+"wysiwyg_10": "Stile: "
+"wysiwyg_11": "Classe: "
+"wysiwyg_12": "Href: "
+"wysiwyg_13": "Testo: "
+"wysiwyg_14": "Creazione tabella"
+"wysiwyg_15": "Righe: "
+"wysiwyg_16": "Colonne: "
+"wysiwyg_17": "Larghezza: "
+"wysiwyg_18": "Formato"
+"wysiwyg_19": "Dimensione"
+"wysiwyg_20": "Impostazioni link"
+"wysiwyg_21": "Impostazioni immagine"
+"wysiwyg_22": "Impostazioni pulsanti"
+"wysiwyg_23": "Impostazioni tabella"
+"wysiwyg_24": "Margin (Sinistra - destra): "
+"wysiwyg_25": "Padding: "
+"wysiwyg_26": "Desktop: "
+"wysiwyg_27": "Mobile: "
+"wysiwyg_28": "Offset: "
+"wysiwyg_29": "Colore: "
+"wysiwyg_30": "Riga: "
+"wysiwyg_31": "Colonna: "
+"wysiwyg_32": "Span riga: "
+"wysiwyg_33": "Span colonna: "
