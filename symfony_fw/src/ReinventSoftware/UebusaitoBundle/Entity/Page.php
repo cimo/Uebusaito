@@ -32,7 +32,7 @@ class Page {
     private $title;
     
     /**
-     * @ORM\Column(name="controller_action", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     * @ORM\Column(name="controller_action", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $controllerAction;
     

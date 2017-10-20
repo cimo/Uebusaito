@@ -253,26 +253,6 @@ function Utility() {
         }
     };
     
-    self.selectSortableWithCheckbox = function(containerId, elementsId) {
-        var containerTag = containerId.replace("#", "");
-        
-        selectSortableWithCheckboxAssignment(containerTag, elementsId);
-
-        $(containerId + "_button_up").on("click", "", function() {
-            var current = $(containerId).find("input:checked").parent();
-            current.prev().before(current);
-
-            selectSortableWithCheckboxAssignment(containerTag, elementsId);
-        });
-
-        $(containerId + "_button_down").on("click", "", function() {
-            var current = $(containerId).find("input:checked").parent();
-            current.next().after(current);
-
-            selectSortableWithCheckboxAssignment(containerTag, elementsId);
-        });
-    };
-    
     self.selectSortable = function(tagSelect, buttonTarget, tagInput, isCreation) {
         var selected = $(tagSelect).find("option:selected");
         
@@ -531,31 +511,6 @@ function Utility() {
     };
     
     // Functions private
-    function selectSortableWithCheckboxAssignment(containerTag, elementsId) {
-        var sortParentList = $("#" + containerTag).find("li");
-        var sortListElements = new Array();
-        
-        $.each(sortParentList, function(key, value) {
-            var id = $(value).prop("id").replace(containerTag + "_", "");
-            
-            sortListElements.push(id);
-        });
-        
-        if ($("#" + containerTag).parent().css("display") === "none") {
-            optionSelectedPositionValue = $(elementsId[0]).find("option:selected").val();
-            
-            $(elementsId[0]).find("option").removeAttr("selected");
-            $(elementsId[1]).val("");
-        }
-        else {
-            if (optionSelectedPositionValue !== "")
-                $(elementsId[0]).find("option[value='" + optionSelectedPositionValue + "']").prop("selected", true);
-            
-            $(elementsId[1]).val(sortListElements);
-        }
-    }
-    
-    // Jquery mobile fix
     function swipeFix() {
         var defaults = {
             min: {
@@ -567,9 +522,6 @@ function Utility() {
             'up': $.noop,
             'down': $.noop
         }, isTouch = "ontouchend" in document;
-        
-        // Fix jquery > 3
-        //$.event.props.push("touches");
         
         $.fn.swipe = function(options) {
             options = $.extend({}, defaults, options);

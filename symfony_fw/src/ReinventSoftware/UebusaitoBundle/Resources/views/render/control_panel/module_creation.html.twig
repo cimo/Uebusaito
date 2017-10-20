@@ -12,8 +12,23 @@
                     {{form_widget(form.position)}}
                 </div>
             </div>
+            
             <div class="form-group">
-                {{form_label(form.name, "module_creation_3")}}
+                {{form_label(form.positionInColumn, "module_creation_3")}}
+                {{form_errors(form.positionInColumn)}}
+                {{form_widget(form.positionInColumn, {'attr': {'size': '8'}})}}
+
+                {{form_row(form.sort)}}
+                <div id="module_position_sort">
+                    <div class="horizontal_center">
+                        <i id="module_sort_button_up" class="fa fa-caret-square-o-up button_sort"></i>
+                        <i id="module_sort_button_down" class="fa fa-caret-square-o-down button_sort"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{form_label(form.name, "module_creation_4")}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-header"></i></span>
                     {{form_errors(form.name)}}
@@ -21,10 +36,10 @@
                 </div>
             </div>
             
-            {{form_row(form.label, {'label': "module_creation_4"})}}
+            {{form_row(form.label, {'label': "module_creation_5"})}}
             
             <div class="form-group">
-                {{form_label(form.fileName, "module_creation_5")}}
+                {{form_label(form.fileName, "module_creation_6")}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-file"></i></span>
                     {{form_errors(form.fileName)}}

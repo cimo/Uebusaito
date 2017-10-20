@@ -93,7 +93,7 @@ class PageController extends Controller {
                 $pagesDatabase = $this->pagesDatabase("insert", null, $this->urlLocale, $form);
 
                 if ($pagesDatabase == true) {
-                    $this->updatePositionInMenu($form->get("sort")->getData(), $pageEntity->getId());
+                    $this->updatePositionInMenuDatabase($form->get("sort")->getData(), $pageEntity->getId());
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_1");
                 }
@@ -268,7 +268,7 @@ class PageController extends Controller {
                 $pagesDatabase = $this->pagesDatabase("update", $pageEntity->getId(), null, $form);
                 
                 if ($pagesDatabase == true) {
-                    $this->updatePositionInMenu($form->get("sort")->getData(), $pageEntity->getId());
+                    $this->updatePositionInMenuDatabase($form->get("sort")->getData(), $pageEntity->getId());
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_4");
                 }
@@ -557,6 +557,25 @@ class PageController extends Controller {
         $query->execute();
     }
     
+    private function updatePositionInMenuDatabase($sort, $pageId) {
+        $sortExplode = explode(",", $sort);
+        array_pop($sortExplode);
+        
+        foreach ($sortExplode as $key => $value) {
+            if ($value == "")
+                $value = $pageId;
+
+            $query = $this->utility->getConnection()->prepare("UPDATE pages
+                                                                SET position_in_menu = :positionInMenu
+                                                                WHERE id = :id");
+
+            $query->bindValue(":positionInMenu", $key + 1);
+            $query->bindValue(":id", $value);
+
+            $query->execute();
+        }
+    }
+    
     private function pagesDatabase($type, $id, $urlLocale, $form) {
         if ($type == "insert") {
             $query = $this->utility->getConnection()->prepare("INSERT INTO pages_titles (
@@ -631,25 +650,6 @@ class PageController extends Controller {
             $query->bindValue(":idExclude", 5);
             
             return $query->execute();
-        }
-    }
-    
-    private function updatePositionInMenu($sort, $pageId) {
-        $sortExplode = explode(",", $sort);
-        array_pop($sortExplode);
-        
-        foreach ($sortExplode as $key => $value) {
-            if ($value == "")
-                $value = $pageId;
-
-            $query = $this->utility->getConnection()->prepare("UPDATE pages
-                                                                SET position_in_menu = :positionInMenu
-                                                                WHERE id = :id");
-
-            $query->bindValue(":positionInMenu", $key + 1);
-            $query->bindValue(":id", $value);
-
-            $query->execute();
         }
     }
 }

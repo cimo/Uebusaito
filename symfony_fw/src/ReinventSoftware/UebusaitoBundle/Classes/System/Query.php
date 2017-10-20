@@ -235,7 +235,7 @@ class Query {
         if ($id == null && $position != null) {
             $query = $this->connection->prepare("SELECT * FROM modules
                                                     WHERE position = :position
-                                                    ORDER BY position, sort");
+                                                    ORDER BY COALESCE(position, position_in_column), position_in_column");
             
             $query->bindValue(":position", $position);
         }

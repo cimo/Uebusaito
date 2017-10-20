@@ -28,9 +28,9 @@ function ControlPanelPage() {
         
         fieldsVisibility("#form_cp_page_creation");
         
-        utility.wordTag("#form_page_roleId");
-        
         positionInMenu(true);
+        
+        utility.wordTag("#form_page_roleId");
         
         $("#form_cp_page_creation").on("submit", "", function(event) {
             event.preventDefault();
@@ -225,13 +225,13 @@ function ControlPanelPage() {
     function profile(xhr) {
         fieldsVisibility("#form_cp_page_profile");
         
+        positionInMenu(false);
+        
         language.page();
         
         utility.selectWithDisabledElement("#form_page_parent", xhr);
         
         utility.wordTag("#form_page_roleId");
-        
-        positionInMenu(false);
         
         wysiwyg.init("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
         
@@ -258,8 +258,12 @@ function ControlPanelPage() {
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
-                    if ($.isEmptyObject(xhr.response.messages.success) === false)
+                    if ($.isEmptyObject(xhr.response.messages.success) === false) {
                         profileFocus = false;
+                        
+                        $("#cp_page_selection_result").html("");
+                    }
+                        
                 },
                 null,
                 null
@@ -286,9 +290,7 @@ function ControlPanelPage() {
                     },
                     "json",
                     false,
-                    function() {
-                        $("#cp_page_selection_result").html("");
-                    },
+                    null,
                     function(xhr) {
                         if (xhr.response.messages !== undefined)
                             ajax.reply(xhr, "");
@@ -359,8 +361,11 @@ function ControlPanelPage() {
 
                             utility.selectWithDisabledElement("#cp_page_deletion_parent_new", xhr);
                         }
-                        else
+                        else {
                             ajax.reply(xhr, "");
+                            
+                            $("#cp_page_selection_result").html("");
+                        }
                     },
                     null,
                     null
@@ -443,13 +448,9 @@ function ControlPanelPage() {
     }
     
     function fieldsVisibilityLink(id) {
-        if ($(id).find("#form_page_onlyLink").val() === "0") {
-            $(id).find("#form_page_link").prev().hide();
-            $(id).find("#form_page_link").hide();
-        }
-        else {
-            $(id).find("#form_page_link").prev().show();
-            $(id).find("#form_page_link").show();
-        }
+        if ($(id).find("#form_page_onlyLink").val() === "0")
+            $(id).find("#form_page_link").parents(".form-group").hide();
+        else
+            $(id).find("#form_page_link").parents(".form-group").show();
     }
 }

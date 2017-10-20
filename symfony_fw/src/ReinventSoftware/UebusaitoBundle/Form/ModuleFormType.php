@@ -18,7 +18,7 @@ class ModuleFormType extends AbstractType {
             'data_class' => "ReinventSoftware\UebusaitoBundle\Entity\Module",
             'csrf_protection' => true,
             'validation_groups' => null,
-            'choicesPosition' => null
+            'choicesPositionInColumn' => null
         ));
     }
     
@@ -26,13 +26,19 @@ class ModuleFormType extends AbstractType {
         $builder->add("position", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "moduleFormType_1",
-            'data' => $options['choicesPosition'],
+            'data' => $options['data']->getPosition(),
             'choices' => Array(
                 "moduleFormType_2" => 'header',
                 "moduleFormType_3" => 'left',
                 "moduleFormType_4" => 'center',
                 "moduleFormType_5" => 'right'
             )
+        ))
+        ->add("positionInColumn", ChoiceType::class, Array(
+            'required' => true,
+            'placeholder' => "moduleFormType_6",
+            'data' => $options['data']->getId(),
+            'choices' => $options['choicesPositionInColumn']
         ))
         ->add("sort", HiddenType::class, Array(
             'required' => true
@@ -49,8 +55,8 @@ class ModuleFormType extends AbstractType {
         ->add("active", ChoiceType::class, Array(
             'required' => true,
             'choices' => Array(
-                "moduleFormType_6" => "0",
-                "moduleFormType_7" => "1"
+                "moduleFormType_7" => "0",
+                "moduleFormType_8" => "1"
             )
         ));
     }

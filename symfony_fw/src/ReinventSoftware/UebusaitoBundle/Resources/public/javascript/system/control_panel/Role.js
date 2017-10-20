@@ -13,7 +13,9 @@ function ControlPanelRole() {
     
     // Functions public
     self.init = function() {
-        selection();
+        selectionDesktop();
+        
+        selectionMobile();
         
         $("#form_role_level").on("keyup", "", function() {
             $(this).val($(this).val().toUpperCase());
@@ -72,7 +74,7 @@ function ControlPanelRole() {
     };
     
     // Function private
-    function selection() {
+    function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
         tableAndPagination.init(window.url.cpRolesSelection, "#cp_roles_selection_desktop_result", true);
@@ -125,7 +127,9 @@ function ControlPanelRole() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            tableAndPagination.populate(xhr);
+                            $.each($("#cp_roles_selection_desktop_result").find("table .id_column"), function(key, value) {
+                                $(value).parents("tr").remove();
+                            });
                         },
                         null,
                         null
@@ -143,15 +147,16 @@ function ControlPanelRole() {
             deletion(id);
         });
         
-        $("#cp_roles_selection_send").on("click", "", function(event) {
+        $("#cp_roles_button_selection_desktop").on("click", "", function(event) {
             var id = $.trim($("#cp_roles_selection_desktop_result").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
                 true,
-                window.url.cpRolesSelection,
+                window.url.cpRoleProfileResult,
                 "post",
                 {
+                    'event': "result",
                     'id': id,
                     'token': window.session.token
                 },
@@ -161,14 +166,16 @@ function ControlPanelRole() {
                     $("#cp_role_selection_result").html("");
                 },
                 function(xhr) {
-                    selectionResult(xhr, "#" + event.currentTarget.id);
+                    profile(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
             );
         });
-
-        $("#form_cp_roles_selection").on("submit", "", function(event) {
+    }
+    
+    function selectionMobile() {
+        $("#cp_roles_form_selection_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -183,7 +190,7 @@ function ControlPanelRole() {
                     $("#cp_role_selection_result").html("");
                 },
                 function(xhr) {
-                    selectionResult(xhr, "#" + event.currentTarget.id);
+                    profile(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
@@ -191,7 +198,7 @@ function ControlPanelRole() {
         });
     }
     
-    function selectionResult(xhr, tag) {
+    function profile(xhr, tag) {
         ajax.reply(xhr, tag);
         
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
@@ -199,38 +206,37 @@ function ControlPanelRole() {
             
             $("#cp_role_selection_result").html(xhr.response.render);
 
-            profile();
+            $("#form_role_level").on("keyup", "", function() {
+                $(this).val($(this).val().toUpperCase());
+            });
+
+            $("#form_cp_role_profile").on("submit", "", function(event) {
+                event.preventDefault();
+
+                ajax.send(
+                    true,
+                    true,
+                    $(this).prop("action"),
+                    $(this).prop("method"),
+                    $(this).serialize(),
+                    "json",
+                    false,
+                    null,
+                    function(xhr) {
+                        ajax.reply(xhr, "#" + event.currentTarget.id);
+                        
+                        if (xhr.response.messages.success !== undefined)
+                            $("#cp_role_selection_result").html("");
+                    },
+                    null,
+                    null
+                );
+            });
 
             $("#cp_role_deletion").on("click", "", function() {
-               deletion(xhr.urlExtra);
+               deletion(null);
             });
         }
-    }
-    
-    function profile() {
-        $("#form_role_level").on("keyup", "", function() {
-            $(this).val($(this).val().toUpperCase());
-        });
-        
-        $("#form_cp_role_profile").on("submit", "", function(event) {
-            event.preventDefault();
-            
-            ajax.send(
-                true,
-                true,
-                $(this).prop("action"),
-                $(this).prop("method"),
-                $(this).serialize(),
-                "json",
-                false,
-                null,
-                function(xhr) {
-                    ajax.reply(xhr, "#" + event.currentTarget.id);
-                },
-                null,
-                null
-            );
-        });
     }
     
     function deletion(id) {
@@ -252,11 +258,20 @@ function ControlPanelRole() {
                     },
                     "json",
                     false,
-                    function() {
-                        $("#cp_role_selection_result").html("");
-                    },
+                    null,
                     function(xhr) {
                         ajax.reply(xhr, "");
+                        
+                        if (xhr.response.messages.success !== undefined) {
+                            $.each($("#cp_roles_selection_desktop_result").find("table .id_column"), function(key, value) {
+                                if (xhr.response.values.id === $.trim($(value).text()))
+                                    $(value).parents("tr").remove();
+                            });
+
+                            $("#form_roles_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+                            
+                            $("#cp_role_selection_result").html("");
+                        }
                     },
                     null,
                     null

@@ -19,7 +19,8 @@ class Role {
      * @ORM\Column(name="level", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'ROLE_USER'")
      */
     private $level;
-
+    
+    // Properties
     public function setLevel($value) {
         $this->level = $value;
     }

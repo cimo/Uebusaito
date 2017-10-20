@@ -187,8 +187,9 @@ date.time: H:i:s
 "moduleFormType_3": "Left"
 "moduleFormType_4": "Center"
 "moduleFormType_5": "Right"
-"moduleFormType_6": "No"
-"moduleFormType_7": "Yes"
+"moduleFormType_6": "This module"
+"moduleFormType_7": "No"
+"moduleFormType_8": "Yes"
 
 # ModulesSelectionFormType.php
 "modulesSelectionFormType_1": "Select"
@@ -331,9 +332,10 @@ date.time: H:i:s
 # module_creation.html.twig
 "module_creation_1": "Module creation form"
 "module_creation_2": "Position"
-"module_creation_3": "Name"
-"module_creation_4": "Label"
-"module_creation_5": "File name"
+"module_creation_3": "Position in column"
+"module_creation_4": "Name"
+"module_creation_5": "Label"
+"module_creation_6": "File name"
 
 # module_deletion.html.twig
 "module_deletion_1": "Module deletion"
@@ -342,14 +344,11 @@ date.time: H:i:s
 # module_profile.html.twig
 "module_profile_1": "Module profile form"
 "module_profile_2": "Position"
-"module_profile_3": "Sort"
+"module_profile_3": "Position in column"
 "module_profile_4": "Name"
 "module_profile_5": "Label"
 "module_profile_6": "File name"
 "module_profile_7": "Active"
-
-# module_profile_sort.html.twig
-"module_profile_sort_1": "Sort"
 
 # modules_drag.html.twig
 "modules_drag_1": "Modules sort form"

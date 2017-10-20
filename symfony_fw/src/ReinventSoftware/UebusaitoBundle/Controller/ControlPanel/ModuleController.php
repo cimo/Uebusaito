@@ -64,13 +64,13 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        // Form
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
         $form = $this->createForm(ModulesDragFormType::class, null, Array(
             'validation_groups' => Array('modules_drag')
         ));
         $form->handleRequest($request);
-        
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -81,22 +81,22 @@ class ModuleController extends Controller {
 
                 if (count($sortHeaderExplode) > 0) {
                     foreach ($sortHeaderExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key, "header");
+                        $this->modulesDatabase("sort", $value, $key + 1, "header");
                 }
 
                 if (count($sortLeftExplode) > 0) {
                     foreach ($sortLeftExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key, "left");
+                        $this->modulesDatabase("sort", $value, $key + 1, "left");
                 }
 
                 if (count($sortCenterExplode) > 0) {
                     foreach ($sortCenterExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key, "center");
+                        $this->modulesDatabase("sort", $value, $key + 1, "center");
                 }
 
                 if (count($sortRightExplode) > 0) {
                     foreach ($sortRightExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key, "right");
+                        $this->modulesDatabase("sort", $value, $key + 1, "right");
                 }
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_1");
@@ -144,36 +144,32 @@ class ModuleController extends Controller {
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
         $moduleEntity = new Module();
         
-        // Form
         $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
             'validation_groups' => Array('module_creation'),
-            'choicesPosition' => $moduleEntity->getPosition()
+            'choicesPositionInColumn' => Array()
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
-        
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                if ($form->get("sort")->getData() == "" && $form->get("active")->getData() == "") {
-                    $moduleRows = $this->query->selectAllModulesDatabase(null, $form->get("position")->getData());
-
-                    $form->getData()->setSort(count($moduleRows));
-                    $form->getData()->setActive(false);
-                }
+                $form->getData()->setActive(false);
 
                 // Insert in database
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
+                
+                $this->updatePositionInColumnDatabase($form->get("sort")->getData(), $moduleEntity->getId());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_3");
             }
@@ -228,6 +224,11 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
+        $_SESSION['module_profile_id'] = 0;
+        
         $moduleRows = $this->query->selectAllModulesDatabase();
         
         $tableAndPagination = $this->tableAndPagination->request($moduleRows, 20, "module", true, true);
@@ -236,47 +237,17 @@ class ModuleController extends Controller {
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
         
-        // Form
         $form = $this->createForm(ModulesSelectionFormType::class, null, Array(
             'validation_groups' => Array('modules_selection'),
             'choicesId' => array_reverse(array_column($moduleRows, "id", "name"), true)
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
-        
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            $id = 0;
-            
-            if ($form->isValid() == true) {
-                $id = $form->get("id")->getData();
-
-                $this->selectionResult($id, $request);
-            }
-            else if ($request->get("event") == null && $this->utility->checkToken($request) == true) {
-                $id = $request->get("id") == "" ? 0 : $request->get("id");
-
-                $this->selectionResult($id, $request);
-            }
-            else if (($request->get("event") == "refresh" && $this->utility->checkToken($request) == true) || $this->tableAndPagination->checkPost() == true) {
-                $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/modules_selection_desktop.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
-
-                $this->response['render'] = $render;
-            }
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
-            
+        if ($request->isMethod("POST") == true && $chekRoleLevel == true && $this->utility->checkToken($request) == true) {
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $id,
+                'urlExtra' => $this->urlExtra,
                 'response' => $this->response
             ));
         }
@@ -292,15 +263,15 @@ class ModuleController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_module_profile",
-    *   path = "/cp_module_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_module_profile_result",
+    *   path = "/cp_module_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
     * @Template("@UebusaitoBundleViews/render/control_panel/module_profile.html.twig")
     */
-    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -318,43 +289,140 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($this->urlExtra);
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
-        // Form
-        $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
-            'validation_groups' => Array('module_profile'),
-            'choicesPosition' => $moduleEntity->getPosition()
+        // Logic
+        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+            $id = 0;
+            
+            if (empty($request->get("id")) == false)
+                $id = $request->get("id");
+            else if (empty($request->get("form_modules_selection")['id']) == false)
+                $id = $request->get("form_modules_selection")['id'];
+            
+            $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
+            
+            if ($moduleEntity != null) {
+                $_SESSION['module_profile_id'] = $id;
+                
+                $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
+                    'validation_groups' => Array('module_profile'),
+                    'choicesPositionInColumn' => array_column($this->query->selectAllModulesDatabase(null, $moduleEntity->getPosition()), "id", "name")
+                ));
+                $form->handleRequest($request);
+                
+                $this->response['values']['id'] = $_SESSION['module_profile_id'];
+                
+                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/module_profile.html.twig", Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response,
+                    'form' => $form->createView()
+                ));
+            }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
+        }
+        
+        return $this->ajax->response(Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
         ));
-        $form->handleRequest($request);
+    }
+    
+    /**
+    * @Route(
+    *   name = "cp_module_profile_sort",
+    *   path = "/cp_module_profile_sort/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
+    * )
+    * @Method({"POST"})
+    * @Template("@UebusaitoBundleViews/render/control_panel/module_profile.html.twig")
+    */
+    public function profileSortAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
         
         $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
+        // Logic
+        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+            if ($this->utility->checkToken($request) == true)
+                $this->response['values']['moduleRows'] = array_column($this->query->selectAllModulesDatabase(null, $request->get("position")), "id", "name");
+        }
+        
+        return $this->ajax->response(Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
+        ));
+    }
+    
+    /**
+    * @Route(
+    *   name = "cp_module_profile_save",
+    *   path = "/cp_module_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
+    * )
+    * @Method({"POST"})
+    * @Template("@UebusaitoBundleViews/render/control_panel/module_profile.html.twig")
+    */
+    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
+        
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
+        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($_SESSION['module_profile_id']);
+        
+        $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
+            'validation_groups' => Array('module_profile'),
+            'choicesPositionInColumn' => array_column($this->query->selectAllModulesDatabase(null, $moduleEntity->getPosition()), "id", "name")
+        ));
+        $form->handleRequest($request);
+        
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                $sortExplode = Array();
-
-                if ($form->get("position")->getData() == null && $form->get("sort")->getData() == null) {
-                    $moduleRow = $this->query->selectModuleDatabase($this->urlExtra);
-
-                    $form->getData()->setPosition($moduleRow['position']);
-                    $form->getData()->setSort($moduleRow['sort']);
-                }
-                else {
-                    $formDataSort = $form->get("sort")->getData();
-                    $form->getData()->setSort(0);
-
-                    if ($formDataSort != null)
-                        $sortExplode = explode(",", $formDataSort);
-                }
-                
                 // Update in database
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 
-                if (count($sortExplode) > 0) {
-                    foreach ($sortExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key, null);
-                }
+                $this->updatePositionInColumnDatabase($form->get("sort")->getData(), $moduleEntity->getId());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
             }
@@ -382,68 +450,6 @@ class ModuleController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_module_profile_sort",
-    *   path = "/cp_module_profile_sort/{_locale}/{urlCurrentPageId}/{urlExtra}",
-    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
-    * )
-    * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/module_profile_sort.html.twig")
-    */
-    public function profileSortAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
-        $this->urlLocale = $_locale;
-        $this->urlCurrentPageId = $urlCurrentPageId;
-        $this->urlExtra = $urlExtra;
-        
-        $this->entityManager = $this->getDoctrine()->getManager();
-        
-        $this->response = Array();
-        
-        $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
-        
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
-        
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($this->utility->checkToken($request) == true) {
-                $this->response['values']['moduleRows'] = $this->query->selectAllModulesDatabase($request->get("id"), $request->get("position"));
-
-                $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/module_profile_sort.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
-
-                $this->response['render'] = $render;
-            }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_8");
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response
-        );
-    }
-    
-    /**
-    * @Route(
     *   name = "cp_module_deletion",
     *   path = "/cp_module_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
@@ -463,46 +469,32 @@ class ModuleController extends Controller {
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $moduleRows = $this->query->selectAllModulesDatabase();
-        
-        $tableAndPagination = $this->tableAndPagination->request($moduleRows, 20, "module", true, true);
-        
-        $this->response['values']['search'] = $tableAndPagination['search'];
-        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
-        
         $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
+        // Logic
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
-                $modulesDatabase = $this->modulesDatabase("delete", $request->get("id"), null, null);
+                $id = $request->get("id") == null ? $_SESSION['module_profile_id'] : $request->get("id");
+                
+                $modulesDatabase = $this->modulesDatabase("delete", $id, null, null);
 
-                if ($modulesDatabase == true)
+                if ($modulesDatabase == true) {
+                    $this->response['values']['id'] = $id;
+                    
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
+                }
             }
             else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
                 $modulesDatabase = $this->modulesDatabase("deleteAll", null, null, null);
 
-                if ($modulesDatabase == true) {
-                    $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/modules_selection_desktop.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-
-                    $this->response['render'] = $render;
-
+                if ($modulesDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
-                }
             }
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_11");
@@ -524,33 +516,6 @@ class ModuleController extends Controller {
     }
     
     // Functions private
-    private function selectionResult($id, $request) {
-        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
-        
-        if ($moduleEntity != null) {
-            $this->response['values']['moduleRows'] = $this->query->selectAllModulesDatabase(null, $moduleEntity->getPosition());
-            
-            // Form
-            $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
-                'validation_groups' => Array('module_profile'),
-                'choicesPosition' => $moduleEntity->getPosition()
-            ));
-            $form->handleRequest($request);
-            
-            $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/module_profile.html.twig", Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $moduleEntity->getId(),
-                'response' => $this->response,
-                'form' => $form->createView()
-            ));
-            
-            $this->response['render'] = $render;
-        }
-        else
-            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
-    }
-    
     private function createHtmlList($elements) {
         $listHtml = "";
         
@@ -584,23 +549,34 @@ class ModuleController extends Controller {
         return $listHtml;
     }
     
-    private function modulesDatabase($type, $id, $sort, $position) {
+    private function updatePositionInColumnDatabase($sort, $moduleId) {
+        $sortExplode = explode(",", $sort);
+        array_pop($sortExplode);
+        
+        foreach ($sortExplode as $key => $value) {
+            if ($value == "")
+                $value = $moduleId;
+
+            $query = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                SET position_in_column = :positionInColumn
+                                                                WHERE id = :id");
+
+            $query->bindValue(":positionInColumn", $key + 1);
+            $query->bindValue(":id", $value);
+
+            $query->execute();
+        }
+    }
+    
+    private function modulesDatabase($type, $id, $positionInColumn, $position) {
         if ($type == "sort") {
-            if ($position == null) {
-                $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                    SET sort = :sort
-                                                                    WHERE id = :id");
-            }
-            else {
-                $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                    SET position = :position,
-                                                                        sort = :sort
-                                                                    WHERE id = :id");
+            $query = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                SET position = :position,
+                                                                    position_in_column = :positionInColumn
+                                                                WHERE id = :id");
                 
-                $query->bindValue(":position", $position);
-            }
-            
-            $query->bindValue(":sort", $sort);
+            $query->bindValue(":position", $position);
+            $query->bindValue(":positionInColumn", $positionInColumn);
             $query->bindValue(":id", $id);
             
             return $query->execute();

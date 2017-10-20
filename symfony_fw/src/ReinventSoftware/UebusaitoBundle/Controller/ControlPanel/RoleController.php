@@ -28,6 +28,7 @@ class RoleController extends Controller {
     private $response;
     
     private $utility;
+    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $tableAndPagination;
@@ -62,15 +63,15 @@ class RoleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
         $roleEntity = new Role();
         
-        // Form
         $form = $this->createForm(RoleFormType::class, $roleEntity, Array(
             'validation_groups' => Array('role_creation')
         ));
         $form->handleRequest($request);
-        
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -122,14 +123,19 @@ class RoleController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
+        
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
+        $_SESSION['role_profile_id'] = 0;
         
         $userRoleRows = $this->query->selectAllUserRolesDatabase();
         
@@ -139,47 +145,17 @@ class RoleController extends Controller {
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
         
-        // Form
         $form = $this->createForm(RolesSelectionFormType::class, null, Array(
             'validation_groups' => Array('roles_selection'),
-            'choicesId' => array_reverse(array_column($this->query->selectAllUserRolesDatabase(), "id", "level"), true)
+            'choicesId' => array_reverse(array_column($userRoleRows, "id", "level"), true)
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
-        
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            $id = 0;
-            
-            if ($form->isValid() == true) {
-                $id = $form->get("id")->getData();
-
-                $this->selectionResult($id, $request);
-            }
-            else if ($request->get("event") == null && $this->utility->checkToken($request) == true) {
-                $id = $request->get("id") == "" ? 0 : $request->get("id");
-
-                $this->selectionResult($id, $request);
-            }
-            else if (($request->get("event") == "refresh" && $this->utility->checkToken($request) == true) || $this->tableAndPagination->checkPost() == true) {
-                $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/roles_selection_desktop.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
-
-                $this->response['render'] = $render;
-            }
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_3");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
-            
+        if ($request->isMethod("POST") == true && $chekRoleLevel == true && $this->utility->checkToken($request) == true) {
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $id,
+                'urlExtra' => $this->urlExtra,
                 'response' => $this->response
             ));
         }
@@ -195,15 +171,86 @@ class RoleController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_role_profile",
-    *   path = "/cp_role_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_role_profile_result",
+    *   path = "/cp_role_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
     * @Template("@UebusaitoBundleViews/render/control_panel/role_profile.html.twig")
     */
-    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
+        
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
+        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+            $id = 0;
+            
+            if (empty($request->get("id")) == false)
+                $id = $request->get("id");
+            else if (empty($request->get("form_roles_selection")['id']) == false)
+                $id = $request->get("form_roles_selection")['id'];
+            
+            $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($id);
+            
+            if ($roleEntity != null) {
+                $_SESSION['role_profile_id'] = $id;
+                
+                $form = $this->createForm(RoleFormType::class, $roleEntity, Array(
+                    'validation_groups' => Array('role_profile')
+                ));
+                $form->handleRequest($request);
+                
+                $this->response['values']['id'] = $_SESSION['role_profile_id'];
+                
+                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/role_profile.html.twig", Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response,
+                    'form' => $form->createView()
+                ));
+            }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_3");
+        }
+        
+        return $this->ajax->response(Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
+        ));
+    }
+    
+    /**
+    * @Route(
+    *   name = "cp_role_profile_save",
+    *   path = "/cp_role_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
+    * )
+    * @Method({"POST"})
+    * @Template("@UebusaitoBundleViews/render/control_panel/role_profile.html.twig")
+    */
+    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -220,15 +267,15 @@ class RoleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($this->urlExtra);
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
-        // Form
+        // Logic
+        $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($_SESSION['role_profile_id']);
+        
         $form = $this->createForm(RoleFormType::class, $roleEntity, Array(
             'validation_groups' => Array('role_profile')
         ));
         $form->handleRequest($request);
-        
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -280,47 +327,34 @@ class RoleController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $userRoleRows = $this->query->selectAllUserRolesDatabase();
-        
-        $tableAndPagination = $this->tableAndPagination->request($userRoleRows, 20, "role", true, true);
-        
-        $this->response['values']['search'] = $tableAndPagination['search'];
-        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
-        
         $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
+        // Logic
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
-                $rolesDatabase = $this->rolesDatabase("delete", $request->get("id"));
+                $id = $request->get("id") == null ? $_SESSION['role_profile_id'] : $request->get("id");
+                
+                $rolesDatabase = $this->rolesDatabase("delete", $id);
 
-                if ($rolesDatabase == true)
+                if ($rolesDatabase == true) {
+                    $this->response['values']['id'] = $id;
+                    
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_6");
+                }
             }
             else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
                 $rolesDatabase = $this->rolesDatabase("deleteAll", null);
 
-                if ($rolesDatabase == true) {
-                    $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/roles_selection_desktop.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-
-                    $this->response['render'] = $render;
-
+                if ($rolesDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleController_7");
-                }
             }
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_8");
@@ -342,30 +376,6 @@ class RoleController extends Controller {
     }
     
     // Functions private
-    private function selectionResult($id, $request) {
-        $roleEntity = $this->entityManager->getRepository("UebusaitoBundle:Role")->find($id);
-        
-        if ($roleEntity != null) {
-            // Form
-            $form = $this->createForm(RoleFormType::class, $roleEntity, Array(
-                'validation_groups' => Array('role_profile')
-            ));
-            $form->handleRequest($request);
-            
-            $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/role_profile.html.twig", Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $roleEntity->getId(),
-                'response' => $this->response,
-                'form' => $form->createView()
-            ));
-
-            $this->response['render'] = $render;
-        }
-        else
-            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleController_3");
-    }
-    
     private function createHtmlList($tableResult) {
         $listHtml = "";
         
