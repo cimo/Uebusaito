@@ -257,7 +257,7 @@ function ControlPanelModule() {
                     function(xhr) {
                         ajax.reply(xhr, "#" + event.currentTarget.id);
                         
-                        if (xhr.response.messages.succes !== undefined)
+                        if (xhr.response.messages.success !== undefined)
                             $("#cp_module_selection_result").html("");
                     },
                     null,
@@ -348,7 +348,7 @@ function ControlPanelModule() {
                     function(xhr) {
                         ajax.reply(xhr, "");
                         
-                        if (xhr.response.messages.succes !== undefined) {
+                        if (xhr.response.messages.success !== undefined) {
                             $.each($("#cp_modules_selection_desktop_result").find("table .id_column"), function(key, value) {
                                 if (xhr.response.values.id === $.trim($(value).text()))
                                     $(value).parents("tr").remove();

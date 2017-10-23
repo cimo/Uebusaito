@@ -20,12 +20,12 @@ class User implements AdvancedUserInterface {
     private $id;
     
     /**
-     * @ORM\Column(name="role_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '1,2,'")
+     * @ORM\Column(name="role_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '1,'")
      */
     private $roleId;
     
     /**
-     * @ORM\Column(name="username", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="username", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $username;
     
@@ -40,7 +40,7 @@ class User implements AdvancedUserInterface {
     private $surname;
     
     /**
-     * @ORM\Column(name="email", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="email", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $email;
     
@@ -100,7 +100,7 @@ class User implements AdvancedUserInterface {
     private $address;
     
     /**
-     * @ORM\Column(name="password", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="password", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $password;
     
@@ -144,6 +144,7 @@ class User implements AdvancedUserInterface {
      */
     private $attemptLogin;
     
+    // Properties
     public function setRoleId($value) {
         $this->roleId = $value;
     }
@@ -358,10 +359,6 @@ class User implements AdvancedUserInterface {
         return null;
     }
     
-    public function getRoles() {
-        return $this->roles;
-    }
-    
     // AdvanceUserInterface
     public function isAccountNonExpired() {
         return true;
@@ -395,6 +392,10 @@ class User implements AdvancedUserInterface {
     }
     
     // ---
+    
+    public function getRoles() {
+        return $this->roles;
+    }
     
     public function getPasswordConfirm() {
         return $this->passwordConfirm;

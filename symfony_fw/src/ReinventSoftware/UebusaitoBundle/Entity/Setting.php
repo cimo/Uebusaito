@@ -16,7 +16,7 @@ class Setting {
     private $id;
     
     /**
-     * @ORM\Column(name="template", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'uebusaito'")
+     * @ORM\Column(name="template", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'basic'")
      */
     private $template;
     
@@ -31,7 +31,7 @@ class Setting {
     private $language;
     
     /**
-     * @ORM\Column(name="email_admin", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="email_admin", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $emailAdmin;
     
@@ -76,7 +76,7 @@ class Setting {
     private $payPalSandbox;
     
     /**
-     * @ORM\Column(name="payPal_business", type="string", columnDefinition="varchar(255)")
+     * @ORM\Column(name="payPal_business", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $payPalBusiness;
     
@@ -95,6 +95,7 @@ class Setting {
      */
     private $credits;
     
+    // Properties
     public function setTemplate($value) {
         $this->template = $value;
     }

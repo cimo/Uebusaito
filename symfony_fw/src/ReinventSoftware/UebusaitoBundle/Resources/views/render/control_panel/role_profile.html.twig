@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-6">
         <h3 class="form_title">{% trans %}role_profile_1{% endtrans %}</h3>
-        <form id="form_cp_role_profile" action="{{path("cp_role_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_role_profile" action="{{path("cp_role_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <div class="form-group">
                 {{form_label(form.level, "role_profile_2")}}
                 <div class="input-group">

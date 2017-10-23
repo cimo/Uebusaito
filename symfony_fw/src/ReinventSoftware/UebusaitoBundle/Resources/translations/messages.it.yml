@@ -535,8 +535,8 @@ date.time: H:i:s
 
 # user_creation.html.twig
 "user_creation_1": "Form creazione utente"
-"user_creation_2": "Username"
-"user_creation_3": "Ruolo"
+"user_creation_2": "Ruolo"
+"user_creation_3": "Username"
 "user_creation_4": "Nome"
 "user_creation_5": "Cognome"
 "user_creation_6": "Email"
@@ -560,8 +560,8 @@ date.time: H:i:s
 
 # user_profile.html.twig
 "user_profile_1": "Form profilo utente"
-"user_profile_2": "Username"
-"user_profile_3": "Ruolo"
+"user_profile_2": "Ruolo"
+"user_profile_3": "Username"
 "user_profile_4": "Nome"
 "user_profile_5": "Cognome"
 "user_profile_6": "Email"
@@ -587,8 +587,8 @@ date.time: H:i:s
 # users_selection_desktop.html.twig
 "users_selection_desktop_1": "Id"
 "users_selection_desktop_2": "Seleziona"
-"users_selection_desktop_3": "Username"
-"users_selection_desktop_4": "Ruolo"
+"users_selection_desktop_3": "Ruolo"
+"users_selection_desktop_4": "Username"
 "users_selection_desktop_5": "Nome"
 "users_selection_desktop_6": "Cognome"
 "users_selection_desktop_7": "Email"

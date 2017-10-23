@@ -24,10 +24,10 @@ class UserFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add("username", TextType::class, Array(
+        $builder->add("roleId", TextType::class, Array(
             'required' => true
         ))
-        ->add("roleId", TextType::class, Array(
+        ->add("username", TextType::class, Array(
             'required' => true
         ))
         ->add("name", TextType::class, Array(

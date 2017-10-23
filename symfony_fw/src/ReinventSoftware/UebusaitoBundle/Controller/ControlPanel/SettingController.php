@@ -51,41 +51,38 @@ class SettingController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_settings_roleId_field", true);
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
+        // Logic
         $settingEntity = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
         
-        $settingRow = $this->query->selectSettingDatabase();
-        
-        // Form
         $form = $this->createForm(SettingsFormType::class, $settingEntity, Array(
             'validation_groups' => Array('settings'),
-            'settingRow' => $settingRow,
             'choicesTemplate' => $this->uebusaitoUtility->createTemplatesList(),
             'choicesLanguage' => array_column($this->query->selectAllLanguagesDatabase(), "code", "code")
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_settings_roleId_field", true);
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                if ($form->get("templateColumn")->getData() != $settingRow['template_column'])
+                if ($form->get("templateColumn")->getData() != $settingEntity->getTemplateColumn())
                     $this->modulesDatabase($form->get("templateColumn")->getData());
                 
                 // Update in database
                 $this->entityManager->persist($settingEntity);
                 $this->entityManager->flush();
                     
-                if ($form->get("https")->getData() != $settingRow['https']) {
+                if ($form->get("https")->getData() != $settingEntity->getHttps()) {
                     $this->utility->getTokenStorage()->setToken(null);
                     
                     $message = $this->utility->getTranslator()->trans("settingController_1");
@@ -140,8 +137,8 @@ class SettingController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
@@ -150,6 +147,7 @@ class SettingController extends Controller {
         
         $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
+        // Logic
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($request->get("event") == "deleteLanguage" && $this->utility->checkToken($request) == true) {
                 $code = $request->get("code");
@@ -166,7 +164,7 @@ class SettingController extends Controller {
             }
             else if ($request->get("event") == "createLanguage" && $this->utility->checkToken($request) == true) {
                 $code = $request->get("code");
-
+                
                 $languageRows = $this->query->selectAllLanguagesDatabase();
 
                 $exists = false;
@@ -211,49 +209,6 @@ class SettingController extends Controller {
     }
     
     // Functions private
-    private function settingsDatabase($type, $code) {
-        if ($type == "deleteLanguage") {
-            $query = $this->utility->getConnection()->prepare("DELETE FROM languages
-                                                                WHERE id > :idExclude
-                                                                AND code = :code");
-
-            $query->bindValue(":idExclude", 2);
-            $query->bindValue(":code", $code);
-
-            return $query->execute();
-        }
-        else if ($type == "deleteLanguageInPage") {
-            $codeTmp = is_string($code) == true ? $code : "";
-            $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
-            $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
-            
-            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles DROP $codeTmp;
-                                                                ALTER TABLE pages_arguments DROP $codeTmp;
-                                                                ALTER TABLE pages_menu_names DROP $codeTmp;");
-            
-            $query->execute();
-        }
-        else if ($type == "insertLanguage") {
-            $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code)
-                                                                VALUES (:code)");
-            
-            $query->bindValue(":code", $code);
-            
-            return $query->execute();
-        }
-        else if ($type == "insertLanguageInPage") {
-            $codeTmp = is_string($code) == true ? $code : "";
-            $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
-            $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
-            
-            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles ADD $codeTmp VARCHAR(255) DEFAULT NULL;
-                                                                ALTER TABLE pages_arguments ADD $codeTmp LONGTEXT DEFAULT NULL;
-                                                                ALTER TABLE pages_menu_names ADD $codeTmp VARCHAR(255) DEFAULT '-';");
-            
-            $query->execute();
-        }
-    }
-    
     private function modulesDatabase($templateColumn) {
         if ($templateColumn == 1) {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
@@ -320,21 +275,64 @@ class SettingController extends Controller {
             $query->execute();
         }
         
-        $this->modulesSort("left");
-        $this->modulesSort("center");
-        $this->modulesSort("right");
+        $this->updateModulesPositionInColumn("left");
+        $this->updateModulesPositionInColumn("center");
+        $this->updateModulesPositionInColumn("right");
     }
     
-    private function modulesSort($position) {
+    private function updateModulesPositionInColumn($position) {
         $moduleRows = $this->query->selectAllModulesDatabase(null, $position);
         
         foreach($moduleRows as $key => $value) {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                SET sort = :sort
+                                                                SET position_in_column = :positionInColumn
                                                                 WHERE id = :id");
             
-            $query->bindValue(":sort", $key);
+            $query->bindValue(":sort", $key + 1);
             $query->bindValue(":id", $value['id']);
+            
+            $query->execute();
+        }
+    }
+    
+    private function settingsDatabase($type, $code) {
+        if ($type == "deleteLanguage") {
+            $query = $this->utility->getConnection()->prepare("DELETE FROM languages
+                                                                WHERE id > :idExclude
+                                                                AND code = :code");
+
+            $query->bindValue(":idExclude", 2);
+            $query->bindValue(":code", $code);
+
+            return $query->execute();
+        }
+        else if ($type == "deleteLanguageInPage") {
+            $codeTmp = is_string($code) == true ? $code : "";
+            $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
+            $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
+            
+            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles DROP $codeTmp;
+                                                                ALTER TABLE pages_arguments DROP $codeTmp;
+                                                                ALTER TABLE pages_menu_names DROP $codeTmp;");
+            
+            $query->execute();
+        }
+        else if ($type == "insertLanguage") {
+            $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code)
+                                                                VALUES (:code)");
+            
+            $query->bindValue(":code", $code);
+            
+            return $query->execute();
+        }
+        else if ($type == "insertLanguageInPage") {
+            $codeTmp = is_string($code) == true ? $code : "";
+            $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
+            $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
+            
+            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles ADD $codeTmp VARCHAR(255) DEFAULT NULL;
+                                                                ALTER TABLE pages_arguments ADD $codeTmp LONGTEXT DEFAULT NULL;
+                                                                ALTER TABLE pages_menu_names ADD $codeTmp VARCHAR(255) DEFAULT '-';");
             
             $query->execute();
         }

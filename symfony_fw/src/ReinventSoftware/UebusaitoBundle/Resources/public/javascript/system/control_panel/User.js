@@ -13,7 +13,9 @@ function ControlPanelUser() {
     
     // Functions public
     self.init = function() {
-        selection();
+        selectionDesktop();
+        
+        selectionMobile();
         
         utility.wordTag("#form_user_roleId");
         
@@ -70,7 +72,7 @@ function ControlPanelUser() {
     };
     
     // Function private
-    function selection() {
+    function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
         tableAndPagination.init(window.url.cpUsersSelection, "#cp_users_selection_desktop_result", true);
@@ -123,7 +125,9 @@ function ControlPanelUser() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            tableAndPagination.populate(xhr);
+                            $.each($("#cp_users_selection_desktop_result").find("table .id_column"), function(key, value) {
+                                $(value).parents("tr").remove();
+                            });
                         },
                         null,
                         null
@@ -141,15 +145,16 @@ function ControlPanelUser() {
             deletion(id);
         });
         
-        $("#cp_users_selection_send").on("click", "", function(event) {
+        $("#cp_users_button_selection_desktop").on("click", "", function(event) {
             var id = $.trim($("#cp_users_selection_desktop_result").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
                 true,
-                window.url.cpUsersSelection,
+                window.url.cpUserProfileResult,
                 "post",
                 {
+                    'event': "result",
                     'id': id,
                     'token': window.session.token
                 },
@@ -159,14 +164,16 @@ function ControlPanelUser() {
                     $("#cp_user_selection_result").html("");
                 },
                 function(xhr) {
-                    selectionResult(xhr, "#" + event.currentTarget.id);
+                    profile(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
             );
         });
-        
-        $("#form_cp_users_selection").on("submit", "", function(event) {
+    }
+    
+    function selectionMobile() {
+        $("#cp_users_form_selection_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -181,7 +188,7 @@ function ControlPanelUser() {
                     $("#cp_user_selection_result").html("");
                 },
                 function(xhr) {
-                    selectionResult(xhr, "#" + event.currentTarget.id);
+                    profile(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
@@ -189,7 +196,7 @@ function ControlPanelUser() {
         });
     }
     
-    function selectionResult(xhr, tag) {
+    function profile(xhr, tag) {
         ajax.reply(xhr, tag);
         
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
@@ -197,36 +204,35 @@ function ControlPanelUser() {
             
             $("#cp_user_selection_result").html(xhr.response.render);
 
-            profile();
+            utility.wordTag("#form_user_roleId");
+
+            $("#form_cp_user_profile").on("submit", "", function(event) {
+                event.preventDefault();
+
+                ajax.send(
+                    true,
+                    true,
+                    $(this).prop("action"),
+                    $(this).prop("method"),
+                    $(this).serialize(),
+                    "json",
+                    false,
+                    null,
+                    function(xhr) {
+                        ajax.reply(xhr, "#" + event.currentTarget.id);
+                        
+                        if (xhr.response.messages.success !== undefined)
+                            $("#cp_user_selection_result").html("");
+                    },
+                    null,
+                    null
+                );
+            });
             
             $("#cp_user_deletion").on("click", "", function() {
-               deletion(xhr.urlExtra);
+               deletion(null);
             });
         }
-    }
-    
-    function profile() {
-        utility.wordTag("#form_user_roleId");
-        
-        $("#form_cp_user_profile").on("submit", "", function(event) {
-            event.preventDefault();
-            
-            ajax.send(
-                true,
-                true,
-                $(this).prop("action"),
-                $(this).prop("method"),
-                $(this).serialize(),
-                "json",
-                false,
-                null,
-                function(xhr) {
-                    ajax.reply(xhr, "#" + event.currentTarget.id);
-                },
-                null,
-                null
-            );
-        });
     }
     
     function deletion(id) {
@@ -248,11 +254,20 @@ function ControlPanelUser() {
                     },
                     "json",
                     false,
-                    function() {
-                        $("#cp_user_selection_result").html("");
-                    },
+                    null,
                     function(xhr) {
                         ajax.reply(xhr, "");
+                        
+                        if (xhr.response.messages.success !== undefined) {
+                            $.each($("#cp_users_selection_desktop_result").find("table .id_column"), function(key, value) {
+                                if (xhr.response.values.id === $.trim($(value).text()))
+                                    $(value).parents("tr").remove();
+                            });
+
+                            $("#form_users_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+
+                            $("#cp_user_selection_result").html("");
+                        }
                     },
                     null,
                     null

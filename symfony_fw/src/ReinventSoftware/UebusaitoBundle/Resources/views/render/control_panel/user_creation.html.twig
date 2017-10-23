@@ -4,18 +4,9 @@
     <div class="col-md-6">
         <h3 class="form_title">{% trans %}user_creation_1{% endtrans %}</h3>
         <form id="form_cp_user_creation" action="{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            <div class="form-group">
-                {{form_label(form.username, "user_creation_2")}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-paw"></i></span>
-                    {{form_errors(form.username)}}
-                    {{form_widget(form.username)}}
-                </div>
-            </div>
-            
             {% if is_granted("ROLE_ADMIN") == true %}
                 <div id="form_user_roleId_wordTag_container" class="form-group">
-                    {{form_label(form.roleId, "user_creation_3")}}
+                    {{form_label(form.roleId, "user_creation_2")}}
                     {{form_errors(form.roleId)}}
                     {{form_widget(form.roleId)}}
                     <div class="input-group">
@@ -24,6 +15,15 @@
                     </div>
                 </div>
             {% endif %}
+            
+            <div class="form-group">
+                {{form_label(form.username, "user_creation_3")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-paw"></i></span>
+                    {{form_errors(form.username)}}
+                    {{form_widget(form.username)}}
+                </div>
+            </div>
             
             {{form_row(form.name, {'label': "user_creation_4"})}}
             {{form_row(form.surname, {'label': "user_creation_5"})}}
@@ -59,6 +59,7 @@
                     {{form_widget(form.password)}}
                 </div>
             </div>
+            
             <div class="form-group">
                 {{form_label(form.passwordConfirm, "user_creation_19")}}
                 <div class="input-group">
