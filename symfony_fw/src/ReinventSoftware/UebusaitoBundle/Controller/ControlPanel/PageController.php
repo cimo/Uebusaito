@@ -34,6 +34,7 @@ class PageController extends Controller {
     private $tableAndPagination;
     
     private $listHtml;
+    private $removedId;
     
     // Properties
     
@@ -58,21 +59,21 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_page_roleId_field", true);
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
+        // Logic
         $pageEntity = new Page();
         
         $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
         
-        // Form
         $form = $this->createForm(PageFormType::class, $pageEntity, Array(
             'validation_groups' => Array('page_creation'),
             'pageRow' => null,
@@ -82,7 +83,7 @@ class PageController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_page_roleId_field", true);
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
@@ -149,57 +150,32 @@ class PageController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->listHtml = "";
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
+        $_SESSION['page_profile_id'] = 0;
         
         $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
         
         $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "page", false, true);
         
+        $this->listHtml = "";
+        
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
         
-        // Form
         $form = $this->createForm(PagesSelectionFormType::class, null, Array(
             'validation_groups' => Array('pages_selection'),
             'choicesId' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true))
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
-        
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            $id = 0;
-            
-            if ($form->isValid() == true) {
-                $id = $form->get("id")->getData();
-
-                $this->selectionResult($id, $request);
-            }
-            else if ($request->get("event") == null && $this->utility->checkToken($request) == true) {
-                $id = $request->get("id") == "" ? 0 : $request->get("id");
-
-                $this->selectionResult($id, $request);
-            }
-            else if (($request->get("event") == "refresh" && $this->utility->checkToken($request) == true) || $this->tableAndPagination->checkPost() == true) {
-                $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/pages_selection_desktop.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
-
-                $this->response['render'] = $render;
-            }
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
-            
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $id,
+                'urlExtra' => $this->urlExtra,
                 'response' => $this->response
             ));
         }
@@ -215,15 +191,15 @@ class PageController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_page_profile",
-    *   path = "/cp_page_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_page_profile_result",
+    *   path = "/cp_page_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
     * @Template("@UebusaitoBundleViews/render/control_panel/page_profile.html.twig")
     */
-    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -241,58 +217,54 @@ class PageController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_page_roleId_field", true);
-        
-        $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($this->urlExtra);
-        
-        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
-        
-        // Form
-        $form = $this->createForm(PageFormType::class, $pageEntity, Array(
-            'validation_groups' => Array('page_profile'),
-            'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-            'urlLocale' => $this->urlLocale,
-            'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true)),
-            'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
-        ));
-        $form->handleRequest($request);
-        
         $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
+        // Logic
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($form->isValid() == true) {
-                // Update in database
-                $this->entityManager->persist($pageEntity);
-                $this->entityManager->flush();
-                
-                $pagesDatabase = $this->pagesDatabase("update", $pageEntity->getId(), null, $form);
-                
-                if ($pagesDatabase == true) {
-                    $this->updatePositionInMenuDatabase($form->get("sort")->getData(), $pageEntity->getId());
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_4");
-                }
-            }
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_5");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
+            $id = 0;
             
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+            if (empty($request->get("id")) == false)
+                $id = $request->get("id");
+            else if (empty($request->get("form_pages_selection")['id']) == false)
+                $id = $request->get("form_pagess_selection")['id'];
+            
+            $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
+            
+            if ($pageEntity != null) {
+                $_SESSION['page_profile_id'] = $id;
+                
+                $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
+                
+                $form = $this->createForm(PageFormType::class, $pageEntity, Array(
+                    'validation_groups' => Array('page_profile'),
+                    'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $_SESSION['page_profile_id']),
+                    'urlLocale' => $this->urlLocale,
+                    'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true)),
+                    'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
+                ));
+                $form->handleRequest($request);
+                
+                $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_page_roleId_field", true);
+                $this->response['values']['id'] = $_SESSION['page_profile_id'];
+                
+                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/page_profile.html.twig", Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response,
+                    'form' => $form->createView()
+                ));
+            }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
         }
         
-        return Array(
+        return $this->ajax->response(Array(
             'urlLocale' => $this->urlLocale,
             'urlCurrentPageId' => $this->urlCurrentPageId,
             'urlExtra' => $this->urlExtra,
-            'response' => $this->response,
-            'form' => $form->createView()
-        );
+            'response' => $this->response
+        ));
     }
     
     /**
@@ -325,6 +297,7 @@ class PageController extends Controller {
         
         $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
         
+        // Logic
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($this->utility->checkToken($request) == true)
                 $this->response['values']['pageRows'] = array_column($this->query->selectAllPageParentDatabase($request->get("id")), "id", "alias");
@@ -336,6 +309,86 @@ class PageController extends Controller {
             'urlExtra' => $this->urlExtra,
             'response' => $this->response
         ));
+    }
+    
+    /**
+    * @Route(
+    *   name = "cp_page_profile_save",
+    *   path = "/cp_page_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
+    * )
+    * @Method({"POST"})
+    * @Template("@UebusaitoBundleViews/render/control_panel/page_profile.html.twig")
+    */
+    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
+        
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        
+        // Logic
+        $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($_SESSION['page_profile_id']);
+        
+        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
+        
+        $form = $this->createForm(PageFormType::class, $pageEntity, Array(
+            'validation_groups' => Array('page_profile'),
+            'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
+            'urlLocale' => $this->urlLocale,
+            'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true)),
+            'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
+        ));
+        $form->handleRequest($request);
+        
+        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+            if ($form->isValid() == true) {
+                // Update in database
+                $this->entityManager->persist($pageEntity);
+                $this->entityManager->flush();
+
+                $pagesDatabase = $this->pagesDatabase("update", $pageEntity->getId(), null, $form);
+
+                if ($pagesDatabase == true) {
+                    $this->updatePositionInMenuDatabase($form->get("sort")->getData(), $pageEntity->getId());
+
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_4");
+                }
+            }
+            else {
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_5");
+                $this->response['errors'] = $this->ajax->errors($form);
+            }
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        
+        return Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response,
+            'form' => $form->createView()
+        );
     }
     
     /**
@@ -361,35 +414,28 @@ class PageController extends Controller {
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->listHtml = "";
-        
-        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
-        
-        $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "page", false, true);
-        
-        $this->response['values']['search'] = $tableAndPagination['search'];
-        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
-        
         $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
         
+        // Logic
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
-                $id = $request->get("id");
+                $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
 
                 $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
 
                 if ($pageChildrenRows == false) {
                     $pagesDatabase = $this->pagesDatabase("delete", $id, null, null);
 
-                    if ($pagesDatabase == true)
+                    if ($pagesDatabase == true) {
+                        $this->response['values']['id'] = $id;
+                    
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_6");
+                    }
                 }
                 else {
                     // Popup
@@ -402,39 +448,40 @@ class PageController extends Controller {
             else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
                 $pagesDatabase = $this->pagesDatabase("deleteAll", null, null, null);
 
-                if ($pagesDatabase == true) {
-                    $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/pages_selection_desktop.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-
-                    $this->response['render'] = $render;
-
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
-                }
-            }
-            else if ($request->get("event") == "parentAll" && $this->utility->checkToken($request) == true) {
-                $id = $request->get("id");
-
-                $this->removePageChildrenDatabase($id);
-
-                $pagesDatabase = $this->pagesDatabase("delete", $id, null, null);
-
                 if ($pagesDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
             }
+            else if ($request->get("event") == "parentAll" && $this->utility->checkToken($request) == true) {
+                $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
+                
+                $this->removedId = Array();
+
+                $this->removePageChildrenDatabase($id);
+                
+                array_unshift($this->removedId, $id);
+
+                $pagesDatabase = $this->pagesDatabase("delete", $id, null, null);
+
+                if ($pagesDatabase == true) {
+                    $this->response['values']['removedId'] = $this->removedId;
+                    
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
+                }
+            }
             else if ($request->get("event") == "parentNew" && $this->utility->checkToken($request) == true) {
-                $id = $request->get("id");
+                $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
 
                 $this->updatePageChildrenDatabase($id, $request->get("parentNew"));
 
                 $pagesDatabase = $this->pagesDatabase("delete", $id, null, null);
 
-                if ($pagesDatabase == true)
+                if ($pagesDatabase == true) {
+                    $this->response['values']['id'] = $id;
+                    
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
+                }
             }
+            
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_11");
             
@@ -454,40 +501,7 @@ class PageController extends Controller {
         );
     }
     
-    // Functions private
-    private function selectionResult($id, $request) {
-        $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
-        
-        if ($pageEntity != null) {
-            $this->response['values']['id'] = $id;
-            $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_page_roleId_field", true);
-            
-            $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
-            
-            // Form
-            $form = $this->createForm(PageFormType::class, $pageEntity, Array(
-                'validation_groups' => Array('page_profile'),
-                'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-                'urlLocale' => $this->urlLocale,
-                'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true)),
-                'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
-            ));
-            $form->handleRequest($request);
-            
-            $render = $this->renderView("@UebusaitoBundleViews/render/control_panel/page_profile.html.twig", Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $pageEntity->getId(),
-                'response' => $this->response,
-                'form' => $form->createView()
-            ));
-            
-            $this->response['render'] = $render;
-        }
-        else
-            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
-    }
-    
+    // Functions private    
     private function createHtmlList($elements) {
         foreach ($elements as $key => $value) {
             $this->listHtml .= "<tr>
@@ -540,8 +554,11 @@ class PageController extends Controller {
     private function removePageChildrenDatabase($id) {
         $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
         
-        for ($i = 0; $i < count($pageChildrenRows); $i ++)
+        for ($i = 0; $i < count($pageChildrenRows); $i ++) {
+            $this->removedId[] = $pageChildrenRows[$i]['id'];
+                    
             $this->removePageChildrenDatabase($pageChildrenRows[$i]['id']);
+        }
         
         $this->pagesDatabase("delete", $id, null, null);
     }

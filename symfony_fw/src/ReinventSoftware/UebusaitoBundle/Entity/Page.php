@@ -40,14 +40,14 @@ class Page {
     private $argument;
     
     /**
-     * @ORM\Column(name="protected", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
-     */
-    private $protected;
-    
-    /**
      * @ORM\Column(name="role_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '1,2,'")
      */
     private $roleId;
+    
+    /**
+     * @ORM\Column(name="protected", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     */
+    private $protected;
     
     /**
      * @ORM\Column(name="show_in_menu", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
@@ -75,6 +75,7 @@ class Page {
      */
     private $link;
     
+    // Properties
     public function setAlias($value) {
         $this->alias = $value;
     }
@@ -99,12 +100,12 @@ class Page {
         $this->argument = $value;
     }
     
-    public function setProtected($value) {
-        $this->protected = $value;
-    }
-    
     public function setRoleId($value) {
         $this->roleId = $value;
+    }
+    
+    public function setProtected($value) {
+        $this->protected = $value;
     }
     
     public function setShowInMenu($value) {
@@ -161,12 +162,12 @@ class Page {
         return html_entity_decode($this->argument, ENT_QUOTES, "utf-8");
     }
     
-    public function getProtected() {
-        return $this->protected;
-    }
-    
     public function getRoleId() {
         return $this->roleId;
+    }
+    
+    public function getProtected() {
+        return $this->protected;
     }
     
     public function getShowInMenu() {

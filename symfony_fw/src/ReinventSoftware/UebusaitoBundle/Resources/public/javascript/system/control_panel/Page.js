@@ -24,7 +24,9 @@ function ControlPanelPage() {
     
     // Functions public
     self.init = function() {
-        selection();
+        selectionDesktop();
+        
+        selectionMobile();
         
         fieldsVisibility("#form_cp_page_creation");
         
@@ -87,7 +89,7 @@ function ControlPanelPage() {
     };
     
     // Function private
-    function selection() {
+    function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
         tableAndPagination.init(window.url.cpPagesSelection, "#cp_pages_selection_desktop_result", true);
@@ -140,7 +142,9 @@ function ControlPanelPage() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            tableAndPagination.populate(xhr);
+                            $.each($("#cp_pages_selection_desktop_result").find("table .id_column"), function(key, value) {
+                                $(value).parents("tr").remove();
+                            });
                         },
                         null,
                         null
@@ -164,9 +168,10 @@ function ControlPanelPage() {
             ajax.send(
                 true,
                 true,
-                window.url.cpPagesSelection,
+                window.url.cpPageProfileResult,
                 "post",
                 {
+                    'event': "result",
                     'id': id,
                     'token': window.session.token
                 },
@@ -176,13 +181,15 @@ function ControlPanelPage() {
                     $("#cp_page_selection_result").html("");
                 },
                 function(xhr) {
-                    selectionResult(xhr, "#" + event.currentTarget.id);
+                    profile(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
             );
         });
-
+    }
+    
+    function selectionMobile() {
         $("#cp_pages_form_selection_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
@@ -198,7 +205,7 @@ function ControlPanelPage() {
                     $("#cp_page_selection_result").html("");
                 },
                 function(xhr) {
-                    selectionResult(xhr, "#" + event.currentTarget.id);
+                    profile(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
@@ -206,7 +213,7 @@ function ControlPanelPage() {
         });
     }
     
-    function selectionResult(xhr, tag) {
+    function profile(xhr, tag) {
         ajax.reply(xhr, tag);
         
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
@@ -214,167 +221,57 @@ function ControlPanelPage() {
             
             $("#cp_page_selection_result").html(xhr.response.render);
 
-            profile(xhr);
-            
-            $("#cp_page_deletion").on("click", "", function() {
-               deletion(xhr.urlExtra);
+            fieldsVisibility("#form_cp_page_profile");
+        
+            positionInMenu(false);
+
+            language.page();
+
+            utility.selectWithDisabledElement("#form_page_parent", xhr);
+
+            utility.wordTag("#form_page_roleId");
+
+            wysiwyg.init("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
+
+            $("#form_cp_page_profile").find(".form-control").focus(function() {
+                profileFocus = true;
             });
-        }
-    }
-    
-    function profile(xhr) {
-        fieldsVisibility("#form_cp_page_profile");
-        
-        positionInMenu(false);
-        
-        language.page();
-        
-        utility.selectWithDisabledElement("#form_page_parent", xhr);
-        
-        utility.wordTag("#form_page_roleId");
-        
-        wysiwyg.init("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
-        
-        $("#form_cp_page_profile").find(".form-control").focus(function() {
-            profileFocus = true;
-        });
-        
-        $("#form_cp_page_profile").find("#wysiwyg .editor").focus(function() {
-            profileFocus = true;
-        });
-        
-        $("#form_cp_page_profile").on("submit", "", function(event) {
-            event.preventDefault();
-            
-            ajax.send(
-                true,
-                true,
-                $(this).prop("action"),
-                $(this).prop("method"),
-                $(this).serialize(),
-                "json",
-                false,
-                null,
-                function(xhr) {
-                    ajax.reply(xhr, "#" + event.currentTarget.id);
-                    
-                    if ($.isEmptyObject(xhr.response.messages.success) === false) {
-                        profileFocus = false;
-                        
-                        $("#cp_page_selection_result").html("");
-                    }
-                        
-                },
-                null,
-                null
-            );
-        });
-    }
-    
-    function deletion(id) {
-        popupEasy.create(
-            window.text.warning,
-            "<p>" + window.textPage.label_1 + "</p>",
-            function() {
-                popupEasy.close();
+
+            $("#form_cp_page_profile").find("#wysiwyg .editor").focus(function() {
+                profileFocus = true;
+            });
+
+            $("#form_cp_page_profile").on("submit", "", function(event) {
+                event.preventDefault();
 
                 ajax.send(
                     true,
-                    false,
-                    window.url.cpPageDeletion,
-                    "post",
-                    {
-                        'event': "delete",
-                        'id': id,
-                        'token': window.session.token
-                    },
+                    true,
+                    $(this).prop("action"),
+                    $(this).prop("method"),
+                    $(this).serialize(),
                     "json",
                     false,
                     null,
                     function(xhr) {
-                        if (xhr.response.messages !== undefined)
-                            ajax.reply(xhr, "");
-                        else if ($.isEmptyObject(xhr.response.values) === false) {
-                            popupEasy.create(
-                                window.text.warning,
-                                "<p>" + xhr.response.values.text + xhr.response.values.button + xhr.response.values.select + "</p>",
-                                null,
-                                null
-                            );
+                        ajax.reply(xhr, "#" + event.currentTarget.id);
 
-                            $("#cp_page_deletion_parent_all").on("click", "", function() {
-                                popupEasy.close();
-                                
-                                ajax.send(
-                                    true,
-                                    true,
-                                    window.url.cpPageDeletion,
-                                    "post",
-                                    {
-                                        'event': "parentAll",
-                                        'id': id,
-                                        'token': window.session.token
-                                    },
-                                    "json",
-                                    false,
-                                    function() {
-                                        $("#cp_page_selection_result").html("");
-                                    },
-                                    function(xhr) {
-                                        popupEasy.close();
+                        if ($.isEmptyObject(xhr.response.messages.success) === false) {
+                            profileFocus = false;
 
-                                        ajax.reply(xhr, "");
-                                    },
-                                    null,
-                                    null
-                                );
-                            });
-
-                            $("#cp_page_deletion_parent_new").on("change", "", function() {
-                                popupEasy.close();
-                                
-                                ajax.send(
-                                    true,
-                                    true,
-                                    window.url.cpPageDeletion,
-                                    "post",
-                                    {
-                                        'event': "parentNew",
-                                        'id': id,
-                                        'parentNew': $(this).val(),
-                                        'token': window.session.token
-                                    },
-                                    "json",
-                                    false,
-                                    function() {
-                                        $("#cp_page_selection_result").html("");
-                                    },
-                                    function(xhr) {
-                                        popupEasy.close();
-
-                                        ajax.reply(xhr, "");
-                                    },
-                                    null,
-                                    null
-                                );
-                            });
-
-                            utility.selectWithDisabledElement("#cp_page_deletion_parent_new", xhr);
-                        }
-                        else {
-                            ajax.reply(xhr, "");
-                            
                             $("#cp_page_selection_result").html("");
                         }
+
                     },
                     null,
                     null
                 );
-            },
-            function() {
-                popupEasy.close();
-            }
-        );
+            });
+            
+            $("#cp_page_deletion").on("click", "", function() {
+               deletion(null);
+            });
+        }
     }
     
     function positionInMenu(isCreation) {
@@ -420,6 +317,124 @@ function ControlPanelPage() {
                 null
             );
         });
+    }
+    
+    function deletion(id) {
+        popupEasy.create(
+            window.text.warning,
+            "<p>" + window.textPage.label_1 + "</p>",
+            function() {
+                popupEasy.close();
+
+                ajax.send(
+                    true,
+                    false,
+                    window.url.cpPageDeletion,
+                    "post",
+                    {
+                        'event': "delete",
+                        'id': id,
+                        'token': window.session.token
+                    },
+                    "json",
+                    false,
+                    null,
+                    function(xhr) {
+                        if (xhr.response.values.text !== undefined && xhr.response.values.button !== undefined && xhr.response.values.select !== undefined) {
+                            popupEasy.create(
+                                window.text.warning,
+                                "<p>" + xhr.response.values.text + xhr.response.values.button + xhr.response.values.select + "</p>",
+                                null,
+                                null
+                            );
+
+                            $("#cp_page_deletion_parent_all").on("click", "", function() {
+                                popupEasy.close();
+                                
+                                ajax.send(
+                                    true,
+                                    true,
+                                    window.url.cpPageDeletion,
+                                    "post",
+                                    {
+                                        'event': "parentAll",
+                                        'id': id,
+                                        'token': window.session.token
+                                    },
+                                    "json",
+                                    false,
+                                    null,
+                                    function(xhr) {
+                                        popupEasy.close();
+
+                                        ajax.reply(xhr, "");
+                                        
+                                        deleteResponse(xhr);
+                                    },
+                                    null,
+                                    null
+                                );
+                            });
+
+                            $("#cp_page_deletion_parent_new").on("change", "", function() {
+                                popupEasy.close();
+                                
+                                ajax.send(
+                                    true,
+                                    true,
+                                    window.url.cpPageDeletion,
+                                    "post",
+                                    {
+                                        'event': "parentNew",
+                                        'id': id,
+                                        'parentNew': $(this).val(),
+                                        'token': window.session.token
+                                    },
+                                    "json",
+                                    false,
+                                    null,
+                                    function(xhr) {
+                                        popupEasy.close();
+
+                                        ajax.reply(xhr, "");
+                                        
+                                        deleteResponse(xhr);
+                                    },
+                                    null,
+                                    null
+                                );
+                            });
+
+                            utility.selectWithDisabledElement("#cp_page_deletion_parent_new", xhr);
+                        }
+                        else {
+                            ajax.reply(xhr, "");
+                            
+                            deleteResponse(xhr);
+                        }
+                    },
+                    null,
+                    null
+                );
+            },
+            function() {
+                popupEasy.close();
+            }
+        );
+    }
+    
+    function deleteResponse(xhr) {
+        if (xhr.response.messages.success !== undefined) {
+            $.each($("#cp_pages_selection_desktop_result").find("table .id_column"), function(key, value) {
+                if (xhr.response.values.id !== undefined && xhr.response.values.id === $.trim($(value).text()) ||
+                        xhr.response.values.removedId !== undefined && jQuery.inArray($.trim($(value).text()), xhr.response.values.removedId) !== -1)
+                    $(value).parents("tr").remove();
+            });
+
+            $("#form_pages_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+
+            $("#cp_page_selection_result").html("");
+        }
     }
     
     function fieldsVisibility(id) {

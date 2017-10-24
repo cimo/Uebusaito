@@ -243,7 +243,7 @@ class ModuleController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,

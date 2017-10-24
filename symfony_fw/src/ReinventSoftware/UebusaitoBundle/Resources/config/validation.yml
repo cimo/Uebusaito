@@ -91,6 +91,22 @@ ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel:
                 htmlPattern: false
                 pattern: /^.{1,150}$/
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel:
     properties:
         userId:
@@ -108,24 +124,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsSelectionModel:
                 groups: [payments_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ReinventSoftware\UebusaitoBundle\Form\Model\PagesSelectionModel:
     properties:
