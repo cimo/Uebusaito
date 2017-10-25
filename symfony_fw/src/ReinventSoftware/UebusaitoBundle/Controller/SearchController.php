@@ -53,24 +53,24 @@ class SearchController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $moduleRow = $this->query->selectModuleDatabase(5);
-        
-        $this->response['module']['id'] = $moduleRow['id'];
-        $this->response['module']['label'] = $moduleRow['label'];
-        
-        // Form
+        // Logic
         $form = $this->createForm(SearchFormType::class, null, Array(
             'validation_groups' => Array('search_module')
         ));
         $form->handleRequest($request);
+        
+        $moduleRow = $this->query->selectModuleDatabase(5);
+        
+        $this->response['module']['id'] = $moduleRow['id'];
+        $this->response['module']['label'] = $moduleRow['label'];
         
         if ($request->isMethod("POST") == true) {
             if ($form->isValid() == true) {
@@ -120,8 +120,8 @@ class SearchController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
@@ -129,6 +129,7 @@ class SearchController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale, $this->urlExtra);
         
         $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "searchRender", true, true);

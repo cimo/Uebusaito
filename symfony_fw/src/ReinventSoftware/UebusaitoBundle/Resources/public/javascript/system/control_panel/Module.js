@@ -164,6 +164,8 @@ function ControlPanelModule() {
                             $.each($("#cp_modules_selection_desktop_result").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
+                            
+                            $("#cp_module_selection_result").html("");
                         },
                         null,
                         null

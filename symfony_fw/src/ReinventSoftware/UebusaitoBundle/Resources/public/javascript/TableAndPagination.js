@@ -215,7 +215,8 @@ function TableAndPagination() {
     function send() {
         var data = {
             'searchWritten': $(idResult).find(".search_input input").val(),
-            'paginationCurrent': current
+            'paginationCurrent': current,
+            'token': window.session.token
         };
         
         ajax.send(

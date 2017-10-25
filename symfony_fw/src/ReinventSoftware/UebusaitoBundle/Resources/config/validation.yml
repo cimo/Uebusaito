@@ -1,3 +1,59 @@
+ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel:
+    properties:
+        words:
+            - NotBlank:
+                groups: [search_module]
+            - Regex:
+                groups: [search_module]
+                htmlPattern: false
+                pattern: /^.{1,150}$/
+
+ReinventSoftware\UebusaitoBundle\Form\Model\LanguageModel:
+    properties:
+        codeText:
+            - NotBlank:
+                groups: [language_text]
+            - Regex:
+                groups: [language_text]
+                htmlPattern: false
+                pattern: /^[a-z]{2}$/
+        codePage:
+            - NotBlank:
+                groups: [language_code]
+            - Regex:
+                groups: [language_code]
+                htmlPattern: false
+                pattern: /^[a-z]{2}$/
+
+ReinventSoftware\UebusaitoBundle\Form\Model\RecoverPasswordModel:
+    properties:
+        email:
+            - NotBlank:
+                groups: [recover_password]
+            - Regex:
+                groups: [recover_password]
+                htmlPattern: false
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+
+ReinventSoftware\UebusaitoBundle\Form\Model\ChangePasswordModel:
+    properties:
+        password:
+            - NotBlank:
+                groups: [change_password]
+            - Regex:
+                groups: [change_password]
+                htmlPattern: false
+                pattern: /^.{8,20}$/
+                message: entity.user.password
+        passwordConfirm:
+            - NotBlank:
+                groups: [change_password]
+            - Regex:
+                groups: [change_password]
+                htmlPattern: false
+                pattern: /^.{8,20}$/
+                message: entity.user.password
+
 ReinventSoftware\UebusaitoBundle\Form\Model\PasswordModel:
     properties:
         old:
@@ -25,35 +81,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PasswordModel:
                 pattern: /^.{8,20}$/
                 message: entity.user.password
 
-ReinventSoftware\UebusaitoBundle\Form\Model\ChangePasswordModel:
-    properties:
-        password:
-            - NotBlank:
-                groups: [change_password]
-            - Regex:
-                groups: [change_password]
-                htmlPattern: false
-                pattern: /^.{8,20}$/
-                message: entity.user.password
-        passwordConfirm:
-            - NotBlank:
-                groups: [change_password]
-            - Regex:
-                groups: [change_password]
-                htmlPattern: false
-                pattern: /^.{8,20}$/
-                message: entity.user.password
-
-ReinventSoftware\UebusaitoBundle\Form\Model\RecoverPasswordModel:
-    properties:
-        email:
-            - NotBlank:
-                groups: [recover_password]
-            - Regex:
-                groups: [recover_password]
-                htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
-
 ReinventSoftware\UebusaitoBundle\Form\Model\CreditsModel:
     properties:
         credits:
@@ -63,49 +90,6 @@ ReinventSoftware\UebusaitoBundle\Form\Model\CreditsModel:
                 groups: [profile_credits]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-
-ReinventSoftware\UebusaitoBundle\Form\Model\LanguageModel:
-    properties:
-        codeText:
-            - NotBlank:
-                groups: [language_text]
-            - Regex:
-                groups: [language_text]
-                htmlPattern: false
-                pattern: /^[a-z]{2}$/
-        codePage:
-            - NotBlank:
-                groups: [language_code]
-            - Regex:
-                groups: [language_code]
-                htmlPattern: false
-                pattern: /^[a-z]{2}$/
-
-ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel:
-    properties:
-        words:
-            - NotBlank:
-                groups: [search_module]
-            - Regex:
-                groups: [search_module]
-                htmlPattern: false
-                pattern: /^.{1,150}$/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel:
     properties:

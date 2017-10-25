@@ -19,7 +19,6 @@ class PageFormType extends AbstractType {
             'data_class' => "ReinventSoftware\UebusaitoBundle\Entity\Page",
             'csrf_protection' => true,
             'validation_groups' => null,
-            'pageRow' => null,
             'urlLocale' => null,
             'choicesParent' => null,
             'choicesPositionInMenu' => null
@@ -27,22 +26,36 @@ class PageFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        if ($options['pageRow'] == null) {
-            $pageRow = Array(
-                'id' => "0",
+        $values = Array();
+        
+        if ($options['data']->getId() == null) {
+            $values = Array(
                 'alias' => "",
                 'title' => "",
                 'argument' => "",
                 'role_id' => "1,2,",
                 'protected' => "0",
                 'show_in_menu' => "1",
+                'id' => "0",
                 'menu_name' => "-",
                 'only_link' => "0",
                 'link' => "-"
             );
         }
-        else
-            $pageRow = $options['pageRow'];
+        else {
+            $values = Array(
+                'alias' => $options['data']->getAlias(),
+                'title' => $options['data']->getTitle(),
+                'argument' => $options['data']->getArgument(),
+                'role_id' => $options['data']->getRoleId(),
+                'protected' => $options['data']->getProtected(),
+                'show_in_menu' => $options['data']->getShowInMenu(),
+                'id' => $options['data']->getId(),
+                'menu_name' => $options['data']->getMenuName(),
+                'only_link' => $options['data']->getOnlyLink(),
+                'link' => $options['data']->getLink()
+            );
+        }
         
         $builder->add("language", HiddenType::class, Array(
             'required' => true,
@@ -50,7 +63,7 @@ class PageFormType extends AbstractType {
         ))
         ->add("alias", TextType::class, Array(
             'required' => true,
-            'data' => $pageRow['alias']
+            'data' => $values['alias']
         ))
         ->add("parent", ChoiceType::class, Array(
             'required' => false,
@@ -59,22 +72,22 @@ class PageFormType extends AbstractType {
         ))
         ->add("title", TextType::class, Array(
             'required' => false,
-            'data' => $pageRow['title']
+            'data' => $values['title']
         ))
         ->add("controllerAction", TextType::class, Array(
             'required' => false
         ))
         ->add("argument", TextareaType::class, Array(
             'required' => false,
-            'data' => html_entity_decode($pageRow['argument'], ENT_QUOTES, "utf-8")
+            'data' => html_entity_decode($values['argument'], ENT_QUOTES, "utf-8")
         ))
         ->add("roleId", TextType::class, Array(
             'required' => true,
-            'data' => $pageRow['role_id']
+            'data' => $values['role_id']
         ))
         ->add("protected", ChoiceType::class, Array(
             'required' => true,
-            'data' => $pageRow['protected'],
+            'data' => $values['protected'],
             'choices' => Array(
                 "pageFormType_2" => "0",
                 "pageFormType_3" => "1"
@@ -82,7 +95,7 @@ class PageFormType extends AbstractType {
         ))
         ->add("showInMenu", ChoiceType::class, Array(
             'required' => true,
-            'data' => $pageRow['show_in_menu'],
+            'data' => $values['show_in_menu'],
             'choices' => Array(
                 "pageFormType_2" => "0",
                 "pageFormType_3" => "1"
@@ -91,7 +104,7 @@ class PageFormType extends AbstractType {
         ->add("positionInMenu", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "pageFormType_4",
-            'data' => $pageRow['id'],
+            'data' => $values['id'],
             'choices' => $options['choicesPositionInMenu']
         ))
         ->add("sort", HiddenType::class, Array(
@@ -99,11 +112,11 @@ class PageFormType extends AbstractType {
         ))
         ->add("menuName", TextType::class, Array(
             'required' => true,
-            'data' => $pageRow['menu_name']
+            'data' => $values['menu_name']
         ))
         ->add("onlyLink", ChoiceType::class, Array(
             'required' => true,
-            'data' => $pageRow['only_link'],
+            'data' => $values['only_link'],
             'choices' => Array(
                 "pageFormType_2" => "0",
                 "pageFormType_3" => "1"
@@ -111,7 +124,7 @@ class PageFormType extends AbstractType {
         ))
         ->add("link", TextType::class, Array(
             'required' => true,
-            'data' => $pageRow['link']
+            'data' => $values['link']
         ));
     }
 }

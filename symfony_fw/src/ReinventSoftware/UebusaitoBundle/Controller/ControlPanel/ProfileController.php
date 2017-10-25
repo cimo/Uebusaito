@@ -64,11 +64,11 @@ class ProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         $usernameOld = $this->getUser()->getUsername();
         
         $avatar = "{$this->utility->getUrlRoot()}/bundles/uebusaito/files/$usernameOld/Avatar.jpg";
         
-        // Form
         $form = $this->createForm(UserFormType::class, $this->getUser(), Array(
             'validation_groups' => Array('profile')
         ));
@@ -170,19 +170,19 @@ class ProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        // Form
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        
+        // Logic
         $form = $this->createForm(PasswordFormType::class, null, Array(
             'validation_groups' => Array('profile_password')
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
-        
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                $message = $this->uebusaitoUtility->assigUserPassword("withOld", $this->getUser(), $form);
+                $messagePassword = $this->uebusaitoUtility->assigUserPassword("withOld", $this->getUser(), $form);
 
-                if ($message == "ok") {
+                if ($messagePassword == "ok") {
                     // Insert in database
                     $this->entityManager->persist($this->getUser());
                     $this->entityManager->flush();
@@ -190,7 +190,7 @@ class ProfileController extends Controller {
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_4");
                 }
                 else
-                    $this->response['messages']['error'] = $message;
+                    $this->response['messages']['error'] = $messagePassword;
             }
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_5");
@@ -242,18 +242,18 @@ class ProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        
+        // Logic
         $settingRow = $this->query->selectSettingDatabase();
         
-        $this->response['values']['currentCredits'] = $this->getUser() != null ? $this->getUser()->getCredits() : 0;
-        $this->response['values']['payPalSandbox'] = $settingRow['payPal_sandbox'];
-        
-        // Form
         $form = $this->createForm(CreditsFormType::class, null, Array(
             'validation_groups' => Array('profile_credits')
         ));
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        $this->response['values']['currentCredits'] = $this->getUser() != null ? $this->getUser()->getCredits() : 0;
+        $this->response['values']['payPalSandbox'] = $settingRow['payPal_sandbox'];
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true)
@@ -304,6 +304,7 @@ class ProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         return new Response();
     }
     
@@ -334,6 +335,7 @@ class ProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         $path = Array();
 
         if ($this->getUser() != null) {

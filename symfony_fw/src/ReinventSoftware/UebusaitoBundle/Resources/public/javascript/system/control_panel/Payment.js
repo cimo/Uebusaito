@@ -13,7 +13,34 @@ function ControlPanelPayment() {
     
     // Functions public
     self.init = function() {
-        selection();
+        $("#form_cp_payments_user_selection").on("submit", "", function(event) {
+            event.preventDefault();
+            
+            ajax.send(
+                true,
+                true,
+                $(this).prop("action"),
+                $(this).prop("method"),
+                $(this).serialize(),
+                "json",
+                false,
+                function() {
+                    $("#cp_payment_selection_result").html("");
+                },
+                function(xhr) {
+                    if (xhr.response.messages.success !== undefined)
+                        location.reload();
+                    else
+                        ajax.reply(xhr, "");
+                },
+                null,
+                null
+            );
+        });
+        
+        selectionDesktop();
+        
+        selectionMobile();
     };
     
     self.changeView = function() {
@@ -48,7 +75,7 @@ function ControlPanelPayment() {
     };
     
     // Function private
-    function selection() {
+    function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
         tableAndPagination.init(window.url.cpPaymentsSelection, "#cp_payments_selection_desktop_result", true);
@@ -101,7 +128,11 @@ function ControlPanelPayment() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            tableAndPagination.populate(xhr);
+                            $.each($("#cp_payments_selection_desktop_result").find("table .id_column"), function(key, value) {
+                                $(value).parents("tr").remove();
+                            });
+                            
+                            $("#cp_payment_selection_result").html("");
                         },
                         null,
                         null
@@ -114,45 +145,21 @@ function ControlPanelPayment() {
         });
         
         $(document).on("click", "#cp_payments_selection_desktop_result .cp_payment_deletion", function() {
-            var id = $.trim($(this).parents("tr").find(".id_column_hide").text());
+            var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deletion(id);
         });
         
-        $("#form_cp_payments_user_selection").on("submit", "", function(event) {
-            event.preventDefault();
-            
-            ajax.send(
-                true,
-                true,
-                $(this).prop("action"),
-                $(this).prop("method"),
-                $(this).serialize(),
-                "json",
-                false,
-                function() {
-                    $("#cp_payment_selection_result").html("");
-                },
-                function(xhr) {
-                    if ($.isEmptyObject(xhr.response) === false && xhr.response.messages.success !== undefined)
-                        location.reload();
-                    else
-                        ajax.reply(xhr, "");
-                },
-                null,
-                null
-            );
-        });
-        
-        $("#cp_payments_selection_send").on("click", "", function(event) {
-            var id = $.trim($("#cp_payments_selection_desktop").find(".checkbox_column input:checked").parents("tr").find(".id_column_hide").text());
+        $("#cp_payments_button_selection_desktop").on("click", "", function(event) {
+            var id = $.trim($("#cp_payments_selection_desktop").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
                 true,
-                window.url.cpPaymentsSelection,
+                window.url.cpPaymentProfileResult,
                 "post",
                 {
+                    'event': "result",
                     'id': id,
                     'token': window.session.token
                 },
@@ -162,14 +169,16 @@ function ControlPanelPayment() {
                     $("#cp_payment_selection_result").html("");
                 },
                 function(xhr) {
-                    selectionResult(xhr, "#" + event.currentTarget.id);
+                    profile(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
             );
         });
-        
-        $("#form_cp_payments_selection").on("submit", "", function(event) {
+    }
+    
+    function selectionMobile() {
+        $("#cp_payments_form_selection_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -184,7 +193,7 @@ function ControlPanelPayment() {
                     $("#cp_payment_selection_result").html("");
                 },
                 function(xhr) {
-                    selectionResult(xhr, "#" + event.currentTarget.id);
+                    profile(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
@@ -192,7 +201,7 @@ function ControlPanelPayment() {
         });
     }
     
-    function selectionResult(xhr, tag) {
+    function profile(xhr, tag) {
         ajax.reply(xhr, tag);
         
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
@@ -201,7 +210,7 @@ function ControlPanelPayment() {
             $("#cp_payment_selection_result").html(xhr.response.render);
             
             $("#cp_payment_deletion").on("click", "", function() {
-               deletion(xhr.urlExtra);
+               deletion(null);
             });
         }
     }
@@ -225,11 +234,20 @@ function ControlPanelPayment() {
                     },
                     "json",
                     false,
-                    function() {
-                        $("#cp_payment_selection_result").html("");
-                    },
+                    null,
                     function(xhr) {
                         ajax.reply(xhr, "");
+                        
+                        if (xhr.response.messages.success !== undefined) {
+                            $.each($("#cp_payments_selection_desktop_result").find("table .id_column"), function(key, value) {
+                                if (xhr.response.values.id === $.trim($(value).text()))
+                                    $(value).parents("tr").remove();
+                            });
+
+                            $("#form_payments_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+
+                            $("#cp_payment_selection_result").html("");
+                        }
                     },
                     null,
                     null

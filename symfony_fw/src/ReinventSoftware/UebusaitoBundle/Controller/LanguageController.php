@@ -51,21 +51,18 @@ class LanguageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         $moduleRow = $this->query->selectModuleDatabase(4);
         $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);
         
-        $this->response['module']['id'] = $moduleRow['id'];
-        $this->response['module']['label'] = $moduleRow['label'];
-        
-        // Form
         $form = $this->createForm(LanguageFormType::class, null, Array(
             'validation_groups' => Array('language_text'),
             'type' => "text",
@@ -73,6 +70,9 @@ class LanguageController extends Controller {
             'preferredChoicesCodeText' => $languageRow['code']
         ));
         $form->handleRequest($request);
+        
+        $this->response['module']['id'] = $moduleRow['id'];
+        $this->response['module']['label'] = $moduleRow['label'];
         
         if ($request->isMethod("POST") == true) {
             if ($form->isValid() == true) 
@@ -119,16 +119,13 @@ class LanguageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->utility->checkSessionOverTime($request);
         
-        $this->response['values']['languageRows'] = $this->query->selectAllLanguagesDatabase();
-        $this->response['values']['settingRow'] = $this->query->selectSettingDatabase();
-        
-        // Form
+        // Logic
         $form = $this->createForm(LanguageFormType::class, null, Array(
             'validation_groups' => Array('language_code'),
             'type' => "page",
@@ -136,6 +133,9 @@ class LanguageController extends Controller {
             'preferredChoicesCodeText' => null
         ));
         $form->handleRequest($request);
+        
+        $this->response['values']['languageRows'] = $this->query->selectAllLanguagesDatabase();
+        $this->response['values']['settingRow'] = $this->query->selectSettingDatabase();
         
         if ($request->isMethod("POST") == true) {
             if ($form->isValid() == true) {

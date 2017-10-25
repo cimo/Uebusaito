@@ -145,6 +145,8 @@ function ControlPanelPage() {
                             $.each($("#cp_pages_selection_desktop_result").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
+                            
+                            $("#cp_page_selection_result").html("");
                         },
                         null,
                         null

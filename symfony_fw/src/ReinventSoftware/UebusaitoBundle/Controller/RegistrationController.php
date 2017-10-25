@@ -74,9 +74,9 @@ class RegistrationController extends Controller {
             
             if ($request->isMethod("POST") == true) {
                 if ($form->isValid() == true) {
-                    $message = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
+                    $messagePassword = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
 
-                    if ($message == "ok") {
+                    if ($messagePassword == "ok") {
                         $settingRow = $this->query->selectSettingDatabase();
                         
                         $this->uebusaitoUtility->configureUserParameters($userEntity);
@@ -88,12 +88,12 @@ class RegistrationController extends Controller {
 
                         $url = $this->utility->getUrlRoot() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
 
-                        $message = "";
+                        $messageEmail = "";
 
                         if ($settingRow['registration_user_confirm_admin'] == true)
-                            $message = "<p>" . $this->utility->getTranslator()->trans("registrationController_1") . "</p><a href=\"$url\">$url</a>";
+                            $messageEmail = "<p>" . $this->utility->getTranslator()->trans("registrationController_1") . "</p><a href=\"$url\">$url</a>";
                         else {
-                            $message = "<p>" . $this->utility->getTranslator()->trans("registrationController_2") . "</p>";
+                            $messageEmail = "<p>" . $this->utility->getTranslator()->trans("registrationController_2") . "</p>";
 
                             // Send email to admin
                             $this->utility->sendEmail(
@@ -108,7 +108,7 @@ class RegistrationController extends Controller {
                         $this->utility->sendEmail(
                             $userEntity->getEmail(),
                             $this->utility->getTranslator()->trans("registrationController_3"),
-                            $message,
+                            $messageEmail,
                             $_SERVER['SERVER_ADMIN']
                         );
 
@@ -123,7 +123,7 @@ class RegistrationController extends Controller {
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("registrationController_6");
                     }
                     else
-                        $this->response['messages']['error'] = $message;
+                        $this->response['messages']['error'] = $messagePassword;
                 }
                 else {
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("registrationController_7");

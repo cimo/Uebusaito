@@ -128,6 +128,8 @@ function ControlPanelUser() {
                             $.each($("#cp_users_selection_desktop_result").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
+                            
+                            $("#cp_user_selection_result").html("");
                         },
                         null,
                         null

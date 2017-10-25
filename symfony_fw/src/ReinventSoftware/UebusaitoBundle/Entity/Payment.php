@@ -65,6 +65,7 @@ class Payment {
      */
     private $quantity;
     
+    // Properties
     public function setUserId($value) {
         $this->userId = $value;
     }

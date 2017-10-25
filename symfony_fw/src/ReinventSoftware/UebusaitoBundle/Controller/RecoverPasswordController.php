@@ -126,9 +126,9 @@ class RecoverPasswordController extends Controller {
             
             if ($request->isMethod("POST") == true) {
                 if ($form->isValid() == true) {
-                    $message = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
+                    $messagePassword = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
 
-                    if ($message == "ok") {
+                    if ($messagePassword == "ok") {
                         $userEntity->setHelpCode(null);
 
                         // Insert in database
@@ -138,7 +138,7 @@ class RecoverPasswordController extends Controller {
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_4");
                     }
                     else
-                        $this->response['messages']['error'] = $message;
+                        $this->response['messages']['error'] = $messagePassword;
                 }
                 else {
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_5");

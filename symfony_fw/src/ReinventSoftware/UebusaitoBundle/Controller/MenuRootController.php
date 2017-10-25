@@ -40,13 +40,14 @@ class MenuRootController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         $moduleRow = $this->query->selectModuleDatabase(1);
         $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
         

@@ -52,6 +52,7 @@ class ControlPanelController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         return Array(
             'urlLocale' => $this->urlLocale,
             'urlCurrentPageId' => $this->urlCurrentPageId,

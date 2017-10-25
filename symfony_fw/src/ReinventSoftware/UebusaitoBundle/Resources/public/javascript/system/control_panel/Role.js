@@ -130,6 +130,8 @@ function ControlPanelRole() {
                             $.each($("#cp_roles_selection_desktop_result").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
+                            
+                            $("#cp_role_selection_result").html("");
                         },
                         null,
                         null

@@ -56,7 +56,7 @@ class PayPalIpnListener {
                         $payment->setAmount($payPalElements['mc_gross']);
                         $payment->setQuantity($payPalElements['quantity']);
 
-                        $this->updateCredits($payPalElements);
+                        $this->updateCreditsDatabase($payPalElements);
                         
                         // Insert in database
                         $this->entityManager->persist($payment);
@@ -72,7 +72,7 @@ class PayPalIpnListener {
     }
     
     // Functions private
-    private function updateCredits($payPalElements) {
+    private function updateCreditsDatabase($payPalElements) {
         $userRow = $this->query->selectUserDatabase($payPalElements['custom']);
         
         $id = $userRow['id'];

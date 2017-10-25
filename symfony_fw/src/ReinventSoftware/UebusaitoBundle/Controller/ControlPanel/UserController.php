@@ -79,9 +79,9 @@ class UserController extends Controller {
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                $message = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
+                $messagePassword = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
 
-                if ($message == "ok") {
+                if ($messagePassword == "ok") {
                     $this->uebusaitoUtility->configureUserParameters($userEntity);
 
                     mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
@@ -95,7 +95,7 @@ class UserController extends Controller {
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_1");
                 }
                 else
-                    $this->response['messages']['error'] = $message;
+                    $this->response['messages']['error'] = $messagePassword;
             }
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_2");
@@ -168,12 +168,14 @@ class UserController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+            if ($this->utility->checkToken($request) == true) {
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
         }
         
         return Array(
@@ -297,9 +299,9 @@ class UserController extends Controller {
         
         if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
             if ($form->isValid() == true) {
-                $message = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
+                $messagePassword = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
 
-                if ($message == "ok") {
+                if ($messagePassword == "ok") {
                     $usernameOld = $userEntity->getUsername();
 
                     if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld") == true)
@@ -323,6 +325,8 @@ class UserController extends Controller {
 
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_4");
                 }
+                else
+                    $this->response['messages']['error'] = $messagePassword;
             }
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_5");

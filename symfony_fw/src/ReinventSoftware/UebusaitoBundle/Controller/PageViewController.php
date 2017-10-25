@@ -40,13 +40,14 @@ class PageViewController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         
         $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find(3);
         
         $this->response['module']['id'] = $moduleEntity->getId();

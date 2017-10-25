@@ -9,6 +9,7 @@
                 <div class="content">
                     <p><b>{% trans %}profile_credits_3{% endtrans %}</b> {{response.values.currentCredits}}</p>
                     <p><b>{% trans %}profile_credits_4{% endtrans %}</b> {{settingRow['payPal_credit_amount']}} <u>{{settingRow['payPal_currency_code']|upper}}</u></p>
+                    
                     <div class="form-group">
                         {{form_label(form.credits, "profile_credits_5")}}
                         <div class="input-group">
@@ -26,6 +27,7 @@
         </form>
     </div>
 </div>
+
 {% if response.values.payPalSandbox == true %}
     <form id="form_cp_profile_credits_paypal" class="visibility_hidden" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 {% else %}

@@ -56,14 +56,14 @@ class AuthenticationController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
+        $form = $this->createForm(AuthenticationFormType::class, null, Array());
+        $form->handleRequest($request);
+        
         $moduleRow = $this->query->selectModuleDatabase(2);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
-        
-        // Form
-        $form = $this->createForm(AuthenticationFormType::class, null, Array());
-        $form->handleRequest($request);
         
         if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
             $this->uebusaitoUtility->assignUserRole($this->getUser());

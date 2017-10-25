@@ -61,7 +61,6 @@
         </form>
         
         {% if is_granted("ROLE_ADMIN") == true and response.values.id > 5 %}
-            {#{-render(controller("UebusaitoBundle:ControlPanel\\Page:deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}#}
             {{-include("@UebusaitoBundleViews/render/control_panel/page_deletion.html.twig")-}}
         {% endif %}
     </div>
