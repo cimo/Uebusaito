@@ -3,8 +3,8 @@ date.day: d-m-Y
 date.time: H:i:s
 
 # Lang
-"it": "it"
 "en": "en"
+"it": "it"
 "jp": "jp"
 
 # Role

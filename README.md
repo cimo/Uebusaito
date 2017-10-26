@@ -27,8 +27,8 @@ This is a open source cms with symfony framework.
 | Settings management |
 
 ## Images
-<img src="screenshots/1.jpg" width="200" alt="1"/>
-<img src="screenshots/2.jpg" width="200" alt="2"/>
+<img src="screenshots/1.png" width="200" alt="1"/>
+<img src="screenshots/2.png" width="200" alt="2"/>
 
 ## Instructions:
 1) On linux, open terminal and write:

@@ -148,7 +148,10 @@ class UebusaitoUtility {
     public function checkUserNotLocked($username) {
         $row = $this->query->selectUserDatabase($username);
         
-        return $row['not_locked'];
+        if ($row == false)
+            return true;
+        else
+            return $row['not_locked'];
     }
     
     public function checkAttemptLogin($type, $userValue, $settingRow) {

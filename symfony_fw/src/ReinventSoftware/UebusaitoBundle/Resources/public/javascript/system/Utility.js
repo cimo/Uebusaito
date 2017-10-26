@@ -8,8 +8,6 @@ function Utility() {
     
     var isMobile = false;
     
-    var optionSelectedPositionValue = "";
-    
     var touchMove = false;
     
     var widthType = "";
