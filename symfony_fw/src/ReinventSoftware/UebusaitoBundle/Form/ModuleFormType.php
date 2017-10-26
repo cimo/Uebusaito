@@ -47,7 +47,7 @@ class ModuleFormType extends AbstractType {
             'required' => true
         ))
         ->add("label", TextType::class, Array(
-            'required' => true
+            'required' => false
         ))
         ->add("fileName", TextType::class, Array(
             'required' => true

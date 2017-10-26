@@ -60,12 +60,12 @@ class RecoverPasswordController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
         
-        if ($userRow['id'] == null) {
+        if ($userRow == false) {
             $this->response['values']['userId'] = $userRow['id'];
             
-            // Form
             $form = $this->createForm(RecoverPasswordFormType::class, null, Array(
                 'validation_groups' => Array('recover_password')
             ));
@@ -118,7 +118,6 @@ class RecoverPasswordController extends Controller {
             
             $this->response['values']['userId'] = $userEntity->getId();
             
-            // Form
             $form = $this->createForm(ChangePasswordFormType::class, null, Array(
                 'validation_groups' => Array('change_password')
             ));

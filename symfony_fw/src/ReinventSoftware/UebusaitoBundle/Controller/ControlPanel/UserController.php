@@ -69,7 +69,6 @@ class UserController extends Controller {
         $userEntity = new User();
         $userEntity->setRoleId("1,");
         
-        // Form
         $form = $this->createForm(UserFormType::class, $userEntity, Array(
             'validation_groups' => Array('user_creation')
         ));

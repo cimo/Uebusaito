@@ -5,10 +5,14 @@
     
     <ul id="menu_registration" class="nav nav-tabs">
         <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "private"})}}">{% trans %}registration_1{% endtrans %}</a>
+            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "private"})}}">
+                <i class="fa fa-user-o"></i> {% trans %}registration_1{% endtrans %}
+            </a>
         </li>
         <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "company"})}}">{% trans %}registration_2{% endtrans %}</a>
+            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "company"})}}">
+                <i class="fa fa-building-o"></i> {% trans %}registration_2{% endtrans %}
+            </a>
         </li>
     </ul>
     <div class="page_container clearfix">

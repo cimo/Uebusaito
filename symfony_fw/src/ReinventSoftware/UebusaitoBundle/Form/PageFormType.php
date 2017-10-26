@@ -20,6 +20,7 @@ class PageFormType extends AbstractType {
             'csrf_protection' => true,
             'validation_groups' => null,
             'urlLocale' => null,
+            'pageRow' => null,
             'choicesParent' => null,
             'choicesPositionInMenu' => null
         ));
@@ -45,13 +46,13 @@ class PageFormType extends AbstractType {
         else {
             $values = Array(
                 'alias' => $options['data']->getAlias(),
-                'title' => $options['data']->getTitle(),
-                'argument' => $options['data']->getArgument(),
+                'title' => $options['pageRow']['title'],
+                'argument' => $options['pageRow']['argument'],
                 'role_id' => $options['data']->getRoleId(),
                 'protected' => $options['data']->getProtected(),
                 'show_in_menu' => $options['data']->getShowInMenu(),
                 'id' => $options['data']->getId(),
-                'menu_name' => $options['data']->getMenuName(),
+                'menu_name' => $options['pageRow']['menu_name'],
                 'only_link' => $options['data']->getOnlyLink(),
                 'link' => $options['data']->getLink()
             );

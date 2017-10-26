@@ -42,16 +42,6 @@ class RequestListener {
         
         $settingRow = $this->query->selectSettingDatabase();
         
-        /*$urlLocale = $this->uebusaitoUtility->checkLanguage($request);
-        
-        if (substr($request->getPathInfo(), strpos($request->getPathInfo(), "/") + 1) == "")
-            $_SESSION['checkLocale'] = false;
-        else
-            $_SESSION['checkLocale'] = true;
-        
-        if ($_SESSION['checkLocale'] == false)
-            $event->setResponse(new RedirectResponse($request->getUri() . $urlLocale));*/
-        
         if ($settingRow['https'] == true) {
             if ($request->isSecure() == false) {
                 $request->server->set("HTTPS", true);

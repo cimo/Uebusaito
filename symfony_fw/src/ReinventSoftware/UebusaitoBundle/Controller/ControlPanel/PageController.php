@@ -77,6 +77,7 @@ class PageController extends Controller {
         $form = $this->createForm(PageFormType::class, $pageEntity, Array(
             'validation_groups' => Array('page_creation'),
             'urlLocale' => $this->urlLocale,
+            'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
             'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true)),
             'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase(null), "id", "alias")
         ));
@@ -239,6 +240,7 @@ class PageController extends Controller {
                 $form = $this->createForm(PageFormType::class, $pageEntity, Array(
                     'validation_groups' => Array('page_profile'),
                     'urlLocale' => $this->urlLocale,
+                    'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
                     'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true)),
                     'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
                 ));
@@ -349,6 +351,7 @@ class PageController extends Controller {
         $form = $this->createForm(PageFormType::class, $pageEntity, Array(
             'validation_groups' => Array('page_profile'),
             'urlLocale' => $this->urlLocale,
+            'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
             'choicesParent' => array_flip($this->uebusaitoUtility->createPagesList($pageRows, true)),
             'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
         ));

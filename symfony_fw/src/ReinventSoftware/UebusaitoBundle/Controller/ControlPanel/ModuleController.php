@@ -81,22 +81,22 @@ class ModuleController extends Controller {
 
                 if (count($sortHeaderExplode) > 0) {
                     foreach ($sortHeaderExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key + 1, "header");
+                        $this->modulesDatabase("update", $value, $key + 1, "header");
                 }
 
                 if (count($sortLeftExplode) > 0) {
                     foreach ($sortLeftExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key + 1, "left");
+                        $this->modulesDatabase("update", $value, $key + 1, "left");
                 }
 
                 if (count($sortCenterExplode) > 0) {
                     foreach ($sortCenterExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key + 1, "center");
+                        $this->modulesDatabase("update", $value, $key + 1, "center");
                 }
 
                 if (count($sortRightExplode) > 0) {
                     foreach ($sortRightExplode as $key => $value)
-                        $this->modulesDatabase("sort", $value, $key + 1, "right");
+                        $this->modulesDatabase("update", $value, $key + 1, "right");
                 }
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_1");
@@ -573,7 +573,7 @@ class ModuleController extends Controller {
     }
     
     private function modulesDatabase($type, $id, $positionInColumn, $position) {
-        if ($type == "sort") {
+        if ($type == "update") {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
                                                                 SET position = :position,
                                                                     position_in_column = :positionInColumn

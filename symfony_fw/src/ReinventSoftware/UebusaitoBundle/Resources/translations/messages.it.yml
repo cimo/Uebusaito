@@ -604,11 +604,11 @@ date.time: H:i:s
 "authentication_2": "Ruolo:"
 "authentication_3": "Ultimo login:"
 "authentication_4": "Pannello di controllo"
-"authentication_5": "Logout"
+"authentication_5": "Esci"
 "authentication_6": "Username"
 "authentication_7": "Password"
 "authentication_8": "Ricordami"
-"authentication_9": "Login"
+"authentication_9": "Entra"
 "authentication_10": "Registrazione"
 "authentication_11": "Password dimenticata?"
 

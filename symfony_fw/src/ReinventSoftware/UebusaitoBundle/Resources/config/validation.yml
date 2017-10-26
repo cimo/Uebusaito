@@ -167,6 +167,8 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 htmlPattern: false
                 pattern: /^[0-9]+$/
         sort:
+            - NotBlank:
+                groups: [page_creation, page_profile]
             - Regex:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
@@ -305,6 +307,39 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 htmlPattern: false
                 pattern: /^1|^0/
 
+ReinventSoftware\UebusaitoBundle\Form\Model\ModulesSelectionModel:
+    properties:
+        id:
+            - NotBlank:
+                groups: [modules_selection]
+            - Regex:
+                groups: [modules_selection]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
+
+ReinventSoftware\UebusaitoBundle\Form\Model\ModulesDragModel:
+    properties:
+        sortHeader:
+            - Regex:
+                groups: [modules_drag]
+                htmlPattern: false
+                pattern: /^[0-9,]+$/
+        sortLeft:
+            - Regex:
+                groups: [modules_drag]
+                htmlPattern: false
+                pattern: /^[0-9,]+$/
+        sortCenter:
+            - Regex:
+                groups: [modules_drag]
+                htmlPattern: false
+                pattern: /^[0-9,]+$/
+        sortRight:
+            - Regex:
+                groups: [modules_drag]
+                htmlPattern: false
+                pattern: /^[0-9,]+$/
+
 ReinventSoftware\UebusaitoBundle\Entity\Module:
     properties:
         position:
@@ -320,6 +355,8 @@ ReinventSoftware\UebusaitoBundle\Entity\Module:
                 htmlPattern: false
                 pattern: /^[0-9]+$/
         sort:
+            - NotBlank:
+                groups: [module_creation, module_profile]
             - Regex:
                 groups: [module_creation, module_profile]
                 htmlPattern: false
@@ -342,13 +379,13 @@ ReinventSoftware\UebusaitoBundle\Entity\Module:
                 htmlPattern: false
                 pattern: /^1|^0/
 
-ReinventSoftware\UebusaitoBundle\Form\Model\ModulesSelectionModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\RolesSelectionModel:
     properties:
         id:
             - NotBlank:
-                groups: [modules_selection]
+                groups: [roles_selection]
             - Regex:
-                groups: [modules_selection]
+                groups: [roles_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
@@ -361,16 +398,6 @@ ReinventSoftware\UebusaitoBundle\Entity\Role:
                 groups: [role_creation, role_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_]+$/
-
-ReinventSoftware\UebusaitoBundle\Form\Model\RolesSelectionModel:
-    properties:
-        id:
-            - NotBlank:
-                groups: [roles_selection]
-            - Regex:
-                groups: [roles_selection]
-                htmlPattern: false
-                pattern: /^[0-9]+$/
 
 ReinventSoftware\UebusaitoBundle\Entity\Setting:
     properties:

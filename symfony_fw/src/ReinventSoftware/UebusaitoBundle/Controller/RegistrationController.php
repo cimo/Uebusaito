@@ -61,12 +61,12 @@ class RegistrationController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        // Logic
         $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
         
-        if ($userRow['id'] == null) {
+        if ($userRow == false) {
             $userEntity = new User();
             
-            // Form
             $form = $this->createForm(UserFormType::class, $userEntity, Array(
                 'validation_groups' => Array('registration')
             ));
