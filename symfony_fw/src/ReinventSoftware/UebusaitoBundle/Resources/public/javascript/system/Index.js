@@ -4,8 +4,6 @@ controlPanelRole, controlPanelSetting */
 $(document).ready(function() {
     utility.checkMobile(true);
     
-    utility.checkWidth(window.settings.widthMobile);
-    
     utility.linkPreventDefault();
     
     utility.watch("#flashBag", flashBag.sessionActivity);
@@ -52,8 +50,6 @@ $(document).ready(function() {
     controlPanelSetting.init();
     
     $(window).resize(function() {
-        utility.checkWidth(window.settings.widthMobile);
-        
         utility.bootstrapMenuFixChangeView("#menu_root_navbar");
         
         wysiwyg.changeView();

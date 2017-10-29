@@ -43,7 +43,7 @@ function ControlPanelRole() {
     };
     
     self.changeView = function() {
-        if (utility.getWidthType() === "desktop") {
+        if (utility.checkWidth() === "desktop") {
             if (selectionSended === true) {
                 selectionId = $("#cp_roles_selection_mobile").find("select option:selected").val();
 

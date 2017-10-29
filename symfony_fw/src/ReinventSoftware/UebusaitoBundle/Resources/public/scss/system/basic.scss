@@ -42,7 +42,7 @@ $textColor: #4089c9;
 
 $panelBackgroundColor: #f4f4f4;
 $panelBorder: 1px solid #e7e7e7;
-$panelShadow: 0px 5px 5px #474747;
+$panelShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 $panelShadowStrength: 5;
 $panelShadowColor: #474747;
 
@@ -254,6 +254,16 @@ $footerColor: #ffffff;
     #panel_id_1 {
         margin-left: -15px;
         margin-right: -15px;
+    }
+    
+    #panel_id_2 {
+        width: 250px;
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+    }
+    
+    #panel_id_5 {
+        width: 200px !important;
     }
 }
 @media(min-width: $widthDesktop) {

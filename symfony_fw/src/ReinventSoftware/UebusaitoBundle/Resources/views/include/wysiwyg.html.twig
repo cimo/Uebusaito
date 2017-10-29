@@ -54,14 +54,16 @@
                     <i class="fa fa-trash" data-command="link_remove"></i>
                 </div>
                 <div class="attribute">
-                    <p>{{"wysiwyg_2"|trans}}</p>
-                    <input name="link_href" value=""/>
-                    <div>
-                        <p class="display_inline_block">{{"wysiwyg_3"|trans}}</p>
-                        <input class="display_inline_block" name="link_text" value=""/>
+                    <div class="container_fields">
+                        <p>{{"wysiwyg_2"|trans}}</p>
+                        <input name="link_href" value=""/>
+                    </div>
+                    <div class="container_fields">
+                        <p>{{"wysiwyg_3"|trans}}</p>
+                        <input name="link_text" value=""/>
                     </div>
                 </div>
-                <a class="button_custom" href="#" data-command="link_ok">Ok</a>
+                <a class="button_custom" href="#" data-command="link_ok">{{"wysiwyg_34"|trans}}</a>
             </div>
             <div class="only_image">
                 <p><b>{{"wysiwyg_21"|trans}}</b></p>
@@ -73,20 +75,20 @@
                     <input name="image_src" value=""/>
                 </div>
                 <div class="size">
-                    <div>
+                    <div class="container_fields">
                         <p class="display_inline_block">{{"wysiwyg_6"|trans}}</p>
                         <input class="display_inline_block" name="image_responsive" type="checkbox" value=""/>
                     </div>
-                    <div>
-                        <p style="width: 50px;" class="display_inline_block">{{"wysiwyg_7"|trans}}</p>
-                        <input class="display_inline_block" name="image_width" value=""/>
+                    <div class="container_fields">
+                        <p>{{"wysiwyg_7"|trans}}</p>
+                        <input name="image_width" value=""/>
                     </div>
-                    <div>
-                        <p style="width: 50px;" class="display_inline_block">{{"wysiwyg_8"|trans}}</p>
-                        <input class="display_inline_block" name="image_height" value=""/>
+                    <div class="container_fields">
+                        <p>{{"wysiwyg_8"|trans}}</p>
+                        <input name="image_height" value=""/>
                     </div>
                 </div>
-                <a class="button_custom" href="#" data-command="image_ok">Ok</a>
+                <a class="button_custom" href="#" data-command="image_ok">{{"wysiwyg_34"|trans}}</a>
             </div>
             <div class="only_button">
                 <p><b>{{"wysiwyg_22"|trans}}</b></p>
@@ -94,16 +96,24 @@
                     <i class="fa fa-trash" data-command="button_remove"></i>
                 </div>
                 <div class="attribute">
-                    <p class="display_block">{{"wysiwyg_10"|trans}}</p>
-                    <textarea class="display_block" name="button_style"></textarea>
-                    <p>{{"wysiwyg_11"|trans}}</p>
-                    <input name="button_class" value=""/>
-                    <p>{{"wysiwyg_12"|trans}}</p>
-                    <input name="button_href" value=""/>
-                    <p>{{"wysiwyg_13"|trans}}</p>
-                    <input name="button_text" value=""/>
+                    <div class="container_fields">
+                        <p>{{"wysiwyg_10"|trans}}</p>
+                        <textarea class="display_block" name="button_style"></textarea>
+                    </div>
+                    <div class="container_fields">
+                        <p>{{"wysiwyg_11"|trans}}</p>
+                        <input name="button_class" value=""/>
+                    </div>
+                    <div class="container_fields">
+                        <p>{{"wysiwyg_12"|trans}}</p>
+                        <input name="button_href" value=""/>
+                    </div>
+                    <div class="container_fields">
+                        <p>{{"wysiwyg_13"|trans}}</p>
+                        <input name="button_text" value=""/>
+                    </div>
                 </div>
-                <a class="button_custom" href="#" data-command="button_ok">Ok</a>
+                <a class="button_custom" href="#" data-command="button_ok">{{"wysiwyg_34"|trans}}</a>
             </div>
             <div class="only_table">
                 <p><b>{{"wysiwyg_23"|trans}}</b></p>
@@ -114,59 +124,77 @@
                     <i class="fa fa-trash" data-command="table_remove"></i>
                 </div>
                 <div class="attribute">
-                    <p>{{"wysiwyg_17"|trans}}</p>
-                    <input name="table_width" value=""/>
-                    <i class="fa fa-table" data-command="table_width"></i>
-                    <i class="fa fa-columns" data-command="column_width"></i>
+                    <fieldset>
+                        <legend>{{"wysiwyg_17"|trans}}</legend>
+                        <input name="table_width" value=""/>
+                        <i class="fa fa-table" data-command="table_width"></i>
+                        <i class="fa fa-columns" data-command="column_width"></i>
+                    </fieldset>
                     <div class="only_table_div">
-                        <p>{{"wysiwyg_24"|trans}}</p>
-                        <input name="table_margin" value=""/>
-                        <i class="fa fa-table" data-command="table_margin"></i>
+                        <fieldset>
+                            <legend>{{"wysiwyg_24"|trans}}</legend>
+                            <input name="table_margin" value=""/>
+                            <i class="fa fa-table" data-command="table_margin"></i>
+                        </fieldset>
                     </div>
-                    <p>{{"wysiwyg_25"|trans}}</p>
-                    <div>
-                        <p class="display_inline_block">{{"wysiwyg_26"|trans}}</p>
-                        <input class="display_inline_block" name="table_padding_desktop" type="checkbox" value=""/>
-                        <p class="display_inline_block">{{"wysiwyg_27"|trans}}</p>
-                        <input class="display_inline_block" name="table_padding_mobile" type="checkbox" value=""/>
-                    </div>
-                    <input name="table_padding" value=""/>
-                    <i class="fa fa-columns" data-command="table_padding"></i>
+                    <fieldset>
+                        <legend>{{"wysiwyg_25"|trans}}</legend>
+                        <div>
+                            <p class="display_inline_block">{{"wysiwyg_26"|trans}}</p>
+                            <input class="display_inline_block" name="table_padding_desktop" type="checkbox" value=""/>
+                            <p class="display_inline_block">{{"wysiwyg_27"|trans}}</p>
+                            <input class="display_inline_block" name="table_padding_mobile" type="checkbox" value=""/>
+                        </div>
+                        <input name="table_padding" value=""/>
+                        <i class="fa fa-columns" data-command="table_padding"></i>
+                    </fieldset>
                 </div>
                 <div class="offset only_table_div">
-                    <p>{{"wysiwyg_28"|trans}}</p>
-                    <input name="table_offset" value=""/>
-                    <i class="fa fa-align-center" data-command="table_offset"></i>
+                    <fieldset>
+                        <legend>{{"wysiwyg_28"|trans}}</legend>
+                        <input name="table_offset" value=""/>
+                        <i class="fa fa-align-center" data-command="table_offset"></i>
+                    </fieldset>
                 </div>
                 <div class="color">
-                    <p>{{"wysiwyg_29"|trans}}</p>
-                    <input type="color"/>
-                    <i class="fa fa-table" data-command="table_color"></i>
-                    <i class="fa fa-columns" data-command="column_color"></i>
+                    <fieldset>
+                        <legend>{{"wysiwyg_29"|trans}}</legend>
+                        <input type="color"/>
+                        <i class="fa fa-table" data-command="table_color"></i>
+                        <i class="fa fa-columns" data-command="column_color"></i>
+                    </fieldset>
                 </div>
                 <div class="layout">
                     <div>
-                        <p>{{"wysiwyg_30"|trans}}</p>
-                        <i class="fa fa-plus" data-command="table_add_row"></i>
-                        <i class="fa fa-minus" data-command="table_remove_row"></i>
-                        <i class="fa fa-ellipsis-h only_table_div" data-command="table_merge_column_b"></i>
+                        <fieldset>
+                            <legend>{{"wysiwyg_30"|trans}}</legend>
+                            <i class="fa fa-plus" data-command="table_add_row"></i>
+                            <i class="fa fa-minus" data-command="table_remove_row"></i>
+                            <i class="fa fa-ellipsis-h only_table_div" data-command="table_merge_column_b"></i>
+                        </fieldset>
                     </div>
                     <div>
-                        <p>{{"wysiwyg_31"|trans}}</p>
-                        <i class="fa fa-plus" data-command="table_add_column"></i>
-                        <i class="fa fa-minus" data-command="table_remove_column"></i>
+                        <fieldset>
+                            <legend>{{"wysiwyg_31"|trans}}</legend>
+                            <i class="fa fa-plus" data-command="table_add_column"></i>
+                            <i class="fa fa-minus" data-command="table_remove_column"></i>
+                        </fieldset>
                     </div>
                 </div>
                 <div class="colspan only_table_html">
                     <div>
-                        <p>{{"wysiwyg_32"|trans}}</p>
-                        <input class="display_inline_block" name="table_rowspan" value=""/>
-                        <i class="fa fa-ellipsis-h" data-command="table_merge_column_a"></i>
+                        <fieldset>
+                            <legend>{{"wysiwyg_32"|trans}}</legend>
+                            <input class="display_inline_block" name="table_rowspan" value=""/>
+                            <i class="fa fa-ellipsis-h" data-command="table_merge_column_a"></i>
+                        </fieldset>
                     </div>
                     <div>
-                        <p>{{"wysiwyg_33"|trans}}</p>
-                        <input class="display_inline_block" name="table_colspan" value=""/>
-                        <i style="padding-left: 9px; padding-right: 9px;" class="fa fa-ellipsis-v" data-command="table_merge_column_b"></i>
+                        <fieldset>
+                            <legend>{{"wysiwyg_33"|trans}}</legend>
+                            <input class="display_inline_block" name="table_colspan" value=""/>
+                            <i style="padding-left: 9px; padding-right: 9px;" class="fa fa-ellipsis-v" data-command="table_merge_column_b"></i>
+                        </fieldset>
                     </div>
                 </div>
             </div>

@@ -97,7 +97,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (1,'controlPanel',NULL,'UebusaitoBundle:ControlPanel:render','1,2,',1,0,1,0,'-'),(2,'home',NULL,NULL,'1,2,',0,1,2,0,'-'),(3,'registration',NULL,'UebusaitoBundle:Registration:render','1,2,',0,0,3,0,'-'),(4,'recover_password',NULL,'UebusaitoBundle:RecoverPassword:render','1,2,',0,0,4,0,'-'),(5,'search',NULL,'UebusaitoBundle:Search:render','1,2,',0,0,5,0,'-'),(6,'test',NULL,NULL,'4,',1,1,7,0,'-'),(7,'test_parent',NULL,NULL,'1,2,',0,1,6,0,'-'),(8,'test_children_1',7,NULL,'1,2,',0,1,1,0,'-'),(9,'test_children_2',8,NULL,'1,2,',0,1,1,0,'-'),(10,'test_2',8,NULL,'1,2,',0,1,2,0,'-'),(11,'test_children_3',9,NULL,'1,2,',0,1,1,0,'-'),(12,'test_1',7,NULL,'1,2,',0,1,2,1,'http://www.google.it'),(13,'test_children_4',11,NULL,'1,2,',0,1,1,0,'-');
+INSERT INTO `pages` VALUES (1,'controlPanel',NULL,'UebusaitoBundle:ControlPanel:render','1,2,',1,0,1,0,'-'),(2,'home',NULL,NULL,'1,2,',0,1,2,0,'-'),(3,'registration',NULL,'UebusaitoBundle:Registration:render','1,2,',0,0,3,0,'-'),(4,'recover_password',NULL,'UebusaitoBundle:RecoverPassword:render','1,2,',0,0,4,0,'-'),(5,'search',NULL,'UebusaitoBundle:Search:render','1,2,',0,0,5,0,'-'),(6,'test',NULL,'UebusaitoBundle:PageControllerAction\\IncludeTest:render','4,',1,1,7,0,'-'),(7,'test_parent',NULL,NULL,'1,2,',0,1,6,0,'-'),(8,'test_children_1',7,NULL,'1,2,',0,1,1,0,'-'),(9,'test_children_2',8,NULL,'1,2,',0,1,1,0,'-'),(10,'test_2',8,NULL,'1,2,',0,1,2,0,'-'),(11,'test_children_3',9,NULL,'1,2,',0,1,1,0,'-'),(12,'test_1',7,NULL,'1,2,',0,1,2,1,'http://www.google.it'),(13,'test_children_4',11,NULL,'1,2,',0,1,1,0,'-');
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,7 +297,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','cimo','cimo','dago','cimo@reinventsoftware.org','3491234567','1984-04-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Italia','Roma','00100','Via','$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi',0,1,'2016-08-04 10:25:12','2017-10-26 17:45:48','2017-10-26 17:45:45',NULL,'79.13.12.142',0),(2,'1,4,','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2017-10-14 14:46:56','2017-10-14 14:46:24',NULL,'87.11.116.214',0),(3,'1,','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,1,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
+INSERT INTO `users` VALUES (1,'1,2,','cimo','cimo','dago','cimo@reinventsoftware.org','3491234567','1984-04-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Italia','Roma','00100','Via','$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi',0,1,'2016-08-04 10:25:12','2017-10-29 16:14:15','2017-10-28 11:35:58',NULL,'79.13.12.142',0),(2,'1,4,','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2017-10-14 14:46:56','2017-10-14 14:46:24',NULL,'87.11.116.214',0),(3,'1,','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,1,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -338,4 +338,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-26 18:34:22
+-- Dump completed on 2017-10-29 16:19:51
