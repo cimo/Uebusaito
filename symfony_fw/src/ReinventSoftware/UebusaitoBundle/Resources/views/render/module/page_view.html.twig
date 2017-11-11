@@ -8,11 +8,35 @@
             <h1>{{response.values.title}}</h1>
         </div>
     {% endif %}
+    
     <div class="argument">{{response.values.argument|raw}}</div>
+    
     {% if response.values.controllerAction != "" %}
-        <div class="margin_top margin_bottom">
+        <div class="margin_top">
             {{-render(controller(response.values.controllerAction, {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
         </div>
     {% endif %}
 {% endblock %}
-{% block moduleFooter %}{% endblock %}
+{% block moduleFooter %}
+    <div class="margin_top">
+        <div class="clearfix page_date">
+            <div>
+                {% if settingRow['page_date'] == true %}
+                    {% if (response.values.userCreation != "-" and response.values.userModification == "-") %}
+                        <p><i class="fa fa-paw"></i> <b>{% trans %}page_view_1{% endtrans %}</b>{{response.values.userCreation}}</p>
+                        <p><i class="fa fa-calendar"></i> <b>{% trans %}page_view_2{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
+                    {% elseif (response.values.userModification != "-") %}
+                        <p><i class="fa fa-paw"></i> <b>{% trans %}page_view_3{% endtrans %}</b>{{response.values.userModification}}</p>
+                        <p><i class="fa fa-calendar"></i> <b>{% trans %}page_view_4{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if urlCurrentPageId > 5 %}
+            {{-render(controller("UebusaitoBundle:PageComment:creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+            
+            {{-render(controller("UebusaitoBundle:PageComment:render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+        {% endif %}
+    </div>
+{% endblock %}

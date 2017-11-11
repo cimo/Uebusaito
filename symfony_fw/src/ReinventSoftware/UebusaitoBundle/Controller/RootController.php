@@ -63,6 +63,10 @@ class RootController extends Controller {
         
         $this->utility->configureCookie(session_name(), 0, isset($_SERVER['HTTPS']), true);
         
+        $languageRow =  $this->query->selectLanguageDatabase($this->urlLocale);
+                
+        $_SESSION['language_date'] = $languageRow['date'];
+        
         $this->response['captchaImage'] = $this->captcha->create(7);
         
         $event = isset($_POST['event']) == true ? $_POST['event'] : "";
@@ -80,11 +84,11 @@ class RootController extends Controller {
         
         $this->response['url']['root'] = $this->utility->getUrlRoot();
         
-        $this->response['modules']['header'] = $this->query->selectAllModulesDatabase(null, "header");
-        $this->response['modules']['left'] = $this->query->selectAllModulesDatabase(null, "left");
-        $this->response['modules']['center'] = $this->query->selectAllModulesDatabase(null, "center");
-        $this->response['modules']['right'] = $this->query->selectAllModulesDatabase(null, "right");
-        $this->response['modules']['footer'] = $this->query->selectAllModulesDatabase(null, "footer");
+        $this->response['modules']['header'] = $this->query->selectAllModuleDatabase(null, "header");
+        $this->response['modules']['left'] = $this->query->selectAllModuleDatabase(null, "left");
+        $this->response['modules']['center'] = $this->query->selectAllModuleDatabase(null, "center");
+        $this->response['modules']['right'] = $this->query->selectAllModuleDatabase(null, "right");
+        $this->response['modules']['footer'] = $this->query->selectAllModuleDatabase(null, "footer");
         
         $this->utility->checkSessionOverTime($request, true);
         

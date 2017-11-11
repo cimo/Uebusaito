@@ -1,7 +1,7 @@
-<div id="search_render">
+<div id="search_result">
     {{-include("@UebusaitoBundleViews/include/table_and_pagination.html.twig")-}}
     
-    <p class="text">{% trans %}search_render_1{% endtrans %} {{response.values.countResults}}</p>
+    <p class="text">{% trans %}search_1{% endtrans %} {{response.values.count}}</p>
     
-    {{response.values.list|raw}}
+    {{response.values.listHtml|raw}}
 </div>

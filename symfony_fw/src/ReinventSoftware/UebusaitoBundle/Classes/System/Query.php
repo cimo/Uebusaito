@@ -24,14 +24,14 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectUserRoleLevelDatabase($roleId, $modify = false) {
-        $rolesExplode = explode(",", $roleId);
-        array_pop($rolesExplode);
+    public function selectRoleUserDatabase($roleId, $modify = false) {
+        $roleIdExplode = explode(",", $roleId);
+        array_pop($roleIdExplode);
         
         $level = Array();
         
-        foreach($rolesExplode as $key => $value) {
-            $query = $this->connection->prepare("SELECT level FROM users_roles
+        foreach($roleIdExplode as $key => $value) {
+            $query = $this->connection->prepare("SELECT level FROM roles_users
                                                     WHERE id = :value");
             
             $query->bindValue(":value", $value);
@@ -49,8 +49,8 @@ class Query {
         return $level;
     }
     
-    public function selectAllUserRolesDatabase($change = false) {
-        $query = $this->connection->prepare("SELECT * FROM users_roles");
+    public function selectAllRoleUserDatabase($change = false) {
+        $query = $this->connection->prepare("SELECT * FROM roles_users");
         
         $query->execute();
         
@@ -89,7 +89,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllLanguagesDatabase() {
+    public function selectAllLanguageDatabase() {
         $query = $this->connection->prepare("SELECT * FROM languages");
         
         $query->execute();
@@ -116,7 +116,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllPagesDatabase($language, $search = null) {
+    public function selectAllPageDatabase($language, $search = null) {
         if ($search == null) {
             $query = $this->connection->prepare("SELECT pages.*,
                                                     pages_titles.$language AS title,
@@ -184,6 +184,28 @@ class Query {
         return $query->fetchAll();
     }
     
+    public function selectPageCommentDatabase($id) {
+        $query = $this->connection->prepare("SELECT * FROM pages_comments
+                                                WHERE id = :id");
+
+        $query->bindValue(":id", $id);
+        
+        $query->execute();
+        
+        return $query->fetch();
+    }
+        
+    public function selectAllPageCommentDatabase($pageId) {
+        $query = $this->connection->prepare("SELECT * FROM pages_comments
+                                                WHERE page_id = :pageId");
+
+        $query->bindValue(":pageId", $pageId);
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
+    
     public function selectUserDatabase($value) {
         if (is_numeric($value) == true) {
             $query = $this->connection->prepare("SELECT * FROM users
@@ -209,11 +231,11 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllUsersDatabase($idExcluded = 0) {
+    public function selectAllUserDatabase($idExclude = 0) {
         $query = $this->connection->prepare("SELECT * FROM users
-                                                WHERE id != :idExcluded");
+                                                WHERE id != :idExclude");
         
-        $query->bindValue(":idExcluded", $idExcluded);
+        $query->bindValue(":idExclude", $idExclude);
         
         $query->execute();
         
@@ -231,7 +253,7 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllModulesDatabase($id = null, $position = null) {
+    public function selectAllModuleDatabase($id = null, $position = null) {
         if ($id == null && $position != null) {
             $query = $this->connection->prepare("SELECT * FROM modules
                                                     WHERE position = :position
@@ -268,24 +290,11 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectAllPaymentsDatabase($userId) {
+    public function selectAllPaymentDatabase($userId) {
         $query = $this->connection->prepare("SELECT * FROM payments
                                                 WHERE user_id = :userId");
         
         $query->bindValue(":userId", $userId);
-        
-        $query->execute();
-        
-        return $query->fetchAll();
-    }
-    
-    public function selectAllPaymentsUserDatabase($userId) {
-        $query = $this->connection->prepare("SELECT * FROM payments
-                                                WHERE user_id != :userId
-                                                AND user_id > :userIdStart");
-        
-        $query->bindValue(":userId", $userId);
-        $query->bindValue(":userIdStart", 1);
         
         $query->execute();
         

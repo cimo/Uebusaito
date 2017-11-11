@@ -49,14 +49,14 @@ class MenuRootController extends Controller {
         
         // Logic
         $moduleRow = $this->query->selectModuleDatabase(1);
-        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale);
+        $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
         
         $this->response['module']['id'] = $moduleRow['id'];
         $this->response['module']['label'] = $moduleRow['label'];
         
         $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}";
-        $this->response['values']['pagesList'] = $this->uebusaitoUtility->createPagesList($pageRows, false);
-        $this->response['values']['modules'] = $this->query->selectAllModulesDatabase();
+        $this->response['values']['pageList'] = $this->uebusaitoUtility->createPageList($pageRows, false);
+        $this->response['values']['moduleRows'] = $this->query->selectAllModuleDatabase();
         
         return Array(
             'urlLocale' => $this->urlLocale,

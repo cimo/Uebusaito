@@ -11,7 +11,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 
-use ReinventSoftware\UebusaitoBundle\Form\SettingsFormType;
+use ReinventSoftware\UebusaitoBundle\Form\SettingFormType;
 
 class SettingController extends Controller {
     // Vars
@@ -33,15 +33,15 @@ class SettingController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_settings_modify",
-    *   path = "/cp_settings_modify/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_setting_save",
+    *   path = "/cp_setting_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/settings.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/setting.html.twig")
     */
-    public function modifyAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function saveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -59,24 +59,26 @@ class SettingController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
         $settingEntity = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
         
-        $form = $this->createForm(SettingsFormType::class, $settingEntity, Array(
-            'validation_groups' => Array('settings'),
-            'choicesTemplate' => $this->uebusaitoUtility->createTemplatesList(),
-            'choicesLanguage' => array_column($this->query->selectAllLanguagesDatabase(), "code", "code")
+        $languageCustomData = $this->languageCustomData();
+        
+        $form = $this->createForm(SettingFormType::class, $settingEntity, Array(
+            'validation_groups' => Array('setting'),
+            'choicesTemplate' => $this->uebusaitoUtility->createTemplateList(),
+            'choicesLanguage' => array_column($languageCustomData, "value", "text")
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['rolesSelect'] = $this->uebusaitoUtility->createHtmlRoles("form_settings_roleId_field", true);
+        $this->response['values']['roleUserHtml'] = $this->uebusaitoUtility->createRoleUserHtml("form_setting_roleUserId_field", true);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             if ($form->isValid() == true) {
                 if ($form->get("templateColumn")->getData() != $settingEntity->getTemplateColumn())
-                    $this->modulesDatabase($form->get("templateColumn")->getData());
+                    $this->moduleDatabase($form->get("templateColumn")->getData());
                 
                 // Update in database
                 $this->entityManager->persist($settingEntity);
@@ -87,7 +89,6 @@ class SettingController extends Controller {
                     
                     $message = $this->utility->getTranslator()->trans("settingController_1");
                     
-                    $_SESSION['user_activity_count'] = 1;
                     $_SESSION['user_activity'] = $message;
                     
                     $this->response['messages']['info'] = $message;
@@ -119,13 +120,13 @@ class SettingController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_settings_language_manage",
-    *   path = "/cp_settings_language_manage/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_setting_language_manage",
+    *   path = "/cp_setting_language_manage/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/settings.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/setting.html.twig")
     */
     public function languageManageAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -145,51 +146,67 @@ class SettingController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "deleteLanguage" && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+            if ($request->get("event") == "deleteLanguage") {
                 $code = $request->get("code");
 
-                $settingsDatabase = $this->settingsDatabase("deleteLanguage", $code);
+                $settingDatabase = $this->settingDatabase("deleteLanguage", $code);
 
-                if ($settingsDatabase == true) {
+                if ($settingDatabase == true) {
                     unlink("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
 
-                    $this->settingsDatabase("deleteLanguageInPage", $code);
+                    $this->settingDatabase("deleteLanguageInPage", $code);
 
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
                 }
             }
-            else if ($request->get("event") == "createLanguage" && $this->utility->checkToken($request) == true) {
+            else if ($request->get("event") == "modifyLanguage" || $request->get("event") == "createLanguage") {
                 $code = $request->get("code");
+                $date = $request->get("date");
                 
-                $languageRows = $this->query->selectAllLanguagesDatabase();
+                $languageRows = $this->query->selectAllLanguageDatabase();
 
                 $exists = false;
+                $checked = false;
+                
+                if ($request->get("event") == "createLanguage") {
+                    foreach ($languageRows as $key => $value) {
+                        if ($code == $value['code']) {
+                            $exists = true;
 
-                foreach ($languageRows as $key => $value) {
-                    if ($code == $value['code']) {
-                        $exists = true;
-
-                        break;
+                            break;
+                        }
                     }
                 }
+                
+                if (strtolower($date) == "y-m-d" || strtolower($date) == "d-m-y" || strtolower($date) == "m-d-y")
+                    $checked = true;
 
-                if ($code != "" && $exists == false) {
-                    $settingsDatabase = $this->settingsDatabase("insertLanguage", $code);
+                if ($code != "" && $date != "" && $exists == false && $checked == true) {
+                    $settingDatabase = false;
+                    
+                    if ($request->get("event") == "modifyLanguage")
+                        $settingDatabase = $this->settingDatabase("updateLanguage", $code, $date);
+                    else if ($request->get("event") == "createLanguage")
+                        $settingDatabase = $this->settingDatabase("insertLanguage", $code, $date);
+                    
+                    if ($settingDatabase == true) {
+                        if ($request->get("event") == "modifyLanguage")
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
+                        else if ($request->get("event") == "createLanguage") {
+                            touch("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
 
-                    if ($settingsDatabase == true) {
-                        touch("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
-
-                        $this->settingsDatabase("insertLanguageInPage", $code);
-
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
+                            $this->settingDatabase("insertLanguageInPage", $code);
+                            
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_6");
+                        }
                     }
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_6");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_7");
             }
             
             return $this->ajax->response(Array(
@@ -209,7 +226,20 @@ class SettingController extends Controller {
     }
     
     // Functions private
-    private function modulesDatabase($templateColumn) {
+    private function languageCustomData() {
+        $languageRows = $this->query->selectAllLanguageDatabase();
+        
+        $customData = Array();
+        
+        foreach($languageRows as $key => $value) {
+            $customData[$key]['value'] = $value['code'];
+            $customData[$key]['text'] = "{$value['code']} | {$value['date']}";
+        }
+        
+        return $customData;
+    }
+    
+    private function moduleDatabase($templateColumn) {
         if ($templateColumn == 1) {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
                                                                 SET position_tmp = :positionTmp,
@@ -275,13 +305,13 @@ class SettingController extends Controller {
             $query->execute();
         }
         
-        $this->updateModulesPositionInColumn("left");
-        $this->updateModulesPositionInColumn("center");
-        $this->updateModulesPositionInColumn("right");
+        $this->updateModulePositionInColumn("left");
+        $this->updateModulePositionInColumn("center");
+        $this->updateModulePositionInColumn("right");
     }
     
-    private function updateModulesPositionInColumn($position) {
-        $moduleRows = $this->query->selectAllModulesDatabase(null, $position);
+    private function updateModulePositionInColumn($position) {
+        $moduleRows = $this->query->selectAllModuleDatabase(null, $position);
         
         foreach($moduleRows as $key => $value) {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
@@ -295,7 +325,7 @@ class SettingController extends Controller {
         }
     }
     
-    private function settingsDatabase($type, $code) {
+    private function settingDatabase($type, $code, $date = null) {
         if ($type == "deleteLanguage") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM languages
                                                                 WHERE id > :idExclude
@@ -317,11 +347,22 @@ class SettingController extends Controller {
             
             $query->execute();
         }
+        else if ($type == "updateLanguage") {
+            $query = $this->utility->getConnection()->prepare("UPDATE languages
+                                                                SET date = :date
+                                                                WHERE code = :code");
+            
+            $query->bindValue(":date", $date);
+            $query->bindValue(":code", $code);
+            
+            return $query->execute();
+        }
         else if ($type == "insertLanguage") {
-            $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code)
-                                                                VALUES (:code)");
+            $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code, date)
+                                                                VALUES (:code, :date)");
             
             $query->bindValue(":code", $code);
+            $query->bindValue(":date", $date);
             
             return $query->execute();
         }

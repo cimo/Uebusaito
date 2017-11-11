@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="display_inline float_right">
-                    {% if (response.values.modules[4]['active'] == true) %}
+                    {% if (response.values.moduleRows[4]['active'] == true) %}
                         <div class="navbar_header_content navbar_header_icon">
                             <div class="dropdown">
                                 <button id="search_button" class="dropdown-toggle button_custom" data-toggle="dropdown">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if (response.values.modules[3]['active'] == true) %}
+                    {% if (response.values.moduleRows[3]['active'] == true) %}
                         <div class="navbar_header_content navbar_header_icon">
                             <div class="dropdown">
                                 <button id="language_button" class="dropdown-toggle button_custom" data-toggle="dropdown">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if (response.values.modules[1]['active'] == true) %}
+                    {% if (response.values.moduleRows[1]['active'] == true) %}
                         <div class="navbar_header_content navbar_header_icon">
                             <div class="dropdown">
                                 <button id="authentication_button_mobile" class="dropdown-toggle button_custom" data-toggle="dropdown">
@@ -100,7 +100,7 @@
 
                     {% from _self import recursiveList %}
 
-                    {{recursiveList(response.values.url, response.values.pagesList)}}
+                    {{recursiveList(response.values.url, response.values.pageList)}}
                 </ul>
             </div>
         </nav>

@@ -2,6 +2,7 @@
 namespace ReinventSoftware\UebusaitoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="languages", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
@@ -16,12 +17,22 @@ class Language {
     private $id;
     
     /**
-     * @ORM\Column(name="code", type="string", columnDefinition="varchar(2) NOT NULL")
+     * @ORM\Column(name="code", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT ''")
      */
-    private $code;
-
+    private $code = "";
+    
+    /**
+     * @ORM\Column(name="date", type="string", columnDefinition="varchar(5) NOT NULL DEFAULT 'Y-m-d'")
+     */
+    private $date = "";
+    
+    // Properties
     public function setCode($value) {
         $this->code = $value;
+    }
+    
+    public function setDate($value) {
+        $this->date = $value;
     }
     
     // ---
@@ -32,5 +43,9 @@ class Language {
     
     public function getCode() {
         return $this->code;
+    }
+    
+    public function getDate() {
+        return $this->date;
     }
 }

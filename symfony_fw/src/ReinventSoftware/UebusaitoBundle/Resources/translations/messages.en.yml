@@ -102,23 +102,24 @@ date.time: H:i:s
 "profileController_6": "Send to PayPal..."
 "profileController_7": "Not sended to PayPal!"
 
-# RoleController.php
-"roleController_1": "Role creation completed."
-"roleController_2": "Role not created!"
-"roleController_3": "Role not selected!"
-"roleController_4": "Role update completed."
-"roleController_5": "Role update not completed!"
-"roleController_6": "Role deletion completed."
-"roleController_7": "All roles deletion completed."
-"roleController_8": "Role not deleted!"
+# RoleUserController.php
+"roleUserController_1": "Role creation completed."
+"roleUserController_2": "Role not created!"
+"roleUserController_3": "Role not selected!"
+"roleUserController_4": "Role update completed."
+"roleUserController_5": "Role update not completed!"
+"roleUserController_6": "Role deletion completed."
+"roleUserController_7": "All roles deletion completed."
+"roleUserController_8": "Role not deleted!"
 
 # SettingController.php
 "settingController_1": "Protocol value has changed, please login again (if you have changed from https to http you need close and to open browser for to do login)."
-"settingController_2": "Settings update complete."
-"settingController_3": "Settings not saved!"
+"settingController_2": "Setting update complete."
+"settingController_3": "Setting not saved!"
 "settingController_4": "Language deletion completed."
-"settingController_5": "Language creation completed."
-"settingController_6": "Language not created!"
+"settingController_5": "Language update completed."
+"settingController_6": "Language creation completed."
+"settingController_7": "Language not created!"
 
 # UserController.php
 "userController_1": "User creation completed."
@@ -138,6 +139,16 @@ date.time: H:i:s
 # LanguageController.php
 "languageController_1": "Change language text not completed!"
 "languageController_2": "Change language page not completed!"
+
+# PageCommentController.php
+"pageCommentController_1": "Comment sended."
+"pageCommentController_2": "Last message is your!"
+"pageCommentController_3": "Comment not sended!"
+"pageCommentController_4": "Comment modified."
+"pageCommentController_5": "Creation: "
+"pageCommentController_6": "Modification: "
+"pageCommentController_7": "Replay"
+"pageCommentController_8": "Modify"
 
 # PageViewController.php
 "pageViewController_1": "Page empty"
@@ -191,8 +202,8 @@ date.time: H:i:s
 "moduleFormType_7": "No"
 "moduleFormType_8": "Yes"
 
-# ModulesSelectionFormType.php
-"modulesSelectionFormType_1": "Select"
+# ModuleSelectionFormType.php
+"moduleSelectionFormType_1": "Select"
 
 # PageFormType.php
 "pageFormType_1": "Select"
@@ -200,25 +211,25 @@ date.time: H:i:s
 "pageFormType_3": "Yes"
 "pageFormType_4": "This page"
 
-# PagesSelectionFormType.php
-"pagesSelectionFormType_1": "Select"
+# PageSelectionFormType.php
+"pageSelectionFormType_1": "Select"
 
-# PaymentsSelectionFormType.php
-"paymentsSelectionFormType_1": "Select"
+# PaymentSelectionFormType.php
+"paymentSelectionFormType_1": "Select"
 
-# RolesSelectionFormType.php
-"rolesSelectionFormType_1": "Select"
+# RoleUserSelectionFormType.php
+"roleUserSelectionFormType_1": "Select"
 
 # SearchFormType.php
 "searchType_1": "Search in the site"
 
-# SettingsFormType.php
-"settingsFormType_1": "Type 1"
-"settingsFormType_2": "Type 2"
-"settingsFormType_3": "Type 3"
-"settingsFormType_4": "Type 4"
-"settingsFormType_5": "No"
-"settingsFormType_6": "Yes"
+# SettingFormType.php
+"settingFormType_1": "Type 1"
+"settingFormType_2": "Type 2"
+"settingFormType_3": "Type 3"
+"settingFormType_4": "Type 4"
+"settingFormType_5": "No"
+"settingFormType_6": "Yes"
 
 # UserFormType.php
 "userFormType_1": "Select"
@@ -227,8 +238,8 @@ date.time: H:i:s
 "userFormType_4": "No"
 "userFormType_5": "Yes"
 
-# UsersSelectionFormType.php
-"usersSelectionFormType_1": "Select"
+# UserSelectionFormType.php
+"userSelectionFormType_1": "Select"
 
 # ---
 # Views / Include
@@ -291,6 +302,14 @@ date.time: H:i:s
 "index_5": "Abort"
 "index_6": "Connection error, please reload the page."
 
+# page_comment.html.twig
+"page_comment_1": "Message from user: "
+"page_comment_2": "Replay to user: "
+"page_comment_3": "Argument"
+"page_comment_4": "Comments are disabled."
+"page_comment_5": "Save"
+"page_comment_6": "Modify"
+
 # language_page.html.twig
 "language_page_1": "Change page language without save data?"
 
@@ -324,7 +343,7 @@ date.time: H:i:s
 "registration_20": "Password confirm"
 
 # search.html.twig
-"search_render_1": "Elements found:"
+"search_1": "Elements found:"
 
 # ---
 # Views / Render / Control panel
@@ -350,24 +369,22 @@ date.time: H:i:s
 "module_profile_6": "File name"
 "module_profile_7": "Active"
 
-# modules_drag.html.twig
-"modules_drag_1": "Modules sort form"
-"modules_drag_2": "Header"
-"modules_drag_3": "Left"
-"modules_drag_4": "Center"
-"modules_drag_5": "Right"
+# module_drag.html.twig
+"module_drag_1": "Modules sort form"
+"module_drag_2": "Header"
+"module_drag_3": "Left"
+"module_drag_4": "Center"
+"module_drag_5": "Right"
 
-# modules_selection.html.twig
-"modules_selection_1": "Modules selection form"
-"modules_selection_2": "Modules"
-
-# modules_selection_desktop.html.twig
-"modules_selection_desktop_1": "Id"
-"modules_selection_desktop_2": "Select"
-"modules_selection_desktop_3": "Name"
-"modules_selection_desktop_4": "File name"
-"modules_selection_desktop_5": "Active"
-"modules_selection_desktop_6": "Remove"
+# module_selection.html.twig
+"module_selection_1": "Modules selection form"
+"module_selection_2": "Id"
+"module_selection_3": "Select"
+"module_selection_4": "Name"
+"module_selection_5": "File name"
+"module_selection_6": "Active"
+"module_selection_7": "Remove"
+"module_selection_8": "Modules"
 
 # page_creation.html.twig
 "page_creation_1": "Page creation form"
@@ -381,8 +398,9 @@ date.time: H:i:s
 "page_creation_9": "Show in menu"
 "page_creation_10": "Position in menu"
 "page_creation_11": "Menu name"
-"page_creation_12": "Only link"
-"page_creation_13": "Link"
+"page_creation_12": "Comment"
+"page_creation_13": "Only link"
+"page_creation_14": "Link"
 
 # page_deletion.html.twig
 "page_deletion_1": "Page deletion"
@@ -403,23 +421,26 @@ date.time: H:i:s
 "page_profile_10": "Show in menu"
 "page_profile_11": "Position in menu"
 "page_profile_12": "Menu name"
-"page_profile_13": "Only link"
-"page_profile_14": "Link"
+"page_profile_13": "Comment"
+"page_profile_14": "Only link"
+"page_profile_15": "Link"
+"page_profile_16": "Created by: "
+"page_profile_17": "Creation: "
+"page_profile_18": "Modified By: "
+"page_profile_19": "Modification: "
 
-# pages_selection.html.twig
-"pages_selection_1": "Pages selection form"
-"pages_selection_2": "Pages"
-
-# pages_selection_desktop.html.twig
-"pages_selection_desktop_1": "Id"
-"pages_selection_desktop_2": "Select"
-"pages_selection_desktop_3": "Alias"
-"pages_selection_desktop_4": "Title"
-"pages_selection_desktop_5": "Menu name"
-"pages_selection_desktop_6": "Protected"
-"pages_selection_desktop_7": "Show in menu"
-"pages_selection_desktop_8": "Only link"
-"pages_selection_desktop_9": "Remove"
+# page_selection.html.twig
+"page_selection_1": "Pages selection form"
+"page_selection_2": "Id"
+"page_selection_3": "Select"
+"page_selection_4": "Alias"
+"page_selection_5": "Title"
+"page_selection_6": "Menu name"
+"page_selection_7": "Protected"
+"page_selection_8": "Show in menu"
+"page_selection_9": "Only link"
+"page_selection_10": "Remove"
+"page_selection_11": "Pages"
 
 # payment_deletion.html.twig
 "payment_deletion_1": "Payment deletion"
@@ -437,22 +458,20 @@ date.time: H:i:s
 "payment_profile_9": "Amount"
 "payment_profile_10": "Quantity"
 
-# payments_selection.html.twig
-"payments_selection_1": "Payments selection form"
-"payments_selection_2": "Payments"
+# payment_selection.html.twig
+"payment_selection_1": "Payments selection form"
+"payment_selection_2": "Id"
+"payment_selection_3": "Select"
+"payment_selection_4": "Transaction"
+"payment_selection_5": "Date"
+"payment_selection_6": "Status"
+"payment_selection_7": "Payer"
+"payment_selection_8": "Remove"
+"payment_selection_9": "Payments"
 
-# payments_selection_desktop.html.twig
-"payments_selection_desktop_1": "Id"
-"payments_selection_desktop_2": "Select"
-"payments_selection_desktop_3": "Transaction"
-"payments_selection_desktop_4": "Date"
-"payments_selection_desktop_5": "Status"
-"payments_selection_desktop_6": "Payer"
-"payments_selection_desktop_7": "Remove"
-
-# payments_user_selection.html.twig
-"payments_user_selection_1": "Payments user selection form"
-"payments_user_selection_2": "Users"
+# payment_user_selection.html.twig
+"payment_user_selection_1": "Payments user selection form"
+"payment_user_selection_2": "Users"
 
 # profile.html.twig
 "profile_1": "Profile form"
@@ -473,12 +492,12 @@ date.time: H:i:s
 "profile_16": "Zip"
 "profile_17": "Address"
 
-# profile_credits.html.twig
-"profile_credits_1": "Profile credits form"
-"profile_credits_2": "Credits"
-"profile_credits_3": "Current credits:"
-"profile_credits_4": "One credit value:"
-"profile_credits_5": "Credits"
+# profile_credit.html.twig
+"profile_credit_1": "Profile credit form"
+"profile_credit_2": "Credit"
+"profile_credit_3": "Current credit:"
+"profile_credit_4": "One credit value:"
+"profile_credit_5": "credit"
 
 # profile_password.html.twig
 "profile_password_1": "Profile password form"
@@ -487,51 +506,52 @@ date.time: H:i:s
 "profile_password_4": "New"
 "profile_password_5": "New confirm"
 
-# role_creation.html.twig
-"role_creation_1": "Role creation form"
-"role_creation_2": "Level"
+# role_user_creation.html.twig
+"role_user_creation_1": "Role creation form"
+"role_user_creation_2": "Level"
 
-# role_deletion.html.twig
-"role_deletion_1": "Role deletion"
-"role_deletion_2": "Warning! If you delete the role is impossible return back."
+# role_user_deletion.html.twig
+"role_user_deletion_1": "Role deletion"
+"role_user_deletion_2": "Warning! If you delete the role is impossible return back."
 
-# role_profile.html.twig
-"role_profile_1": "Role profile form"
-"role_profile_2": "Level"
+# role_user_profile.html.twig
+"role_user_profile_1": "Role profile form"
+"role_user_profile_2": "Level"
 
-# roles_selection.html.twig
-"roles_selection_1": "Roles selection form"
-"roles_selection_2": "Roles"
+# role_user_selection.html.twig
+"role_user_selection_1": "Roles selection form"
+"role_user_selection_2": "Id"
+"role_user_selection_3": "Select"
+"role_user_selection_4": "Level"
+"role_user_selection_5": "Remove"
+"role_user_selection_6": "Roles"
 
-# roles_selection_desktop.html.twig
-"roles_selection_desktop_1": "Id"
-"roles_selection_desktop_2": "Select"
-"roles_selection_desktop_3": "Level"
-"roles_selection_desktop_4": "Remove"
-
-# settings.html.twig
-"settings_1": "Settings form"
-"settings_2": "Style"
-"settings_3": "Template"
-"settings_4": "Template column"
-"settings_5": "Language"
-"settings_6": "Language manage"
-"settings_7": "Security"
-"settings_8": "Email admin"
-"settings_9": "Active"
-"settings_10": "Maintenance roles"
-"settings_11": "Https"
-"settings_12": "Registration user confirm by admin"
-"settings_13": "Login attempt time (minuts)"
-"settings_14": "Login attempt count"
-"settings_15": "Captcha"
-"settings_16": "Paypal"
-"settings_17": "PayPal sandbox"
-"settings_18": "PayPal business"
-"settings_19": "PayPal currency code"
-"settings_20": "PayPal credit amount"
-"settings_21": "Payment"
-"settings_22": "Credits"
+# setting.html.twig
+"setting_1": "Setting form"
+"setting_2": "Style"
+"setting_3": "Template"
+"setting_4": "Template column"
+"setting_5": "Language"
+"setting_6": "Language manage"
+"setting_7": "Security"
+"setting_8": "Email admin"
+"setting_9": "Active"
+"setting_10": "Maintenance roles"
+"setting_11": "Https"
+"setting_12": "Registration user confirm by admin"
+"setting_13": "Login attempt time (minuts)"
+"setting_14": "Login attempt count"
+"setting_15": "Captcha"
+"setting_16": "Paypal"
+"setting_17": "PayPal sandbox"
+"setting_18": "PayPal business"
+"setting_19": "PayPal currency code"
+"setting_20": "PayPal credit amount"
+"setting_21": "Payment"
+"setting_22": "Credit"
+"setting_23": "Page date"
+"setting_24": "Page comment"
+"setting_25": "Page comment active"
 
 # user_creation.html.twig
 "user_creation_1": "User creation form"
@@ -579,22 +599,21 @@ date.time: H:i:s
 "user_profile_18": "Password"
 "user_profile_19": "Password confirm"
 "user_profile_20": "Not locked"
+"user_profile_21": "Credit"
 
-# users_selection.html.twig
-"users_selection_1": "Users selection form"
-"users_selection_2": "Users"
-
-# users_selection_desktop.html.twig
-"users_selection_desktop_1": "Id"
-"users_selection_desktop_2": "Select"
-"users_selection_desktop_3": "Role"
-"users_selection_desktop_4": "Username"
-"users_selection_desktop_5": "Name"
-"users_selection_desktop_6": "Surname"
-"users_selection_desktop_7": "Email"
-"users_selection_desktop_8": "Company name"
-"users_selection_desktop_9": "Not locked"
-"users_selection_desktop_10": "Remove"
+# user_selection.html.twig
+"user_selection_1": "Users selection form"
+"user_selection_2": "Id"
+"user_selection_3": "Select"
+"user_selection_4": "Role"
+"user_selection_5": "Username"
+"user_selection_6": "Name"
+"user_selection_7": "Surname"
+"user_selection_8": "Email"
+"user_selection_9": "Company name"
+"user_selection_10": "Not locked"
+"user_selection_11": "Remove"
+"user_selection_12": "Users"
 
 # ---
 # Views / Render / Module
@@ -611,6 +630,12 @@ date.time: H:i:s
 "authentication_9": "Login"
 "authentication_10": "Registration"
 "authentication_11": "Forgot password?"
+
+# page_view.html.twig
+"page_view_1": "Created by: "
+"page_view_2": "Creation: "
+"page_view_3": "Modified By: "
+"page_view_4": "Modification: "
 
 # ---
 # Views / Render / Static

@@ -2,10 +2,12 @@
 namespace ReinventSoftware\UebusaitoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="modules", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="ReinventSoftware\UebusaitoBundle\Entity\Repository\ModuleRepository")
+ * @UniqueEntity(fields={"name"}, groups={"module_creation", "module_profile"})
  */
 class Module {
     /**
@@ -18,40 +20,40 @@ class Module {
     /**
      * @ORM\Column(name="position", type="string", columnDefinition="varchar(6) NOT NULL DEFAULT 'center'")
      */
-    private $position;
+    private $position = "";
     
     /**
      * @ORM\Column(name="position_tmp", type="string", nullable=true, columnDefinition="varchar(6)")
      */
-    private $positionTmp;
+    private $positionTmp = null;
     
     /**
      * @ORM\Column(name="position_in_column", type="integer", nullable=true, columnDefinition="int(11)")
      */
-    private $positionInColumn;
+    private $positionInColumn = null;
     
     // #
-    private $sort;
+    private $sort = null;
     
     /**
      * @ORM\Column(name="name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $name;
+    private $name = "";
     
     /**
      * @ORM\Column(name="label", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $label;
+    private $label = null;
     
     /**
      * @ORM\Column(name="file_name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $fileName;
+    private $fileName = "";
     
     /**
-     * @ORM\Column(name="active", type="boolean", nullable=true, columnDefinition="tinyint(1)")
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
-    private $active;
+    private $active = false;
 
     // Properties
     public function setPosition($value) {

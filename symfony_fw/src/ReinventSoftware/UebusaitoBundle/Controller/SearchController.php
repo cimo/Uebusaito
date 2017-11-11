@@ -130,15 +130,15 @@ class SearchController extends Controller {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $pageRows = $this->query->selectAllPagesDatabase($this->urlLocale, $this->urlExtra);
+        $pageRows = $this->query->selectAllPageDatabase($this->urlLocale, $this->urlExtra);
         
         $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "searchRender", true, true);
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['list']);
         
-        $this->response['values']['countResults'] = count($tableAndPagination['list']);
+        $this->response['values']['count'] = count($tableAndPagination['list']);
         
         if ($this->tableAndPagination->checkPost() == true) {
             $render = $this->renderView("@UebusaitoBundleViews/render/search.html.twig", Array(
@@ -169,7 +169,7 @@ class SearchController extends Controller {
     }
     
     // Functions private
-    private function createHtmlList($tableResult) {
+    private function createListHtml($tableResult) {
         $listHtml = "";
         
         foreach ($tableResult as $key => $value) {
@@ -183,7 +183,9 @@ class SearchController extends Controller {
                 else
                     $listHtml .= "<p class=\"argument\">{$argumentText}</p>";
             
-                $listHtml .= "<i class=\"fa fa-paper-plane-o\"></i> <a href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/{$value['id']}\">{$this->utility->getTranslator()->trans("searchController_2")}</a>
+                $listHtml .= "<i class=\"fa fa-paper-plane-o\"></i> <a href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/{$value['id']}\">
+                    {$this->utility->getTranslator()->trans("searchController_2")}
+                </a>
             </div>";
         }
         

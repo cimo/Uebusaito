@@ -15,7 +15,7 @@ use ReinventSoftware\UebusaitoBundle\Classes\Upload;
 
 use ReinventSoftware\UebusaitoBundle\Form\UserFormType;
 use ReinventSoftware\UebusaitoBundle\Form\PasswordFormType;
-use ReinventSoftware\UebusaitoBundle\Form\CreditsFormType;
+use ReinventSoftware\UebusaitoBundle\Form\CreditFormType;
 
 class ProfileController extends Controller {
     // Vars
@@ -64,6 +64,8 @@ class ProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
+        
         // Logic
         $usernameOld = $this->getUser()->getUsername();
         
@@ -73,20 +75,16 @@ class ProfileController extends Controller {
             'validation_groups' => Array('profile')
         ));
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
-        
-        if ($chekRoleLevel == false)
+        if ($this->getUser()->getId() > 1)
             $form->remove("username");
         
-        $form->remove("roleId");
+        $form->remove("roleUserId");
         $form->remove("password");
         $form->remove("notLocked");
         
         $form->handleRequest($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
-        
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             if ($form->isValid() == true) {
                 if ($form->has("username") == true) {
                     if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld") == true)
@@ -111,7 +109,6 @@ class ProfileController extends Controller {
                     
                     $message = $this->utility->getTranslator()->trans("profileController_1");
                     
-                    $_SESSION['user_activity_count'] = 1;
                     $_SESSION['user_activity'] = $message;
                     
                     $this->response['messages']['info'] = $message;
@@ -170,7 +167,7 @@ class ProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
         
         // Logic
         $form = $this->createForm(PasswordFormType::class, null, Array(
@@ -178,7 +175,7 @@ class ProfileController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             if ($form->isValid() == true) {
                 $messagePassword = $this->uebusaitoUtility->assigUserPassword("withOld", $this->getUser(), $form);
 
@@ -216,15 +213,15 @@ class ProfileController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_profile_credits",
-    *   path = "/cp_profile_credits/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_profile_credit",
+    *   path = "/cp_profile_credit/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/profile_credits.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/profile_credit.html.twig")
     */
-    public function creditsAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function creditAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -242,20 +239,20 @@ class ProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_USER"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
         
         // Logic
         $settingRow = $this->query->selectSettingDatabase();
         
-        $form = $this->createForm(CreditsFormType::class, null, Array(
-            'validation_groups' => Array('profile_credits')
+        $form = $this->createForm(CreditFormType::class, null, Array(
+            'validation_groups' => Array('profile_credit')
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['currentCredits'] = $this->getUser() != null ? $this->getUser()->getCredits() : 0;
+        $this->response['values']['currentCredit'] = $this->getUser() != null ? $this->getUser()->getCredit() : 0;
         $this->response['values']['payPalSandbox'] = $settingRow['payPal_sandbox'];
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             if ($form->isValid() == true)
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_6");
             else {
@@ -282,14 +279,14 @@ class ProfileController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_profile_credits_payPal",
-    *   path = "/cp_profile_credits_payPal/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_profile_credit_payPal",
+    *   path = "/cp_profile_credit_payPal/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
     */
-    public function creditsPayPalAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function creditPayPalAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;

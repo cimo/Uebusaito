@@ -66,10 +66,11 @@ class AuthenticationController extends Controller {
         $this->response['module']['label'] = $moduleRow['label'];
         
         if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-            $this->uebusaitoUtility->assignUserRole($this->getUser());
+            $this->uebusaitoUtility->assignRoleUserLevel($this->getUser());
 
             $this->response['values']['user'] = $this->getUser();
-            $this->response['values']['roleLevel'] = $this->query->selectUserRoleLevelDatabase($this->getUser()->getRoleId(), true);
+            $this->response['values']['dateLastLogin'] = $this->utility->dateFormat($this->getUser()->getDateLastLogin());
+            $this->response['values']['roleUserRow'] = $this->query->selectRoleUserDatabase($this->getUser()->getRoleUserId(), true);
 
             return Array(
                 'urlLocale' => $this->urlLocale,

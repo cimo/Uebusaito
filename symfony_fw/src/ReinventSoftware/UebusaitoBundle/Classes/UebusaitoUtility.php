@@ -24,7 +24,7 @@ class UebusaitoUtility {
         $this->query = $this->utility->getQuery();
     }
     
-    public function configureUserParameters($user) {
+    public function configureUserParameter($user) {
         $query = $this->utility->getConnection()->prepare("SELECT id FROM users
                                                             LIMIT 1");
         
@@ -33,22 +33,20 @@ class UebusaitoUtility {
         $rowsCount = $query->rowCount();
         
         if ($rowsCount == 0) {
-            $user->setRoleId("1,2,");
+            $user->setRoleUserId("1,2,");
             $user->setNotLocked(1);
         }
         else {
-            $user->setRoleId("1,");
+            $user->setRoleUserId("1,");
             $user->setNotLocked(0);
         }
-        
-        $user->setCredits(0);
     }
     
-    public function assignUserRole($user) {
+    public function assignRoleUserLevel($user) {
         if ($user != null) {
-            $roleLevel = $this->query->selectUserRoleLevelDatabase($user->getRoleId());
+            $row = $this->query->selectRoleUserDatabase($user->getRoleUserId());
             
-            foreach($roleLevel as $key => $value) {
+            foreach($row as $key => $value) {
                 $user->setRoles(Array(
                     $value
                 ));
@@ -82,10 +80,10 @@ class UebusaitoUtility {
         return "ok";
     }
     
-    public function createHtmlPages($urlLocale, $selectId) {
-        $rows = $this->query->selectAllPagesDatabase($urlLocale);
+    public function createPageHtml($urlLocale, $selectId) {
+        $rows = $this->query->selectAllPageDatabase($urlLocale);
         
-        $pagesList = $this->createPagesList($rows, true);
+        $pagesList = $this->createPageList($rows, true);
         
         $html = "<p class=\"margin_clear\">" . $this->utility->getTranslator()->trans("class_uebusaitoUtility_4") . "</p>
         <select id=\"$selectId\">
@@ -97,8 +95,8 @@ class UebusaitoUtility {
         return $html;
     }
     
-    public function createHtmlRoles($selectId, $isRequired = false) {
-        $rows = $this->query->selectAllUserRolesDatabase();
+    public function createRoleUserHtml($selectId, $isRequired = false) {
+        $rows = $this->query->selectAllRoleUserDatabase();
         
         $required = $isRequired == true ? "required=\"required\"" : "";
         
@@ -111,8 +109,8 @@ class UebusaitoUtility {
         return $html;
     }
     
-    public function createPagesList($pagesRows, $onlyMenuName, $pagination = null) {
-        $pagesListHierarchy = $this->createPagesListHierarchy($pagesRows, $pagination);
+    public function createPageList($pagesRows, $onlyMenuName, $pagination = null) {
+        $pagesListHierarchy = $this->createPageListHierarchy($pagesRows, $pagination);
         
         if ($onlyMenuName == true) {
             $tag = "";
@@ -120,7 +118,7 @@ class UebusaitoUtility {
             $elements = Array();
             $count = 0;
 
-            $pagesListOnlyMenuName = $this->createPagesListOnlyMenuName($pagesListHierarchy, $tag, $parentId, $elements, $count);
+            $pagesListOnlyMenuName = $this->createPageListOnlyMenuName($pagesListHierarchy, $tag, $parentId, $elements, $count);
             
             return $pagesListOnlyMenuName;
         }
@@ -128,7 +126,7 @@ class UebusaitoUtility {
         return $pagesListHierarchy;
     }
     
-    public function createTemplatesList() {
+    public function createTemplateList() {
         $templatesPath = "{$this->utility->getPathSrcBundle()}/Resources/public/images/templates";
         
         $scanDirElements = scandir($templatesPath);
@@ -155,9 +153,9 @@ class UebusaitoUtility {
     }
     
     public function checkAttemptLogin($type, $userValue, $settingRow) {
-        $userRow = $this->query->selectUserDatabase($userValue);
+        $row = $this->query->selectUserDatabase($userValue);
         
-        $dateTimeCurrentLogin = new \DateTime($userRow['date_current_login']);
+        $dateTimeCurrentLogin = new \DateTime($row['date_current_login']);
         $dateTimeCurrent = new \DateTime();
         
         $interval = intval($dateTimeCurrentLogin->diff($dateTimeCurrent)->format("%i"));
@@ -167,12 +165,12 @@ class UebusaitoUtility {
             $total = 0;
         
         $dateCurrent = date("Y-m-d H:i:s");
-        $dateLastLogin = strrpos($userRow['date_last_login'], "0000-") === 0 ? $dateCurrent : $userRow['date_current_login'];
+        $dateLastLogin = strpos($row['date_last_login'], "0000") !== false ? $dateCurrent : $row['date_current_login'];
         
         $result = Array("", "");
         
-        if (isset($userRow['id']) == true && $settingRow['login_attempt_time'] > 0) {
-            $count = $userRow['attempt_login'] + 1;
+        if (isset($row['id']) == true && $settingRow['login_attempt_time'] > 0) {
+            $count = $row['attempt_login'] + 1;
             
             $query = $this->utility->getConnection()->prepare("UPDATE users
                                                                 SET date_current_login = :dateCurrentLogin,
@@ -193,7 +191,7 @@ class UebusaitoUtility {
                     $query->bindValue(":dateLastLogin", $dateLastLogin);
                     $query->bindValue(":ip", $this->utility->clientIp());
                     $query->bindValue(":attemptLogin", 0);
-                    $query->bindValue(":id", $userRow['id']);
+                    $query->bindValue(":id", $row['id']);
 
                     $query->execute();
                 }
@@ -208,10 +206,10 @@ class UebusaitoUtility {
                         $count = 1;
                     
                     $query->bindValue(":dateCurrentLogin", $dateCurrent);
-                    $query->bindValue(":dateLastLogin", $userRow['date_last_login']);
+                    $query->bindValue(":dateLastLogin", $row['date_last_login']);
                     $query->bindValue(":ip", $this->utility->clientIp());
                     $query->bindValue(":attemptLogin", $count);
-                    $query->bindValue(":id", $userRow['id']);
+                    $query->bindValue(":id", $row['id']);
                     
                     $query->execute();
                     
@@ -228,21 +226,21 @@ class UebusaitoUtility {
     
     public function checkLanguage($request) {
         if ($request->request->get('form_language')['codeText'] != null)
-            $_SESSION['formLanguageCodeText'] = $request->request->get('form_language')['codeText'];
+            $_SESSION['form_language_codeText'] = $request->request->get('form_language')['codeText'];
         
-        if (isset($_SESSION['formLanguageCodeText']) === false) {
-            $rows = $this->query->selectSettingDatabase();
+        if (isset($_SESSION['form_language_codeText']) === false) {
+            $row = $this->query->selectSettingDatabase();
             
-            $_SESSION['formLanguageCodeText'] = $rows['language'];
+            $_SESSION['form_language_codeText'] = $row['language'];
         }
         
-        $request->setLocale($_SESSION['formLanguageCodeText']);
+        $request->setLocale($_SESSION['form_language_codeText']);
         
-        return $_SESSION['formLanguageCodeText'];
+        return $_SESSION['form_language_codeText'];
     }
     
-    public function checkRoleLevel($roleName, $userRoleId) {
-        $row = $this->query->selectUserRoleLevelDatabase($userRoleId);
+    public function checkRoleUser($roleName, $roleId) {
+        $row = $this->query->selectRoleUserDatabase($roleId);
         
         foreach ($roleName as $key => $value) {
             if (in_array($value, $row) == true) {
@@ -255,14 +253,14 @@ class UebusaitoUtility {
         return false;
     }
     
-    public function checkInRoles($roleIdA, $roleIdB) {
-        $roleIdExplodeA = explode(",", $roleIdA);
-        array_pop($roleIdExplodeA);
+    public function checkInRoleUser($roleIdFirst, $roleIdSecond) {
+        $roleIdFirstExplode = explode(",", $roleIdFirst);
+        array_pop($roleIdFirstExplode);
 
-        $roleIdExplodeB =  explode(",", $roleIdB);
-        array_pop($roleIdExplodeB);
+        $roleIdSecondExplode =  explode(",", $roleIdSecond);
+        array_pop($roleIdSecondExplode);
         
-        if ($this->utility->valueInSubArray($roleIdExplodeA, $roleIdExplodeB) == true)
+        if ($this->utility->valueInSubArray($roleIdFirstExplode, $roleIdSecondExplode) == true)
             return true;
         
         return false;
@@ -276,7 +274,7 @@ class UebusaitoUtility {
             return $this->utility->getPasswordEncoder()->encodePassword($user, $form->get("password")->getData());
     }
     
-    private function createPagesListHierarchy($pagesRows, $pagination) {
+    private function createPageListHierarchy($pagesRows, $pagination) {
         $elements = array_slice($pagesRows, $pagination['offset'], $pagination['show']);
         
         $nodes = Array();
@@ -301,7 +299,7 @@ class UebusaitoUtility {
         return $tree;
     }
     
-    private function createPagesListOnlyMenuName($pagesListHierarchy, &$tag, &$parentId, &$elements, &$count) {
+    private function createPageListOnlyMenuName($pagesListHierarchy, &$tag, &$parentId, &$elements, &$count) {
         foreach ($pagesListHierarchy as $key => $value) {
             if ($value['parent'] == null) {
                 $count = 0;
@@ -327,7 +325,7 @@ class UebusaitoUtility {
             $elements[$value['id']] = "|$tag| " . $value['alias'];
             
             if (count($value['children']) > 0)
-                $this->createPagesListOnlyMenuName($value['children'], $tag, $parentId, $elements, $count);
+                $this->createPageListOnlyMenuName($value['children'], $tag, $parentId, $elements, $count);
         }
         
         return $elements;

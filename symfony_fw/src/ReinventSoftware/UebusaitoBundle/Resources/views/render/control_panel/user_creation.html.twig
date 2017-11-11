@@ -3,15 +3,15 @@
 <div class="row">
     <div class="col-md-6">
         <h3 class="form_title">{% trans %}user_creation_1{% endtrans %}</h3>
-        <form id="form_cp_user_creation" action="{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="cp_user_creation_form" action="{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {% if is_granted("ROLE_ADMIN") == true %}
-                <div id="form_user_roleId_wordTag_container" class="form-group">
-                    {{form_label(form.roleId, "user_creation_2")}}
-                    {{form_errors(form.roleId)}}
-                    {{form_widget(form.roleId)}}
+                <div id="user_roleUserId_wordTag_container" class="form-group">
+                    {{form_label(form.roleUserId, "user_creation_2")}}
+                    {{form_errors(form.roleUserId)}}
+                    {{form_widget(form.roleUserId)}}
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                        {{response.values.rolesSelect|raw}}
+                        {{response.values.roleUserHtml|raw}}
                     </div>
                 </div>
             {% endif %}

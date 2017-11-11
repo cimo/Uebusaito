@@ -34,11 +34,12 @@ class PageFormType extends AbstractType {
                 'alias' => "",
                 'title' => "",
                 'argument' => "",
-                'role_id' => "1,2,",
+                'role_user_id' => "1,2,",
                 'protected' => "0",
                 'show_in_menu' => "1",
                 'id' => "0",
                 'menu_name' => "-",
+                'comment' => "1",
                 'only_link' => "0",
                 'link' => "-"
             );
@@ -48,11 +49,12 @@ class PageFormType extends AbstractType {
                 'alias' => $options['data']->getAlias(),
                 'title' => $options['pageRow']['title'],
                 'argument' => $options['pageRow']['argument'],
-                'role_id' => $options['data']->getRoleId(),
+                'role_user_id' => $options['data']->getRoleUserId(),
                 'protected' => $options['data']->getProtected(),
                 'show_in_menu' => $options['data']->getShowInMenu(),
                 'id' => $options['data']->getId(),
                 'menu_name' => $options['pageRow']['menu_name'],
+                'comment' => $options['data']->getComment(),
                 'only_link' => $options['data']->getOnlyLink(),
                 'link' => $options['data']->getLink()
             );
@@ -82,9 +84,9 @@ class PageFormType extends AbstractType {
             'required' => false,
             'data' => html_entity_decode($values['argument'], ENT_QUOTES, "utf-8")
         ))
-        ->add("roleId", TextType::class, Array(
+        ->add("roleUserId", TextType::class, Array(
             'required' => true,
-            'data' => $values['role_id']
+            'data' => $values['role_user_id']
         ))
         ->add("protected", ChoiceType::class, Array(
             'required' => true,
@@ -114,6 +116,14 @@ class PageFormType extends AbstractType {
         ->add("menuName", TextType::class, Array(
             'required' => true,
             'data' => $values['menu_name']
+        ))
+        ->add("comment", ChoiceType::class, Array(
+            'required' => true,
+            'data' => $values['comment'],
+            'choices' => Array(
+                "pageFormType_2" => "0",
+                "pageFormType_3" => "1"
+            )
         ))
         ->add("onlyLink", ChoiceType::class, Array(
             'required' => true,

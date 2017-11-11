@@ -56,6 +56,10 @@ class PageViewController extends Controller {
         $this->response['values']['controllerAction'] = null;
         $this->response['values']['title'] = $this->utility->getTranslator()->trans("pageViewController_1");
         $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_2");
+        $this->response['values']['userCreation'] = "-";
+        $this->response['values']['dateCreation'] = "-";
+        $this->response['values']['userModification'] = "-";
+        $this->response['values']['dateModification'] = "-";
         
         $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
         
@@ -63,6 +67,10 @@ class PageViewController extends Controller {
             $this->response['values']['controllerAction'] = $pageRow['controller_action'];
             $this->response['values']['title'] = $pageRow['title'];
             $this->response['values']['argument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "utf-8");
+            $this->response['values']['userCreation'] = $pageRow['user_creation'];
+            $this->response['values']['dateCreation'] = strpos($pageRow['date_creation'], "0000") !== false ? "" : $this->utility->dateFormat($pageRow['date_creation']);
+            $this->response['values']['userModification'] = $pageRow['user_modification'];
+            $this->response['values']['dateModification'] = strpos($pageRow['date_modification'], "0000") !== false ? "" : $this->utility->dateFormat($pageRow['date_modification']);
             
             if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
                 if ($pageRow['protected'] == false && ($pageRow['id'] == 3 || $pageRow['id'] == 4)) {
@@ -78,10 +86,10 @@ class PageViewController extends Controller {
                     );
                 }
                 else if ($pageRow['protected'] == true) {
-                    $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
-                    $checkInRoles = $this->uebusaitoUtility->checkInRoles($pageRow['role_id'], $this->getUser()->getRoleId());
+                    $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+                    $checkInRoleUser = $this->uebusaitoUtility->checkInRoleUser($pageRow['role_user_id'], $this->getUser()->getRoleUserId());
                             
-                    if ($chekRoleLevel == false && $checkInRoles == false) {
+                    if ($checkRoleUser == false && $checkInRoleUser == false) {
                         // Page not available for role
                         $this->response['values']['controllerAction'] = null;
                         $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_4");
@@ -102,6 +110,15 @@ class PageViewController extends Controller {
                             'response' => $this->response
                         );
                     }
+                }
+                else {
+                    // Page normal
+                    return Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $pageRow['id'],
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    );
                 }
             }
             else {

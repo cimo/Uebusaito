@@ -11,7 +11,7 @@ function Search() {
     // Functions public
     self.init = function() {
         var tableAndPagination = new TableAndPagination();
-        tableAndPagination.init(window.url.searchRender, "#search_render", false);
+        tableAndPagination.init(window.url.searchRender, "#search_result", false);
         tableAndPagination.search(true);
         tableAndPagination.pagination(true);
         
@@ -40,7 +40,7 @@ function Search() {
             );
         });
         
-        $(".form_search_module .button_search").on("click", "", function() {
+        $(".search_module_form .button_search").on("click", "", function() {
             $(this).parents(".form_search_module").submit();
         });
     };

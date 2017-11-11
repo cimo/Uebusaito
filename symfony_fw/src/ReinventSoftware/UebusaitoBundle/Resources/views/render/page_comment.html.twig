@@ -1,0 +1,55 @@
+{% if (response.values.pageRow['comment'] == true and settingRow['page_comment'] == true) %}
+    {% if (response.values.username is defined) %}
+        {% if (settingRow['page_comment_active'] == true) %}
+            {% form_theme form "bootstrap_3_layout.html.twig" %}
+
+            <div id="page_commnet_anchor" class="page_comment">
+                <div class="row">
+                    <div class="col-md-2 horizontal_center">
+                        {% if (file_exists(urlRoot ~ "/bundles/uebusaito/files/" ~ response.values.username ~ "/Avatar.jpg") == true) %}
+                            <img src="{{asset("bundles/uebusaito/files/" ~ response.values.username ~ "/Avatar.jpg")}}"/>
+                        {% else %}
+                            <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/no_avatar.jpg")}}"/>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-10">
+                        <p><b>{% trans %}page_comment_1{% endtrans %}</b>{{response.values.username}}</p>
+                        <p class="username_reply"><b>{% trans %}page_comment_2{% endtrans %}</b><span></span></p>
+                        <div class="message_reply">
+                            <p><b>{% trans %}page_comment_3{% endtrans %}</b></p>
+                            <p class="argument"></p>
+                        </div>
+                        <form id="page_comment_form" action="{{path("page_comment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                            {{form_row(form.argument, {'label': "page_comment_3"})}}
+
+                            {{-include("@UebusaitoBundleViews/include/captcha.html.twig")-}}
+
+                            {{form_widget(form._token)}}
+
+                            <input class="button_custom" type="submit" value="{% trans %}button_4{% endtrans %}"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>{% trans %}page_comment_4{% endtrans %}</p>
+        {% endif %}
+    {% endif %}
+    
+    {% if (response.values.listHtml is defined and response.values.listHtml != "") %}
+        <div id="page_comment_result" class="page_comment no_border">
+            {{-include("@UebusaitoBundleViews/include/table_and_pagination.html.twig")-}}
+
+            <div class="container_list">
+                {{response.values.listHtml|raw}}
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+<script type="text/javascript">
+    var textPageComment = {
+        'label_1': "{{"page_comment_5"|trans}}",
+        'label_2': "{{"page_comment_6"|trans}}"
+    };
+</script>

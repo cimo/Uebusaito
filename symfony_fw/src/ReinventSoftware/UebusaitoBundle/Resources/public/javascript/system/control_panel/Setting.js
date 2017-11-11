@@ -14,20 +14,22 @@ function ControlPanelSetting() {
         
         languageManage();
         
-        utility.wordTag("#form_settings_roleId");
+        utility.wordTag("#form_setting_roleUserId");
         
-        $("#form_settings_payPalCurrencyCode").on("keyup", "", function() {
+        $("#form_setting_payPalCurrencyCode").on("keyup", "", function() {
             $(this).val($(this).val().toUpperCase());
         });
         
-        $("#form_cp_settings_modify").on("submit", "", function(event) {
+        $("#cp_setting_save_form").on("submit", "", function(event) {
             event.preventDefault();
             
-            var propNameOld = $("#form_settings_languageManage").prop("name");
-            $("#form_settings_languageManage").removeAttr("name");
+            var propNameLanguageManage = $("#form_setting_languageManage").prop("name");
+            $("#form_setting_languageManage").removeAttr("name");
+            var propNameLanguageManageDate = $("#form_setting_languageManageDate").prop("name");
+            $("#form_setting_languageManageDate").removeAttr("name");
             
-            $("#settings_language_manage_minus").removeClass("button_icon_inline");
-            $("#settings_language_manage_container").hide();
+            $("#setting_language_manage_minus").removeClass("button_icon_inline");
+            $("#setting_language_manage_erase").click();
             
             ajax.send(
                 true,
@@ -41,7 +43,8 @@ function ControlPanelSetting() {
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
-                    $("#form_settings_languageManage").prop("name", propNameOld);
+                    $("#form_setting_languageManage").prop("name", propNameLanguageManage);
+                    $("#form_setting_languageManageDate").prop("name", propNameLanguageManageDate);
                 },
                 null,
                 null
@@ -53,22 +56,44 @@ function ControlPanelSetting() {
     function languageManage() {
         var index = 1;
         var code = "";
+        var eventAjax = "";
         
-        $("#form_settings_language").on("change", "", function() {
+        $("#form_setting_language").on("change", "", function() {
+            $("#setting_language_manage_erase").click();
+            
             index = $(this).prop("selectedIndex");
-            code = $("#form_settings_language").find("option").eq(index).val();
+            code = $("#form_setting_language").find("option").eq(index).val();
             
             if (index > 2)
-                $("#settings_language_manage_minus").addClass("button_icon_inline");
+                $("#setting_language_manage_minus").show();
             else
-                $("#settings_language_manage_minus").removeClass("button_icon_inline");
+                $("#setting_language_manage_minus").hide();
         });
         
-        $("#settings_language_manage_plus").on("click", "", function() {
-            $("#settings_language_manage_container").show();
+        $("#setting_language_manage_modify").on("click", "", function() {
+            eventAjax = "modifyLanguage";
+            
+            $("#setting_language_manage_container").show();
+            
+            var valueCodeSelected = $("#form_setting_language").find(":selected").val();
+            var valueDateSelected = $("#form_setting_language").find(":selected").text().replace(valueCodeSelected + " | ", "");
+            
+            $("#form_setting_languageManage").prop("disabled", true);
+            $("#form_setting_languageManage").val(valueCodeSelected);
+            $("#form_setting_languageManageDate").val(valueDateSelected);
         });
         
-        $("#settings_language_manage_minus").on("click", "", function() {
+        $("#setting_language_manage_plus").on("click", "", function() {
+            eventAjax = "createLanguage";
+            
+            $("#setting_language_manage_container").show();
+            
+            $("#form_setting_languageManage").prop("disabled", false);
+            $("#form_setting_languageManage").val("");
+            $("#form_setting_languageManageDate").val("");
+        });
+        
+        $("#setting_language_manage_minus").on("click", "", function() {
             popupEasy.create(
                 window.text.warning,
                 "<p>" + window.textSetting.label_1 + "</p>",
@@ -78,7 +103,7 @@ function ControlPanelSetting() {
                     ajax.send(
                         true,
                         true,
-                        window.url.cpSettingsLanguageManage,
+                        window.url.cpSettingLanguageManage,
                         "post",
                         {
                             'event': "deleteLanguage",
@@ -92,10 +117,10 @@ function ControlPanelSetting() {
                             ajax.reply(xhr, "");
                             
                             if (xhr.response.messages.success !== undefined) {
-                                $("#settings_language_manage_minus").removeClass("button_icon_inline");
-                                $("#settings_language_manage_container").hide();
+                                $("#setting_language_manage_minus").removeClass("button_icon_inline");
+                                $("#setting_language_manage_erase").click();
                                 
-                                $("#form_settings_language").find("option").eq(index).remove();
+                                $("#form_setting_language").find("option").eq(index).remove();
                                 $("#form_language_codeText").find("option").eq(index).remove();
                             }
                         },
@@ -109,17 +134,19 @@ function ControlPanelSetting() {
             );
         });
         
-        $("#settings_language_manage_confirm").on("click", "", function() {
-            var code = $("#form_settings_languageManage").val();
+        $("#setting_language_manage_confirm").on("click", "", function() {
+            var code = $("#form_setting_languageManage").val();
+            var date = $("#form_setting_languageManageDate").val();
             
             ajax.send(
                 true,
                 true,
-                window.url.cpSettingsLanguageManage,
+                window.url.cpSettingLanguageManage,
                 "post",
                 {
-                    'event': "createLanguage",
+                    'event': eventAjax,
                     'code': code,
+                    'date': date,
                     'token': window.session.token
                 },
                 "json",
@@ -129,10 +156,10 @@ function ControlPanelSetting() {
                     ajax.reply(xhr, "");
                     
                     if (xhr.response.messages.success !== undefined) {
-                        $("#form_settings_language").append("<option value=\"" + code + "\">" + code + "</option>");
+                        $("#form_setting_language").append("<option value=\"" + code + "\">" + code + "</option>");
                         $("#form_language_codeText").append("<option value=\"" + code + "\">" + code + "</option>");
                         
-                        $("#settings_language_manage_erase").click();
+                        $("#setting_language_manage_erase").click();
                     }
                 },
                 null,
@@ -140,9 +167,10 @@ function ControlPanelSetting() {
             );
         });
         
-        $("#settings_language_manage_erase").on("click", "", function() {
-            $("#form_settings_languageManage").val("");
-            $("#settings_language_manage_container").hide();
+        $("#setting_language_manage_erase").on("click", "", function() {
+            $("#form_setting_languageManage").val("");
+            $("#form_setting_languageManageDate").val("");
+            $("#setting_language_manage_container").hide();
         });
     }
 }

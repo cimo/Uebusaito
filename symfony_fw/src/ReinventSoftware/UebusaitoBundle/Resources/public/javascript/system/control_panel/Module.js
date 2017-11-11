@@ -21,7 +21,7 @@ function ControlPanelModule() {
         
         positionInColumn(true);
         
-        $("#form_cp_module_creation").on("submit", "", function(event) {
+        $("#cp_module_creation_form").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -43,20 +43,20 @@ function ControlPanelModule() {
     };
     
     self.changeView = function() {
-        $("#modules_drag_switch").bootstrapSwitch("state", false, true);
-        utility.sortableDragModules(false, "#form_modules_drag_sort");
+        $("#module_drag_switch").bootstrapSwitch("state", false, true);
+        utility.sortableDragModules(false, "#form_module_drag_sort");
 
         if (utility.checkWidth() === "desktop") {
             if (selectionSended === true) {
-                selectionId = $("#cp_modules_selection_mobile").find("select option:selected").val();
+                selectionId = $("#cp_module_selection_mobile").find("select option:selected").val();
 
                 selectionSended = false;
             }
 
             if (selectionId >= 0) {
-                $("#cp_modules_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+                $("#cp_module_selection_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
 
-                var idColumns = $("#cp_modules_selection_desktop_result").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+                var idColumns = $("#cp_module_selection_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
                 $.each(idColumns, function(key, value) {
                     if ($(value).text().trim() === String(selectionId))
@@ -66,28 +66,28 @@ function ControlPanelModule() {
         }
         else {
             if (selectionSended === true) {
-                selectionId = $("#cp_modules_selection_desktop_result").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+                selectionId = $("#cp_module_selection_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
 
                 selectionSended = false;
             }
 
             if (selectionId > 0)
-                $("#cp_modules_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+                $("#cp_module_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
         }
     };
     
     // Function private
     function sortableDrag() {
-        $("#modules_drag_switch").bootstrapSwitch("state", false);
+        $("#module_drag_switch").bootstrapSwitch("state", false);
         
-        $("#modules_drag_switch").on("switchChange.bootstrapSwitch", "", function(event, state) {
-            utility.sortableDragModules(state, "#form_modules_drag_sort");
+        $("#module_drag_switch").on("switchChange.bootstrapSwitch", "", function(event, state) {
+            utility.sortableDragModules(state, "#form_module_drag_sort");
             
             if (state === false)
-                $("#form_cp_modules_drag").submit();
+                $("#cp_module_drag_form").submit();
         });
         
-        $("#form_cp_modules_drag").on("submit", "", function(event) {
+        $("#cp_module_drag_form").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -111,16 +111,16 @@ function ControlPanelModule() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpModulesSelection, "#cp_modules_selection_desktop_result", true);
+        tableAndPagination.init(window.url.cpModuleSelection, "#cp_module_selection_result_desktop", true);
         tableAndPagination.search(true);
         tableAndPagination.pagination(true);
         tableAndPagination.sort(true);
         
-        $(document).on("click", "#cp_modules_selection_desktop_result .refresh", function() {
+        $(document).on("click", "#cp_module_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
                 false,
-                window.url.cpModulesSelection,
+                window.url.cpModuleSelection,
                 "post",
                 {
                     'event': "refresh",
@@ -139,7 +139,7 @@ function ControlPanelModule() {
             );
         });
         
-        $(document).on("click", "#cp_modules_selection_desktop_result .delete_all", function() {
+        $(document).on("click", "#cp_module_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
                 "<p>" + window.textModule.label_2 + "</p>",
@@ -161,7 +161,7 @@ function ControlPanelModule() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            $.each($("#cp_modules_selection_desktop_result").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_module_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
                             
@@ -177,14 +177,14 @@ function ControlPanelModule() {
             );
         });
         
-        $(document).on("click", "#cp_modules_selection_desktop_result .cp_module_deletion", function() {
+        $(document).on("click", "#cp_module_selection_result_desktop .cp_module_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deletion(id);
         });
         
-        $("#cp_modules_button_selection_desktop").on("click", "", function(event) {
-            var id = $.trim($("#cp_modules_selection_desktop_result").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
+        $("#cp_module_selection_button_desktop").on("click", "", function(event) {
+            var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
@@ -211,7 +211,7 @@ function ControlPanelModule() {
     }
     
     function selectionMobile() {
-        $("#cp_modules_form_selection_mobile").on("submit", "", function(event) {
+        $("#cp_module_selection_form_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -244,7 +244,7 @@ function ControlPanelModule() {
 
             positionInColumn(false);
 
-            $("#form_cp_module_profile").on("submit", "", function(event) {
+            $("#cp_module_profile_form").on("submit", "", function(event) {
                 event.preventDefault();
 
                 ajax.send(
@@ -267,7 +267,7 @@ function ControlPanelModule() {
                 );
             });
 
-            var selected = $("#form_modules_selection_id").find(":selected").val();
+            var selected = $("#form_module_positionInColumn").find(":selected").val();
 
             if ($("#panel_id_" + selected).parent().hasClass("settings_hide") === true) {
                 $("#form_module_position").parents(".form-group").hide();
@@ -319,7 +319,7 @@ function ControlPanelModule() {
                     
                     $("#form_module_positionInColumn").append($("<option selected=\"selected\"></option>").attr("value", optionSelected.val()).text(optionSelected.text()));
                     
-                    utility.selectSortable("#form_module_positionInColumn", null, "#form_module_sort", isCreation);
+                    utility.selectSortable("#form_module_positionInColumn", null, "#module_sort", isCreation);
                 },
                 null,
                 null
@@ -351,12 +351,14 @@ function ControlPanelModule() {
                         ajax.reply(xhr, "");
                         
                         if (xhr.response.messages.success !== undefined) {
-                            $.each($("#cp_modules_selection_desktop_result").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_module_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 if (xhr.response.values.id === $.trim($(value).text()))
                                     $(value).parents("tr").remove();
                             });
+                            
+                            $("#form_module_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
 
-                            $("#form_modules_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+                            $("#form_module_positionInColumn").find("option[value='" + xhr.response.values.id + "']").remove();
 
                             $("#cp_module_selection_result").html("");
                         }

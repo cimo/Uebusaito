@@ -14,9 +14,9 @@ use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
 use ReinventSoftware\UebusaitoBundle\Entity\Module;
 
-use ReinventSoftware\UebusaitoBundle\Form\ModulesDragFormType;
+use ReinventSoftware\UebusaitoBundle\Form\ModuleDragFormType;
 use ReinventSoftware\UebusaitoBundle\Form\ModuleFormType;
-use ReinventSoftware\UebusaitoBundle\Form\ModulesSelectionFormType;
+use ReinventSoftware\UebusaitoBundle\Form\ModuleSelectionFormType;
 
 class ModuleController extends Controller {
     // Vars
@@ -39,13 +39,13 @@ class ModuleController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_modules_drag",
-    *   path = "/cp_modules_drag/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_module_drag",
+    *   path = "/cp_module_drag/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/modules_drag.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/module_drag.html.twig")
     */
     public function dragAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -64,15 +64,15 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $form = $this->createForm(ModulesDragFormType::class, null, Array(
-            'validation_groups' => Array('modules_drag')
+        $form = $this->createForm(ModuleDragFormType::class, null, Array(
+            'validation_groups' => Array('module_drag')
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             if ($form->isValid() == true) {
                 $sortHeaderExplode = explode(",", $form->get("sortHeader")->getData());
                 $sortLeftExplode = explode(",", $form->get("sortLeft")->getData());
@@ -81,22 +81,22 @@ class ModuleController extends Controller {
 
                 if (count($sortHeaderExplode) > 0) {
                     foreach ($sortHeaderExplode as $key => $value)
-                        $this->modulesDatabase("update", $value, $key + 1, "header");
+                        $this->moduleDatabase("update", $value, $key + 1, "header");
                 }
 
                 if (count($sortLeftExplode) > 0) {
                     foreach ($sortLeftExplode as $key => $value)
-                        $this->modulesDatabase("update", $value, $key + 1, "left");
+                        $this->moduleDatabase("update", $value, $key + 1, "left");
                 }
 
                 if (count($sortCenterExplode) > 0) {
                     foreach ($sortCenterExplode as $key => $value)
-                        $this->modulesDatabase("update", $value, $key + 1, "center");
+                        $this->moduleDatabase("update", $value, $key + 1, "center");
                 }
 
                 if (count($sortRightExplode) > 0) {
                     foreach ($sortRightExplode as $key => $value)
-                        $this->modulesDatabase("update", $value, $key + 1, "right");
+                        $this->moduleDatabase("update", $value, $key + 1, "right");
                 }
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_1");
@@ -150,7 +150,7 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $moduleEntity = new Module();
@@ -161,9 +161,9 @@ class ModuleController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             if ($form->isValid() == true) {
-                $form->getData()->setActive(false);
+                $moduleEntity->setActive(false);
 
                 // Insert in database
                 $this->entityManager->persist($moduleEntity);
@@ -197,13 +197,13 @@ class ModuleController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_modules_selection",
-    *   path = "/cp_modules_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_module_selection",
+    *   path = "/cp_module_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/modules_selection.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/module_selection.html.twig")
     */
     public function selectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -224,34 +224,32 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $_SESSION['module_profile_id'] = 0;
         
-        $moduleRows = $this->query->selectAllModulesDatabase();
+        $moduleRows = $this->query->selectAllModuleDatabase();
         
         $tableAndPagination = $this->tableAndPagination->request($moduleRows, 20, "module", true, true);
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['list']);
         
-        $form = $this->createForm(ModulesSelectionFormType::class, null, Array(
-            'validation_groups' => Array('modules_selection'),
+        $form = $this->createForm(ModuleSelectionFormType::class, null, Array(
+            'validation_groups' => Array('module_selection'),
             'choicesId' => array_reverse(array_column($moduleRows, "id", "name"), true)
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($this->utility->checkToken($request) == true) {
-                return $this->ajax->response(Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
-            }
+        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
         }
         
         return Array(
@@ -291,16 +289,16 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             $id = 0;
             
             if (empty($request->get("id")) == false)
                 $id = $request->get("id");
-            else if (empty($request->get("form_modules_selection")['id']) == false)
-                $id = $request->get("form_modules_selection")['id'];
+            else if (empty($request->get("form_module_selection")['id']) == false)
+                $id = $request->get("form_module_selection")['id'];
             
             $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
             
@@ -309,7 +307,7 @@ class ModuleController extends Controller {
                 
                 $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
                     'validation_groups' => Array('module_profile'),
-                    'choicesPositionInColumn' => array_column($this->query->selectAllModulesDatabase(null, $moduleEntity->getPosition()), "id", "name")
+                    'choicesPositionInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
                 ));
                 $form->handleRequest($request);
                 
@@ -363,12 +361,11 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($this->utility->checkToken($request) == true)
-                $this->response['values']['moduleRows'] = array_column($this->query->selectAllModulesDatabase(null, $request->get("position")), "id", "name");
+        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+            $this->response['values']['moduleRows'] = array_column($this->query->selectAllModuleDatabase(null, $request->get("position")), "id", "name");
         }
         
         return $this->ajax->response(Array(
@@ -407,18 +404,18 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($_SESSION['module_profile_id']);
         
         $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
             'validation_groups' => Array('module_profile'),
-            'choicesPositionInColumn' => array_column($this->query->selectAllModulesDatabase(null, $moduleEntity->getPosition()), "id", "name")
+            'choicesPositionInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             if ($form->isValid() == true) {
                 // Update in database
                 $this->entityManager->persist($moduleEntity);
@@ -477,31 +474,29 @@ class ModuleController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+            if ($request->get("event") == "delete") {
                 $id = $request->get("id") == null ? $_SESSION['module_profile_id'] : $request->get("id");
                 
-                $modulesDatabase = $this->modulesDatabase("delete", $id, null, null);
+                $moduleDatabase = $this->moduleDatabase("delete", $id, null, null);
 
-                if ($modulesDatabase == true) {
+                if ($moduleDatabase == true) {
                     $this->response['values']['id'] = $id;
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
                 }
             }
-            else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
-                $modulesDatabase = $this->modulesDatabase("deleteAll", null, null, null);
+            else if ($request->get("event") == "deleteAll") {
+                $moduleDatabase = $this->moduleDatabase("deleteAll", null, null, null);
 
-                if ($modulesDatabase == true)
+                if ($moduleDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
             }
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_11");
-            
-            $this->response['messages']['success'] = "cimo";
             
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
@@ -520,7 +515,7 @@ class ModuleController extends Controller {
     }
     
     // Functions private
-    private function createHtmlList($elements) {
+    private function createListHtml($elements) {
         $listHtml = "";
         
         foreach ($elements as $key => $value) {
@@ -572,7 +567,7 @@ class ModuleController extends Controller {
         }
     }
     
-    private function modulesDatabase($type, $id, $positionInColumn, $position) {
+    private function moduleDatabase($type, $id, $positionInColumn, $position) {
         if ($type == "update") {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
                                                                 SET position = :position,

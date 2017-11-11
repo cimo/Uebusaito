@@ -28,13 +28,13 @@ function ControlPanelPage() {
         
         selectionMobile();
         
-        fieldsVisibility("#form_cp_page_creation");
+        fieldsVisibility("#cp_page_creation_form");
         
         positionInMenu(true);
         
-        utility.wordTag("#form_page_roleId");
+        utility.wordTag("#form_page_roleUserId");
         
-        $("#form_cp_page_creation").on("submit", "", function(event) {
+        $("#cp_page_creation_form").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -60,15 +60,15 @@ function ControlPanelPage() {
 
         if (utility.checkWidth() === "desktop") {
             if (selectionSended === true) {
-                selectionId = $("#cp_pages_selection_mobile").find("select option:selected").val();
+                selectionId = $("#cp_page_selection_form_mobile").find("select option:selected").val();
 
                 selectionSended = false;
             }
 
             if (selectionId >= 0) {
-                $("#cp_pages_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+                $("#cp_page_selection_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
 
-                var idColumns = $("#cp_pages_selection_desktop_result").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+                var idColumns = $("#cp_page_selection_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
                 $.each(idColumns, function(key, value) {
                     if ($(value).text().trim() === String(selectionId))
@@ -78,13 +78,13 @@ function ControlPanelPage() {
         }
         else {
             if (selectionSended === true) {
-                selectionId = $("#cp_pages_selection_desktop_result").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+                selectionId = $("#cp_page_selection_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
 
                 selectionSended = false;
             }
 
             if (selectionId > 0)
-                $("#cp_pages_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+                $("#cp_page_selection_form_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
         }
     };
     
@@ -92,16 +92,16 @@ function ControlPanelPage() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpPagesSelection, "#cp_pages_selection_desktop_result", true);
+        tableAndPagination.init(window.url.cpPageSelection, "#cp_page_selection_result_desktop", true);
         tableAndPagination.search(true);
         tableAndPagination.pagination(true);
         tableAndPagination.sort(true);
         
-        $(document).on("click", "#cp_pages_selection_desktop_result .refresh", function() {
+        $(document).on("click", "#cp_page_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
                 false,
-                window.url.cpPagesSelection,
+                window.url.cpPageSelection,
                 "post",
                 {
                     'event': "refresh",
@@ -120,7 +120,7 @@ function ControlPanelPage() {
             );
         });
         
-        $(document).on("click", "#cp_pages_selection_desktop_result .delete_all", function() {
+        $(document).on("click", "#cp_page_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
                 "<p>" + window.textPage.label_2 + "</p>",
@@ -142,7 +142,7 @@ function ControlPanelPage() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            $.each($("#cp_pages_selection_desktop_result").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_page_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
                             
@@ -158,14 +158,14 @@ function ControlPanelPage() {
             );
         });
         
-        $(document).on("click", "#cp_pages_selection_desktop_result .cp_page_deletion", function() {
+        $(document).on("click", "#cp_page_selection_result_desktop .cp_page_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text().trim());
             
             deletion(id);
         });
         
-        $("#cp_pages_button_selection_desktop").on("click", "", function(event) {
-            var id = $.trim($("#cp_pages_selection_desktop").find(".checkbox_column input:checked").parents("tr").find(".id_column").text().trim());
+        $("#cp_page_selection_button_desktop").on("click", "", function(event) {
+            var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text().trim());
 
             ajax.send(
                 true,
@@ -192,7 +192,7 @@ function ControlPanelPage() {
     }
     
     function selectionMobile() {
-        $("#cp_pages_form_selection_mobile").on("submit", "", function(event) {
+        $("#cp_page_selection_form_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -223,7 +223,7 @@ function ControlPanelPage() {
             
             $("#cp_page_selection_result").html(xhr.response.render);
 
-            fieldsVisibility("#form_cp_page_profile");
+            fieldsVisibility("#cp_page_profile_form");
         
             positionInMenu(false);
 
@@ -231,19 +231,19 @@ function ControlPanelPage() {
 
             utility.selectWithDisabledElement("#form_page_parent", xhr);
 
-            utility.wordTag("#form_page_roleId");
+            utility.wordTag("#form_page_roleUserId");
 
-            wysiwyg.init("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
+            wysiwyg.init("#form_page_argument", $("#cp_page_profile_form").find("input[type='submit']"));
 
-            $("#form_cp_page_profile").find(".form-control").focus(function() {
+            $("#cp_page_profile_form").find(".form-control").focus(function() {
                 profileFocus = true;
             });
 
-            $("#form_cp_page_profile").find("#wysiwyg .editor").focus(function() {
+            $("#cp_page_profile_form").find("#wysiwyg .editor").focus(function() {
                 profileFocus = true;
             });
 
-            $("#form_cp_page_profile").on("submit", "", function(event) {
+            $("#cp_page_profile_form").on("submit", "", function(event) {
                 event.preventDefault();
 
                 ajax.send(
@@ -342,10 +342,10 @@ function ControlPanelPage() {
                     false,
                     null,
                     function(xhr) {
-                        if (xhr.response.values.text !== undefined && xhr.response.values.button !== undefined && xhr.response.values.select !== undefined) {
+                        if (xhr.response.values.text !== undefined && xhr.response.values.button !== undefined && xhr.response.values.pageHtml !== undefined) {
                             popupEasy.create(
                                 window.text.warning,
-                                "<p>" + xhr.response.values.text + xhr.response.values.button + xhr.response.values.select + "</p>",
+                                "<div>" + xhr.response.values.text + xhr.response.values.button + xhr.response.values.pageHtml + "</div>",
                                 null,
                                 null
                             );
@@ -427,13 +427,13 @@ function ControlPanelPage() {
     
     function deleteResponse(xhr) {
         if (xhr.response.messages.success !== undefined) {
-            $.each($("#cp_pages_selection_desktop_result").find("table .id_column"), function(key, value) {
+            $.each($("#cp_page_selection_result_desktop").find("table .id_column"), function(key, value) {
                 if (xhr.response.values.id !== undefined && xhr.response.values.id === $.trim($(value).text()) ||
                         xhr.response.values.removedId !== undefined && jQuery.inArray($.trim($(value).text()), xhr.response.values.removedId) !== -1)
                     $(value).parents("tr").remove();
             });
 
-            $("#form_pages_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+            $("#form_page_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
 
             $("#cp_page_selection_result").html("");
         }

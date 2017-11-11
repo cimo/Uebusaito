@@ -79,7 +79,7 @@ class RegistrationController extends Controller {
                     if ($messagePassword == "ok") {
                         $settingRow = $this->query->selectSettingDatabase();
                         
-                        $this->uebusaitoUtility->configureUserParameters($userEntity);
+                        $this->uebusaitoUtility->configureUserParameter($userEntity);
 
                         $helpCode = $this->utility->generateRandomString(20);
 
@@ -143,7 +143,7 @@ class RegistrationController extends Controller {
             
             $userEntity->setNotLocked(1);
             $userEntity->setHelpCode(null);
-            $userEntity->setCredits(0);
+            $userEntity->setCredit(0);
             
             // Insert in database
             $this->entityManager->persist($userEntity);

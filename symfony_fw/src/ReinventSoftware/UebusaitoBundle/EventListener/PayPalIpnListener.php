@@ -32,7 +32,7 @@ class PayPalIpnListener {
     public function onKernelResponse(FilterResponseEvent $event) {
         $request = $event->getRequest();
         
-        if (strpos($request->getUri(), "cp_profile_credits_payPal") !== false) {
+        if (strpos($request->getUri(), "cp_profile_credit_payPal") !== false) {
             $settingRow = $this->query->selectSettingDatabase();
             
             $payPal = new PayPal(true, false, $settingRow['payPal_sandbox']);
@@ -56,7 +56,7 @@ class PayPalIpnListener {
                         $payment->setAmount($payPalElements['mc_gross']);
                         $payment->setQuantity($payPalElements['quantity']);
 
-                        $this->updateCreditsDatabase($payPalElements);
+                        $this->updateCreditDatabase($payPalElements);
                         
                         // Insert in database
                         $this->entityManager->persist($payment);
@@ -72,17 +72,17 @@ class PayPalIpnListener {
     }
     
     // Functions private
-    private function updateCreditsDatabase($payPalElements) {
+    private function updateCreditDatabase($payPalElements) {
         $userRow = $this->query->selectUserDatabase($payPalElements['custom']);
         
         $id = $userRow['id'];
-        $credits = $userRow['credits'] + $payPalElements['quantity'];
+        $credit = $userRow['credit'] + $payPalElements['quantity'];
         
         $query = $this->utility->getConnection()->prepare("UPDATE users
-                                                            SET credits = :credits
+                                                            SET credit = :credit
                                                             WHERE id = :id");
         
-        $query->bindValue(":credits", $credits);
+        $query->bindValue(":credit", $credit);
         $query->bindValue(":id", $id);
         
         $query->execute();

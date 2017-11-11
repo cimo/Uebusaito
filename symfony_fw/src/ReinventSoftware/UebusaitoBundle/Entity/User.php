@@ -8,8 +8,8 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 /**
  * @ORM\Table(name="users", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="ReinventSoftware\UebusaitoBundle\Entity\Repository\UserRepository")
- * @UniqueEntity(fields={"username"}, groups={"registration"})
- * @UniqueEntity(fields={"email"}, groups={"registration"})
+ * @UniqueEntity(fields={"username"}, groups={"registration", "user_creation", "user_profile"})
+ * @UniqueEntity(fields={"email"}, groups={"registration", "user_creation", "user_profile"})
  */
 class User implements AdvancedUserInterface {
     /**
@@ -20,133 +20,133 @@ class User implements AdvancedUserInterface {
     private $id;
     
     /**
-     * @ORM\Column(name="role_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '1,'")
+     * @ORM\Column(name="role_user_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '1,'")
      */
-    private $roleId;
+    private $roleUserId = "1,";
     
     /**
-     * @ORM\Column(name="username", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     * @ORM\Column(name="username", type="string", columnDefinition="varchar(20) NOT NULL DEFAULT ''")
      */
-    private $username;
+    private $username = "";
     
     /**
      * @ORM\Column(name="name", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $name;
+    private $name = null;
     
     /**
      * @ORM\Column(name="surname", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $surname;
+    private $surname = null;
     
     /**
      * @ORM\Column(name="email", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $email;
+    private $email = "";
     
     /**
      * @ORM\Column(name="telephone", type="string", nullable=true, columnDefinition="varchar(10)")
      */
-    private $telephone;
+    private $telephone = null;
     
     /**
      * @ORM\Column(name="born", type="string", columnDefinition="varchar(10) NOT NULL DEFAULT '0000-00-00'")
      */
-    private $born;
+    private $born = "";
     
     /**
      * @ORM\Column(name="gender", type="string", nullable=true, columnDefinition="varchar(6)")
      */
-    private $gender;
+    private $gender = null;
     
     /**
      * @ORM\Column(name="fiscal_code", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $fiscalCode;
+    private $fiscalCode = null;
     
     /**
      * @ORM\Column(name="company_name", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $companyName;
+    private $companyName = null;
     
     /**
      * @ORM\Column(name="vat", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $vat;
+    private $vat = null;
     
     /**
      * @ORM\Column(name="website", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $website;
+    private $website = null;
     
     /**
      * @ORM\Column(name="state", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $state;
+    private $state = null;
     
     /**
      * @ORM\Column(name="city", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $city;
+    private $city = null;
     
     /**
      * @ORM\Column(name="zip", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $zip;
+    private $zip = null;
     
     /**
      * @ORM\Column(name="address", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $address;
+    private $address = null;
     
     /**
      * @ORM\Column(name="password", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $password;
+    private $password = "";
     
     /**
-     * @ORM\Column(name="credits", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="credit", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '0'")
      */
-    private $credits;
+    private $credit = 0;
     
     /**
      * @ORM\Column(name="not_locked", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
-    private $notLocked;
+    private $notLocked = false;
     
     /**
      * @ORM\Column(name="date_registration", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateRegistration;
+    private $dateRegistration = "";
     
     /**
      * @ORM\Column(name="date_current_login", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateCurrentLogin;
+    private $dateCurrentLogin = "";
     
     /**
      * @ORM\Column(name="date_last_login", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateLastLogin;
+    private $dateLastLogin = "";
     
     /**
      * @ORM\Column(name="help_code", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $helpCode;
+    private $helpCode = null;
     
     /**
      * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255)")
      */
-    private $ip;
+    private $ip = null;
     
     /**
      * @ORM\Column(name="attempt_login", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '0'")
      */
-    private $attemptLogin;
+    private $attemptLogin = 0;
     
     // Properties
-    public function setRoleId($value) {
-        $this->roleId = $value;
+    public function setRoleUserId($value) {
+        $this->roleUserId = $value;
     }
     
     public function setUsername($value) {
@@ -213,8 +213,8 @@ class User implements AdvancedUserInterface {
         $this->password = $value;
     }
     
-    public function setCredits($value) {
-        $this->credits = $value;
+    public function setCredit($value) {
+        $this->credit = $value;
     }
     
     public function setNotLocked($value) {
@@ -251,8 +251,8 @@ class User implements AdvancedUserInterface {
         return $this->id;
     }
     
-    public function getRoleId() {
-        return $this->roleId;
+    public function getRoleUserId() {
+        return $this->roleUserId;
     }
 
     public function getName() {
@@ -311,8 +311,8 @@ class User implements AdvancedUserInterface {
         return $this->address;
     }
     
-    public function getCredits() {
-        return $this->credits;
+    public function getCredit() {
+        return $this->credit;
     }
     
     public function getNotLocked() {

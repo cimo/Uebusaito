@@ -26,7 +26,7 @@
 
 {% block headerContainer %}
         <div class="sortable_column">
-            {% if (settingRow['active'] == false and is_granted("IS_AUTHENTICATED_FULLY") == false) or urlExtra == "maintenance_authentication" %}
+            {% if (settingRow['website_active'] == false and is_granted("IS_AUTHENTICATED_FULLY") == false) or urlExtra == "maintenance_authentication" %}
                 <div class="logo_big display_desktop">
                     <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
                     <p class="logo_text">{{websiteName}}</p>
@@ -42,7 +42,7 @@
                 </div>
             {% endif %}
             
-            {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+            {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
                 {% for value in response.modules.header %}
                     {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                         {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
@@ -53,7 +53,7 @@
 {% endblock %}
 
 {% block columnLeftContainer %}
-    {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
         <div class="sortable_column">
             {% for value in response.modules.left %}
                 {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -70,7 +70,7 @@
     {% else %}
         {{-include("@UebusaitoBundleViews/include/flashBag.html.twig")-}}
 
-        {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
+        {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
             <div class="sortable_column">
                 {% for value in response.modules.center %}
                     {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -80,7 +80,7 @@
             </div>
         {% else %}
             <div class="margin_top">
-                {% if settingRow['active'] == false %}
+                {% if settingRow['website_active'] == false %}
                     {% if urlExtra == "maintenance_authentication" %}
                         {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% else %}
@@ -102,7 +102,7 @@
 {% endblock %}
 
 {% block columnRightContainer %}
-    {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
         <div class="sortable_column">
             {% for value in response.modules.right %}
                 {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -114,7 +114,7 @@
 {% endblock %}
 
 {% block footerContainer %}
-    {% if (settingRow['active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
+    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
         {% for value in response.modules.footer %}
             {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                 {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
@@ -156,43 +156,44 @@
             'authentication': "{{path("authentication", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'authenticationEnterCheck': "{{path("authentication_enter_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'authenticationExitCheck': "{{path("authentication_exit_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            
             'controlPanel': "{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            
             'cpProfile': "{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpProfilePassword': "{{path("cp_profile_password", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpProfileCredits': "{{path("cp_profile_credits", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpProfileCreditsPayPal': "{{path("cp_profile_credits_payPal", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpProfileCredit': "{{path("cp_profile_credit", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpProfileCreditPayPal': "{{path("cp_profile_credit_payPal", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpProfileUpload': "{{path("cp_profile_upload", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPaymentsUserSelection': "{{path("cp_payments_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPaymentsSelection': "{{path("cp_payments_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPaymentUserSelection': "{{path("cp_payment_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPaymentSelection': "{{path("cp_payment_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpPaymentProfileResult': "{{path("cp_payment_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpPaymentDeletion': "{{path("cp_payment_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpPageCreation': "{{path("cp_page_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPagesSelection': "{{path("cp_pages_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpPageSelection': "{{path("cp_page_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpPageProfileResult': "{{path("cp_page_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpPageProfileSort': "{{path("cp_page_profile_sort", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpPageProfileSave': "{{path("cp_page_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpPageDeletion': "{{path("cp_page_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpUserCreation': "{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpUsersSelection': "{{path("cp_users_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpUserSelection': "{{path("cp_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpUserProfileResult': "{{path("cp_user_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpUserProfileSave': "{{path("cp_user_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpUserDeletion': "{{path("cp_user_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModulesDrag': "{{path("cp_modules_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpModuleDrag': "{{path("cp_module_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpModuleCreation': "{{path("cp_module_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModulesSelection': "{{path("cp_modules_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpModuleSelection': "{{path("cp_module_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpModuleProfileResult': "{{path("cp_module_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpModuleProfileSort': "{{path("cp_module_profile_sort", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpModuleProfileSave': "{{path("cp_module_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpModuleDeletion': "{{path("cp_module_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleCreation': "{{path("cp_role_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRolesSelection': "{{path("cp_roles_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleProfileResult': "{{path("cp_role_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleProfileSave': "{{path("cp_role_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleDeletion': "{{path("cp_role_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpSettingsModify': "{{path("cp_settings_modify", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpSettingsLanguageManage': "{{path("cp_settings_language_manage", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"
+            'cpRoleUserCreation': "{{path("cp_role_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpRoleUserSelection': "{{path("cp_role_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpRoleUserProfileResult': "{{path("cp_role_user_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpRoleUserProfileSave': "{{path("cp_role_user_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpRoleUserDeletion': "{{path("cp_role_user_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpSettingSave': "{{path("cp_setting_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'cpSettingLanguageManage': "{{path("cp_setting_language_manage", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'pageCommentCreation': "{{path("page_comment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'pageCommentRender': "{{path("page_comment_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'pageCommentResult': "{{path("page_comment_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"
         };
 
         var text = {
@@ -203,11 +204,11 @@
         };
 
         var settings = {
-            'widthMobile': 1050,
-            'widthDesktop': 1051,
+            'widthMobile': 991,
+            'widthDesktop': 992,
             'template': "{{settingRow['template']}}",
             'language': "{{settingRow['language']}}",
-            'active': "{{settingRow['active']}}"
+            'websiteActive': "{{settingRow['website_active']}}"
         };
     </script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery_3.1.1.min.js")}}"></script>
@@ -239,8 +240,9 @@
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Page.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/User.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Module.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Role.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/RoleUser.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Setting.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/PageComment.js")}}"></script>
 
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Index.js")}}"></script>
 {% endblock %}

@@ -3,6 +3,7 @@ namespace ReinventSoftware\UebusaitoBundle\Controller\PageControllerAction;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
@@ -25,6 +26,7 @@ class IncludeTestController extends Controller {
     
     // Functions public
     /**
+    * @Method({"GET"})
     * @Template("@UebusaitoBundleViews/render/page_controller_action/include_test.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {

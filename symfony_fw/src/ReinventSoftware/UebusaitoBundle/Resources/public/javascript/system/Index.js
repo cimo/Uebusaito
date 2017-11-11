@@ -1,5 +1,5 @@
-/* global utility, flashBag, loader, wysiwyg, language, search, authentication, registration, recoverPassword, controlPanelProfile, controlPanelPayment, controlPanelPage, controlPanelUser, controlPanelModule,
-controlPanelRole, controlPanelSetting */
+/* global utility, flashBag, loader, wysiwyg, language, search, authentication, registration, recoverPassword,
+controlPanelProfile, controlPanelPayment, controlPanelPage, controlPanelUser, controlPanelModule, controlPanelRoleUser, controlPanelSetting, pageComment */
 
 $(document).ready(function() {
     utility.checkMobile(true);
@@ -21,7 +21,7 @@ $(document).ready(function() {
     
     loader.create("font");
     
-    wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
+    wysiwyg.init("#form_page_argument", $("#cp_page_creation_form").find("input[type='submit']"));
     wysiwyg.changeView();
     
     language.init();
@@ -44,10 +44,12 @@ $(document).ready(function() {
     controlPanelModule.init();
     controlPanelModule.changeView();
     
-    controlPanelRole.init();
-    controlPanelRole.changeView();
+    controlPanelRoleUser.init();
+    controlPanelRoleUser.changeView();
     
     controlPanelSetting.init();
+    
+    pageComment.init();
     
     $(window).resize(function() {
         utility.bootstrapMenuFixChangeView("#menu_root_navbar");
@@ -58,6 +60,6 @@ $(document).ready(function() {
         controlPanelPage.changeView();
         controlPanelUser.changeView();
         controlPanelModule.changeView();
-        controlPanelRole.changeView();
+        controlPanelRoleUser.changeView();
     });
 });

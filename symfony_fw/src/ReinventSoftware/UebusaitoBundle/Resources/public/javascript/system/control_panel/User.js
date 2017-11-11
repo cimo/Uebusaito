@@ -17,9 +17,9 @@ function ControlPanelUser() {
         
         selectionMobile();
         
-        utility.wordTag("#form_user_roleId");
+        utility.wordTag("#form_user_roleUserId");
         
-        $("#form_cp_user_creation").on("submit", "", function(event) {
+        $("#cp_user_creation_form").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -43,15 +43,15 @@ function ControlPanelUser() {
     self.changeView = function() {
         if (utility.checkWidth() === "desktop") {
             if (selectionSended === true) {
-                selectionId = $("#cp_users_selection_mobile").find("select option:selected").val();
+                selectionId = $("#cp_user_selection_mobile").find("select option:selected").val();
 
                 selectionSended = false;
             }
 
             if (selectionId >= 0) {
-                $("#cp_users_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+                $("#cp_user_selection_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
 
-                var idColumns = $("#cp_users_selection_desktop_result").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+                var idColumns = $("#cp_user_selection_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
                 $.each(idColumns, function(key, value) {
                     if ($(value).text().trim() === String(selectionId))
@@ -61,13 +61,13 @@ function ControlPanelUser() {
         }
         else {
             if (selectionSended === true) {
-                selectionId = $("#cp_users_selection_desktop_result").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+                selectionId = $("#cp_user_selection_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
 
                 selectionSended = false;
             }
 
             if (selectionId > 0)
-                $("#cp_users_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+                $("#cp_user_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
         }
     };
     
@@ -75,16 +75,16 @@ function ControlPanelUser() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpUsersSelection, "#cp_users_selection_desktop_result", true);
+        tableAndPagination.init(window.url.cpUserSelection, "#cp_user_selection_result_desktop", true);
         tableAndPagination.search(true);
         tableAndPagination.pagination(true);
         tableAndPagination.sort(true);
         
-        $(document).on("click", "#cp_users_selection_desktop_result .refresh", function() {
+        $(document).on("click", "#cp_user_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
                 false,
-                window.url.cpUsersSelection,
+                window.url.cpUserSelection,
                 "post",
                 {
                     'event': "refresh",
@@ -103,7 +103,7 @@ function ControlPanelUser() {
             );
         });
         
-        $(document).on("click", "#cp_users_selection_desktop_result .delete_all", function() {
+        $(document).on("click", "#cp_user_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
                 "<p>" + window.textUser.label_2 + "</p>",
@@ -125,7 +125,7 @@ function ControlPanelUser() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            $.each($("#cp_users_selection_desktop_result").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_user_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
                             
@@ -141,14 +141,14 @@ function ControlPanelUser() {
             );
         });
         
-        $(document).on("click", "#cp_users_selection_desktop_result .cp_user_deletion", function() {
+        $(document).on("click", "#cp_user_selection_result_desktop .cp_user_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deletion(id);
         });
         
-        $("#cp_users_button_selection_desktop").on("click", "", function(event) {
-            var id = $.trim($("#cp_users_selection_desktop_result").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
+        $("#cp_user_selection_button_desktop").on("click", "", function(event) {
+            var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
@@ -175,7 +175,7 @@ function ControlPanelUser() {
     }
     
     function selectionMobile() {
-        $("#cp_users_form_selection_mobile").on("submit", "", function(event) {
+        $("#cp_user_selection_form_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -206,9 +206,9 @@ function ControlPanelUser() {
             
             $("#cp_user_selection_result").html(xhr.response.render);
 
-            utility.wordTag("#form_user_roleId");
+            utility.wordTag("#form_user_roleUserId");
 
-            $("#form_cp_user_profile").on("submit", "", function(event) {
+            $("#cp_user_profile_form").on("submit", "", function(event) {
                 event.preventDefault();
 
                 ajax.send(
@@ -261,12 +261,12 @@ function ControlPanelUser() {
                         ajax.reply(xhr, "");
                         
                         if (xhr.response.messages.success !== undefined) {
-                            $.each($("#cp_users_selection_desktop_result").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_user_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 if (xhr.response.values.id === $.trim($(value).text()))
                                     $(value).parents("tr").remove();
                             });
 
-                            $("#form_users_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+                            $("#form_user_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
 
                             $("#cp_user_selection_result").html("");
                         }

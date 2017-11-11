@@ -21,12 +21,12 @@
             <p class="margin_clear">{{response.values.user.username}}</p>
             <p class="margin_clear"><b>{% trans %}authentication_2{% endtrans %}</b></p>
             <p class="margin_clear">
-                {% for value in response.values.roleLevel %}
+                {% for value in response.values.roleUserRow %}
                     - {{value|trans}}
                 {% endfor %}
             </p>
             <p class="margin_clear"><b>{% trans %}authentication_3{% endtrans %}</b></p>
-            <p class="margin_clear">{{response.values.user.dateLastLogin|date("date.day"|trans)}} <b>[</b>{{response.values.user.dateLastLogin|date("date.time"|trans)}}<b>]</b></p>
+            <p class="margin_clear">{{response.values.dateLastLogin[0]}} [{{response.values.dateLastLogin[1]}}]</p>
             <div class="margin_top horizontal_center">
                 <a class="button_custom btn-block" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 1, 'urlExtra': "cp_profile"})}}">{% trans %}authentication_4{% endtrans %}</a>
                 <a class="button_custom btn-block logout_button" href="{{path("authentication_exit_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}">{% trans %}authentication_5{% endtrans %}</a>
@@ -50,7 +50,7 @@
                 {{form_widget(form._token)}}
             </form>
             
-            {% if (settingRow['active'] == true) %}
+            {% if (settingRow['website_active'] == true) %}
                 <div class="horizontal_center">
                     <a class="button_custom btn-block" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3})}}">{% trans %}authentication_10{% endtrans %}</a>
                     <a class="button_custom btn-block" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 4})}}">{% trans %}authentication_11{% endtrans %}</a>

@@ -13,7 +13,7 @@ function ControlPanelPayment() {
     
     // Functions public
     self.init = function() {
-        $("#form_cp_payments_user_selection").on("submit", "", function(event) {
+        $("#cp_payment_user_selection_form").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -46,15 +46,15 @@ function ControlPanelPayment() {
     self.changeView = function() {
         if (utility.checkWidth() === "desktop") {
             if (selectionSended === true) {
-                selectionId = $("#cp_payments_selection_mobile").find("select option:selected").val();
+                selectionId = $("#cp_payment_selection_mobile").find("select option:selected").val();
 
                 selectionSended = false;
             }
 
             if (selectionId >= 0) {
-                $("#cp_payments_selection_desktop_result").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+                $("#cp_payment_selection_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
 
-                var idColumns = $("#cp_payments_selection_desktop_result").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+                var idColumns = $("#cp_payment_selection_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
                 $.each(idColumns, function(key, value) {
                     if ($(value).text().trim() === String(selectionId))
@@ -64,13 +64,13 @@ function ControlPanelPayment() {
         }
         else {
             if (selectionSended === true) {
-                selectionId = $("#cp_payments_selection_desktop_result").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+                selectionId = $("#cp_payment_selection_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
 
                 selectionSended = false;
             }
 
             if (selectionId > 0)
-                $("#cp_payments_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+                $("#cp_payment_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
         }
     };
     
@@ -78,16 +78,16 @@ function ControlPanelPayment() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpPaymentsSelection, "#cp_payments_selection_desktop_result", true);
+        tableAndPagination.init(window.url.cpPaymentSelection, "#cp_payment_selection_result_desktop", true);
         tableAndPagination.search(true);
         tableAndPagination.pagination(true);
         tableAndPagination.sort(true);
         
-        $(document).on("click", "#cp_payments_selection_desktop_result .refresh", function() {
+        $(document).on("click", "#cp_payment_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
                 false,
-                window.url.cpPaymentsSelection,
+                window.url.cpPaymentSelection,
                 "post",
                 {
                     'event': "refresh",
@@ -106,7 +106,7 @@ function ControlPanelPayment() {
             );
         });
         
-        $(document).on("click", "#cp_payments_selection_desktop_result .delete_all", function() {
+        $(document).on("click", "#cp_payment_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
                 "<p>" + window.textPayment.label_2 + "</p>",
@@ -128,7 +128,7 @@ function ControlPanelPayment() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            $.each($("#cp_payments_selection_desktop_result").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_payment_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
                             
@@ -144,14 +144,14 @@ function ControlPanelPayment() {
             );
         });
         
-        $(document).on("click", "#cp_payments_selection_desktop_result .cp_payment_deletion", function() {
+        $(document).on("click", "#cp_payment_selection_result_desktop .cp_payment_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deletion(id);
         });
         
-        $("#cp_payments_button_selection_desktop").on("click", "", function(event) {
-            var id = $.trim($("#cp_payments_selection_desktop").find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
+        $("#cp_payment_selection_button_desktop").on("click", "", function(event) {
+            var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
@@ -178,7 +178,7 @@ function ControlPanelPayment() {
     }
     
     function selectionMobile() {
-        $("#cp_payments_form_selection_mobile").on("submit", "", function(event) {
+        $("#cp_payment_selection_form_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -239,12 +239,12 @@ function ControlPanelPayment() {
                         ajax.reply(xhr, "");
                         
                         if (xhr.response.messages.success !== undefined) {
-                            $.each($("#cp_payments_selection_desktop_result").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_payment_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 if (xhr.response.values.id === $.trim($(value).text()))
                                     $(value).parents("tr").remove();
                             });
 
-                            $("#form_payments_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+                            $("#form_payment_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
 
                             $("#cp_payment_selection_result").html("");
                         }

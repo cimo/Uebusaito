@@ -1,6 +1,6 @@
-@media (max-width: 1050px) { .display_desktop { display: none !important; }
+@media (max-width: 991px) { .display_desktop { display: none !important; }
   .display_mobile { display: block !important; } }
-@media (min-width: 1051px) { .display_desktop { display: block !important; }
+@media (min-width: 992px) { .display_desktop { display: block !important; }
   .display_mobile { display: none !important; } }
 @-webkit-viewport { width: device-width; }
 @-moz-viewport { width: device-width; }

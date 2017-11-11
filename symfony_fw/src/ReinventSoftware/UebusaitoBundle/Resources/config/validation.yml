@@ -81,41 +81,41 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PasswordModel:
                 pattern: /^.{8,20}$/
                 message: entity.user.password
 
-ReinventSoftware\UebusaitoBundle\Form\Model\CreditsModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\CreditModel:
     properties:
-        credits:
+        credit:
             - NotBlank:
-                groups: [profile_credits]
+                groups: [profile_credit]
             - Regex:
-                groups: [profile_credits]
+                groups: [profile_credit]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
-ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsUserSelectionModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\PaymentUserSelectionModel:
     properties:
         userId:
             - Regex:
-                groups: [payments_user_selection]
+                groups: [payment_user_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
-ReinventSoftware\UebusaitoBundle\Form\Model\PaymentsSelectionModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\PaymentSelectionModel:
     properties:
         id:
             - NotBlank:
-                groups: [payments_selection]
+                groups: [payment_selection]
             - Regex:
-                groups: [payments_selection]
+                groups: [payment_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
-ReinventSoftware\UebusaitoBundle\Form\Model\PagesSelectionModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\PageSelectionModel:
     properties:
         id:
             - NotBlank:
-                groups: [pages_selection]
+                groups: [page_selection]
             - Regex:
-                groups: [pages_selection]
+                groups: [page_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
@@ -140,7 +140,7 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-        roleId:
+        roleUserId:
             - NotBlank:
                 groups: [page_creation, page_profile]
             - Regex:
@@ -187,19 +187,29 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
             - NotBlank:
                 groups: [page_creation, page_profile]
 
-ReinventSoftware\UebusaitoBundle\Form\Model\UsersSelectionModel:
+ReinventSoftware\UebusaitoBundle\Entity\PageComment:
+    properties:
+        argument:
+            - NotBlank:
+                groups: [page_comment]
+            - Regex:
+                groups: [page_comment]
+                htmlPattern: false
+                pattern: /^.{1,255}$/
+
+ReinventSoftware\UebusaitoBundle\Form\Model\UserSelectionModel:
     properties:
         id:
             - NotBlank:
-                groups: [users_selection]
+                groups: [user_selection]
             - Regex:
-                groups: [users_selection]
+                groups: [user_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
 ReinventSoftware\UebusaitoBundle\Entity\User:
     properties:
-        roleId:
+        roleUserId:
             - NotBlank:
                 groups: [user_creation, user_profile]
             - Regex:
@@ -307,36 +317,36 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
                 htmlPattern: false
                 pattern: /^1|^0/
 
-ReinventSoftware\UebusaitoBundle\Form\Model\ModulesSelectionModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\ModuleSelectionModel:
     properties:
         id:
             - NotBlank:
-                groups: [modules_selection]
+                groups: [module_selection]
             - Regex:
-                groups: [modules_selection]
+                groups: [module_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
-ReinventSoftware\UebusaitoBundle\Form\Model\ModulesDragModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\ModuleDragModel:
     properties:
         sortHeader:
             - Regex:
-                groups: [modules_drag]
+                groups: [module_drag]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
         sortLeft:
             - Regex:
-                groups: [modules_drag]
+                groups: [module_drag]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
         sortCenter:
             - Regex:
-                groups: [modules_drag]
+                groups: [module_drag]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
         sortRight:
             - Regex:
-                groups: [modules_drag]
+                groups: [module_drag]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
 
@@ -379,23 +389,23 @@ ReinventSoftware\UebusaitoBundle\Entity\Module:
                 htmlPattern: false
                 pattern: /^1|^0/
 
-ReinventSoftware\UebusaitoBundle\Form\Model\RolesSelectionModel:
+ReinventSoftware\UebusaitoBundle\Form\Model\RoleUserSelectionModel:
     properties:
         id:
             - NotBlank:
-                groups: [roles_selection]
+                groups: [role_user_selection]
             - Regex:
-                groups: [roles_selection]
+                groups: [role_user_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
-ReinventSoftware\UebusaitoBundle\Entity\Role:
+ReinventSoftware\UebusaitoBundle\Entity\RoleUser:
     properties:
         level:
             - NotBlank:
-                groups: [role_creation, role_profile]
+                groups: [role_user_creation, role_user_profile]
             - Regex:
-                groups: [role_creation, role_profile]
+                groups: [role_user_creation, role_user_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_]+$/
 
@@ -403,113 +413,134 @@ ReinventSoftware\UebusaitoBundle\Entity\Setting:
     properties:
         template:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_0-9]+$/
         templateColumn:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[1-4]+$/
         language:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[a-z]{2}$/
-        emailAdmin:
+        pageDate:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
-                htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
-        active:
-            - NotBlank:
-                groups: [settings]
-            - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^1|^0/
-        roleId:
+        pageComment:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^1|^0/
+        pageCommentActive:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^1|^0/
+        emailAdmin:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+        websiteActive:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^1|^0/
+        roleUserId:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
         https:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^1|^0/
         registrationUserConfirmAdmin:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^1|^0/
         loginAttemptTime:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
         loginAttemptCount:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
         captcha:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^1|^0/
         payPalSandbox:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^1|^0/
         payPalBusiness:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
         payPalCurrencyCode:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[A-Z]{3}$/
         payPalCreditAmount:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9]+(\.[0-9][0-9]?)?$/
-        credits:
+        credit:
             - NotBlank:
-                groups: [settings]
+                groups: [setting]
             - Regex:
-                groups: [settings]
+                groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9]+$/

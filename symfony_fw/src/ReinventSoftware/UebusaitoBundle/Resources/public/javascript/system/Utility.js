@@ -251,7 +251,7 @@ function Utility() {
         if (isCreation === true && buttonTarget === null) {
             selected = $(tagSelect).find("option[value='']");
             
-            $(tagSelect).find("option[value='']").appendTo("#form_page_positionInMenu");
+            $(tagSelect).find("option[value='']").appendTo(tagSelect);
         }
         
         $(tagSelect).find("option[value='" + selected.val() + "']").not(":selected").remove();
@@ -398,6 +398,12 @@ function Utility() {
             
             $(tag).prop("src", src + "?" + new Date().getTime());
         }
+    };
+    
+    self.goToAnchor = function(tag) {
+        $("html, body").animate({
+            scrollTop: $(tag).offset().top
+        }, 1000);
     };
     
     // Bootstrap fix

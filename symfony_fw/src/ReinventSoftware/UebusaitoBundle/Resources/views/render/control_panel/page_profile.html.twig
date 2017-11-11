@@ -5,8 +5,17 @@
         <h3 class="form_title">{% trans %}page_profile_1{% endtrans %}</h3>
 
         {{-render(controller("UebusaitoBundle:Language:page", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+        
+        <div class="clearfix page_date">
+            <div>
+                <p><i class="fa fa-paw"></i> <b>{% trans %}page_profile_16{% endtrans %}</b>{{response.values.userCreation}}</p>
+                <p><i class="fa fa-calendar"></i> <b>{% trans %}page_profile_17{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
+                <p><i class="fa fa-paw"></i> <b>{% trans %}page_profile_18{% endtrans %}</b>{{response.values.userModification}}</p>
+                <p><i class="fa fa-calendar"></i> <b>{% trans %}page_profile_19{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
+            </div>
+        </div>
 
-        <form id="form_cp_page_profile" action="{{path("cp_page_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="cp_page_profile_form" action="{{path("cp_page_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_row(form.language, {'label': "page_profile_2"})}}
             
             <div class="form-group">
@@ -24,13 +33,13 @@
             {{form_row(form.argument, {'label': "page_profile_7"})}}
             {{-include("@UebusaitoBundleViews/include/wysiwyg.html.twig")-}}
             
-            <div id="form_page_roleId_wordTag_container" class="form-group">
-                {{form_label(form.roleId, "page_profile_8")}}
-                {{form_errors(form.roleId)}}
-                {{form_widget(form.roleId)}}
+            <div id="page_roleUserId_wordTag_container" class="form-group">
+                {{form_label(form.roleUserId, "page_profile_8")}}
+                {{form_errors(form.roleUserId)}}
+                {{form_widget(form.roleUserId)}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                    {{response.values.rolesSelect|raw}}
+                    {{response.values.roleUserHtml|raw}}
                 </div>
             </div>
             
@@ -52,8 +61,9 @@
             </div>
             
             {{form_row(form.menuName, {'label': "page_profile_12"})}}
-            {{form_row(form.onlyLink, {'label': "page_profile_13"})}}
-            {{form_row(form.link, {'label': "page_profile_14"})}}
+            {{form_row(form.comment, {'label': "page_profile_13"})}}
+            {{form_row(form.onlyLink, {'label': "page_profile_14"})}}
+            {{form_row(form.link, {'label': "page_profile_15"})}}
 
             {{form_widget(form._token)}}
 

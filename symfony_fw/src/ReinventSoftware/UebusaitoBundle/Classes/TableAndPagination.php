@@ -32,10 +32,7 @@ class TableAndPagination {
     }
     
     public function request($rows, $page, $sessionTag, $reverse, $flat) {
-        $newRows = $rows;
-        
-        if ($reverse == true)
-            $newRows = array_reverse($rows, true);
+        $newRows = $reverse == true ? array_reverse($rows, true) : $rows;
         
         // Search
         $searchWritten = isset($_POST['searchWritten']) == true ? $_POST['searchWritten'] : -1;
@@ -49,7 +46,7 @@ class TableAndPagination {
         if ($sessionTag != "page")
             $list = array_slice($elements, $pagination['offset'], $pagination['show']);
         else
-            $list = $this->uebusaitoUtility->createPagesList($elements, false, $pagination);
+            $list = $this->uebusaitoUtility->createPageList($elements, false, $pagination);
         
         return Array(
             'search' => $search,

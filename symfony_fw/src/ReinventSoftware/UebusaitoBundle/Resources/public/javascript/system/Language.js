@@ -41,7 +41,7 @@ function Language() {
     self.page = function() {
         selectOnPage();
         
-        $("#form_language_page").on("submit", "", function(event) {
+        $("#language_page_form").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -55,10 +55,10 @@ function Language() {
                 null,
                 function(xhr) {
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined) {
-                        $("#form_cp_page_profile").find("input[name='form_page[language]']").val(xhr.response.values.codePage);
-                        $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageTitle);
+                        $("#cp_page_profile_form").find("input[name='form_page[language]']").val(xhr.response.values.codePage);
+                        $("#cp_page_profile_form").find("input[name='form_page[title]']").val(xhr.response.values.pageTitle);
                         $("#wysiwyg").find(".editor").contents().find("body").html(xhr.response.values.pageArgument);
-                        $("#form_cp_page_profile").find("input[name='form_page[menuName]']").val(xhr.response.values.pageMenuName);
+                        $("#cp_page_profile_form").find("input[name='form_page[menuName]']").val(xhr.response.values.pageMenuName);
                     }
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -111,8 +111,8 @@ function Language() {
         var alt = $(event.target).prop("alt");
         var altSplit = alt.split(".");
 
-        $("#form_language_page").find("input[name='form_language[codePage]']").val(altSplit[0]);
+        $("#language_page_form").find("input[name='form_language[codePage]']").val(altSplit[0]);
 
-        $("#form_language_page").submit();
+        $("#language_page_form").submit();
     }
 }

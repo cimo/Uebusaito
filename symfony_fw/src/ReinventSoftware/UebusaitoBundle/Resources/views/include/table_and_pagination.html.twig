@@ -5,6 +5,7 @@
 <div class="input-group pull-right search_input">
     <div class="button_search">
         <i class="fa fa-search"></i>
+        <i class="fa fa-circle-o-notch fa-spin display_none"></i>
     </div>
     <input class="form-control" type="text" placeholder="{% trans %}table_and_pagination_3{% endtrans %}" value="{{response.values.search.value}}"/>
 </div>
@@ -19,7 +20,7 @@
     <li class="next">
         <a href="#">{% trans %}table_and_pagination_5{% endtrans %}</a>
     </li>
+    <li class="loading">
+        <i class="fa fa-circle-o-notch fa-spin display_none"></i>
+    </li>
 </ul>
-<div class="table_spinner">
-    <i class="display_none fa fa-cog fa-spin fa-5x"></i>
-</div>

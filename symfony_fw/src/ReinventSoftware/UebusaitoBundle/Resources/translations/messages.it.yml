@@ -102,23 +102,24 @@ date.time: H:i:s
 "profileController_6": "Invio a PayPal..."
 "profileController_7": "Non inviato a PayPal!"
 
-# RoleController.php
-"roleController_1": "Creazione ruolo completata."
-"roleController_2": "Creazione ruolo non completata!"
-"roleController_3": "Ruolo non selezionato!"
-"roleController_4": "Aggiornamento ruolo completato."
-"roleController_5": "Aggiornamento ruolo non completato!"
-"roleController_6": "Cancellazione ruolo completata."
-"roleController_7": "Cancellazione di tutti i ruoli completata."
-"roleController_8": "Ruolo non cancellato!"
+# RoleUserController.php
+"roleUserController_1": "Creazione ruolo completata."
+"roleUserController_2": "Creazione ruolo non completata!"
+"roleUserController_3": "Ruolo non selezionato!"
+"roleUserController_4": "Aggiornamento ruolo completato."
+"roleUserController_5": "Aggiornamento ruolo non completato!"
+"roleUserController_6": "Cancellazione ruolo completata."
+"roleUserController_7": "Cancellazione di tutti i ruoli completata."
+"roleUserController_8": "Ruolo non cancellato!"
 
 # SettingController.php
 "settingController_1": "Il valore del protocollo è cambato, perfavore rifai il login (se hai cambiato da https ad http devi chiudere e riaprire il browser per rifare il login)."
 "settingController_2": "Aggiornamento impostazioni completato."
 "settingController_3": "Impostazioni non salvate!"
 "settingController_4": "Cancellazione lingua completato."
-"settingController_5": "Creazione lingua completato."
-"settingController_6": "Lingua non creata!"
+"settingController_5": "Aggiornamento lingua completato."
+"settingController_6": "Creazione lingua completato."
+"settingController_7": "Lingua non creata!"
 
 # UserController.php
 "userController_1": "Creazione utente completata."
@@ -138,6 +139,16 @@ date.time: H:i:s
 # LanguageController.php
 "languageController_1": "Cambio lingua testi non completato!"
 "languageController_2": "Cambio lingua pagine non completato!"
+
+# PageCommentController.php
+"pageCommentController_1": "Commento inviato."
+"pageCommentController_2": "L'ultimo commento e' il tuo!"
+"pageCommentController_3": "Commento non inviato!"
+"pageCommentController_4": "Commento modificato."
+"pageCommentController_5": "Creazione: "
+"pageCommentController_6": "Modifica: "
+"pageCommentController_7": "Rispondere"
+"pageCommentController_8": "Modificare"
 
 # PageViewController.php
 "pageViewController_1": "Pagina vuota"
@@ -191,8 +202,8 @@ date.time: H:i:s
 "moduleFormType_7": "No"
 "moduleFormType_8": "Si"
 
-# ModulesSelectionFormType.php
-"modulesSelectionFormType_1": "Seleziona"
+# ModuleSelectionFormType.php
+"moduleSelectionFormType_1": "Seleziona"
 
 # PageFormType.php
 "pageFormType_1": "Seleziona"
@@ -200,25 +211,25 @@ date.time: H:i:s
 "pageFormType_3": "Si"
 "pageFormType_4": "Questa pagina"
 
-# PagesSelectionFormType.php
-"pagesSelectionFormType_1": "Seleziona"
+# PageSelectionFormType.php
+"pageSelectionFormType_1": "Seleziona"
 
-# PaymentsSelectionFormType.php
-"paymentsSelectionFormType_1": "Seleziona"
+# PaymentSelectionFormType.php
+"paymentSelectionFormType_1": "Seleziona"
 
-# RolesSelectionFormType.php
-"rolesSelectionFormType_1": "Seleziona"
+# RoleUserSelectionFormType.php
+"roleUserSelectionFormType_1": "Seleziona"
 
 # SearchFormType.php
 "searchType_1": "Cerca nel sito"
 
-# SettingsFormType.php
-"settingsFormType_1": "Tipo 1"
-"settingsFormType_2": "Tipo 2"
-"settingsFormType_3": "Tipo 3"
-"settingsFormType_4": "Tipo 4"
-"settingsFormType_5": "No"
-"settingsFormType_6": "Si"
+# SettingFormType.php
+"settingFormType_1": "Tipo 1"
+"settingFormType_2": "Tipo 2"
+"settingFormType_3": "Tipo 3"
+"settingFormType_4": "Tipo 4"
+"settingFormType_5": "No"
+"settingFormType_6": "Si"
 
 # UserFormType.php
 "userFormType_1": "Seleziona"
@@ -227,8 +238,8 @@ date.time: H:i:s
 "userFormType_4": "No"
 "userFormType_5": "Si"
 
-# UsersSelectionFormType.php
-"usersSelectionFormType_1": "Seleziona"
+# UserSelectionFormType.php
+"userSelectionFormType_1": "Seleziona"
 
 # ---
 # Views / Include
@@ -291,6 +302,14 @@ date.time: H:i:s
 "index_5": "Annullare"
 "index_6": "Errire connessione, perfavore ricarica la pagina."
 
+# page_comment.html.twig
+"page_comment_1": "Messaggio dall'utente: "
+"page_comment_2": "Rispondere all'utente: "
+"page_comment_3": "Argomento"
+"page_comment_4": "I commenti sono disabilitati."
+"page_comment_5": "Salvare"
+"page_comment_6": "Modificare"
+
 # language_page.html.twig
 "language_page_1": "Cambiare la lingua della pagina senza salvare?"
 
@@ -324,7 +343,7 @@ date.time: H:i:s
 "registration_20": "Conferma password"
 
 # search.html.twig
-"search_render_1": "Elementi trovati:"
+"search_1": "Elementi trovati:"
 
 # ---
 # Views / Render / Control panel
@@ -350,24 +369,22 @@ date.time: H:i:s
 "module_profile_6": "Nome file"
 "module_profile_7": "Attivo"
 
-# modules_drag.html.twig
-"modules_drag_1": "Form ordinamento moduli"
-"modules_drag_2": "Header"
-"modules_drag_3": "Sinistra"
-"modules_drag_4": "Centro"
-"modules_drag_5": "Destra"
+# module_drag.html.twig
+"module_drag_1": "Form ordinamento moduli"
+"module_drag_2": "Header"
+"module_drag_3": "Sinistra"
+"module_drag_4": "Centro"
+"module_drag_5": "Destra"
 
-# modules_selection.html.twig
-"modules_selection_1": "Form selezione moduli"
-"modules_selection_2": "Moduli"
-
-# modules_selection_desktop.html.twig
-"modules_selection_desktop_1": "Id"
-"modules_selection_desktop_2": "Seleziona"
-"modules_selection_desktop_3": "Nome"
-"modules_selection_desktop_4": "Nome file"
-"modules_selection_desktop_5": "Attivo"
-"modules_selection_desktop_6": "Cancella"
+# module_selection.html.twig
+"module_selection_1": "Form selezione moduli"
+"module_selection_2": "Id"
+"module_selection_3": "Seleziona"
+"module_selection_4": "Nome"
+"module_selection_5": "Nome file"
+"module_selection_6": "Attivo"
+"module_selection_7": "Cancella"
+"module_selection_8": "Moduli"
 
 # page_creation.html.twig
 "page_creation_1": "Form creazione pagina"
@@ -381,8 +398,9 @@ date.time: H:i:s
 "page_creation_9": "Visualizza nel menù"
 "page_creation_10": "Posizione nel menù"
 "page_creation_11": "Nome menù"
-"page_creation_12": "Solo link"
-"page_creation_13": "Link"
+"page_creation_12": "Commento"
+"page_creation_13": "Solo link"
+"page_creation_14": "Link"
 
 # page_deletion.html.twig
 "page_deletion_1": "Cancellazione pagina"
@@ -403,23 +421,26 @@ date.time: H:i:s
 "page_profile_10": "Visualizza nel menù"
 "page_profile_11": "Posizione nel menù"
 "page_profile_12": "Nome menù"
-"page_profile_13": "Solo link"
-"page_profile_14": "Link"
+"page_profile_13": "Commento"
+"page_profile_14": "Solo link"
+"page_profile_15": "Link"
+"page_profile_16": "Creato da: "
+"page_profile_17": "Creazione: "
+"page_profile_18": "Modificato da: "
+"page_profile_19": "Modifica: "
 
-# pages_selection.html.twig
-"pages_selection_1": "Form selezione pagine"
-"pages_selection_2": "Pagine"
-
-# pages_selection_desktop.html.twig
-"pages_selection_desktop_1": "Id"
-"pages_selection_desktop_2": "Seleziona"
-"pages_selection_desktop_3": "Alias"
-"pages_selection_desktop_4": "Titolo"
-"pages_selection_desktop_5": "Nome menù"
-"pages_selection_desktop_6": "Protetto"
-"pages_selection_desktop_7": "Visualizza nel menù"
-"pages_selection_desktop_8": "Solo link"
-"pages_selection_desktop_9": "Cancella"
+# page_selection.html.twig
+"page_selection_1": "Form selezione pagine"
+"page_selection_2": "Id"
+"page_selection_3": "Seleziona"
+"page_selection_4": "Alias"
+"page_selection_5": "Titolo"
+"page_selection_6": "Nome menù"
+"page_selection_7": "Protetto"
+"page_selection_8": "Visualizza nel menù"
+"page_selection_9": "Solo link"
+"page_selection_10": "Cancella"
+"page_selection_11": "Pagine"
 
 # payment_deletion.html.twig
 "payment_deletion_1": "Cancellazione pagamento"
@@ -437,22 +458,20 @@ date.time: H:i:s
 "payment_profile_9": "Importo"
 "payment_profile_10": "Quantità"
 
-# payments_selection.html.twig
-"payments_selection_1": "Form selezione pagamenti"
-"payments_selection_2": "Pagamenti"
+# payment_selection.html.twig
+"payment_selection_1": "Form selezione pagamenti"
+"payment_selection_2": "Id"
+"payment_selection_3": "Seleziona"
+"payment_selection_4": "Transazione"
+"payment_selection_5": "Data"
+"payment_selection_6": "Stato"
+"payment_selection_7": "Pagatore"
+"payment_selection_8": "Cancella"
+"payment_selection_9": "Pagamenti"
 
-# payments_selection_desktop.html.twig
-"payments_selection_desktop_1": "Id"
-"payments_selection_desktop_2": "Seleziona"
-"payments_selection_desktop_3": "Transazione"
-"payments_selection_desktop_4": "Data"
-"payments_selection_desktop_5": "Stato"
-"payments_selection_desktop_6": "Pagatore"
-"payments_selection_desktop_7": "Cancella"
-
-# payments_user_selection.html.twig
-"payments_user_selection_1": "Form selezione pagamenti utenti"
-"payments_user_selection_2": "Utenti"
+# payment_user_selection.html.twig
+"payment_user_selection_1": "Form selezione pagamenti utenti"
+"payment_user_selection_2": "Utenti"
 
 # profile.html.twig
 "profile_1": "Form profilo"
@@ -473,12 +492,12 @@ date.time: H:i:s
 "profile_16": "Cap"
 "profile_17": "Indirizzo"
 
-# profile_credits.html.twig
-"profile_credits_1": "Form profilo crediti"
-"profile_credits_2": "Crediti"
-"profile_credits_3": "Crediti corretti:"
-"profile_credits_4": "Valore di un credito:"
-"profile_credits_5": "Crediti"
+# profile_credit.html.twig
+"profile_credit_1": "Form profilo credito"
+"profile_credit_2": "Credito"
+"profile_credit_3": "Credito corrente:"
+"profile_credit_4": "Valore di un credito:"
+"profile_credit_5": "Credito"
 
 # profile_password.html.twig
 "profile_password_1": "Form profilo password"
@@ -487,51 +506,52 @@ date.time: H:i:s
 "profile_password_4": "Nuova"
 "profile_password_5": "Conferma nuova"
 
-# role_creation.html.twig
-"role_creation_1": "Form creazione ruolo"
-"role_creation_2": "Livello"
+# role_user_creation.html.twig
+"role_user_creation_1": "Form creazione ruolo"
+"role_user_creation_2": "Livello"
 
-# role_deletion.html.twig
-"role_deletion_1": "Cancellazione ruolo"
-"role_deletion_2": "Attenzione! Se cancelli il ruolo è impossibile tornare indietro."
+# role_user_deletion.html.twig
+"role_user_deletion_1": "Cancellazione ruolo"
+"role_user_deletion_2": "Attenzione! Se cancelli il ruolo è impossibile tornare indietro."
 
-# role_profile.html.twig
-"role_profile_1": "Form profilo ruolo"
-"role_profile_2": "Livello"
+# role_user_profile.html.twig
+"role_user_profile_1": "Form profilo ruolo"
+"role_user_profile_2": "Livello"
 
-# roles_selection.html.twig
-"roles_selection_1": "Form selezione ruoli"
-"roles_selection_2": "Ruoli"
+# role_user_selection.html.twig
+"role_user_selection_1": "Form selezione ruoli"
+"role_user_selection_2": "Id"
+"role_user_selection_3": "Seleziona"
+"role_user_selection_4": "Livello"
+"role_user_selection_5": "Cancella"
+"role_user_selection_6": "Ruoli"
 
-# roles_selection_desktop.html.twig
-"roles_selection_desktop_1": "Id"
-"roles_selection_desktop_2": "Seleziona"
-"roles_selection_desktop_3": "Livello"
-"roles_selection_desktop_4": "Cancella"
-
-# settings.html.twig
-"settings_1": "Form impostazioni"
-"settings_2": "Stile"
-"settings_3": "Template"
-"settings_4": "Colonne template"
-"settings_5": "Lingua"
-"settings_6": "Gestione lingua"
-"settings_7": "Sicurezza"
-"settings_8": "Email admin"
-"settings_9": "Attivo"
-"settings_10": "Ruoli manutenzione"
-"settings_11": "Https"
-"settings_12": "Conferma registrazione utente dall'admin"
-"settings_13": "Tempo tentativi login (minuti)"
-"settings_14": "Conteggio tentativi login"
-"settings_15": "Captcha"
-"settings_16": "Paypal"
-"settings_17": "PayPal sandbox"
-"settings_18": "PayPal business"
-"settings_19": "PayPal valuta"
-"settings_20": "PayPal valore credito"
-"settings_21": "Pagamento"
-"settings_22": "Crediti"
+# setting.html.twig
+"setting_1": "Form impostazioni"
+"setting_2": "Stile"
+"setting_3": "Template"
+"setting_4": "Colonne template"
+"setting_5": "Lingua"
+"setting_6": "Gestione lingua"
+"setting_7": "Sicurezza"
+"setting_8": "Email admin"
+"setting_9": "Attivo"
+"setting_10": "Ruoli manutenzione"
+"setting_11": "Https"
+"setting_12": "Conferma registrazione utente dall'admin"
+"setting_13": "Tempo tentativi login (minuti)"
+"setting_14": "Conteggio tentativi login"
+"setting_15": "Captcha"
+"setting_16": "Paypal"
+"setting_17": "PayPal sandbox"
+"setting_18": "PayPal business"
+"setting_19": "PayPal valuta"
+"setting_20": "PayPal valore credito"
+"setting_21": "Pagamento"
+"setting_22": "Crediti"
+"setting_23": "Data pagina"
+"setting_24": "Commento pagina"
+"setting_25": "Commento pagina attivo"
 
 # user_creation.html.twig
 "user_creation_1": "Form creazione utente"
@@ -579,22 +599,21 @@ date.time: H:i:s
 "user_profile_18": "Password"
 "user_profile_19": "Conferma password"
 "user_profile_20": "Non bloccato"
+"user_profile_21": "Credito"
 
-# users_selection.html.twig
-"users_selection_1": "Form selezione utenti"
-"users_selection_2": "Utenti"
-
-# users_selection_desktop.html.twig
-"users_selection_desktop_1": "Id"
-"users_selection_desktop_2": "Seleziona"
-"users_selection_desktop_3": "Ruolo"
-"users_selection_desktop_4": "Username"
-"users_selection_desktop_5": "Nome"
-"users_selection_desktop_6": "Cognome"
-"users_selection_desktop_7": "Email"
-"users_selection_desktop_8": "Nome azienda"
-"users_selection_desktop_9": "Non bloccato"
-"users_selection_desktop_10": "Cancella"
+# user_selection.html.twig
+"user_selection_1": "Form selezione utenti"
+"user_selection_2": "Id"
+"user_selection_3": "Seleziona"
+"user_selection_4": "Ruolo"
+"user_selection_5": "Username"
+"user_selection_6": "Nome"
+"user_selection_7": "Cognome"
+"user_selection_8": "Email"
+"user_selection_9": "Nome azienda"
+"user_selection_10": "Non bloccato"
+"user_selection_11": "Cancella"
+"user_selection_12": "Utenti"
 
 # ---
 # Views / Render / Module
@@ -611,6 +630,12 @@ date.time: H:i:s
 "authentication_9": "Entra"
 "authentication_10": "Registrazione"
 "authentication_11": "Password dimenticata?"
+
+# page_view.html.twig
+"page_view_1": "Creato da: "
+"page_view_2": "Creazione: "
+"page_view_3": "Modificato da: "
+"page_view_4": "Modifica: "
 
 # ---
 # Views / Render / Static

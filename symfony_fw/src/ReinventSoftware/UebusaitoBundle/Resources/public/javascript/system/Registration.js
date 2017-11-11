@@ -10,7 +10,7 @@ function Registration() {
     
     // Functions public
     self.init = function() {
-        $("#form_user_registration").on("submit", "", function(event) {
+        $("#user_registration_form").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(

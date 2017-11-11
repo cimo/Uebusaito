@@ -1,0 +1,77 @@
+{% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
+    {{-render(controller("UebusaitoBundle:ControlPanel\\Payment:userSelection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+{% endif %}
+
+<h3 class="form_title">{% trans %}payment_selection_1{% endtrans %}</h3>
+
+<div id="cp_payment_selection_desktop" class="display_desktop">
+    <div id="cp_payment_selection_result_desktop">
+        {{-include("@UebusaitoBundleViews/include/table_and_pagination.html.twig")-}}
+
+        <div class="overflow_y_hidden margin_bottom">
+            <table class="table table-bordered table-striped">
+                <thead class="table_thead">
+                    <tr>
+                        <th class="cursor_pointer">
+                            {% trans %}payment_selection_2{% endtrans %}
+                            <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-up"></i>
+                        </th>
+                        <th class="cursor_pointer">
+                            {% trans %}payment_selection_3{% endtrans %}
+                            <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-up"></i>
+                        </th>
+                        <th class="cursor_pointer">
+                            {% trans %}payment_selection_4{% endtrans %}
+                            <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-up"></i>
+                        </th>
+                        <th class="cursor_pointer">
+                            {% trans %}payment_selection_5{% endtrans %}
+                            <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-up"></i>
+                        </th>
+                        <th class="cursor_pointer">
+                            {% trans %}payment_selection_6{% endtrans %}
+                            <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-up"></i>
+                        </th>
+                        <th class="cursor_pointer">
+                            {% trans %}payment_selection_7{% endtrans %}
+                            <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-up"></i>
+                        </th>
+                        <th class="cursor_pointer">
+                            {% trans %}payment_selection_8{% endtrans %}
+                            <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-caret-up"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="table_tbody">
+                    {{response.values.listHtml|raw}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <button id="cp_payment_selection_button_desktop" class="button_custom" type="button">{% trans %}button_4{% endtrans %}</button>
+</div>
+
+<div id="cp_payment_selection_mobile" class="display_mobile">
+    {% form_theme form "bootstrap_3_layout.html.twig" %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <form id="cp_payment_selection_form_mobile" action="{{path("cp_payment_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                {{form_row(form.id, {'label': "payment_selection_9"})}}
+
+                {{form_widget(form._token)}}
+
+                <input class="button_custom" type="submit" value="{% trans %}button_4{% endtrans %}"/>
+            </form>
+        </div>
+    </div>
+</div>
+            
+<div id="cp_payment_selection_result"></div>

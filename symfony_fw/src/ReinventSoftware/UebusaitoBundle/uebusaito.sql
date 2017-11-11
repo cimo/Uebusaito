@@ -24,7 +24,8 @@ DROP TABLE IF EXISTS `languages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `languages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `code` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `date` varchar(5) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Y-m-d',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -35,7 +36,7 @@ CREATE TABLE `languages` (
 
 LOCK TABLES `languages` WRITE;
 /*!40000 ALTER TABLE `languages` DISABLE KEYS */;
-INSERT INTO `languages` VALUES (1,'en'),(2,'it'),(3,'jp');
+INSERT INTO `languages` VALUES (1,'en','Y-m-d'),(2,'it','d-m-Y'),(3,'jp','Y-m-d');
 /*!40000 ALTER TABLE `languages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,10 +52,10 @@ CREATE TABLE `modules` (
   `position` varchar(6) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'center',
   `position_tmp` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
   `position_in_column` int(11) DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `active` tinyint(1) DEFAULT '0',
+  `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `active` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -78,15 +79,20 @@ DROP TABLE IF EXISTS `pages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `parent` int(11) DEFAULT NULL,
   `controller_action` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,2,',
+  `role_user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,2,',
   `protected` tinyint(1) NOT NULL DEFAULT '0',
   `show_in_menu` tinyint(1) NOT NULL DEFAULT '1',
   `position_in_menu` int(11) DEFAULT NULL,
-  `only_link` tinyint(1) NOT NULL DEFAULT '1',
+  `comment` tinyint(1) NOT NULL DEFAULT '1',
+  `only_link` tinyint(1) NOT NULL DEFAULT '0',
   `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
+  `user_creation` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
+  `date_creation` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `user_modification` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
+  `date_modification` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -97,7 +103,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (1,'controlPanel',NULL,'UebusaitoBundle:ControlPanel:render','1,2,',1,0,1,0,'-'),(2,'home',NULL,NULL,'1,2,',0,1,2,0,'-'),(3,'registration',NULL,'UebusaitoBundle:Registration:render','1,2,',0,0,3,0,'-'),(4,'recover_password',NULL,'UebusaitoBundle:RecoverPassword:render','1,2,',0,0,4,0,'-'),(5,'search',NULL,'UebusaitoBundle:Search:render','1,2,',0,0,5,0,'-'),(6,'test',NULL,'UebusaitoBundle:PageControllerAction\\IncludeTest:render','4,',1,1,7,0,'-'),(7,'test_parent',NULL,NULL,'1,2,',0,1,6,0,'-'),(8,'test_children_1',7,NULL,'1,2,',0,1,1,0,'-'),(9,'test_children_2',8,NULL,'1,2,',0,1,1,0,'-'),(10,'test_2',8,NULL,'1,2,',0,1,2,0,'-'),(11,'test_children_3',9,NULL,'1,2,',0,1,1,0,'-'),(12,'test_1',7,NULL,'1,2,',0,1,2,1,'http://www.google.it'),(13,'test_children_4',11,NULL,'1,2,',0,1,1,0,'-');
+INSERT INTO `pages` VALUES (1,'controlPanel',NULL,'UebusaitoBundle:ControlPanel:render','1,2,',1,0,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(2,'home',NULL,NULL,'1,2,',0,1,2,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(3,'registration',NULL,'UebusaitoBundle:Registration:render','1,2,',0,0,3,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(4,'recover_password',NULL,'UebusaitoBundle:RecoverPassword:render','1,2,',0,0,4,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(5,'search',NULL,'UebusaitoBundle:Search:render','1,2,',0,0,5,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(6,'test',NULL,'UebusaitoBundle:PageControllerAction\\IncludeTest:render','4,',1,1,7,1,0,'-','-','0000-00-00 00:00:00','cimo','2017-11-11 12:27:27'),(7,'test_parent',NULL,NULL,'1,2,',0,1,6,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(8,'test_children_1',7,NULL,'1,2,',0,1,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(9,'test_children_2',8,NULL,'1,2,',0,1,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(10,'test_2',8,NULL,'1,2,',0,1,2,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(11,'test_children_3',9,NULL,'1,2,',0,1,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(12,'test_1',7,NULL,'1,2,',0,1,2,1,1,'http://www.google.it','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(13,'test_children_4',11,NULL,'1,2,',0,1,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,6 +132,35 @@ LOCK TABLES `pages_arguments` WRITE;
 /*!40000 ALTER TABLE `pages_arguments` DISABLE KEYS */;
 INSERT INTO `pages_arguments` VALUES (1,'&lt;p&gt;Here you can administrate the website, choise the section on bottom menu.&lt;/p&gt;','&lt;p&gt;Argomento pannello di controllo.&lt;/p&gt;','&lt;p&gt;コントロールパネルのアーギュメント。&lt;/p&gt;'),(2,'&lt;p&gt;This is a cms created with symfony framework.&lt;/p&gt;','&lt;p&gt;Argomento home.&lt;/p&gt;','&lt;p&gt;ホームのアーギュメント。&lt;/p&gt;'),(3,'&lt;p&gt;Registration argument.&lt;/p&gt;','&lt;p&gt;Argomento registrazione.&lt;/p&gt;','&lt;p&gt;登録のアーギュメント。&lt;/p&gt;'),(4,'&lt;p&gt;Recover password argument.&lt;/p&gt;','&lt;p&gt;Argomento recupero password.&lt;/p&gt;','&lt;p&gt;パスワードを回復のアーギュメント。&lt;/p&gt;'),(5,'&lt;p&gt;Search argument.&lt;/p&gt;','&lt;p&gt;Argomento cerca.&lt;/p&gt;','&lt;p&gt;サーチのアーギュメント。&lt;/p&gt;'),(6,'&lt;p&gt;Test argument.&lt;/p&gt;','&lt;p&gt;Argomento test.&lt;/p&gt;',NULL),(7,'&lt;p&gt;Test parent argument.&lt;/p&gt;','&lt;p&gt;Argomento test genitore.&lt;/p&gt;',NULL),(8,'&lt;p&gt;Test children 1 argument.&lt;/p&gt;','&lt;p&gt;Argomento test figlio 1.&lt;/p&gt;',NULL),(9,'&lt;p&gt;Test children 2 argument.&lt;/p&gt;','&lt;p&gt;Argomento test figlio 2.&lt;/p&gt;',NULL),(10,'&lt;p&gt;Test 2 argument.&lt;/p&gt;','&lt;p&gt;Argomento test 2.&lt;/p&gt;',NULL),(11,'&lt;p&gt;Test children 3 argument.&lt;/p&gt;','&lt;p&gt;Argomento test figlio 3.&lt;/p&gt;',NULL),(12,'&lt;p&gt;Test 1 argument.&lt;/p&gt;','&lt;p&gt;Argomento test 1.&lt;/p&gt;',NULL),(13,'&lt;p&gt;Test children 4 argument.&lt;/p&gt;','&lt;p&gt;Argomento test figlio 4.&lt;/p&gt;',NULL);
 /*!40000 ALTER TABLE `pages_arguments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pages_comments`
+--
+
+DROP TABLE IF EXISTS `pages_comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pages_comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) NOT NULL DEFAULT '0',
+  `username` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `username_reply` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `argument` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `date_creation` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modification` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pages_comments`
+--
+
+LOCK TABLES `pages_comments` WRITE;
+/*!40000 ALTER TABLE `pages_comments` DISABLE KEYS */;
+INSERT INTO `pages_comments` VALUES (1,6,'cimo',NULL,'Comment test.','2017-10-31 11:45:22','0000-00-00 00:00:00'),(2,6,'test_1',NULL,'New comment test.','2017-10-31 11:55:18','2017-11-01 23:51:35'),(3,6,'cimo','test_1','Test over!','2017-11-02 11:05:28','0000-00-00 00:00:00');
+/*!40000 ALTER TABLE `pages_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -215,6 +250,30 @@ INSERT INTO `payments` VALUES (1,2,'419530066K1260733','09:19:50 Jul 04, 2016 PD
 UNLOCK TABLES;
 
 --
+-- Table structure for table `roles_users`
+--
+
+DROP TABLE IF EXISTS `roles_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'ROLE_USER',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles_users`
+--
+
+LOCK TABLES `roles_users` WRITE;
+/*!40000 ALTER TABLE `roles_users` DISABLE KEYS */;
+INSERT INTO `roles_users` VALUES (1,'ROLE_USER'),(2,'ROLE_ADMIN'),(3,'ROLE_MODERATOR'),(4,'ROLE_TEST');
+/*!40000 ALTER TABLE `roles_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `settings`
 --
 
@@ -226,19 +285,22 @@ CREATE TABLE `settings` (
   `template` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'basic',
   `template_column` int(1) NOT NULL DEFAULT '1',
   `language` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'en',
-  `email_admin` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '2,3',
+  `page_date` tinyint(1) NOT NULL DEFAULT '1',
+  `page_comment` tinyint(1) NOT NULL DEFAULT '1',
+  `page_comment_active` tinyint(1) NOT NULL DEFAULT '1',
+  `email_admin` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `website_active` tinyint(1) NOT NULL DEFAULT '1',
+  `role_user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '2,3',
   `https` tinyint(1) NOT NULL DEFAULT '1',
   `registration_user_confirm_admin` tinyint(1) NOT NULL DEFAULT '1',
   `login_attempt_time` int(11) NOT NULL DEFAULT '15',
   `login_attempt_count` int(11) NOT NULL DEFAULT '3',
   `captcha` tinyint(1) NOT NULL DEFAULT '0',
   `payPal_sandbox` tinyint(1) NOT NULL DEFAULT '0',
-  `payPal_business` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `payPal_business` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `payPal_currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'USD',
-  `payPal_credit_amount` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0.01',
-  `credits` tinyint(1) NOT NULL DEFAULT '1',
+  `payPal_credit_amount` varchar(12) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0.01',
+  `credit` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -249,7 +311,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,0,1,'paypal.business@gmail.com','USD','0.01',1);
+INSERT INTO `settings` VALUES (1,'basic',1,'en',1,1,1,'cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,0,1,'paypal.business@gmail.com','USD','0.01',1);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,11 +324,11 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,',
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `role_user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,',
+  `username` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `surname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `telephone` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `born` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00',
   `gender` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -278,8 +340,8 @@ CREATE TABLE `users` (
   `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `zip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `credits` int(11) NOT NULL DEFAULT '0',
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `credit` int(11) NOT NULL DEFAULT '0',
   `not_locked` tinyint(1) NOT NULL DEFAULT '0',
   `date_registration` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_current_login` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -297,32 +359,8 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','cimo','cimo','dago','cimo@reinventsoftware.org','3491234567','1984-04-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Italia','Roma','00100','Via','$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi',0,1,'2016-08-04 10:25:12','2017-10-29 16:14:15','2017-10-28 11:35:58',NULL,'79.13.12.142',0),(2,'1,4,','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2017-10-14 14:46:56','2017-10-14 14:46:24',NULL,'87.11.116.214',0),(3,'1,','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,1,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
+INSERT INTO `users` VALUES (1,'1,2,','cimo','cimo','dago','cimo@reinventsoftware.org','3491234567','1984-04-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Italia','Roma','00100','Via','$2y$13$3xYFbs9D8AphLEXmLHUuiOJI1G.kF/nEfbU7J7wsJuANmKNUa2Pvi',0,1,'2016-08-04 10:25:12','2017-11-11 12:03:40','2017-11-09 18:14:52',NULL,'79.51.52.39',0),(2,'1,4,','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',11,1,'2016-09-10 17:39:31','2017-11-06 21:48:31','2017-11-04 16:58:53',NULL,'79.13.12.142',0),(3,'1,','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users_roles`
---
-
-DROP TABLE IF EXISTS `users_roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'ROLE_USER',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users_roles`
---
-
-LOCK TABLES `users_roles` WRITE;
-/*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
-INSERT INTO `users_roles` VALUES (1,'ROLE_USER'),(2,'ROLE_ADMIN'),(3,'ROLE_MODERATOR'),(4,'ROLE_TEST');
-/*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -338,4 +376,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-29 16:19:51
+-- Dump completed on 2017-11-11 13:34:28

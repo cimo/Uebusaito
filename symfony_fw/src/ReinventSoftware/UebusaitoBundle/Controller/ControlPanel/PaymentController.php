@@ -12,8 +12,8 @@ use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
-use ReinventSoftware\UebusaitoBundle\Form\PaymentsUserSelectionFormType;
-use ReinventSoftware\UebusaitoBundle\Form\PaymentsSelectionFormType;
+use ReinventSoftware\UebusaitoBundle\Form\PaymentUserSelectionFormType;
+use ReinventSoftware\UebusaitoBundle\Form\PaymentSelectionFormType;
 
 class PaymentController extends Controller {
     // Vars
@@ -35,13 +35,13 @@ class PaymentController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_payments_user_selection",
-    *   path = "/cp_payments_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_payment_user_selection",
+    *   path = "/cp_payment_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/payments_user_selection.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/payment_user_selection.html.twig")
     */
     public function userSelectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -61,22 +61,22 @@ class PaymentController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if (isset($_SESSION['payments_user_id']) == false)
-            $_SESSION['payments_user_id'] = $this->getUser()->getId();
+        if (isset($_SESSION['payment_user_id']) == false)
+            $_SESSION['payment_user_id'] = $this->getUser()->getId();
         
-        $form = $this->createForm(PaymentsUserSelectionFormType::class, null, Array(
-            'validation_groups' => Array('payments_user_selection'),
-            'choicesId' => array_column($this->query->selectAllUsersDatabase(), "id", "username")
+        $form = $this->createForm(PaymentUserSelectionFormType::class, null, Array(
+            'validation_groups' => Array('payment_user_selection'),
+            'choicesId' => array_column($this->query->selectAllUserDatabase(), "id", "username")
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             if ($form->isValid() == true) {
                 if ($form->get("userId")->getData() != null) {
-                    $_SESSION['payments_user_id'] = $form->get("userId")->getData();
+                    $_SESSION['payment_user_id'] = $form->get("userId")->getData();
                     
                     $this->response['messages']['success'] = "";
                     
@@ -105,13 +105,13 @@ class PaymentController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_payments_selection",
-    *   path = "/cp_payments_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_payment_selection",
+    *   path = "/cp_payment_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/payments_selection.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/payment_selection.html.twig")
     */
     public function selectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -132,35 +132,33 @@ class PaymentController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if (isset($_SESSION['payments_user_id']) == false)
-            $_SESSION['payments_user_id'] = $this->getUser()->getId();
+        if (isset($_SESSION['payment_user_id']) == false)
+            $_SESSION['payment_user_id'] = $this->getUser()->getId();
         
-        $paymentRows = $this->query->selectAllPaymentsDatabase($_SESSION['payments_user_id']);
+        $paymentRows = $this->query->selectAllPaymentDatabase($_SESSION['payment_user_id']);
 
         $tableAndPagination = $this->tableAndPagination->request($paymentRows, 20, "payment", true, true);
 
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['list'] = $this->createHtmlList($tableAndPagination['list']);
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['list']);
         
-        $form = $this->createForm(PaymentsSelectionFormType::class, null, Array(
-            'validation_groups' => Array('payments_selection'),
-            'choicesId' => array_reverse(array_column($this->query->selectAllPaymentsDatabase($_SESSION['payments_user_id']), "id", "transaction"), true)
+        $form = $this->createForm(PaymentSelectionFormType::class, null, Array(
+            'validation_groups' => Array('payment_selection'),
+            'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($_SESSION['payment_user_id']), "id", "transaction"), true)
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($this->utility->checkToken($request) == true) {
-                return $this->ajax->response(Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
-            }
+        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
         }
         
         return Array(
@@ -199,16 +197,16 @@ class PaymentController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
             $id = 0;
             
             if (empty($request->get("id")) == false)
                 $id = $request->get("id");
-            else if (empty($request->get("form_payments_selection")['id']) == false)
-                $id = $request->get("form_payments_selection")['id'];
+            else if (empty($request->get("form_payment_selection")['id']) == false)
+                $id = $request->get("form_payment_selection")['id'];
             
             $paymentEntity = $this->entityManager->getRepository("UebusaitoBundle:Payment")->find($id);
             
@@ -263,25 +261,25 @@ class PaymentController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $chekRoleLevel = $this->uebusaitoUtility->checkRoleLevel(Array("ROLE_ADMIN"), $this->getUser()->getRoleId());
+        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $chekRoleLevel == true) {
-            if ($request->get("event") == "delete" && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+            if ($request->get("event") == "delete") {
                 $id = $request->get("id") == null ? $_SESSION['payment_profile_id'] : $request->get("id");
                 
-                $paymentsDatabase = $this->paymentsDatabase("delete", $id);
+                $paymentDatabase = $this->paymentDatabase("delete", $id);
 
-                if ($paymentsDatabase == true) {
+                if ($paymentDatabase == true) {
                     $this->response['values']['id'] = $id;
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
                 }
             }
-            else if ($request->get("event") == "deleteAll" && $this->utility->checkToken($request) == true) {
-                $paymentsDatabase = $this->paymentsDatabase("deleteAll", null);
+            else if ($request->get("event") == "deleteAll") {
+                $paymentDatabase = $this->paymentDatabase("deleteAll", null);
 
-                if ($paymentsDatabase == true)
+                if ($paymentDatabase == true)
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_4");
             }
             else
@@ -304,7 +302,7 @@ class PaymentController extends Controller {
     }
     
     // Functions private
-    private function createHtmlList($elements) {
+    private function createListHtml($elements) {
         $listHtml = "";
         
         foreach ($elements as $key => $value) {
@@ -336,13 +334,13 @@ class PaymentController extends Controller {
         return $listHtml;
     }
     
-    private function paymentsDatabase($type, $id) {
+    private function paymentDatabase($type, $id) {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM payments
                                                                 WHERE user_id = :userId
                                                                 AND id = :id");
             
-            $query->bindValue(":userId", $_SESSION['payments_user_id']);
+            $query->bindValue(":userId", $_SESSION['payment_user_id']);
             $query->bindValue(":id", $id);
             
             return $query->execute();
@@ -351,7 +349,7 @@ class PaymentController extends Controller {
             $query = $this->utility->getConnection()->prepare("DELETE FROM payments
                                                                 WHERE user_id = :userId");
             
-            $query->bindValue(":userId", $_SESSION['payments_user_id']);
+            $query->bindValue(":userId", $_SESSION['payment_user_id']);
             
             return $query->execute();
         }

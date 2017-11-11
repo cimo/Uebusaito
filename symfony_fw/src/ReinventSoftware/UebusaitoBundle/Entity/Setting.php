@@ -18,82 +18,97 @@ class Setting {
     /**
      * @ORM\Column(name="template", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'basic'")
      */
-    private $template;
+    private $template = "";
     
     /**
      * @ORM\Column(name="template_column", type="integer", columnDefinition="int(1) NOT NULL DEFAULT '1'")
      */
-    private $templateColumn;
+    private $templateColumn = 1;
     
     /**
      * @ORM\Column(name="language", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT 'en'")
      */
-    private $language;
+    private $language = "";
+    
+    /**
+     * @ORM\Column(name="page_date", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     */
+    private $pageDate = true;
+    
+    /**
+     * @ORM\Column(name="page_comment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     */
+    private $pageComment = true;
+    
+    /**
+     * @ORM\Column(name="page_comment_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     */
+    private $pageCommentActive = true;
     
     /**
      * @ORM\Column(name="email_admin", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $emailAdmin;
+    private $emailAdmin = "";
     
     /**
-     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="website_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
-    private $active;
+    private $websiteActive = true;
     
     /**
-     * @ORM\Column(name="role_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '2,3,'")
+     * @ORM\Column(name="role_user_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '2,3,'")
      */
-    private $roleId;
+    private $roleUserId = "";
     
     /**
      * @ORM\Column(name="https", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
-    private $https;
+    private $https = true;
     
     /**
      * @ORM\Column(name="registration_user_confirm_admin", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
-    private $registrationUserConfirmAdmin;
+    private $registrationUserConfirmAdmin = true;
     
     /**
      * @ORM\Column(name="login_attempt_time", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '15'")
      */
-    private $loginAttemptTime;
+    private $loginAttemptTime = 15;
     
     /**
      * @ORM\Column(name="login_attempt_count", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '3'")
      */
-    private $loginAttemptCount;
+    private $loginAttemptCount = 3;
     
     /**
      * @ORM\Column(name="captcha", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
-    private $captcha;
+    private $captcha = false;
     
     /**
      * @ORM\Column(name="payPal_sandbox", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
-    private $payPalSandbox;
+    private $payPalSandbox = false;
     
     /**
      * @ORM\Column(name="payPal_business", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $payPalBusiness;
+    private $payPalBusiness = "";
     
     /**
      * @ORM\Column(name="payPal_currency_code", type="string", columnDefinition="varchar(3) NOT NULL DEFAULT 'USD'")
      */
-    private $payPalCurrencyCode;
+    private $payPalCurrencyCode = "";
     
     /**
-     * @ORM\Column(name="payPal_credit_amount", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '0.01'")
+     * @ORM\Column(name="payPal_credit_amount", type="string", columnDefinition="varchar(12) NOT NULL DEFAULT '0.01'")
      */
-    private $payPalCreditAmount;
+    private $payPalCreditAmount = "";
     
     /**
-     * @ORM\Column(name="credits", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="credit", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
-    private $credits;
+    private $credit = true;
     
     // Properties
     public function setTemplate($value) {
@@ -108,16 +123,28 @@ class Setting {
         $this->language = $value;
     }
     
+    public function setPageDate($value) {
+        $this->pageDate = $value;
+    }
+    
+    public function setPageComment($value) {
+        $this->pageComment = $value;
+    }
+    
+    public function setPageCommentActive($value) {
+        $this->pageCommentActive = $value;
+    }
+    
     public function setEmailAdmin($value) {
         $this->emailAdmin = $value;
     }
     
-    public function setActive($value) {
-        $this->active = $value;
+    public function setWebsiteActive($value) {
+        $this->websiteActive = $value;
     }
     
-    public function setRoleId($value) {
-        $this->roleId = $value;
+    public function setRoleUserId($value) {
+        $this->roleUserId = $value;
     }
     
     public function setHttps($value) {
@@ -156,8 +183,8 @@ class Setting {
         $this->payPalCreditAmount = $value;
     }
     
-    public function setCredits($value) {
-        $this->credits = $value;
+    public function setCredit($value) {
+        $this->credit = $value;
     }
     
     // ---
@@ -178,16 +205,28 @@ class Setting {
         return $this->language;
     }
     
+    public function getPageDate() {
+        return $this->pageDate;
+    }
+    
+    public function getPageComment() {
+        return $this->pageComment;
+    }
+    
+    public function getPageCommentActive() {
+        return $this->pageCommentActive;
+    }
+    
     public function getEmailAdmin() {
         return $this->emailAdmin;
     }
     
-    public function getActive() {
-        return $this->active;
+    public function getWebsiteActive() {
+        return $this->websiteActive;
     }
     
-    public function getRoleId() {
-        return $this->roleId;
+    public function getRoleUserId() {
+        return $this->roleUserId;
     }
     
     public function getHttps() {
@@ -226,7 +265,7 @@ class Setting {
         return $this->payPalCreditAmount;
     }
     
-    public function getCredits() {
-        return $this->credits;
+    public function getCredit() {
+        return $this->credit;
     }
 }

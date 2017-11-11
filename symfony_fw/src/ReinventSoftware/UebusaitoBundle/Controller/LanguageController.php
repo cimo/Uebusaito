@@ -66,7 +66,7 @@ class LanguageController extends Controller {
         $form = $this->createForm(LanguageFormType::class, null, Array(
             'validation_groups' => Array('language_text'),
             'type' => "text",
-            'choicesCodeText' => array_column($this->query->selectAllLanguagesDatabase(), "code", "code"),
+            'choicesCodeText' => array_column($this->query->selectAllLanguageDatabase(), "code", "code"),
             'preferredChoicesCodeText' => $languageRow['code']
         ));
         $form->handleRequest($request);
@@ -75,7 +75,7 @@ class LanguageController extends Controller {
         $this->response['module']['label'] = $moduleRow['label'];
         
         if ($request->isMethod("POST") == true) {
-            if ($form->isValid() == true) 
+            if ($form->isValid() == true)
                 $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$form->get("codeText")->getData()}/{$request->get("urlCurrentPageId")}/{$request->get("urlExtra")}";
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_1");
@@ -134,7 +134,7 @@ class LanguageController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['languageRows'] = $this->query->selectAllLanguagesDatabase();
+        $this->response['values']['languageRows'] = $this->query->selectAllLanguageDatabase();
         $this->response['values']['settingRow'] = $this->query->selectSettingDatabase();
         
         if ($request->isMethod("POST") == true) {

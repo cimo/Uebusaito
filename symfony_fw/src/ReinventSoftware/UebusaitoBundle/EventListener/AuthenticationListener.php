@@ -54,9 +54,9 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
             
             $checkCaptcha = $this->utility->checkCaptcha($this->settingRow['captcha'], $request->get("captcha"));
             $checkAttemptLogin = $this->uebusaitoUtility->checkAttemptLogin("success", $user->getId(), $this->settingRow);
-            $checkInRoles = $this->uebusaitoUtility->checkInRoles($this->settingRow['role_id'], $user->getRoleId());
+            $checkInRoleUser = $this->uebusaitoUtility->checkInRoleUser($this->settingRow['role_user_id'], $user->getRoleUserId());
             
-            if ($checkCaptcha == true && (($this->settingRow['active'] == true && $checkAttemptLogin[0] == true) || ($this->settingRow['active'] == false && $checkAttemptLogin[0] == true && $checkInRoles == true)))
+            if ($checkCaptcha == true && (($this->settingRow['website_active'] == true && $checkAttemptLogin[0] == true) || ($this->settingRow['website_active'] == false && $checkAttemptLogin[0] == true && $checkInRoleUser == true)))
                 $this->response['values']['url'] = $referer;
             else {
                 $token->setToken(null);
