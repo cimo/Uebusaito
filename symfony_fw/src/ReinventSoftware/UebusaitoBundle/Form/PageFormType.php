@@ -34,7 +34,7 @@ class PageFormType extends AbstractType {
                 'alias' => "",
                 'title' => "",
                 'argument' => "",
-                'role_user_id' => "1,2,",
+                'roleUser_id' => "1,2,",
                 'protected' => "0",
                 'show_in_menu' => "1",
                 'id' => "0",
@@ -49,7 +49,7 @@ class PageFormType extends AbstractType {
                 'alias' => $options['data']->getAlias(),
                 'title' => $options['pageRow']['title'],
                 'argument' => $options['pageRow']['argument'],
-                'role_user_id' => $options['data']->getRoleUserId(),
+                'roleUser_id' => $options['data']->getRoleUserId(),
                 'protected' => $options['data']->getProtected(),
                 'show_in_menu' => $options['data']->getShowInMenu(),
                 'id' => $options['data']->getId(),
@@ -86,7 +86,7 @@ class PageFormType extends AbstractType {
         ))
         ->add("roleUserId", TextType::class, Array(
             'required' => true,
-            'data' => $values['role_user_id']
+            'data' => $values['roleUser_id']
         ))
         ->add("protected", ChoiceType::class, Array(
             'required' => true,

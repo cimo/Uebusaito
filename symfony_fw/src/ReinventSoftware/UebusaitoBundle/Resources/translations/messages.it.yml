@@ -506,25 +506,25 @@ date.time: H:i:s
 "profile_password_4": "Nuova"
 "profile_password_5": "Conferma nuova"
 
-# role_user_creation.html.twig
-"role_user_creation_1": "Form creazione ruolo"
-"role_user_creation_2": "Livello"
+# roleUser_creation.html.twig
+"roleUser_creation_1": "Form creazione ruolo"
+"roleUser_creation_2": "Livello"
 
-# role_user_deletion.html.twig
-"role_user_deletion_1": "Cancellazione ruolo"
-"role_user_deletion_2": "Attenzione! Se cancelli il ruolo è impossibile tornare indietro."
+# roleUser_deletion.html.twig
+"roleUser_deletion_1": "Cancellazione ruolo"
+"roleUser_deletion_2": "Attenzione! Se cancelli il ruolo è impossibile tornare indietro."
 
-# role_user_profile.html.twig
-"role_user_profile_1": "Form profilo ruolo"
-"role_user_profile_2": "Livello"
+# roleUser_profile.html.twig
+"roleUser_profile_1": "Form profilo ruolo"
+"roleUser_profile_2": "Livello"
 
-# role_user_selection.html.twig
-"role_user_selection_1": "Form selezione ruoli"
-"role_user_selection_2": "Id"
-"role_user_selection_3": "Seleziona"
-"role_user_selection_4": "Livello"
-"role_user_selection_5": "Cancella"
-"role_user_selection_6": "Ruoli"
+# roleUser_selection.html.twig
+"roleUser_selection_1": "Form selezione ruoli"
+"roleUser_selection_2": "Id"
+"roleUser_selection_3": "Seleziona"
+"roleUser_selection_4": "Livello"
+"roleUser_selection_5": "Cancella"
+"roleUser_selection_6": "Ruoli"
 
 # setting.html.twig
 "setting_1": "Form impostazioni"

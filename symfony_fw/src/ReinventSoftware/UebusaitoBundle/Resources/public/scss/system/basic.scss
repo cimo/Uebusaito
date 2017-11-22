@@ -42,6 +42,8 @@ $textColor: #4089c9;
 
 $panelBackgroundColor: #f4f4f4;
 $panelBorder: 1px solid #e7e7e7;
+$panelHeadingBorder: 1px solid #e7e7e7;
+$panelBodyBorder: 1px solid transparent;
 $panelShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 $panelShadowStrength: 5;
 $panelShadowColor: #474747;
@@ -171,6 +173,10 @@ $footerColor: #ffffff;
                             padding: 0 !important;
                             border: initial !important;
                         }
+                        
+                        #panel_id_2 {
+                            box-shadow: none !important;
+                        }
                     }
                 }
 
@@ -274,7 +280,12 @@ $footerColor: #ffffff;
         width: 250px;
         padding-right: 10px !important;
         padding-left: 10px !important;
-        box-shadow: none !important;
+    }
+    
+    #panel_id_3 {
+    }
+    
+    #panel_id_4 {
     }
     
     #panel_id_5 {
@@ -282,6 +293,15 @@ $footerColor: #ffffff;
     }
 }
 @media(min-width: $widthDesktop) {
+    .navbar_fix {
+        .navbar-default {
+            .navbar-collapse {
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+    }
+    
     .button_authentication_desktop {
         display: none;
         position: absolute;
@@ -327,17 +347,26 @@ $footerColor: #ffffff;
         }
     }
     
+    #panel_id_1 {
+    }
+    
+    #panel_id_2 {
+    }
+    
+    #panel_id_3 {
+    }
+    
     #panel_id_4 {
         position: absolute;
-        top: 31px;
-        right: 40px;
+        top: 34px;
+        right: 105px;
         z-index: 1010;
     }
     
     #panel_id_5 {
         position: absolute;
-        top: 31px;
-        right: 130px;
+        top: 34px;
+        right: 195px;
         z-index: 1010;
     }
 }
@@ -563,10 +592,11 @@ p {
 
 .panel-heading {
     padding: 10px 0;
-    border-bottom: $panelBorder;
+    border-bottom: $panelHeadingBorder;
 }
 .panel-body {
     padding: 15px 0;
+    border: $panelBodyBorder;
 }
 
 .page_header {
@@ -823,7 +853,7 @@ p {
 .maintenance_authentication {
     display: block !important;
     position: initial !important;
-    width: 320px !important;
+    width: 250px !important;
     margin: auto !important;
     
     -webkit-box-shadow: $panelShadow;
@@ -896,6 +926,9 @@ p {
     right: 2px;
 }
 
+#flashBag {
+}
+
 #setting_language_manage_container {
     input {
         display: inline-block;
@@ -913,6 +946,12 @@ p {
         cursor: pointer;
         padding: 2px;
     }
+}
+
+#panel_id_1 {
+}
+
+#panel_id_2 {
 }
 
 #panel_id_3 {

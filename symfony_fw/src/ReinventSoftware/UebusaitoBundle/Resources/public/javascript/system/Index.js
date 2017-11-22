@@ -21,7 +21,7 @@ $(document).ready(function() {
     
     loader.create("font");
     
-    wysiwyg.init("#form_page_argument", $("#cp_page_creation_form").find("input[type='submit']"));
+    wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
     wysiwyg.changeView();
     
     language.init();

@@ -506,25 +506,25 @@ date.time: H:i:s
 "profile_password_4": "New"
 "profile_password_5": "New confirm"
 
-# role_user_creation.html.twig
-"role_user_creation_1": "Role creation form"
-"role_user_creation_2": "Level"
+# roleUser_creation.html.twig
+"roleUser_creation_1": "Role creation form"
+"roleUser_creation_2": "Level"
 
-# role_user_deletion.html.twig
-"role_user_deletion_1": "Role deletion"
-"role_user_deletion_2": "Warning! If you delete the role is impossible return back."
+# roleUser_deletion.html.twig
+"roleUser_deletion_1": "Role deletion"
+"roleUser_deletion_2": "Warning! If you delete the role is impossible return back."
 
-# role_user_profile.html.twig
-"role_user_profile_1": "Role profile form"
-"role_user_profile_2": "Level"
+# roleUser_profile.html.twig
+"roleUser_profile_1": "Role profile form"
+"roleUser_profile_2": "Level"
 
-# role_user_selection.html.twig
-"role_user_selection_1": "Roles selection form"
-"role_user_selection_2": "Id"
-"role_user_selection_3": "Select"
-"role_user_selection_4": "Level"
-"role_user_selection_5": "Remove"
-"role_user_selection_6": "Roles"
+# roleUser_selection.html.twig
+"roleUser_selection_1": "Roles selection form"
+"roleUser_selection_2": "Id"
+"roleUser_selection_3": "Select"
+"roleUser_selection_4": "Level"
+"roleUser_selection_5": "Remove"
+"roleUser_selection_6": "Roles"
 
 # setting.html.twig
 "setting_1": "Setting form"

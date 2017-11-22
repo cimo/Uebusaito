@@ -13,6 +13,7 @@ This is a open source cms with symfony framework.
 | Credit and paypal payment |
 | Upload file system |
 | Wysiwyg page creation (Create page without code) |
+| Page comments |
 | Extend with module system |
 | Scss style |
 

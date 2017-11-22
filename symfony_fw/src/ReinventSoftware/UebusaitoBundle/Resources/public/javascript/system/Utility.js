@@ -51,7 +51,7 @@ function Utility() {
     self.checkWidth = function() {
         var widthType = "";
         
-        if (window.matchMedia("(max-width: " + window.settings.widthMobile + "px)").matches === true)
+        if (window.matchMedia("(max-width: " + window.setting.widthMobile + "px)").matches === true)
             widthType = "mobile";
         else
             widthType = "desktop";
@@ -382,7 +382,7 @@ function Utility() {
     self.imageError = function(elements) {
         elements.on("error", "", function() {
             $.each($(this), function(key, value) {
-                $(value).prop("src", window.url.root + "/bundles/uebusaito/images/templates/" + window.settings.template + "/error_404.png");
+                $(value).prop("src", window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.template + "/error_404.png");
             });
         });
     };

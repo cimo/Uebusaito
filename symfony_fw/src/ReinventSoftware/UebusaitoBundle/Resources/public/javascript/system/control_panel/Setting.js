@@ -20,7 +20,7 @@ function ControlPanelSetting() {
             $(this).val($(this).val().toUpperCase());
         });
         
-        $("#cp_setting_save_form").on("submit", "", function(event) {
+        $("#form_cp_setting_save").on("submit", "", function(event) {
             event.preventDefault();
             
             var propNameLanguageManage = $("#form_setting_languageManage").prop("name");

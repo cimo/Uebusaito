@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-6">
         <h3 class="form_title">{% trans %}profile_credit_1{% endtrans %}</h3>
-        <form id="cp_profile_credit_form" action="{{path("cp_profile_credit", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_profile_credit" action="{{path("cp_profile_credit", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <fieldset class="accordion_container">
                 <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}profile_credit_2{% endtrans %}</legend>
                 <div class="content">
@@ -29,9 +29,9 @@
 </div>
 
 {% if response.values.payPalSandbox == true %}
-    <form id="cp_profile_credit_paypal_form" class="visibility_hidden" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+    <form id="form_cp_profile_credit_paypal" class="visibility_hidden" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 {% else %}
-    <form id="cp_profile_credit_paypal_form" class="visibility_hidden" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+    <form id="form_cp_profile_credit_paypal" class="visibility_hidden" action="https://www.paypal.com/cgi-bin/webscr" method="post">
 {% endif %}
     <input type="hidden" name="cmd" value="_xclick"/>
     <!-- Setting -->

@@ -8,7 +8,7 @@
             {% endif %}
         {% endfor %}
     </div>
-    <form id="language_page_form" action="{{path("language_page", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+    <form id="form_language_page" action="{{path("language_page", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         {{form_row(form.codePage)}}
 
         {{form_widget(form._token)}}

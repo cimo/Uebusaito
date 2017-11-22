@@ -136,9 +136,9 @@ class SearchController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['list']);
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
         
-        $this->response['values']['count'] = count($tableAndPagination['list']);
+        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
         
         if ($this->tableAndPagination->checkPost() == true) {
             $render = $this->renderView("@UebusaitoBundleViews/render/search.html.twig", Array(

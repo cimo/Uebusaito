@@ -10,7 +10,7 @@ function RecoverPassword() {
     
     // Functions public
     self.init = function() {
-        $("#recover_password_form").on("submit", "", function(event) {
+        $("#form_recover_password").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -30,7 +30,7 @@ function RecoverPassword() {
             );
         });
         
-        $("#change_password_form").on("submit", "", function(event) {
+        $("#form_change_password").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(

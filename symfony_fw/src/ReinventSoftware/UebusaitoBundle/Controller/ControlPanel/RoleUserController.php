@@ -38,13 +38,13 @@ class RoleUserController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_role_user_creation",
-    *   path = "/cp_role_user_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_roleUser_creation",
+    *   path = "/cp_roleUser_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/role_user_creation.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/roleUser_creation.html.twig")
     */
     public function creationAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -69,7 +69,7 @@ class RoleUserController extends Controller {
         $roleUserEntity = new RoleUser();
         
         $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
-            'validation_groups' => Array('role_user_creation')
+            'validation_groups' => Array('roleUser_creation')
         ));
         $form->handleRequest($request);
         
@@ -105,13 +105,13 @@ class RoleUserController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_role_user_selection",
-    *   path = "/cp_role_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_roleUser_selection",
+    *   path = "/cp_roleUser_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/role_user_selection.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/roleUser_selection.html.twig")
     */
     public function selectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -143,10 +143,10 @@ class RoleUserController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['list']);
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
         
         $form = $this->createForm(RoleUserSelectionFormType::class, null, Array(
-            'validation_groups' => Array('role_user_selection'),
+            'validation_groups' => Array('roleUser_selection'),
             'choicesId' => array_reverse(array_column($userRoleRows, "id", "level"), true)
         ));
         $form->handleRequest($request);
@@ -171,13 +171,13 @@ class RoleUserController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_role_user_profile_result",
-    *   path = "/cp_role_user_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_roleUser_profile_result",
+    *   path = "/cp_roleUser_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/role_user_profile.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/roleUser_profile.html.twig")
     */
     public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -204,8 +204,8 @@ class RoleUserController extends Controller {
             
             if (empty($request->get("id")) == false)
                 $id = $request->get("id");
-            else if (empty($request->get("form_role_user_selection")['id']) == false)
-                $id = $request->get("form_role_user_selection")['id'];
+            else if (empty($request->get("form_roleUser_selection")['id']) == false)
+                $id = $request->get("form_roleUser_selection")['id'];
             
             $roleUserEntity = $this->entityManager->getRepository("UebusaitoBundle:RoleUser")->find($id);
             
@@ -213,13 +213,13 @@ class RoleUserController extends Controller {
                 $_SESSION['role_user_profile_id'] = $id;
                 
                 $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
-                    'validation_groups' => Array('role_user_profile')
+                    'validation_groups' => Array('roleUser_profile')
                 ));
                 $form->handleRequest($request);
                 
                 $this->response['values']['id'] = $_SESSION['role_user_profile_id'];
                 
-                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/role_user_profile.html.twig", Array(
+                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/roleUser_profile.html.twig", Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
                     'urlExtra' => $this->urlExtra,
@@ -241,13 +241,13 @@ class RoleUserController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_role_user_profile_save",
-    *   path = "/cp_role_user_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_roleUser_profile_save",
+    *   path = "/cp_roleUser_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/role_user_profile.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/roleUser_profile.html.twig")
     */
     public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -272,7 +272,7 @@ class RoleUserController extends Controller {
         $roleUserEntity = $this->entityManager->getRepository("UebusaitoBundle:RoleUser")->find($_SESSION['role_user_profile_id']);
         
         $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
-            'validation_groups' => Array('role_user_profile')
+            'validation_groups' => Array('roleUser_profile')
         ));
         $form->handleRequest($request);
         
@@ -308,13 +308,13 @@ class RoleUserController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_role_user_deletion",
-    *   path = "/cp_role_user_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_roleUser_deletion",
+    *   path = "/cp_roleUser_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/control_panel/role_user_deletion.html.twig")
+    * @Template("@UebusaitoBundleViews/render/control_panel/roleUser_deletion.html.twig")
     */
     public function deletionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -391,7 +391,7 @@ class RoleUserController extends Controller {
                 </td>";
                 $listHtml .= "<td class=\"horizontal_center\">";
                     if ($value['id'] > 2)
-                        $listHtml .= "<button class=\"cp_role_user_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
+                        $listHtml .= "<button class=\"cp_roleUser_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
                 </td>
             </tr>";
         }

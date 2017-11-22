@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <form id="cp_page_profile_form" action="{{path("cp_page_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_page_profile" action="{{path("cp_page_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_row(form.language, {'label': "page_profile_2"})}}
             
             <div class="form-group">

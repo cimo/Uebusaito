@@ -19,7 +19,7 @@ function ControlPanelUser() {
         
         utility.wordTag("#form_user_roleUserId");
         
-        $("#cp_user_creation_form").on("submit", "", function(event) {
+        $("#form_cp_user_creation").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -175,7 +175,7 @@ function ControlPanelUser() {
     }
     
     function selectionMobile() {
-        $("#cp_user_selection_form_mobile").on("submit", "", function(event) {
+        $("#form_cp_user_selection_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -208,7 +208,7 @@ function ControlPanelUser() {
 
             utility.wordTag("#form_user_roleUserId");
 
-            $("#cp_user_profile_form").on("submit", "", function(event) {
+            $("#form_cp_user_profile").on("submit", "", function(event) {
                 event.preventDefault();
 
                 ajax.send(

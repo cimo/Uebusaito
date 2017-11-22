@@ -44,14 +44,14 @@ class TableAndPagination {
         $pagination = $this->pagination($sessionTag . "Pagination", $paginationCurrent, count($elements), $page);
         
         if ($sessionTag != "page")
-            $list = array_slice($elements, $pagination['offset'], $pagination['show']);
+            $listHtml = array_slice($elements, $pagination['offset'], $pagination['show']);
         else
-            $list = $this->uebusaitoUtility->createPageList($elements, false, $pagination);
+            $listHtml = $this->uebusaitoUtility->createPageList($elements, false, $pagination);
         
         return Array(
             'search' => $search,
             'pagination' => $pagination,
-            'list' => $list
+            'listHtml' => $listHtml
         );
     }
     

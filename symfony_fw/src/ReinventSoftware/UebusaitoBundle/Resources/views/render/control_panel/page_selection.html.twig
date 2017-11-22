@@ -69,7 +69,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <form id="cp_page_selection_form_mobile" action="{{path("cp_page_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <form id="form_cp_page_selection_mobile" action="{{path("cp_page_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                 {{form_row(form.id, {'label': "page_selection_11"})}}
 
                 {{form_widget(form._token)}}

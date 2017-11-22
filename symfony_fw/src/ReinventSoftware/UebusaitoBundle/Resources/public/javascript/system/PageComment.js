@@ -15,7 +15,7 @@ function PageComment() {
         tableAndPagination.search(true);
         tableAndPagination.pagination(true);
         
-        $("#page_comment_form").on("submit", "", function(event) {
+        $("#form_page_comment").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -67,7 +67,7 @@ function PageComment() {
                     $(".username_reply").find("span").text(xhr.response.values.usernameReply);
                     $(".message_reply").find(".argument").text(xhr.response.values.argumentReply);
                     
-                    $("#page_comment_form").find("textarea[name='argument']").focus();
+                    $("#form_page_comment").find("textarea[name='argument']").focus();
                     
                     utility.goToAnchor("#page_commnet_anchor");
                 },

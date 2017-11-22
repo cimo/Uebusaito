@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h3 class="margin_clear">{% trans %}registration_3{% endtrans %}</h3>
-                <form id="user_registration_form" class="margin_top" action="{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                <form id="form_user_registration" class="margin_top" action="{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                     <div class="form-group">
                         {{form_label(form.username, "registration_4")}}
                         <div class="input-group">

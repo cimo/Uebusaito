@@ -195,6 +195,8 @@ class Utility {
                     else
                         unlink($file->getRealPath());
                 }
+                else if (is_link($file->getPathName()) === true)
+                    unlink($file->getPathName());
             }
 
             if ($parent == true)
@@ -231,9 +233,9 @@ class Utility {
         else if ($bytes >= 1024)
             $bytes = number_format($bytes / 1024, 2) . " KB";
         else if ($bytes > 1)
-            $bytes = $bytes . " bytes";
+            $bytes = "$bytes bytes";
         else if ($bytes == 1)
-            $bytes = $bytes . " byte";
+            $bytes = "$bytes byte";
         else
             $bytes = "0 bytes";
 
@@ -293,7 +295,14 @@ class Utility {
             else {
                 preg_match('#\[(.*?)\]#', $value->name, $match);
                 
-                $parameters[$match[1]] = $value->value;
+                $keyTmp = "";
+                
+                if (count($match) === 0)
+                    $keyTmp = $value->name;
+                else
+                    $keyTmp = $match[1];
+                    
+                $parameters[$keyTmp] = $value->value;
             }
         }
         

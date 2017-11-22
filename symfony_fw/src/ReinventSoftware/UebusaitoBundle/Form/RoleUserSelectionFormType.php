@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class RoleUserSelectionFormType extends AbstractType {
     public function getBlockPrefix() {
-        return "form_role_user_selection";
+        return "form_roleUser_selection";
     }
     
     public function configureOptions(OptionsResolver $resolver) {

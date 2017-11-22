@@ -63,7 +63,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <form id="cp_payment_selection_form_mobile" action="{{path("cp_payment_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <form id="form_cp_payment_selection_mobile" action="{{path("cp_payment_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                 {{form_row(form.id, {'label': "payment_selection_9"})}}
 
                 {{form_widget(form._token)}}

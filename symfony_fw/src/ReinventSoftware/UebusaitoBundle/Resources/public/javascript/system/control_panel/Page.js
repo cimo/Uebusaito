@@ -28,13 +28,13 @@ function ControlPanelPage() {
         
         selectionMobile();
         
-        fieldsVisibility("#cp_page_creation_form");
+        fieldsVisibility("#form_cp_page_creation");
         
         positionInMenu(true);
         
         utility.wordTag("#form_page_roleUserId");
         
-        $("#cp_page_creation_form").on("submit", "", function(event) {
+        $("#form_cp_page_creation").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -60,7 +60,7 @@ function ControlPanelPage() {
 
         if (utility.checkWidth() === "desktop") {
             if (selectionSended === true) {
-                selectionId = $("#cp_page_selection_form_mobile").find("select option:selected").val();
+                selectionId = $("#form_cp_page_selection_mobile").find("select option:selected").val();
 
                 selectionSended = false;
             }
@@ -84,7 +84,7 @@ function ControlPanelPage() {
             }
 
             if (selectionId > 0)
-                $("#cp_page_selection_form_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+                $("#form_cp_page_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
         }
     };
     
@@ -192,7 +192,7 @@ function ControlPanelPage() {
     }
     
     function selectionMobile() {
-        $("#cp_page_selection_form_mobile").on("submit", "", function(event) {
+        $("#form_cp_page_selection_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -223,7 +223,7 @@ function ControlPanelPage() {
             
             $("#cp_page_selection_result").html(xhr.response.render);
 
-            fieldsVisibility("#cp_page_profile_form");
+            fieldsVisibility("#form_cp_page_profile");
         
             positionInMenu(false);
 
@@ -233,17 +233,17 @@ function ControlPanelPage() {
 
             utility.wordTag("#form_page_roleUserId");
 
-            wysiwyg.init("#form_page_argument", $("#cp_page_profile_form").find("input[type='submit']"));
+            wysiwyg.init("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
 
-            $("#cp_page_profile_form").find(".form-control").focus(function() {
+            $("#form_cp_page_profile").find(".form-control").focus(function() {
                 profileFocus = true;
             });
 
-            $("#cp_page_profile_form").find("#wysiwyg .editor").focus(function() {
+            $("#form_cp_page_profile").find("#wysiwyg .editor").focus(function() {
                 profileFocus = true;
             });
 
-            $("#cp_page_profile_form").on("submit", "", function(event) {
+            $("#form_cp_page_profile").on("submit", "", function(event) {
                 event.preventDefault();
 
                 ajax.send(

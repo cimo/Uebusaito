@@ -19,7 +19,7 @@
                             <p><b>{% trans %}page_comment_3{% endtrans %}</b></p>
                             <p class="argument"></p>
                         </div>
-                        <form id="page_comment_form" action="{{path("page_comment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                        <form id="form_page_comment" action="{{path("page_comment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                             {{form_row(form.argument, {'label': "page_comment_3"})}}
 
                             {{-include("@UebusaitoBundleViews/include/captcha.html.twig")-}}

@@ -393,9 +393,9 @@ ReinventSoftware\UebusaitoBundle\Form\Model\RoleUserSelectionModel:
     properties:
         id:
             - NotBlank:
-                groups: [role_user_selection]
+                groups: [roleUser_selection]
             - Regex:
-                groups: [role_user_selection]
+                groups: [roleUser_selection]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
@@ -403,9 +403,9 @@ ReinventSoftware\UebusaitoBundle\Entity\RoleUser:
     properties:
         level:
             - NotBlank:
-                groups: [role_user_creation, role_user_profile]
+                groups: [roleUser_creation, roleUser_profile]
             - Regex:
-                groups: [role_user_creation, role_user_profile]
+                groups: [roleUser_creation, roleUser_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z_]+$/
 

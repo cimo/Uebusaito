@@ -13,7 +13,7 @@ function ControlPanelProfile() {
         upload.processFile();
         upload.setTagImageRefresh(".img-thumbnail.avatar", 1);
         
-        $("#cp_profile_form").on("submit", "", function(event) {
+        $("#form_cp_profile").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -33,7 +33,7 @@ function ControlPanelProfile() {
             );
         });
 
-        $("#cp_profile_password_form").on("submit", "", function(event) {
+        $("#form_cp_profile_password").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -53,7 +53,7 @@ function ControlPanelProfile() {
             );
         });
         
-        $("#cp_profile_credit_form").on("submit", "", function(event) {
+        $("#form_cp_profile_credit").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -69,10 +69,10 @@ function ControlPanelProfile() {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
                     if (xhr.response.errors === undefined) {
-                        var credit = $("#cp_profile_credit_form").find("input[name='credit']").val();
-                        $("#cp_profile_credit_paypal_form").find("input[name='quantity']").val(credit);
+                        var credit = $("#form_cp_profile_credit").find("input[name='credit']").val();
+                        $("#form_cp_profile_credit_paypal").find("input[name='quantity']").val(credit);
                         
-                        $("#cp_profile_credit_paypal_form").submit();
+                        $("#form_cp_profile_credit_paypal").submit();
                     }
                 },
                 null,

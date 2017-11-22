@@ -40,7 +40,7 @@ function Search() {
             );
         });
         
-        $(".search_module_form .button_search").on("click", "", function() {
+        $(".form_search_module .button_search").on("click", "", function() {
             $(this).parents(".form_search_module").submit();
         });
     };

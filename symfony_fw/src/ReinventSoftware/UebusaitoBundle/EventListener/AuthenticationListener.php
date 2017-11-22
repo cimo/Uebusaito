@@ -110,7 +110,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                         if ($checkAttemptLogin[1] == "lock")
                             $message = $this->utility->getTranslator()->trans("authenticationListener_4a") . $checkAttemptLogin[2] . $this->utility->getTranslator()->trans("authenticationListener_4b");
                         else if ($checkAttemptLogin[1] == "try")
-                            $message = $this->utility->getTranslator()->trans("authenticationListener_5") . "{$checkAttemptLogin[2]} / " . $this->settingRow['login_attempt_count'];
+                            $message = $this->utility->getTranslator()->trans("authenticationListener_5") . "{$checkAttemptLogin[2]} / {$this->settingRow['login_attempt_count']}";
                     }
                 }
             }

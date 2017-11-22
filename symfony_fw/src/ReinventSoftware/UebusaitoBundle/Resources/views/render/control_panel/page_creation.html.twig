@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-12">
         <h3 class="form_title">{% trans %}page_creation_1{% endtrans %}</h3>
-        <form id="cp_page_creation_form" action="{{path("cp_page_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_page_creation" action="{{path("cp_page_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <div class="form-group">
                 {{form_label(form.alias, "page_creation_2")}}
                 <div class="input-group">

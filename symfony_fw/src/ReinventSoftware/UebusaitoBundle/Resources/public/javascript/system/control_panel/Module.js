@@ -21,7 +21,7 @@ function ControlPanelModule() {
         
         positionInColumn(true);
         
-        $("#cp_module_creation_form").on("submit", "", function(event) {
+        $("#form_cp_module_creation").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -84,10 +84,10 @@ function ControlPanelModule() {
             utility.sortableDragModules(state, "#form_module_drag_sort");
             
             if (state === false)
-                $("#cp_module_drag_form").submit();
+                $("#form_cp_module_drag").submit();
         });
         
-        $("#cp_module_drag_form").on("submit", "", function(event) {
+        $("#form_cp_module_drag").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -211,7 +211,7 @@ function ControlPanelModule() {
     }
     
     function selectionMobile() {
-        $("#cp_module_selection_form_mobile").on("submit", "", function(event) {
+        $("#form_cp_module_selection_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -244,7 +244,7 @@ function ControlPanelModule() {
 
             positionInColumn(false);
 
-            $("#cp_module_profile_form").on("submit", "", function(event) {
+            $("#form_cp_module_profile").on("submit", "", function(event) {
                 event.preventDefault();
 
                 ajax.send(

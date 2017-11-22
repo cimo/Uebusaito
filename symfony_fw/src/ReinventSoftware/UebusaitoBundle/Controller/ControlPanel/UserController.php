@@ -157,7 +157,7 @@ class UserController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($userRows, $tableAndPagination['list']);
+        $this->response['values']['listHtml'] = $this->createListHtml($userRows, $tableAndPagination['listHtml']);
         
         $form = $this->createForm(UserSelectionFormType::class, null, Array(
             'validation_groups' => Array('user_selection'),

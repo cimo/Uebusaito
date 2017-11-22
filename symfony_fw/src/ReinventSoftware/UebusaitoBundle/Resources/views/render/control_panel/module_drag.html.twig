@@ -4,7 +4,7 @@
     <div class="col-md-6">
         <h3 class="form_title">{% trans %}module_drag_1{% endtrans %}</h3>
         <input id="module_drag_switch" type="checkbox" data-on-color="success" data-off-color="danger">
-        <form id="cp_module_drag_form" action="{{path("cp_module_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <form id="form_cp_module_drag" action="{{path("cp_module_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_widget(form.sortHeader, {'label': "module_drag_2"})}}
             {{form_widget(form.sortLeft, {'label': "module_drag_3"})}}
             {{form_widget(form.sortCenter, {'label': "module_drag_4"})}}

@@ -13,7 +13,7 @@ function ControlPanelPayment() {
     
     // Functions public
     self.init = function() {
-        $("#cp_payment_user_selection_form").on("submit", "", function(event) {
+        $("#form_cp_payment_user_selection").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -178,7 +178,7 @@ function ControlPanelPayment() {
     }
     
     function selectionMobile() {
-        $("#cp_payment_selection_form_mobile").on("submit", "", function(event) {
+        $("#form_cp_payment_selection_mobile").on("submit", "", function(event) {
             event.preventDefault();
 
             ajax.send(
