@@ -60,7 +60,7 @@ class UebusaitoUtility {
         if ($type == "withOld") {
             if (password_verify($form->get("old")->getData(), $row['password']) == false)
                 return $this->utility->getTranslator()->trans("class_uebusaitoUtility_1");
-            else if ($form->get("new")->getData() == "" || $form->get("newConfirm")->getData() == "" || $form->get("new")->getData() != $form->get("newConfirm")->getData())
+            else if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
                 return $this->utility->getTranslator()->trans("class_uebusaitoUtility_2");
             
             $user->setPassword($this->createPasswordEncoder($type, $user, $form));

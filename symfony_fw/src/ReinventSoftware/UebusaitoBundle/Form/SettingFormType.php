@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class SettingFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -77,7 +78,7 @@ class SettingFormType extends AbstractType {
                 "settingFormType_6" => "1"
             )
         ))
-        ->add("roleUserId", TextType::class, Array(
+        ->add("roleUserId", HiddenType::class, Array(
             'required' => true
         ))
         ->add("https", ChoiceType::class, Array(

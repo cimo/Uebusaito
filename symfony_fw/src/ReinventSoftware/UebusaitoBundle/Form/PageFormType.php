@@ -84,7 +84,7 @@ class PageFormType extends AbstractType {
             'required' => false,
             'data' => html_entity_decode($values['argument'], ENT_QUOTES, "utf-8")
         ))
-        ->add("roleUserId", TextType::class, Array(
+        ->add("roleUserId", HiddenType::class, Array(
             'required' => true,
             'data' => $values['roleUser_id']
         ))

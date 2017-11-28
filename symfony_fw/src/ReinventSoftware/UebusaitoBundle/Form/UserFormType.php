@@ -4,6 +4,7 @@ namespace ReinventSoftware\UebusaitoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -24,7 +25,7 @@ class UserFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add("roleUserId", TextType::class, Array(
+        $builder->add("roleUserId", HiddenType::class, Array(
             'required' => true
         ))
         ->add("username", TextType::class, Array(
