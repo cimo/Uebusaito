@@ -213,7 +213,7 @@ class Query {
             
             $query->bindValue(":id", $value);
         }
-        else if (filter_var($value, FILTER_VALIDATE_EMAIL) === true) {
+        else if (filter_var($value, FILTER_VALIDATE_EMAIL) !== false) {
             $query = $this->connection->prepare("SELECT * FROM users
                                                     WHERE email = :email");
             

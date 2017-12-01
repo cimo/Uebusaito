@@ -43,7 +43,7 @@ ReinventSoftware\UebusaitoBundle\Form\Model\ChangePasswordModel:
             - Regex:
                 groups: [change_password]
                 htmlPattern: false
-                pattern: /^.{8,20}$/
+                pattern: /^.{8,30}$/
                 message: entity.user.password
         passwordConfirm:
             - NotBlank:
@@ -51,7 +51,7 @@ ReinventSoftware\UebusaitoBundle\Form\Model\ChangePasswordModel:
             - Regex:
                 groups: [change_password]
                 htmlPattern: false
-                pattern: /^.{8,20}$/
+                pattern: /^.{8,30}$/
                 message: entity.user.password
 
 ReinventSoftware\UebusaitoBundle\Form\Model\PasswordModel:
@@ -62,7 +62,7 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PasswordModel:
             - Regex:
                 groups: [profile_password]
                 htmlPattern: false
-                pattern: /^.{8,20}$/
+                pattern: /^.{8,30}$/
                 message: entity.user.password
         new:
             - NotBlank:
@@ -70,7 +70,7 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PasswordModel:
             - Regex:
                 groups: [profile_password]
                 htmlPattern: false
-                pattern: /^.{8,20}$/
+                pattern: /^.{8,30}$/
                 message: entity.user.password
         newConfirm:
             - NotBlank:
@@ -78,7 +78,7 @@ ReinventSoftware\UebusaitoBundle\Form\Model\PasswordModel:
             - Regex:
                 groups: [profile_password]
                 htmlPattern: false
-                pattern: /^.{8,20}$/
+                pattern: /^.{8,30}$/
                 message: entity.user.password
 
 ReinventSoftware\UebusaitoBundle\Form\Model\CreditModel:
@@ -299,7 +299,7 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
             - Regex:
                 groups: [registration, user_creation]
                 htmlPattern: false
-                pattern: /^.{8,20}$/
+                pattern: /^.{8,30}$/
                 message: entity.user.password
         passwordConfirm:
             - NotBlank:
@@ -307,7 +307,7 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
             - Regex:
                 groups: [registration, user_creation]
                 htmlPattern: false
-                pattern: /^.{8,20}$/
+                pattern: /^.{8,30}$/
                 message: entity.user.password
         notLocked:
             - NotBlank:

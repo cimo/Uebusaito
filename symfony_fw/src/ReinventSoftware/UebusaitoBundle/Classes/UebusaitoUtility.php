@@ -252,19 +252,6 @@ class UebusaitoUtility {
         return false;
     }
     
-    public function checkInRoleUser($roleIdFirst, $roleIdSecond) {
-        $roleIdFirstExplode = explode(",", $roleIdFirst);
-        array_pop($roleIdFirstExplode);
-
-        $roleIdSecondExplode =  explode(",", $roleIdSecond);
-        array_pop($roleIdSecondExplode);
-        
-        if ($this->utility->valueInSubArray($roleIdFirstExplode, $roleIdSecondExplode) == true)
-            return true;
-        
-        return false;
-    }
-    
     // Functions private
     private function createPasswordEncoder($type, $user, $form) {
         if ($type == "withOld")

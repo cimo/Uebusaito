@@ -82,7 +82,7 @@ class RecoverPasswordController extends Controller {
 
                         $userEntity->setHelpCode($helpCode);
 
-                        $url = $this->utility->getUrlRoot() . "/" . $requet->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
+                        $url = $this->utility->getUrlRoot() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
 
                         // Send email to user
                         $this->utility->sendEmail($userEntity->getEmail(),
@@ -91,7 +91,7 @@ class RecoverPasswordController extends Controller {
                                                     "<a href=\"$url\">$url</a>",
                                                     $_SERVER['SERVER_ADMIN']);
 
-                        // Insert in database
+                        // Update in database
                         $this->entityManager->persist($userEntity);
                         $this->entityManager->flush();
 

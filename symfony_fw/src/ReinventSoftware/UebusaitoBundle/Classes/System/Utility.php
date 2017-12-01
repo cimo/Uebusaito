@@ -264,7 +264,7 @@ class Utility {
         array_splice($array, $b, 0, $out);
     }
     
-    public function valueInSubArray($elements, $subElements) {
+    public function arrayValueInArray($elements, $subElements) {
         $result = false;
         
         foreach($elements as $key => $value) {
@@ -276,6 +276,19 @@ class Utility {
         }
         
         return $result;
+    }
+    
+    public function valueInExplodeArray($elementsFirst, $elementsSecond) {
+        $elementsFirstExplode = explode(",", $elementsFirst);
+        array_pop($elementsFirstExplode);
+
+        $elementsSecondExplode =  explode(",", $elementsSecond);
+        array_pop($elementsSecondExplode);
+        
+        if ($this->arrayValueInArray($elementsFirstExplode, $elementsSecondExplode) == true)
+            return true;
+        
+        return false;
     }
     
     public function urlParameters($completeUrl, $baseUrl) {
