@@ -94,7 +94,7 @@ class Upload {
                 'text' => $this->utility->getTranslator()->trans("class_upload_1") . "<b>" . $this->utility->sizeUnits($this->maxSize) . "</b>"
             );
         }
-        else if (in_array($fileType, $this->type) === false) {
+        else if (in_array($fileType, $this->type) == false) {
             return Array(
                 'status' => 1,
                 'text' => $this->utility->getTranslator()->trans("class_upload_2") . "<b>" . implode(", ", $this->type) . "</b>"
@@ -166,7 +166,7 @@ class Upload {
                         );
                     }
                 }
-                else if (in_array(mime_content_type($value . "/" . $this->tmp), $this->type) === false) {
+                else if (in_array(mime_content_type($value . "/" . $this->tmp), $this->type) == false) {
                     unlink($value . "/" . $this->tmp);
                     
                     if ($key == count($this->path) - 1) {

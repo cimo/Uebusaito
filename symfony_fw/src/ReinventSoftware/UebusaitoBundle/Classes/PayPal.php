@@ -33,8 +33,8 @@ class PayPal {
             $valueExplode = explode("=", $value);
 
             if (count($valueExplode) == 2) {
-                if ($valueExplode[0] === "payment_date") {
-                    if (substr_count($valueExplode[1], "+") === 1)
+                if ($valueExplode[0] == "payment_date") {
+                    if (substr_count($valueExplode[1], "+") == 1)
                         $valueExplode[1] = str_replace("+", "%2B", $valueExplode[1]);
                 }
                 

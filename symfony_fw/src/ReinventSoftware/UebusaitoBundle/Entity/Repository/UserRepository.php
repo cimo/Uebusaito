@@ -34,7 +34,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
     }
 
     public function supportsClass($class) {
-        return $this->getEntityName() === $class || is_subclass_of($class, $this->getEntityName());
+        return $this->getEntityName() == $class || is_subclass_of($class, $this->getEntityName());
     }
     
     // Functions private

@@ -195,7 +195,7 @@ class Utility {
                     else
                         unlink($file->getRealPath());
                 }
-                else if (is_link($file->getPathName()) === true)
+                else if (is_link($file->getPathName()) == true)
                     unlink($file->getPathName());
             }
 
@@ -249,7 +249,7 @@ class Utility {
             foreach($elements as $key => $value) {
                 $pregGrep = preg_grep("~$like~i", $value);
 
-                if (empty($pregGrep) === false)
+                if (empty($pregGrep) == false)
                     $result[] = $elements[$key];
             }
         }
@@ -310,7 +310,7 @@ class Utility {
                 
                 $keyTmp = "";
                 
-                if (count($match) === 0)
+                if (count($match) == 0)
                     $keyTmp = $value->name;
                 else
                     $keyTmp = $match[1];
@@ -486,7 +486,7 @@ class Utility {
                         $key = (string)$row[$paramsIndexKey];
                     }
                     
-                    if ($paramsColumnKey === null) {
+                    if ($paramsColumnKey == null) {
                         $valueSet = true;
                         $value = $row;
                     }

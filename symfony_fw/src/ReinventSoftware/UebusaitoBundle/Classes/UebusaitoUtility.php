@@ -227,7 +227,7 @@ class UebusaitoUtility {
         if ($request->request->get('form_language')['codeText'] != null)
             $_SESSION['form_language_codeText'] = $request->request->get('form_language')['codeText'];
         
-        if (isset($_SESSION['form_language_codeText']) === false) {
+        if (isset($_SESSION['form_language_codeText']) == false) {
             $row = $this->query->selectSettingDatabase();
             
             $_SESSION['form_language_codeText'] = $row['language'];
