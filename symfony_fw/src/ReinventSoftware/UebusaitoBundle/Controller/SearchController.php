@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
@@ -25,7 +24,6 @@ class SearchController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $tableAndPagination;
@@ -53,11 +51,10 @@ class SearchController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -73,7 +70,7 @@ class SearchController extends Controller {
         $this->response['module']['label'] = $moduleRow['label'];
         
         if ($request->isMethod("POST") == true) {
-            if ($form->isValid() == true) {
+            if ($form->isValid() == true || $this->isCsrfTokenValid("intention", $request->get("form_search")['_token']) == true) {
                 $words = $form->get("words")->getData();
 
                 $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/5/$words";
@@ -120,12 +117,11 @@ class SearchController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         

@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
@@ -28,7 +27,6 @@ class PageController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $tableAndPagination;
@@ -59,15 +57,14 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $pageEntity = new Page();
@@ -78,14 +75,14 @@ class PageController extends Controller {
             'validation_groups' => Array('page_creation'),
             'urlLocale' => $this->urlLocale,
             'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-            'choicesParent' => array_flip($this->uebusaitoUtility->createPageList($pageRows, true)),
+            'choicesParent' => array_flip($this->utility->createPageList($pageRows, true)),
             'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase(null), "id", "alias")
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['roleUserHtml'] = $this->uebusaitoUtility->createRoleUserHtml("form_page_roleUserId_field", true);
+        $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
                 $pageEntity->setDateCreation(date("Y-m-d H:i:s"));
                 
@@ -143,16 +140,15 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $_SESSION['page_profile_id'] = 0;
@@ -169,11 +165,11 @@ class PageController extends Controller {
         
         $form = $this->createForm(PageSelectionFormType::class, null, Array(
             'validation_groups' => Array('page_selection'),
-            'choicesId' => array_flip($this->uebusaitoUtility->createPageList($pageRows, true))
+            'choicesId' => array_flip($this->utility->createPageList($pageRows, true))
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -211,18 +207,17 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             $id = 0;
             
             if (empty($request->get("id")) == false)
@@ -241,12 +236,12 @@ class PageController extends Controller {
                     'validation_groups' => Array('page_profile'),
                     'urlLocale' => $this->urlLocale,
                     'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-                    'choicesParent' => array_flip($this->uebusaitoUtility->createPageList($pageRows, true)),
+                    'choicesParent' => array_flip($this->utility->createPageList($pageRows, true)),
                     'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
                 ));
                 $form->handleRequest($request);
                 
-                $this->response['values']['roleUserHtml'] = $this->uebusaitoUtility->createRoleUserHtml("form_page_roleUserId_field", true);
+                $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
                 $this->response['values']['id'] = $_SESSION['page_profile_id'];
                 $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
                 $this->response['values']['dateCreation'] = $this->utility->dateFormat($pageEntity->getDateCreation());
@@ -293,18 +288,17 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
             $this->response['values']['pageRows'] = array_column($this->query->selectAllPageParentDatabase($request->get("id")), "id", "alias");
         }
         
@@ -336,15 +330,14 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($_SESSION['page_profile_id']);
@@ -355,12 +348,12 @@ class PageController extends Controller {
             'validation_groups' => Array('page_profile'),
             'urlLocale' => $this->urlLocale,
             'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-            'choicesParent' => array_flip($this->uebusaitoUtility->createPageList($pageRows, true)),
+            'choicesParent' => array_flip($this->utility->createPageList($pageRows, true)),
             'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
                 $pageEntity->setUserModification($this->getUser()->getUsername());
                 $pageEntity->setDateModification(date("Y-m-d H:i:s"));
@@ -419,18 +412,17 @@ class PageController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
             if ($request->get("event") == "delete") {
                 $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
 
@@ -450,7 +442,7 @@ class PageController extends Controller {
                     $this->response['values']['id'] = $id;
                     $this->response['values']['text'] = "<p class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
                     $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
-                    $this->response['values']['pageHtml'] = $this->uebusaitoUtility->createPageHtml($this->urlLocale, "cp_page_deletion_parent_new");
+                    $this->response['values']['pageHtml'] = $this->utility->createPageHtml($this->urlLocale, "cp_page_deletion_parent_new");
                 }
             }
             else if ($request->get("event") == "deleteAll") {

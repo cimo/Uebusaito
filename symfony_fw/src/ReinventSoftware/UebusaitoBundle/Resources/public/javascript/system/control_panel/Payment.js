@@ -44,7 +44,7 @@ function ControlPanelPayment() {
     };
     
     self.changeView = function() {
-        if (utility.checkWidth() === "desktop") {
+        if (utility.checkWidthType() === "desktop") {
             if (selectionSended === true) {
                 selectionId = $("#cp_payment_selection_mobile").find("select option:selected").val();
 

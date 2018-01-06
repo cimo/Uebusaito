@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 
 use ReinventSoftware\UebusaitoBundle\Form\SettingFormType;
@@ -24,7 +23,6 @@ class SettingController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     private $ajax;
     
@@ -51,15 +49,14 @@ class SettingController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
         $settingEntity = $this->entityManager->getRepository("UebusaitoBundle:Setting")->find(1);
@@ -68,14 +65,14 @@ class SettingController extends Controller {
         
         $form = $this->createForm(SettingFormType::class, $settingEntity, Array(
             'validation_groups' => Array('setting'),
-            'choicesTemplate' => $this->uebusaitoUtility->createTemplateList(),
+            'choicesTemplate' => $this->utility->createTemplateList(),
             'choicesLanguage' => array_column($languageCustomData, "value", "text")
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['roleUserHtml'] = $this->uebusaitoUtility->createRoleUserHtml("form_setting_roleUserId_field", true);
+        $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_setting_roleUserId_field", true);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
                 if ($form->get("templateColumn")->getData() != $settingEntity->getTemplateColumn())
                     $this->moduleDatabase($form->get("templateColumn")->getData());
@@ -138,18 +135,17 @@ class SettingController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
             if ($request->get("event") == "deleteLanguage") {
                 $code = $request->get("code");
 

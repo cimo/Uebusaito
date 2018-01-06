@@ -1,5 +1,8 @@
 @import "utility.scss";
 
+@include fontFace("pt_sans", "../../fonts/pt_sans");
+@include fontFace("archivo_black", "../../fonts/archivo_black");
+
 $logoTextColor: #4089c9;
 
 $navbarHeightDesktop: 80px;
@@ -94,9 +97,8 @@ $buttonFlagBorder: 1px solid #327db6;
 $footerBackgroundColor: #2f343a;
 $footerColor: #ffffff;
 
-@include fontFace("pt_sans", "../../fonts/pt_sans");
-@include fontFace("archivo_black", "../../fonts/archivo_black");
-
+@media(max-width: "1350px") and (min-width: $widthMobile) {
+}
 @media(max-width: $widthMobile) {
     .container_center {
         width: 100%;
@@ -167,15 +169,18 @@ $footerColor: #ffffff;
                         -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
                         filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
                         box-shadow: $panelShadow;
-
-                        .panel, .panel_clean {
-                            margin: 0 !important;
-                            padding: 0 !important;
-                            border: initial !important;
+                        
+                        .form-group {
+                            margin-bottom: 0;
                         }
                         
-                        #panel_id_2 {
-                            box-shadow: none !important;
+                        #form_search_module_mobile {
+                            .form-group {
+                                input {
+                                    padding-left: 35px;
+                                    width: 160px;
+                                }
+                            }
                         }
                     }
                 }

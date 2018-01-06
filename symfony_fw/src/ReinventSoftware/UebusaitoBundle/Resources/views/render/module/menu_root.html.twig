@@ -30,7 +30,15 @@
                                     <i class="fa fa-search fa-lg"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    {{-render(controller("UebusaitoBundle:Search:module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                                    <form id="form_search_module_mobile" class="form_search_module display_inline" action="{{path("search_module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                                        <div class="button_search">
+                                            <i class="fa fa-search"></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="form_search_mobile_words" class="form-control" type="text" name="form_search[words]" required="required" placeholder="Search in the site" autocomplete="off" autocorrect="off" spellcheck="false">
+                                        </div>
+                                        <input id="form_search_mobile__token" type="hidden" name="form_search[_token]" value="{{csrf_token("intention")}}">
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +50,7 @@
                                     <i class="fa fa-globe fa-lg"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    {{-render(controller("UebusaitoBundle:Language:text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                                    {#{-render(controller("UebusaitoBundle:Language:text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}#}
                                 </div>
                             </div>
                         </div>
@@ -54,7 +62,7 @@
                                     <i class="fa fa-user fa-lg"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                                    {#{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}#}
                                 </div>
                             </div>
                         </div>

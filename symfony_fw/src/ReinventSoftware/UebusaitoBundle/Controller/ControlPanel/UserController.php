@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
 
@@ -28,7 +27,6 @@ class UserController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $tableAndPagination;
@@ -56,14 +54,13 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $userEntity = new User();
@@ -73,14 +70,14 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['roleUserHtml'] = $this->uebusaitoUtility->createRoleUserHtml("form_user_roleUserId_field", true);
+        $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
-                $messagePassword = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
+                $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
 
                 if ($messagePassword == "ok") {
-                    $this->uebusaitoUtility->configureUserParameter($userEntity);
+                    $this->utility->configureUserParameter($userEntity);
 
                     mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
                     mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
@@ -137,16 +134,15 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $_SESSION['user_profile_id'] = 0;
@@ -165,7 +161,7 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -203,17 +199,16 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             $id = 0;
             
             if (empty($request->get("id")) == false)
@@ -231,7 +226,7 @@ class UserController extends Controller {
                 ));
                 $form->handleRequest($request);
                 
-                $this->response['values']['roleUserHtml'] = $this->uebusaitoUtility->createRoleUserHtml("form_user_roleUserId_field", true);
+                $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
                 $this->response['values']['id'] = $_SESSION['user_profile_id'];
                 $this->response['values']['credit'] = $userEntity->getCredit();
                 
@@ -275,14 +270,13 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
         $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($_SESSION['user_profile_id']);
@@ -292,9 +286,9 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
-                $messagePassword = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
+                $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
 
                 if ($messagePassword == "ok") {
                     $usernameOld = $userEntity->getUsername();
@@ -365,17 +359,16 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkRoleUser == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
             if ($request->get("event") == "delete") {
                 $id = $request->get("id") == null ? $_SESSION['user_profile_id'] : $request->get("id");
                 

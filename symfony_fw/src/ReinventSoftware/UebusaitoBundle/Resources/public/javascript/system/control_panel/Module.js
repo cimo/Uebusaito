@@ -46,7 +46,7 @@ function ControlPanelModule() {
         $("#module_drag_switch").bootstrapSwitch("state", false, true);
         utility.sortableDragModules(false, "#form_module_drag_sort");
 
-        if (utility.checkWidth() === "desktop") {
+        if (utility.checkWidthType() === "desktop") {
             if (selectionSended === true) {
                 selectionId = $("#cp_module_selection_mobile").find("select option:selected").val();
 

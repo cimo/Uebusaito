@@ -58,7 +58,7 @@ function ControlPanelPage() {
     self.changeView = function() {
         profileFocus = false;
 
-        if (utility.checkWidth() === "desktop") {
+        if (utility.checkWidthType() === "desktop") {
             if (selectionSended === true) {
                 selectionId = $("#form_cp_page_selection_mobile").find("select option:selected").val();
 

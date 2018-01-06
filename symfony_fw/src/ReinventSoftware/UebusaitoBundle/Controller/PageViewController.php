@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 
 class PageViewController extends Controller {
     // Vars
@@ -20,7 +19,6 @@ class PageViewController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     
     // Properties
@@ -40,10 +38,9 @@ class PageViewController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -86,10 +83,10 @@ class PageViewController extends Controller {
                     );
                 }
                 else if ($pageRow['protected'] == true) {
-                    $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+                    $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
                     $valueInExplodeArray = $this->utility->valueInExplodeArray($pageRow['role_user_id'], $this->getUser()->getRoleUserId());
                             
-                    if ($checkRoleUser == false && $valueInExplodeArray == false) {
+                    if ($checkUserRole == false && $valueInExplodeArray == false) {
                         // Page not available for role
                         $this->response['values']['controllerAction'] = null;
                         $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_4");

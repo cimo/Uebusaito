@@ -9,7 +9,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 
 class RequestListener {
     // Vars
@@ -18,7 +17,6 @@ class RequestListener {
     private $router;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     
     // Properties
@@ -30,7 +28,6 @@ class RequestListener {
         $this->router = $router;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
     }
     

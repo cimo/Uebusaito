@@ -15,7 +15,7 @@ class SearchFormType extends AbstractType {
         $resolver->setDefaults(Array(
             'data_class' => "ReinventSoftware\UebusaitoBundle\Form\Model\SearchModel",
             'csrf_protection' => true,
-            'validation_groups' => null,
+            'validation_groups' => null
         ));
     }
     

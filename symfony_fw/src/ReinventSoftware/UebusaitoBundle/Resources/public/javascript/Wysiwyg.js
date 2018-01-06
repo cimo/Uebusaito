@@ -40,7 +40,7 @@ function Wysiwyg() {
     self.changeView = function() {
         popupSetting();
         
-        if (utility.checkWidth() === "desktop") {
+        if (utility.checkWidthType() === "desktop") {
             var divs = $("#wysiwyg").find(".editor").contents().length > 0 ? $("#wysiwyg").find(".editor").contents().find("div.column") : $(document).find("div.column");
 
             $.each(divs, function(key, value) {
@@ -1086,7 +1086,7 @@ function Wysiwyg() {
         var top = 0;
         var left = 0;
         
-        if (utility.checkWidth() === "desktop") {
+        if (utility.checkWidthType() === "desktop") {
             top = event.clientY + 40;
             left = event.clientX + 20;
 

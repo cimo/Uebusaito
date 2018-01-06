@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 
 use ReinventSoftware\UebusaitoBundle\Form\RecoverPasswordFormType;
@@ -25,7 +24,6 @@ class RecoverPasswordController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     private $ajax;
     
@@ -52,11 +50,10 @@ class RecoverPasswordController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -125,7 +122,7 @@ class RecoverPasswordController extends Controller {
             
             if ($request->isMethod("POST") == true) {
                 if ($form->isValid() == true) {
-                    $messagePassword = $this->uebusaitoUtility->assigUserPassword("withoutOld", $userEntity, $form);
+                    $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
 
                     if ($messagePassword == "ok") {
                         $userEntity->setHelpCode(null);

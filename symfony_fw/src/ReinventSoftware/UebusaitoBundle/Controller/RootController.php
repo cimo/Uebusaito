@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\Captcha;
 
@@ -23,7 +22,6 @@ class RootController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $captcha;
@@ -51,19 +49,18 @@ class RootController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->captcha = new Captcha($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         // Logic
         $this->utility->generateToken();
         
         $this->utility->configureCookie(session_name(), 0, isset($_SERVER['HTTPS']), true);
         
-        $languageRow =  $this->query->selectLanguageDatabase($this->urlLocale);
+        $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);
                 
         $_SESSION['language_date'] = $languageRow['date'];
         
@@ -96,6 +93,7 @@ class RootController extends Controller {
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
         $this->get("twig")->addGlobal("captchaImage", $this->response['captchaImage']);
+        $this->get("twig")->addGlobal("isMobile", $this->utility->checkMobile());
         
         return Array(
             'urlLocale' => $this->urlLocale,

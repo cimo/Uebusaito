@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
 use ReinventSoftware\UebusaitoBundle\Classes\Upload;
 
@@ -28,7 +27,6 @@ class ProfileController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     private $ajax;
     private $upload;
@@ -56,15 +54,14 @@ class ProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
         
         // Logic
         $usernameOld = $this->getUser()->getUsername();
@@ -84,7 +81,7 @@ class ProfileController extends Controller {
         
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
                 if ($form->has("username") == true) {
                     if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/files/$usernameOld") == true)
@@ -160,14 +157,13 @@ class ProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
         
         // Logic
         $form = $this->createForm(PasswordFormType::class, null, Array(
@@ -175,9 +171,9 @@ class ProfileController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
-                $messagePassword = $this->uebusaitoUtility->assigUserPassword("withOld", $this->getUser(), $form);
+                $messagePassword = $this->utility->assignUserPassword("withOld", $this->getUser(), $form);
 
                 if ($messagePassword == "ok") {
                     // Insert in database
@@ -231,15 +227,14 @@ class ProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkRoleUser = $this->uebusaitoUtility->checkRoleUser(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
         
         // Logic
         $settingRow = $this->query->selectSettingDatabase();
@@ -252,7 +247,7 @@ class ProfileController extends Controller {
         $this->response['values']['currentCredit'] = $this->getUser() != null ? $this->getUser()->getCredit() : 0;
         $this->response['values']['payPalSandbox'] = $settingRow['payPal_sandbox'];
         
-        if ($request->isMethod("POST") == true && $checkRoleUser == true) {
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true)
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_6");
             else {
@@ -295,9 +290,9 @@ class ProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -324,11 +319,10 @@ class ProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->upload = new Upload($this->container, $this->entityManager);
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         

@@ -36,13 +36,11 @@ date.time: H:i:s
 
 # Utility.php
 "class_utility_1": "Il tempo della sessione è terminato, perfavore rifai il login."
-
-# UebusaitoUtility.php
-"class_uebusaitoUtility_1": "La vecchia password non corrisponde!"
-"class_uebusaitoUtility_2": "Nuova password e Conferma nuova password non corrispondono!"
-"class_uebusaitoUtility_3": "Password e Conferma password non corrispondono!"
-"class_uebusaitoUtility_4": "Seleziona genitore:"
-"class_uebusaitoUtility_5": "Seleziona"
+"class_utility_2": "La vecchia password non corrisponde!"
+"class_utility_3": "Nuova password e Conferma nuova password non corrispondono!"
+"class_utility_4": "Password e Conferma password non corrispondono!"
+"class_utility_5": "Seleziona genitore:"
+"class_utility_6": "Seleziona"
 
 # Upload.php
 "class_upload_1": "Errore dimensione massima, il limite è: "

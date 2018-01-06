@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\UebusaitoUtility;
 
 class MenuRootController extends Controller {
     // Vars
@@ -20,7 +19,6 @@ class MenuRootController extends Controller {
     private $response;
     
     private $utility;
-    private $uebusaitoUtility;
     private $query;
     
     // Properties
@@ -40,10 +38,9 @@ class MenuRootController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->uebusaitoUtility = new UebusaitoUtility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         
-        $this->urlLocale = $this->uebusaitoUtility->checkLanguage($request);
+        $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
@@ -55,7 +52,7 @@ class MenuRootController extends Controller {
         $this->response['module']['label'] = $moduleRow['label'];
         
         $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}";
-        $this->response['values']['pageList'] = $this->uebusaitoUtility->createPageList($pageRows, false);
+        $this->response['values']['pageList'] = $this->utility->createPageList($pageRows, false);
         $this->response['values']['moduleRows'] = $this->query->selectAllModuleDatabase();
         
         return Array(

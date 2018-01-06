@@ -301,12 +301,13 @@ class Utility {
     
     public function requestParametersParse($json) {
         $parameters = Array();
+        $match = Array();
         
         foreach($json as $key => $value) {
             if (is_object($value) == false)
                 $parameters[$key] = $value;
             else {
-                preg_match('#\[(.*?)\]#', $value->name, $match);
+                preg_match("#\[(.*?)\]#", $value->name, $match);
                 
                 $keyTmp = "";
                 
@@ -358,6 +359,61 @@ class Utility {
         }
         
         return $dateExplode;
+    }
+    
+    public function configureUserParameter($user) {
+        $query = $this->connection->prepare("SELECT id FROM users
+                                                LIMIT 1");
+        
+        $query->execute();
+        
+        $rowsCount = $query->rowCount();
+        
+        if ($rowsCount == 0) {
+            $user->setRoleUserId("1,2,");
+            $user->setNotLocked(1);
+        }
+        else {
+            $user->setRoleUserId("1,");
+            $user->setNotLocked(0);
+        }
+    }
+    
+    public function assignUserRoleLevel($user) {
+        if ($user != null) {
+            $row = $this->query->selectRoleUserDatabase($user->getRoleUserId());
+            
+            foreach($row as $key => $value) {
+                $user->setRoles(Array(
+                    $value
+                ));
+            }
+        }
+    }
+    
+    public function assignUserPassword($type, $user, $form) {
+        $row = $this->query->selectUserDatabase($user->getId());
+        
+        if ($type == "withOld") {
+            if (password_verify($form->get("old")->getData(), $row['password']) == false)
+                return $this->translator->trans("class_utility_2");
+            else if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
+                return $this->translator->trans("class_utility_3");
+            
+            $user->setPassword($this->createPasswordEncoder($type, $user, $form));
+        }
+        else if ($type == "withoutOld") {
+            if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
+                if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
+                    return $this->translator->trans("class_utility_4");
+                
+                $user->setPassword($this->createPasswordEncoder($type, $user, $form));
+            }
+            else
+                $user->setPassword($row['password']);
+        }
+        
+        return "ok";
     }
     
     public function checkToken($request) {
@@ -428,6 +484,189 @@ class Utility {
             
             $_SESSION['user_activity_count'] ++;
         }
+    }
+    
+    public function checkAttemptLogin($type, $userValue, $settingRow) {
+        $row = $this->query->selectUserDatabase($userValue);
+        
+        $dateTimeCurrentLogin = new \DateTime($row['date_current_login']);
+        $dateTimeCurrent = new \DateTime();
+        
+        $interval = intval($dateTimeCurrentLogin->diff($dateTimeCurrent)->format("%i"));
+        $total = $settingRow['login_attempt_time'] - $interval;
+        
+        if ($total < 0)
+            $total = 0;
+        
+        $dateCurrent = date("Y-m-d H:i:s");
+        $dateLastLogin = strpos($row['date_last_login'], "0000") !== false ? $dateCurrent : $row['date_current_login'];
+        
+        $result = Array("", "");
+        
+        if (isset($row['id']) == true && $settingRow['login_attempt_time'] > 0) {
+            $count = $row['attempt_login'] + 1;
+            
+            $query = $this->connection->prepare("UPDATE users
+                                                    SET date_current_login = :dateCurrentLogin,
+                                                        date_last_login = :dateLastLogin,
+                                                        ip = :ip,
+                                                        attempt_login = :attemptLogin
+                                                    WHERE id = :id");
+            
+            if ($type == "success") {
+                if ($count > $settingRow['login_attempt_count'] && $total > 0) {
+                    $result[0] = "lock";
+                    $result[1] = $total;
+                    
+                    return Array(false, $result[0], $result[1]);
+                }
+                else {
+                    $query->bindValue(":dateCurrentLogin", $dateCurrent);
+                    $query->bindValue(":dateLastLogin", $dateLastLogin);
+                    $query->bindValue(":ip", $this->clientIp());
+                    $query->bindValue(":attemptLogin", 0);
+                    $query->bindValue(":id", $row['id']);
+
+                    $query->execute();
+                }
+            }
+            else if ($type == "failure") {
+                if ($count > $settingRow['login_attempt_count'] && $total > 0) {
+                    $result[0] = "lock";
+                    $result[1] = $total;
+                }
+                else {
+                    if ($count > $settingRow['login_attempt_count'])
+                        $count = 1;
+                    
+                    $query->bindValue(":dateCurrentLogin", $dateCurrent);
+                    $query->bindValue(":dateLastLogin", $row['date_last_login']);
+                    $query->bindValue(":ip", $this->clientIp());
+                    $query->bindValue(":attemptLogin", $count);
+                    $query->bindValue(":id", $row['id']);
+                    
+                    $query->execute();
+                    
+                    $result[0] = "try";
+                    $result[1] = $count;
+                }
+                
+                return Array(false, $result[0], $result[1]);
+            }
+        }
+        
+        return Array(true, $result[0], $result[1]);
+    }
+    
+    public function checkLanguage($request) {
+        if ($request->request->get("form_language")['codeText'] != null)
+            $_SESSION['form_language_codeText'] = $request->request->get("form_language")['codeText'];
+        
+        if (isset($_SESSION['form_language_codeText']) == false) {
+            $row = $this->query->selectSettingDatabase();
+            
+            $_SESSION['form_language_codeText'] = $row['language'];
+        }
+        
+        $request->setLocale($_SESSION['form_language_codeText']);
+        
+        return $_SESSION['form_language_codeText'];
+    }
+    
+    public function checkUserNotLocked($username) {
+        $row = $this->query->selectUserDatabase($username);
+        
+        if ($row == false)
+            return true;
+        else
+            return $row['not_locked'];
+    }
+    
+    public function checkUserRole($roleName, $roleId) {
+        $row = $this->query->selectRoleUserDatabase($roleId);
+        
+        foreach ($roleName as $key => $value) {
+            if (in_array($value, $row) == true) {
+                return true;
+
+                break;
+            }
+        }
+        
+        return false;
+    }
+    
+    public function checkMobile() {
+        $isMobile = false;
+        
+        if (preg_match("/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i", $_SERVER['HTTP_USER_AGENT'])
+            || preg_match("/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i", substr($_SERVER['HTTP_USER_AGENT'], 0, 4)))
+            $isMobile = true;
+        
+        return $isMobile;
+    }
+    
+    public function createPageHtml($urlLocale, $selectId) {
+        $rows = $this->query->selectAllPageDatabase($urlLocale);
+        
+        $pagesList = $this->createPageList($rows, true);
+        
+        $html = "<p class=\"margin_clear\">" . $this->translator->trans("class_utility_5") . "</p>
+        <select id=\"$selectId\">
+            <option value=\"\">Select</option>";
+            foreach($pagesList as $key => $value)
+                $html .= "<option value=\"$key\">$value</option>";
+        $html .= "</select>";
+        
+        return $html;
+    }
+    
+    public function createUserRoleHtml($selectId, $isRequired = false) {
+        $rows = $this->query->selectAllRoleUserDatabase();
+        
+        $required = $isRequired == true ? "required=\"required\"" : "";
+        
+        $html = "<select id=\"$selectId\" class=\"form-control\" $required>
+            <option value=\"\">" . $this->translator->trans("class_utility_6") . "</option>";
+            foreach($rows as $key => $value)
+                $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
+        $html .= "</select>";
+        
+        return $html;
+    }
+    
+    public function createPageList($pagesRows, $onlyMenuName, $pagination = null) {
+        $pagesListHierarchy = $this->createPageListHierarchy($pagesRows, $pagination);
+        
+        if ($onlyMenuName == true) {
+            $tag = "";
+            $parentId = 0;
+            $elements = Array();
+            $count = 0;
+
+            $pagesListOnlyMenuName = $this->createPageListOnlyMenuName($pagesListHierarchy, $tag, $parentId, $elements, $count);
+            
+            return $pagesListOnlyMenuName;
+        }
+        
+        return $pagesListHierarchy;
+    }
+    
+    public function createTemplateList() {
+        $templatesPath = "{$this->pathSrcBundle}/Resources/public/images/templates";
+        
+        $scanDirElements = scandir($templatesPath);
+        
+        $list = Array();
+        
+        if ($scanDirElements != false) {
+            foreach ($scanDirElements as $key => $value) {
+                if ($value != "." && $value != ".." && $value != ".htaccess" && is_dir("$templatesPath/$value") == true)
+                    $list[$value] = $value;
+            }
+        }
+        
+        return $list;
     }
     
     // Functions private
@@ -506,5 +745,69 @@ class Utility {
                 return $resultArray;
             }
         }
+    }
+    
+    private function createPasswordEncoder($type, $user, $form) {
+        if ($type == "withOld")
+            return $this->passwordEncoder->encodePassword($user, $form->get("new")->getData());
+        else if ($type == "withoutOld")
+            return $this->passwordEncoder->encodePassword($user, $form->get("password")->getData());
+    }
+    
+    private function createPageListHierarchy($pagesRows, $pagination) {
+        $elements = array_slice($pagesRows, $pagination['offset'], $pagination['show']);
+        
+        $nodes = Array();
+        $tree = Array();
+        
+        foreach ($elements as $page) {
+            $nodes[$page['id']] = array_merge($page, Array(
+                'children' => Array()
+            ));
+        }
+        
+        foreach ($nodes as &$node) {
+            if ($node['parent'] == null || array_key_exists($node['parent'], $nodes) == false)
+                $tree[] = &$node;
+            else
+                $nodes[$node['parent']]['children'][] = &$node;
+        }
+        
+        unset($node);
+        unset($nodes);
+        
+        return $tree;
+    }
+    
+    private function createPageListOnlyMenuName($pagesListHierarchy, &$tag, &$parentId, &$elements, &$count) {
+        foreach ($pagesListHierarchy as $key => $value) {
+            if ($value['parent'] == null) {
+                $count = 0;
+                
+                $tag = "-";
+            }
+            else if ($value['parent'] != null && $parentId != null && $value['parent'] < $parentId) {
+                $count --;
+                
+                if ($count == 1)
+                    $tag = substr($tag, 0, 2);
+                else
+                    $tag = substr($tag, 0, $count);
+            }
+            else if ($value['parent'] != null && $value['parent'] != $parentId) {
+                $count ++;
+                
+                $tag .= "-";
+            }
+            
+            $parentId = $value['parent'];
+            
+            $elements[$value['id']] = "|$tag| " . $value['alias'];
+            
+            if (count($value['children']) > 0)
+                $this->createPageListOnlyMenuName($value['children'], $tag, $parentId, $elements, $count);
+        }
+        
+        return $elements;
     }
 }
