@@ -635,6 +635,26 @@ class Utility {
         return $html;
     }
     
+    public function createLanguageOptionsHtml($code) {
+        $row = $this->query->selectLanguageDatabase($code);
+        $rows = $this->query->selectAllLanguageDatabase();
+        
+        $key = array_search($row, $rows);
+        unset($rows[$key]);
+        array_unshift($rows, $row);
+        
+        $html = "";
+        
+        foreach($rows as $key => $value) {
+            $html .= "<option value=\"{$value['code']}\">{$value['code']}</option>";
+            
+            if ($key == 0)
+                $html .= "<option disabled=\"disabled\">-------------------</option>";
+        }
+        
+        return $html;
+    }
+    
     public function createPageList($pagesRows, $onlyMenuName, $pagination = null) {
         $pagesListHierarchy = $this->createPageListHierarchy($pagesRows, $pagination);
         

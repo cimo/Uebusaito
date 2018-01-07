@@ -124,8 +124,11 @@ legend { width: inherit; padding: 0 10px; border-bottom: none; }
   .navbar_fix .navbar-default .navbar-header .navbar_header_content .navbar-toggle.collapsed .middle-bar { opacity: 1; }
   .navbar_fix .navbar-default .navbar-header .navbar_header_content .navbar-toggle.collapsed .bottom-bar { transform: rotate(0); }
   .navbar_fix .navbar-default .navbar-header .navbar_header_content .dropdown-menu { padding: 5px; background-color: #f4f4f4; border: 1px solid #e7e7e7; -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#474747')"; filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#474747')"; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
-  .navbar_fix .navbar-default .navbar-header .navbar_header_content .dropdown-menu .form-group { margin-bottom: 0; }
+  .navbar_fix .navbar-default .navbar-header .navbar_header_content .dropdown-menu #form_search_module_mobile .form-group { margin-bottom: 0; }
   .navbar_fix .navbar-default .navbar-header .navbar_header_content .dropdown-menu #form_search_module_mobile .form-group input { padding-left: 35px; width: 160px; }
+  .navbar_fix .navbar-default .navbar-header .navbar_header_content .dropdown-menu #form_language_text_mobile .form-group { margin-bottom: 0; display: inline; }
+  .navbar_fix .navbar-default .navbar-header .navbar_header_content .dropdown-menu #form_language_text_mobile .form-group select { width: 45px; padding: 0; }
+  .navbar_fix .navbar-default .navbar-header .navbar_header_content .dropdown-menu #form_user_authentication_mobile { width: 180px; }
   .navbar_fix .navbar-default .navbar-header .navbar_header_icon { padding-right: 2px; }
   .navbar_fix .navbar-default .navbar-header .navbar_header_icon .dropdown-toggle { margin-left: 0; margin-right: 0; }
   .navbar_fix .navbar-default .navbar-collapse { display: block !important; margin-top: 7px; border-top: 1px solid #e7e7e7; }
@@ -257,6 +260,7 @@ p { margin: 0; }
 .accordion_container .content { display: none; }
 
 .remember_me_fix { margin: 5px 0 5px 10px !important; display: inline-block !important; }
+.remember_me_fix label { position: relative; top: 2px; right: 2px; }
 
 .avatar { border-radius: 50%; max-width: 80px; max-height: 80px; }
 
@@ -277,8 +281,6 @@ p { margin: 0; }
 .footer_icons { margin-bottom: 10px; }
 
 .footer_icons div { display: inline-block; text-align: center; min-width: 50px; font-size: 28px; }
-
-#_remember_me { position: relative; top: 2px; right: 2px; }
 
 #setting_language_manage_container input { display: inline-block; width: 70px; margin-right: 10px; }
 #setting_language_manage_container i { margin-top: 10px; }

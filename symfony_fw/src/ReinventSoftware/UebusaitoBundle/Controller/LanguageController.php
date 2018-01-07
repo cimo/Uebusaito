@@ -72,7 +72,7 @@ class LanguageController extends Controller {
         $this->response['module']['label'] = $moduleRow['label'];
         
         if ($request->isMethod("POST") == true) {
-            if ($form->isValid() == true)
+            if ($form->isValid() == true || $this->isCsrfTokenValid("intention", $request->get("form_language")['_token']) == true)
                 $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$form->get("codeText")->getData()}/{$request->get("urlCurrentPageId")}/{$request->get("urlExtra")}";
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_1");
@@ -136,7 +136,7 @@ class LanguageController extends Controller {
         if ($request->isMethod("POST") == true) {
             if ($form->isValid() == true) {
                 $codePage = $form->get("codePage")->getData();
-                $pageRow = $this->query->selectPageDatabase($codePage, $this->urlExtra);
+                $pageRow = $this->query->selectPageDatabase($codePage, $_SESSION['page_profile_id']);
                 
                 $this->response['values']['codePage'] = $codePage;
                 $this->response['values']['pageTitle'] = $pageRow['title'];

@@ -79,8 +79,10 @@ function Language() {
     }
     
     function selectOnPage() {
-        $("#language_flag").find("#language_flag_" + $("#form_language_codeText").val()).addClass("button_flag");
-        $("#language_flag").find("input[name='form_language[codePage]']").val($("#form_language_codeText").val());
+        var languageCodeTextVal = $(".form_language_codeText").val();
+        
+        $("#language_flag").find("#language_flag_" + languageCodeTextVal).addClass("button_flag");
+        $("#language_flag").find("input[name='form_language[codePage]']").val(languageCodeTextVal);
         
         $("#language_flag img").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {

@@ -121,7 +121,7 @@ function ControlPanelSetting() {
                                 $("#setting_language_manage_erase").click();
                                 
                                 $("#form_setting_language").find("option").eq(index).remove();
-                                $("#form_language_codeText").find("option").eq(index).remove();
+                                $(".form_language_codeText").find("option").eq(index).remove();
                             }
                         },
                         null,
@@ -157,7 +157,7 @@ function ControlPanelSetting() {
                     
                     if (xhr.response.messages.success !== undefined) {
                         $("#form_setting_language").append("<option value=\"" + code + "\">" + code + "</option>");
-                        $("#form_language_codeText").append("<option value=\"" + code + "\">" + code + "</option>");
+                        $(".form_language_codeText").append("<option value=\"" + code + "\">" + code + "</option>");
                         
                         $("#setting_language_manage_erase").click();
                     }

@@ -170,17 +170,31 @@ $footerColor: #ffffff;
                         filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
                         box-shadow: $panelShadow;
                         
-                        .form-group {
-                            margin-bottom: 0;
-                        }
-                        
                         #form_search_module_mobile {
                             .form-group {
+                                margin-bottom: 0;
+                                
                                 input {
                                     padding-left: 35px;
                                     width: 160px;
                                 }
                             }
+                        }
+                        
+                        #form_language_text_mobile {
+                            .form-group {
+                                margin-bottom: 0;
+                                display: inline;
+                                
+                                select {
+                                    width: 45px;
+                                    padding: 0;
+                                }
+                            }
+                        }
+                        
+                        #form_user_authentication_mobile {
+                            width: 180px;
                         }
                     }
                 }
@@ -847,6 +861,12 @@ p {
 .remember_me_fix {
     margin: 5px 0 5px 10px !important;
     display: inline-block !important;
+    
+    label {
+        position: relative;
+        top: 2px;
+        right: 2px;
+    }
 }
 
 .avatar {
@@ -923,12 +943,6 @@ p {
         min-width: 50px;
         font-size: 28px;
     }
-}
-
-#_remember_me {
-    position: relative;
-    top: 2px;
-    right: 2px;
 }
 
 #flashBag {
