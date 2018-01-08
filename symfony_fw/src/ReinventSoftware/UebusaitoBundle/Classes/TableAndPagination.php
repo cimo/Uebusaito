@@ -12,9 +12,6 @@ class TableAndPagination {
     
     private $utility;
     
-    private $searchIndex;
-    private $paginationIndex;
-    
     // Properties
     
     // Functions public
@@ -23,9 +20,6 @@ class TableAndPagination {
         $this->entityManager = $entityManager;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        
-        $this->searchIndex = "";
-        $this->paginationIndex = "";
     }
     
     public function request($rows, $page, $sessionTag, $reverse, $flat) {
@@ -33,12 +27,12 @@ class TableAndPagination {
         
         // Search
         $searchWritten = isset($_POST['searchWritten']) == true ? $_POST['searchWritten'] : -1;
-        $search = $this->search($sessionTag . "Search", $searchWritten);
+        $search = $this->search($sessionTag . "_search", $searchWritten);
         $elements = $this->utility->arrayLike($newRows, $search['value'], $flat);
         
         // Pagination
         $paginationCurrent = isset($_POST['paginationCurrent']) == true ? $_POST['paginationCurrent'] : -1;
-        $pagination = $this->pagination($sessionTag . "Pagination", $paginationCurrent, count($elements), $page);
+        $pagination = $this->pagination($sessionTag . "_pagination", $paginationCurrent, count($elements), $page);
         
         if ($sessionTag != "page")
             $listHtml = array_slice($elements, $pagination['offset'], $pagination['show']);
@@ -60,8 +54,6 @@ class TableAndPagination {
     }
     
     private function search($index, $value) {
-        $this->searchIndex = $index;
-        
         if (isset($_SESSION[$index]) == false)
             $_SESSION[$index] = "";
         else if ($value != -1)
@@ -73,8 +65,6 @@ class TableAndPagination {
     }
     
     private function pagination($index, $value, $count, $show) {
-        $this->paginationIndex = $index;
-        
         if (isset($_SESSION[$index]) == false)
             $_SESSION[$index] = "";
         if ($value > -1)

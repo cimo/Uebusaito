@@ -15,6 +15,7 @@ class ModuleSelectionFormType extends AbstractType {
         $resolver->setDefaults(Array(
             'data_class' => "ReinventSoftware\UebusaitoBundle\Form\Model\ModuleSelectionModel",
             'csrf_protection' => true,
+            'csrf_token_id' => "intention",
             'validation_groups' => null,
             'choicesId' => null
         ));

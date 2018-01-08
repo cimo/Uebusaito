@@ -5,7 +5,7 @@ class ModuleSelectionModel {
     // Vars
     private $id;
     
-    // Properties
+    // Properties    
     public function setId($value) {
         $this->id = $value;
     }

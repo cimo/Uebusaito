@@ -133,7 +133,7 @@
 {% block javascript %}
     <script type="text/javascript">
         var session = {
-            'token': "{{php_session.token}}",
+            'token': "{{csrf_token("intention")}}",
             'userActivity': "{{php_session.user_activity}}"
         };
 

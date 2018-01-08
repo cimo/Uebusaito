@@ -238,7 +238,9 @@ class ModuleController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true
+                && $checkUserRole == true
+                && $this->isCsrfTokenValid("intention", $request->get("token")) == true) {
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -286,7 +288,10 @@ class ModuleController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+        if ($request->isMethod("POST") == true
+                && $checkUserRole == true
+                && ($this->isCsrfTokenValid("intention", $request->get("token")) == true
+                    || $this->isCsrfTokenValid("intention", $request->get("form_module_selection")['_token']) == true)) {
             $id = 0;
             
             if (empty($request->get("id")) == false)

@@ -169,7 +169,9 @@ class PageController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
+        if ($request->isMethod("POST") == true
+                && $checkUserRole == true
+                && $this->utility->checkToken($request) == true) {
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -217,7 +219,8 @@ class PageController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+        if ($request->isMethod("POST") == true
+                && $checkUserRole == true) {
             $id = 0;
             
             if (empty($request->get("id")) == false)

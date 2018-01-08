@@ -70,7 +70,8 @@ class SearchController extends Controller {
         $this->response['module']['label'] = $moduleRow['label'];
         
         if ($request->isMethod("POST") == true) {
-            if ($form->isValid() == true || $this->isCsrfTokenValid("intention", $request->get("form_search")['_token']) == true) {
+            if ($form->isValid() == true
+                    || $this->isCsrfTokenValid("intention", $request->get("form_search")['_token']) == true) {
                 $words = $form->get("words")->getData();
 
                 $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/5/$words";
