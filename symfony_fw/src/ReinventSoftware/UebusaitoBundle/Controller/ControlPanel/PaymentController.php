@@ -149,13 +149,15 @@ class PaymentController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
         }
         
         return Array(
@@ -197,29 +199,32 @@ class PaymentController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            $id = 0;
-            
-            if (empty($request->get("id")) == false)
-                $id = $request->get("id");
-            else if (empty($request->get("form_payment_selection")['id']) == false)
-                $id = $request->get("form_payment_selection")['id'];
-            
-            $paymentEntity = $this->entityManager->getRepository("UebusaitoBundle:Payment")->find($id);
-            
-            if ($paymentEntity != null) {
-                $_SESSION['payment_profile_id'] = $id;
-                
-                $this->response['values']['payment'] = $paymentEntity;
-                
-                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/payment_profile.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
+                    || $this->isCsrfTokenValid("intention", $request->get("form_payment_selection")['_token']) == true) {
+                $id = 0;
+
+                if (empty($request->get("id")) == false)
+                    $id = $request->get("id");
+                else if (empty($request->get("form_payment_selection")['id']) == false)
+                    $id = $request->get("form_payment_selection")['id'];
+
+                $paymentEntity = $this->entityManager->getRepository("UebusaitoBundle:Payment")->find($id);
+
+                if ($paymentEntity != null) {
+                    $_SESSION['payment_profile_id'] = $id;
+
+                    $this->response['values']['payment'] = $paymentEntity;
+
+                    $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/payment_profile.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_2");
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_2");
         }
         
         return $this->ajax->response(Array(
@@ -259,33 +264,35 @@ class PaymentController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            if ($request->get("event") == "delete") {
-                $id = $request->get("id") == null ? $_SESSION['payment_profile_id'] : $request->get("id");
-                
-                $paymentDatabase = $this->paymentDatabase("delete", $id);
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "delete") {
+                    $id = $request->get("id") == null ? $_SESSION['payment_profile_id'] : $request->get("id");
 
-                if ($paymentDatabase == true) {
-                    $this->response['values']['id'] = $id;
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
+                    $paymentDatabase = $this->paymentDatabase("delete", $id);
+
+                    if ($paymentDatabase == true) {
+                        $this->response['values']['id'] = $id;
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
+                    }
                 }
-            }
-            else if ($request->get("event") == "deleteAll") {
-                $paymentDatabase = $this->paymentDatabase("deleteAll", null);
+                else if ($request->get("event") == "deleteAll") {
+                    $paymentDatabase = $this->paymentDatabase("deleteAll", null);
 
-                if ($paymentDatabase == true)
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_4");
+                    if ($paymentDatabase == true)
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_4");
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_5");
+
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_5");
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
         }
         
         return Array(

@@ -147,13 +147,15 @@ class RoleUserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
         }
         
         return Array(
@@ -195,35 +197,38 @@ class RoleUserController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            $id = 0;
-            
-            if (empty($request->get("id")) == false)
-                $id = $request->get("id");
-            else if (empty($request->get("form_roleUser_selection")['id']) == false)
-                $id = $request->get("form_roleUser_selection")['id'];
-            
-            $roleUserEntity = $this->entityManager->getRepository("UebusaitoBundle:RoleUser")->find($id);
-            
-            if ($roleUserEntity != null) {
-                $_SESSION['role_user_profile_id'] = $id;
-                
-                $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
-                    'validation_groups' => Array('roleUser_profile')
-                ));
-                $form->handleRequest($request);
-                
-                $this->response['values']['id'] = $_SESSION['role_user_profile_id'];
-                
-                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/roleUser_profile.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response,
-                    'form' => $form->createView()
-                ));
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
+                    || $this->isCsrfTokenValid("intention", $request->get("form_roleUser_selection")['_token']) == true) {
+                $id = 0;
+
+                if (empty($request->get("id")) == false)
+                    $id = $request->get("id");
+                else if (empty($request->get("form_roleUser_selection")['id']) == false)
+                    $id = $request->get("form_roleUser_selection")['id'];
+
+                $roleUserEntity = $this->entityManager->getRepository("UebusaitoBundle:RoleUser")->find($id);
+
+                if ($roleUserEntity != null) {
+                    $_SESSION['role_user_profile_id'] = $id;
+
+                    $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
+                        'validation_groups' => Array('roleUser_profile')
+                    ));
+                    $form->handleRequest($request);
+
+                    $this->response['values']['id'] = $_SESSION['role_user_profile_id'];
+
+                    $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/roleUser_profile.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response,
+                        'form' => $form->createView()
+                    ));
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleUserController_3");
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleUserController_3");
         }
         
         return $this->ajax->response(Array(
@@ -330,33 +335,35 @@ class RoleUserController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            if ($request->get("event") == "delete") {
-                $id = $request->get("id") == null ? $_SESSION['role_user_profile_id'] : $request->get("id");
-                
-                $roleUserDatabase = $this->roleUserDatabase("delete", $id);
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "delete") {
+                    $id = $request->get("id") == null ? $_SESSION['role_user_profile_id'] : $request->get("id");
 
-                if ($roleUserDatabase == true) {
-                    $this->response['values']['id'] = $id;
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleUserController_6");
+                    $roleUserDatabase = $this->roleUserDatabase("delete", $id);
+
+                    if ($roleUserDatabase == true) {
+                        $this->response['values']['id'] = $id;
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleUserController_6");
+                    }
                 }
-            }
-            else if ($request->get("event") == "deleteAll") {
-                $roleUserDatabase = $this->roleUserDatabase("deleteAll", null);
+                else if ($request->get("event") == "deleteAll") {
+                    $roleUserDatabase = $this->roleUserDatabase("deleteAll", null);
 
-                if ($roleUserDatabase == true)
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleUserController_7");
+                    if ($roleUserDatabase == true)
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleUserController_7");
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleUserController_8");
+
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleUserController_8");
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
         }
         
         return Array(

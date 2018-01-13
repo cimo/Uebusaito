@@ -145,72 +145,74 @@ class SettingController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            if ($request->get("event") == "deleteLanguage") {
-                $code = $request->get("code");
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "deleteLanguage") {
+                    $code = $request->get("code");
 
-                $settingDatabase = $this->settingDatabase("deleteLanguage", $code);
+                    $settingDatabase = $this->settingDatabase("deleteLanguage", $code);
 
-                if ($settingDatabase == true) {
-                    unlink("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
-
-                    $this->settingDatabase("deleteLanguageInPage", $code);
-
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
-                }
-            }
-            else if ($request->get("event") == "modifyLanguage" || $request->get("event") == "createLanguage") {
-                $code = $request->get("code");
-                $date = $request->get("date");
-                
-                $languageRows = $this->query->selectAllLanguageDatabase();
-
-                $exists = false;
-                $checked = false;
-                
-                if ($request->get("event") == "createLanguage") {
-                    foreach ($languageRows as $key => $value) {
-                        if ($code == $value['code']) {
-                            $exists = true;
-
-                            break;
-                        }
-                    }
-                }
-                
-                if (strtolower($date) == "y-m-d" || strtolower($date) == "d-m-y" || strtolower($date) == "m-d-y")
-                    $checked = true;
-
-                if ($code != "" && $date != "" && $exists == false && $checked == true) {
-                    $settingDatabase = false;
-                    
-                    if ($request->get("event") == "modifyLanguage")
-                        $settingDatabase = $this->settingDatabase("updateLanguage", $code, $date);
-                    else if ($request->get("event") == "createLanguage")
-                        $settingDatabase = $this->settingDatabase("insertLanguage", $code, $date);
-                    
                     if ($settingDatabase == true) {
-                        if ($request->get("event") == "modifyLanguage")
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
-                        else if ($request->get("event") == "createLanguage") {
-                            touch("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
+                        unlink("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
 
-                            $this->settingDatabase("insertLanguageInPage", $code);
-                            
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_6");
-                        }
+                        $this->settingDatabase("deleteLanguageInPage", $code);
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
                     }
                 }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_7");
+                else if ($request->get("event") == "modifyLanguage" || $request->get("event") == "createLanguage") {
+                    $code = $request->get("code");
+                    $date = $request->get("date");
+
+                    $languageRows = $this->query->selectAllLanguageDatabase();
+
+                    $exists = false;
+                    $checked = false;
+
+                    if ($request->get("event") == "createLanguage") {
+                        foreach ($languageRows as $key => $value) {
+                            if ($code == $value['code']) {
+                                $exists = true;
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if (strtolower($date) == "y-m-d" || strtolower($date) == "d-m-y" || strtolower($date) == "m-d-y")
+                        $checked = true;
+
+                    if ($code != "" && $date != "" && $exists == false && $checked == true) {
+                        $settingDatabase = false;
+
+                        if ($request->get("event") == "modifyLanguage")
+                            $settingDatabase = $this->settingDatabase("updateLanguage", $code, $date);
+                        else if ($request->get("event") == "createLanguage")
+                            $settingDatabase = $this->settingDatabase("insertLanguage", $code, $date);
+
+                        if ($settingDatabase == true) {
+                            if ($request->get("event") == "modifyLanguage")
+                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
+                            else if ($request->get("event") == "createLanguage") {
+                                touch("{$this->utility->getPathSrcBundle()}/Resources/translations/messages.$code.yml");
+
+                                $this->settingDatabase("insertLanguageInPage", $code);
+
+                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_6");
+                            }
+                        }
+                    }
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_7");
+                }
+
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
             }
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
         }
         
         return Array(

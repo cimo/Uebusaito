@@ -199,26 +199,28 @@ class PageCommentController extends Controller {
         
         $this->response['values']['pageRow'] = $pageRow;
         
-        if ($request->isMethod("POST") == true && $this->utility->checkToken($request) == true) {
-            if ($request->get("event") == "reply" && $pageRow['comment'] == true && $settingRow['page_comment_active'] == true) {
-                $pageCommentRow = $this->query->selectPageCommentDatabase($request->get("id"));
-                
-                $_SESSION['username_reply'] = $pageCommentRow['username'];
-                
-                $this->response['values']['usernameReply'] = $_SESSION['username_reply'];
-                $this->response['values']['argumentReply'] = $pageCommentRow['argument'];
-            }
-            else if ($request->get("event") == "modify" && $pageRow['comment'] == true && $settingRow['page_comment_active'] == true) {
-                $pageCommentDatabase = $this->pageCommentDatabase($request->get("id"), $request->get("content"));
-                
-                if ($pageCommentDatabase == true) {
-                    $this->tableAndPaginationLogic();
+        if ($request->isMethod("POST") == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "reply" && $pageRow['comment'] == true && $settingRow['page_comment_active'] == true) {
+                    $pageCommentRow = $this->query->selectPageCommentDatabase($request->get("id"));
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_4");
+                    $_SESSION['username_reply'] = $pageCommentRow['username'];
+
+                    $this->response['values']['usernameReply'] = $_SESSION['username_reply'];
+                    $this->response['values']['argumentReply'] = $pageCommentRow['argument'];
                 }
+                else if ($request->get("event") == "modify" && $pageRow['comment'] == true && $settingRow['page_comment_active'] == true) {
+                    $pageCommentDatabase = $this->pageCommentDatabase($request->get("id"), $request->get("content"));
+
+                    if ($pageCommentDatabase == true) {
+                        $this->tableAndPaginationLogic();
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_4");
+                    }
+                }
+                else
+                    $this->tableAndPaginationLogic();
             }
-            else
-                $this->tableAndPaginationLogic();
         }
         
         return $this->ajax->response(Array(

@@ -161,13 +161,15 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
         }
         
         return Array(
@@ -209,37 +211,40 @@ class UserController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            $id = 0;
-            
-            if (empty($request->get("id")) == false)
-                $id = $request->get("id");
-            else if (empty($request->get("form_user_selection")['id']) == false)
-                $id = $request->get("form_user_selection")['id'];
-            
-            $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
-            
-            if ($userEntity != null) {
-                $_SESSION['user_profile_id'] = $id;
-                
-                $form = $this->createForm(UserFormType::class, $userEntity, Array(
-                    'validation_groups' => Array('user_profile')
-                ));
-                $form->handleRequest($request);
-                
-                $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
-                $this->response['values']['id'] = $_SESSION['user_profile_id'];
-                $this->response['values']['credit'] = $userEntity->getCredit();
-                
-                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/user_profile.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response,
-                    'form' => $form->createView()
-                ));
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
+                    || $this->isCsrfTokenValid("intention", $request->get("form_user_selection")['_token']) == true) {
+                $id = 0;
+
+                if (empty($request->get("id")) == false)
+                    $id = $request->get("id");
+                else if (empty($request->get("form_user_selection")['id']) == false)
+                    $id = $request->get("form_user_selection")['id'];
+
+                $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
+
+                if ($userEntity != null) {
+                    $_SESSION['user_profile_id'] = $id;
+
+                    $form = $this->createForm(UserFormType::class, $userEntity, Array(
+                        'validation_groups' => Array('user_profile')
+                    ));
+                    $form->handleRequest($request);
+
+                    $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
+                    $this->response['values']['id'] = $_SESSION['user_profile_id'];
+                    $this->response['values']['credit'] = $userEntity->getCredit();
+
+                    $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/user_profile.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response,
+                        'form' => $form->createView()
+                    ));
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
         }
         
         return $this->ajax->response(Array(
@@ -368,47 +373,49 @@ class UserController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            if ($request->get("event") == "delete") {
-                $id = $request->get("id") == null ? $_SESSION['user_profile_id'] : $request->get("id");
-                
-                $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "delete") {
+                    $id = $request->get("id") == null ? $_SESSION['user_profile_id'] : $request->get("id");
 
-                $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}", true);
-                $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userEntity->getUsername()}", true);
-                $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userEntity->getUsername()}", true);
-                
-                $userDatabase = $this->userDatabase("delete", $userEntity->getId());
+                    $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
 
-                if ($userDatabase == true) {
-                    $this->response['values']['id'] = $id;
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
+                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}", true);
+                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userEntity->getUsername()}", true);
+                    $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userEntity->getUsername()}", true);
+
+                    $userDatabase = $this->userDatabase("delete", $userEntity->getId());
+
+                    if ($userDatabase == true) {
+                        $this->response['values']['id'] = $id;
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
+                    }
                 }
-            }
-            else if ($request->get("event") == "deleteAll") {
-                $userRows = $this->query->selectAllUserDatabase(1);
+                else if ($request->get("event") == "deleteAll") {
+                    $userRows = $this->query->selectAllUserDatabase(1);
 
-                for ($i = 0; $i < count($userRows); $i ++) {
-                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userRows[$i]['username']}", true);
-                    $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userRows[$i]['username']}", true);
-                    $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userRows[$i]['username']}", true);
+                    for ($i = 0; $i < count($userRows); $i ++) {
+                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userRows[$i]['username']}", true);
+                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userRows[$i]['username']}", true);
+                        $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userRows[$i]['username']}", true);
+                    }
+
+                    $userDatabase = $this->userDatabase("deleteAll", null);
+
+                    if ($userDatabase == true)
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_7");
                 }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_8");
 
-                $userDatabase = $this->userDatabase("deleteAll", null);
-
-                if ($userDatabase == true)
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_7");
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_8");
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
         }
         
         return Array(

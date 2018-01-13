@@ -164,7 +164,7 @@ function ControlPanelPage() {
             deletion(id);
         });
         
-        $("#cp_page_selection_button_desktop").on("click", "", function(event) {
+        $(document).on("click", "#cp_page_selection_button_desktop", function(event) {
             var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text().trim());
 
             ajax.send(
@@ -192,7 +192,7 @@ function ControlPanelPage() {
     }
     
     function selectionMobile() {
-        $("#form_cp_page_selection_mobile").on("submit", "", function(event) {
+        $(document).on("submit", "#form_cp_page_selection_mobile", function(event) {
             event.preventDefault();
 
             ajax.send(

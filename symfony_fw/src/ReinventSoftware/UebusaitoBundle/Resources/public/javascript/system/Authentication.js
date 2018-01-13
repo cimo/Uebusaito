@@ -59,6 +59,7 @@ function Authentication() {
                 event.target.href,
                 "post",
                 {
+                    'event': "logout",
                     'token': window.session.token
                 },
                 "json",

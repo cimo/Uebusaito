@@ -319,7 +319,7 @@ function ControlPanelModule() {
                     
                     $("#form_module_positionInColumn").append($("<option selected=\"selected\"></option>").attr("value", optionSelected.val()).text(optionSelected.text()));
                     
-                    utility.selectSortable("#form_module_positionInColumn", null, "#module_sort", isCreation);
+                    utility.selectSortable("#form_module_positionInColumn", null, "#form_module_sort", isCreation);
                 },
                 null,
                 null

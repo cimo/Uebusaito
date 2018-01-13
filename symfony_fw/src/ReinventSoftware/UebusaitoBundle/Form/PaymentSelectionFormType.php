@@ -15,6 +15,7 @@ class PaymentSelectionFormType extends AbstractType {
         $resolver->setDefaults(Array(
             'data_class' => "ReinventSoftware\UebusaitoBundle\Form\Model\PaymentSelectionModel",
             'csrf_protection' => true,
+            'csrf_token_id' => "intention",
             'validation_groups' => null,
             'choicesId' => null
         ));

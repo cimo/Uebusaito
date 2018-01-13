@@ -56,8 +56,6 @@ class RootController extends Controller {
         $this->urlLocale = $this->utility->checkLanguage($request);
         
         // Logic
-        $this->utility->generateToken();
-        
         $this->utility->configureCookie(session_name(), 0, isset($_SERVER['HTTPS']), true);
         
         $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);

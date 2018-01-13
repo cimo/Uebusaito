@@ -343,17 +343,19 @@ class ProfileController extends Controller {
         $this->response['upload']['nameOverwrite'] = "Avatar";
         $this->response['upload']['imageWidth'] = 150;
         $this->response['upload']['imageHeight'] = 150;
-
-        $this->response['upload']['processFile'] = $this->upload->processFile(
-            $path,
-            $this->response['upload']['inputType'],
-            $this->response['upload']['maxSize'],
-            $this->response['upload']['type'],
-            $this->response['upload']['chunkSize'],
-            $this->response['upload']['nameOverwrite'],
-            $this->response['upload']['imageWidth'],
-            $this->response['upload']['imageHeight']
-        );
+        
+        if ($request->get("event") == "upload") {
+            $this->response['upload']['processFile'] = $this->upload->processFile(
+                $path,
+                $this->response['upload']['inputType'],
+                $this->response['upload']['maxSize'],
+                $this->response['upload']['type'],
+                $this->response['upload']['chunkSize'],
+                $this->response['upload']['nameOverwrite'],
+                $this->response['upload']['imageWidth'],
+                $this->response['upload']['imageHeight']
+            );
+        }
         
         return $this->ajax->response(Array(
             'urlLocale' => $this->urlLocale,

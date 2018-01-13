@@ -50,6 +50,7 @@ function Upload() {
                 window.url.cpProfileUpload + "?action=change",
                 "post",
                 {
+                    'event': "upload",
                     'fileSize': file.size,
                     'fileType': file.type
                 },
@@ -71,6 +72,10 @@ function Upload() {
                                 resetValue("hide");
 
                                 message(true, xhr.response.upload.processFile.text);
+                                
+                                $("#upload_text_close").off("click").on("click", "", function() {
+                                    message(false, "");
+                                });
 
                                 return;
                             }

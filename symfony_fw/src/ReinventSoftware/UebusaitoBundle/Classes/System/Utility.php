@@ -125,11 +125,6 @@ class Utility {
         $this->arrayColumnFix();
     }
     
-    public function generateToken() {
-        if (isset($_SESSION['token']) == false)
-            $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(21));
-    }
-    
     public function configureCookie($name, $lifeTime, $secure, $httpOnly) {
         $currentCookieParams = session_get_cookie_params();
         
@@ -414,13 +409,6 @@ class Utility {
         }
         
         return "ok";
-    }
-    
-    public function checkToken($request) {
-        if (isset($_SESSION['token']) == true && $request->get("token") == $_SESSION['token'])
-            return true;
-        
-        return false;
     }
     
     public function checkCaptcha($captchaEnabled, $captcha) {

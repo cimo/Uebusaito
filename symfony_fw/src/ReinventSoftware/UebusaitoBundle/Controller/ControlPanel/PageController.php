@@ -169,15 +169,15 @@ class PageController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true
-                && $checkUserRole == true
-                && $this->utility->checkToken($request) == true) {
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
         }
         
         return Array(
@@ -219,48 +219,50 @@ class PageController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true
-                && $checkUserRole == true) {
-            $id = 0;
-            
-            if (empty($request->get("id")) == false)
-                $id = $request->get("id");
-            else if (empty($request->get("form_page_selection")['id']) == false)
-                $id = $request->get("form_page_selection")['id'];
-            
-            $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
-            
-            if ($pageEntity != null) {
-                $_SESSION['page_profile_id'] = $id;
-                
-                $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
-                
-                $form = $this->createForm(PageFormType::class, $pageEntity, Array(
-                    'validation_groups' => Array('page_profile'),
-                    'urlLocale' => $this->urlLocale,
-                    'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-                    'choicesParent' => array_flip($this->utility->createPageList($pageRows, true)),
-                    'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
-                ));
-                $form->handleRequest($request);
-                
-                $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
-                $this->response['values']['id'] = $_SESSION['page_profile_id'];
-                $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
-                $this->response['values']['dateCreation'] = $this->utility->dateFormat($pageEntity->getDateCreation());
-                $this->response['values']['userModification'] = $pageEntity->getUserModification();
-                $this->response['values']['dateModification'] = $this->utility->dateFormat($pageEntity->getDateModification());
-                
-                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/page_profile.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response,
-                    'form' => $form->createView()
-                ));
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
+                    || $this->isCsrfTokenValid("intention", $request->get("form_page_selection")['_token']) == true) {
+                $id = 0;
+
+                if (empty($request->get("id")) == false)
+                    $id = $request->get("id");
+                else if (empty($request->get("form_page_selection")['id']) == false)
+                    $id = $request->get("form_page_selection")['id'];
+
+                $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
+
+                if ($pageEntity != null) {
+                    $_SESSION['page_profile_id'] = $id;
+
+                    $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
+
+                    $form = $this->createForm(PageFormType::class, $pageEntity, Array(
+                        'validation_groups' => Array('page_profile'),
+                        'urlLocale' => $this->urlLocale,
+                        'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
+                        'choicesParent' => array_flip($this->utility->createPageList($pageRows, true)),
+                        'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
+                    ));
+                    $form->handleRequest($request);
+
+                    $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
+                    $this->response['values']['id'] = $_SESSION['page_profile_id'];
+                    $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
+                    $this->response['values']['dateCreation'] = $this->utility->dateFormat($pageEntity->getDateCreation());
+                    $this->response['values']['userModification'] = $pageEntity->getUserModification();
+                    $this->response['values']['dateModification'] = $this->utility->dateFormat($pageEntity->getDateModification());
+
+                    $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/page_profile.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response,
+                        'form' => $form->createView()
+                    ));
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
         }
         
         return $this->ajax->response(Array(
@@ -301,8 +303,9 @@ class PageController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            $this->response['values']['pageRows'] = array_column($this->query->selectAllPageParentDatabase($request->get("id")), "id", "alias");
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true)
+                $this->response['values']['pageRows'] = array_column($this->query->selectAllPageParentDatabase($request->get("id")), "id", "alias");
         }
         
         return $this->ajax->response(Array(
@@ -425,74 +428,76 @@ class PageController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            if ($request->get("event") == "delete") {
-                $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "delete") {
+                    $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
 
-                $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
+                    $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
 
-                if ($pageChildrenRows == false) {
+                    if ($pageChildrenRows == false) {
+                        $pageDatabase = $this->pageDatabase("delete", $id, null, null);
+
+                        if ($pageDatabase == true) {
+                            $this->response['values']['id'] = $id;
+
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_6");
+                        }
+                    }
+                    else {
+                        // Popup
+                        $this->response['values']['id'] = $id;
+                        $this->response['values']['text'] = "<p class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
+                        $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
+                        $this->response['values']['pageHtml'] = $this->utility->createPageHtml($this->urlLocale, "cp_page_deletion_parent_new");
+                    }
+                }
+                else if ($request->get("event") == "deleteAll") {
+                    $pageDatabase = $this->pageDatabase("deleteAll", null, null, null);
+
+                    if ($pageDatabase == true)
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
+                }
+                else if ($request->get("event") == "parentAll") {
+                    $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
+
+                    $this->removedId = Array();
+
+                    $this->removePageChildrenDatabase($id);
+
+                    array_unshift($this->removedId, $id);
+
+                    $pageDatabase = $this->pageDatabase("delete", $id, null, null);
+
+                    if ($pageDatabase == true) {
+                        $this->response['values']['removedId'] = $this->removedId;
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
+                    }
+                }
+                else if ($request->get("event") == "parentNew") {
+                    $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
+
+                    $this->updatePageChildrenDatabase($id, $request->get("parentNew"));
+
                     $pageDatabase = $this->pageDatabase("delete", $id, null, null);
 
                     if ($pageDatabase == true) {
                         $this->response['values']['id'] = $id;
-                    
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_6");
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
                     }
                 }
-                else {
-                    // Popup
-                    $this->response['values']['id'] = $id;
-                    $this->response['values']['text'] = "<p class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
-                    $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
-                    $this->response['values']['pageHtml'] = $this->utility->createPageHtml($this->urlLocale, "cp_page_deletion_parent_new");
-                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_11");
+
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
             }
-            else if ($request->get("event") == "deleteAll") {
-                $pageDatabase = $this->pageDatabase("deleteAll", null, null, null);
-
-                if ($pageDatabase == true)
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
-            }
-            else if ($request->get("event") == "parentAll") {
-                $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
-                
-                $this->removedId = Array();
-
-                $this->removePageChildrenDatabase($id);
-                
-                array_unshift($this->removedId, $id);
-
-                $pageDatabase = $this->pageDatabase("delete", $id, null, null);
-
-                if ($pageDatabase == true) {
-                    $this->response['values']['removedId'] = $this->removedId;
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
-                }
-            }
-            else if ($request->get("event") == "parentNew") {
-                $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
-
-                $this->updatePageChildrenDatabase($id, $request->get("parentNew"));
-
-                $pageDatabase = $this->pageDatabase("delete", $id, null, null);
-
-                if ($pageDatabase == true) {
-                    $this->response['values']['id'] = $id;
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
-                }
-            }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_11");
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
         }
         
         return Array(

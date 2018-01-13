@@ -238,15 +238,15 @@ class ModuleController extends Controller {
         ));
         $form->handleRequest($request);
         
-        if ($request->isMethod("POST") == true
-                && $checkUserRole == true
-                && $this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
         }
         
         return Array(
@@ -288,40 +288,40 @@ class ModuleController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true
-                && $checkUserRole == true
-                && ($this->isCsrfTokenValid("intention", $request->get("token")) == true
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if (($this->isCsrfTokenValid("intention", $request->get("token")) == true
                     || $this->isCsrfTokenValid("intention", $request->get("form_module_selection")['_token']) == true)) {
-            $id = 0;
-            
-            if (empty($request->get("id")) == false)
-                $id = $request->get("id");
-            else if (empty($request->get("form_module_selection")['id']) == false)
-                $id = $request->get("form_module_selection")['id'];
-            
-            $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
-            
-            if ($moduleEntity != null) {
-                $_SESSION['module_profile_id'] = $id;
-                
-                $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
-                    'validation_groups' => Array('module_profile'),
-                    'choicesPositionInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
-                ));
-                $form->handleRequest($request);
-                
-                $this->response['values']['id'] = $_SESSION['module_profile_id'];
-                
-                $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/module_profile.html.twig", Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response,
-                    'form' => $form->createView()
-                ));
+                $id = 0;
+
+                if (empty($request->get("id")) == false)
+                    $id = $request->get("id");
+                else if (empty($request->get("form_module_selection")['id']) == false)
+                    $id = $request->get("form_module_selection")['id'];
+
+                $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
+
+                if ($moduleEntity != null) {
+                    $_SESSION['module_profile_id'] = $id;
+
+                    $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
+                        'validation_groups' => Array('module_profile'),
+                        'choicesPositionInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
+                    ));
+                    $form->handleRequest($request);
+
+                    $this->response['values']['id'] = $_SESSION['module_profile_id'];
+
+                    $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/module_profile.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response,
+                        'form' => $form->createView()
+                    ));
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
         }
         
         return $this->ajax->response(Array(
@@ -362,8 +362,9 @@ class ModuleController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            $this->response['values']['moduleRows'] = array_column($this->query->selectAllModuleDatabase(null, $request->get("position")), "id", "name");
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true)
+                $this->response['values']['moduleRows'] = array_column($this->query->selectAllModuleDatabase(null, $request->get("position")), "id", "name");
         }
         
         return $this->ajax->response(Array(
@@ -473,33 +474,35 @@ class ModuleController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true && $this->utility->checkToken($request) == true) {
-            if ($request->get("event") == "delete") {
-                $id = $request->get("id") == null ? $_SESSION['module_profile_id'] : $request->get("id");
-                
-                $moduleDatabase = $this->moduleDatabase("delete", $id, null, null);
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "delete") {
+                    $id = $request->get("id") == null ? $_SESSION['module_profile_id'] : $request->get("id");
 
-                if ($moduleDatabase == true) {
-                    $this->response['values']['id'] = $id;
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
+                    $moduleDatabase = $this->moduleDatabase("delete", $id, null, null);
+
+                    if ($moduleDatabase == true) {
+                        $this->response['values']['id'] = $id;
+
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
+                    }
                 }
-            }
-            else if ($request->get("event") == "deleteAll") {
-                $moduleDatabase = $this->moduleDatabase("deleteAll", null, null, null);
+                else if ($request->get("event") == "deleteAll") {
+                    $moduleDatabase = $this->moduleDatabase("deleteAll", null, null, null);
 
-                if ($moduleDatabase == true)
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
+                    if ($moduleDatabase == true)
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_11");
+
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_11");
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
         }
         
         return Array(
