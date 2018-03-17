@@ -153,7 +153,7 @@ class ModuleController extends Controller {
         
         $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
             'validation_groups' => Array('module_creation'),
-            'choicesPositionInColumn' => Array()
+            'choicesRankInColumn' => Array()
         ));
         $form->handleRequest($request);
         
@@ -165,7 +165,7 @@ class ModuleController extends Controller {
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 
-                $this->updatePositionInColumnDatabase($form->get("sort")->getData(), $moduleEntity->getId());
+                $this->updateRankInColumnDatabase($form->get("sort")->getData(), $moduleEntity->getId());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_3");
             }
@@ -305,7 +305,7 @@ class ModuleController extends Controller {
 
                     $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
                         'validation_groups' => Array('module_profile'),
-                        'choicesPositionInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
+                        'choicesRankInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
                     ));
                     $form->handleRequest($request);
 
@@ -409,7 +409,7 @@ class ModuleController extends Controller {
         
         $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
             'validation_groups' => Array('module_profile'),
-            'choicesPositionInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
+            'choicesRankInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
         ));
         $form->handleRequest($request);
         
@@ -419,7 +419,7 @@ class ModuleController extends Controller {
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 
-                $this->updatePositionInColumnDatabase($form->get("sort")->getData(), $moduleEntity->getId());
+                $this->updateRankInColumnDatabase($form->get("sort")->getData(), $moduleEntity->getId());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
             }
@@ -547,7 +547,7 @@ class ModuleController extends Controller {
         return $listHtml;
     }
     
-    private function updatePositionInColumnDatabase($sort, $moduleId) {
+    private function updateRankInColumnDatabase($sort, $moduleId) {
         $sortExplode = explode(",", $sort);
         array_pop($sortExplode);
         
@@ -556,25 +556,25 @@ class ModuleController extends Controller {
                 $value = $moduleId;
 
             $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                SET position_in_column = :positionInColumn
+                                                                SET rank_in_column = :rankInColumn
                                                                 WHERE id = :id");
 
-            $query->bindValue(":positionInColumn", $key + 1);
+            $query->bindValue(":rankInColumn", $key + 1);
             $query->bindValue(":id", $value);
 
             $query->execute();
         }
     }
     
-    private function moduleDatabase($type, $id, $positionInColumn, $position) {
+    private function moduleDatabase($type, $id, $rankInColumn, $position) {
         if ($type == "update") {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
                                                                 SET position = :position,
-                                                                    position_in_column = :positionInColumn
+                                                                    rank_in_column = :rankInColumn
                                                                 WHERE id = :id");
                 
             $query->bindValue(":position", $position);
-            $query->bindValue(":positionInColumn", $positionInColumn);
+            $query->bindValue(":rankInColumn", $rankInColumn);
             $query->bindValue(":id", $id);
             
             return $query->execute();

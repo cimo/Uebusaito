@@ -51,7 +51,7 @@ CREATE TABLE `modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position` varchar(6) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'center',
   `position_tmp` varchar(6) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `position_in_column` int(11) DEFAULT NULL,
+  `rank_in_column` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',

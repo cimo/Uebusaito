@@ -63,7 +63,9 @@
         "symfony-tests-dir": "tests",
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+            "file": "app/config/parameters.yml",
+            "//": "cimo",
+            "keep-outdated": true
         },
         "branch-alias": null
     }

@@ -303,20 +303,20 @@ class SettingController extends Controller {
             $query->execute();
         }
         
-        $this->updateModulePositionInColumn("left");
-        $this->updateModulePositionInColumn("center");
-        $this->updateModulePositionInColumn("right");
+        $this->updateModuleRankInColumn("left");
+        $this->updateModuleRankInColumn("center");
+        $this->updateModuleRankInColumn("right");
     }
     
-    private function updateModulePositionInColumn($position) {
+    private function updateModuleRankInColumn($position) {
         $moduleRows = $this->query->selectAllModuleDatabase(null, $position);
         
         foreach($moduleRows as $key => $value) {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                SET position_in_column = :positionInColumn
+                                                                SET rank_in_column = :rankInColumn
                                                                 WHERE id = :id");
             
-            $query->bindValue(":sort", $key + 1);
+            $query->bindValue(":rankInColumn", $key + 1);
             $query->bindValue(":id", $value['id']);
             
             $query->execute();

@@ -359,7 +359,7 @@ ReinventSoftware\UebusaitoBundle\Entity\Module:
                 groups: [module_creation, module_profile]
                 htmlPattern: false
                 pattern: /(header)|(left)|(center)|(right)/
-        positionInColumn:
+        rankInColumn:
             - Regex:
                 groups: [module_creation, module_profile]
                 htmlPattern: false

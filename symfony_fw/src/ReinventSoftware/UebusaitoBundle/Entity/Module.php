@@ -28,9 +28,9 @@ class Module {
     private $positionTmp = null;
     
     /**
-     * @ORM\Column(name="position_in_column", type="integer", nullable=true, columnDefinition="int(11)")
+     * @ORM\Column(name="rank_in_column", type="integer", nullable=true, columnDefinition="int(11)")
      */
-    private $positionInColumn = null;
+    private $rankInColumn = null;
     
     // #
     private $sort = null;
@@ -64,8 +64,8 @@ class Module {
         $this->positionTmp = $value;
     }
     
-    public function setPositionInColumn($value) {
-        $this->positionInColumn = $value;
+    public function setRankInColumn($value) {
+        $this->rankInColumn = $value;
     }
     
     public function setSort($value) {
@@ -102,8 +102,8 @@ class Module {
         return $this->positionTmp;
     }
     
-    public function getPositionInColumn() {
-        return $this->positionInColumn;
+    public function getRankInColumn() {
+        return $this->rankInColumn;
     }
     
     public function getSort() {

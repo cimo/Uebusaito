@@ -302,7 +302,7 @@ p { margin: 0; }
 #search_result .box .title { text-decoration: underline; }
 #search_result .box .argument { margin: 0; }
 
-#form_page_positionInMenu, #form_module_positionInColumn { width: 50%; }
+#form_page_positionInMenu, #form_module_rankInColumn { width: 50%; }
 
 #page_menu_sort, #module_position_sort { position: relative; }
 #page_menu_sort div, #module_position_sort div { position: absolute; top: -105px; left: 50%; width: 50px; }
