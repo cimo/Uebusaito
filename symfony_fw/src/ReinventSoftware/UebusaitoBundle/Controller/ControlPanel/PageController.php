@@ -561,10 +561,10 @@ class PageController extends Controller {
     private function removePageChildrenDatabase($id) {
         $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
         
-        for ($i = 0; $i < count($pageChildrenRows); $i ++) {
-            $this->removedId[] = $pageChildrenRows[$i]['id'];
+        for ($a = 0; $a < count($pageChildrenRows); $a ++) {
+            $this->removedId[] = $pageChildrenRows[$a]['id'];
                     
-            $this->removePageChildrenDatabase($pageChildrenRows[$i]['id']);
+            $this->removePageChildrenDatabase($pageChildrenRows[$a]['id']);
         }
         
         $this->pageDatabase("delete", $id, null, null);

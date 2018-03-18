@@ -58,4 +58,11 @@ class Captcha {
         
         return $result;
     }
+    
+    public function check($captchaEnabled, $captcha) {
+        if ($captchaEnabled == false || ($captchaEnabled == true && isset($_SESSION['captcha']) == true && $_SESSION['captcha'] == $captcha))
+            return true;
+        
+        return false;
+    }
 }

@@ -84,9 +84,9 @@ class PageViewController extends Controller {
                 }
                 else if ($pageRow['protected'] == true) {
                     $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
-                    $valueInExplodeArray = $this->utility->valueInExplodeArray($pageRow['role_user_id'], $this->getUser()->getRoleUserId());
+                    $arrayExplodeFindValue = $this->utility->arrayExplodeFindValue($pageRow['role_user_id'], $this->getUser()->getRoleUserId());
                             
-                    if ($checkUserRole == false && $valueInExplodeArray == false) {
+                    if ($checkUserRole == false && $arrayExplodeFindValue == false) {
                         // Page not available for role
                         $this->response['values']['controllerAction'] = null;
                         $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_4");

@@ -76,7 +76,7 @@ class RegistrationController extends Controller {
                     if ($messagePassword == "ok") {
                         $settingRow = $this->query->selectSettingDatabase();
                         
-                        $this->utility->configureUserParameter($userEntity);
+                        $this->utility->assignUserParameter($userEntity);
 
                         $helpCode = $this->utility->generateRandomString(20);
 

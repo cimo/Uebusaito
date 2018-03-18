@@ -204,7 +204,7 @@ class Utility {
         $charactersLength = strlen($characters);
         $randomString = "";
         
-        for ($i = 0; $i < $length; $i++)
+        for ($a = 0; $a < $length; $a ++)
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         
         return $randomString;
@@ -213,9 +213,7 @@ class Utility {
     public function sendEmail($to, $subject, $message, $from) {
         $headers  = "MIME-Version: 1.0\r\n";
         $headers .= "Content-type: text/html; charset=utf-8\r\n";
-        $headers .= "From: $from\r\n" .
-            "Reply-To: $from \r\n" .
-            "X-Mailer: PHP/" . phpversion();
+        $headers .= "From: $from \r\n" . "Reply-To: $from \r\n" . "X-Mailer: PHP/" . phpversion();
 
         mail($to, $subject, $message, $headers);
     }
@@ -259,7 +257,7 @@ class Utility {
         array_splice($array, $b, 0, $out);
     }
     
-    public function arrayValueInArray($elements, $subElements) {
+    public function arrayFindValue($elements, $subElements) {
         $result = false;
         
         foreach($elements as $key => $value) {
@@ -273,14 +271,14 @@ class Utility {
         return $result;
     }
     
-    public function valueInExplodeArray($elementsFirst, $elementsSecond) {
+    public function arrayExplodeFindValue($elementsFirst, $elementsSecond) {
         $elementsFirstExplode = explode(",", $elementsFirst);
         array_pop($elementsFirstExplode);
 
         $elementsSecondExplode =  explode(",", $elementsSecond);
         array_pop($elementsSecondExplode);
         
-        if ($this->arrayValueInArray($elementsFirstExplode, $elementsSecondExplode) == true)
+        if ($this->arrayFindValue($elementsFirstExplode, $elementsSecondExplode) == true)
             return true;
         
         return false;
@@ -356,7 +354,7 @@ class Utility {
         return $dateExplode;
     }
     
-    public function configureUserParameter($user) {
+    public function assignUserParameter($user) {
         $query = $this->connection->prepare("SELECT id FROM users
                                                 LIMIT 1");
         
@@ -409,13 +407,6 @@ class Utility {
         }
         
         return "ok";
-    }
-    
-    public function checkCaptcha($captchaEnabled, $captcha) {
-        if ($captchaEnabled == false || ($captchaEnabled == true && isset($_SESSION['captcha']) == true && $_SESSION['captcha'] == $captcha))
-            return true;
-        
-        return false;
     }
     
     public function checkSessionOverTime($request, $root = false) {

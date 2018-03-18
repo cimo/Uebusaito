@@ -77,7 +77,7 @@ class UserController extends Controller {
                 $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
 
                 if ($messagePassword == "ok") {
-                    $this->utility->configureUserParameter($userEntity);
+                    $this->utility->assignUserParameter($userEntity);
 
                     mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$form->get("username")->getData()}");
                     mkdir("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$form->get("username")->getData()}");
@@ -395,10 +395,10 @@ class UserController extends Controller {
                 else if ($request->get("event") == "deleteAll") {
                     $userRows = $this->query->selectAllUserDatabase(1);
 
-                    for ($i = 0; $i < count($userRows); $i ++) {
-                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userRows[$i]['username']}", true);
-                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userRows[$i]['username']}", true);
-                        $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userRows[$i]['username']}", true);
+                    for ($a = 0; $a < count($userRows); $a ++) {
+                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/files/{$userRows[$a]['username']}", true);
+                        $this->utility->removeDirRecursive("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$userRows[$a]['username']}", true);
+                        $this->utility->removeDirRecursive("{$this->utility->getPathWebBundle()}/files/{$userRows[$a]['username']}", true);
                     }
 
                     $userDatabase = $this->userDatabase("deleteAll", null);

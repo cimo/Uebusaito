@@ -36,7 +36,7 @@ class RootController extends Controller {
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
-    * @Method({"GET"})
+    * @Method({"GET", "POST"})
     * @Template("@UebusaitoBundleViews/render/index.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
@@ -64,9 +64,9 @@ class RootController extends Controller {
         
         $this->response['captchaImage'] = $this->captcha->create(7);
         
-        $event = isset($_POST['event']) == true ? $_POST['event'] : "";
+        //$event = isset($_POST['event']) == true ? $_POST['event'] : "";
         
-        if ($event == "captchaImage") {
+        if ($request->get("event") == "captchaImage") {
             return $this->ajax->response(Array(
                 'response' => $this->response
             ));

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
 use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\Captcha;
 
 class AuthenticationListener implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface, LogoutSuccessHandlerInterface {
     // Vars
@@ -24,6 +25,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
     private $utility;
     private $query;
     private $ajax;
+    private $captcha;
     
     private $settingRow;
     
@@ -39,6 +41,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->captcha = new Captcha($this->container, $this->entityManager);
         
         $this->settingRow = $this->query->selectSettingDatabase();
     }
@@ -49,15 +52,15 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($request->isXmlHttpRequest() == true) {
             $user = $token->getUser();
             
-            $checkCaptcha = $this->utility->checkCaptcha($this->settingRow['captcha'], $request->get("captcha"));
+            $checkCaptcha = $this->captcha->check($this->settingRow['captcha'], $request->get("captcha"));
             $checkAttemptLogin = $this->utility->checkAttemptLogin("success", $user->getId(), $this->settingRow);
-            $valueInExplodeArray = $this->utility->valueInExplodeArray($this->settingRow['role_user_id'], $user->getRoleUserId());
+            $arrayExplodeFindValue = $this->utility->arrayExplodeFindValue($this->settingRow['role_user_id'], $user->getRoleUserId());
             
             if ($checkCaptcha == true && (($this->settingRow['website_active'] == true && $checkAttemptLogin[0] == true)
-                || ($this->settingRow['website_active'] == false && $checkAttemptLogin[0] == true && $valueInExplodeArray == true)))
+                || ($this->settingRow['website_active'] == false && $checkAttemptLogin[0] == true && $arrayExplodeFindValue == true)))
                 $this->response['values']['url'] = $referer;
             else {
-                $token->setToken(null);
+                $this->utility->getTokenStorage()->setToken(null);
                 
                 if ($checkCaptcha == false) {
                     $message = $this->utility->getTranslator()->trans("captcha_1");
@@ -93,7 +96,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
             if ($this->utility->checkUserNotLocked($username) == false)
                 $message = $this->utility->getTranslator()->trans("authenticationListener_2");
             else {
-                $checkCaptcha = $this->utility->checkCaptcha($this->settingRow['captcha'], $request->get("captcha"));
+                $checkCaptcha = $this->captcha->check($this->settingRow['captcha'], $request->get("captcha"));
                 $checkAttemptLogin = $this->utility->checkAttemptLogin("failure", $username, $this->settingRow);
 
                 if ($checkCaptcha == true && $checkAttemptLogin[0] == true)
