@@ -1,0 +1,191 @@
+/* Search */
+.widget_search {
+    position: fixed;
+    top: 11px;
+    right: 185px;
+    left: 50px;
+    color: #ffffff;
+    font-size: 16px;
+    height: 29px;
+    margin: 0;
+    padding: 0;
+    
+    .button_open {
+        position: absolute;
+        top: 5px;
+        right: -20px;
+        cursor: pointer;
+        z-index: 2;
+
+        transition: all .4s ease-out;
+    }
+    
+    .button_close {
+        display: none;
+        position: absolute;
+        top: 5px;
+        right: -25px;
+        cursor: pointer;
+        z-index: 1;
+    }
+    
+    input {
+        display: none;
+        border: none;
+        border-bottom: 1px solid #ffffff;
+        font-size: 16px;
+        padding: 5px 0;
+        background: 0;
+        color: #ffffff;
+        width: 100%;
+    }
+    
+    input:focus {
+        outline: none;
+    }
+    
+    .animate {
+        right: 100%;
+    }
+}
+
+/* Date picker */
+.widget_datePicker_back {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000000;
+    opacity: 0.5;
+    z-index: 20;
+}
+.widget_datePicker {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0px;
+    border-radius: 2px;
+    border-top: none;
+    border-bottom: none;
+    width: 310px;
+    background-color: #ffffff;
+    z-index: 21;
+    
+    .header {
+        height: 55px;
+        padding: 20px;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        border-bottom-left-radius: 0px;
+        
+        p {
+            margin: 0;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+    }
+    
+    .listYears {
+        display: none;
+        height: 345px;
+        overflow-y: scroll;
+        
+        .mdc-list {
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            
+            ul {
+                padding: 0;
+                margin: 0;
+                
+                .mdc-list-item {
+                    display: block;
+                    text-align: center;
+                    line-height: 42px;
+                    height: 42px;
+                }
+            }
+        }
+    }
+    
+    .month {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        height: 37px;
+        
+        div {
+            display: inline-block;
+        }
+        
+        .label {
+            width: 180px;
+        }
+        
+        .material-icons {
+            position: relative;
+            top: 8px;
+            width: 48px;
+            cursor: pointer;
+        }
+    }
+    
+    .week ul {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        
+        li {
+            position: relative;
+            display: inline-block;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            line-height: 42px;
+            opacity: 0.5;
+            font-size: 12px;
+        }
+    }
+    
+    .day ul {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        
+        li {
+            position: relative;
+            display: inline-block;
+            width: 42px;
+            height: 42px;
+            line-height: 42px;
+            font-size: 11px;
+            
+            span {
+                display: inline-block;
+                width: 32px;
+                height: 32px;
+                line-height: 32px;
+                cursor: pointer;
+                border-radius: 50%;
+            }
+        }
+    }
+    
+    .footer {
+        text-align: right;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 599px) {
+    .widget_search {
+        right: 155px;
+    }
+}

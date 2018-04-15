@@ -7,15 +7,20 @@
 {% endblock %}
 
 {% block headLink %}
+    {{-include("@UebusaitoBundleViews/layout/layout_google.html.twig")-}}
+    
     <!-- Favicon -->
-    <link href="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
+    <link href="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
     <!-- Css -->
     <link href="{{asset("bundles/uebusaito/css/library/jquery-ui_1.12.1.min.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/library/jquery-ui_1.12.1_structure.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/library/bootstrap_3.3.7.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/library/bootstrap-switch_3.3.2.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/library/font-awesome_4.7.0_custom.min.css")}}" rel="stylesheet">
-    <link href="{{asset("bundles/uebusaito/css/system/" ~ settingRow['template'] ~ ".css")}}" rel="stylesheet"/>
+    
+    <link href="{{asset("bundles/uebusaito/css/library/Roboto+Mono.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/library/Roboto_300_400_500.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/library/material-icons.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/library/material-components-web.min.css")}}" rel="stylesheet"/>
+    
+    <link href="{{asset("bundles/uebusaito/css/system/" ~ settingRow['template_name'] ~ ".css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/loader.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/flashBag.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/table_and_pagination.css")}}" rel="stylesheet"/>
@@ -25,35 +30,55 @@
 {% endblock%}
 
 {% block headerContainer %}
-        <div class="sortable_column">
-            {% if (settingRow['website_active'] == false and is_granted("IS_AUTHENTICATED_FULLY") == false) or urlExtra == "maintenance_authentication" %}
-                <div class="logo_big display_desktop">
-                    <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
-                    <p class="logo_text">{{websiteName}}</p>
+   {#<div class="sortable_column">
+        {% if (settingRow['website_active'] == false and is_granted("IS_AUTHENTICATED_FULLY") == false) or urlExtra == "maintenance_authentication" %}
+            <div class="logo_big display_desktop">
+                <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
+                <p class="logo_text">{{websiteName}}</p>
+            </div>
+            <div class="logo_small display_mobile">
+                <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
+                <p class="logo_text">{{websiteName}}</p>
+            </div>
+        {% else %}
+            <div class="logo_big logo_big_margin_bottom display_desktop">
+                <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
+                <p class="logo_text">{{websiteName}}</p>
+            </div>
+        {% endif %}
+
+        {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+            {% for value in response.modules.header %}
+                {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
+                    {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>#}
+   
+    <header class="mdc-toolbar mdc-toolbar--fixed mdc-toolbar--waterfall mdc-toolbar--flexible mdc-toolbar--flexible-default-behavior mdc-toolbar--flexible-space-maximized">
+        <div class="mdc-toolbar__row" style="height: 200px;">
+            <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+                <a id="menu_root_button" class="material-icons mdc-toolbar__menu-icon" href="javascript:void(0)">menu</a>
+                <span class="mdc-toolbar__title">Title</span>
+            </section>
+            <section class="mdc-toolbar__section mdc-toolbar__section--align-end" role="toolbar">
+                <!-- Widget - Search -->
+                <div class="widget_search">
+                    <i class="material-icons button_open">search</i>
+                    <i class="material-icons button_close">close</i>
+                    <input name="searchText" type="text" placeholder="Search" autocomplete="off">
                 </div>
-                <div class="logo_small display_mobile">
-                    <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
-                    <p class="logo_text">{{websiteName}}</p>
-                </div>
-            {% else %}
-                <div class="logo_big logo_big_margin_bottom display_desktop">
-                    <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
-                    <p class="logo_text">{{websiteName}}</p>
-                </div>
-            {% endif %}
-            
-            {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
-                {% for value in response.modules.header %}
-                    {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
-                        {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Download">file_download</a>
+                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Print this page">print</a>
+                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Bookmark this page">bookmark</a>
+            </section>
         </div>
+    </header>
 {% endblock %}
 
 {% block columnLeftContainer %}
-    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+    {#{% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
         <div class="sortable_column">
             {% for value in response.modules.left %}
                 {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -61,11 +86,13 @@
                 {% endif %}
             {% endfor %}
         </div>
-    {% endif %}
+    {% endif %}#}
+    
+    <p class="mdc-typography--body1">Column left</p>
 {% endblock %}
 
 {% block columnCenterContainer %}
-    {% if app.request.get("error") is not null and app.request.get("error") is not empty %}
+    {#{% if app.request.get("error") is not null and app.request.get("error") is not empty %}
         {{-include("@UebusaitoBundleViews/render/static/error.html.twig")-}}
     {% else %}
         {{-include("@UebusaitoBundleViews/include/flashBag.html.twig")-}}
@@ -85,7 +112,7 @@
                         {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% else %}
                         <div class="maintenance_content">
-                            <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/maintenance.svg")}}">
+                            <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/maintenance.svg")}}">
                             <div>
                                 <a href="{{path("root_render", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "maintenance_authentication"})}}">
                                     <i class="fa fa-wrench"></i>
@@ -98,11 +125,13 @@
                 {% endif %}
             </div>
         {% endif %}
-    {% endif %}    
+    {% endif %}#}
+    
+    <p class="mdc-typography--body1">Column center</p>
 {% endblock %}
 
 {% block columnRightContainer %}
-    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+    {#{% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
         <div class="sortable_column">
             {% for value in response.modules.right %}
                 {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -110,31 +139,49 @@
                 {% endif %}
             {% endfor %}
         </div>
-    {% endif %}
+    {% endif %}#}
+    
+    <p class="mdc-typography--body1">Column right</p>
 {% endblock %}
 
 {% block footerContainer %}
-    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
+    {#{% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
         {% for value in response.modules.footer %}
             {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                 {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
             {% endif %}
         {% endfor %}
-    {% endif %}
+    {% endif %}#}
 
-    {{-include("@UebusaitoBundleViews/include/footer.html.twig")-}}
+    <footer class="mdc-theme--text-primary-on-primary">
+        <div class="container_icon">
+            <div>
+                <i class="material-icons">desktop_windows</i>
+            </div>
+            <div>
+                <i class="material-icons">laptop_windows</i>
+            </div>
+            <div>
+                <i class="material-icons">smartphone</i>
+            </div>
+        </div>
+        <div class="container_text">
+            <p>{{"index_7"|trans}}</p>
+            <p>{{"index_8"|trans}}</p>
+        </div>
+    </footer>
 {% endblock %}    
 
 {% block bodyIncludeDown %}
-    {{-include("@UebusaitoBundleViews/include/loader.html.twig")-}}
-    {{-include("@UebusaitoBundleViews/include/popup_easy.html.twig")-}}
+    {#{{-include("@UebusaitoBundleViews/include/loader.html.twig")-}}
+    {{-include("@UebusaitoBundleViews/include/popup_easy.html.twig")-}}#}
 {% endblock %}
 
 {% block javascript %}
     <script type="text/javascript">
         var session = {
             'token': "{{csrf_token("intention")}}",
-            'userActivity': "{{php_session.user_activity}}"
+            'userActivity': "{{php_session.userActivity}}"
         };
 
         var path = {
@@ -204,19 +251,22 @@
         };
 
         var setting = {
-            'widthMobile': 991,
-            'widthDesktop': 992,
-            'template': "{{settingRow['template']}}",
+            'widthMobile': 839,
+            'widthDesktop': 840,
+            'templateName': "{{settingRow['template_name']}}",
             'language': "{{settingRow['language']}}",
             'websiteActive': "{{settingRow['website_active']}}"
         };
     </script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery_3.1.1.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery_3.3.1.min.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery-ui_1.12.1.min.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery-mobile_1.5.0.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/bootstrap_3.3.7.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/bootstrap-switch_3.3.2.min.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/material-components-web.min.js")}}"></script>
+    
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Utility.js")}}"></script>
+    
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/widget/WidgetSearch.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/widget/WidgetDatePicker.js")}}"></script>
     
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Ajax.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Loader.js")}}"></script>
@@ -240,6 +290,6 @@
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/RoleUser.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Setting.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/PageComment.js")}}"></script>
-
+    
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Index.js")}}"></script>
 {% endblock %}

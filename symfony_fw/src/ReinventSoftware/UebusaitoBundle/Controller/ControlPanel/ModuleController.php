@@ -222,7 +222,7 @@ class ModuleController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $_SESSION['module_profile_id'] = 0;
+        $_SESSION['moduleProfileId'] = 0;
         
         $moduleRows = $this->query->selectAllModuleDatabase();
         
@@ -301,7 +301,7 @@ class ModuleController extends Controller {
                 $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($id);
 
                 if ($moduleEntity != null) {
-                    $_SESSION['module_profile_id'] = $id;
+                    $_SESSION['moduleProfileId'] = $id;
 
                     $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
                         'validation_groups' => Array('module_profile'),
@@ -309,7 +309,7 @@ class ModuleController extends Controller {
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['id'] = $_SESSION['module_profile_id'];
+                    $this->response['values']['id'] = $_SESSION['moduleProfileId'];
 
                     $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/module_profile.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
@@ -405,7 +405,7 @@ class ModuleController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($_SESSION['module_profile_id']);
+        $moduleEntity = $this->entityManager->getRepository("UebusaitoBundle:Module")->find($_SESSION['moduleProfileId']);
         
         $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
             'validation_groups' => Array('module_profile'),
@@ -477,7 +477,7 @@ class ModuleController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
-                    $id = $request->get("id") == null ? $_SESSION['module_profile_id'] : $request->get("id");
+                    $id = $request->get("id") == null ? $_SESSION['moduleProfileId'] : $request->get("id");
 
                     $moduleDatabase = $this->moduleDatabase("delete", $id, null, null);
 

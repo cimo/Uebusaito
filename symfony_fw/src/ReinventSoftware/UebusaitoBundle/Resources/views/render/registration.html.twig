@@ -16,70 +16,68 @@
         </li>
     </ul>
     <div class="page_container clearfix">
-        <div class="row">
-            <div class="col-md-6">
-                <h3 class="margin_clear">{% trans %}registration_3{% endtrans %}</h3>
-                <form id="form_user_registration" class="margin_top" action="{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-                    <div class="form-group">
-                        {{form_label(form.username, "registration_4")}}
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-paw"></i></span>
-                            {{form_errors(form.username)}}
-                            {{form_widget(form.username)}}
-                        </div>
+        <div>
+            <h3 class="margin_clear">{% trans %}registration_3{% endtrans %}</h3>
+            <form id="form_user_registration" class="margin_top" action="{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                <div class="form-group">
+                    {{form_label(form.username, "registration_4")}}
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-paw"></i></span>
+                        {{form_errors(form.username)}}
+                        {{form_widget(form.username)}}
                     </div>
-                    
-                    {{form_row(form.name, {'label': "registration_5"})}}
-                    {{form_row(form.surname, {'label': "registration_6"})}}
-                    
-                    <div class="form-group">
-                        {{form_label(form.email, "registration_7")}}
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                            {{form_errors(form.email)}}
-                            {{form_widget(form.email)}}
-                        </div>
+                </div>
+
+                {{form_row(form.name, {'label': "registration_5"})}}
+                {{form_row(form.surname, {'label': "registration_6"})}}
+
+                <div class="form-group">
+                    {{form_label(form.email, "registration_7")}}
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                        {{form_errors(form.email)}}
+                        {{form_widget(form.email)}}
                     </div>
-                    
-                    {{form_row(form.telephone, {'label': "registration_8"})}}
-                    {{form_row(form.born, {'label': "registration_9"})}}
-                    {{form_row(form.gender, {'label': "registration_10"})}}
+                </div>
 
-                    {% if urlExtra == "company" %}
-                        {{form_row(form.fiscalCode, {'label': "registration_11"})}}
-                        {{form_row(form.companyName, {'label': "registration_12"})}}
-                        {{form_row(form.vat, {'label': "registration_13"})}}
-                    {% endif %}
+                {{form_row(form.telephone, {'label': "registration_8"})}}
+                {{form_row(form.born, {'label': "registration_9"})}}
+                {{form_row(form.gender, {'label': "registration_10"})}}
 
-                    {{form_row(form.website, {'label': "registration_14"})}}
-                    {{form_row(form.state, {'label': "registration_15"})}}
-                    {{form_row(form.city, {'label': "registration_16"})}}
-                    {{form_row(form.zip, {'label': "registration_17"})}}
-                    {{form_row(form.address, {'label': "registration_18"})}}
-                    
-                    <div class="form-group">
-                        {{form_label(form.password, "registration_19")}}
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                            {{form_errors(form.password)}}
-                            {{form_widget(form.password)}}
-                        </div>
+                {% if urlExtra == "company" %}
+                    {{form_row(form.fiscalCode, {'label': "registration_11"})}}
+                    {{form_row(form.companyName, {'label': "registration_12"})}}
+                    {{form_row(form.vat, {'label': "registration_13"})}}
+                {% endif %}
+
+                {{form_row(form.website, {'label': "registration_14"})}}
+                {{form_row(form.state, {'label': "registration_15"})}}
+                {{form_row(form.city, {'label': "registration_16"})}}
+                {{form_row(form.zip, {'label': "registration_17"})}}
+                {{form_row(form.address, {'label': "registration_18"})}}
+
+                <div class="form-group">
+                    {{form_label(form.password, "registration_19")}}
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                        {{form_errors(form.password)}}
+                        {{form_widget(form.password)}}
                     </div>
-                    
-                    <div class="form-group">
-                        {{form_label(form.passwordConfirm, "registration_20")}}
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                            {{form_errors(form.passwordConfirm)}}
-                            {{form_widget(form.passwordConfirm)}}
-                        </div>
+                </div>
+
+                <div class="form-group">
+                    {{form_label(form.passwordConfirm, "registration_20")}}
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                        {{form_errors(form.passwordConfirm)}}
+                        {{form_widget(form.passwordConfirm)}}
                     </div>
+                </div>
 
-                    {{form_widget(form._token)}}
+                {{form_widget(form._token)}}
 
-                    <input class="button_custom" type="submit" value="{% trans %}button_4{% endtrans %}"/>
-                </form>
-            </div>
+                <input class="button_custom" type="submit" value="{% trans %}button_4{% endtrans %}"/>
+            </form>
         </div>
     </div>
 {% endif %}

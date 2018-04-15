@@ -85,8 +85,8 @@ class PageCommentController extends Controller {
                     $pageCommentEntity->setPageId($this->urlCurrentPageId);
                     $pageCommentEntity->setUsername($this->getUser()->getUsername());
 
-                    if (isset($_SESSION['username_reply']) == true && $_SESSION['username_reply'] != "")
-                        $pageCommentEntity->setUsernameReply($_SESSION['username_reply']);
+                    if (isset($_SESSION['usernameReply']) == true && $_SESSION['usernameReply'] != "")
+                        $pageCommentEntity->setUsernameReply($_SESSION['usernameReply']);
 
                     $pageCommentEntity->setDateCreation(date("Y-m-d H:i:s"));
 
@@ -153,7 +153,7 @@ class PageCommentController extends Controller {
         
         $this->response['values']['pageRow'] = $pageRow;
         
-        $_SESSION['username_reply'] = "";
+        $_SESSION['usernameReply'] = "";
         
         $this->tableAndPaginationLogic();
         
@@ -204,9 +204,9 @@ class PageCommentController extends Controller {
                 if ($request->get("event") == "reply" && $pageRow['comment'] == true && $settingRow['page_comment_active'] == true) {
                     $pageCommentRow = $this->query->selectPageCommentDatabase($request->get("id"));
 
-                    $_SESSION['username_reply'] = $pageCommentRow['username'];
+                    $_SESSION['usernameReply'] = $pageCommentRow['username'];
 
-                    $this->response['values']['usernameReply'] = $_SESSION['username_reply'];
+                    $this->response['values']['usernameReply'] = $_SESSION['usernameReply'];
                     $this->response['values']['argumentReply'] = $pageCommentRow['argument'];
                 }
                 else if ($request->get("event") == "modify" && $pageRow['comment'] == true && $settingRow['page_comment_active'] == true) {
@@ -250,24 +250,24 @@ class PageCommentController extends Controller {
         $count = count($elements);
         
         foreach ($elements as $key => $value) {
-            $listHtml .= "<div class=\"row\">
-                <div class=\"col-md-2 horizontal_center\">
+            $listHtml .= "<div>
+                <div class=\"horizontal_center\">
                     <p>{$value['username']}</p>";
                     
                     if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$value['username']}/Avatar.jpg") == true)
                         $listHtml .= "<img src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/files/{$value['username']}/Avatar.jpg\"/>";
                     else
-                        $listHtml .= "<img src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
+                        $listHtml .= "<img src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/images/templates/{$setting['template_name']}/no_avatar.jpg\"/>";
                     
                     if ($value['username_reply'] != null) {
                         if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$value['username_reply']}/Avatar.jpg") == true)
                             $listHtml .= "<img class=\"avatar_reply\" src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/files/{$value['username_reply']}/Avatar.jpg\"/>";
                         else
-                            $listHtml .= "<img class=\"avatar_reply\" src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
+                            $listHtml .= "<img class=\"avatar_reply\" src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/images/templates/{$setting['template_name']}/no_avatar.jpg\"/>";
                     }
                     
                 $listHtml .= "</div>
-                <div class=\"col-md-10\">
+                <div>
                     <div class=\"message\">
                         <p contenteditable=\"false\" class=\"argument item_{$value['id']}\">{$value['argument']}</p>
                         <div class=\"info\">";

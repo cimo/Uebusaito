@@ -1,63 +1,61 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 
-<div class="row">
-    <div class="col-md-6">
-        <h3 class="form_title">{% trans %}module_profile_1{% endtrans %}</h3>
-        <form id="form_cp_module_profile" action="{{path("cp_module_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            <div class="display_mobile">
-                <div class="form-group">
-                    {{form_label(form.position, "module_profile_2")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
-                        {{form_errors(form.position)}}
-                        {{form_widget(form.position)}}
+<div>
+    <h3 class="form_title">{% trans %}module_profile_1{% endtrans %}</h3>
+    <form id="form_cp_module_profile" action="{{path("cp_module_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        <div class="display_mobile">
+            <div class="form-group">
+                {{form_label(form.position, "module_profile_2")}}
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
+                    {{form_errors(form.position)}}
+                    {{form_widget(form.position)}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{form_label(form.rankInColumn, "module_profile_3")}}
+                {{form_errors(form.rankInColumn)}}
+                {{form_widget(form.rankInColumn, {'attr': {'size': '8'}})}}
+
+                {{form_row(form.sort)}}
+                <div id="module_position_sort">
+                    <div class="horizontal_center">
+                        <i id="module_sort_button_up" class="fa fa-caret-square-o-up button_sort"></i>
+                        <i id="module_sort_button_down" class="fa fa-caret-square-o-down button_sort"></i>
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    {{form_label(form.rankInColumn, "module_profile_3")}}
-                    {{form_errors(form.rankInColumn)}}
-                    {{form_widget(form.rankInColumn, {'attr': {'size': '8'}})}}
-
-                    {{form_row(form.sort)}}
-                    <div id="module_position_sort">
-                        <div class="horizontal_center">
-                            <i id="module_sort_button_up" class="fa fa-caret-square-o-up button_sort"></i>
-                            <i id="module_sort_button_down" class="fa fa-caret-square-o-down button_sort"></i>
-                        </div>
-                    </div>
-                </div>
             </div>
-            
-            <div class="form-group">
-                {{form_label(form.name, "module_profile_4")}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-header"></i></span>
-                    {{form_errors(form.name)}}
-                    {{form_widget(form.name)}}
-                </div>
-            </div>
-            
-            {{form_row(form.label, {'label': "module_profile_5"})}}
-            
-            <div class="form-group">
-                {{form_label(form.fileName, "module_profile_6")}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-file"></i></span>
-                    {{form_errors(form.fileName)}}
-                    {{form_widget(form.fileName)}}
-                </div>
-            </div>
-            
-            {{form_row(form.active, {'label': "module_profile_7"})}}
+        </div>
 
-            {{form_widget(form._token)}}
+        <div class="form-group">
+            {{form_label(form.name, "module_profile_4")}}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-header"></i></span>
+                {{form_errors(form.name)}}
+                {{form_widget(form.name)}}
+            </div>
+        </div>
 
-            <input class="button_custom" type="submit" value="{% trans %}button_3{% endtrans %}"/>
-        </form>
-        
-        {% if is_granted("ROLE_ADMIN") == true and response.values.id > 5 %}
-            {{-include("@UebusaitoBundleViews/render/control_panel/module_deletion.html.twig")-}}
-        {% endif %}
-    </div>
+        {{form_row(form.label, {'label': "module_profile_5"})}}
+
+        <div class="form-group">
+            {{form_label(form.fileName, "module_profile_6")}}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-file"></i></span>
+                {{form_errors(form.fileName)}}
+                {{form_widget(form.fileName)}}
+            </div>
+        </div>
+
+        {{form_row(form.active, {'label': "module_profile_7"})}}
+
+        {{form_widget(form._token)}}
+
+        <input class="button_custom" type="submit" value="{% trans %}button_3{% endtrans %}"/>
+    </form>
+
+    {% if is_granted("ROLE_ADMIN") == true and response.values.id > 5 %}
+        {{-include("@UebusaitoBundleViews/render/control_panel/module_deletion.html.twig")-}}
+    {% endif %}
 </div>

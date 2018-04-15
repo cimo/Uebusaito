@@ -56,15 +56,15 @@ class RootController extends Controller {
         $this->urlLocale = $this->utility->checkLanguage($request);
         
         // Logic
-        $this->utility->configureCookie(session_name(), 0, isset($_SERVER['HTTPS']), true);
+        $cookieSecure = $this->utility->getProtocol() == "https://" ? true : false;
+        
+        $this->utility->configureCookie(session_name(), 0, $cookieSecure, true);
         
         $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);
                 
-        $_SESSION['language_date'] = $languageRow['date'];
+        $_SESSION['languageDate'] = $languageRow['date'];
         
         $this->response['captchaImage'] = $this->captcha->create(7);
-        
-        //$event = isset($_POST['event']) == true ? $_POST['event'] : "";
         
         if ($request->get("event") == "captchaImage") {
             return $this->ajax->response(Array(

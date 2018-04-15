@@ -4,31 +4,29 @@
             {% form_theme form "bootstrap_3_layout.html.twig" %}
 
             <div id="page_commnet_anchor" class="page_comment">
-                <div class="row">
-                    <div class="col-md-2 horizontal_center">
-                        {% if (file_exists(urlRoot ~ "/bundles/uebusaito/files/" ~ response.values.username ~ "/Avatar.jpg") == true) %}
-                            <img src="{{asset("bundles/uebusaito/files/" ~ response.values.username ~ "/Avatar.jpg")}}"/>
-                        {% else %}
-                            <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/no_avatar.jpg")}}"/>
-                        {% endif %}
+                <div class="horizontal_center">
+                    {% if (file_exists(urlRoot ~ "/bundles/uebusaito/files/" ~ response.values.username ~ "/Avatar.jpg") == true) %}
+                        <img src="{{asset("bundles/uebusaito/files/" ~ response.values.username ~ "/Avatar.jpg")}}"/>
+                    {% else %}
+                        <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/no_avatar.jpg")}}"/>
+                    {% endif %}
+                </div>
+                <div>
+                    <p><b>{% trans %}page_comment_1{% endtrans %}</b>{{response.values.username}}</p>
+                    <p class="username_reply"><b>{% trans %}page_comment_2{% endtrans %}</b><span></span></p>
+                    <div class="message_reply">
+                        <p><b>{% trans %}page_comment_3{% endtrans %}</b></p>
+                        <p class="argument"></p>
                     </div>
-                    <div class="col-md-10">
-                        <p><b>{% trans %}page_comment_1{% endtrans %}</b>{{response.values.username}}</p>
-                        <p class="username_reply"><b>{% trans %}page_comment_2{% endtrans %}</b><span></span></p>
-                        <div class="message_reply">
-                            <p><b>{% trans %}page_comment_3{% endtrans %}</b></p>
-                            <p class="argument"></p>
-                        </div>
-                        <form id="form_page_comment" action="{{path("page_comment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-                            {{form_row(form.argument, {'label': "page_comment_3"})}}
+                    <form id="form_page_comment" action="{{path("page_comment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                        {{form_row(form.argument, {'label': "page_comment_3"})}}
 
-                            {{-include("@UebusaitoBundleViews/include/captcha.html.twig")-}}
+                        {{-include("@UebusaitoBundleViews/include/captcha.html.twig")-}}
 
-                            {{form_widget(form._token)}}
+                        {{form_widget(form._token)}}
 
-                            <input class="button_custom" type="submit" value="{% trans %}button_4{% endtrans %}"/>
-                        </form>
-                    </div>
+                        <input class="button_custom" type="submit" value="{% trans %}button_4{% endtrans %}"/>
+                    </form>
                 </div>
             </div>
         {% else %}

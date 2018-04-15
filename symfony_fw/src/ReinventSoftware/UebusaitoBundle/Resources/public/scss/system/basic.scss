@@ -1,46 +1,7 @@
 @import "utility.scss";
+@import "widget.scss";
 
-@include fontFace("pt_sans", "../../fonts/pt_sans");
-@include fontFace("archivo_black", "../../fonts/archivo_black");
-
-$logoTextColor: #4089c9;
-
-$navbarHeightDesktop: 80px;
-$navbarHeightMobile: 60px;
-$navbarBackgroundColor: #2f343a;
-$navbarIconBarBackgroundColor: #ffffff;
-$navbarNavButtonBackgroundColor: initial;
-$navbarNavButtonColor: #ffffff;
-$navbarNavButtonHoverBackgroundColor: #337ab7;
-$navbarNavButtonHoverColor: #ffffff;
-$navbarNavButtonActiveBackgroundColor: #73766f;
-$navbarNavButtonActiveColor: #ffffff;
-$navbarNavButtonActiveHoverBackgroundColor: #337ab7;
-$navbarNavButtonActiveHoverColor: #ffffff;
-$navbarNavButtonDropdownBackgroundColor: initial;
-$navbarNavButtonDropdownColor: #ffffff;
-$navbarNavButtonDropdownHoverBackgroundColor: #337ab7;
-$navbarNavButtonDropdownHoverColor: #ffffff;
-$navbarNavButtonDropdownOpenBackgroundColor: #f4f4f4;
-$navbarNavButtonDropdownOpenColor: #000000;
-$navbarNavButtonDropdownOpenHoverBackgroundColor: #337ab7;
-$navbarNavButtonDropdownOpenHoverColor: #ffffff;
-$navbarNavButtonDropdownActiveBackgroundColor: #73766f;
-$navbarNavButtonDropdownActiveColor: #ffffff;
-$navbarNavButtonDropdownActiveHoverBackgroundColor: #337ab7;
-$navbarNavButtonDropdownActiveHoverColor: #ffffff;
-$navbarNavDropdownMenuBackgroundColor: #f4f4f4;
-$navbarNavDropdownMenuBorder: 1px solid #e7e7e7;
-$navbarNavButtonDropdownMenuBackgroundColor: initial;
-$navbarNavButtonDropdownMenuColor: #000000;
-$navbarNavButtonDropdownMenuHoverBackgroundColor: #337ab7;
-$navbarNavButtonDropdownMenuHoverColor: #ffffff;
-$navbarNavButtonDropdownMenuActiveBackgroundColor: #73766f;
-$navbarNavButtonDropdownMenuActiveColor: #ffffff;
-$navbarNavButtonDropdownMenuActiveHoverBackgroundColor: #337ab7;
-$navbarNavButtonDropdownMenuActiveHoverColor: #ffffff;
-
-$spaceBottom: 120px;
+/*$spaceBottom: 120px;
 $textColor: #4089c9;
 
 $panelBackgroundColor: #f4f4f4;
@@ -95,12 +56,12 @@ $buttonAuthenticationDesktopColor: #ffffff;
 $buttonFlagBorder: 1px solid #327db6;
 
 $footerBackgroundColor: #2f343a;
-$footerColor: #ffffff;
+$footerColor: #ffffff;*/
 
 @media(max-width: "1350px") and (min-width: $widthMobile) {
 }
 @media(max-width: $widthMobile) {
-    .container_center {
+    /*.container_center {
         width: 100%;
     }
     
@@ -277,10 +238,6 @@ $footerColor: #ffffff;
     }
     
     .page_comment {
-        .col-md-2 {
-            text-align: left;
-        }
-        
         .avatar_reply {
             left: 65px;
         }
@@ -309,10 +266,10 @@ $footerColor: #ffffff;
     
     #panel_id_5 {
         width: 200px !important;
-    }
+    }*/
 }
 @media(min-width: $widthDesktop) {
-    .navbar_fix {
+    /*.navbar_fix {
         .navbar-default {
             .navbar-collapse {
                 padding-left: 0;
@@ -387,23 +344,18 @@ $footerColor: #ffffff;
         top: 34px;
         right: 195px;
         z-index: 1010;
-    }
+    }*/
 }
 
-body {
+/*body {
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
     min-height: 100%;
-    
-    font-family: "pt_sans", sans-serif;
-    font-size: 14px;
 }
 
 table, .table {
-    font-family: "pt_sans", sans-serif;
-    font-size: 14px;
     margin-bottom: 0;
 }
 
@@ -417,7 +369,6 @@ p {
     }
     
     .logo_text {
-        font-family: "archivo_black", sans-serif;
         display: inline-block;
         position: relative;
         top: 10px;
@@ -433,7 +384,6 @@ p {
     }
     
     .logo_text {
-        font-family: "archivo_black", sans-serif;
         display: inline-block;
         position: relative;
         font-size: 10px;
@@ -848,6 +798,19 @@ p {
     border: $buttonFlagBorder;
 }
 
+.wordTag_label {
+    display: inline-block;
+    padding: 3px;
+    vertical-align: top;
+    background-color: #f5f5f5;
+    border: 1px solid #d9d9d9;
+    margin: 2px;
+}
+.wordTag_close {
+    padding: 3px;
+    cursor: pointer;
+}
+
 .accordion_container {
     .title {
         cursor: pointer;
@@ -1042,5 +1005,60 @@ p {
         top: -105px;
         left: 50%;
         width: 50px;
+    }
+}*/
+
+:root {
+    --mdc-theme-primary: #1976d2;
+    --mdc-theme-primary-light: #63a4ff;
+    --mdc-theme-primary-dark: #004ba0;
+    --mdc-theme--text-primary-on-primary: #ffffff;
+    --mdc-theme--text-primary-on-secondary: #ffffff;
+    
+    --mdc-theme-secondary: #d50000;
+    --mdc-theme-secondary-light: #ff5131;
+    --mdc-theme-secondary-dark: #9b0000;
+    --mdc-theme--text-secondary-on-secondary: #ffffff;
+    --mdc-theme--text-secondary-on-primary: #ffffff;
+    
+    --mdc-theme-background: #ffffff;
+}
+
+::placeholder {
+    color: #ffffff;
+    opacity: 1;
+}
+:-ms-input-placeholder {
+    color: #ffffff;
+}
+::-ms-input-placeholder {
+    color: #ffffff;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    
+    background-color: #004ba0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 90px;
+    
+    .container_icon {
+        div {
+            display: inline-block;
+            margin: 5px 10px;
+        }
+    }
+    
+    .container_text {
+        p {
+            margin: 0;
+            font-size: 12px;
+        }
     }
 }

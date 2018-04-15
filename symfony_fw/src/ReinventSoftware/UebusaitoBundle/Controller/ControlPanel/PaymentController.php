@@ -62,8 +62,8 @@ class PaymentController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if (isset($_SESSION['payment_user_id']) == false)
-            $_SESSION['payment_user_id'] = $this->getUser()->getId();
+        if (isset($_SESSION['paymentUserId']) == false)
+            $_SESSION['paymentUserId'] = $this->getUser()->getId();
         
         $form = $this->createForm(PaymentUserSelectionFormType::class, null, Array(
             'validation_groups' => Array('payment_user_selection'),
@@ -74,7 +74,7 @@ class PaymentController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
                 if ($form->get("userId")->getData() != null) {
-                    $_SESSION['payment_user_id'] = $form->get("userId")->getData();
+                    $_SESSION['paymentUserId'] = $form->get("userId")->getData();
                     
                     $this->response['messages']['success'] = "";
                     
@@ -132,10 +132,10 @@ class PaymentController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        if (isset($_SESSION['payment_user_id']) == false)
-            $_SESSION['payment_user_id'] = $this->getUser()->getId();
+        if (isset($_SESSION['paymentUserId']) == false)
+            $_SESSION['paymentUserId'] = $this->getUser()->getId();
         
-        $paymentRows = $this->query->selectAllPaymentDatabase($_SESSION['payment_user_id']);
+        $paymentRows = $this->query->selectAllPaymentDatabase($_SESSION['paymentUserId']);
 
         $tableAndPagination = $this->tableAndPagination->request($paymentRows, 20, "payment", true, true);
 
@@ -145,7 +145,7 @@ class PaymentController extends Controller {
         
         $form = $this->createForm(PaymentSelectionFormType::class, null, Array(
             'validation_groups' => Array('payment_selection'),
-            'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($_SESSION['payment_user_id']), "id", "transaction"), true)
+            'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($_SESSION['paymentUserId']), "id", "transaction"), true)
         ));
         $form->handleRequest($request);
         
@@ -211,7 +211,7 @@ class PaymentController extends Controller {
                 $paymentEntity = $this->entityManager->getRepository("UebusaitoBundle:Payment")->find($id);
 
                 if ($paymentEntity != null) {
-                    $_SESSION['payment_profile_id'] = $id;
+                    $_SESSION['paymentProfileId'] = $id;
 
                     $this->response['values']['payment'] = $paymentEntity;
 
@@ -267,7 +267,7 @@ class PaymentController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
-                    $id = $request->get("id") == null ? $_SESSION['payment_profile_id'] : $request->get("id");
+                    $id = $request->get("id") == null ? $_SESSION['paymentProfileId'] : $request->get("id");
 
                     $paymentDatabase = $this->paymentDatabase("delete", $id);
 
@@ -342,7 +342,7 @@ class PaymentController extends Controller {
                                                                 WHERE user_id = :userId
                                                                 AND id = :id");
             
-            $query->bindValue(":userId", $_SESSION['payment_user_id']);
+            $query->bindValue(":userId", $_SESSION['paymentUserId']);
             $query->bindValue(":id", $id);
             
             return $query->execute();
@@ -351,7 +351,7 @@ class PaymentController extends Controller {
             $query = $this->utility->getConnection()->prepare("DELETE FROM payments
                                                                 WHERE user_id = :userId");
             
-            $query->bindValue(":userId", $_SESSION['payment_user_id']);
+            $query->bindValue(":userId", $_SESSION['paymentUserId']);
             
             return $query->execute();
         }

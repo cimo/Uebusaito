@@ -80,7 +80,7 @@ class PageController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
+        $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -151,7 +151,7 @@ class PageController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $_SESSION['page_profile_id'] = 0;
+        $_SESSION['pageProfileId'] = 0;
         
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
         
@@ -232,7 +232,7 @@ class PageController extends Controller {
                 $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($id);
 
                 if ($pageEntity != null) {
-                    $_SESSION['page_profile_id'] = $id;
+                    $_SESSION['pageProfileId'] = $id;
 
                     $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
 
@@ -245,8 +245,8 @@ class PageController extends Controller {
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
-                    $this->response['values']['id'] = $_SESSION['page_profile_id'];
+                    $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
+                    $this->response['values']['id'] = $_SESSION['pageProfileId'];
                     $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
                     $this->response['values']['dateCreation'] = $this->utility->dateFormat($pageEntity->getDateCreation());
                     $this->response['values']['userModification'] = $pageEntity->getUserModification();
@@ -346,7 +346,7 @@ class PageController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($_SESSION['page_profile_id']);
+        $pageEntity = $this->entityManager->getRepository("UebusaitoBundle:Page")->find($_SESSION['pageProfileId']);
         
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
         
@@ -431,7 +431,7 @@ class PageController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
-                    $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
+                    $id = $request->get("id") == null ? $_SESSION['pageProfileId'] : $request->get("id");
 
                     $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
 
@@ -459,7 +459,7 @@ class PageController extends Controller {
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
                 }
                 else if ($request->get("event") == "parentAll") {
-                    $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
+                    $id = $request->get("id") == null ? $_SESSION['pageProfileId'] : $request->get("id");
 
                     $this->removedId = Array();
 
@@ -476,7 +476,7 @@ class PageController extends Controller {
                     }
                 }
                 else if ($request->get("event") == "parentNew") {
-                    $id = $request->get("id") == null ? $_SESSION['page_profile_id'] : $request->get("id");
+                    $id = $request->get("id") == null ? $_SESSION['pageProfileId'] : $request->get("id");
 
                     $this->updatePageChildrenDatabase($id, $request->get("parentNew"));
 

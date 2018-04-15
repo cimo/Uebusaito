@@ -45,7 +45,7 @@ function ControlPanelModule() {
     };
     
     self.changeView = function() {
-        $("#module_drag_switch").bootstrapSwitch("state", false, true);
+        //$("#module_drag_switch").bootstrapSwitch("state", false, true);
         utility.sortableDragModules(false, "#form_module_drag_sort");
         
         if (positionSelected >= 0) {
@@ -86,14 +86,14 @@ function ControlPanelModule() {
     
     // Function private
     function sortableDrag() {
-        $("#module_drag_switch").bootstrapSwitch("state", false);
+        //$("#module_drag_switch").bootstrapSwitch("state", false);
         
-        $("#module_drag_switch").on("switchChange.bootstrapSwitch", "", function(event, state) {
+        /*$("#module_drag_switch").on("switchChange.bootstrapSwitch", "", function(event, state) {
             utility.sortableDragModules(state, "#form_module_drag_sort");
             
             if (state === false)
                 $("#form_cp_module_drag").submit();
-        });
+        });*/
         
         $("#form_cp_module_drag").on("submit", "", function(event) {
             event.preventDefault();

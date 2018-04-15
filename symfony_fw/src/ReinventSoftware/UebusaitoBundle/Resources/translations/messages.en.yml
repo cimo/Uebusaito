@@ -167,7 +167,7 @@ date.time: H:i:s
 "registrationController_2": "Thank you for your registration. Waiting for confirmation from the administrator. You will receive an email when your account is activated."
 "registrationController_3": "Registration"
 "registrationController_4": "Registration by a user:"
-"registrationController_5": "You need active this user."
+"registrationController_5": "You need to active this user."
 "registrationController_6": "Registration completed."
 "registrationController_7": "Registration not completed!"
 "registrationController_8": "Thank you for your activation. Now you can use your account."
@@ -181,7 +181,7 @@ date.time: H:i:s
 
 # AuthenticationListener.php
 "authenticationListener_1": "Your level does not allow the access."
-"authenticationListener_2": "Your account is blocked."
+"authenticationListener_2": "Your account is locked."
 "authenticationListener_3": "Bad credentials."
 "authenticationListener_4a": "A lot attempts, wait "
 "authenticationListener_4b": " minutes before retrying."
@@ -299,6 +299,8 @@ date.time: H:i:s
 "index_4": "Ok"
 "index_5": "Abort"
 "index_6": "Connection error, please reload the page."
+"index_7": "Copyright © 2018 - Reinvent software."
+"index_8": "All rights reserved."
 
 # page_comment.html.twig
 "page_comment_1": "Message from user: "
@@ -527,13 +529,13 @@ date.time: H:i:s
 # setting.html.twig
 "setting_1": "Setting form"
 "setting_2": "Style"
-"setting_3": "Template"
+"setting_3": "Template name"
 "setting_4": "Template column"
 "setting_5": "Language"
 "setting_6": "Language manage"
 "setting_7": "Security"
 "setting_8": "Email admin"
-"setting_9": "Active"
+"setting_9": "Website active"
 "setting_10": "Maintenance roles"
 "setting_11": "Https"
 "setting_12": "Registration user confirm by admin"

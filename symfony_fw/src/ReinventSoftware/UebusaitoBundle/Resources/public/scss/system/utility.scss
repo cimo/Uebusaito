@@ -1,18 +1,5 @@
-$widthMobile: "991px";
-$widthDesktop: "992px";
-
-$panelShadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-$panelShadowStrength: 5;
-$panelShadowColor: #474747;
-
-@mixin fontFace($family, $src, $weight: normal, $style: normal) {
-    @font-face {
-        font-family: $family;
-        src: url("#{$src}.eot"), url("#{$src}.eot?#iefix") format("embedded-opentype"), url("#{$src}.woff2") format("woff2"), url("#{$src}.woff") format("woff"), url("#{$src}.ttf") format("truetype");
-        font-weight: $weight;
-        font-style: $style;
-    }
-}
+$widthMobile: "839px";
+$widthDesktop: "840px";
 
 @mixin opacity($value) {
     $msOpacity: $value * 100;
@@ -55,7 +42,19 @@ $panelShadowColor: #474747;
     width: device-width;
 }
 
-html {
+.user_touch_none {
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
+.user_select_none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*html {
     position: relative;
     min-height: 100%;
 }
@@ -69,25 +68,13 @@ body {
 fieldset {
     border: 1px solid #dddddd !important;
     padding: 0 20px !important;
-    margin-bottom: 10px !important;
+    argin-bottom: 10px !important;
 }
 
 legend {
     width: inherit;
     padding: 0 10px;
     border-bottom: none;
-}
-
-.user_touch_none {
-    -ms-touch-action: none;
-    touch-action: none;
-}
-
-.user_select_none {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 .cursor_pointer {
@@ -105,14 +92,6 @@ legend {
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
-}
-
-.shadow {
-    -webkit-box-shadow: $panelShadow;
-    -moz-box-shadow: $panelShadow;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
-    filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=" + $panelShadowStrength + ", Direction=0, Color='" + $panelShadowColor + "')";
-    box-shadow: $panelShadow;
 }
 
 .position_relative {
@@ -175,6 +154,9 @@ legend {
 .margin_clear_left {
     margin-left: 0;
 }
+.margin_clear_right {
+    margin-left: 0;
+}
 .margin_auto {
     margin: auto;
 }
@@ -223,19 +205,6 @@ legend {
 
 .ui-sortable-handle {
     cursor: move;
-}
-
-.wordTag_label {
-    display: inline-block;
-    padding: 3px;
-    vertical-align: top;
-    background-color: #f5f5f5;
-    border: 1px solid #d9d9d9;
-    margin: 2px;
-}
-.wordTag_close {
-    padding: 3px;
-    cursor: pointer;
 }
 
 .module_settings {
@@ -291,4 +260,4 @@ legend {
 
 .ui-resizable-e {
     width: 15px;
-}
+}*/

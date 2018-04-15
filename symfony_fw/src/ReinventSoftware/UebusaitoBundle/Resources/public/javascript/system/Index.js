@@ -1,7 +1,13 @@
-/* global utility, flashBag, loader, wysiwyg, language, search, authentication, registration, recoverPassword,
+/* global utility, widgetSearch, widgetDatePicker, flashBag, loader, wysiwyg, language, search, authentication, registration, recoverPassword,
 controlPanelProfile, controlPanelPayment, controlPanelPage, controlPanelUser, controlPanelModule, controlPanelRoleUser, controlPanelSetting, pageComment */
 
 $(document).ready(function() {
+    // Material design
+    mdc.autoInit();
+    
+    var toolbarMdc = mdc.toolbar.MDCToolbar.attachTo($(".mdc-toolbar")[0]);
+    toolbarMdc.fixedAdjustElement = $(".mdc-toolbar-fixed-adjust")[0];
+    
     utility.checkMobile(true);
     
     utility.linkPreventDefault();
@@ -10,16 +16,26 @@ $(document).ready(function() {
     
     utility.imageError($("#panel_id_3").find("img"));
     
-    utility.bootstrapMenuFix(
+    /*utility.bootstrapMenuFix(
         [
             ["#menu_root_navbar", true],
             ["#menu_registration", true],
             ["#menu_control_panel", false]
         ]
     );
-    utility.bootstrapMenuFixChangeView("#menu_root_navbar");
+    utility.bootstrapMenuFixChangeView("#menu_root_navbar");*/
     
-    loader.create("font");
+    // Widget
+    widgetSearch.init();
+    
+    widgetDatePicker.setLanguage("en");
+    //widgetDatePicker.setCurrentYear(1984);
+    //widgetDatePicker.setCurrentMonth(4);
+    //widgetDatePicker.setCurrentDay(11);
+    widgetDatePicker.setInputFill("#widget_datePicker_input");
+    widgetDatePicker.init();
+    
+    /*loader.create("font");
     
     wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
     wysiwyg.changeView();
@@ -52,7 +68,7 @@ $(document).ready(function() {
     pageComment.init();
     
     $(window).resize(function() {
-        utility.bootstrapMenuFixChangeView("#menu_root_navbar");
+        //utility.bootstrapMenuFixChangeView("#menu_root_navbar");
         
         wysiwyg.changeView();
         
@@ -61,5 +77,5 @@ $(document).ready(function() {
         controlPanelUser.changeView();
         controlPanelModule.changeView();
         controlPanelRoleUser.changeView();
-    });
+    });*/
 });

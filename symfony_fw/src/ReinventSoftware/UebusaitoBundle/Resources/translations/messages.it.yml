@@ -299,6 +299,8 @@ date.time: H:i:s
 "index_4": "Ok"
 "index_5": "Annullare"
 "index_6": "Errire connessione, perfavore ricarica la pagina."
+"index_7": "Copyright © 2018 - Reinvent software."
+"index_8": "Tutti i diritti riservati."
 
 # page_comment.html.twig
 "page_comment_1": "Messaggio dall'utente: "
@@ -527,13 +529,13 @@ date.time: H:i:s
 # setting.html.twig
 "setting_1": "Form impostazioni"
 "setting_2": "Stile"
-"setting_3": "Template"
+"setting_3": "Nome template"
 "setting_4": "Colonne template"
 "setting_5": "Lingua"
 "setting_6": "Gestione lingua"
 "setting_7": "Sicurezza"
 "setting_8": "Email admin"
-"setting_9": "Attivo"
+"setting_9": "Sito web attivo"
 "setting_10": "Ruoli manutenzione"
 "setting_11": "Https"
 "setting_12": "Conferma registrazione utente dall'admin"

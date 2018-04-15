@@ -106,7 +106,7 @@ class ProfileController extends Controller {
                     
                     $message = $this->utility->getTranslator()->trans("profileController_1");
                     
-                    $_SESSION['user_activity'] = $message;
+                    $_SESSION['userActivity'] = $message;
                     
                     $this->response['messages']['info'] = $message;
                 }

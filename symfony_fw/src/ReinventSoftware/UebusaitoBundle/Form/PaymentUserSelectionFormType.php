@@ -25,7 +25,7 @@ class PaymentUserSelectionFormType extends AbstractType {
             'required' => true,
             'choices' => $options['choicesId'],
             'preferred_choices' => Array(
-                $_SESSION['payment_user_id']
+                $_SESSION['paymentUserId']
             )
         ));
     }

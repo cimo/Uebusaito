@@ -1,77 +1,75 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 
-<div class="row">
-    <div class="col-md-6">
-        <h3 class="form_title">{% trans %}user_creation_1{% endtrans %}</h3>
-        <form id="form_cp_user_creation" action="{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            {% if is_granted("ROLE_ADMIN") == true %}
-                <div id="user_roleUserId_wordTag_container" class="form-group">
-                    {{form_label(form.roleUserId, "user_creation_2")}}
-                    {{form_errors(form.roleUserId)}}
-                    {{form_widget(form.roleUserId)}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                        {{response.values.roleUserHtml|raw}}
-                    </div>
-                </div>
-            {% endif %}
-            
-            <div class="form-group">
-                {{form_label(form.username, "user_creation_3")}}
+<div>
+    <h3 class="form_title">{% trans %}user_creation_1{% endtrans %}</h3>
+    <form id="form_cp_user_creation" action="{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+        {% if is_granted("ROLE_ADMIN") == true %}
+            <div id="user_roleUserId_wordTag_container" class="form-group">
+                {{form_label(form.roleUserId, "user_creation_2")}}
+                {{form_errors(form.roleUserId)}}
+                {{form_widget(form.roleUserId)}}
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-paw"></i></span>
-                    {{form_errors(form.username)}}
-                    {{form_widget(form.username)}}
+                    <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+                    {{response.values.userRoleHtml|raw}}
                 </div>
             </div>
-            
-            {{form_row(form.name, {'label': "user_creation_4"})}}
-            {{form_row(form.surname, {'label': "user_creation_5"})}}
-            
-            <div class="form-group">
-                {{form_label(form.email, "user_creation_6")}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                    {{form_errors(form.email)}}
-                    {{form_widget(form.email)}}
-                </div>
-            </div>
-            
-            {{form_row(form.telephone, {'label': "user_creation_7"})}}
-            {{form_row(form.born, {'label': "user_creation_8"})}}
-            {{form_row(form.gender, {'label': "user_creation_9"})}}
+        {% endif %}
 
-            {{form_row(form.fiscalCode, {'label': "user_creation_10"})}}
-            {{form_row(form.companyName, {'label': "user_creation_11"})}}
-            {{form_row(form.vat, {'label': "user_creation_12"})}}
+        <div class="form-group">
+            {{form_label(form.username, "user_creation_3")}}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-paw"></i></span>
+                {{form_errors(form.username)}}
+                {{form_widget(form.username)}}
+            </div>
+        </div>
 
-            {{form_row(form.website, {'label': "user_creation_13"})}}
-            {{form_row(form.state, {'label': "user_creation_14"})}}
-            {{form_row(form.city, {'label': "user_creation_15"})}}
-            {{form_row(form.zip, {'label': "user_creation_16"})}}
-            {{form_row(form.address, {'label': "user_creation_17"})}}
-            
-            <div class="form-group">
-                {{form_label(form.password, "user_creation_18")}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                    {{form_errors(form.password)}}
-                    {{form_widget(form.password)}}
-                </div>
+        {{form_row(form.name, {'label': "user_creation_4"})}}
+        {{form_row(form.surname, {'label': "user_creation_5"})}}
+
+        <div class="form-group">
+            {{form_label(form.email, "user_creation_6")}}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                {{form_errors(form.email)}}
+                {{form_widget(form.email)}}
             </div>
-            
-            <div class="form-group">
-                {{form_label(form.passwordConfirm, "user_creation_19")}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                    {{form_errors(form.passwordConfirm)}}
-                    {{form_widget(form.passwordConfirm)}}
-                </div>
+        </div>
+
+        {{form_row(form.telephone, {'label': "user_creation_7"})}}
+        {{form_row(form.born, {'label': "user_creation_8"})}}
+        {{form_row(form.gender, {'label': "user_creation_9"})}}
+
+        {{form_row(form.fiscalCode, {'label': "user_creation_10"})}}
+        {{form_row(form.companyName, {'label': "user_creation_11"})}}
+        {{form_row(form.vat, {'label': "user_creation_12"})}}
+
+        {{form_row(form.website, {'label': "user_creation_13"})}}
+        {{form_row(form.state, {'label': "user_creation_14"})}}
+        {{form_row(form.city, {'label': "user_creation_15"})}}
+        {{form_row(form.zip, {'label': "user_creation_16"})}}
+        {{form_row(form.address, {'label': "user_creation_17"})}}
+
+        <div class="form-group">
+            {{form_label(form.password, "user_creation_18")}}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                {{form_errors(form.password)}}
+                {{form_widget(form.password)}}
             </div>
-            
-            {{form_widget(form._token)}}
-            
-            <input class="button_custom" type="submit" value="{% trans %}button_1{% endtrans %}"/>
-        </form>
-    </div>
+        </div>
+
+        <div class="form-group">
+            {{form_label(form.passwordConfirm, "user_creation_19")}}
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                {{form_errors(form.passwordConfirm)}}
+                {{form_widget(form.passwordConfirm)}}
+            </div>
+        </div>
+
+        {{form_widget(form._token)}}
+
+        <input class="button_custom" type="submit" value="{% trans %}button_1{% endtrans %}"/>
+    </form>
 </div>

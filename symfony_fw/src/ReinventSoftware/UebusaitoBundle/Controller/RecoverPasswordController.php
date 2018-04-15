@@ -75,6 +75,8 @@ class RecoverPasswordController extends Controller {
                     $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->loadUserByUsername($email);
 
                     if ($userEntity != null) {
+                        $settingRow = $this->query->selectSettingDatabase();
+                        
                         $helpCode = $this->utility->generateRandomString(20);
 
                         $userEntity->setHelpCode($helpCode);
@@ -84,9 +86,8 @@ class RecoverPasswordController extends Controller {
                         // Send email to user
                         $this->utility->sendEmail($userEntity->getEmail(),
                                                     "Recover password",
-                                                    "<p>Click on this link for reset your password:</p>" .
-                                                    "<a href=\"$url\">$url</a>",
-                                                    $_SERVER['SERVER_ADMIN']);
+                                                    "<p>Click on this link for reset your password:</p> <a href=\"$url\">$url</a>",
+                                                    $settingRow['email_admin']);
 
                         // Update in database
                         $this->entityManager->persist($userEntity);

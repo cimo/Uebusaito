@@ -16,9 +16,9 @@ class Setting {
     private $id;
     
     /**
-     * @ORM\Column(name="template", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'basic'")
+     * @ORM\Column(name="template_name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'basic'")
      */
-    private $template = "";
+    private $templateName = "";
     
     /**
      * @ORM\Column(name="template_column", type="integer", columnDefinition="int(1) NOT NULL DEFAULT '1'")
@@ -111,8 +111,8 @@ class Setting {
     private $credit = true;
     
     // Properties
-    public function setTemplate($value) {
-        $this->template = $value;
+    public function setTemplateName($value) {
+        $this->templateName = $value;
     }
     
     public function setTemplateColumn($value) {
@@ -193,8 +193,8 @@ class Setting {
         return $this->id;
     }
     
-    public function getTemplate() {
-        return $this->template;
+    public function getTemplateName() {
+        return $this->templateName;
     }
     
     public function getTemplateColumn() {

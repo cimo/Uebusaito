@@ -29,7 +29,7 @@ function Utility() {
         }
     };
     
-    self.checkMobile = function(fix) {
+    self.checkMobile = function(fix = false) {
         var isMobile = false;
         
         var navigatorUserAgent = navigator.userAgent;
@@ -140,7 +140,7 @@ function Utility() {
     };
     
     self.isIntoView = function(id) {
-        if ($(id) === null)
+        if ($(id).length === 0)
             return false;
 	
 	var viewport = {
@@ -382,7 +382,7 @@ function Utility() {
     self.imageError = function(elements) {
         elements.on("error", "", function() {
             $.each($(this), function(key, value) {
-                $(value).prop("src", window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.template + "/error_404.png");
+                $(value).prop("src", window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.templateName + "/error_404.png");
             });
         });
     };

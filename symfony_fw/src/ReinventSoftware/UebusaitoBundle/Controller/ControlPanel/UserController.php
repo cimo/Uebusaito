@@ -70,7 +70,7 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
+        $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -145,7 +145,7 @@ class UserController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $_SESSION['user_profile_id'] = 0;
+        $_SESSION['userProfileId'] = 0;
         
         $userRows = $this->query->selectAllUserDatabase(1);
         
@@ -223,15 +223,15 @@ class UserController extends Controller {
                 $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
 
                 if ($userEntity != null) {
-                    $_SESSION['user_profile_id'] = $id;
+                    $_SESSION['userProfileId'] = $id;
 
                     $form = $this->createForm(UserFormType::class, $userEntity, Array(
                         'validation_groups' => Array('user_profile')
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['roleUserHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
-                    $this->response['values']['id'] = $_SESSION['user_profile_id'];
+                    $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
+                    $this->response['values']['id'] = $_SESSION['userProfileId'];
                     $this->response['values']['credit'] = $userEntity->getCredit();
 
                     $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/user_profile.html.twig", Array(
@@ -284,7 +284,7 @@ class UserController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($_SESSION['user_profile_id']);
+        $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($_SESSION['userProfileId']);
         
         $form = $this->createForm(UserFormType::class, $userEntity, Array(
             'validation_groups' => Array('user_profile')
@@ -376,7 +376,7 @@ class UserController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
-                    $id = $request->get("id") == null ? $_SESSION['user_profile_id'] : $request->get("id");
+                    $id = $request->get("id") == null ? $_SESSION['userProfileId'] : $request->get("id");
 
                     $userEntity = $this->entityManager->getRepository("UebusaitoBundle:User")->find($id);
 

@@ -6,8 +6,8 @@ This is a open source cms with symfony framework.
 | Features |
 |:---|
 | Full responsive (smartphone, tablet, pc) |
-| Multibrowser (Chrome, firefox, internet explorer, opera, safari) |
-| Dynamic multi language |
+| Cross-browser (Chrome, firefox, internet explorer, opera, safari) |
+| Dynamic language |
 | Login, registration and recover password |
 | Search in website |
 | Credit and paypal payment |

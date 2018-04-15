@@ -18,7 +18,7 @@
                 </div>
                 <div class="navbar_header_content">
                     <div class="logo_small display_mobile">
-                        <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                        <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
                         <p class="logo_text">{{websiteName}}</p>
                     </div>
                 </div>
@@ -101,11 +101,11 @@
                     <i class="fa fa-globe fa-lg"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right horizontal_center">
-                    <img id="language_flag_mobile_{{app.request.getLocale()}}" class="language_text_flag display_inline" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/lang/" ~ app.request.getLocale() ~ ".png")}}" alt="{{app.request.getLocale()}}.png"/>
+                    <img id="language_flag_mobile_{{app.request.getLocale()}}" class="language_text_flag display_inline" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/lang/" ~ app.request.getLocale() ~ ".png")}}" alt="{{app.request.getLocale()}}.png"/>
                     <form id="form_language_text_mobile" class="form_language_text display_inline" action="{{path("language_text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
                         <div class="form-group">
                             <select id="form_language_mobile_codeText" class="form_language_codeText display_inline form-control" name="form_language[codeText]">
-                                {{response.values.languageOptions|raw}}
+                                {{response.values.languageOption|raw}}
                             </select>
                         </div>
                         <input id="form_language_mobile__token" type="hidden" name="form_language[_token]" value="{{csrf_token("intention")}}">

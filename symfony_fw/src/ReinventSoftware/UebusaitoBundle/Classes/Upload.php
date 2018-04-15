@@ -78,7 +78,7 @@ class Upload {
     }
     
     // Functions private
-    function change() {
+    private function change() {
         $fileSize = 0;
         $fileType = "";
         
@@ -102,7 +102,7 @@ class Upload {
         }
     }
     
-    function start() {
+    private function start() {
         if ($this->tmp == 0)
             $this->tmp = uniqid(mt_rand(), true) . ".tmp";
 
@@ -150,7 +150,7 @@ class Upload {
         }
     }
     
-    function finish() {
+    private function finish() {
         foreach($this->path as $key => $value) {
             if (file_exists($value . "/" . $this->tmp) == true) {
                 if ($this->imageWidth > 0 ||  $this->imageHeight > 0)
@@ -207,7 +207,7 @@ class Upload {
         }
     }
     
-    function abort() {
+    private function abort() {
         foreach($this->path as $key => $value) {
             if (file_exists($value . "/" . $this->tmp) == true)
                 unlink($value . "/" . $this->tmp);
@@ -218,7 +218,7 @@ class Upload {
         );
     }
     
-    function checkChunkSize($value) {
+    private function checkChunkSize($value) {
         $fopen = fopen($value . "/check_" . $this->tmp, "a");
         $fstat = fstat($fopen);
         $size = array_slice($fstat, 13)['size'];

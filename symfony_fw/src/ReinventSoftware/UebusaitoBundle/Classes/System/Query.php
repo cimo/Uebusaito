@@ -277,7 +277,7 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectPaymentWithTransactionDatabase($transaction) {
+    public function selectPaymentDatabase($transaction) {
         $query = $this->connection->prepare("SELECT * FROM payments
                                                 WHERE transaction = :transaction");
         

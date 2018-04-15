@@ -131,7 +131,7 @@ class RoleUserController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $_SESSION['role_user_profile_id'] = 0;
+        $_SESSION['roleUserProfileId'] = 0;
         
         $userRoleRows = $this->query->selectAllRoleUserDatabase();
         
@@ -209,14 +209,14 @@ class RoleUserController extends Controller {
                 $roleUserEntity = $this->entityManager->getRepository("UebusaitoBundle:RoleUser")->find($id);
 
                 if ($roleUserEntity != null) {
-                    $_SESSION['role_user_profile_id'] = $id;
+                    $_SESSION['roleUserProfileId'] = $id;
 
                     $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
                         'validation_groups' => Array('roleUser_profile')
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['id'] = $_SESSION['role_user_profile_id'];
+                    $this->response['values']['id'] = $_SESSION['roleUserProfileId'];
 
                     $this->response['render'] = $this->renderView("@UebusaitoBundleViews/render/control_panel/roleUser_profile.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
@@ -268,7 +268,7 @@ class RoleUserController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $roleUserEntity = $this->entityManager->getRepository("UebusaitoBundle:RoleUser")->find($_SESSION['role_user_profile_id']);
+        $roleUserEntity = $this->entityManager->getRepository("UebusaitoBundle:RoleUser")->find($_SESSION['roleUserProfileId']);
         
         $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
             'validation_groups' => Array('roleUser_profile')
@@ -337,7 +337,7 @@ class RoleUserController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
-                    $id = $request->get("id") == null ? $_SESSION['role_user_profile_id'] : $request->get("id");
+                    $id = $request->get("id") == null ? $_SESSION['roleUserProfileId'] : $request->get("id");
 
                     $roleUserDatabase = $this->roleUserDatabase("delete", $id);
 

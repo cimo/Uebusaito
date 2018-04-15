@@ -26,7 +26,7 @@ class SettingFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add("template", ChoiceType::class, Array(
+        $builder->add("templateName", ChoiceType::class, Array(
             'required' => true,
             'choices' => $options['choicesTemplate'],
         ))

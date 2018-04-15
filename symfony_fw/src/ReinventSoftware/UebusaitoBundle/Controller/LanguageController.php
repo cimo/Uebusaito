@@ -136,7 +136,7 @@ class LanguageController extends Controller {
         if ($request->isMethod("POST") == true) {
             if ($form->isValid() == true) {
                 $codePage = $form->get("codePage")->getData();
-                $pageRow = $this->query->selectPageDatabase($codePage, $_SESSION['page_profile_id']);
+                $pageRow = $this->query->selectPageDatabase($codePage, $_SESSION['pageProfileId']);
                 
                 $this->response['values']['codePage'] = $codePage;
                 $this->response['values']['pageTitle'] = $pageRow['title'];

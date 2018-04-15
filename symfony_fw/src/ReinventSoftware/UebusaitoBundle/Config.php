@@ -42,7 +42,7 @@ class Config {
     
     // Functions public
     public function __construct() {
-        $this->databaseConnectionFields = Array("", "", "");
+        $this->databaseConnectionFields = Array("", "", "", Array());
         $this->protocol = isset($_SERVER['HTTPS']) == true ? "https://" : "http://";
         $this->pathRoot = "/uebusaito/symfony_fw";
         $this->urlRoot = "/uebusaito/symfony_fw/web";

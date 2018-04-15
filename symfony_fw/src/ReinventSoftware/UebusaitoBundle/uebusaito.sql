@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: uebusaito
 -- ------------------------------------------------------
--- Server version	5.7.20-0ubuntu0.16.04.1
+-- Server version	5.7.21-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -282,7 +282,7 @@ DROP TABLE IF EXISTS `settings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `template` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'basic',
+  `template_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'basic',
   `template_column` int(1) NOT NULL DEFAULT '1',
   `language` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'en',
   `page_date` tinyint(1) NOT NULL DEFAULT '1',
@@ -359,7 +359,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','cimo','cimo','dago','cimo@reinventsoftware.org','3491234567','1984-04-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Italia','Roma','00100','Via','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2017-12-03 13:16:07','2017-12-03 13:14:53',NULL,'79.51.52.39',0),(2,'1,4,','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',11,1,'2016-09-10 17:39:31','2017-12-03 13:13:27','2017-11-06 21:48:31',NULL,'79.51.52.39',0),(3,'1,','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
+INSERT INTO `users` VALUES (1,'1,2,','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','3491234567','1984-04-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-03-25 11:48:24','2018-03-19 11:17:05',NULL,NULL,0),(2,'1,4,','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',11,1,'2016-09-10 17:39:31','2017-12-03 13:13:27','2017-11-06 21:48:31',NULL,NULL,0),(3,'1,5,','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,4 +376,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-03 13:16:48
+-- Dump completed on 2018-04-15 12:13:23

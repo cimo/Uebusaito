@@ -23,6 +23,8 @@ class Utility {
     private $config;
     private $query;
     
+    private $protocol;
+    
     private $pathRoot;
     private $pathSrcBundle;
     private $pathWebBundle;
@@ -65,6 +67,10 @@ class Utility {
     
     public function getQuery() {
         return $this->query;
+    }
+    
+    public function getProtocol() {
+        return $this->protocol;
     }
     
     public function getPathRoot() {
@@ -111,6 +117,8 @@ class Utility {
         $this->config = new Config();
         $this->query = new Query($this->connection);
         
+        $this->protocol = $this->config->getProtocol();
+        
         $this->pathRoot = $_SERVER['DOCUMENT_ROOT'] . $this->config->getPathRoot();
         $this->pathSrcBundle = "{$this->pathRoot}/src/ReinventSoftware/UebusaitoBundle";
         $this->pathWebBundle = "{$this->pathRoot}/web/bundles/uebusaito";
@@ -138,7 +146,7 @@ class Utility {
         session_unset();
         
         $cookies = Array(
-            'rememberme'
+            session_name() . "_REMEMBERME"
         );
         
         foreach ($cookies as $value)
@@ -211,9 +219,9 @@ class Utility {
     }
     
     public function sendEmail($to, $subject, $message, $from) {
-        $headers  = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-type: text/html; charset=utf-8\r\n";
-        $headers .= "From: $from \r\n" . "Reply-To: $from \r\n" . "X-Mailer: PHP/" . phpversion();
+        $headers  = "MIME-Version: 1.0 \r\n";
+        $headers .= "Content-type: text/html; charset=utf-8 \r\n";
+        $headers .= "From: $from \r\n Reply-To: $from";
 
         mail($to, $subject, $message, $headers);
     }
@@ -345,13 +353,38 @@ class Utility {
         if (count($dateExplode) == 0)
             $dateExplode = $newData;
         else {
-            $languageDate = isset($_SESSION['language_date']) == false ? "Y-m-d" : $_SESSION['language_date'];
+            $languageDate = isset($_SESSION['languageDate']) == false ? "Y-m-d" : $_SESSION['languageDate'];
             
             if (strpos($dateExplode[0], "0000") === false)
                 $dateExplode[0] = date($languageDate, strtotime($dateExplode[0]));
         }
         
         return $dateExplode;
+    }
+    
+    public function assignUserPassword($type, $user, $form) {
+        $row = $this->query->selectUserDatabase($user->getId());
+        
+        if ($type == "withOld") {
+            if (password_verify($form->get("old")->getData(), $row['password']) == false)
+                return $this->translator->trans("class_utility_2");
+            else if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
+                return $this->translator->trans("class_utility_3");
+            
+            $user->setPassword($this->createPasswordEncoder($type, $user, $form));
+        }
+        else if ($type == "withoutOld") {
+            if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
+                if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
+                    return $this->translator->trans("class_utility_4");
+                
+                $user->setPassword($this->createPasswordEncoder($type, $user, $form));
+            }
+            else
+                $user->setPassword($row['password']);
+        }
+        
+        return "ok";
     }
     
     public function assignUserParameter($user) {
@@ -384,44 +417,19 @@ class Utility {
         }
     }
     
-    public function assignUserPassword($type, $user, $form) {
-        $row = $this->query->selectUserDatabase($user->getId());
-        
-        if ($type == "withOld") {
-            if (password_verify($form->get("old")->getData(), $row['password']) == false)
-                return $this->translator->trans("class_utility_2");
-            else if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
-                return $this->translator->trans("class_utility_3");
-            
-            $user->setPassword($this->createPasswordEncoder($type, $user, $form));
-        }
-        else if ($type == "withoutOld") {
-            if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
-                if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
-                    return $this->translator->trans("class_utility_4");
-                
-                $user->setPassword($this->createPasswordEncoder($type, $user, $form));
-            }
-            else
-                $user->setPassword($row['password']);
-        }
-        
-        return "ok";
-    }
-    
     public function checkSessionOverTime($request, $root = false) {
         if ($root == true) {
-            if (isset($_SESSION['user_activity_count']) == false || isset($_SESSION['user_activity']) == false) {
-                $_SESSION['user_activity_count'] = 0;
-                $_SESSION['user_activity'] = "";
+            if (isset($_SESSION['userActivityCount']) == false || isset($_SESSION['userActivity']) == false) {
+                $_SESSION['userActivityCount'] = 0;
+                $_SESSION['userActivity'] = "";
             }
         }
         
-        if ($request->cookies->has("REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-            if (isset($_SESSION['timestamp']) == false)
-                $_SESSION['timestamp'] = time();
+        if ($request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+            if (isset($_SESSION['userActivityTimestamp']) == false)
+                $_SESSION['userActivityTimestamp'] = time();
             else {
-                $timeLapse = time() - $_SESSION['timestamp'];
+                $timeLapse = time() - $_SESSION['userActivityTimestamp'];
 
                 if ($timeLapse > $this->sessionMaxIdleTime) {
                     $userActivity = $this->translator->trans("class_utility_1");
@@ -436,32 +444,32 @@ class Utility {
                     else
                         $this->tokenStorage->setToken(null);
                     
-                    $_SESSION['user_activity'] = $userActivity;
+                    $_SESSION['userActivity'] = $userActivity;
                     
-                    unset($_SESSION['timestamp']);
+                    unset($_SESSION['userActivityTimestamp']);
                 }
                 else
-                    $_SESSION['timestamp'] = time();
+                    $_SESSION['userActivityTimestamp'] = time();
             }
         }
         
-        if (isset($_SESSION['user_activity']) == true) {
-            if ($request->isXmlHttpRequest() == true && $_SESSION['user_activity'] != "") {
+        if (isset($_SESSION['userActivity']) == true) {
+            if ($request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "") {
                 echo json_encode(Array(
-                    'userActivity' => $_SESSION['user_activity']
+                    'userActivity' => $_SESSION['userActivity']
                 ));
 
                 exit;
             }
         }
         
-        if ($root == true && $_SESSION['user_activity'] != "") {
-            if ($_SESSION['user_activity_count'] > 1) {
-                $_SESSION['user_activity_count'] = 0;
-                $_SESSION['user_activity'] = "";
+        if ($root == true && $_SESSION['userActivity'] != "") {
+            if ($_SESSION['userActivityCount'] > 1) {
+                $_SESSION['userActivityCount'] = 0;
+                $_SESSION['userActivity'] = "";
             }
             
-            $_SESSION['user_activity_count'] ++;
+            $_SESSION['userActivityCount'] ++;
         }
     }
     
@@ -537,21 +545,6 @@ class Utility {
         return Array(true, $result[0], $result[1]);
     }
     
-    public function checkLanguage($request) {
-        if ($request->request->get("form_language")['codeText'] != null)
-            $_SESSION['form_language_codeText'] = $request->request->get("form_language")['codeText'];
-        
-        if (isset($_SESSION['form_language_codeText']) == false) {
-            $row = $this->query->selectSettingDatabase();
-            
-            $_SESSION['form_language_codeText'] = $row['language'];
-        }
-        
-        $request->setLocale($_SESSION['form_language_codeText']);
-        
-        return $_SESSION['form_language_codeText'];
-    }
-    
     public function checkUserNotLocked($username) {
         $row = $this->query->selectUserDatabase($username);
         
@@ -585,19 +578,19 @@ class Utility {
         return $isMobile;
     }
     
-    public function createPageHtml($urlLocale, $selectId) {
-        $rows = $this->query->selectAllPageDatabase($urlLocale);
+    public function checkLanguage($request) {
+        if ($request->request->get("form_language")['codeText'] != null)
+            $_SESSION['formLanguageCodeText'] = $request->request->get("form_language")['codeText'];
         
-        $pagesList = $this->createPageList($rows, true);
+        if (isset($_SESSION['formLanguageCodeText']) == false) {
+            $row = $this->query->selectSettingDatabase();
+            
+            $_SESSION['formLanguageCodeText'] = $row['language'];
+        }
         
-        $html = "<p class=\"margin_clear\">" . $this->translator->trans("class_utility_5") . "</p>
-        <select id=\"$selectId\">
-            <option value=\"\">Select</option>";
-            foreach($pagesList as $key => $value)
-                $html .= "<option value=\"$key\">$value</option>";
-        $html .= "</select>";
+        $request->setLocale($_SESSION['formLanguageCodeText']);
         
-        return $html;
+        return $_SESSION['formLanguageCodeText'];
     }
     
     public function createUserRoleHtml($selectId, $isRequired = false) {
@@ -614,7 +607,22 @@ class Utility {
         return $html;
     }
     
-    public function createLanguageOptionsHtml($code) {
+    public function createPageHtml($urlLocale, $selectId) {
+        $rows = $this->query->selectAllPageDatabase($urlLocale);
+        
+        $pagesList = $this->createPageList($rows, true);
+        
+        $html = "<p class=\"margin_clear\">" . $this->translator->trans("class_utility_5") . "</p>
+        <select id=\"$selectId\">
+            <option value=\"\">Select</option>";
+            foreach($pagesList as $key => $value)
+                $html .= "<option value=\"$key\">$value</option>";
+        $html .= "</select>";
+        
+        return $html;
+    }
+    
+    public function createLanguageOptionHtml($code) {
         $row = $this->query->selectLanguageDatabase($code);
         $rows = $this->query->selectAllLanguageDatabase();
         
@@ -634,23 +642,6 @@ class Utility {
         return $html;
     }
     
-    public function createPageList($pagesRows, $onlyMenuName, $pagination = null) {
-        $pagesListHierarchy = $this->createPageListHierarchy($pagesRows, $pagination);
-        
-        if ($onlyMenuName == true) {
-            $tag = "";
-            $parentId = 0;
-            $elements = Array();
-            $count = 0;
-
-            $pagesListOnlyMenuName = $this->createPageListOnlyMenuName($pagesListHierarchy, $tag, $parentId, $elements, $count);
-            
-            return $pagesListOnlyMenuName;
-        }
-        
-        return $pagesListHierarchy;
-    }
-    
     public function createTemplateList() {
         $templatesPath = "{$this->pathSrcBundle}/Resources/public/images/templates";
         
@@ -666,6 +657,23 @@ class Utility {
         }
         
         return $list;
+    }
+    
+    public function createPageList($pagesRows, $onlyMenuName, $pagination = null) {
+        $pagesListHierarchy = $this->createPageListHierarchy($pagesRows, $pagination);
+        
+        if ($onlyMenuName == true) {
+            $tag = "";
+            $parentId = 0;
+            $elements = Array();
+            $count = 0;
+
+            $pagesListOnlyMenuName = $this->createPageListOnlyMenuName($pagesListHierarchy, $tag, $parentId, $elements, $count);
+            
+            return $pagesListOnlyMenuName;
+        }
+        
+        return $pagesListHierarchy;
     }
     
     // Functions private

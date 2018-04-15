@@ -97,7 +97,7 @@ class RegistrationController extends Controller {
                                 $settingRow['email_admin'],
                                 $this->utility->getTranslator()->trans("registrationController_3"),
                                 "<p>" . $this->utility->getTranslator()->trans("registrationController_4") . "<b>" . $userEntity->getUsername() . "</b>. " . $this->utility->getTranslator()->trans("registrationController_5") . "</p>",
-                                $_SERVER['SERVER_ADMIN']
+                                $settingRow['email_admin']
                             );
                         }
 
@@ -106,7 +106,7 @@ class RegistrationController extends Controller {
                             $userEntity->getEmail(),
                             $this->utility->getTranslator()->trans("registrationController_3"),
                             $messageEmail,
-                            $_SERVER['SERVER_ADMIN']
+                            $settingRow['email_admin']
                         );
 
                         mkdir("{$this->utility->getPathSrcBundle()}/Resources/files/{$userEntity->getUsername()}");

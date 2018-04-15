@@ -40,7 +40,7 @@ class PayPalIpnListener {
             if ($payPal->ipn() == true) {
                 $payPalElements = $payPal->getElements();
 
-                $paymentRow = $this->query->selectPaymentWithTransactionDatabase($payPalElements['txn_id']);
+                $paymentRow = $this->query->selectPaymentDatabase($payPalElements['txn_id']);
 
                 if ($paymentRow == false && isset($payPalElements['payment_status']) == true) {
                     if ($payPalElements['payment_status'] == "Completed") {

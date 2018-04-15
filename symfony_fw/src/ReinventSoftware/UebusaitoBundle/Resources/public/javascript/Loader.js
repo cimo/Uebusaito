@@ -11,7 +11,7 @@ function Loader() {
     // Functions public
     self.create = function(type) {
         if (type === "image")
-            $("<div id=\"loader_request\" class=\"display_none shadow\"><img src=\"" + window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.template + "/loader_request.gif\" alt=\"loader_request.gif\"/></div>").appendTo("body");
+            $("<div id=\"loader_request\" class=\"display_none shadow\"><img src=\"" + window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.templateName + "/loader_request.gif\" alt=\"loader_request.gif\"/></div>").appendTo("body");
         
         $(window).on("beforeunload", "", function() {
             if ($("#loader_request").length === 0 || $("#loader_request").css("display") === "none") {
