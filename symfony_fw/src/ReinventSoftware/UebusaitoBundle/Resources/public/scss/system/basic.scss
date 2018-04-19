@@ -1035,7 +1035,21 @@ p {
     color: #ffffff;
 }
 
-footer {
+.page_container {
+    .header {
+        h1 {
+            margin: 0;
+        }
+    }
+    .argument{
+    }
+    .controllerAction {
+    }
+}
+.page_footer {
+}
+
+.footer {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -1048,17 +1062,40 @@ footer {
     bottom: 0;
     height: 90px;
     
-    .container_icon {
+    .icon {
         div {
             display: inline-block;
             margin: 5px 10px;
         }
     }
     
-    .container_text {
+    .text {
         p {
             margin: 0;
             font-size: 12px;
+        }
+    }
+}
+
+.module {
+    width: 100%;
+    margin: auto;
+}
+.module, .module_clean {
+    padding: 5px;
+    
+    .settings {
+        display: none;
+    }
+    .drag {
+        display: none;
+    }
+    .mdc-typography--title {
+        display: flex;
+        align-items: center;
+        
+        h3 {
+            margin: 0;
         }
     }
 }

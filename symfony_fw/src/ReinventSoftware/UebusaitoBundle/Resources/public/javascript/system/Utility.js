@@ -46,10 +46,12 @@ function Utility() {
         return isMobile;
     };
     
-    self.checkWidthType = function() {
+    self.checkWidthType = function(maxWidthOverride) {
         var widthType = "";
         
-        if (window.matchMedia("(max-width: " + window.setting.widthMobile + "px)").matches === true)
+        var widthTmp = maxWidthOverride === undefined ? window.setting.widthMobile : maxWidthOverride;
+        
+        if (window.matchMedia("(max-width: " + widthTmp + "px)").matches === true)
             widthType = "mobile";
         else
             widthType = "desktop";

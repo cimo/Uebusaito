@@ -2,7 +2,6 @@
 .widget_search {
     position: fixed;
     top: 11px;
-    right: 185px;
     left: 50px;
     color: #ffffff;
     font-size: 16px;
@@ -31,21 +30,40 @@
     
     input {
         display: none;
+        position: relative;
         border: none;
         border-bottom: 1px solid #ffffff;
         font-size: 16px;
         padding: 5px 0;
         background: 0;
         color: #ffffff;
-        width: 100%;
+        
+        @media(max-width: "599px") {
+            width: 100%;
+        }
+        @media(min-width: "600px") {
+            width: 50%;
+            right: -50%;
+        }
     }
     
     input:focus {
         outline: none;
     }
     
-    .animate {
-        right: 100%;
+    @media(max-width: "599px") {
+        right: 120px;
+        
+        .animate {
+            right: 100%;
+        }
+    }
+    @media(min-width: "600px") {
+        right: 142px;
+        
+        .animate {
+            right: 50%;
+        }
     }
 }
 
@@ -181,11 +199,5 @@
     .footer {
         text-align: right;
         padding: 10px;
-    }
-}
-
-@media (max-width: 599px) {
-    .widget_search {
-        right: 155px;
     }
 }

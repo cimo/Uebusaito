@@ -1,15 +1,24 @@
-@media (max-width: 839px) { .display_desktop { display: none !important; }
+@media (max-width: 839px) { /* line 13, ../scss/system/utility.scss */
+  .display_desktop { display: none !important; }
+  /* line 16, ../scss/system/utility.scss */
   .display_mobile { display: block !important; } }
-@media (min-width: 840px) { .display_desktop { display: block !important; }
+@media (min-width: 840px) { /* line 21, ../scss/system/utility.scss */
+  .display_desktop { display: block !important; }
+  /* line 24, ../scss/system/utility.scss */
   .display_mobile { display: none !important; } }
 @-webkit-viewport { width: device-width; }
 @-moz-viewport { width: device-width; }
 @-ms-viewport { width: device-width; }
 @-o-viewport { width: device-width; }
 @viewport { width: device-width; }
+/* line 45, ../scss/system/utility.scss */
 .user_touch_none { -ms-touch-action: none; touch-action: none; }
 
+/* line 50, ../scss/system/utility.scss */
 .user_select_none { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+/* line 57, ../scss/system/utility.scss */
+.clearfix::after { content: ""; clear: both; }
 
 /*html { position: relative; min-height: 100%;
 }
@@ -124,16 +133,23 @@ legend { width: inherit; padding: 0 10px; border-bottom: none;
 
 .ui-resizable-e { width: 15px;
 }*/
-@media (min-width: 840px) { .search_input { width: 30%; } }
+@media (min-width: 840px) { /* line 6, ../scss/table_and_pagination.scss */
+  .search_input { width: 30%; } }
+/* line 11, ../scss/table_and_pagination.scss */
 .search_input { margin-bottom: 20px; }
+/* line 14, ../scss/table_and_pagination.scss */
 .search_input input { padding-left: 35px; }
 
+/* line 20, ../scss/table_and_pagination.scss */
 .pagination-controle .loading i { position: relative; top: 7px; left: 10px; }
 
+/* line 29, ../scss/table_and_pagination.scss */
 .table_thead tr th { max-width: 400px; overflow: hidden; text-overflow: ellipsis; vertical-align: middle !important; }
 
+/* line 39, ../scss/table_and_pagination.scss */
 .table_tbody tr td { max-width: 400px; overflow: hidden; text-overflow: ellipsis; vertical-align: middle !important; }
 
+/* line 48, ../scss/table_and_pagination.scss */
 .table_borderless th, .table_borderless td { border: none !important; }
 
 /*# sourceMappingURL=table_and_pagination.css.map */

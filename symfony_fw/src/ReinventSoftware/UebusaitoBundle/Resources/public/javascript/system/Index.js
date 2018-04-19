@@ -27,6 +27,7 @@ $(document).ready(function() {
     
     // Widget
     widgetSearch.init();
+    widgetSearch.changeView();
     
     widgetDatePicker.setLanguage("en");
     //widgetDatePicker.setCurrentYear(1984);
@@ -65,17 +66,19 @@ $(document).ready(function() {
     
     controlPanelSetting.init();
     
-    pageComment.init();
+    pageComment.init();*/
     
     $(window).resize(function() {
         //utility.bootstrapMenuFixChangeView("#menu_root_navbar");
         
-        wysiwyg.changeView();
+        /*wysiwyg.changeView();
         
         controlPanelPayment.changeView();
         controlPanelPage.changeView();
         controlPanelUser.changeView();
         controlPanelModule.changeView();
-        controlPanelRoleUser.changeView();
-    });*/
+        controlPanelRoleUser.changeView();*/
+        
+        widgetSearch.changeView();
+    });
 });

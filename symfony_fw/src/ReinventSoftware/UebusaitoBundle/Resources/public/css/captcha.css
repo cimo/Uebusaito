@@ -1,6 +1,10 @@
+/* line 3, ../scss/captcha.scss */
 .captcha { text-align: center; margin-bottom: 10px; }
+/* line 7, ../scss/captcha.scss */
 .captcha .icon { position: relative; top: 2px; cursor: pointer; }
+/* line 12, ../scss/captcha.scss */
 .captcha img { border: 1px solid #000000; }
+/* line 15, ../scss/captcha.scss */
 .captcha input { position: relative; top: 1px; }
 
 /*# sourceMappingURL=captcha.css.map */

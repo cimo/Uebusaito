@@ -69,16 +69,15 @@
                     <i class="material-icons button_close">close</i>
                     <input name="searchText" type="text" placeholder="Search" autocomplete="off">
                 </div>
-                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Download">file_download</a>
-                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Print this page">print</a>
-                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Bookmark this page">bookmark</a>
+                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Language">language</a>
+                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Account">account_circle</a>
             </section>
         </div>
     </header>
 {% endblock %}
 
 {% block columnLeftContainer %}
-    {#{% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
         <div class="sortable_column">
             {% for value in response.modules.left %}
                 {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -86,16 +85,14 @@
                 {% endif %}
             {% endfor %}
         </div>
-    {% endif %}#}
-    
-    <p class="mdc-typography--body1">Column left</p>
+    {% endif %}
 {% endblock %}
 
 {% block columnCenterContainer %}
     {#{% if app.request.get("error") is not null and app.request.get("error") is not empty %}
         {{-include("@UebusaitoBundleViews/render/static/error.html.twig")-}}
     {% else %}
-        {{-include("@UebusaitoBundleViews/include/flashBag.html.twig")-}}
+        {{-include("@UebusaitoBundleViews/include/flashBag.html.twig")-}}#}
 
         {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
             <div class="sortable_column">
@@ -106,32 +103,30 @@
                 {% endfor %}
             </div>
         {% else %}
-            <div class="margin_top">
+            <div class="maintenance">
                 {% if settingRow['website_active'] == false %}
                     {% if urlExtra == "maintenance_authentication" %}
                         {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% else %}
-                        <div class="maintenance_content">
+                        <div class="content">
                             <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/maintenance.svg")}}">
                             <div>
                                 <a href="{{path("root_render", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "maintenance_authentication"})}}">
-                                    <i class="fa fa-wrench"></i>
+                                    {#<i class="fa fa-wrench"></i>#}
                                 </a>
                             </div>
-                            <p class="text_1">{% trans %}index_1{% endtrans %}</p>
-                            <p class="text_2">{% trans %}index_2{% endtrans %}</p>
+                            <p>{% trans %}index_1{% endtrans %}</p>
+                            <p>{% trans %}index_2{% endtrans %}</p>
                         </div>
                     {% endif %}
                 {% endif %}
             </div>
         {% endif %}
-    {% endif %}#}
-    
-    <p class="mdc-typography--body1">Column center</p>
+    {#{% endif %}#}
 {% endblock %}
 
 {% block columnRightContainer %}
-    {#{% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
         <div class="sortable_column">
             {% for value in response.modules.right %}
                 {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -139,22 +134,20 @@
                 {% endif %}
             {% endfor %}
         </div>
-    {% endif %}#}
-    
-    <p class="mdc-typography--body1">Column right</p>
+    {% endif %}
 {% endblock %}
 
 {% block footerContainer %}
-    {#{% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
+    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
         {% for value in response.modules.footer %}
             {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
                 {{-include("@UebusaitoBundleViews/module/" ~ value.file_name)-}}
             {% endif %}
         {% endfor %}
-    {% endif %}#}
+    {% endif %}
 
-    <footer class="mdc-theme--text-primary-on-primary">
-        <div class="container_icon">
+    <footer class="mdc-theme--text-primary-on-primary footer">
+        <div class="icon">
             <div>
                 <i class="material-icons">desktop_windows</i>
             </div>
@@ -165,7 +158,7 @@
                 <i class="material-icons">smartphone</i>
             </div>
         </div>
-        <div class="container_text">
+        <div class="text">
             <p>{{"index_7"|trans}}</p>
             <p>{{"index_8"|trans}}</p>
         </div>

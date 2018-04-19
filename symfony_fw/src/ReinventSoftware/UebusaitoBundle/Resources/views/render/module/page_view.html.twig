@@ -1,25 +1,26 @@
 {% extends "@UebusaitoBundleViews/layout/layout_module_clean.html.twig" %}
 
 {% block panelId %}panel_id_{{response.module.id}}{% endblock %}
-{% block moduleHeader %}{{response.module.label|trans}}{% endblock %}
 {% block moduleContainer %}
-    {% if response.values.title != "" %}
-        <div class="page-header page_header">
-            <h1>{{response.values.title}}</h1>
-        </div>
-    {% endif %}
-    
-    <div class="argument">{{response.values.argument|raw}}</div>
-    
-    {% if response.values.controllerAction != "" %}
-        <div class="margin_top">
-            {{-render(controller(response.values.controllerAction, {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-        </div>
-    {% endif %}
+    <div class="page_container">
+        {% if response.values.title != "" %}
+            <div class="header">
+                <h1>{{response.values.title}}</h1>
+            </div>
+        {% endif %}
+
+        <div class="argument">{{response.values.argument|raw}}</div>
+
+        {% if response.values.controllerAction != "" %}
+            <div class="controllerAction">
+                {{-render(controller(response.values.controllerAction, {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
 {% block moduleFooter %}
-    <div class="margin_top">
-        <div class="clearfix page_date">
+    <div class="page_footer">
+        <div class="clearfix">
             <div>
                 {% if settingRow['page_date'] == true %}
                     {% if (response.values.userCreation != "-" and response.values.userModification == "-") %}

@@ -1,7 +1,7 @@
-<div id="{% block panelId %}{% endblock %}" class="panel_clean {% block panelClass %}{% endblock %}">
-    <div class="module_settings">
-        <i class="module_move ui-sortable-handle fa fa-arrows"></i>
+<div id="{% block panelId %}{% endblock %}" class="module_clean {% block panelClass %}{% endblock %}">
+    <div class="settings">
+        <i class="material-icons drag">drag_handle</i>
     </div>
-    <div>{% block moduleContainer %}{% endblock %}</div>
-    <div>{% block moduleFooter %}{% endblock %}</div>
+    <div class="mdc-typography--body1">{% block moduleContainer %}{% endblock %}</div>
+    <div class="mdc-card__actions">{% block moduleFooter %}{% endblock %}</div>
 </div>

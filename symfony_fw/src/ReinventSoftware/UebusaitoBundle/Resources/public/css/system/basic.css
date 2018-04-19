@@ -1,15 +1,24 @@
-@media (max-width: 839px) { .display_desktop { display: none !important; }
+@media (max-width: 839px) { /* line 13, ../../scss/system/utility.scss */
+  .display_desktop { display: none !important; }
+  /* line 16, ../../scss/system/utility.scss */
   .display_mobile { display: block !important; } }
-@media (min-width: 840px) { .display_desktop { display: block !important; }
+@media (min-width: 840px) { /* line 21, ../../scss/system/utility.scss */
+  .display_desktop { display: block !important; }
+  /* line 24, ../../scss/system/utility.scss */
   .display_mobile { display: none !important; } }
 @-webkit-viewport { width: device-width; }
 @-moz-viewport { width: device-width; }
 @-ms-viewport { width: device-width; }
 @-o-viewport { width: device-width; }
 @viewport { width: device-width; }
+/* line 45, ../../scss/system/utility.scss */
 .user_touch_none { -ms-touch-action: none; touch-action: none; }
 
+/* line 50, ../../scss/system/utility.scss */
 .user_select_none { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+/* line 57, ../../scss/system/utility.scss */
+.clearfix::after { content: ""; clear: both; }
 
 /*html { position: relative; min-height: 100%;
 }
@@ -125,35 +134,68 @@ legend { width: inherit; padding: 0 10px; border-bottom: none;
 .ui-resizable-e { width: 15px;
 }*/
 /* Search */
-.widget_search { position: fixed; top: 11px; right: 185px; left: 50px; color: #ffffff; font-size: 16px; height: 29px; margin: 0; padding: 0; }
+/* line 2, ../../scss/system/widget.scss */
+.widget_search { position: fixed; top: 11px; left: 50px; color: #ffffff; font-size: 16px; height: 29px; margin: 0; padding: 0; }
+/* line 12, ../../scss/system/widget.scss */
 .widget_search .button_open { position: absolute; top: 5px; right: -20px; cursor: pointer; z-index: 2; transition: all .4s ease-out; }
+/* line 22, ../../scss/system/widget.scss */
 .widget_search .button_close { display: none; position: absolute; top: 5px; right: -25px; cursor: pointer; z-index: 1; }
-.widget_search input { display: none; border: none; border-bottom: 1px solid #ffffff; font-size: 16px; padding: 5px 0; background: 0; color: #ffffff; width: 100%; }
+/* line 31, ../../scss/system/widget.scss */
+.widget_search input { display: none; position: relative; border: none; border-bottom: 1px solid #ffffff; font-size: 16px; padding: 5px 0; background: 0; color: #ffffff; }
+@media (max-width: 599px) { /* line 31, ../../scss/system/widget.scss */
+  .widget_search input { width: 100%; } }
+@media (min-width: 600px) { /* line 31, ../../scss/system/widget.scss */
+  .widget_search input { width: 50%; right: -50%; } }
+/* line 50, ../../scss/system/widget.scss */
 .widget_search input:focus { outline: none; }
-.widget_search .animate { right: 100%; }
+@media (max-width: 599px) { /* line 2, ../../scss/system/widget.scss */
+  .widget_search { right: 120px; }
+  /* line 57, ../../scss/system/widget.scss */
+  .widget_search .animate { right: 100%; } }
+@media (min-width: 600px) { /* line 2, ../../scss/system/widget.scss */
+  .widget_search { right: 142px; }
+  /* line 64, ../../scss/system/widget.scss */
+  .widget_search .animate { right: 50%; } }
 
 /* Date picker */
+/* line 71, ../../scss/system/widget.scss */
 .widget_datePicker_back { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.5; z-index: 20; }
 
+/* line 82, ../../scss/system/widget.scss */
 .widget_datePicker { display: none; position: fixed; top: 20%; left: 0; right: 0; margin-right: auto; margin-left: auto; padding: 0px; border-radius: 2px; border-top: none; border-bottom: none; width: 310px; background-color: #ffffff; z-index: 21; }
+/* line 98, ../../scss/system/widget.scss */
 .widget_datePicker .header { height: 55px; padding: 20px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-left-radius: 0px; }
+/* line 105, ../../scss/system/widget.scss */
 .widget_datePicker .header p { margin: 0; opacity: 0.7; cursor: pointer; }
+/* line 112, ../../scss/system/widget.scss */
 .widget_datePicker .listYears { display: none; height: 345px; overflow-y: scroll; }
+/* line 117, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list { overflow: hidden; padding: 0; margin: 0; }
+/* line 122, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list ul { padding: 0; margin: 0; }
+/* line 126, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list ul .mdc-list-item { display: block; text-align: center; line-height: 42px; height: 42px; }
+/* line 136, ../../scss/system/widget.scss */
 .widget_datePicker .month { margin: 0; padding: 0; text-align: center; height: 37px; }
+/* line 142, ../../scss/system/widget.scss */
 .widget_datePicker .month div { display: inline-block; }
+/* line 146, ../../scss/system/widget.scss */
 .widget_datePicker .month .label { width: 180px; }
+/* line 150, ../../scss/system/widget.scss */
 .widget_datePicker .month .material-icons { position: relative; top: 8px; width: 48px; cursor: pointer; }
+/* line 158, ../../scss/system/widget.scss */
 .widget_datePicker .week ul { margin: 0; padding: 0; text-align: center; }
+/* line 163, ../../scss/system/widget.scss */
 .widget_datePicker .week ul li { position: relative; display: inline-block; border-radius: 50%; width: 42px; height: 42px; line-height: 42px; opacity: 0.5; font-size: 12px; }
+/* line 175, ../../scss/system/widget.scss */
 .widget_datePicker .day ul { margin: 0; padding: 0; text-align: center; }
+/* line 180, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li { position: relative; display: inline-block; width: 42px; height: 42px; line-height: 42px; font-size: 11px; }
+/* line 188, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li span { display: inline-block; width: 32px; height: 32px; line-height: 32px; cursor: pointer; border-radius: 50%; }
+/* line 199, ../../scss/system/widget.scss */
 .widget_datePicker .footer { text-align: right; padding: 10px; }
 
-@media (max-width: 599px) { .widget_search { right: 155px; } }
 /*$spaceBottom: 120px;
 $textColor: #4089c9;
 
@@ -372,16 +414,40 @@ p { margin: 0;
 }
 #page_menu_sort, #module_position_sort { position: relative;  div { position: absolute; top: -105px; left: 50%; width: 50px; }
 }*/
+/* line 1011, ../../scss/system/basic.scss */
 :root { --mdc-theme-primary: #1976d2; --mdc-theme-primary-light: #63a4ff; --mdc-theme-primary-dark: #004ba0; --mdc-theme--text-primary-on-primary: #ffffff; --mdc-theme--text-primary-on-secondary: #ffffff; --mdc-theme-secondary: #d50000; --mdc-theme-secondary-light: #ff5131; --mdc-theme-secondary-dark: #9b0000; --mdc-theme--text-secondary-on-secondary: #ffffff; --mdc-theme--text-secondary-on-primary: #ffffff; --mdc-theme-background: #ffffff; }
 
+/* line 1027, ../../scss/system/basic.scss */
 ::placeholder { color: #ffffff; opacity: 1; }
 
+/* line 1031, ../../scss/system/basic.scss */
 :-ms-input-placeholder { color: #ffffff; }
 
+/* line 1034, ../../scss/system/basic.scss */
 ::-ms-input-placeholder { color: #ffffff; }
 
-footer { display: flex; justify-content: center; flex-direction: column; text-align: center; background-color: #004ba0; position: fixed; left: 0; right: 0; bottom: 0; height: 90px; }
-footer .container_icon div { display: inline-block; margin: 5px 10px; }
-footer .container_text p { margin: 0; font-size: 12px; }
+/* line 1040, ../../scss/system/basic.scss */
+.page_container .header h1 { margin: 0; }
+
+/* line 1052, ../../scss/system/basic.scss */
+.footer { display: flex; justify-content: center; flex-direction: column; text-align: center; background-color: #004ba0; position: fixed; left: 0; right: 0; bottom: 0; height: 90px; }
+/* line 1066, ../../scss/system/basic.scss */
+.footer .icon div { display: inline-block; margin: 5px 10px; }
+/* line 1073, ../../scss/system/basic.scss */
+.footer .text p { margin: 0; font-size: 12px; }
+
+/* line 1080, ../../scss/system/basic.scss */
+.module { width: 100%; margin: auto; }
+
+/* line 1084, ../../scss/system/basic.scss */
+.module, .module_clean { padding: 5px; }
+/* line 1087, ../../scss/system/basic.scss */
+.module .settings, .module_clean .settings { display: none; }
+/* line 1090, ../../scss/system/basic.scss */
+.module .drag, .module_clean .drag { display: none; }
+/* line 1093, ../../scss/system/basic.scss */
+.module .mdc-typography--title, .module_clean .mdc-typography--title { display: flex; align-items: center; }
+/* line 1097, ../../scss/system/basic.scss */
+.module .mdc-typography--title h3, .module_clean .mdc-typography--title h3 { margin: 0; }
 
 /*# sourceMappingURL=basic.css.map */

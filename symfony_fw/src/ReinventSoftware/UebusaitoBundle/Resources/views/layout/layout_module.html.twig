@@ -1,11 +1,11 @@
-<div id="{% block panelId %}{% endblock %}" class="panel shadow {% block panelClass %}{% endblock %}">
-    <div class="module_settings">
-        <i class="module_move ui-sortable-handle fa fa-arrows"></i>
+<div id="{% block panelId %}{% endblock %}" class="mdc-card module {% block panelClass %}{% endblock %}">
+    <div class="settings">
+        <i class="material-icons drag">drag_handle</i>
     </div>
-    <div class="panel-heading">
+    <div class="mdc-typography--title">
         {% block moduleHeaderIcon %}{% endblock %}
-        <h3 class="panel-title display_inline">{% block moduleHeader %}{% endblock %}</h3>
+        <h3>{% block moduleHeader %}{% endblock %}</h3>
     </div>
-    <div class="panel-body">{% block moduleContainer %}{% endblock %}</div>
-    <div>{% block moduleFooter %}{% endblock %}</div>
+    <div class="mdc-typography--body1">{% block moduleContainer %}{% endblock %}</div>
+    <div class="mdc-card__actions">{% block moduleFooter %}{% endblock %}</div>
 </div>

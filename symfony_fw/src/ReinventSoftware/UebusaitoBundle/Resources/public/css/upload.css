@@ -1,10 +1,18 @@
+/* line 4, ../scss/upload.scss */
 #upload .file { margin-bottom: 5px; }
+/* line 8, ../scss/upload.scss */
 #upload .container_box { display: none; }
+/* line 11, ../scss/upload.scss */
 #upload .container_box .text { position: relative; margin: 5px 0px; padding: 10px; }
+/* line 16, ../scss/upload.scss */
 #upload .container_box .text p { margin: 0; }
+/* line 20, ../scss/upload.scss */
 #upload .container_box .text .fa-close { cursor: pointer; position: absolute; top: 10px; right: 10px; }
+/* line 29, ../scss/upload.scss */
 #upload .container_controls { display: none; }
+/* line 32, ../scss/upload.scss */
 #upload .container_controls .container_progressBar { display: inline-block; vertical-align: middle; width: 50%; margin-bottom: 5px; }
+/* line 39, ../scss/upload.scss */
 #upload .container_controls .container_buttons { display: inline-block; vertical-align: middle; margin-bottom: 5px; }
 
 /*# sourceMappingURL=upload.css.map */

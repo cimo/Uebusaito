@@ -54,6 +54,11 @@ $widthDesktop: "840px";
     user-select: none;
 }
 
+.clearfix::after {
+    content: "";
+    clear: both;
+}
+
 /*html {
     position: relative;
     min-height: 100%;
