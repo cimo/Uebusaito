@@ -2,9 +2,9 @@
     <div class="settings">
         <i class="material-icons drag">drag_handle</i>
     </div>
-    <div class="mdc-typography--title">
+    <div class="title">
         {% block moduleHeaderIcon %}{% endblock %}
-        <h3>{% block moduleHeader %}{% endblock %}</h3>
+        <h3 class="mdc-typography--title">{% block moduleHeader %}{% endblock %}</h3>
     </div>
     <div class="mdc-typography--body1">{% block moduleContainer %}{% endblock %}</div>
     <div class="mdc-card__actions">{% block moduleFooter %}{% endblock %}</div>

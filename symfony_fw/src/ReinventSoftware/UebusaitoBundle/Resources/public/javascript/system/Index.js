@@ -5,8 +5,42 @@ $(document).ready(function() {
     // Material design
     mdc.autoInit();
     
+    // Toolbar
     var toolbarMdc = mdc.toolbar.MDCToolbar.attachTo($(".mdc-toolbar")[0]);
     toolbarMdc.fixedAdjustElement = $(".mdc-toolbar-fixed-adjust")[0];
+    
+    // Checkbox
+    var checkboxMdc = new Array();
+    
+    $.each($(".mdc-checkbox"), function(key, value) {
+        checkboxMdc[key] = new mdc.checkbox.MDCCheckbox.attachTo(value);
+    });
+    
+    // Text field
+    var textFieldMdc = new Array();
+    
+    $.each($(".mdc-text-field").not(".mdc-text-field--textarea"), function(key, value) {
+        textFieldMdc[key] = new mdc.textField.MDCTextField.attachTo(value);
+    });
+    
+    var textFieldContainer = $(".textField_container");
+    
+    var textFieldRoot = new Array();
+    var textFieldInput = new Array();
+    var textFieldHelperText = new Array();
+    
+    $.each(textFieldContainer, function(key, value) {
+        textFieldRoot[key] = $(value).find(".mdc-text-field");
+        textFieldInput[key] = $(value).find(".mdc-text-field__input");
+        textFieldHelperText[key] = $(value).find(".mdc-text-field-helper-text");
+    });
+    
+    // Button
+    var button = $(".mdc-button");
+    
+    $.each(button, function(key, value) {
+        mdc.ripple.MDCRipple.attachTo(value);
+    });
     
     utility.checkMobile(true);
     

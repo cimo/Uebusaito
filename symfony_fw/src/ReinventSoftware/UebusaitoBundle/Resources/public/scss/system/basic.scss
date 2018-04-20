@@ -1008,6 +1008,14 @@ p {
     }
 }*/
 
+html {
+    height: 100%;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 :root {
     --mdc-theme-primary: #1976d2;
     --mdc-theme-primary-light: #63a4ff;
@@ -1035,6 +1043,10 @@ p {
     color: #ffffff;
 }
 
+.mdc-toolbar-fixed-adjust {
+    margin-top: 200px;
+}
+
 .page_container {
     .header {
         h1 {
@@ -1056,10 +1068,8 @@ p {
     text-align: center;
     
     background-color: #004ba0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
+    top: 1px;
     height: 90px;
     
     .icon {
@@ -1083,6 +1093,7 @@ p {
 }
 .module, .module_clean {
     padding: 5px;
+    overflow: hidden;
     
     .settings {
         display: none;
@@ -1090,12 +1101,31 @@ p {
     .drag {
         display: none;
     }
-    .mdc-typography--title {
-        display: flex;
-        align-items: center;
-        
-        h3 {
+    
+    .title {
+        i, h3 {
+            display: inline-block;
+            vertical-align: middle;
             margin: 0;
         }
     }
+    .mdc-card__actions {
+        padding: 0 !important;
+        min-height: auto !important;
+    }
+    
+    .textField_container {
+        margin-top: 5px;
+    }
+    .mdc-text-field {
+        height: auto !important;
+    }
+    .mdc-text-field_hiddeFix {
+        display: block !important;
+        margin: 0 !important;
+    }
+}
+
+.mdc-button {
+    margin: 5px 0;
 }

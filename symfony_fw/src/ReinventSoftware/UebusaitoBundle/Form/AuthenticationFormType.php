@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AuthenticationFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -28,6 +29,7 @@ class AuthenticationFormType extends AbstractType {
         ))
         ->add("_remember_me", CheckboxType::class, Array(
             'required' => false
-        ));
+        ))
+        ->add("submit", SubmitType::class, Array());
     }
 }

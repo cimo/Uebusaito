@@ -81,7 +81,7 @@ class RecoverPasswordController extends Controller {
 
                         $userEntity->setHelpCode($helpCode);
 
-                        $url = $this->utility->getUrlRoot() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
+                        $url = $this->utility->getUrlRoot() . $this->utility->getWebsiteFile() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
 
                         // Send email to user
                         $this->utility->sendEmail($userEntity->getEmail(),

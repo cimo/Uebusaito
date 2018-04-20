@@ -38,7 +38,7 @@ class ErrorListener {
             if ($event->getRequest()->get("_route") == null) {
                 $settingRow = $this->query->selectSettingDatabase();
                 
-                $response = new RedirectResponse("{$this->utility->getUrlRoot()}/{$settingRow['language']}?error=404");
+                $response = new RedirectResponse("{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$settingRow['language']}?error=404");
                 
                 $event->setResponse($response);
             }

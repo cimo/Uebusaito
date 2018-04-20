@@ -83,7 +83,7 @@ class RegistrationController extends Controller {
                         $userEntity->setDateRegistration(date("Y-m-d H:i:s"));
                         $userEntity->setHelpCode($helpCode);
 
-                        $url = $this->utility->getUrlRoot() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
+                        $url = $this->utility->getUrlRoot() . $this->utility->getWebsiteFile() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
 
                         $messageEmail = "";
 
