@@ -71,7 +71,32 @@
     {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
         {% set required = false %}
     {%- endif -%}
-    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+    {# cimo + #}
+    <div class="mdc-select" role="listbox" {{ block('widget_attributes') }}>
+        <div class="mdc-select__surface" tabindex="0">
+            <div class="mdc-select__label">Select</div>
+            <div class="mdc-select__selected-text"></div>
+            <div class="mdc-select__bottom-line"></div>
+        </div>
+        <div class="mdc-menu mdc-select__menu">
+            <ul class="mdc-list mdc-menu__items">
+                {%- if placeholder is not none -%}
+                    <li class="mdc-list-item {% if required and value is empty %}mdc-list-item--activated{% endif %}" role="option" value="">{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</li>
+                {%- endif -%}
+                {%- if preferred_choices|length > 0 -%}
+                    {% set options = preferred_choices %}
+                    {{- block('choice_widget_options') -}}
+                    {%- if choices|length > 0 and separator is not none -%}
+                        <li class="mdc-list-item" role="option" aria-disabled="true">{{ separator }}</li>
+                    {%- endif -%}
+                {%- endif -%}
+                {%- set options = choices -%}
+                {{- block('choice_widget_options') -}}
+            </ul>
+        </div>
+    </div>
+    {# cimo - #}
+    {#<select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
         {%- if placeholder is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
         {%- endif -%}
@@ -84,7 +109,7 @@
         {%- endif -%}
         {%- set options = choices -%}
         {{- block('choice_widget_options') -}}
-    </select>
+    </select>#}
 {%- endblock choice_widget_collapsed -%}
 
 {%- block choice_widget_options -%}
@@ -95,7 +120,10 @@
                 {{- block('choice_widget_options') -}}
             </optgroup>
         {%- else -%}
-            <option value="{{ choice.value }}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</option>
+            {# cimo + #}
+            <li class="mdc-list-item {% if choice is selectedchoice(value) %}mdc-list-item--activated{% endif %}" {% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %} role="option" value="{{ choice.value }}">{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</li>
+            {# cimo - #}
+            {#<option value="{{ choice.value }}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</option>#}
         {%- endif -%}
     {% endfor %}
 {%- endblock choice_widget_options -%}
@@ -260,7 +288,7 @@
         {%- endif -%}
     {%- endif -%}
     {# cimo + #}
-    <button class="mdc-button mdc-button--raised" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
+    <button class="mdc-button mdc-button--raised mdc-button--dense" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
     {# cimo - #}
     {#<button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>#}
 {%- endblock button_widget -%}
@@ -349,7 +377,7 @@
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%#}
     {# cimo : #}
-    <div class="textField_container">
+    <div class="form_row textField_container">
         {#{- form_label(form) -}#}
         {{- form_errors(form) -}}
         {{- form_widget(form, widget_attr) -}}

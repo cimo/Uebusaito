@@ -1008,13 +1008,7 @@ p {
     }
 }*/
 
-html {
-    height: 100%;
-}
-html, body {
-    margin: 0;
-    padding: 0;
-}
+$footerHeight: 80px;
 
 :root {
     --mdc-theme-primary: #1976d2;
@@ -1043,6 +1037,22 @@ html, body {
     color: #ffffff;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100%;
+}
+body {
+    position:relative;
+    min-height:100%;
+}
+
+main {
+    padding-bottom: $footerHeight;
+}
+
 .mdc-toolbar-fixed-adjust {
     margin-top: 200px;
 }
@@ -1068,9 +1078,10 @@ html, body {
     text-align: center;
     
     background-color: #004ba0;
-    position: relative;
-    top: 1px;
-    height: 90px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $footerHeight;
     
     .icon {
         div {
@@ -1090,6 +1101,7 @@ html, body {
 .module {
     width: 100%;
     margin: auto;
+    border: 1px solid #ececec;
 }
 .module, .module_clean {
     padding: 5px;
@@ -1128,4 +1140,30 @@ html, body {
 
 .mdc-button {
     margin: 5px 0;
+    
+    i {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+        font-size: 18px;
+        line-height: inherit;
+        vertical-align: top;
+    }
+}
+
+.groupe_form {
+    i, .form_row {
+        display: inline-block;
+    }
+}
+
+.menu_registration {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    
+    li {
+        display: inline-block;
+    }
 }

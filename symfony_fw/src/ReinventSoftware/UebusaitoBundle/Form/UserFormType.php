@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -92,6 +93,7 @@ class UserFormType extends AbstractType {
                 "userFormType_4" => "0",
                 "userFormType_5" => "1"
             )
-        ));
+        ))
+        ->add("submit", SubmitType::class, Array());
     }
 }

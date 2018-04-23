@@ -35,6 +35,17 @@ $(document).ready(function() {
         textFieldHelperText[key] = $(value).find(".mdc-text-field-helper-text");
     });
     
+    // Select
+    var selectMdc = new Array();
+    
+    $.each($(".mdc-select"), function(key, value) {
+        selectMdc[key] = new mdc.select.MDCSelect.attachTo(value);
+
+        /*$(value).on("MDCSelect:change", "", function() {
+            console.log(selectMdc[key].selectedOptions[0].textContent + " at index " + selectMdc[key].selectedIndex + " with value " + selectMdc[key].value);
+        });*/
+    });
+    
     // Button
     var button = $(".mdc-button");
     

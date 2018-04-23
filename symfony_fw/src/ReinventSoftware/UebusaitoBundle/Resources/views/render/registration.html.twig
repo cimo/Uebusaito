@@ -1,17 +1,17 @@
 {% if form == null %}
     <p>{{response.messages.success}}</p>
 {% else %}
-    {% form_theme form "bootstrap_3_layout.html.twig" %}
+    {% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}
     
-    <ul id="menu_registration" class="nav nav-tabs">
+    <ul class="menu_registration">
         <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "private"})}}">
-                <i class="fa fa-user-o"></i> {% trans %}registration_1{% endtrans %}
+            <a class="mdc-button mdc-button--raised mdc-button--dense" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "private"})}}">
+                <i class="material-icons">person</i>{% trans %}registration_1{% endtrans %}
             </a>
         </li>
         <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "company"})}}">
-                <i class="fa fa-building-o"></i> {% trans %}registration_2{% endtrans %}
+            <a class="mdc-button mdc-button--raised mdc-button--dense" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "company"})}}">
+                <i class="material-icons">account_balance</i> {% trans %}registration_2{% endtrans %}
             </a>
         </li>
     </ul>
@@ -19,25 +19,17 @@
         <div>
             <h3 class="margin_clear">{% trans %}registration_3{% endtrans %}</h3>
             <form id="form_user_registration" class="margin_top" action="{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-                <div class="form-group">
-                    {{form_label(form.username, "registration_4")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paw"></i></span>
-                        {{form_errors(form.username)}}
-                        {{form_widget(form.username)}}
-                    </div>
+                <div class="groupe_form">
+                    <i class="material-icons">pets</i>
+                    {{form_row(form.username, {'label': "registration_4"})}}
                 </div>
-
+                
                 {{form_row(form.name, {'label': "registration_5"})}}
                 {{form_row(form.surname, {'label': "registration_6"})}}
-
-                <div class="form-group">
-                    {{form_label(form.email, "registration_7")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                        {{form_errors(form.email)}}
-                        {{form_widget(form.email)}}
-                    </div>
+                
+                <div class="groupe_form">
+                    <i class="material-icons">email</i>
+                    {{form_row(form.email, {'label': "registration_7"})}}
                 </div>
 
                 {{form_row(form.telephone, {'label': "registration_8"})}}
@@ -55,28 +47,19 @@
                 {{form_row(form.city, {'label': "registration_16"})}}
                 {{form_row(form.zip, {'label': "registration_17"})}}
                 {{form_row(form.address, {'label': "registration_18"})}}
-
-                <div class="form-group">
-                    {{form_label(form.password, "registration_19")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                        {{form_errors(form.password)}}
-                        {{form_widget(form.password)}}
-                    </div>
+                
+                <div class="groupe_form">
+                    <i class="material-icons">email</i>
+                    {{form_row(form.password, {'label': "registration_19"})}}
                 </div>
-
-                <div class="form-group">
-                    {{form_label(form.passwordConfirm, "registration_20")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                        {{form_errors(form.passwordConfirm)}}
-                        {{form_widget(form.passwordConfirm)}}
-                    </div>
+                <div class="groupe_form">
+                    <i class="material-icons">email</i>
+                    {{form_row(form.passwordConfirm, {'label': "registration_20"})}}
                 </div>
 
                 {{form_widget(form._token)}}
-
-                <input class="button_custom" type="submit" value="{% trans %}button_4{% endtrans %}"/>
+                
+                {{form_widget(form.submit, {'label': "button_4"})}}
             </form>
         </div>
     </div>
