@@ -47,6 +47,7 @@ class UserFormType extends AbstractType {
         ->add("born", DateType::class, Array(
             'required' => false,
             'input' => "string",
+            'placeholder' => "userFormType_1",
             'years' => range(1920, date("Y"))
         ))
         ->add("gender", ChoiceType::class, Array(
