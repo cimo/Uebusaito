@@ -17,23 +17,19 @@
         <main class="mdc-toolbar-fixed-adjust">
             <div class="mdc-layout-grid">
                 <div class="mdc-layout-grid__inner">
-                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet">
-                        {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 2) %}
-                            <div class="display_desktop">
-                                {% block columnLeftContainer %}{% endblock %}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8 mdc-layout-grid__cell--span-8-tablet">
+                    {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 2) %}
+                        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet display_desktop">
+                            {% block columnLeftContainer %}{% endblock %}
+                        </div>
+                    {% endif %}
+                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-{{templateColumnCenter}} mdc-layout-grid__cell--span-{{templateColumnCenter}}-tablet">
                         {% block columnCenterContainer %}{% endblock %}
                     </div>
-                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet">
-                        {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 3) %}
-                            <div class="display_desktop">
-                                {% block columnRightContainer %}{% endblock %}
-                            </div>
-                        {% endif %}
-                    </div>
+                    {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 3) %}
+                        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet display_desktop">
+                            {% block columnRightContainer %}{% endblock %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>            
         </main>        

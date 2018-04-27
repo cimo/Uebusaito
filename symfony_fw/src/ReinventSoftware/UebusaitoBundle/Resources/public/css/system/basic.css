@@ -20,6 +20,15 @@
 /* line 57, ../../scss/system/utility.scss */
 .clearfix::after { content: ""; clear: both; }
 
+/* line 62, ../../scss/system/utility.scss */
+.margin_top { margin-top: 20px !important; }
+
+/* line 65, ../../scss/system/utility.scss */
+.margin_top_clear { margin-top: 0 !important; }
+
+/* line 69, ../../scss/system/utility.scss */
+.align_center { text-align: center; }
+
 /*html { position: relative; min-height: 100%;
 }
 
@@ -194,7 +203,7 @@ legend { width: inherit; padding: 0 10px; border-bottom: none;
 /* line 188, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li span { display: inline-block; width: 32px; height: 32px; line-height: 32px; cursor: pointer; border-radius: 50%; }
 /* line 199, ../../scss/system/widget.scss */
-.widget_datePicker .footer { text-align: right; padding: 10px; }
+.widget_datePicker .button { text-align: right; padding: 10px; }
 
 /*$spaceBottom: 120px;
 $textColor: #4089c9;
@@ -452,36 +461,45 @@ main { padding-bottom: 80px; }
 .footer .text p { margin: 0; font-size: 12px; }
 
 /* line 1101, ../../scss/system/basic.scss */
-.module { width: 100%; margin: auto; border: 1px solid #ececec; }
+.module { width: 100%; margin: auto; border: 1px solid #dadada; background-color: #ececec; }
 
-/* line 1106, ../../scss/system/basic.scss */
+/* line 1107, ../../scss/system/basic.scss */
 .module, .module_clean { padding: 5px; overflow: hidden; }
-/* line 1110, ../../scss/system/basic.scss */
+/* line 1111, ../../scss/system/basic.scss */
 .module .settings, .module_clean .settings { display: none; }
-/* line 1113, ../../scss/system/basic.scss */
+/* line 1114, ../../scss/system/basic.scss */
 .module .drag, .module_clean .drag { display: none; }
-/* line 1118, ../../scss/system/basic.scss */
+/* line 1119, ../../scss/system/basic.scss */
 .module .title i, .module .title h3, .module_clean .title i, .module_clean .title h3 { display: inline-block; vertical-align: middle; margin: 0; }
-/* line 1124, ../../scss/system/basic.scss */
+/* line 1125, ../../scss/system/basic.scss */
 .module .mdc-card__actions, .module_clean .mdc-card__actions { padding: 0 !important; min-height: auto !important; }
-/* line 1129, ../../scss/system/basic.scss */
+/* line 1130, ../../scss/system/basic.scss */
 .module .textField_container, .module_clean .textField_container { margin-top: 5px; }
-/* line 1132, ../../scss/system/basic.scss */
-.module .mdc-text-field, .module_clean .mdc-text-field { height: auto !important; }
-/* line 1135, ../../scss/system/basic.scss */
+/* line 1133, ../../scss/system/basic.scss */
+.module .mdc-text-field, .module mdc-select, .module_clean .mdc-text-field, .module_clean mdc-select { height: auto !important; }
+/* line 1136, ../../scss/system/basic.scss */
 .module .mdc-text-field_hiddeFix, .module_clean .mdc-text-field_hiddeFix { display: block !important; margin: 0 !important; }
 
-/* line 1141, ../../scss/system/basic.scss */
+/* line 1142, ../../scss/system/basic.scss */
 .mdc-button { margin: 5px 0; }
-/* line 1144, ../../scss/system/basic.scss */
+/* line 1145, ../../scss/system/basic.scss */
 .mdc-button i { display: inline-block; width: 18px; height: 18px; margin-right: 8px; font-size: 18px; line-height: inherit; vertical-align: top; }
 
-/* line 1156, ../../scss/system/basic.scss */
-.groupe_form i, .groupe_form .form_row { display: inline-block; }
-
+/* line 1157, ../../scss/system/basic.scss */
+.group_form > i, .group_form > label, .group_form > .form_row { display: inline-block; }
 /* line 1161, ../../scss/system/basic.scss */
+.group_form > i { vertical-align: middle; }
+/* line 1165, ../../scss/system/basic.scss */
+.group_form > label { position: relative; top: -5px; padding-right: 10px; }
+
+/* line 1172, ../../scss/system/basic.scss */
+.captcha { text-align: center; }
+/* line 1175, ../../scss/system/basic.scss */
+.captcha img { vertical-align: middle; }
+
+/* line 1180, ../../scss/system/basic.scss */
 .menu_registration { list-style-type: none; margin: 0; padding: 0; }
-/* line 1166, ../../scss/system/basic.scss */
+/* line 1185, ../../scss/system/basic.scss */
 .menu_registration li { display: inline-block; }
 
 /*# sourceMappingURL=basic.css.map */

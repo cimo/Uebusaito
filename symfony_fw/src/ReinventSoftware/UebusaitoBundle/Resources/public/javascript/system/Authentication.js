@@ -34,13 +34,13 @@ function Authentication() {
                 false,
                 null,
                 function(xhr) {
-                    $("#authentication_button_mobile").dropdown("toggle");
-                    
                     if (xhr.response.messages !== undefined) {
                         ajax.reply(xhr, "");
                         
                         if (xhr.response.values !== undefined && xhr.response.values.captchaReload === true)
                             captcha.image();
+                        
+                        flashBag.show();
                     }
                     else
                         window.location.href = xhr.response.values.url;

@@ -1,7 +1,11 @@
 {% if settingRow.captcha == true %}
-    <div class="captcha">
-        <i class="material-icons">autorenew</i>
+    <div class="textField_container captcha">
         <img src="data:image/png;base64,{{captchaImage}}" alt="Captcha image"/>
-        <input type="text" name="captcha" value="" size="7" maxlength="7"/>
+        <div class="mdc-text-field">
+            <input class="mdc-text-field__input" type="text" name="captcha" size="7" maxlength="7"/>
+            <label class="mdc-text-field__label" for="mdc-text-field__input">Captcha</label>
+            <div class="mdc-line-ripple"></div>
+        </div>
+        <p class="mdc-text-field-helper-text" style="display: none;" aria-hidden="true">Captcha</p>
     </div>
 {% endif %}

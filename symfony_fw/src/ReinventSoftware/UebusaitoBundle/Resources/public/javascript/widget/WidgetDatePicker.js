@@ -57,7 +57,10 @@ function WidgetDatePicker() {
     };
     
     self.setInputFill = function(value) {
-        inputFillTag = value;
+        if ($(value).is("input") === true)
+            inputFillTag = value;
+        else
+            inputFillTag = $(value).find("input");
     };
 
     // Functions public
@@ -86,7 +89,7 @@ function WidgetDatePicker() {
                 content += createMonthHtml();
                 content += createWeekHtml();
                 content += createDayHtml();
-                content += createFooterHtml();
+                content += createButtonHtml();
             content += "</div>";
             
         content += "</div>";
@@ -243,8 +246,8 @@ function WidgetDatePicker() {
         return html;
     }
     
-    function createFooterHtml() {
-        return html = "<div class=\"footer\">\n\
+    function createButtonHtml() {
+        return html = "<div class=\"button\">\n\
             <button class=\"mdc-button button_today\" type=\"button\">Today</button>\n\
             <button class=\"mdc-button button_clear\" type=\"button\">Clear</button>\n\
             <button class=\"mdc-button button_confirm\" type=\"button\">Confirm</button>\n\
@@ -328,7 +331,7 @@ function WidgetDatePicker() {
             }
         });
         
-        $(".widget_datePicker").find(".footer .button_today").off("click").on("click", "", function() {
+        $(".widget_datePicker").find(".button .button_today").off("click").on("click", "", function() {
             currentYear = -1;
             currentMonth = -1;
             currentDay = -1;
@@ -336,11 +339,11 @@ function WidgetDatePicker() {
             self.init();
         });
         
-        $(".widget_datePicker").find(".footer .button_clear").off("click").on("click", "", function() {
+        $(".widget_datePicker").find(".button .button_clear").off("click").on("click", "", function() {
             fillInput(false);
         });
         
-        $(".widget_datePicker").find(".footer .button_confirm").off("click").on("click", "", function() {
+        $(".widget_datePicker").find(".button .button_confirm").off("click").on("click", "", function() {
             fillInput(true);
         });
     }
@@ -351,12 +354,25 @@ function WidgetDatePicker() {
         if (language === "it")
             result = currentDay + "/" + (currentMonth + 1) + "/" + currentYear;
         
-        $(inputFillTag).focus();
-        
         if (type === true)
             $(inputFillTag).val(result);
         else
             $(inputFillTag).val("");
+        
+        if ($(inputFillTag).parent().find(".mdc-text-field__label").length > 0) {
+            if (type === true) {
+                $(inputFillTag).parent().addClass("mdc-text-field--focused");
+                $(inputFillTag).parent().find(".mdc-text-field__label").addClass("mdc-text-field__label--float-above");
+                $(inputFillTag).parent().find(".mdc-line-ripple").addClass("mdc-line-ripple--active");
+            }
+            else {
+                $(inputFillTag).parent().removeClass("mdc-text-field--focused");
+                $(inputFillTag).parent().find(".mdc-text-field__label").removeClass("mdc-text-field__label--float-above");
+                $(inputFillTag).parent().find(".mdc-line-ripple").removeClass("mdc-line-ripple--active");
+            }
+        }
+        else
+            $(inputFillTag).focus();
         
         $(".widget_datePicker_back").hide();
         $(".widget_datePicker").hide();

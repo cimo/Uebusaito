@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -44,11 +43,8 @@ class UserFormType extends AbstractType {
         ->add("telephone", TextType::class, Array(
             'required' => false
         ))
-        ->add("born", DateType::class, Array(
-            'required' => false,
-            'input' => "string",
-            'placeholder' => "userFormType_1",
-            'years' => range(1920, date("Y"))
+        ->add("born", TextType::class, Array(
+            'required' => false
         ))
         ->add("gender", ChoiceType::class, Array(
             'required' => false,

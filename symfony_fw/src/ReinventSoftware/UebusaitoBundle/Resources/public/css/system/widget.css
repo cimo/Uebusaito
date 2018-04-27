@@ -59,6 +59,6 @@
 /* line 188, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li span { display: inline-block; width: 32px; height: 32px; line-height: 32px; cursor: pointer; border-radius: 50%; }
 /* line 199, ../../scss/system/widget.scss */
-.widget_datePicker .footer { text-align: right; padding: 10px; }
+.widget_datePicker .button { text-align: right; padding: 10px; }
 
 /*# sourceMappingURL=widget.css.map */

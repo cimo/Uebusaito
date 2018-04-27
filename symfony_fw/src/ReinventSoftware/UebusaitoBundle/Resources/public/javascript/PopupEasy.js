@@ -50,7 +50,7 @@ function PopupEasy() {
         $("#popup_easy_ok").on("click", "", clickOk);
         $("#popup_easy_cancel").on("click", "", clickCancel);
         
-        flashBag.hide();
+        //flashBag.hide();
         
         $("#popup_easy").modal("show");
     };

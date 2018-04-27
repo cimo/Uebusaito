@@ -1,5 +1,4 @@
-/* global utility, widgetSearch, widgetDatePicker, flashBag, loader, wysiwyg, language, search, authentication, registration, recoverPassword,
-controlPanelProfile, controlPanelPayment, controlPanelPage, controlPanelUser, controlPanelModule, controlPanelRoleUser, controlPanelSetting, pageComment */
+/* global utility, mdc, widgetSearch, widgetDatePicker, authentication, registration, recoverPassword */
 
 $(document).ready(function() {
     // Material design
@@ -53,11 +52,14 @@ $(document).ready(function() {
         mdc.ripple.MDCRipple.attachTo(value);
     });
     
+    // Snackbar
+    var snackbarMdc = new mdc.snackbar.MDCSnackbar.attachTo($(".mdc-snackbar")[0]);
+    
     utility.checkMobile(true);
     
     utility.linkPreventDefault();
     
-    utility.watch("#flashBag", flashBag.sessionActivity);
+    //utility.watch("#flashBag", flashBag.sessionActivity);
     
     utility.imageError($("#panel_id_3").find("img"));
     
@@ -78,8 +80,15 @@ $(document).ready(function() {
     //widgetDatePicker.setCurrentYear(1984);
     //widgetDatePicker.setCurrentMonth(4);
     //widgetDatePicker.setCurrentDay(11);
-    widgetDatePicker.setInputFill("#widget_datePicker_input");
+    widgetDatePicker.setInputFill(".widget_datePicker_input");
     widgetDatePicker.init();
+    
+    flashBag.setElement(snackbarMdc);
+    flashBag.sessionActivity();
+    
+    authentication.init();
+    registration.init();
+    recoverPassword.init();
     
     /*loader.create("font");
     

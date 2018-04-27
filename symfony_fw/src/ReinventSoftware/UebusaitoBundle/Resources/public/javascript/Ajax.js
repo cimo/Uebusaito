@@ -15,8 +15,8 @@ function Ajax() {
         if (loaderEnabled === true)
             loader.show();
         
-        if (messageHide === true && window.session.userActivity === "")
-            flashBag.hide();
+        //if (messageHide === true && window.session.userActivity === "")
+            //flashBag.hide();
         
         $.ajax({
             'url': url,
@@ -42,14 +42,12 @@ function Ajax() {
                 
                 if (loaderEnabled === true)
                     loader.hide();
-                
-                flashBag.show();
             },
             error: function(xhr, status) {
                 if (loaderEnabled === true)
                     loader.hide();
                 
-                flashBag.hide();
+                //flashBag.hide();
                 
                 if (xhr.status === 408 || status === "timeout")
                     self.send(loaderEnabled, messageHide, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete);
@@ -74,39 +72,22 @@ function Ajax() {
         if ($(tag).length > 0)
             $(tag).find("*[required='required']").parents(".form-group").removeClass("has-error");
 
-        if ($.isEmptyObject(xhr.response) === true) {
-            $("#flashBag").prop({'class': "alert alert-danger"});
-            
-            reply = "<p>" + window.text.ajaxConnectionError + "</p>";
-        }
+        if ($.isEmptyObject(xhr.response) === true)
+            reply = window.text.ajaxConnectionError;
         
-        if (xhr.response === undefined) {
-            $("#flashBag").prop({'class': "alert alert-danger"});
-
+        if (xhr.response === undefined)
             reply = xhr;
-        }
         else {
             if (xhr.response.messages !== undefined) {
-                if (xhr.response.messages.error !== undefined) {
-                    $("#flashBag").prop({'class': "alert alert-danger"});
-
-                    reply = "<p>" + xhr.response.messages.error + "</p>";
-                }
-                else if (xhr.response.messages.info !== undefined) {
-                    $("#flashBag").prop({'class': "alert alert-info"});
-
-                    reply = "<p>" + xhr.response.messages.info + "</p>";
-                }
-                else if (xhr.response.messages.success !== undefined) {
-                    $("#flashBag").prop({'class': "alert alert-success"});
-
-                    reply = "<p>" + xhr.response.messages.success + "</p>";
-                }
+                if (xhr.response.messages.error !== undefined)
+                    reply = xhr.response.messages.error;
+                else if (xhr.response.messages.info !== undefined)
+                    reply = xhr.response.messages.info;
+                else if (xhr.response.messages.success !== undefined)
+                    reply = xhr.response.messages.success;
             }
 
             if (xhr.response.errors !== undefined) {
-                $("#flashBag").prop({'class': "alert alert-danger"});
-
                 var list = "<ul>";
 
                 if (typeof(xhr.response.errors) !== "string") {
@@ -146,7 +127,7 @@ function Ajax() {
 
                 list += "</ul>";
 
-                reply += list;
+                //reply += list;
             }
             
             if (xhr.response.session !== undefined && xhr.response.session.userActivity !== undefined)
@@ -154,9 +135,9 @@ function Ajax() {
         }
         
         if (reply !== "")
-            $("#flashBag").find(".content").html(reply);
+            flashBag.setMessage(reply);
         
-        flashBag.sessionActivity();
+        //flashBag.sessionActivity();
         
         utility.linkPreventDefault();
     };

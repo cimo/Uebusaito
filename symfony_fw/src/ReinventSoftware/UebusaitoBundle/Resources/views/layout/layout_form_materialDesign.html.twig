@@ -121,7 +121,7 @@
             </optgroup>
         {%- else -%}
             {# cimo + #}
-            <li class="mdc-list-item {% if choice is selectedchoice(value) %}mdc-list-item--activated{% endif %}" {% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %} role="option" value="{{ choice.value }}">{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</li>
+            <li class="mdc-list-item {% if choice is selectedchoice(value) %}mdc-list-item--activated{% endif %}" {% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %} role="option" value="{{ choice.value }}" tabindex="{{loop.index0}}">{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</li>
             {# cimo - #}
             {#<option value="{{ choice.value }}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</option>#}
         {%- endif -%}
@@ -377,7 +377,8 @@
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%#}
     {# cimo : #}
-    <div class="form_row textField_container">
+    {% set attributeClass = attr['class'] | default('') %}
+    <div class="form_row textField_container {{attributeClass}}">
         {#{- form_label(form) -}#}
         {{- form_errors(form) -}}
         {{- form_widget(form, widget_attr) -}}

@@ -1101,7 +1101,8 @@ main {
 .module {
     width: 100%;
     margin: auto;
-    border: 1px solid #ececec;
+    border: 1px solid #dadada;
+    background-color: #ececec;
 }
 .module, .module_clean {
     padding: 5px;
@@ -1129,7 +1130,7 @@ main {
     .textField_container {
         margin-top: 5px;
     }
-    .mdc-text-field {
+    .mdc-text-field, mdc-select {
         height: auto !important;
     }
     .mdc-text-field_hiddeFix {
@@ -1152,9 +1153,27 @@ main {
     }
 }
 
-.groupe_form {
-    i, .form_row {
+.group_form {
+    > i, > label, > .form_row {
         display: inline-block;
+    }
+    
+    > i {
+        vertical-align: middle;
+    }
+    
+    > label {
+        position: relative;
+        top: -5px;
+        padding-right: 10px;
+    }
+}
+
+.captcha {
+    text-align: center;
+    
+    img {
+        vertical-align: middle;
     }
 }
 
