@@ -35,12 +35,10 @@ function Authentication() {
                 null,
                 function(xhr) {
                     if (xhr.response.messages !== undefined) {
-                        ajax.reply(xhr, "");
+                        ajax.reply(xhr, "#" + event.currentTarget.id);
                         
                         if (xhr.response.values !== undefined && xhr.response.values.captchaReload === true)
                             captcha.image();
-                        
-                        flashBag.show();
                     }
                     else
                         window.location.href = xhr.response.values.url;

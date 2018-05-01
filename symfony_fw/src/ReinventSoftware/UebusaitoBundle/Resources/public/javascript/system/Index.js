@@ -1,4 +1,4 @@
-/* global utility, mdc, widgetSearch, widgetDatePicker, authentication, registration, recoverPassword */
+/* global utility, mdc, widgetSearch, widgetDatePicker, flashBag, authentication, registration, recoverPassword */
 
 $(document).ready(function() {
     // Material design

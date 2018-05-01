@@ -1170,10 +1170,12 @@ main {
 }
 
 .captcha {
-    text-align: center;
-    
     img {
         vertical-align: middle;
+    }
+    
+    .mdc-text-field {
+        margin-top: 0 !important;
     }
 }
 

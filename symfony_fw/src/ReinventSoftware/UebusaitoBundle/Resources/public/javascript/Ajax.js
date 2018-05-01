@@ -12,11 +12,8 @@ function Ajax() {
     
     // Functions public
     self.send = function(loaderEnabled, messageHide, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete) {
-        if (loaderEnabled === true)
-            loader.show();
-        
-        //if (messageHide === true && window.session.userActivity === "")
-            //flashBag.hide();
+        //if (loaderEnabled === true)
+        //    loader.show();
         
         $.ajax({
             'url': url,
@@ -40,14 +37,12 @@ function Ajax() {
                 if (callbackSuccess !== null)
                     callbackSuccess(xhr);
                 
-                if (loaderEnabled === true)
-                    loader.hide();
+                //if (loaderEnabled === true)
+                //    loader.hide();
             },
             error: function(xhr, status) {
-                if (loaderEnabled === true)
-                    loader.hide();
-                
-                //flashBag.hide();
+                //if (loaderEnabled === true)
+                //    loader.hide();
                 
                 if (xhr.status === 408 || status === "timeout")
                     self.send(loaderEnabled, messageHide, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete);
@@ -64,14 +59,13 @@ function Ajax() {
     };
     
     self.reply = function(xhr, tag) {
+        utility.linkPreventDefault();
+        
         var reply = "";
         
-        if ($("#menu_root_navbar").hasClass("in") === true)
-            $("#menu_root_nav_button").click();
-        
         if ($(tag).length > 0)
-            $(tag).find("*[required='required']").parents(".form-group").removeClass("has-error");
-
+            $(tag).find("*[required='required']").parent().removeClass("mdc-text-field--invalid");
+        
         if ($.isEmptyObject(xhr.response) === true)
             reply = window.text.ajaxConnectionError;
         
@@ -87,59 +81,34 @@ function Ajax() {
                     reply = xhr.response.messages.success;
             }
 
-            if (xhr.response.errors !== undefined) {
-                var list = "<ul>";
+            if (xhr.response.errors !== undefined && typeof(xhr.response.errors) !== "string") {
+                var errors = xhr.response.errors;
 
-                if (typeof(xhr.response.errors) !== "string") {
-                    var errors = xhr.response.errors;
+                $.each(errors, function(key, value) {
+                    if (typeof(value[0]) === "string" && $.isEmptyObject(value) === false && key !== "_token") {
+                        var input = null;
 
-                    $.each(errors, function(key, value) {
-                        if (typeof(value[0]) === "string" && $.isEmptyObject(value) === false && key !== "_token") {
-                            var object = null;
-                            
-                            if ($(tag).length > 0)
-                                object = $(tag).find("*[name*='"+ key + "']")[0];
-                            
-                            if (object !== undefined) {
-                                $(object).parents(".form-group").addClass("has-error");
+                        if ($(tag).length > 0)
+                            input = $(tag).find("*[name*='"+ key + "']")[0];
 
-                                var icon = "";
-                                var label = " - ";
-
-                                if ($(object).parents(".form-group").find(".input-group-addon").length > 0)
-                                    icon = $(object).parents(".form-group").find(".input-group-addon").html();
-                                
-                                if ($(object).parents(".form-group").find("label").html() !== undefined)
-                                    label = $(object).parents(".form-group").find("label").html();
-                                else if ($($(object).parents(".form-group").find("*[name*='"+ key + "']")).prop("placeholder") !== undefined)
-                                    label = $($(object).parents(".form-group").find("*[name*='"+ key + "']")).prop("placeholder");
-                                
-                                if (Array.isArray(value) === true)
-                                    list += "<li>" + icon + " <b>" + label + "</b>: " + value[0] + "</li>";
-                                else
-                                    list += "<li>" + icon + " <b>" + label + "</b>: " + value + "</li>";
-                            }
+                        if (input !== undefined) {
+                            $(input).parent().addClass("mdc-text-field--invalid");
                         }
-                    });
-                }
-                else
-                    list += "<li>" + xhr.response.errors + "</li>";
-
-                list += "</ul>";
-
-                //reply += list;
+                    }
+                });
             }
             
             if (xhr.response.session !== undefined && xhr.response.session.userActivity !== undefined)
                 window.session.userActivity = xhr.response.session.userActivity;
         }
         
-        if (reply !== "")
+        if (reply !== "") {
             flashBag.setMessage(reply);
+            
+            flashBag.show();
+        }
         
         //flashBag.sessionActivity();
-        
-        utility.linkPreventDefault();
     };
     
     // Functions private

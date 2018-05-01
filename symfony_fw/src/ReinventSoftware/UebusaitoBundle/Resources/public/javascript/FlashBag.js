@@ -1,7 +1,5 @@
 // Version 1.0.0
 
-/* global mdc */
-
 var flashBag = new FlashBag();
 
 function FlashBag() {
@@ -29,10 +27,6 @@ function FlashBag() {
         };
         
         element.show(snackbarDataObj);
-    };
-    
-    self.hide = function() {
-        //$(".mdc-snackbar__action-button").click();
     };
     
     self.sessionActivity = function() {

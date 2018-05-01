@@ -117,6 +117,14 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
             }
             
             $this->response['messages']['error'] = $message;
+            $this->response['errors'] = Array(
+                "username" => Array(
+                    ""
+                ),
+                "password" => Array(
+                    ""
+                )
+            );
             
             return $this->ajax->response(Array(
                 'response' => $this->response

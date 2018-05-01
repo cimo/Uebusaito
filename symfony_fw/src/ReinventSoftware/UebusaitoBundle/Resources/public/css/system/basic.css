@@ -492,14 +492,14 @@ main { padding-bottom: 80px; }
 /* line 1165, ../../scss/system/basic.scss */
 .group_form > label { position: relative; top: -5px; padding-right: 10px; }
 
-/* line 1172, ../../scss/system/basic.scss */
-.captcha { text-align: center; }
-/* line 1175, ../../scss/system/basic.scss */
+/* line 1173, ../../scss/system/basic.scss */
 .captcha img { vertical-align: middle; }
+/* line 1177, ../../scss/system/basic.scss */
+.captcha .mdc-text-field { margin-top: 0 !important; }
 
-/* line 1180, ../../scss/system/basic.scss */
+/* line 1182, ../../scss/system/basic.scss */
 .menu_registration { list-style-type: none; margin: 0; padding: 0; }
-/* line 1185, ../../scss/system/basic.scss */
+/* line 1187, ../../scss/system/basic.scss */
 .menu_registration li { display: inline-block; }
 
 /*# sourceMappingURL=basic.css.map */
