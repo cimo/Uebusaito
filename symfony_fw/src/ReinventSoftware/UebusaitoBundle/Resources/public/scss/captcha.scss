@@ -1,8 +1,7 @@
 // Version 1.0.0
 
 .captcha {
-    text-align: center;
-    margin-bottom: 10px;
+    text-align: left;
     
     .icon {
         position: relative;
@@ -10,6 +9,7 @@
         cursor: pointer;
     }
     img {
+        vertical-align: middle;
         border: 1px solid #000000;
     }
     input {

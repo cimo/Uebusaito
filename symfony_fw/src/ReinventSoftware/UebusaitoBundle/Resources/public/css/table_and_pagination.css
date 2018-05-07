@@ -27,7 +27,13 @@
 .margin_top_clear { margin-top: 0 !important; }
 
 /* line 69, ../scss/system/utility.scss */
+.align_left { text-align: left; }
+
+/* line 72, ../scss/system/utility.scss */
 .align_center { text-align: center; }
+
+/* line 75, ../scss/system/utility.scss */
+.align_right { text-align: right; }
 
 /*html { position: relative; min-height: 100%;
 }

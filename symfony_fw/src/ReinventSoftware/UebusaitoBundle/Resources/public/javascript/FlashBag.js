@@ -22,7 +22,7 @@ function FlashBag() {
     self.show = function() {
         var snackbarDataObj = {
             message: message,
-            actionText: "Undo",
+            actionText: window.text.close,
             actionHandler: function() {}
         };
         
@@ -33,7 +33,7 @@ function FlashBag() {
         if ($("#flashBag").find(".content").html() !== undefined && $("#flashBag").find(".content").html().trim() === "" && window.session.userActivity !== "") {
             var snackbarDataObj = {
                 message: message,
-                actionText: "Undo",
+                actionText: window.text.close,
                 actionHandler: function() {}
             };
 

@@ -25,7 +25,7 @@ function PopupEasy() {
         }
         
         if (callbackCancel !== null) {
-            buttons += "<a id=\"popup_easy_cancel\" class=\"button_custom\" type=\"button\">" + window.text.abort + "</a>";
+            buttons += "<a id=\"popup_easy_cancel\" class=\"button_custom\" type=\"button\">" + window.text.close + "</a>";
             
             clickCancel = function() {
                 callbackCancel();

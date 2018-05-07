@@ -1056,6 +1056,13 @@ main {
 .mdc-toolbar-fixed-adjust {
     margin-top: 200px;
 }
+.mdc-toolbar__row--with-image {
+    &:first-child::after {
+        background-image: url("../../images/templates/basic/16-9.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+}
 
 .page_container {
     .header {
@@ -1166,16 +1173,6 @@ main {
         position: relative;
         top: -5px;
         padding-right: 10px;
-    }
-}
-
-.captcha {
-    img {
-        vertical-align: middle;
-    }
-    
-    .mdc-text-field {
-        margin-top: 0 !important;
     }
 }
 

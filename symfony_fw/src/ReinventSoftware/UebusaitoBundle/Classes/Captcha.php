@@ -32,13 +32,13 @@ class Captcha {
     
     // Functions private
     private function image($string) {
-        $image = imagecreate(100, 30);
+        $image = imagecreate(70, 30);
         
         $background = imagecolorallocate($image, 0, 0, 255);
         $color = imagecolorallocate($image, 255, 255, 255);
         $line = imagecolorallocate($image, 140, 140, 140);
         
-        imagestring($image, 5, 20, 7, $string, $color);
+        imagestring($image, 5, 5, 7, $string, $color);
         
         imageline($image, 0, 0, 50, 30, $line);
         imageline($image, 30, 0, 80, 30, $line);
