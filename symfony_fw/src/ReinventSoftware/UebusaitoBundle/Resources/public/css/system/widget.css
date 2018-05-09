@@ -27,7 +27,7 @@
 .widget_datePicker_back { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.5; z-index: 20; }
 
 /* line 82, ../../scss/system/widget.scss */
-.widget_datePicker { display: none; position: fixed; top: 20%; left: 0; right: 0; margin-right: auto; margin-left: auto; padding: 0px; border-radius: 2px; border-top: none; border-bottom: none; width: 310px; background-color: #ffffff; z-index: 21; }
+.widget_datePicker { display: none; position: fixed; top: 5%; left: 0; right: 0; margin-right: auto; margin-left: auto; padding: 0px; border-radius: 2px; border-top: none; border-bottom: none; width: 310px; background-color: #ffffff; z-index: 21; }
 /* line 98, ../../scss/system/widget.scss */
 .widget_datePicker .header { height: 55px; padding: 20px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-left-radius: 0px; }
 /* line 105, ../../scss/system/widget.scss */

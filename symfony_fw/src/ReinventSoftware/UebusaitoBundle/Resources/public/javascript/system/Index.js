@@ -22,13 +22,13 @@ $(document).ready(function() {
         textFieldMdc[key] = new mdc.textField.MDCTextField.attachTo(value);
     });
     
-    var textFieldContainer = $(".textField_container");
+    var textFieldGroup = $(".textField_group");
     
     var textFieldRoot = new Array();
     var textFieldInput = new Array();
     var textFieldHelperText = new Array();
     
-    $.each(textFieldContainer, function(key, value) {
+    $.each(textFieldGroup, function(key, value) {
         textFieldRoot[key] = $(value).find(".mdc-text-field");
         textFieldInput[key] = $(value).find(".mdc-text-field__input");
         textFieldHelperText[key] = $(value).find(".mdc-text-field-helper-text");
@@ -61,7 +61,7 @@ $(document).ready(function() {
     
     //utility.watch("#flashBag", flashBag.sessionActivity);
     
-    utility.imageError($("#panel_id_3").find("img"));
+    //utility.imageError($("#panel_id_3").find("img"));
     
     /*utility.bootstrapMenuFix(
         [

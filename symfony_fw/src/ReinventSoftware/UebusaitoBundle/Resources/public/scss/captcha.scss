@@ -3,17 +3,8 @@
 .captcha {
     text-align: left;
     
-    .icon {
-        position: relative;
-        top: 2px;
-        cursor: pointer;
-    }
     img {
         vertical-align: middle;
         border: 1px solid #000000;
-    }
-    input {
-        position: relative;
-        top: 1px;
     }
 }

@@ -12,7 +12,9 @@ function Authentication() {
     self.init = function() {
         captcha.reload();
         
-        $(".form_user_authentication input[name='_remember_me']").parents(".checkbox").addClass("remember_me_fix");
+        utility.materialDesignFixCheckboxSize(".form_user_authentication", "5px", "19px");
+        
+        $(".form_user_authentication").find("input[name='_remember_me']").parents(".checkbox").addClass("remember_me_fix");
         
         $(".button_authentication_desktop").find("i").on("click", "", function() {
             if ($(this).parent().next().css("display") === "none")

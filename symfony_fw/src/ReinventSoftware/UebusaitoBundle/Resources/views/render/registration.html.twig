@@ -19,53 +19,28 @@
         <div>
             <h3 class="margin_clear">{% trans %}registration_3{% endtrans %}</h3>
             <form id="form_user_registration" action="{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-                <div class="group_form">
-                    <i class="material-icons">pets</i>
-                    {{form_row(form.username, {'label': "registration_4"})}}
-                </div>
-                
+                {{form_row(form.username, {'label': "registration_4", 'icon': "pets"})}}
                 {{form_row(form.name, {'label': "registration_5"})}}
                 {{form_row(form.surname, {'label': "registration_6"})}}
-                
-                <div class="group_form">
-                    <i class="material-icons">email</i>
-                    {{form_row(form.email, {'label': "registration_7"})}}
-                </div>
-
+                {{form_row(form.email, {'label': "registration_7", 'icon': "email"})}}
                 {{form_row(form.telephone, {'label': "registration_8"})}}
                 {{form_row(form.born, {'label': "registration_9", 'attr' : {'class': "widget_datePicker_input"} })}}
+                {{form_row(form.gender, {'label': "registration_10"})}}
                 
-                <div class="group_form">
-                    <label>{% trans %}registration_10{% endtrans %}</label>
-                    {{form_row(form.gender, {'label': "registration_10"})}}
-                </div>
-
                 {% if urlExtra == "company" %}
-                    {{form_row(form.fiscalCode, {'label': "registration_11", 'attr' : {'class': "margin_top"} })}}
+                    {{form_row(form.fiscalCode, {'label': "registration_11"})}}
                     {{form_row(form.companyName, {'label': "registration_12"})}}
                     {{form_row(form.vat, {'label': "registration_13"})}}
                 {% endif %}
                 
-                {% if urlExtra != "company" %}
-                    {{form_row(form.website, {'label': "registration_14", 'attr' : {'class': "margin_top"} })}}
-                {% else %}
-                    {{form_row(form.website, {'label': "registration_14"})}}
-                {% endif %}
-                
+                {{form_row(form.website, {'label': "registration_14"})}}
                 {{form_row(form.state, {'label': "registration_15"})}}
                 {{form_row(form.city, {'label': "registration_16"})}}
                 {{form_row(form.zip, {'label': "registration_17"})}}
                 {{form_row(form.address, {'label': "registration_18"})}}
+                {{form_row(form.password, {'label': "registration_19", 'icon': "linear_scale"})}}
+                {{form_row(form.passwordConfirm, {'label': "registration_20", 'icon': "linear_scale"})}}
                 
-                <div class="group_form">
-                    <i class="material-icons">linear_scale</i>
-                    {{form_row(form.password, {'label': "registration_19"})}}
-                </div>
-                <div class="group_form">
-                    <i class="material-icons">linear_scale</i>
-                    {{form_row(form.passwordConfirm, {'label': "registration_20"})}}
-                </div>
-
                 {{form_widget(form._token)}}
                 
                 {{form_widget(form.submit, {'label': "button_4"})}}

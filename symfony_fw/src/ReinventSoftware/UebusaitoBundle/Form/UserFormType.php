@@ -48,10 +48,10 @@ class UserFormType extends AbstractType {
         ))
         ->add("gender", ChoiceType::class, Array(
             'required' => false,
-            'placeholder' => "userFormType_1",
+            'placeholder' => "userFormType_6",
             'choices' => Array(
                 'userFormType_2' => "m",
-                'userFormType_3' => "f"
+                'userFormType_3' => "w"
             )
         ))
         ->add("fiscalCode", TextType::class, Array(

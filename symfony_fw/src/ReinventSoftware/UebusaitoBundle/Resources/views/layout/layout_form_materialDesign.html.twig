@@ -15,10 +15,13 @@
         {%- set required = false -%}
     {%- endif -%}
     {# cimo + #}
-    <div class="mdc-text-field {% if type == "hidden" %}mdc-text-field_hiddeFix{% endif %}">
+    <div class="mdc-text-field {% if type == "hidden" %}mdc-text-field_hidden_fix{% endif %}">
         <input class="mdc-text-field__input" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
         {% if type != "hidden" %}
-            <label class="mdc-text-field__label" for="{{ id }}">{{- form_label(form) -}}</label>
+            {{- form_label(form) -}}
+            {%- if icon is defined -%}
+                <i class="material-icons">{{icon}}</i>
+            {%- endif -%}
             <div class="mdc-line-ripple"></div>
         {% endif %}
     </div>
@@ -34,6 +37,7 @@
         {%- if form is rootform -%}
             {{ form_errors(form) }}
         {%- endif -%}
+        {{dump(attr)}}
         {{- block('form_rows') -}}
         {{- form_rest(form) -}}
     </div>
@@ -74,7 +78,7 @@
     {# cimo + #}
     <div class="mdc-select" role="listbox" {{ block('widget_attributes') }}>
         <div class="mdc-select__surface" tabindex="0">
-            <div class="mdc-select__label">Select</div>
+            <div class="mdc-select__label">{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</div>
             <div class="mdc-select__selected-text"></div>
             <div class="mdc-select__bottom-line"></div>
         </div>
@@ -321,7 +325,7 @@
             {% set label_attr = label_attr|merge({'for': id}) %}
         {%- endif -%}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' mdc-text-field__label required')|trim}) %}
         {%- endif -%}
         {% if label is empty -%}
             {%- if label_format is not empty -%}
@@ -333,7 +337,8 @@
                 {% set label = name|humanize %}
             {%- endif -%}
         {%- endif -%}
-        <{{ element|default('label') }}{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %}>
+        {# cimo : #}
+        <{{ element|default('label') }}{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %} class="mdc-text-field__label">
             {%- if translation_domain is same as(false) -%}
                 {{- label -}}
             {%- else -%}
@@ -378,7 +383,7 @@
     {%- endif -%#}
     {# cimo : #}
     {% set attributeClass = attr['class'] | default('') %}
-    <div class="form_row textField_container {{attributeClass}}">
+    <div class="form_row textField_group {{attributeClass}}">
         {#{- form_label(form) -}#}
         {{- form_errors(form) -}}
         {{- form_widget(form, widget_attr) -}}

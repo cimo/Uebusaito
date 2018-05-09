@@ -235,6 +235,7 @@ date.time: H:i:s
 "userFormType_3": "Donna"
 "userFormType_4": "No"
 "userFormType_5": "Si"
+"userFormType_6": "Sesso"
 
 # UserSelectionFormType.php
 "userSelectionFormType_1": "Seleziona"
@@ -626,7 +627,7 @@ date.time: H:i:s
 "authentication_5": "Esci"
 "authentication_6": "Username"
 "authentication_7": "Password"
-"authentication_8": "Ricordami"
+"authentication_8": "Ricorda"
 "authentication_9": "Entra"
 "authentication_10": "Registrazione"
 "authentication_11": "Password dimenticata?"

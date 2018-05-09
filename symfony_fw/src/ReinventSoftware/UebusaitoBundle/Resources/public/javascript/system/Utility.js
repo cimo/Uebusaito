@@ -409,7 +409,7 @@ function Utility() {
     };
     
     // Bootstrap fix
-    self.bootstrapMenuFix = function(tags) {
+    /*self.bootstrapMenuFix = function(tags) {
         var menuButtonsOld = new Array();
         
         $.each(tags, function(keyA, valueA) {
@@ -506,6 +506,14 @@ function Utility() {
             $(tag).find(".navbar-nav").hide();
             $(tag).find(".open").removeClass("open");
         }
+    };*/
+    
+    // Material design
+    self.materialDesignFixCheckboxSize = function(tag, checkboxSize, rippleSize) {
+        $(window).bind("load", function() {
+            $(tag).find(".mdc-form-field .mdc-checkbox").css("padding", checkboxSize);
+            $(tag).find(".mdc-form-field .mdc-checkbox").css("--mdc-ripple-fg-size", rippleSize);
+        });
     };
     
     // Functions private
