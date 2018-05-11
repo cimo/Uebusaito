@@ -3,7 +3,8 @@
 security:
     # cimo +
     encoders:
-        ReinventSoftware\UebusaitoBundle\Entity\User: bcrypt
+        ReinventSoftware\UebusaitoBundle\Entity\User:
+            algorithm: bcrypt
     role_hierarchy:
         ROLE_USER: [ROLE_USER]
         ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN]
@@ -19,7 +20,9 @@ security:
             #memory: ~
         # cimo +
         user_db:
-            entity: { class: UebusaitoBundle:User, property: username }
+            entity:
+                class: UebusaitoBundle:User
+                #property: username
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

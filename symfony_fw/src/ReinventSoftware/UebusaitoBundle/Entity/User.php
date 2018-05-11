@@ -3,7 +3,9 @@ namespace ReinventSoftware\UebusaitoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 
 /**
  * @ORM\Table(name="users", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
@@ -11,7 +13,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
  * @UniqueEntity(fields={"username"}, groups={"registration", "user_creation", "user_profile"})
  * @UniqueEntity(fields={"email"}, groups={"registration", "user_creation", "user_profile"})
  */
-class User implements AdvancedUserInterface {
+class User implements UserInterface, AdvancedUserInterface, EquatableInterface, \Serializable {
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -343,43 +345,10 @@ class User implements AdvancedUserInterface {
         return $this->attemptLogin;
     }
     
-    // UserInterface
-    public function getUsername() {
-        return $this->username;
-    }
-    
-    public function getPassword() {
-        return $this->password;
-    }
-    
-    public function eraseCredentials() {
-    }
-
-    public function getSalt() {
-        return null;
-    }
-    
-    // AdvanceUserInterface
-    public function isAccountNonExpired() {
-        return true;
-    }
-
-    public function isAccountNonLocked() {
-        return $this->notLocked;
-    }
-
-    public function isCredentialsNonExpired() {
-        return true;
-    }
-
-    public function isEnabled() {
-        return true;
-    }
-    
     // Plus
     private $roles = Array();
     
-    private $passwordConfirm;
+    private $passwordConfirm = "";
     
     public function setRoles($roles) {
         array_push($roles, "ROLE_USER");
@@ -399,5 +368,158 @@ class User implements AdvancedUserInterface {
     
     public function getPasswordConfirm() {
         return $this->passwordConfirm;
+    }
+    
+    // UserInterface
+    private $salt = null;
+    
+    public function getUsername() {
+        return $this->username;
+    }
+    
+    public function getPassword() {
+        return $this->password;
+    }
+    
+    public function getSalt() {
+        return $this->salt;
+    }
+    
+    public function eraseCredentials() {
+    }
+    
+    // AdvanceUserInterface
+    public function isAccountNonExpired() {
+        return true;
+    }
+
+    public function isAccountNonLocked() {
+        return $this->notLocked;
+    }
+
+    public function isCredentialsNonExpired() {
+        return true;
+    }
+
+    public function isEnabled() {
+        return true;
+    }
+    
+    public function hasUserChanged() {
+        return false;
+    }
+    
+    public function doesUserNeedReloading() {
+        return false;
+    }
+    
+    // EquatableInterface
+    function isEqualTo(UserInterface $user) {
+        /*if (!$user instanceof User)
+            return false;
+        
+        if ($this->username !== $user->getUsername())
+            return false;
+        
+        if ($this->password !== $user->getPassword())
+            return false;
+        
+        if ($this->salt !== $user->getSalt())
+            return false;
+        
+        if ($this->roles !== $user->getRoles())
+            return false;
+        
+        if ($this->dateCurrentLogin !== $user->getDateCurrentLogin())
+            return true;
+        
+        if ($this->dateLastLogin !== $user->getDateLastLogin())
+            return true;
+        
+        return true;*/
+        
+        /*if ($user instanceof User) {
+            $isEqual = count($this->getRoles()) == count($user->getRoles());
+            
+            if ($isEqual) {
+                foreach($this->getRoles() as $role) {
+                    $isEqual = $isEqual && in_array($role, $user->getRoles());
+                }
+            }
+            
+            if ($this->dateCurrentLogin == $user->getDateCurrentLogin())
+                $isEqual = false;
+
+            if ($this->dateLastLogin == $user->getDateLastLogin())
+                $isEqual = false;
+
+            return $isEqual;
+        }*/
+
+        return true;
+    }
+    
+    /** @see \Serializable::serialize() */
+    public function serialize() {
+        return serialize(Array(
+            $this->id,
+            $this->roleUserId,
+            $this->username,
+            $this->name,
+            $this->surname,
+            $this->email,
+            $this->telephone,
+            $this->born,
+            $this->gender,
+            $this->fiscalCode,
+            $this->companyName,
+            $this->vat,
+            $this->website,
+            $this->state,
+            $this->city,
+            $this->zip,
+            $this->address,
+            $this->password,
+            $this->credit,
+            $this->notLocked,
+            //$this->dateRegistration,
+            //$this->dateCurrentLogin,
+            //$this->dateLastLogin,
+            $this->helpCode,
+            $this->ip,
+            $this->attemptLogin
+        ));
+    }
+    
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized) {
+        list (
+            $this->id,
+            $this->roleUserId,
+            $this->username,
+            $this->name,
+            $this->surname,
+            $this->email,
+            $this->telephone,
+            $this->born,
+            $this->gender,
+            $this->fiscalCode,
+            $this->companyName,
+            $this->vat,
+            $this->website,
+            $this->state,
+            $this->city,
+            $this->zip,
+            $this->address,
+            $this->password,
+            $this->credit,
+            $this->notLocked,
+            //$this->dateRegistration,
+            //$this->dateCurrentLogin,
+            //$this->dateLastLogin,
+            $this->helpCode,
+            $this->ip,
+            $this->attemptLogin
+        ) = unserialize($serialized);
     }
 }

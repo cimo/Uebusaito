@@ -2,12 +2,13 @@
 namespace ReinventSoftware\UebusaitoBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+//use Symfony\Component\Security\Core\User\UserProviderInterface;
+//use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+//use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+//use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
-class UserRepository extends EntityRepository implements UserProviderInterface {
+class UserRepository extends EntityRepository implements UserLoaderInterface {// implements UserProviderInterface {
     // Vars
     
     // Properties
@@ -19,7 +20,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         return $user;
     }
 
-    public function refreshUser(UserInterface $user) {
+    /*public function refreshUser(UserInterface $user) {
         $class = get_class($user);
         
         if ($this->supportsClass($class) == false)
@@ -28,14 +29,14 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
         $refreshedUser = $this->find($user->getId());
         
         if ($refreshedUser == false)
-            throw new UsernameNotFoundException(sprintf("User with id %s not found", json_encode($user->getId())));
+            throw new UsernameNotFoundException(sprintf("User with id %s not found.", json_encode($user->getId())));
 
         return $refreshedUser;
     }
 
     public function supportsClass($class) {
         return $this->getEntityName() == $class || is_subclass_of($class, $this->getEntityName());
-    }
+    }*/
     
     // Functions private
     private function findByUsernameOrEmail($value) {

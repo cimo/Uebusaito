@@ -53,7 +53,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
             $user = $token->getUser();
             
             $checkCaptcha = $this->captcha->check($this->settingRow['captcha'], $request->get("captcha"));
-            $checkAttemptLogin = $this->utility->checkAttemptLogin("success", $user->getId(), $this->settingRow);
+            $checkAttemptLogin = $this->utility->checkAttemptLogin("success", $user->getId(), $this->settingRow, $user);
             $arrayExplodeFindValue = $this->utility->arrayExplodeFindValue($this->settingRow['role_user_id'], $user->getRoleUserId());
             
             if ($checkCaptcha == true && (($this->settingRow['website_active'] == true && $checkAttemptLogin[0] == true)
