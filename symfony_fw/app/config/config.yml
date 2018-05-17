@@ -28,7 +28,8 @@ framework:
     session:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
-        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        # cimo :
+        save_path: /var/lib/php/sessions
         # cimo +
         name: uebusaito
         #cookie_secure: true

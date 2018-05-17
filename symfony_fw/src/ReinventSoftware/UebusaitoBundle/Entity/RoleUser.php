@@ -6,7 +6,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="roles_users", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
- * @ORM\Entity(repositoryClass="ReinventSoftware\UebusaitoBundle\Entity\Repository\RoleUserRepository")
+ * @ORM\Entity(repositoryClass="ReinventSoftware\UebusaitoBundle\Repository\RoleUserRepository")
  * @UniqueEntity(fields={"level"}, groups={"roleUser_creation", "roleUser_profile"})
  */
 class RoleUser {

@@ -19,6 +19,7 @@ class Utility {
     private $authenticationUtils;
     private $passwordEncoder;
     private $tokenStorage;
+    private $session;
     
     private $config;
     private $query;
@@ -63,6 +64,10 @@ class Utility {
     
     public function getTokenStorage() {
         return $this->tokenStorage;
+    }
+    
+    public function getSession() {
+        return $this->session;
     }
     
     public function getQuery() {
@@ -113,6 +118,7 @@ class Utility {
         $this->authenticationUtils = $this->container->get("security.authentication_utils");
         $this->passwordEncoder = $this->container->get("security.password_encoder");
         $this->tokenStorage = $this->container->get("security.token_storage");
+        $this->session = $this->container->get("session");
         
         $this->config = new Config();
         $this->query = new Query($this->connection);

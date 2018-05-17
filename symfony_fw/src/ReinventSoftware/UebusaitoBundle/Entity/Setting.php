@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="settings", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
- * @ORM\Entity(repositoryClass="ReinventSoftware\UebusaitoBundle\Entity\Repository\SettingRepository")
+ * @ORM\Entity(repositoryClass="ReinventSoftware\UebusaitoBundle\Repository\SettingRepository")
  */
 class Setting {
     /**

@@ -1,5 +1,5 @@
 <?php
-namespace ReinventSoftware\UebusaitoBundle\Entity\Repository;
+namespace ReinventSoftware\UebusaitoBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

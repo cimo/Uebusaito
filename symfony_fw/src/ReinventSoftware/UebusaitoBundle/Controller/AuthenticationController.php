@@ -11,6 +11,9 @@ use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
 
 use ReinventSoftware\UebusaitoBundle\Form\AuthenticationFormType;
 
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+
 class AuthenticationController extends Controller {
     // Vars
     private $urlLocale;
