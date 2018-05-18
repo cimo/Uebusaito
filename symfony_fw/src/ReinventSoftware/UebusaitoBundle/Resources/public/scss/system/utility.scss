@@ -42,16 +42,17 @@ $widthDesktop: "840px";
     width: device-width;
 }
 
-.user_touch_none {
-    -ms-touch-action: none;
-    touch-action: none;
-}
-
 .user_select_none {
+    -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.user_touch_none {
+    -ms-touch-action: none;
+    touch-action: none;
 }
 
 .clearfix::after {

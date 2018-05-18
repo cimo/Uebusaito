@@ -12,27 +12,27 @@
 @-o-viewport { width: device-width; }
 @viewport { width: device-width; }
 /* line 45, ../../scss/system/utility.scss */
+.user_select_none { -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+
+/* line 53, ../../scss/system/utility.scss */
 .user_touch_none { -ms-touch-action: none; touch-action: none; }
 
-/* line 50, ../../scss/system/utility.scss */
-.user_select_none { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-
-/* line 57, ../../scss/system/utility.scss */
+/* line 58, ../../scss/system/utility.scss */
 .clearfix::after { content: ""; clear: both; }
 
-/* line 62, ../../scss/system/utility.scss */
+/* line 63, ../../scss/system/utility.scss */
 .margin_top { margin-top: 20px !important; }
 
-/* line 65, ../../scss/system/utility.scss */
+/* line 66, ../../scss/system/utility.scss */
 .margin_top_clear { margin-top: 0 !important; }
 
-/* line 69, ../../scss/system/utility.scss */
+/* line 70, ../../scss/system/utility.scss */
 .align_left { text-align: left; }
 
-/* line 72, ../../scss/system/utility.scss */
+/* line 73, ../../scss/system/utility.scss */
 .align_center { text-align: center; }
 
-/* line 75, ../../scss/system/utility.scss */
+/* line 76, ../../scss/system/utility.scss */
 .align_right { text-align: right; }
 
 /*html { position: relative; min-height: 100%;

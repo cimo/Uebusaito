@@ -1,17 +1,17 @@
 /* Search */
 .widget_search {
     position: fixed;
-    top: 11px;
     left: 50px;
     color: #ffffff;
     font-size: 16px;
-    height: 29px;
     margin: 0;
-    padding: 0;
+    display: flex;
+    align-items: start;
+    height: 48px;
+    padding: 12px;
     
     .button_open {
         position: absolute;
-        top: 5px;
         right: -20px;
         cursor: pointer;
         z-index: 2;
@@ -22,7 +22,6 @@
     .button_close {
         display: none;
         position: absolute;
-        top: 5px;
         right: -25px;
         cursor: pointer;
         z-index: 1;
@@ -34,7 +33,6 @@
         border: none;
         border-bottom: 1px solid #ffffff;
         font-size: 16px;
-        padding: 5px 0;
         background: 0;
         color: #ffffff;
         
@@ -52,17 +50,17 @@
     }
     
     @media(max-width: "599px") {
-        right: 120px;
+        right: 130px;
         
         .animate {
             right: 100%;
         }
     }
     @media(min-width: "600px") {
-        right: 142px;
+        right: 140px;
         
         .animate {
-            right: 50%;
+            right: 51%;
         }
     }
 }

@@ -18,9 +18,6 @@ security:
         # cimo -
         #in_memory:
             #memory: ~
-        # cimo +
-        #webservice:
-        #    id: uebusaito.webservice_user_provider
         user_db:
             entity:
                 class: UebusaitoBundle:User

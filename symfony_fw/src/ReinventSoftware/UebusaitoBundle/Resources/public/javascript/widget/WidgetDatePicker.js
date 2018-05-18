@@ -149,9 +149,9 @@ function WidgetDatePicker() {
         var html = "";
         
         if (type === true) {
-            html = "<div class=\"mdc-theme--primary-bg mdc-theme--text-primary-on-primary header\">\n\
+            html = "<div class=\"mdc-theme--primary-bg mdc-theme--on-primary header\">\n\
                 <p>" + currentYear + "</p>\n\
-                <div class=\"mdc-typography--display1 text\">" + weekCurrentDay + ", " + monthLabels[language][currentMonth] + " " + currentDay + "</div>\n\
+                <div class=\"mdc-typography--body1 text\">" + weekCurrentDay + ", " + monthLabels[language][currentMonth] + " " + currentDay + "</div>\n\
             </div>";
         }
         else if (type === false)
@@ -217,7 +217,7 @@ function WidgetDatePicker() {
             for (var b = 0; b <= 6; b ++) {
                 if (day === currentDay) {
                     if (a > 0 || b + weekDayShift >= dayFirstPosition)
-                        html += "<li><span class=\"mdc-theme--primary-bg mdc-theme--text-primary-on-primary\">";
+                        html += "<li><span class=\"mdc-theme--primary-bg mdc-theme--on-primary\">";
                     else
                         html += "</span><li>";
                 }
@@ -308,20 +308,20 @@ function WidgetDatePicker() {
         
         $(".widget_datePicker").find(".day li span").off("mouseover").on("mouseover", "", function() {
             if ($(this).text().trim() !== "")
-                $(this).addClass("mdc-theme--secondary-bg mdc-theme--text-primary-on-secondary");
+                $(this).addClass("mdc-theme--secondary-bg mdc-theme--on-secondary");
         });
         
         $(".widget_datePicker").find(".day li span").off("mouseout").on("mouseout", "", function() {
             if ($(this).text().trim() !== "")
-                $(this).removeClass("mdc-theme--secondary-bg mdc-theme--text-primary-on-secondary");
+                $(this).removeClass("mdc-theme--secondary-bg mdc-theme--on-secondary");
         });
         
         $(".widget_datePicker").find(".day li span").off("click").on("click", "", function() {
             var text = $(this).text().trim();
             
             if (text !== "") {
-                $(this).parents(".day").find("li span").removeClass("mdc-theme--primary-bg mdc-theme--text-primary-on-primary");
-                $(this).addClass("mdc-theme--primary-bg mdc-theme--text-primary-on-primary");
+                $(this).parents(".day").find("li span").removeClass("mdc-theme--primary-bg mdc-theme--on-primary");
+                $(this).addClass("mdc-theme--primary-bg mdc-theme--on-primary");
                 
                 currentDay = parseInt(text);
                 

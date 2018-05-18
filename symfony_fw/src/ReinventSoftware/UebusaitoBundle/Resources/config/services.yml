@@ -25,7 +25,3 @@ services:
         arguments: ['@service_container', '@doctrine.orm.entity_manager']
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-    
-    #uebusaito.webservice_user_provider:
-    #    class: ReinventSoftware\UebusaitoBundle\Security\WebserviceUserProvider
-    #    arguments: ['@doctrine.orm.entity_manager']

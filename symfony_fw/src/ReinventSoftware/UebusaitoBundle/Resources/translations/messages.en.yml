@@ -235,7 +235,6 @@ date.time: H:i:s
 "userFormType_3": "Woman"
 "userFormType_4": "No"
 "userFormType_5": "Yes"
-"userFormType_6": "Gender"
 
 # UserSelectionFormType.php
 "userSelectionFormType_1": "Select"

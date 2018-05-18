@@ -15,16 +15,71 @@
         {%- set required = false -%}
     {%- endif -%}
     {# cimo + #}
-    <div class="mdc-text-field {% if type == "hidden" %}mdc-text-field_hidden_fix{% endif %}">
-        <input class="mdc-text-field__input" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        {% if type != "hidden" %}
+    {% if styleType is defined and styleType == "box" %}
+        <div class="mdc-text-field mdc-text-field--box{% if icon is defined %} mdc-text-field--with-leading-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
+            {%- if icon is defined -%}
+                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+            {%- endif -%}
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
+            {{- form_label(form) -}}
+            <div class="mdc-line-ripple"></div>
+        </div>
+    {% elseif styleType is defined and styleType == "boxTrailing" %}
+        <div class="mdc-text-field mdc-text-field--box{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
-                <i class="material-icons">{{icon}}</i>
+                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
             {%- endif -%}
             <div class="mdc-line-ripple"></div>
-        {% endif %}
-    </div>
+        </div>
+    {% elseif styleType is defined and styleType == "outlined" %}
+        <div class="mdc-text-field mdc-text-field--outlined{% if icon is defined %} mdc-text-field--with-leading-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
+            {%- if icon is defined -%}
+                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+            {%- endif -%}
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
+            {{- form_label(form) -}}
+            <div class="mdc-notched-outline">
+                <svg>
+                    <path class="mdc-notched-outline__path"/>
+                </svg>
+            </div>
+            <div class="mdc-notched-outline__idle"></div>
+        </div>
+    {% elseif styleType is defined and styleType == "outlinedTrailing" %}
+        <div class="mdc-text-field mdc-text-field--outlined{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
+            {{- form_label(form) -}}
+            {%- if icon is defined -%}
+                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+            {%- endif -%}
+            <div class="mdc-notched-outline">
+                <svg>
+                    <path class="mdc-notched-outline__path"/>
+                </svg>
+            </div>
+            <div class="mdc-notched-outline__idle"></div>
+        </div>
+    {% elseif styleType is defined and styleType == "basic" %}
+        <div class="mdc-text-field mdc-text-field__basic{% if dense is defined %} mdc-text-field--dense{% endif %}">
+            {%- if icon is defined -%}
+                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+            {%- endif -%}
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
+            {{- form_label(form) -}}
+            <div class="mdc-line-ripple"></div>
+        </div>
+    {% elseif styleType is defined and styleType == "basicTrailing" %}
+        <div class="mdc-text-field mdc-text-field__basicTrailing{% if dense is defined %} mdc-text-field--dense{% endif %}">
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
+            {{- form_label(form) -}}
+            {%- if icon is defined -%}
+                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+            {%- endif -%}
+            <div class="mdc-line-ripple"></div>
+        </div>
+    {% endif %}
     {% if type != "hidden" %}
         <p class="mdc-text-field-helper-text" style="display: none;" aria-hidden="true">Helper Text</p>
     {% endif %}
@@ -75,45 +130,25 @@
     {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
         {% set required = false %}
     {%- endif -%}
-    {# cimo + #}
-    <div class="mdc-select" role="listbox" {{ block('widget_attributes') }}>
-        <div class="mdc-select__surface" tabindex="0">
-            <div class="mdc-select__label">{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</div>
-            <div class="mdc-select__selected-text"></div>
-            <div class="mdc-select__bottom-line"></div>
-        </div>
-        <div class="mdc-menu mdc-select__menu">
-            <ul class="mdc-list mdc-menu__items">
-                {%- if placeholder is not none -%}
-                    <li class="mdc-list-item {% if required and value is empty %}mdc-list-item--activated{% endif %}" role="option" value="">{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</li>
-                {%- endif -%}
-                {%- if preferred_choices|length > 0 -%}
-                    {% set options = preferred_choices %}
-                    {{- block('choice_widget_options') -}}
-                    {%- if choices|length > 0 and separator is not none -%}
-                        <li class="mdc-list-item" role="option" aria-disabled="true">{{ separator }}</li>
-                    {%- endif -%}
-                {%- endif -%}
-                {%- set options = choices -%}
-                {{- block('choice_widget_options') -}}
-            </ul>
-        </div>
-    </div>
-    {# cimo - #}
-    {#<select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
-        {%- if placeholder is not none -%}
-            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
-        {%- endif -%}
-        {%- if preferred_choices|length > 0 -%}
-            {% set options = preferred_choices %}
-            {{- block('choice_widget_options') -}}
-            {%- if choices|length > 0 and separator is not none -%}
-                <option disabled="disabled">{{ separator }}</option>
+    {# cimo : #}
+    <div class="mdc-select{% if styleType is defined %} {{styleType}}{% endif %}">
+        <select class="mdc-select__native-control" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}></option>
             {%- endif -%}
-        {%- endif -%}
-        {%- set options = choices -%}
-        {{- block('choice_widget_options') -}}
-    </select>#}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+        <label class="mdc-floating-label">{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</label>
+        <div class="mdc-line-ripple"></div>
+    </div>
 {%- endblock choice_widget_collapsed -%}
 
 {%- block choice_widget_options -%}
@@ -124,10 +159,8 @@
                 {{- block('choice_widget_options') -}}
             </optgroup>
         {%- else -%}
-            {# cimo + #}
-            <li class="mdc-list-item {% if choice is selectedchoice(value) %}mdc-list-item--activated{% endif %}" {% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %} role="option" value="{{ choice.value }}" tabindex="{{loop.index0}}">{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</li>
-            {# cimo - #}
-            {#<option value="{{ choice.value }}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</option>#}
+            {# cimo : #}
+            <option value="{{choice.value}}"{% if choice.attr %}{% with { attr: choice.attr } %}{{ block('attributes') }}{% endwith %}{% endif %}{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice_translation_domain is same as(false) ? choice.label : choice.label|trans({}, choice_translation_domain) }}</option>
         {%- endif -%}
     {% endfor %}
 {%- endblock choice_widget_options -%}
@@ -136,22 +169,35 @@
     {# cimo + #}
     <div class="mdc-form-field">
         <div class="mdc-checkbox">
-            <input id="mdc_checkbox" class="mdc-checkbox__native-control" type="checkbox" {{ block('widget_attributes') }} {% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
+            <input class="mdc-checkbox__native-control" type="checkbox" id="_remember_me" name="_remember_me" value="1">
             <div class="mdc-checkbox__background">
                 <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
-                    <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                    <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
                 </svg>
                 <div class="mdc-checkbox__mixedmark"></div>
             </div>
         </div>
-        <label for="mdc_checkbox">{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+        <label>Remember</label>
     </div>
+    
     {# cimo - #}
     {#<input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />#}
 {%- endblock checkbox_widget -%}
 
 {%- block radio_widget -%}
-    <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {# cimo + #}
+    <div class="mdc-form-field">
+        <div class="mdc-radio">
+            <input class="mdc-radio__native-control" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
+            <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+            </div>
+        </div>
+        <label>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+    </div>
+    {# cimo - #}
+    {#<input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />#}
 {%- endblock radio_widget -%}
 
 {%- block datetime_widget -%}
@@ -292,7 +338,12 @@
         {%- endif -%}
     {%- endif -%}
     {# cimo + #}
-    <button class="mdc-button mdc-button--raised mdc-button--dense" type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
+    <button class="mdc-button{% if dense is defined %} mdc-button--dense{% endif %}{% if raised is defined %} mdc-button--raised{% endif %}" type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {%- if icon is defined -%}
+            <i class="material-icons mdc-button__icon" aria-hidden="true">{{icon}}</i>
+        {%- endif -%}
+        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+    </button>
     {# cimo - #}
     {#<button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>#}
 {%- endblock button_widget -%}
@@ -319,13 +370,14 @@
 
 {# Labels #}
 
+{# cimo : #}
 {%- block form_label -%}
     {% if label is not same as(false) -%}
         {% if not compound -%}
             {% set label_attr = label_attr|merge({'for': id}) %}
         {%- endif -%}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' mdc-text-field__label required')|trim}) %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' mdc-floating-label required')|trim}) %}
         {%- endif -%}
         {% if label is empty -%}
             {%- if label_format is not empty -%}
@@ -337,8 +389,7 @@
                 {% set label = name|humanize %}
             {%- endif -%}
         {%- endif -%}
-        {# cimo : #}
-        <{{ element|default('label') }}{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %} class="mdc-text-field__label">
+        <{{ element|default('label') }}{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %} class="mdc-floating-label">
             {%- if translation_domain is same as(false) -%}
                 {{- label -}}
             {%- else -%}
@@ -471,7 +522,8 @@
 {%- endblock form_rows -%}
 
 {%- block widget_attributes -%}
-    id="{{ id }}" name="{{ full_name }}"
+    {# cimo : #}
+    id="{{id}}" name="{{ full_name }}"
     {%- if disabled %} disabled="disabled"{% endif -%}
     {%- if required %} required="required"{% endif -%}
     {{ block('attributes') }}
@@ -483,7 +535,8 @@
 {%- endblock widget_container_attributes -%}
 
 {%- block button_attributes -%}
-    id="{{ id }}" name="{{ full_name }}"{% if disabled %} disabled="disabled"{% endif -%}
+    {# cimo : #}
+    id="{{id}}" name="{{full_name}}"{% if disabled %} disabled="disabled"{% endif -%}
     {{ block('attributes') }}
 {%- endblock button_attributes -%}
 

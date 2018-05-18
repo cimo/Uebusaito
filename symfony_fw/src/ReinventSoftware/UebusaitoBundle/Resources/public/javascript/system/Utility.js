@@ -508,14 +508,6 @@ function Utility() {
         }
     };*/
     
-    // Material design
-    self.materialDesignFixCheckboxSize = function(tag, checkboxSize, rippleSize) {
-        $(window).bind("load", function() {
-            $(tag).find(".mdc-form-field .mdc-checkbox").css("padding", checkboxSize);
-            $(tag).find(".mdc-form-field .mdc-checkbox").css("--mdc-ripple-fg-size", rippleSize);
-        });
-    };
-    
     // Functions private
     function swipeFix() {
         var defaults = {

@@ -48,7 +48,7 @@ class UserFormType extends AbstractType {
         ))
         ->add("gender", ChoiceType::class, Array(
             'required' => false,
-            'placeholder' => "userFormType_6",
+            'placeholder' => "userFormType_1",
             'choices' => Array(
                 'userFormType_2' => "m",
                 'userFormType_3' => "w"
