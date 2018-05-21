@@ -5,11 +5,11 @@
     <div class="page_container">
         {% if response.values.title != "" %}
             <div class="header">
-                <h1>{{response.values.title}}</h1>
+                <h1 class="mdc-typography--headline6">{{response.values.title}}</h1>
             </div>
         {% endif %}
 
-        <div class="argument">{{response.values.argument|raw}}</div>
+        <div class="argument"><p>{{response.values.argument|raw}}</p></div>
 
         {% if response.values.controllerAction != "" %}
             <div class="controllerAction">
@@ -20,18 +20,16 @@
 {% endblock %}
 {% block moduleFooter %}
     <div class="page_footer">
-        <div class="clearfix">
-            <div>
-                {% if settingRow['page_date'] == true %}
-                    {% if (response.values.userCreation != "-" and response.values.userModification == "-") %}
-                        <p><i class="fa fa-paw"></i> <b>{% trans %}page_view_1{% endtrans %}</b>{{response.values.userCreation}}</p>
-                        <p><i class="fa fa-calendar"></i> <b>{% trans %}page_view_2{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
-                    {% elseif (response.values.userModification != "-") %}
-                        <p><i class="fa fa-paw"></i> <b>{% trans %}page_view_3{% endtrans %}</b>{{response.values.userModification}}</p>
-                        <p><i class="fa fa-calendar"></i> <b>{% trans %}page_view_4{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
-                    {% endif %}
+        <div>
+            {% if settingRow['page_date'] == true %}
+                {% if (response.values.userCreation != "-" and response.values.userModification == "-") %}
+                    <p><i class="fa fa-paw"></i> <b>{% trans %}page_view_1{% endtrans %}</b>{{response.values.userCreation}}</p>
+                    <p><i class="fa fa-calendar"></i> <b>{% trans %}page_view_2{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
+                {% elseif (response.values.userModification != "-") %}
+                    <p><i class="fa fa-paw"></i> <b>{% trans %}page_view_3{% endtrans %}</b>{{response.values.userModification}}</p>
+                    <p><i class="fa fa-calendar"></i> <b>{% trans %}page_view_4{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
                 {% endif %}
-            </div>
+            {% endif %}
         </div>
         
         {% if urlCurrentPageId > 5 %}

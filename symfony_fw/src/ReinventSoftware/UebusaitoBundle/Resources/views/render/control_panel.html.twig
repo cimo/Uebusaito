@@ -1,15 +1,16 @@
-<ul id="menu_control_panel" class="nav nav-tabs">
+<div id="menu_control_panel">
     {% if is_granted("ROLE_USER") == true %}
-        <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">
-                <i class="fa fa-user"></i> {% trans %}control_panel_1{% endtrans %}
+        <nav id="menu_controlPanel" class="mdc-tab-bar mdc-tab-bar--icons-with-text">
+            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">
+                <i class="material-icons mdc-tab__icon" aria-hidden="true">account_circle</i>
+                <span class="mdc-tab__icon-text">{% trans %}control_panel_1{% endtrans %}</span>
             </a>
-        </li>
-        <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payment"})}}">
-                <i class="fa fa-credit-card-alt"></i> {% trans %}control_panel_2{% endtrans %}
+            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payment"})}}">
+                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                <span class="mdc-tab__icon-text">{% trans %}control_panel_2{% endtrans %}</span>
             </a>
-        </li>
+            <span class="mdc-tab-bar__indicator"></span>
+        </nav>
     {% endif %}
     {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
         <li>
@@ -40,8 +41,8 @@
             </a>
         </li>
     {% endif %}
-</ul>
-<div class="page_container clearfix">
+</div>
+<div class="page_container">
     {% if urlExtra == "" or urlExtra == "cp_profile" %}
         {% if is_granted("ROLE_USER") == true %}
             <p>{% trans %}control_panel_8{% endtrans %}</p>

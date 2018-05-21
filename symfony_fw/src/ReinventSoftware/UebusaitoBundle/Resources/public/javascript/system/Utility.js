@@ -408,105 +408,46 @@ function Utility() {
         }, 1000);
     };
     
-    // Bootstrap fix
-    /*self.bootstrapMenuFix = function(tags) {
-        var menuButtonsOld = new Array();
+    self.mdcTopAppBarCustom = function() {
+        var scrollLimit = 30;
         
-        $.each(tags, function(keyA, valueA) {
-            var elements = $(valueA[0]).find("li a");
-
-            var url = window.location.href;
-
-            var urlElements = url.split("/").reverse();
-
-            $.each(elements, function(keyB, valueB) {
-                var lastHrefParameter = $(valueB).prop("href").substring($(valueB).prop("href").lastIndexOf("/") + 1);
-
-                if (lastHrefParameter !== "" && $.inArray(lastHrefParameter, urlElements) !== -1) {
-                    if ($(valueB).parents(".dropdown").length > 0)
-                        $(valueB).parents(".dropdown").addClass("active");
-
-                    $(valueB).parent().addClass("active");
-
-                    menuButtonsOld[keyA] = $(valueB).parent();
-                }
-
-                if (menuButtonsOld[keyA] === "" && keyB === (elements.length - 1)) {
-                    $(elements[0]).parent().addClass("active");
-
-                    menuButtonsOld[keyA] = $(elements[0]).parent();
-                }
-            });
-            
-            var hasClass = false;
-            
-            $.each($(valueA[0]).find("li"), function(keyB, valueB) {
-                if ($(valueB).hasClass("active") === true) {
-                    hasClass = true;
-
-                    return false;
-                }
-            });
-
-            if (hasClass === false && $(valueA[0]).find("li").length > 0) {
-                $(valueA[0]).find("li").eq(0).addClass("active");
-                
-                menuButtonsOld[0] = $(valueA[0]).find("li").eq(0);
-            }
-        });
-        
-        $("#menu_root_nav_button").on("click", "", function() {
-            if ($(tags[0][0]).find(".navbar-nav").css("display") === "none") {
-                $(this).removeClass("collapsed");
-                
-                $(tags[0][0]).find(".navbar-nav").show();
-            }
-            else {
-                $(this).addClass("collapsed");
-                
-                $(tags[0][0]).find(".navbar-nav").hide();
-            }
-        });
-        
-        $("#menu_root_navbar").find(".dropdown-menu span").remove();
-        
-        $("#menu_root_navbar").find("ul li.dropdown").on("click", "", function(event) {
-            if ($(event.target).hasClass("dropdown-toggle") === true) {
-                event.preventDefault();
-                event.stopPropagation();
-                
-                $("#menu_root_navbar").find(".dropdown-menu").parent("li.dropdown").not($(event.target).parents(".dropdown")).removeClass("open");
-                
-                if ($(this).hasClass("open") === false)
-                    $(this).addClass("open");
-                else
-                   $(this).removeClass("open");
-            }
-        });
-        
-        $(document).on("click", "", function(event) {
-            if (event.target.id !== "menu_root_navbar" && $(event.target).is("a") === false) {
-                $.each(menuButtonsOld, function(key, value) {
-                    $(menuButtonsOld[key]).addClass("active");
-                    $(menuButtonsOld[key]).parents(".dropdown").addClass("active");
-                });
-            }
-            else
-                $(event.target).parents("li").addClass("active");
-        });
-    };
-    
-    self.bootstrapMenuFixChangeView = function(tag) {
         if (utility.checkWidthType() === "desktop") {
-            $(tag).find(".navbar-nav").show();
-            $(tag).find(".open").removeClass("open");
+            $(".mdc-top-app-bar").addClass("mdc-top-app-bar--prominent");
+            
+            if ($(document).scrollTop() > scrollLimit) {
+                $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
+            }
+            
+            $(window).scroll(function() {
+                if (utility.checkWidthType() === "desktop") {
+                    if ($(document).scrollTop() > scrollLimit) {
+                      $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
+                    }
+                    else
+                      $(".mdc-top-app-bar__row").removeClass("mdc-top-app-bar_shrink");
+                }
+            });
         }
         else {
-            $(tag).parent().find(".navbar-toggle").addClass("collapsed");
-            $(tag).find(".navbar-nav").hide();
-            $(tag).find(".open").removeClass("open");
+            $(".mdc-top-app-bar").removeClass("mdc-top-app-bar--prominent");
+            $(".mdc-top-app-bar__row").removeClass("mdc-top-app-bar_shrink");
         }
-    };*/
+    };
+    
+    self.mdcTabsCustom = function() {
+        var parameters = utility.urlParameters(window.setting.language);
+        var parametersReverse = parameters.reverse();
+        
+        $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");
+        
+        $.each($(".mdc-tab-bar").find(".mdc-tab"), function(key, value) {
+            if ($(value).attr("href").indexOf(parametersReverse[0]) !== -1) {
+                $(value).addClass("mdc-tab--active");
+                
+                return false;
+            }
+        });
+    }
     
     // Functions private
     function swipeFix() {

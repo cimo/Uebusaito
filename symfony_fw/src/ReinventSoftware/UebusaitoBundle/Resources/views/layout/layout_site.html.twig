@@ -14,25 +14,23 @@
     </head>
     <body class="mdc-typography user_select_none">
         {% block headerContainer %}{% endblock %}
-        <main class="mdc-toolbar-fixed-adjust">
-            <div class="mdc-layout-grid">
-                <div class="mdc-layout-grid__inner">
-                    {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 2) %}
-                        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet display_desktop">
-                            {% block columnLeftContainer %}{% endblock %}
-                        </div>
-                    {% endif %}
-                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-{{templateColumnCenter}} mdc-layout-grid__cell--span-{{templateColumnCenter}}-tablet">
-                        {% block columnCenterContainer %}{% endblock %}
+        <div class="mdc-layout-grid main">
+            <div class="mdc-layout-grid__inner">
+                {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 2) %}
+                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet display_desktop">
+                        {% block columnLeftContainer %}{% endblock %}
                     </div>
-                    {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 3) %}
-                        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet display_desktop">
-                            {% block columnRightContainer %}{% endblock %}
-                        </div>
-                    {% endif %}
+                {% endif %}
+                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-{{templateColumnCenter}} mdc-layout-grid__cell--span-{{templateColumnCenter}}-tablet">
+                    {% block columnCenterContainer %}{% endblock %}
                 </div>
-            </div>            
-        </main>        
+                {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 3) %}
+                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet display_desktop">
+                        {% block columnRightContainer %}{% endblock %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
         {% block footerContainer %}{% endblock %}
         {% block bodyIncludeDown %}{% endblock %}
         {% block javascript %}{% endblock %}

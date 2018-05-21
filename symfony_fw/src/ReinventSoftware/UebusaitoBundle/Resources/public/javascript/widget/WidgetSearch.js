@@ -9,7 +9,7 @@ function WidgetSearch() {
     var self = this;
     
     var widgetSearchButtonOpen = null;
-    var toolbarSectionStart = null;
+    var topAppBarSectionStart = null;
     
     var maxWidthOverride = "599";
     
@@ -20,7 +20,7 @@ function WidgetSearch() {
         widgetSearchButtonOpen = $(".widget_search").find(".button_open");
         var widgetSearchButtonClose = $(".widget_search").find(".button_close");
         var widgetSearchButtonInput = $(".widget_search").find("input");
-        toolbarSectionStart = $(".mdc-toolbar__section--align-start");
+        topAppBarSectionStart = $(".mdc-top-app-bar__section--align-start");
 
         $(widgetSearchButtonOpen).on("click", "", function(event) {
             var target = event.target;
@@ -30,8 +30,8 @@ function WidgetSearch() {
                 $(widgetSearchButtonClose).show();
                 $(widgetSearchButtonInput).show();
                 
-                if (utility.checkWidthType(maxWidthOverride) === "mobile")
-                    $(toolbarSectionStart[0]).hide();
+                if (utility.checkWidthType() === "mobile")
+                    $(topAppBarSectionStart[0]).hide();
             }
             
             // Ajax search here
@@ -46,18 +46,18 @@ function WidgetSearch() {
                 widgetSearchButtonInput.val("");
                 $(widgetSearchButtonInput).hide();
                 
-                if (utility.checkWidthType(maxWidthOverride) === "mobile")
-                    $(toolbarSectionStart[0]).css("display", "inline-flex");
+                if (utility.checkWidthType() === "mobile")
+                    $(topAppBarSectionStart[0]).css("display", "inline-flex");
             }
         });
     };
     
     self.changeView = function() {
-        if (utility.checkWidthType(maxWidthOverride) === "desktop")
-            $(toolbarSectionStart[0]).css("display", "inline-flex");
+        if (utility.checkWidthType() === "desktop")
+            $(topAppBarSectionStart[0]).css("display", "inline-flex");
         else {
             if ($(widgetSearchButtonOpen).hasClass("animate") === true)
-                $(toolbarSectionStart[0]).hide();
+                $(topAppBarSectionStart[0]).hide();
         }
     };
 

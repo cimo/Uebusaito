@@ -1,12 +1,27 @@
 /* global utility, mdc, widgetSearch, widgetDatePicker, flashBag, authentication, registration, recoverPassword */
 
 $(document).ready(function() {
-    // Material design
-    mdc.autoInit();
+    utility.checkMobile(true);
     
-    // Toolbar
-    var toolbarMdc = mdc.toolbar.MDCToolbar.attachTo($(".mdc-toolbar")[0]);
-    toolbarMdc.fixedAdjustElement = $(".mdc-toolbar-fixed-adjust")[0];
+    utility.linkPreventDefault();
+    
+    utility.mdcTopAppBarCustom();
+    utility.mdcTabsCustom();
+    
+    //utility.watch("#flashBag", flashBag.sessionActivity);
+    
+    //utility.imageError($("#panel_id_3").find("img"));
+    
+    // Material design
+    window.mdc.autoInit();
+    
+    // Tabs
+    $.each($(".mdc-tab-bar"), function(key, value) {
+        mdc.tabs.MDCTabBar.attachTo(value);
+    });
+    $.each($(".mdc-tab-bar-scroller"), function(key, value) {
+        mdc.tabs.MDCTabBarScroller.attachTo(value);
+    });
     
     // Checkbox
     var checkboxMdc = new Array();
@@ -54,23 +69,6 @@ $(document).ready(function() {
     
     // Snackbar
     var snackbarMdc = new mdc.snackbar.MDCSnackbar.attachTo($(".mdc-snackbar")[0]);
-    
-    utility.checkMobile(true);
-    
-    utility.linkPreventDefault();
-    
-    //utility.watch("#flashBag", flashBag.sessionActivity);
-    
-    //utility.imageError($("#panel_id_3").find("img"));
-    
-    /*utility.bootstrapMenuFix(
-        [
-            ["#menu_root_navbar", true],
-            ["#menu_registration", true],
-            ["#menu_control_panel", false]
-        ]
-    );
-    utility.bootstrapMenuFixChangeView("#menu_root_navbar");*/
     
     // Widget
     widgetSearch.init();
@@ -123,7 +121,7 @@ $(document).ready(function() {
     pageComment.init();*/
     
     $(window).resize(function() {
-        //utility.bootstrapMenuFixChangeView("#menu_root_navbar");
+        utility.mdcTopAppBarCustom();
         
         /*wysiwyg.changeView();
         

@@ -1,64 +1,56 @@
 /* Search */
 /* line 2, ../../scss/system/widget.scss */
-.widget_search { position: fixed; left: 50px; color: #ffffff; font-size: 16px; margin: 0; display: flex; align-items: start; height: 48px; padding: 12px; }
+.widget_search { color: #ffffff; font-size: 16px; margin: 0; display: flex; align-self: flex-start; width: 60%; position: absolute; right: 108px; height: 40px; }
 /* line 13, ../../scss/system/widget.scss */
-.widget_search .button_open { position: absolute; right: -20px; cursor: pointer; z-index: 2; transition: all .4s ease-out; }
-/* line 22, ../../scss/system/widget.scss */
-.widget_search .button_close { display: none; position: absolute; right: -25px; cursor: pointer; z-index: 1; }
-/* line 30, ../../scss/system/widget.scss */
-.widget_search input { display: none; position: relative; border: none; border-bottom: 1px solid #ffffff; font-size: 16px; background: 0; color: #ffffff; }
-@media (max-width: 599px) { /* line 30, ../../scss/system/widget.scss */
-  .widget_search input { width: 100%; } }
-@media (min-width: 600px) { /* line 30, ../../scss/system/widget.scss */
-  .widget_search input { width: 50%; right: -50%; } }
-/* line 48, ../../scss/system/widget.scss */
+.widget_search .button_open { cursor: pointer; position: absolute; right: 0; -webkit-transition: all 0.4s ease-out; -moz-transition: all 0.4s ease-out; -o-transition: all 0.4s ease-out; transition: all 0.4s ease-out; }
+/* line 24, ../../scss/system/widget.scss */
+.widget_search input { display: none; border: none; border-bottom: 1px solid #ffffff; font-size: 16px; background: none; color: #ffffff; position: relative; right: 48px; width: 100%; margin-left: 48px; }
+/* line 36, ../../scss/system/widget.scss */
 .widget_search input:focus { outline: none; }
+/* line 41, ../../scss/system/widget.scss */
+.widget_search .button_close { display: none; cursor: pointer; position: absolute; right: 0; }
+/* line 48, ../../scss/system/widget.scss */
+.widget_search .animate { right: 100%; }
 @media (max-width: 599px) { /* line 2, ../../scss/system/widget.scss */
-  .widget_search { right: 130px; }
-  /* line 55, ../../scss/system/widget.scss */
-  .widget_search .animate { right: 100%; } }
-@media (min-width: 600px) { /* line 2, ../../scss/system/widget.scss */
-  .widget_search { right: 140px; }
-  /* line 62, ../../scss/system/widget.scss */
-  .widget_search .animate { right: 51%; } }
+  .widget_search { right: 100px; } }
 
 /* Date picker */
-/* line 69, ../../scss/system/widget.scss */
+/* line 58, ../../scss/system/widget.scss */
 .widget_datePicker_back { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.5; z-index: 20; }
 
-/* line 80, ../../scss/system/widget.scss */
+/* line 69, ../../scss/system/widget.scss */
 .widget_datePicker { display: none; position: fixed; top: 5%; left: 0; right: 0; margin-right: auto; margin-left: auto; padding: 0px; border-radius: 2px; border-top: none; border-bottom: none; width: 310px; background-color: #ffffff; z-index: 21; }
-/* line 96, ../../scss/system/widget.scss */
+/* line 85, ../../scss/system/widget.scss */
 .widget_datePicker .header { height: 55px; padding: 20px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-left-radius: 0px; }
-/* line 103, ../../scss/system/widget.scss */
+/* line 92, ../../scss/system/widget.scss */
 .widget_datePicker .header p { margin: 0; opacity: 0.7; cursor: pointer; }
-/* line 110, ../../scss/system/widget.scss */
+/* line 99, ../../scss/system/widget.scss */
 .widget_datePicker .listYears { display: none; height: 345px; overflow-y: scroll; }
-/* line 115, ../../scss/system/widget.scss */
+/* line 104, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list { overflow: hidden; padding: 0; margin: 0; }
-/* line 120, ../../scss/system/widget.scss */
+/* line 109, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list ul { padding: 0; margin: 0; }
-/* line 124, ../../scss/system/widget.scss */
+/* line 113, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list ul .mdc-list-item { display: block; text-align: center; line-height: 42px; height: 42px; }
-/* line 134, ../../scss/system/widget.scss */
+/* line 123, ../../scss/system/widget.scss */
 .widget_datePicker .month { margin: 0; padding: 0; text-align: center; height: 37px; }
-/* line 140, ../../scss/system/widget.scss */
+/* line 129, ../../scss/system/widget.scss */
 .widget_datePicker .month div { display: inline-block; }
-/* line 144, ../../scss/system/widget.scss */
+/* line 133, ../../scss/system/widget.scss */
 .widget_datePicker .month .label { width: 180px; }
-/* line 148, ../../scss/system/widget.scss */
+/* line 137, ../../scss/system/widget.scss */
 .widget_datePicker .month .material-icons { position: relative; top: 8px; width: 48px; cursor: pointer; }
-/* line 156, ../../scss/system/widget.scss */
+/* line 145, ../../scss/system/widget.scss */
 .widget_datePicker .week ul { margin: 0; padding: 0; text-align: center; }
-/* line 161, ../../scss/system/widget.scss */
+/* line 150, ../../scss/system/widget.scss */
 .widget_datePicker .week ul li { position: relative; display: inline-block; border-radius: 50%; width: 42px; height: 42px; line-height: 42px; opacity: 0.5; font-size: 12px; }
-/* line 173, ../../scss/system/widget.scss */
+/* line 162, ../../scss/system/widget.scss */
 .widget_datePicker .day ul { margin: 0; padding: 0; text-align: center; }
-/* line 178, ../../scss/system/widget.scss */
+/* line 167, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li { position: relative; display: inline-block; width: 42px; height: 42px; line-height: 42px; font-size: 11px; }
-/* line 186, ../../scss/system/widget.scss */
+/* line 175, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li span { display: inline-block; width: 32px; height: 32px; line-height: 32px; cursor: pointer; border-radius: 50%; }
-/* line 197, ../../scss/system/widget.scss */
+/* line 186, ../../scss/system/widget.scss */
 .widget_datePicker .button { text-align: right; padding: 10px; }
 
 /*# sourceMappingURL=widget.css.map */

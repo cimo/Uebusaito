@@ -1,67 +1,56 @@
 /* Search */
 .widget_search {
-    position: fixed;
-    left: 50px;
     color: #ffffff;
     font-size: 16px;
     margin: 0;
     display: flex;
-    align-items: start;
-    height: 48px;
-    padding: 12px;
+    align-self: flex-start;
+    width: 60%;
+    position: absolute;
+    right: 108px;
+    height: 40px;
     
     .button_open {
-        position: absolute;
-        right: -20px;
         cursor: pointer;
-        z-index: 2;
-
-        transition: all .4s ease-out;
-    }
-    
-    .button_close {
-        display: none;
         position: absolute;
-        right: -25px;
-        cursor: pointer;
-        z-index: 1;
+        right: 0;
+        
+        -webkit-transition: all 0.4s ease-out;
+        -moz-transition: all 0.4s ease-out;
+        -o-transition: all 0.4s ease-out;
+        transition: all 0.4s ease-out;
     }
     
     input {
         display: none;
-        position: relative;
         border: none;
         border-bottom: 1px solid #ffffff;
         font-size: 16px;
-        background: 0;
+        background: none;
         color: #ffffff;
+        position: relative;
+        right: 48px;
+        width: 100%;
+        margin-left: 48px;
         
-        @media(max-width: "599px") {
-            width: 100%;
-        }
-        @media(min-width: "600px") {
-            width: 50%;
-            right: -50%;
+        &:focus {
+            outline: none;
         }
     }
     
-    input:focus {
-        outline: none;
+    .button_close {
+        display: none;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+    }
+    
+    .animate {
+        right: 100%;
     }
     
     @media(max-width: "599px") {
-        right: 130px;
-        
-        .animate {
-            right: 100%;
-        }
-    }
-    @media(min-width: "600px") {
-        right: 140px;
-        
-        .animate {
-            right: 51%;
-        }
+        right: 100px;
     }
 }
 

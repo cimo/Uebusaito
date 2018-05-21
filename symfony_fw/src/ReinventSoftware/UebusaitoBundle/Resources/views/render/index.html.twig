@@ -30,22 +30,6 @@
 
 {% block headerContainer %}
    <div class="sortable_column">
-        {#{% if (settingRow['website_active'] == false and is_granted("IS_AUTHENTICATED_FULLY") == false) or urlExtra == "maintenance_authentication" %}
-            <div class="logo_big display_desktop">
-                <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
-                <p class="logo_text">{{websiteName}}</p>
-            </div>
-            <div class="logo_small display_mobile">
-                <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
-                <p class="logo_text">{{websiteName}}</p>
-            </div>
-        {% else %}
-            <div class="logo_big logo_big_margin_bottom display_desktop">
-                <img class="logo_svg" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
-                <p class="logo_text">{{websiteName}}</p>
-            </div>
-        {% endif %}#}
-
         {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
             {% for value in response.modules.header %}
                 {% if value.active == true and file_exists(response.path.srcBundle ~ "/Resources/views/module/" ~ value.file_name) == true %}
@@ -55,21 +39,21 @@
         {% endif %}
     </div>
    
-    <header class="mdc-toolbar mdc-toolbar--fixed mdc-toolbar--waterfall mdc-toolbar--flexible mdc-toolbar--flexible-default-behavior mdc-toolbar--flexible-space-maximized">
-        <div class="mdc-toolbar__row mdc-toolbar__row--with-image">
-            <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-                <a id="menu_root_button" class="material-icons mdc-toolbar__menu-icon display_mobile" href="javascript:void(0)">menu</a>
-                <span class="mdc-toolbar__title">{{websiteName}}</span>
+    <header class="mdc-top-app-bar mdc-top-app-bar--prominent">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <a id="menu_root_button" class="material-icons mdc-top-app-bar__navigation-icon  display_mobile" href="javascript:void(0)">menu</a>
+                <span class="mdc-top-app-bar__title">{{websiteName}}</span>
             </section>
-            <section class="mdc-toolbar__section mdc-toolbar__section--align-end" role="toolbar">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
                 <!-- Widget - Search -->
                 <div class="widget_search">
-                    <i class="material-icons button_open">search</i>
-                    <i class="material-icons button_close">close</i>
+                    <i class="material-icons mdc-top-app-bar__action-item button_open">search</i>
                     <input name="searchText" type="text" placeholder="Search" autocomplete="off">
+                    <i class="material-icons mdc-top-app-bar__action-item button_close">close</i>
                 </div>
-                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Language">language</a>
-                <a href="javascript:void(0)" class="material-icons mdc-toolbar__icon" aria-label="Account">account_circle</a>
+                <a href="javascript:void(0)" class="material-icons mdc-top-app-bar__action-item" aria-label="Language" alt="Language">language</a>
+                <a href="javascript:void(0)" class="material-icons mdc-top-app-bar__action-item" aria-label="Account" alt="Account">account_circle</a>
             </section>
         </div>
     </header>
