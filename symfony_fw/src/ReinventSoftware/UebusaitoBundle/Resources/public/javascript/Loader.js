@@ -9,7 +9,7 @@ function Loader() {
     // Properties
     
     // Functions public
-    self.create = function(type) {
+    /*self.create = function(type) {
         if (type === "image")
             $("<div id=\"loader_request\" class=\"display_none shadow\"><img src=\"" + window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.templateName + "/loader_request.gif\" alt=\"loader_request.gif\"/></div>").appendTo("body");
         
@@ -47,6 +47,10 @@ function Loader() {
                 clearInterval(requestLoader);
             }
         }, 1000);
+    };*/
+    
+    self.create = function(tag) {
+        $(".loader").appendTo(tag);
     };
     
     // Functions private

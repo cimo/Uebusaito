@@ -1,11 +1,10 @@
 {% if settingRow.captcha == true %}
-    <div class="form_row textField_group captcha">
-        <img src="data:image/png;base64,{{captchaImage}}" alt="Captcha image"/>
-        <div class="mdc-text-field">
-            <input class="mdc-text-field__input" type="text" name="captcha" size="9" maxlength="7"/>
-            <label class="mdc-text-field__label" for="mdc-text-field__input">Captcha</label>
+    <div class="captcha">
+        <div class="mdc-text-field mdc-text-field__basic mdc-text-field--dense">
+            <input id="captcha" class="mdc-text-field__input" type="text" name="captcha" size="9" maxlength="7" value=""/>
+            <label class="mdc-floating-label" for="captcha">Captcha</label>
             <div class="mdc-line-ripple"></div>
         </div>
-        <p class="mdc-text-field-helper-text" style="display: none;" aria-hidden="true">Captcha</p>
+        <img src="" alt="Captcha"/>
     </div>
 {% endif %}

@@ -28,12 +28,10 @@ framework:
     session:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
-        # cimo :
-        save_path: /var/lib/php/sessions
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
         # cimo +
         name: uebusaito
-        #cookie_secure: true
-        #cookie_httponly: true
+        cookie_domain: .reinventsoftware.org
     fragments: ~
     http_method_override: true
     assets: ~

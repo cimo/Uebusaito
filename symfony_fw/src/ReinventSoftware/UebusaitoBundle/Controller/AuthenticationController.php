@@ -99,7 +99,7 @@ class AuthenticationController extends Controller {
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
-    * @Method({"POST"})
+    * @Method({"GET", "POST"})
     */
     public function enterCheckAction() {
         // Empty is normal!

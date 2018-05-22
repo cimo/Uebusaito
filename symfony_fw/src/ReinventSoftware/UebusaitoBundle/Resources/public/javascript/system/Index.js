@@ -37,14 +37,12 @@ $(document).ready(function() {
         textFieldMdc[key] = new mdc.textField.MDCTextField.attachTo(value);
     });
     
-    var textFieldGroup = $(".textField_group");
+    var textFieldGroup = $(".mdc-text-field");
     
-    var textFieldRoot = new Array();
     var textFieldInput = new Array();
     var textFieldHelperText = new Array();
     
     $.each(textFieldGroup, function(key, value) {
-        textFieldRoot[key] = $(value).find(".mdc-text-field");
         textFieldInput[key] = $(value).find(".mdc-text-field__input");
         textFieldHelperText[key] = $(value).find(".mdc-text-field-helper-text");
     });
@@ -83,6 +81,10 @@ $(document).ready(function() {
     
     flashBag.setElement(snackbarMdc);
     flashBag.sessionActivity();
+    
+    //loader.create();
+    
+    captcha.init();
     
     authentication.init();
     registration.init();

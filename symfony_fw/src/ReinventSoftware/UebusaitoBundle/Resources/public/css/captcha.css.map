@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": ";AAEA,QAAS,GACL,UAAU,EAAE,IAAI;;AAEhB,YAAI,GACA,cAAc,EAAE,MAAM,EACtB,MAAM,EAAE,iBAAiB",
+"mappings": ";AAEA,QAAS,GACL,UAAU,EAAE,MAAM;;AAElB,wBAAgB,GACZ,MAAM,EAAE,eAAe;;AAEvB,+CAAuB,GACnB,WAAW,EAAE,YAAY;;AAIjC,YAAI,GACA,MAAM,EAAE,OAAO,EACf,cAAc,EAAE,MAAM",
 "sources": ["../scss/captcha.scss"],
 "names": [],
 "file": "captcha.css"

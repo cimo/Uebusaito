@@ -301,6 +301,9 @@ date.time: H:i:s
 "index_6": "Connection error, please reload the page."
 "index_7": "Copyright © 2018 - Reinvent software."
 "index_8": "All rights reserved."
+"index_9": "Today"
+"index_10": "Cancel"
+"index_11": "Confirm"
 
 # page_comment.html.twig
 "page_comment_1": "Message from user: "

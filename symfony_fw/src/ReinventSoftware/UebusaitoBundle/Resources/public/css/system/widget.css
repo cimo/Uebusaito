@@ -1,6 +1,6 @@
 /* Search */
 /* line 2, ../../scss/system/widget.scss */
-.widget_search { color: #ffffff; font-size: 16px; margin: 0; display: flex; align-self: flex-start; width: 60%; position: absolute; right: 108px; height: 40px; }
+.widget_search { color: #ffffff; font-size: 16px; margin: 0; display: flex; align-self: flex-start; width: 58%; position: absolute; right: 108px; height: 40px; }
 /* line 13, ../../scss/system/widget.scss */
 .widget_search .button_open { cursor: pointer; position: absolute; right: 0; -webkit-transition: all 0.4s ease-out; -moz-transition: all 0.4s ease-out; -o-transition: all 0.4s ease-out; transition: all 0.4s ease-out; }
 /* line 24, ../../scss/system/widget.scss */
@@ -21,36 +21,38 @@
 /* line 69, ../../scss/system/widget.scss */
 .widget_datePicker { display: none; position: fixed; top: 5%; left: 0; right: 0; margin-right: auto; margin-left: auto; padding: 0px; border-radius: 2px; border-top: none; border-bottom: none; width: 310px; background-color: #ffffff; z-index: 21; }
 /* line 85, ../../scss/system/widget.scss */
-.widget_datePicker .header { height: 55px; padding: 20px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-left-radius: 0px; }
-/* line 92, ../../scss/system/widget.scss */
+.widget_datePicker .header { position: relative; height: 55px; padding: 20px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-left-radius: 0px; }
+/* line 93, ../../scss/system/widget.scss */
 .widget_datePicker .header p { margin: 0; opacity: 0.7; cursor: pointer; }
 /* line 99, ../../scss/system/widget.scss */
+.widget_datePicker .header .mdc-fab { position: absolute; top: 10px; right: 10px; }
+/* line 106, ../../scss/system/widget.scss */
 .widget_datePicker .listYears { display: none; height: 345px; overflow-y: scroll; }
-/* line 104, ../../scss/system/widget.scss */
+/* line 111, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list { overflow: hidden; padding: 0; margin: 0; }
-/* line 109, ../../scss/system/widget.scss */
+/* line 116, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list ul { padding: 0; margin: 0; }
-/* line 113, ../../scss/system/widget.scss */
+/* line 120, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list ul .mdc-list-item { display: block; text-align: center; line-height: 42px; height: 42px; }
-/* line 123, ../../scss/system/widget.scss */
+/* line 130, ../../scss/system/widget.scss */
 .widget_datePicker .month { margin: 0; padding: 0; text-align: center; height: 37px; }
-/* line 129, ../../scss/system/widget.scss */
+/* line 136, ../../scss/system/widget.scss */
 .widget_datePicker .month div { display: inline-block; }
-/* line 133, ../../scss/system/widget.scss */
+/* line 140, ../../scss/system/widget.scss */
 .widget_datePicker .month .label { width: 180px; }
-/* line 137, ../../scss/system/widget.scss */
+/* line 144, ../../scss/system/widget.scss */
 .widget_datePicker .month .material-icons { position: relative; top: 8px; width: 48px; cursor: pointer; }
-/* line 145, ../../scss/system/widget.scss */
+/* line 152, ../../scss/system/widget.scss */
 .widget_datePicker .week ul { margin: 0; padding: 0; text-align: center; }
-/* line 150, ../../scss/system/widget.scss */
+/* line 157, ../../scss/system/widget.scss */
 .widget_datePicker .week ul li { position: relative; display: inline-block; border-radius: 50%; width: 42px; height: 42px; line-height: 42px; opacity: 0.5; font-size: 12px; }
-/* line 162, ../../scss/system/widget.scss */
+/* line 169, ../../scss/system/widget.scss */
 .widget_datePicker .day ul { margin: 0; padding: 0; text-align: center; }
-/* line 167, ../../scss/system/widget.scss */
+/* line 174, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li { position: relative; display: inline-block; width: 42px; height: 42px; line-height: 42px; font-size: 11px; }
-/* line 175, ../../scss/system/widget.scss */
+/* line 182, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li span { display: inline-block; width: 32px; height: 32px; line-height: 32px; cursor: pointer; border-radius: 50%; }
-/* line 186, ../../scss/system/widget.scss */
+/* line 193, ../../scss/system/widget.scss */
 .widget_datePicker .button { text-align: right; padding: 10px; }
 
 /*# sourceMappingURL=widget.css.map */

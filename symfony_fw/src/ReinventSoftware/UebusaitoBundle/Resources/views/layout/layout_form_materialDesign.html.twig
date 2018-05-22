@@ -18,7 +18,7 @@
     {% if styleType is defined and styleType == "box" %}
         <div class="mdc-text-field mdc-text-field--box{% if icon is defined %} mdc-text-field--with-leading-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
             {%- if icon is defined -%}
-                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+                <i class="material-icons mdc-text-field__icon" role="button">{{icon}}</i>
             {%- endif -%}
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
             {{- form_label(form) -}}
@@ -29,14 +29,14 @@
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
-                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+                <i class="material-icons mdc-text-field__icon" role="button">{{icon}}</i>
             {%- endif -%}
             <div class="mdc-line-ripple"></div>
         </div>
     {% elseif styleType is defined and styleType == "outlined" %}
         <div class="mdc-text-field mdc-text-field--outlined{% if icon is defined %} mdc-text-field--with-leading-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
             {%- if icon is defined -%}
-                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+                <i class="material-icons mdc-text-field__icon" role="button">{{icon}}</i>
             {%- endif -%}
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
             {{- form_label(form) -}}
@@ -52,7 +52,7 @@
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
-                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+                <i class="material-icons mdc-text-field__icon" role="button">{{icon}}</i>
             {%- endif -%}
             <div class="mdc-notched-outline">
                 <svg>
@@ -64,7 +64,7 @@
     {% elseif styleType is defined and styleType == "basic" %}
         <div class="mdc-text-field mdc-text-field__basic{% if dense is defined %} mdc-text-field--dense{% endif %}">
             {%- if icon is defined -%}
-                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+                <i class="material-icons mdc-text-field__icon" role="button">{{icon}}</i>
             {%- endif -%}
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
             {{- form_label(form) -}}
@@ -75,7 +75,7 @@
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
-                <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">{{icon}}</i>
+                <i class="material-icons mdc-text-field__icon" role="button">{{icon}}</i>
             {%- endif -%}
             <div class="mdc-line-ripple"></div>
         </div>
@@ -106,7 +106,13 @@
 {%- endblock collection_widget -%}
 
 {%- block textarea_widget -%}
-    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    {# cimo - #}
+    {#<textarea {{ block('widget_attributes') }}>{{ value }}</textarea>#}
+    {# cimo + #}
+    <div class="mdc-text-field mdc-text-field--textarea" {{ block('widget_attributes') }}>
+        <textarea id="textarea" class="mdc-text-field__input" rows="8" cols="40">{{ value }}</textarea>
+        <label for="textarea" class="mdc-floating-label">{% if label is defined %}{{label}}{% endif %}</label>
+    </div>
 {%- endblock textarea_widget -%}
 
 {%- block choice_widget -%}
@@ -338,7 +344,7 @@
         {%- endif -%}
     {%- endif -%}
     {# cimo + #}
-    <button class="mdc-button{% if dense is defined %} mdc-button--dense{% endif %}{% if raised is defined %} mdc-button--raised{% endif %}" type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+    <button class="mdc-button{% if dense is defined %} mdc-button--dense{% endif %}{% if raised is defined %} mdc-button--raised{% endif %}" type="{{ type|default('') }}" {{ block('button_attributes') }}>
         {%- if icon is defined -%}
             <i class="material-icons mdc-button__icon" aria-hidden="true">{{icon}}</i>
         {%- endif -%}
@@ -434,7 +440,7 @@
     {%- endif -%#}
     {# cimo : #}
     {% set attributeClass = attr['class'] | default('') %}
-    <div class="form_row textField_group {{attributeClass}}">
+    <div class="form_row {{attributeClass}}">
         {#{- form_label(form) -}#}
         {{- form_errors(form) -}}
         {{- form_widget(form, widget_attr) -}}

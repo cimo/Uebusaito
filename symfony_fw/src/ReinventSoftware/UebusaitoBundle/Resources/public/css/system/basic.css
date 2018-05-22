@@ -35,6 +35,16 @@
 /* line 76, ../../scss/system/utility.scss */
 .align_right { text-align: right; }
 
+/*.button { -webkit-transform: scale(1) rotate(360deg); transform: scale(1) rotate(360deg); -webkit-transition: -webkit-transform 150ms cubic-bezier(.4, 0, 1, 1); transition: transform 150ms cubic-bezier(.4, 0, 1, 1);
+}
+.button:hover { -webkit-transition: box-shadow 150ms cubic-bezier(0, 0, .2, 1); transition: box-shadow 150ms cubic-bezier(0, 0, .2, 1);
+}
+.second-icon, .first-icon { left: 0; margin-left: 16px; margin-top: 16px; position: absolute; top: 0;  -webkit-transition: all .2s cubic-bezier(.4, 0, .2, 1); transition: all .2s cubic-bezier(.4, 0, .2, 1);
+}
+.second-icon, .button:hover .first-icon { opacity: 0;  -webkit-transform: rotate(225deg); transform: rotate(225deg);
+}
+.button:hover .second-icon { opacity: 1; visibility: visible;  -webkit-transform: rotate(360deg); transform: rotate(360deg);
+}*/
 /*html { position: relative; min-height: 100%;
 }
 
@@ -150,7 +160,7 @@ legend { width: inherit; padding: 0 10px; border-bottom: none;
 }*/
 /* Search */
 /* line 2, ../../scss/system/widget.scss */
-.widget_search { color: #ffffff; font-size: 16px; margin: 0; display: flex; align-self: flex-start; width: 60%; position: absolute; right: 108px; height: 40px; }
+.widget_search { color: #ffffff; font-size: 16px; margin: 0; display: flex; align-self: flex-start; width: 58%; position: absolute; right: 108px; height: 40px; }
 /* line 13, ../../scss/system/widget.scss */
 .widget_search .button_open { cursor: pointer; position: absolute; right: 0; -webkit-transition: all 0.4s ease-out; -moz-transition: all 0.4s ease-out; -o-transition: all 0.4s ease-out; transition: all 0.4s ease-out; }
 /* line 24, ../../scss/system/widget.scss */
@@ -171,36 +181,38 @@ legend { width: inherit; padding: 0 10px; border-bottom: none;
 /* line 69, ../../scss/system/widget.scss */
 .widget_datePicker { display: none; position: fixed; top: 5%; left: 0; right: 0; margin-right: auto; margin-left: auto; padding: 0px; border-radius: 2px; border-top: none; border-bottom: none; width: 310px; background-color: #ffffff; z-index: 21; }
 /* line 85, ../../scss/system/widget.scss */
-.widget_datePicker .header { height: 55px; padding: 20px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-left-radius: 0px; }
-/* line 92, ../../scss/system/widget.scss */
+.widget_datePicker .header { position: relative; height: 55px; padding: 20px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-left-radius: 0px; }
+/* line 93, ../../scss/system/widget.scss */
 .widget_datePicker .header p { margin: 0; opacity: 0.7; cursor: pointer; }
 /* line 99, ../../scss/system/widget.scss */
+.widget_datePicker .header .mdc-fab { position: absolute; top: 10px; right: 10px; }
+/* line 106, ../../scss/system/widget.scss */
 .widget_datePicker .listYears { display: none; height: 345px; overflow-y: scroll; }
-/* line 104, ../../scss/system/widget.scss */
+/* line 111, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list { overflow: hidden; padding: 0; margin: 0; }
-/* line 109, ../../scss/system/widget.scss */
+/* line 116, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list ul { padding: 0; margin: 0; }
-/* line 113, ../../scss/system/widget.scss */
+/* line 120, ../../scss/system/widget.scss */
 .widget_datePicker .listYears .mdc-list ul .mdc-list-item { display: block; text-align: center; line-height: 42px; height: 42px; }
-/* line 123, ../../scss/system/widget.scss */
+/* line 130, ../../scss/system/widget.scss */
 .widget_datePicker .month { margin: 0; padding: 0; text-align: center; height: 37px; }
-/* line 129, ../../scss/system/widget.scss */
+/* line 136, ../../scss/system/widget.scss */
 .widget_datePicker .month div { display: inline-block; }
-/* line 133, ../../scss/system/widget.scss */
+/* line 140, ../../scss/system/widget.scss */
 .widget_datePicker .month .label { width: 180px; }
-/* line 137, ../../scss/system/widget.scss */
+/* line 144, ../../scss/system/widget.scss */
 .widget_datePicker .month .material-icons { position: relative; top: 8px; width: 48px; cursor: pointer; }
-/* line 145, ../../scss/system/widget.scss */
+/* line 152, ../../scss/system/widget.scss */
 .widget_datePicker .week ul { margin: 0; padding: 0; text-align: center; }
-/* line 150, ../../scss/system/widget.scss */
+/* line 157, ../../scss/system/widget.scss */
 .widget_datePicker .week ul li { position: relative; display: inline-block; border-radius: 50%; width: 42px; height: 42px; line-height: 42px; opacity: 0.5; font-size: 12px; }
-/* line 162, ../../scss/system/widget.scss */
+/* line 169, ../../scss/system/widget.scss */
 .widget_datePicker .day ul { margin: 0; padding: 0; text-align: center; }
-/* line 167, ../../scss/system/widget.scss */
+/* line 174, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li { position: relative; display: inline-block; width: 42px; height: 42px; line-height: 42px; font-size: 11px; }
-/* line 175, ../../scss/system/widget.scss */
+/* line 182, ../../scss/system/widget.scss */
 .widget_datePicker .day ul li span { display: inline-block; width: 32px; height: 32px; line-height: 32px; cursor: pointer; border-radius: 50%; }
-/* line 186, ../../scss/system/widget.scss */
+/* line 193, ../../scss/system/widget.scss */
 .widget_datePicker .button { text-align: right; padding: 10px; }
 
 /*$spaceBottom: 120px;
@@ -462,53 +474,57 @@ html { height: 100%; }
 /* line 1090, ../../scss/system/basic.scss */
 body { position: relative; min-height: 100%; }
 
-/* line 1096, ../../scss/system/basic.scss */
+/* line 1095, ../../scss/system/basic.scss */
+.logo_main { width: 45px; margin-top: 8px; }
+
+/* line 1101, ../../scss/system/basic.scss */
 .main .sortable_column { padding-top: 120px; padding-bottom: 80px; }
 
-/* line 1102, ../../scss/system/basic.scss */
+/* line 1107, ../../scss/system/basic.scss */
 .footer { display: flex; justify-content: center; flex-direction: column; text-align: center; position: absolute; bottom: 0; width: 100%; height: 80px; }
-/* line 1114, ../../scss/system/basic.scss */
+/* line 1119, ../../scss/system/basic.scss */
 .footer .icon div { display: inline-block; margin: 5px 10px; }
-/* line 1121, ../../scss/system/basic.scss */
+/* line 1126, ../../scss/system/basic.scss */
 .footer .text p { margin: 0; font-size: 12px; }
 
-/* line 1128, ../../scss/system/basic.scss */
-.module, .module_clean { padding: 5px; overflow: hidden; /*.mdc-text-field_hidden_fix { display: block !important; margin: 0 !important; height: 0 !important;
-}*/ }
-/* line 1132, ../../scss/system/basic.scss */
+/* line 1133, ../../scss/system/basic.scss */
+.module, .module_clean { padding: 5px; overflow: hidden; }
+/* line 1137, ../../scss/system/basic.scss */
 .module .settings, .module_clean .settings { display: none; }
-/* line 1136, ../../scss/system/basic.scss */
-.module .drag, .module_clean .drag { display: none; }
 /* line 1141, ../../scss/system/basic.scss */
+.module .drag, .module_clean .drag { display: none; }
+/* line 1146, ../../scss/system/basic.scss */
 .module .title i, .module .title h1, .module_clean .title i, .module_clean .title h1 { display: inline-block; vertical-align: middle; margin: 0; }
-/* line 1148, ../../scss/system/basic.scss */
+/* line 1153, ../../scss/system/basic.scss */
 .module .mdc-card__actions, .module_clean .mdc-card__actions { padding: 0 !important; min-height: auto !important; }
-/* line 1154, ../../scss/system/basic.scss */
-.module .textField_group .mdc-text-field, .module .textField_group .mdc-text-field--box, .module .textField_group .mdc-text-field--outlined, .module_clean .textField_group .mdc-text-field, .module_clean .textField_group .mdc-text-field--box, .module_clean .textField_group .mdc-text-field--outlined { margin-top: 8px; margin-bottom: 0; }
-/* line 1160, ../../scss/system/basic.scss */
-.module .textField_group .mdc-text-field__basic .mdc-floating-label, .module_clean .textField_group .mdc-text-field__basic .mdc-floating-label { padding-left: 28px; }
-/* line 1166, ../../scss/system/basic.scss */
-.module .textField_group .mdc-text-field__basic .material-icons, .module .textField_group .mdc-text-field__basicTrailing .material-icons, .module_clean .textField_group .mdc-text-field__basic .material-icons, .module_clean .textField_group .mdc-text-field__basicTrailing .material-icons { margin-bottom: 5px; }
+/* line 1159, ../../scss/system/basic.scss */
+.module .form_row .mdc-text-field--box, .module .form_row .mdc-text-field--outlined, .module .form_row .mdc-text-field__basic, .module_clean .form_row .mdc-text-field--box, .module_clean .form_row .mdc-text-field--outlined, .module_clean .form_row .mdc-text-field__basic { margin-top: 8px; margin-bottom: 0; }
+/* line 1165, ../../scss/system/basic.scss */
+.module .form_row .mdc-text-field__basic .mdc-floating-label, .module_clean .form_row .mdc-text-field__basic .mdc-floating-label { padding-left: 28px; }
 /* line 1171, ../../scss/system/basic.scss */
-.module .textField_group .mdc-select, .module_clean .textField_group .mdc-select { height: 48px; }
+.module .form_row .mdc-text-field__basic .material-icons, .module .form_row .mdc-text-field__basicTrailing .material-icons, .module_clean .form_row .mdc-text-field__basic .material-icons, .module_clean .form_row .mdc-text-field__basicTrailing .material-icons { margin-bottom: 5px; }
+/* line 1176, ../../scss/system/basic.scss */
+.module .form_row .mdc-select, .module_clean .form_row .mdc-select { height: 48px; }
 
-/* line 1183, ../../scss/system/basic.scss */
+/* line 1182, ../../scss/system/basic.scss */
 .module { width: 100%; margin: auto; border: 1px solid #dadada; background-color: #ececec; }
-/* line 1189, ../../scss/system/basic.scss */
+/* line 1188, ../../scss/system/basic.scss */
 .module .title { border-bottom: 1px solid #dadada; }
 
-/* line 1196, ../../scss/system/basic.scss */
+/* line 1195, ../../scss/system/basic.scss */
 .page_container .header h1 { margin: 0; }
+@media (max-width: 839px) { /* line 1202, ../../scss/system/basic.scss */
+  .page_container .form_row .mdc-text-field--box, .page_container .form_row .mdc-text-field--outlined, .page_container .form_row .mdc-text-field__basic, .page_container .form_row .mdc-select { width: 100%; } }
 
-/* line 1207, ../../scss/system/basic.scss */
-#panel_id_2 .form_user_authentication .container_submit button { margin-top: 0; width: 100%; }
 /* line 1214, ../../scss/system/basic.scss */
+#panel_id_2 .form_user_authentication .container_submit button { margin-top: 0; width: 100%; }
+/* line 1221, ../../scss/system/basic.scss */
 #panel_id_2 p { margin: 0; }
-/* line 1219, ../../scss/system/basic.scss */
+/* line 1226, ../../scss/system/basic.scss */
 #panel_id_2 .container_buttons a { width: 100%; }
-/* line 1224, ../../scss/system/basic.scss */
+/* line 1231, ../../scss/system/basic.scss */
 #panel_id_2 .container_links { margin-top: 5px; text-align: center; }
-/* line 1228, ../../scss/system/basic.scss */
+/* line 1235, ../../scss/system/basic.scss */
 #panel_id_2 .container_links a { display: block; text-decoration: none !important; }
 
 /*# sourceMappingURL=basic.css.map */

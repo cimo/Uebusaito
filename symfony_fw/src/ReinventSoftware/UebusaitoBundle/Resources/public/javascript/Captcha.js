@@ -11,8 +11,10 @@ function Captcha() {
     // Properties
     
     // Functions public
-    self.reload = function() {
-        $(".captcha").find(".icon").on("click", "", function(event) {
+    self.init = function() {
+        self.image();
+        
+        $(".captcha").find("img").on("click", "", function(event) {
             self.image();
         });
     };

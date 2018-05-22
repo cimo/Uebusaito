@@ -1092,6 +1092,11 @@ body {
     min-height:100%;
 }
 
+.logo_main {
+    width: 45px;
+    margin-top: 8px;
+}
+
 .main {
     .sortable_column {
         padding-top: 120px;
@@ -1150,8 +1155,8 @@ body {
         min-height: auto !important;
     }
     
-    .textField_group {
-        .mdc-text-field, .mdc-text-field--box, .mdc-text-field--outlined {
+    .form_row {
+        .mdc-text-field--box, .mdc-text-field--outlined, .mdc-text-field__basic {
             margin-top: 8px;
             margin-bottom: 0;
         }
@@ -1172,12 +1177,6 @@ body {
             height: 48px;
         }
     }
-    
-    /*.mdc-text-field_hidden_fix {
-        display: block !important;
-        margin: 0 !important;
-        height: 0 !important;
-    }*/
 }
 
 .module {
@@ -1195,6 +1194,14 @@ body {
     .header {
         h1 {
             margin: 0;
+        }
+    }
+    
+    @media(max-width: $widthMobile) {
+        .form_row {
+            .mdc-text-field--box, .mdc-text-field--outlined, .mdc-text-field__basic, .mdc-select {
+                width: 100%;
+            }
         }
     }
 }

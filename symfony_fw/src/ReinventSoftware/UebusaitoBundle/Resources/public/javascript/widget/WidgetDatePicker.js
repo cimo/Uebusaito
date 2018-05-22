@@ -114,6 +114,10 @@ function WidgetDatePicker() {
             mdc.ripple.MDCRipple.attachTo(value);
         });
         
+        $.each($(".widget_datePicker").find(".mdc-fab"), function(key, value) {
+            mdc.ripple.MDCRipple.attachTo(value);
+        });
+        
         action();
     };
 
@@ -151,7 +155,12 @@ function WidgetDatePicker() {
         if (type === true) {
             html = "<div class=\"mdc-theme--primary-bg mdc-theme--on-primary header\">\n\
                 <p>" + currentYear + "</p>\n\
-                <div class=\"mdc-typography--body1 text\">" + weekCurrentDay + ", " + monthLabels[language][currentMonth] + " " + currentDay + "</div>\n\
+                <div class=\"mdc-typography--headline6 text\">" + weekCurrentDay + ", " + monthLabels[language][currentMonth] + " " + currentDay + "</div>\n\
+                <button class=\"mdc-fab material-icons\" aria-label=\"Close\">\n\
+                    <span class=\"mdc-fab__icon\">\n\
+                        close\n\
+                    </span>\n\
+                </button>\n\
             </div>";
         }
         else if (type === false)
@@ -248,9 +257,9 @@ function WidgetDatePicker() {
     
     function createButtonHtml() {
         return html = "<div class=\"button\">\n\
-            <button class=\"mdc-button button_today\" type=\"button\">Today</button>\n\
-            <button class=\"mdc-button button_clear\" type=\"button\">Clear</button>\n\
-            <button class=\"mdc-button button_confirm\" type=\"button\">Confirm</button>\n\
+            <button class=\"mdc-button button_today\">" + window.text.today + "</button>\n\
+            <button class=\"mdc-button button_clear\">" + window.text.clear + "</button>\n\
+            <button class=\"mdc-button button_confirm\">" + window.text.confirm + "</button>\n\
         </div>";
     }
     
@@ -278,7 +287,7 @@ function WidgetDatePicker() {
             self.init();
         });
         
-        $(".widget_datePicker").find(".material-icons").off("click").on("click", "", function() {
+        $(".widget_datePicker").find(".material-icons").not(".mdc-fab").off("click").on("click", "", function() {
             if ($(this).parent().prop("class") === "left")
                 currentMonth -= 1;
             else
@@ -345,6 +354,13 @@ function WidgetDatePicker() {
         
         $(".widget_datePicker").find(".button .button_confirm").off("click").on("click", "", function() {
             fillInput(true);
+        });
+        
+        $(".widget_datePicker").find(".mdc-fab").off("click").on("click", "", function() {
+            $(inputFillTag).focus();
+
+            $(".widget_datePicker_back").hide();
+            $(".widget_datePicker").hide();
         });
     }
     

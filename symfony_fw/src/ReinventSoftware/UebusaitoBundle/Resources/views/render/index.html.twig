@@ -38,12 +38,14 @@
             {% endfor %}
         {% endif %}
     </div>
-   
     <header class="mdc-top-app-bar mdc-top-app-bar--prominent">
         <div class="mdc-top-app-bar__row">
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                 <a id="menu_root_button" class="material-icons mdc-top-app-bar__navigation-icon  display_mobile" href="javascript:void(0)">menu</a>
-                <span class="mdc-top-app-bar__title">{{websiteName}}</span>
+                <span class="mdc-top-app-bar__title display_desktop">{{websiteName}}</span>
+                <span class="mdc-top-app-bar__title display_mobile">
+                    <img class="logo_main" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
+                </span>
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
                 <!-- Widget - Search -->
@@ -222,7 +224,10 @@
             'warning': "{{"index_3"|trans}}",
             'ok': "{{"index_4"|trans}}",
             'close': "{{"index_5"|trans}}",
-            'ajaxConnectionError': "{{"index_6"|trans}}"
+            'ajaxConnectionError': "{{"index_6"|trans}}",
+            'today': "{{"index_9"|trans}}",
+            'clear': "{{"index_10"|trans}}",
+            'confirm': "{{"index_11"|trans}}"
         };
 
         var setting = {

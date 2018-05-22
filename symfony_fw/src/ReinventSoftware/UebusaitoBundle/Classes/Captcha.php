@@ -27,23 +27,20 @@ class Captcha {
         
         $_SESSION['captcha'] = $randomString;
         
-        return $this->image($randomString);
+        return $this->image($_SESSION['captcha']);
     }
     
     // Functions private
     private function image($string) {
-        $image = imagecreate(80, 30);
+        $image = imagecreatetruecolor(80, 30);
+        $red = imagecolorallocate($image, 0xFF, 0x00, 0x00);
+        $black = imagecolorallocate($image, 0x00, 0x00, 0x00);
         
-        $background = imagecolorallocate($image, 0, 0, 255);
-        $color = imagecolorallocate($image, 255, 255, 255);
-        $line = imagecolorallocate($image, 140, 140, 140);
+        imagefilledrectangle($image, 0, 0, 299, 99, $red);
         
-        imagestring($image, 5, 8, 7, $string, $color);
+        $font_file = "{$this->utility->getPathSrcBundle()}/Resources/public/fonts/Roboto_light.ttf";
         
-        imageline($image, 0, 0, 50, 30, $line);
-        imageline($image, 30, 0, 80, 30, $line);
-        imageline($image, 50, 0, 20, 30, $line);
-        imageline($image, 80, 0, 40, 30, $line);
+        imagefttext($image, 10, 0, 12, 20, $black, $font_file, $string);
         
         ob_start();
             header("Content-type: image/png");
@@ -51,9 +48,6 @@ class Captcha {
             $result = base64_encode(ob_get_contents());
         ob_end_clean();
         
-        imagecolordeallocate($image, $line);
-        imagecolordeallocate($image, $color);
-        imagecolordeallocate($image, $background);
         imagedestroy($image);
         
         return $result;

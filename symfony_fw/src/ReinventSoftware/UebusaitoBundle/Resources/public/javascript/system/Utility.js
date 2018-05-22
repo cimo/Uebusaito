@@ -411,7 +411,7 @@ function Utility() {
     self.mdcTopAppBarCustom = function() {
         var scrollLimit = 30;
         
-        if (utility.checkWidthType() === "desktop") {
+        if (self.checkWidthType() === "desktop") {
             $(".mdc-top-app-bar").addClass("mdc-top-app-bar--prominent");
             
             if ($(document).scrollTop() > scrollLimit) {
@@ -419,7 +419,7 @@ function Utility() {
             }
             
             $(window).scroll(function() {
-                if (utility.checkWidthType() === "desktop") {
+                if (self.checkWidthType() === "desktop") {
                     if ($(document).scrollTop() > scrollLimit) {
                       $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
                     }
@@ -435,7 +435,7 @@ function Utility() {
     };
     
     self.mdcTabsCustom = function() {
-        var parameters = utility.urlParameters(window.setting.language);
+        var parameters = self.urlParameters(window.setting.language);
         var parametersReverse = parameters.reverse();
         
         $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");

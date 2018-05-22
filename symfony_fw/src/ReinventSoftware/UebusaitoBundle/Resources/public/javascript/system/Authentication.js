@@ -10,15 +10,6 @@ function Authentication() {
     
     // Functions public
     self.init = function() {
-        captcha.reload();
-        
-        $(".button_authentication_desktop").find("i").on("click", "", function() {
-            if ($(this).parent().next().css("display") === "none")
-                $(this).parent().next().show();
-            else
-                $(this).parent().next().hide();
-        });
-        
         $(".form_user_authentication").on("submit", "", function(event) {
             event.preventDefault();
             

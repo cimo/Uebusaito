@@ -64,9 +64,9 @@ class RootController extends Controller {
                 
         $_SESSION['languageDate'] = $languageRow['date'];
         
-        $this->response['captchaImage'] = $this->captcha->create(7);
-        
         if ($request->get("event") == "captchaImage") {
+            $this->response['captchaImage'] = $this->captcha->create(7);
+            
             return $this->ajax->response(Array(
                 'response' => $this->response
             ));
@@ -90,7 +90,7 @@ class RootController extends Controller {
         $this->get("twig")->addGlobal("php_session", $_SESSION);
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
-        $this->get("twig")->addGlobal("captchaImage", $this->response['captchaImage']);
+        
         $this->get("twig")->addGlobal("isMobile", $this->utility->checkMobile());
         
         return Array(

@@ -301,6 +301,9 @@ date.time: H:i:s
 "index_6": "Errire connessione, perfavore ricarica la pagina."
 "index_7": "Copyright © 2018 - Reinvent software."
 "index_8": "Tutti i diritti riservati."
+"index_9": "Oggi"
+"index_10": "Cancella"
+"index_11": "Conferma"
 
 # page_comment.html.twig
 "page_comment_1": "Messaggio dall'utente: "

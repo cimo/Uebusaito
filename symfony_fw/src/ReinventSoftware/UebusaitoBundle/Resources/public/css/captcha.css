@@ -1,6 +1,10 @@
 /* line 3, ../scss/captcha.scss */
-.captcha { text-align: left; }
+.captcha { text-align: center; }
 /* line 6, ../scss/captcha.scss */
-.captcha img { vertical-align: middle; border: 1px solid #000000; }
+.captcha .mdc-text-field { height: 35px !important; }
+/* line 9, ../scss/captcha.scss */
+.captcha .mdc-text-field .mdc-text-field__input { padding-top: 0 !important; }
+/* line 14, ../scss/captcha.scss */
+.captcha img { cursor: pointer; vertical-align: middle; }
 
 /*# sourceMappingURL=captcha.css.map */
