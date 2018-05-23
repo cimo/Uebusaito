@@ -80,7 +80,7 @@ class PageController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
+        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_field", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -245,7 +245,7 @@ class PageController extends Controller {
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_page_roleUserId_field", true);
+                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_field", true);
                     $this->response['values']['id'] = $_SESSION['pageProfileId'];
                     $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
                     $this->response['values']['dateCreation'] = $this->utility->dateFormat($pageEntity->getDateCreation());
@@ -449,7 +449,7 @@ class PageController extends Controller {
                         $this->response['values']['id'] = $id;
                         $this->response['values']['text'] = "<p class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
                         $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
-                        $this->response['values']['pageHtml'] = $this->utility->createPageHtml($this->urlLocale, "cp_page_deletion_parent_new");
+                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_deletion_parent_new");
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {

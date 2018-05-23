@@ -363,9 +363,10 @@ class User implements UserInterface, AdvancedUserInterface, EquatableInterface, 
     private $roles = Array();
     
     public function setRoles($roles) {
-        array_push($roles, "ROLE_USER");
-        
-        $this->roles = array_unique($roles);
+        $this->roles = $roles;
+        $this->roles[] = "ROLE_USER";
+
+        return array_unique($this->roles);
     }
     
     // ---
@@ -383,10 +384,7 @@ class User implements UserInterface, AdvancedUserInterface, EquatableInterface, 
     }
     
     public function getRoles() {
-        $roles = $this->roles;
-        $roles[] = "ROLE_USER";
-
-        return array_unique($roles);
+        return $this->roles;
     }
     
     public function eraseCredentials() {

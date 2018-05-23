@@ -1,32 +1,17 @@
-/*#backdrop { position: fixed; top: 0; right: 0; bottom: 0; left: 0; opacity: 0.5; background-color: #000; z-index: 1040;
-}
-
-#loader { display: none; position: fixed; top: 35%; right: 0; left: 0; margin: 30px auto; width: 200px; height: 50px; padding-top: 8px; text-align: center; border: 1px solid #000000; background-color: #ffffff; overflow: hidden; -webkit-overflow-scrolling: touch; outline: 0; z-index: 1050;
-}
-#loader { .text { display: inline-block; margin: 0; vertical-align: middle; }
-}
-#loader { .image { display: inline-block; }
-}
-#loader_request { position: fixed; bottom: 1px; left: 0; z-index: 1050; background-color: #000000; border: 1px solid #ffffff;
-}
-#loader_request { i { color: #ffffff; padding: 10px; }
-}
-#loader_request { img { border: 1px solid #000000; }
-}*/
-/* line 67, ../scss/loader.scss */
-.loader { display: flex; align-items: center; justify-content: center; animation: rotator 1.4s linear infinite; }
-/* line 74, ../scss/loader.scss */
+/* line 6, ../scss/loader.scss */
+.loader { position: fixed; top: 50%; left: 50%; margin-top: -50px; margin-left: -50px; animation: rotator 1.4s linear infinite; }
+/* line 15, ../scss/loader.scss */
 .loader .path { stroke-dasharray: 187; stroke-dashoffset: 0; transform-origin: center; animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite; }
 
 @keyframes rotator { 0% { transform: rotate(0deg); }
   100% { transform: rotate(270deg); } }
+@keyframes dash { 0% { stroke-dashoffset: 187; }
+  50% { stroke-dashoffset: 46.75; transform: rotate(135deg); }
+  100% { stroke-dashoffset: 187; transform: rotate(450deg); } }
 @keyframes colors { 0% { stroke: #4285F4; }
   25% { stroke: #DE3E35; }
   50% { stroke: #F7C223; }
   75% { stroke: #1B9A59; }
   100% { stroke: #4285F4; } }
-@keyframes dash { 0% { stroke-dashoffset: 187; }
-  50% { stroke-dashoffset: 46.75; transform: rotate(135deg); }
-  100% { stroke-dashoffset: 187; transform: rotate(450deg); } }
 
 /*# sourceMappingURL=loader.css.map */

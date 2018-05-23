@@ -1,6 +1,6 @@
-<div id="menu_control_panel">
-    {% if is_granted("ROLE_USER") == true %}
-        <nav id="menu_controlPanel" class="mdc-tab-bar mdc-tab-bar--icons-with-text">
+<div>
+    <nav id="menu_controlPanel" class="mdc-tab-bar mdc-tab-bar--icons-with-text">
+        {% if is_granted("ROLE_USER") == true %}
             <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">
                 <i class="material-icons mdc-tab__icon" aria-hidden="true">account_circle</i>
                 <span class="mdc-tab__icon-text">{% trans %}control_panel_1{% endtrans %}</span>
@@ -9,38 +9,33 @@
                 <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
                 <span class="mdc-tab__icon-text">{% trans %}control_panel_2{% endtrans %}</span>
             </a>
-            <span class="mdc-tab-bar__indicator"></span>
-        </nav>
-    {% endif %}
-    {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-        <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page"})}}">
-                <i class="fa fa-file-text"></i> {% trans %}control_panel_3{% endtrans %}
+        {% endif %}
+        {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
+            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page"})}}">
+                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                <span class="mdc-tab__icon-text">{% trans %}control_panel_3{% endtrans %}</span>
             </a>
-        </li>
-        <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user"})}}">
-                <i class="fa fa-users"></i> {% trans %}control_panel_4{% endtrans %}
+            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user"})}}">
+                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                <span class="mdc-tab__icon-text">{% trans %}control_panel_4{% endtrans %}</span>
             </a>
-        </li>
-        <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_module"})}}">
-                <i class="fa fa-modx"></i> {% trans %}control_panel_5{% endtrans %}
+            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_module"})}}">
+                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                <span class="mdc-tab__icon-text">{% trans %}control_panel_5{% endtrans %}</span>
             </a>
-        </li>
-        <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role"})}}">
-                <i class="fa fa-address-card"></i> {% trans %}control_panel_6{% endtrans %}
+            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role"})}}">
+                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                <span class="mdc-tab__icon-text">{% trans %}control_panel_6{% endtrans %}</span>
             </a>
-        </li>
-    {% endif %}
-    {% if is_granted("ROLE_ADMIN") == true %}
-        <li>
-            <a href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_setting"})}}">
-                <i class="fa fa-cogs"></i> {% trans %}control_panel_7{% endtrans %}
+        {% endif %}
+        {% if is_granted("ROLE_ADMIN") == true %}
+            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_setting"})}}">
+                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                <span class="mdc-tab__icon-text">{% trans %}control_panel_7{% endtrans %}</span>
             </a>
-        </li>
-    {% endif %}
+        {% endif %}
+        <span class="mdc-tab-bar__indicator"></span>
+    </nav>
 </div>
 <div class="page_container">
     {% if urlExtra == "" or urlExtra == "cp_profile" %}
@@ -61,7 +56,7 @@
     {% elseif urlExtra == "cp_page" or urlExtra == "cp_page/create" or urlExtra == "cp_page/modify" %}
         {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
             <p>{% trans %}control_panel_10{% endtrans %}</p>
-            <div class="margin_top">
+            <div>
                 <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page/create"})}}">{% trans %}button_1{% endtrans %}</a>
                 <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page/modify"})}}">{% trans %}button_5{% endtrans %}</a>
             </div>
@@ -77,7 +72,7 @@
     {% elseif urlExtra == "cp_user" or urlExtra == "cp_user/create" or urlExtra == "cp_user/modify" %}
         {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
             <p>{% trans %}control_panel_11{% endtrans %}</p>
-            <div class="margin_top">
+            <div>
                 <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user/create"})}}">{% trans %}button_1{% endtrans %}</a>
                 <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user/modify"})}}">{% trans %}button_5{% endtrans %}</a>
             </div>
@@ -96,7 +91,7 @@
             <div class="display_desktop margin_bottom">
                 {{-render(controller("UebusaitoBundle:ControlPanel\\Module:drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
             </div>
-            <div class="margin_top">
+            <div>
                 <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_module/create"})}}">{% trans %}button_1{% endtrans %}</a>
                 <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_module/modify"})}}">{% trans %}button_5{% endtrans %}</a>
             </div>
@@ -112,7 +107,7 @@
     {% elseif urlExtra == "cp_role" or urlExtra == "cp_role/create" or urlExtra == "cp_role/modify" %}
         {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
             <p>{% trans %}control_panel_13{% endtrans %}</p>
-            <div class="margin_top">
+            <div>
                 <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role/create"})}}">{% trans %}button_1{% endtrans %}</a>
                 <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role/modify"})}}">{% trans %}button_5{% endtrans %}</a>
             </div>

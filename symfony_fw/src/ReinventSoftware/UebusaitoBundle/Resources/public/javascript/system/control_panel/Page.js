@@ -342,10 +342,10 @@ function ControlPanelPage() {
                     false,
                     null,
                     function(xhr) {
-                        if (xhr.response.values.text !== undefined && xhr.response.values.button !== undefined && xhr.response.values.pageHtml !== undefined) {
+                        if (xhr.response.values.text !== undefined && xhr.response.values.button !== undefined && xhr.response.values.pageSelectHtml !== undefined) {
                             popupEasy.create(
                                 window.text.warning,
-                                "<div>" + xhr.response.values.text + xhr.response.values.button + xhr.response.values.pageHtml + "</div>",
+                                "<div>" + xhr.response.values.text + xhr.response.values.button + xhr.response.values.pageSelectHtml + "</div>",
                                 null,
                                 null
                             );

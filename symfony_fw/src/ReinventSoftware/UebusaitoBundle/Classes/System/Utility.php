@@ -139,6 +139,7 @@ class Utility {
         $this->arrayColumnFix();
     }
     
+    // Generic
     public function configureCookie($name, $lifeTime, $secure, $httpOnly) {
         $currentCookieParams = session_get_cookie_params();
         
@@ -393,34 +394,35 @@ class Utility {
         return "ok";
     }
     
-    public function assignUserParameter($user) {
-        $query = $this->connection->prepare("SELECT id FROM users
-                                                LIMIT 1");
+    public function createUserRoleSelectHtml($selectId, $isRequired = false) {
+        $rows = $this->query->selectAllRoleUserDatabase();
         
-        $query->execute();
+        $required = $isRequired == true ? "required=\"required\"" : "";
         
-        $rowsCount = $query->rowCount();
+        $html = "<select id=\"$selectId\" class=\"form-control\" $required>
+            <option value=\"\">" . $this->translator->trans("class_utility_6") . "</option>";
+            foreach($rows as $key => $value)
+                $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
+        $html .= "</select>";
         
-        if ($rowsCount == 0) {
-            $user->setRoleUserId("1,2,");
-            $user->setNotLocked(1);
-        }
-        else {
-            $user->setRoleUserId("1,");
-            $user->setNotLocked(0);
-        }
+        return $html;
     }
     
-    public function assignUserRoleLevel($user) {
-        if ($user != null) {
-            $row = $this->query->selectRoleUserDatabase($user->getRoleUserId());
-            
-            foreach($row as $key => $value) {
-                $user->setRoles(Array(
-                    $value
-                ));
+    public function createTemplateList() {
+        $templatesPath = "{$this->pathSrcBundle}/Resources/public/images/templates";
+        
+        $scanDirElements = scandir($templatesPath);
+        
+        $list = Array();
+        
+        if ($scanDirElements != false) {
+            foreach ($scanDirElements as $key => $value) {
+                if ($value != "." && $value != ".." && $value != ".htaccess" && is_dir("$templatesPath/$value") == true)
+                    $list[$value] = $value;
             }
         }
+        
+        return $list;
     }
     
     public function checkSessionOverTime($request, $root = false) {
@@ -584,51 +586,38 @@ class Utility {
         return $isMobile;
     }
     
-    public function checkLanguage($request) {
-        if ($request->request->get("form_language")['codeText'] != null)
-            $_SESSION['formLanguageCodeText'] = $request->request->get("form_language")['codeText'];
+    // Symfony
+    public function assignUserParameter($user) {
+        $query = $this->connection->prepare("SELECT id FROM users
+                                                LIMIT 1");
         
-        if (isset($_SESSION['formLanguageCodeText']) == false) {
-            $row = $this->query->selectSettingDatabase();
-            
-            $_SESSION['formLanguageCodeText'] = $row['language'];
+        $query->execute();
+        
+        $rowsCount = $query->rowCount();
+        
+        if ($rowsCount == 0) {
+            $user->setRoleUserId("1,2,");
+            $user->setNotLocked(1);
         }
-        
-        $request->setLocale($_SESSION['formLanguageCodeText']);
-        
-        return $_SESSION['formLanguageCodeText'];
+        else {
+            $user->setRoleUserId("1,");
+            $user->setNotLocked(0);
+        }
     }
     
-    public function createUserRoleHtml($selectId, $isRequired = false) {
-        $rows = $this->query->selectAllRoleUserDatabase();
-        
-        $required = $isRequired == true ? "required=\"required\"" : "";
-        
-        $html = "<select id=\"$selectId\" class=\"form-control\" $required>
-            <option value=\"\">" . $this->translator->trans("class_utility_6") . "</option>";
-            foreach($rows as $key => $value)
-                $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
-        $html .= "</select>";
-        
-        return $html;
+    public function assignUserRoleLevel($user) {
+        if ($user != null) {
+            $row = $this->query->selectRoleUserDatabase($user->getRoleUserId());
+            
+            foreach($row as $key => $value) {
+                $user->setRoles(Array(
+                    $value
+                ));
+            }
+        }
     }
     
-    public function createPageHtml($urlLocale, $selectId) {
-        $rows = $this->query->selectAllPageDatabase($urlLocale);
-        
-        $pagesList = $this->createPageList($rows, true);
-        
-        $html = "<p class=\"margin_clear\">" . $this->translator->trans("class_utility_5") . "</p>
-        <select id=\"$selectId\">
-            <option value=\"\">Select</option>";
-            foreach($pagesList as $key => $value)
-                $html .= "<option value=\"$key\">$value</option>";
-        $html .= "</select>";
-        
-        return $html;
-    }
-    
-    public function createLanguageOptionHtml($code) {
+    public function createLanguageSelectOptionHtml($code) {
         $row = $this->query->selectLanguageDatabase($code);
         $rows = $this->query->selectAllLanguageDatabase();
         
@@ -648,21 +637,19 @@ class Utility {
         return $html;
     }
     
-    public function createTemplateList() {
-        $templatesPath = "{$this->pathSrcBundle}/Resources/public/images/templates";
+    public function createPageSelectHtml($urlLocale, $selectId) {
+        $rows = $this->query->selectAllPageDatabase($urlLocale);
         
-        $scanDirElements = scandir($templatesPath);
+        $pagesList = $this->createPageList($rows, true);
         
-        $list = Array();
+        $html = "<p class=\"margin_clear\">" . $this->translator->trans("class_utility_5") . "</p>
+        <select id=\"$selectId\">
+            <option value=\"\">Select</option>";
+            foreach($pagesList as $key => $value)
+                $html .= "<option value=\"$key\">$value</option>";
+        $html .= "</select>";
         
-        if ($scanDirElements != false) {
-            foreach ($scanDirElements as $key => $value) {
-                if ($value != "." && $value != ".." && $value != ".htaccess" && is_dir("$templatesPath/$value") == true)
-                    $list[$value] = $value;
-            }
-        }
-        
-        return $list;
+        return $html;
     }
     
     public function createPageList($pagesRows, $onlyMenuName, $pagination = null) {
@@ -680,6 +667,21 @@ class Utility {
         }
         
         return $pagesListHierarchy;
+    }
+    
+    public function checkLanguage($request) {
+        if ($request->request->get("form_language")['codeText'] != null)
+            $_SESSION['formLanguageCodeText'] = $request->request->get("form_language")['codeText'];
+        
+        if (isset($_SESSION['formLanguageCodeText']) == false) {
+            $row = $this->query->selectSettingDatabase();
+            
+            $_SESSION['formLanguageCodeText'] = $row['language'];
+        }
+        
+        $request->setLocale($_SESSION['formLanguageCodeText']);
+        
+        return $_SESSION['formLanguageCodeText'];
     }
     
     // Functions private
@@ -767,6 +769,7 @@ class Utility {
             return $this->passwordEncoder->encodePassword($user, $form->get("password")->getData());
     }
     
+    // Symfony
     private function createPageListHierarchy($pagesRows, $pagination) {
         $elements = array_slice($pagesRows, $pagination['offset'], $pagination['show']);
         

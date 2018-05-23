@@ -1,73 +1,14 @@
 // Version 1.0.0
 
-/*#backdrop {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 0.5;
-    background-color: #000;
-    z-index: 1040;
-}
-
-#loader {
-    display: none;
-    position: fixed;
-    top: 35%;
-    right: 0;
-    left: 0;
-    margin: 30px auto;
-    width: 200px;
-    height: 50px;
-    padding-top: 8px;
-    text-align: center;
-    border: 1px solid #000000;
-    background-color: #ffffff;
-    overflow: hidden;
-    -webkit-overflow-scrolling: touch;
-    outline: 0;
-    z-index: 1050;
-}
-#loader {
-    .text {
-        display: inline-block;
-        margin: 0;
-        vertical-align: middle;
-    }
-}
-#loader {
-    .image {
-        display: inline-block;
-    }
-}
-#loader_request {
-    position: fixed;
-    bottom: 1px;
-    left: 0;
-    z-index: 1050;
-    background-color: #000000;
-    border: 1px solid #ffffff;
-}
-#loader_request {
-    i {
-        color: #ffffff;
-        padding: 10px;
-    }
-}
-#loader_request {
-    img {
-        border: 1px solid #000000;
-    }
-}*/
-
 $offset: 187;
 $duration: 1.4s;
 
 .loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
     
     animation: rotator $duration linear infinite;
     
@@ -75,7 +16,8 @@ $duration: 1.4s;
         stroke-dasharray: $offset;
         stroke-dashoffset: 0;
         transform-origin: center;
-        animation: dash $duration ease-in-out infinite, colors ($duration*4) ease-in-out infinite;
+        
+        animation: dash $duration ease-in-out infinite, colors ($duration * 4) ease-in-out infinite;
     }
 }
 
@@ -85,6 +27,19 @@ $duration: 1.4s;
     }
     100% {
         transform: rotate(270deg);
+    }
+}
+@keyframes dash {
+    0% {
+        stroke-dashoffset: $offset;
+    }
+    50% {
+        stroke-dashoffset: $offset/4;
+        transform:rotate(135deg);
+    }
+    100% {
+        stroke-dashoffset: $offset;
+        transform:rotate(450deg);
     }
 }
 @keyframes colors {
@@ -102,18 +57,5 @@ $duration: 1.4s;
     }
     100% {
         stroke: #4285F4;
-    }
-}
-@keyframes dash {
-    0% {
-        stroke-dashoffset: $offset;
-    }
-    50% {
-        stroke-dashoffset: $offset/4;
-        transform:rotate(135deg);
-    }
-    100% {
-        stroke-dashoffset: $offset;
-        transform:rotate(450deg);
     }
 }

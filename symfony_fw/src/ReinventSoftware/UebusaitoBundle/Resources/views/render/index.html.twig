@@ -21,11 +21,11 @@
     <link href="{{asset("bundles/uebusaito/css/library/material-components-web.min.css")}}" rel="stylesheet"/>
     
     <link href="{{asset("bundles/uebusaito/css/system/" ~ settingRow['template_name'] ~ ".css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/loader.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/table_and_pagination.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/captcha.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/loader.css")}}" rel="stylesheet"/>
+    {#<link href="{{asset("bundles/uebusaito/css/table_and_pagination.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/upload.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/wysiwyg.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/wysiwyg.css")}}" rel="stylesheet"/>#}
 {% endblock%}
 
 {% block headerContainer %}
@@ -128,7 +128,6 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-
     <footer class="mdc-theme--primary-bg mdc-theme--on-primary footer">
         <div class="icon">
             <div>
@@ -150,8 +149,8 @@
 
 {% block bodyIncludeDown %}
     {{-include("@UebusaitoBundleViews/include/flashBag.html.twig")-}}
-    {#{{-include("@UebusaitoBundleViews/include/loader.html.twig")-}}
-    {{-include("@UebusaitoBundleViews/include/popup_easy.html.twig")-}}#}
+    {#{{-include("@UebusaitoBundleViews/include/popup_easy.html.twig")-}}#}
+    {{-include("@UebusaitoBundleViews/include/loader.html.twig")-}}
 {% endblock %}
 
 {% block javascript %}
@@ -249,13 +248,13 @@
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/widget/WidgetDatePicker.js")}}"></script>
     
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Ajax.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Loader.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/FlashBag.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/PopupEasy.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/TableAndPagination.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Captcha.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/FlashBag.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Loader.js")}}"></script>
+    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/PopupEasy.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/TableAndPagination.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Upload.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Wysiwyg.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Wysiwyg.js")}}"></script>#}
 
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Language.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Search.js")}}"></script>

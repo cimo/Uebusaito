@@ -70,7 +70,7 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
+        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_field", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -230,7 +230,7 @@ class UserController extends Controller {
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_user_roleUserId_field", true);
+                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_field", true);
                     $this->response['values']['id'] = $_SESSION['userProfileId'];
                     $this->response['values']['credit'] = $userEntity->getCredit();
 

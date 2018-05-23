@@ -70,7 +70,7 @@ class SettingController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['userRoleHtml'] = $this->utility->createUserRoleHtml("form_setting_roleUserId_field", true);
+        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_setting_roleUserId_field", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {

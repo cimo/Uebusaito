@@ -1,4 +1,4 @@
-/* global utility, mdc, widgetSearch, widgetDatePicker, flashBag, authentication, registration, recoverPassword */
+/* global utility, mdc, widgetSearch, widgetDatePicker, flashBag, loader, authentication, registration, recoverPassword */
 
 $(document).ready(function() {
     utility.checkMobile(true);
@@ -16,11 +16,14 @@ $(document).ready(function() {
     window.mdc.autoInit();
     
     // Tabs
+    var tabBarMdc = new Array();
+    var tabBarScroller = new Array();
+    
     $.each($(".mdc-tab-bar"), function(key, value) {
-        mdc.tabs.MDCTabBar.attachTo(value);
+        tabBarMdc[key] = new mdc.tabs.MDCTabBar.attachTo(value);
     });
     $.each($(".mdc-tab-bar-scroller"), function(key, value) {
-        mdc.tabs.MDCTabBarScroller.attachTo(value);
+        tabBarScroller[key] = new mdc.tabs.MDCTabBarScroller.attachTo(value);
     });
     
     // Checkbox
@@ -37,12 +40,10 @@ $(document).ready(function() {
         textFieldMdc[key] = new mdc.textField.MDCTextField.attachTo(value);
     });
     
-    var textFieldGroup = $(".mdc-text-field");
-    
     var textFieldInput = new Array();
     var textFieldHelperText = new Array();
     
-    $.each(textFieldGroup, function(key, value) {
+    $.each($(".mdc-text-field"), function(key, value) {
         textFieldInput[key] = $(value).find(".mdc-text-field__input");
         textFieldHelperText[key] = $(value).find(".mdc-text-field-helper-text");
     });
@@ -59,14 +60,26 @@ $(document).ready(function() {
     });
     
     // Button
-    var button = $(".mdc-button");
+    var buttonMdc = new Array();
     
-    $.each(button, function(key, value) {
-        mdc.ripple.MDCRipple.attachTo(value);
+    $.each($(".mdc-button"), function(key, value) {
+        buttonMdc[key] = mdc.ripple.MDCRipple.attachTo(value);
+    });
+    
+    // Icons
+    $.each($(".mdc-card__action--icon"), function(key, value) {
+        mdc.iconToggle.MDCIconToggle.attachTo(value);
+    });
+    $.each($(".mdc-icon-toggle"), function(key, value) {
+        mdc.iconToggle.MDCIconToggle.attachTo(value);
     });
     
     // Snackbar
-    var snackbarMdc = new mdc.snackbar.MDCSnackbar.attachTo($(".mdc-snackbar")[0]);
+    var snackbarMdc = new Array();
+    
+    $.each($(".mdc-snackbar"), function(key, value) {
+        snackbarMdc[key] = new mdc.snackbar.MDCSnackbar.attachTo(value); 
+    });
     
     // Widget
     widgetSearch.init();
@@ -79,7 +92,7 @@ $(document).ready(function() {
     widgetDatePicker.setInputFill(".widget_datePicker_input");
     widgetDatePicker.init();
     
-    flashBag.setElement(snackbarMdc);
+    flashBag.setElement(snackbarMdc[0]);
     flashBag.sessionActivity();
     
     //loader.create();
