@@ -10,6 +10,7 @@ function ControlPanelProfile() {
     
     // Functions public
     self.init = function() {
+        upload.init();
         upload.processFile();
         upload.setTagImageRefresh(".img-thumbnail.avatar", 1);
         
@@ -17,7 +18,6 @@ function ControlPanelProfile() {
             event.preventDefault();
             
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
@@ -38,7 +38,6 @@ function ControlPanelProfile() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -57,7 +56,6 @@ function ControlPanelProfile() {
             event.preventDefault();
             
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),

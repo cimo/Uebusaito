@@ -24,7 +24,6 @@ function ControlPanelUser() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -75,15 +74,15 @@ function ControlPanelUser() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpUserSelection, "#cp_user_selection_result_desktop", true);
-        tableAndPagination.search(true);
-        tableAndPagination.pagination(true);
+        tableAndPagination.init();
+        tableAndPagination.create(window.url.cpUserSelection, "#cp_user_selection_result_desktop", true);
+        tableAndPagination.search();
+        tableAndPagination.pagination();
         tableAndPagination.sort(true);
         
         $(document).on("click", "#cp_user_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
-                false,
                 window.url.cpUserSelection,
                 "post",
                 {
@@ -112,7 +111,6 @@ function ControlPanelUser() {
                     
                     ajax.send(
                         true,
-                        false,
                         window.url.cpUserDeletion,
                         "post",
                         {
@@ -152,7 +150,6 @@ function ControlPanelUser() {
 
             ajax.send(
                 true,
-                true,
                 window.url.cpUserProfileResult,
                 "post",
                 {
@@ -179,7 +176,6 @@ function ControlPanelUser() {
             event.preventDefault();
 
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
@@ -212,7 +208,6 @@ function ControlPanelUser() {
                 event.preventDefault();
 
                 ajax.send(
-                    true,
                     true,
                     $(this).prop("action"),
                     $(this).prop("method"),

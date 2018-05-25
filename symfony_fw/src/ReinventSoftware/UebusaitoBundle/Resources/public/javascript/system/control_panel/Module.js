@@ -28,7 +28,6 @@ function ControlPanelModule() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -100,7 +99,6 @@ function ControlPanelModule() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -119,15 +117,15 @@ function ControlPanelModule() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpModuleSelection, "#cp_module_selection_result_desktop", true);
-        tableAndPagination.search(true);
-        tableAndPagination.pagination(true);
+        
+        tableAndPagination.create(window.url.cpModuleSelection, "#cp_module_selection_result_desktop", true);
+        tableAndPagination.search();
+        tableAndPagination.pagination();
         tableAndPagination.sort(true);
         
         $(document).on("click", "#cp_module_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
-                false,
                 window.url.cpModuleSelection,
                 "post",
                 {
@@ -156,7 +154,6 @@ function ControlPanelModule() {
                     
                     ajax.send(
                         true,
-                        false,
                         window.url.cpModuleDeletion,
                         "post",
                         {
@@ -196,7 +193,6 @@ function ControlPanelModule() {
 
             ajax.send(
                 true,
-                true,
                 window.url.cpModuleProfileResult,
                 "post",
                 {
@@ -223,7 +219,6 @@ function ControlPanelModule() {
             event.preventDefault();
 
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
@@ -256,7 +251,6 @@ function ControlPanelModule() {
                 event.preventDefault();
 
                 ajax.send(
-                    true,
                     true,
                     $(this).prop("action"),
                     $(this).prop("method"),
@@ -303,7 +297,6 @@ function ControlPanelModule() {
         $("#form_module_position").on("change", "", function() {
             ajax.send(
                 true,
-                false,
                 window.url.cpModuleProfileSort,
                 "post",
                 {
@@ -346,7 +339,6 @@ function ControlPanelModule() {
 
                 ajax.send(
                     true,
-                    false,
                     window.url.cpModuleDeletion,
                     "post",
                     {

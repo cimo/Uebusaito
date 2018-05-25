@@ -26,7 +26,6 @@ function ControlPanelRoleUser() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -77,15 +76,15 @@ function ControlPanelRoleUser() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpRoleUserSelection, "#cp_roleUser_selection_result_desktop", true);
-        tableAndPagination.search(true);
-        tableAndPagination.pagination(true);
+        tableAndPagination.init();
+        tableAndPagination.create(window.url.cpRoleUserSelection, "#cp_roleUser_selection_result_desktop", true);
+        tableAndPagination.search();
+        tableAndPagination.pagination();
         tableAndPagination.sort(true);
         
         $(document).on("click", "#cp_roleUser_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
-                false,
                 window.url.cpRoleUserSelection,
                 "post",
                 {
@@ -114,7 +113,6 @@ function ControlPanelRoleUser() {
                     
                     ajax.send(
                         true,
-                        false,
                         window.url.cpRoleUserDeletion,
                         "post",
                         {
@@ -154,7 +152,6 @@ function ControlPanelRoleUser() {
 
             ajax.send(
                 true,
-                true,
                 window.url.cpRoleUserProfileResult,
                 "post",
                 {
@@ -181,7 +178,6 @@ function ControlPanelRoleUser() {
             event.preventDefault();
 
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
@@ -217,7 +213,6 @@ function ControlPanelRoleUser() {
 
                 ajax.send(
                     true,
-                    true,
                     $(this).prop("action"),
                     $(this).prop("method"),
                     $(this).serialize(),
@@ -250,7 +245,6 @@ function ControlPanelRoleUser() {
 
                 ajax.send(
                     true,
-                    false,
                     window.url.cpRoleUserDeletion,
                     "post",
                     {

@@ -8,19 +8,30 @@ function Wysiwyg() {
     // Vars
     var self = this;
     
-    var containerTag = "";
+    var containerTag;
     
-    var currentLink = null;
-    var currentImage = null;
-    var currentButton = null;
-    var currentColumn = null;
+    var currentLink;
+    var currentImage;
+    var currentButton;
+    var currentColumn;
     
-    var padding = new Array();
+    var padding;
     
     // Properties
     
     // Functions public
-    self.init = function(container, saveElement) {
+    self.init = function() {
+        containerTag = "";
+
+        currentLink = null;
+        currentImage = null;
+        currentButton = null;
+        currentColumn = null;
+
+        padding = new Array();
+    };
+    
+    self.create = function(container, saveElement) {
         $(function(){
             containerTag = container;
 

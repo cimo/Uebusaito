@@ -8,36 +8,27 @@ function WidgetDatePicker() {
     // Vars
     var self = this;
 
-    var language = "";
-    var currentYear = -1;
-    var currentMonth = -1;
-    var currentDay = -1;
+    var language;
+    var currentYear;
+    var currentMonth;
+    var currentDay;
     
-    var yearMin = 1900;
-    var yearMax = -1;
+    var yearMin;
+    var yearMax;
 
-    var monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var monthDays;
     
-    var monthLabels = {
-        'en': new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
-        'jp': new Array("一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"),
-        'it': new Array("Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre")
-    };
+    var monthLabels;
+    var dayLabels;
     
-    var dayLabels = {
-        'en': new Array("S", "M", "T", "W", "T", "F", "S"),
-        'jp': new Array("日", "月", "火", "水", "木", "金", "土"),
-        'it': new Array("D", "L", "M", "M", "G", "V", "S")
-    };
+    var monthLength;
+    var weekCurrentDay;
+    var weekDayShift;
+    var dayFirstPosition;
     
-    var monthLength = 0;
-    var weekCurrentDay = 0;
-    var weekDayShift = 0;
-    var dayFirstPosition = 0;
+    var result;
     
-    var result = "";
-    
-    var inputFillTag = "";
+    var inputFillTag;
     
     // Properties
     self.setLanguage = function(value) {
@@ -65,6 +56,38 @@ function WidgetDatePicker() {
 
     // Functions public
     self.init = function() {
+        language = "";
+        currentYear = -1;
+        currentMonth = -1;
+        currentDay = -1;
+
+        yearMin = 1900;
+        yearMax = -1;
+
+        monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        monthLabels = {
+            'en': new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"),
+            'jp': new Array("一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"),
+            'it': new Array("Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre")
+        };
+        dayLabels = {
+            'en': new Array("S", "M", "T", "W", "T", "F", "S"),
+            'jp': new Array("日", "月", "火", "水", "木", "金", "土"),
+            'it': new Array("D", "L", "M", "M", "G", "V", "S")
+        };
+
+        monthLength = 0;
+        weekCurrentDay = 0;
+        weekDayShift = 0;
+        dayFirstPosition = 0;
+
+        result = "";
+
+        inputFillTag = "";
+    };
+    
+    self.create = function() {
         var date = new Date();
         
         if (currentYear === -1)
@@ -284,7 +307,7 @@ function WidgetDatePicker() {
         $(".widget_datePicker").find(".listYears li").off("click").on("click", "", function() {
             currentYear = parseInt($(this).text().trim());
             
-            self.init();
+            self.create();
         });
         
         $(".widget_datePicker").find(".material-icons").not(".mdc-fab").off("click").on("click", "", function() {
@@ -312,7 +335,7 @@ function WidgetDatePicker() {
                 currentMonth = 11;
             }
             
-            self.init();
+            self.create();
         });
         
         $(".widget_datePicker").find(".day li span").off("mouseover").on("mouseover", "", function() {
@@ -345,7 +368,7 @@ function WidgetDatePicker() {
             currentMonth = -1;
             currentDay = -1;
             
-            self.init();
+            self.create();
         });
         
         $(".widget_datePicker").find(".button .button_clear").off("click").on("click", "", function() {

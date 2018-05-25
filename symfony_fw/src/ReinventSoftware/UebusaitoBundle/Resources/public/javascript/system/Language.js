@@ -17,7 +17,6 @@ function Language() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -45,7 +44,6 @@ function Language() {
             event.preventDefault();
             
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),

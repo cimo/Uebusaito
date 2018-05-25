@@ -20,12 +20,10 @@ date.time: H:i:s
 "button_5": "Modificare"
 
 # Module
-"module_1": "Menu root"
+"module_1": "Ricerca"
 "module_2": "Autenticazione"
 "module_3": "Pagina"
-"module_4": "Lingua"
-"module_5": "Ricerca"
-"module_6": "Vuoto"
+"module_4": "Vuoto"
 
 # Entity
 "entity.user.password": "Servono min 8 max 20 caratteri."
@@ -251,6 +249,7 @@ date.time: H:i:s
 "table_and_pagination_3": "Cerca"
 "table_and_pagination_4": "Precedente"
 "table_and_pagination_5": "Successivo"
+"table_and_pagination_6": "Elementi trovati:"
 
 # upload.html.twig
 "upload_1": "Iniziare"
@@ -344,9 +343,6 @@ date.time: H:i:s
 "registration_18": "Indirizzo"
 "registration_19": "Password"
 "registration_20": "Conferma password"
-
-# search.html.twig
-"search_1": "Elementi trovati:"
 
 # ---
 # Views / Render / Control panel

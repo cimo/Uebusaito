@@ -1,17 +1,19 @@
-/* line 6, ../scss/loader.scss */
-.loader { position: fixed; top: 50%; left: 50%; margin-top: -50px; margin-left: -50px; animation: rotator 1.4s linear infinite; }
-/* line 15, ../scss/loader.scss */
-.loader .path { stroke-dasharray: 187; stroke-dashoffset: 0; transform-origin: center; animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite; }
+/* line 10, ../scss/loader.scss */
+.loader { display: none; position: fixed; top: 30%; left: 50%; margin-top: -25px; margin-left: -25px; border: 1px solid #cecece; border-radius: 50%; width: 50px; }
+/* line 23, ../scss/loader.scss */
+.loader:before { content: ""; display: block; padding-top: 100%; }
+/* line 29, ../scss/loader.scss */
+.loader .circular { height: 100%; transform-origin: center center; width: 100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; animation: rotate 2s linear infinite; }
+/* line 43, ../scss/loader.scss */
+.loader .path { stroke-dasharray: 1, 200; stroke-dashoffset: 0; stroke-linecap: round; animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite; }
 
-@keyframes rotator { 0% { transform: rotate(0deg); }
-  100% { transform: rotate(270deg); } }
-@keyframes dash { 0% { stroke-dashoffset: 187; }
-  50% { stroke-dashoffset: 46.75; transform: rotate(135deg); }
-  100% { stroke-dashoffset: 187; transform: rotate(450deg); } }
-@keyframes colors { 0% { stroke: #4285F4; }
-  25% { stroke: #DE3E35; }
-  50% { stroke: #F7C223; }
-  75% { stroke: #1B9A59; }
-  100% { stroke: #4285F4; } }
+@keyframes rotate { 100% { transform: rotate(360deg); } }
+@keyframes dash { 0% { stroke-dasharray: 1, 200; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 89, 200; stroke-dashoffset: -35px; }
+  100% { stroke-dasharray: 89, 200; stroke-dashoffset: -124px; } }
+@keyframes color { 100%, 0% { stroke: #d62d20; }
+  40% { stroke: #0057e7; }
+  66% { stroke: #008744; }
+  80%, 90% { stroke: #ffa700; } }
 
 /*# sourceMappingURL=loader.css.map */

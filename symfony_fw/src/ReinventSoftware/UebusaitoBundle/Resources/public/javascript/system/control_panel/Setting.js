@@ -33,7 +33,6 @@ function ControlPanelSetting() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -102,7 +101,6 @@ function ControlPanelSetting() {
                     
                     ajax.send(
                         true,
-                        true,
                         window.url.cpSettingLanguageManage,
                         "post",
                         {
@@ -139,7 +137,6 @@ function ControlPanelSetting() {
             var date = $("#form_setting_languageManageDate").val();
             
             ajax.send(
-                true,
                 true,
                 window.url.cpSettingLanguageManage,
                 "post",

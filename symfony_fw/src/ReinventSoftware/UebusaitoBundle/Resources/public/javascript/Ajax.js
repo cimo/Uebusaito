@@ -11,9 +11,9 @@ function Ajax() {
     // Properties
     
     // Functions public
-    self.send = function(loaderEnabled, messageHide, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete) {
-        //if (loaderEnabled === true)
-        //    loader.show();
+    self.send = function(loaderEnabled, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete) {
+        if (loaderEnabled === true)
+            loader.show();
         
         $.ajax({
             'url': url,
@@ -37,15 +37,15 @@ function Ajax() {
                 if (callbackSuccess !== null)
                     callbackSuccess(xhr);
                 
-                //if (loaderEnabled === true)
-                //    loader.hide();
+                if (loaderEnabled === true)
+                    loader.hide();
             },
             error: function(xhr, status) {
-                //if (loaderEnabled === true)
-                //    loader.hide();
+                if (loaderEnabled === true)
+                    loader.hide();
                 
                 if (xhr.status === 408 || status === "timeout")
-                    self.send(loaderEnabled, messageHide, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete);
+                    self.send(loaderEnabled, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete);
                 else {
                     if (callbackError !== null)
                         callbackError(xhr);
@@ -63,8 +63,10 @@ function Ajax() {
         
         var reply = "";
         
-        if ($(tag).length > 0)
-            $(tag).find("*[required='required']").parent().removeClass("mdc-text-field--invalid");
+        if ($(tag).length > 0) {
+            $(tag).find("*[required='required']").parent().removeClass("mdc-text-field--invalid mdc-text-field--focused");
+            $(tag).find("*[required='required']").parents(".form_row").find(".mdc-text-field-helper-text").text("");
+        }
         
         if ($.isEmptyObject(xhr.response) === true)
             reply = window.text.ajaxConnectionError;
@@ -92,7 +94,8 @@ function Ajax() {
                             input = $(tag).find("*[name*='"+ key + "']")[0];
 
                         if (input !== undefined) {
-                            $(input).parent().addClass("mdc-text-field--invalid");
+                            $(input).parent().addClass("mdc-text-field--invalid mdc-text-field--focused");
+                            $(input).parents(".form_row").find(".mdc-text-field-helper-text").text(value[0]);
                         }
                     }
                 });
@@ -108,7 +111,7 @@ function Ajax() {
             flashBag.show();
         }
         
-        //flashBag.sessionActivity();
+        flashBag.sessionActivity();
     };
     
     // Functions private

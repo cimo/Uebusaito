@@ -20,12 +20,10 @@ date.time: H:i:s
 "button_5": "Modify"
 
 # Module
-"module_1": "Menu root"
+"module_1": "Search"
 "module_2": "Authentication"
 "module_3": "Page"
-"module_4": "Language"
-"module_5": "Search"
-"module_6": "Empty"
+"module_4": "Empty"
 
 # Entity
 "entity.user.password": "Need min 8 max 20 character."
@@ -251,6 +249,7 @@ date.time: H:i:s
 "table_and_pagination_3": "Search"
 "table_and_pagination_4": "Previous"
 "table_and_pagination_5": "Next"
+"table_and_pagination_6": "Elements found:"
 
 # upload.html.twig
 "upload_1": "Start"
@@ -344,9 +343,6 @@ date.time: H:i:s
 "registration_18": "Address"
 "registration_19": "Password"
 "registration_20": "Password confirm"
-
-# search.html.twig
-"search_1": "Elements found:"
 
 # ---
 # Views / Render / Control panel

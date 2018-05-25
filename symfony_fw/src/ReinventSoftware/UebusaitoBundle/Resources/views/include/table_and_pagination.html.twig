@@ -1,26 +1,33 @@
-<div class="buttons margin_bottom display_none">
-    <button class="button_custom refresh">{% trans %}table_and_pagination_1{% endtrans %}</button>
-    <button class="delete_all button_custom_danger">{% trans %}table_and_pagination_2{% endtrans %}</button>
-</div>
-<div class="input-group pull-right search_input">
-    <div class="button_search">
-        <i class="fa fa-search"></i>
-        <i class="fa fa-circle-o-notch fa-spin display_none"></i>
+<div class="tableAndPagination">
+    <div class="container_buttons">
+        <button class="mdc-button mdc-button--dense mdc-button--raised refresh">
+            {% trans %}table_and_pagination_1{% endtrans %}
+        </button>
+        <button class="mdc-button mdc-button--dense mdc-button--raised delete_all">
+            {% trans %}table_and_pagination_2{% endtrans %}
+        </button>
     </div>
-    <input class="form-control" type="text" placeholder="{% trans %}table_and_pagination_3{% endtrans %}" value="{{response.values.search.value}}"/>
+    <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense">
+        <input class="mdc-text-field__input" type="text" value="{{response.values.search.value}}"/>
+        <label class="mdc-floating-label" for="mdc-text-field__input">{% trans %}table_and_pagination_3{% endtrans %}</label>
+        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">search</i>
+        <div class="mdc-notched-outline">
+            <svg>
+                <path class="mdc-notched-outline__path"/>
+            </svg>
+        </div>
+        <div class="mdc-notched-outline__idle"></div>
+    </div>
+    <ul>
+        <li class="previous">
+            <a href="#">{% trans %}table_and_pagination_4{% endtrans %}</a>
+        </li>
+        <li class="text">
+            <span>{{response.values.pagination.text}}</span>
+        </li>
+        <li class="next">
+            <a href="#">{% trans %}table_and_pagination_5{% endtrans %}</a>
+        </li>
+    </ul>
+    <p class="count">{% trans %}table_and_pagination_6{% endtrans %} <span>{{response.values.count}}</span></p>
 </div>
-<div class="clearfix"></div>
-<ul class="pagination-controle pagination margin_clear">
-    <li class="previous">
-        <a href="#">{% trans %}table_and_pagination_4{% endtrans %}</a>
-    </li>
-    <li>
-        <span class="text">{{response.values.pagination.text}}</span>
-    </li>
-    <li class="next">
-        <a href="#">{% trans %}table_and_pagination_5{% endtrans %}</a>
-    </li>
-    <li class="loading">
-        <i class="fa fa-circle-o-notch fa-spin display_none"></i>
-    </li>
-</ul>

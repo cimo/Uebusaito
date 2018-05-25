@@ -8,18 +8,25 @@ function WidgetSearch() {
     // Vars
     var self = this;
     
-    var widgetSearchButtonOpen = null;
-    var topAppBarSectionStart = null;
-    
-    var maxWidthOverride = "599";
+    var widgetSearchButtonOpen;
+    var widgetSearchButtonClose;
+    var widgetSearchInput;
+    var topAppBarSectionStart;
     
     // Properties
     
     // Functions public
     self.init = function() {
+        widgetSearchButtonOpen = null;
+        widgetSearchButtonClose = null;
+        widgetSearchInput = null;
+        topAppBarSectionStart = null;
+    };
+    
+    self.create = function() {
         widgetSearchButtonOpen = $(".widget_search").find(".button_open");
-        var widgetSearchButtonClose = $(".widget_search").find(".button_close");
-        var widgetSearchButtonInput = $(".widget_search").find("input");
+        widgetSearchButtonClose = $(".widget_search").find(".button_close");
+        widgetSearchButtonInput = $(".widget_search").find("input");
         topAppBarSectionStart = $(".mdc-top-app-bar__section--align-start");
 
         $(widgetSearchButtonOpen).on("click", "", function(event) {
@@ -33,8 +40,6 @@ function WidgetSearch() {
                 if (utility.checkWidthType() === "mobile")
                     $(topAppBarSectionStart[0]).hide();
             }
-            
-            // Ajax search here
         });
 
         $(widgetSearchButtonClose).on("click", "", function(event) {

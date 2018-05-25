@@ -529,7 +529,7 @@ class ModuleController extends Controller {
                     {$value['name']}
                 </td>
                 <td>
-                    {$value['file_name']}
+                    {$value['controller_name']}
                 </td>
                 <td>";
                     if ($value['active'] == 0)

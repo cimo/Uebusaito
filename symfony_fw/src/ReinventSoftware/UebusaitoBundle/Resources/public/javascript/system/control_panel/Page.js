@@ -39,7 +39,6 @@ function ControlPanelPage() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -92,15 +91,15 @@ function ControlPanelPage() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpPageSelection, "#cp_page_selection_result_desktop", true);
-        tableAndPagination.search(true);
-        tableAndPagination.pagination(true);
+        tableAndPagination.init();
+        tableAndPagination.create(window.url.cpPageSelection, "#cp_page_selection_result_desktop", true);
+        tableAndPagination.search();
+        tableAndPagination.pagination();
         tableAndPagination.sort(true);
         
         $(document).on("click", "#cp_page_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
-                false,
                 window.url.cpPageSelection,
                 "post",
                 {
@@ -129,7 +128,6 @@ function ControlPanelPage() {
                     
                     ajax.send(
                         true,
-                        false,
                         window.url.cpPageDeletion,
                         "post",
                         {
@@ -169,7 +167,6 @@ function ControlPanelPage() {
 
             ajax.send(
                 true,
-                true,
                 window.url.cpPageProfileResult,
                 "post",
                 {
@@ -196,7 +193,6 @@ function ControlPanelPage() {
             event.preventDefault();
 
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
@@ -232,8 +228,9 @@ function ControlPanelPage() {
             utility.selectWithDisabledElement("#form_page_parent", xhr);
 
             utility.wordTag("#form_page_roleUserId");
-
-            wysiwyg.init("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
+            
+            wysiwyg.init();
+            wysiwyg.create("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
 
             $("#form_cp_page_profile").find(".form-control").focus(function() {
                 profileFocus = true;
@@ -247,7 +244,6 @@ function ControlPanelPage() {
                 event.preventDefault();
 
                 ajax.send(
-                    true,
                     true,
                     $(this).prop("action"),
                     $(this).prop("method"),
@@ -289,7 +285,6 @@ function ControlPanelPage() {
         $("#form_page_parent").on("change", "", function() {
             ajax.send(
                 true,
-                false,
                 window.url.cpPageProfileSort,
                 "post",
                 {
@@ -330,7 +325,6 @@ function ControlPanelPage() {
 
                 ajax.send(
                     true,
-                    false,
                     window.url.cpPageDeletion,
                     "post",
                     {
@@ -354,7 +348,6 @@ function ControlPanelPage() {
                                 popupEasy.close();
                                 
                                 ajax.send(
-                                    true,
                                     true,
                                     window.url.cpPageDeletion,
                                     "post",
@@ -382,7 +375,6 @@ function ControlPanelPage() {
                                 popupEasy.close();
                                 
                                 ajax.send(
-                                    true,
                                     true,
                                     window.url.cpPageDeletion,
                                     "post",

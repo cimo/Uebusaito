@@ -1,16 +1,18 @@
-/* global utility, mdc, widgetSearch, widgetDatePicker, flashBag, loader, authentication, registration, recoverPassword */
+/* global utility, mdc, widgetSearch, widgetDatePicker, flashBag, authentication, registration, recoverPassword */
 
 $(document).ready(function() {
+    utility.init();
+    
     utility.checkMobile(true);
     
     utility.linkPreventDefault();
     
     utility.mdcTopAppBarCustom();
     utility.mdcTabsCustom();
+    utility.mdcTextFieldHelperTextClear();
+    utility.mdcButtonEnable();
     
     //utility.watch("#flashBag", flashBag.sessionActivity);
-    
-    //utility.imageError($("#panel_id_3").find("img"));
     
     // Material design
     window.mdc.autoInit();
@@ -45,7 +47,7 @@ $(document).ready(function() {
     
     $.each($(".mdc-text-field"), function(key, value) {
         textFieldInput[key] = $(value).find(".mdc-text-field__input");
-        textFieldHelperText[key] = $(value).find(".mdc-text-field-helper-text");
+        textFieldHelperText[key] = $(value).parent().find(".mdc-text-field-helper-text");
     });
     
     // Select
@@ -83,19 +85,20 @@ $(document).ready(function() {
     
     // Widget
     widgetSearch.init();
+    widgetSearch.create();
     widgetSearch.changeView();
     
+    widgetDatePicker.init();
     widgetDatePicker.setLanguage("en");
     //widgetDatePicker.setCurrentYear(1984);
     //widgetDatePicker.setCurrentMonth(4);
     //widgetDatePicker.setCurrentDay(11);
     widgetDatePicker.setInputFill(".widget_datePicker_input");
-    widgetDatePicker.init();
+    widgetDatePicker.create();
     
+    flashBag.init();
     flashBag.setElement(snackbarMdc[0]);
     flashBag.sessionActivity();
-    
-    //loader.create();
     
     captcha.init();
     
@@ -103,16 +106,12 @@ $(document).ready(function() {
     registration.init();
     recoverPassword.init();
     
-    /*loader.create("font");
+    search.init();
     
-    wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
+    /*wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
     wysiwyg.changeView();
     
     language.init();
-    search.init();
-    authentication.init();
-    registration.init();
-    recoverPassword.init();
     
     controlPanelProfile.init();
     
@@ -148,4 +147,7 @@ $(document).ready(function() {
         
         widgetSearch.changeView();
     });
+});
+
+$(window).on("load", "", function() {
 });

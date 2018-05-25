@@ -15,7 +15,6 @@ function Authentication() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -41,7 +40,6 @@ function Authentication() {
             event.preventDefault();
             
             ajax.send(
-                true,
                 true,
                 event.target.href,
                 "post",

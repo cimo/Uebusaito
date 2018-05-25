@@ -49,7 +49,7 @@ class ModuleFormType extends AbstractType {
         ->add("label", TextType::class, Array(
             'required' => false
         ))
-        ->add("fileName", TextType::class, Array(
+        ->add("controllerName", TextType::class, Array(
             'required' => true
         ))
         ->add("active", ChoiceType::class, Array(

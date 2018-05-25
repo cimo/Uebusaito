@@ -54,7 +54,7 @@ CREATE TABLE `modules` (
   `rank_in_column` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `label` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `controller_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `active` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

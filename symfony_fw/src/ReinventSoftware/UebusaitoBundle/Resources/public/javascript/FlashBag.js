@@ -6,8 +6,8 @@ function FlashBag() {
     // Vars
     var self = this;
     
-    var element = null;
-    var message = "";
+    var element;
+    var message;
     
     // Properties
     self.setElement = function(value) {
@@ -19,6 +19,11 @@ function FlashBag() {
     }
     
     // Functions public
+    self.init = function() {
+        element = null;
+        message = "";
+    }
+    
     self.show = function() {
         var snackbarDataObj = {
             message: message,

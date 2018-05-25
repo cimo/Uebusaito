@@ -360,13 +360,14 @@ class User implements UserInterface, AdvancedUserInterface, EquatableInterface, 
     
     // UserInterface
     private $salt = null;
-    private $roles = Array();
     
-    public function setRoles($roles) {
+    /**
+     * @ORM\Column(name="roles", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'ROLE_USER,'")
+     */
+    private $roles = [];
+    
+    public function setRoles(array $roles) {
         $this->roles = $roles;
-        $this->roles[] = "ROLE_USER";
-
-        return array_unique($this->roles);
     }
     
     // ---
@@ -383,8 +384,17 @@ class User implements UserInterface, AdvancedUserInterface, EquatableInterface, 
         return $this->salt;
     }
     
-    public function getRoles() {
-        return $this->roles;
+    public function getRoles(): array {
+        $rolesExplode = explode(",", $this->roles);
+        
+        if (in_array("ROLE_USER", $rolesExplode) === false)
+            $rolesExplode[] = "ROLE_USER";
+        
+        return $rolesExplode;
+    }
+    
+    public function resetRoles() {
+        $this->roles = [];
     }
     
     public function eraseCredentials() {

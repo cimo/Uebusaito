@@ -8,28 +8,28 @@ function Upload() {
     // Vars
     var self = this;
     
-    var inputType = "";
-    var maxSize = 0;
-    var type = new Array();
-    var chunkSize = 0;
-    var nameOverwrite = "";
-    var imageWidth = 0;
-    var imageHeight = 0;
+    var inputType;
+    var maxSize;
+    var type;
+    var chunkSize;
+    var nameOverwrite;
+    var imageWidth;
+    var imageHeight;
     
-    var file = null;
-    var tmp = 0;
-    var uploadStarted = false;
-    var uploadPaused = false;
-    var uploadAborted = false;
-    var chunkCurrent = 0;
-    var chunkPause = 0;
-    var timeStart = 0;
-    var totalTime = 0;
-    var timeLeft = 0;
+    var file;
+    var tmp;
+    var uploadStarted;
+    var uploadPaused;
+    var uploadAborted;
+    var chunkCurrent;
+    var chunkPause;
+    var timeStart;
+    var totalTime;
+    var timeLeft;
     
-    var tagImageRefresh = "";
+    var tagImageRefresh;
     
-    var progressBarId = "progressBar_upload";
+    var progressBarId;
     
     // Properties
     self.setTagImageRefresh = function(value) {
@@ -37,6 +37,31 @@ function Upload() {
     };
     
     // Functions public
+    self.init = function() {
+        inputType = "";
+        maxSize = 0;
+        type = new Array();
+        chunkSize = 0;
+        nameOverwrite = "";
+        imageWidth = 0;
+        imageHeight = 0;
+
+        file = null;
+        tmp = 0;
+        uploadStarted = false;
+        uploadPaused = false;
+        uploadAborted = false;
+        chunkCurrent = 0;
+        chunkPause = 0;
+        timeStart = 0;
+        totalTime = 0;
+        timeLeft = 0;
+
+        tagImageRefresh = "";
+
+        progressBarId = "progressBar_upload";
+    };
+    
     self.processFile = function() {
         if (inputType === "multiple")
             $("#upload").find(".file").prop("multiple", "multiple");
@@ -46,7 +71,6 @@ function Upload() {
             
             ajax.send(
                 true,
-                false,
                 window.url.cpProfileUpload + "?action=change",
                 "post",
                 {

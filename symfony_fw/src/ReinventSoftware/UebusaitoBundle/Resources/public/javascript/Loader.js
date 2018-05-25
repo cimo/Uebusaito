@@ -9,9 +9,13 @@ function Loader() {
     // Properties
     
     // Functions public    
-    self.create = function(tag) {
-        $(".loader").appendTo(tag);
-    }
+    self.show = function() {
+        $(".loader").show();
+    };
+    
+    self.hide = function() {
+        $(".loader").hide();
+    };
     
     // Functions private
 }

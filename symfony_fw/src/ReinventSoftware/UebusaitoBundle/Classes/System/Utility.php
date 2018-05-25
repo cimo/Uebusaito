@@ -605,18 +605,6 @@ class Utility {
         }
     }
     
-    public function assignUserRoleLevel($user) {
-        if ($user != null) {
-            $row = $this->query->selectRoleUserDatabase($user->getRoleUserId());
-            
-            foreach($row as $key => $value) {
-                $user->setRoles(Array(
-                    $value
-                ));
-            }
-        }
-    }
-    
     public function createLanguageSelectOptionHtml($code) {
         $row = $this->query->selectLanguageDatabase($code);
         $rows = $this->query->selectAllLanguageDatabase();

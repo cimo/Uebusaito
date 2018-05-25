@@ -377,7 +377,7 @@ ReinventSoftware\UebusaitoBundle\Entity\Module:
         name:
             - NotBlank:
                 groups: [module_creation, module_profile]
-        fileName:
+        controllerName:
             - NotBlank:
                 groups: [module_creation, module_profile]
             - Regex:

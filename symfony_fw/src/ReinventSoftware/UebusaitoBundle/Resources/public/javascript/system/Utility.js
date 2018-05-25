@@ -4,9 +4,9 @@ function Utility() {
     // Vars
     var self = this;
     
-    var watchExecuted = false;
+    var watchExecuted;
     
-    var touchMove = false;
+    var touchMove;
     
     // Properties
     self.getTouchMove = function() {
@@ -14,6 +14,12 @@ function Utility() {
     };
     
     // Functions public
+    self.init = function() {
+        watchExecuted = false;
+
+        touchMove = false;
+    };
+    
     self.linkPreventDefault = function() {
         $("a[href^='#']").on("click", "", function(event) {
             event.preventDefault();
@@ -447,7 +453,17 @@ function Utility() {
                 return false;
             }
         });
-    }
+    };
+    
+    self.mdcTextFieldHelperTextClear = function() {
+        $(".mdc-text-field__input").on("blur", "", function(event) {
+            $(event.target).parents(".form_row").find(".mdc-text-field-helper-text").text("");
+        });
+    };
+    
+    self.mdcButtonEnable = function() {
+        $(".mdc-button").removeAttr("disabled");
+    };
     
     // Functions private
     function swipeFix() {

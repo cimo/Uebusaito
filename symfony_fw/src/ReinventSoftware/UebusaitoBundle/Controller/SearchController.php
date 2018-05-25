@@ -39,7 +39,7 @@ class SearchController extends Controller {
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/module/search.html.twig")
+    * @Template("@UebusaitoBundleViews/render/module/widget_search.html.twig")
     */
     public function moduleAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -133,19 +133,9 @@ class SearchController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        
         $this->response['values']['count'] = count($tableAndPagination['listHtml']);
         
         if ($this->tableAndPagination->checkPost() == true) {
-            $render = $this->renderView("@UebusaitoBundleViews/render/search.html.twig", Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-
-            $this->response['render'] = $render;
-            
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,

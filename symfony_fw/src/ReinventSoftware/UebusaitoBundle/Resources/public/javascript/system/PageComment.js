@@ -11,15 +11,15 @@ function PageComment() {
     // Functions public
     self.init = function() {
         var tableAndPagination = new TableAndPagination();
-        tableAndPagination.init(window.url.pageCommentResult, "#page_comment_result", false);
-        tableAndPagination.search(true);
-        tableAndPagination.pagination(true);
+        tableAndPagination.init();
+        tableAndPagination.create(window.url.pageCommentResult, "#page_comment_result", false);
+        tableAndPagination.search();
+        tableAndPagination.pagination();
         
         $("#form_page_comment").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
@@ -47,7 +47,6 @@ function PageComment() {
             
             ajax.send(
                 true,
-                false,
                 window.url.pageCommentResult,
                 "post",
                 {
@@ -93,7 +92,6 @@ function PageComment() {
             else {
                 ajax.send(
                     true,
-                    false,
                     window.url.pageCommentResult,
                     "post",
                     {

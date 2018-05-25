@@ -15,7 +15,6 @@ function RecoverPassword() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -34,7 +33,6 @@ function RecoverPassword() {
             event.preventDefault();
             
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),

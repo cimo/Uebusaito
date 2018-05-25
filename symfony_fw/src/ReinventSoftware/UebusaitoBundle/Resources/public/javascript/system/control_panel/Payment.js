@@ -18,7 +18,6 @@ function ControlPanelPayment() {
             
             ajax.send(
                 true,
-                true,
                 $(this).prop("action"),
                 $(this).prop("method"),
                 $(this).serialize(),
@@ -78,15 +77,15 @@ function ControlPanelPayment() {
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.init(window.url.cpPaymentSelection, "#cp_payment_selection_result_desktop", true);
-        tableAndPagination.search(true);
-        tableAndPagination.pagination(true);
+        tableAndPagination.init();
+        tableAndPagination.create(window.url.cpPaymentSelection, "#cp_payment_selection_result_desktop", true);
+        tableAndPagination.search();
+        tableAndPagination.pagination();
         tableAndPagination.sort(true);
         
         $(document).on("click", "#cp_payment_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
-                false,
                 window.url.cpPaymentSelection,
                 "post",
                 {
@@ -115,7 +114,6 @@ function ControlPanelPayment() {
                     
                     ajax.send(
                         true,
-                        false,
                         window.url.cpPaymentDeletion,
                         "post",
                         {
@@ -155,7 +153,6 @@ function ControlPanelPayment() {
 
             ajax.send(
                 true,
-                true,
                 window.url.cpPaymentProfileResult,
                 "post",
                 {
@@ -182,7 +179,6 @@ function ControlPanelPayment() {
             event.preventDefault();
 
             ajax.send(
-                true,
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
@@ -224,7 +220,6 @@ function ControlPanelPayment() {
 
                 ajax.send(
                     true,
-                    false,
                     window.url.cpPaymentDeletion,
                     "post",
                     {

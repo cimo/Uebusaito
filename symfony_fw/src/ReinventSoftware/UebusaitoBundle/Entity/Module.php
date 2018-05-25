@@ -46,9 +46,9 @@ class Module {
     private $label = null;
     
     /**
-     * @ORM\Column(name="file_name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     * @ORM\Column(name="controller_name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $fileName = "";
+    private $controllerName = "";
     
     /**
      * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
@@ -80,8 +80,8 @@ class Module {
         $this->label = $value;
     }
     
-    public function setFileName($value) {
-        $this->fileName = $value;
+    public function setControllerName($value) {
+        $this->controllerName = $value;
     }
     
     public function setActive($value) {
@@ -118,8 +118,8 @@ class Module {
         return $this->label;
     }
     
-    public function getFileName() {
-        return $this->fileName;
+    public function getControllerName() {
+        return $this->controllerName;
     }
     
     public function getActive() {

@@ -6,17 +6,17 @@ function TableAndPagination() {
     // Vars
     var self = this;
     
-    var urlRequest = "";
-    var idResult = "";
-    var selectOnlyOne = "";
+    var urlRequest;
+    var idResult;
+    var selectOnlyOne;
     
-    var current = 0;
-    var total = 0;
+    var current;
+    var total;
     
-    var clickedEvent = false;
-    var sortOrderBy = false;
+    var clickedEvent;
+    var sortOrderBy;
     
-    var buttonsStatus = "";
+    var buttonsStatus;
     
     // Properties
     self.setButtonsStatus = function(value) {
@@ -24,7 +24,21 @@ function TableAndPagination() {
     };
     
     // Functions public
-    self.init = function(url, id, singleSelection) {
+    self.init = function() {
+        urlRequest = "";
+        idResult = "";
+        selectOnlyOne = "";
+
+        current = 0;
+        total = 0;
+
+        clickedEvent = false;
+        sortOrderBy = false;
+
+        buttonsStatus = "";
+    };
+    
+    self.create = function(url, id, singleSelection) {
         urlRequest = url;
         idResult = id;
         selectOnlyOne = singleSelection;
@@ -39,68 +53,60 @@ function TableAndPagination() {
         resizeColumn();
     };
     
-    self.search = function(delegate) {
-        var parentButton = delegate === true ? document : idResult + " .search_input .button_search";
-        var childButton = delegate === true ? idResult + " .search_input .button_search" : "";
+    self.search = function() {
+        var parentField = idResult + " .tableAndPagination .mdc-text-field__input";
+        var parentButton = idResult + " .tableAndPagination .mdc-text-field .material-icons";
         
-        var parentField = delegate === true ? document : idResult + " .search_input input";
-        var childField = delegate === true ? idResult + " .search_input input" : "";
-        
-        $(parentField).on("keyup", childField, function(event) {
+        $(parentField).on("keyup", "", function(event) {
             if (clickedEvent === true)
                 return;
             
             if (event.which === 13) {
                 current = 0;
                 
-                send(childButton);
+                send();
                 
                 clickedEvent = true;
             }
         });
         
-        $(parentButton).on("click", childButton, function() {
+        $(parentButton).on("click", "", function() {
             if (clickedEvent === true)
                 return;
             
             current = 0;
             
-            send(childButton);
+            send();
             
             clickedEvent = true;
         });
     };
     
-    self.pagination = function(delegate) {
-        var parentPrevious = delegate === true ? document : idResult + " .pagination .previous";
-        var childPrevious = delegate === true ? idResult + " .pagination .previous" : "";
+    self.pagination = function() {
+        var parentPrevious = idResult + " .tableAndPagination .previous";
+        var parentNext = idResult + " .tableAndPagination .next";
         
-        var parentNext = delegate === true ? document : idResult + " .pagination .next";
-        var childNext = delegate === true ? idResult + " .pagination .next" : "";
-        
-        $(parentPrevious).on("click", childPrevious, function() {
+        $(parentPrevious).on("click", "", function() {
             if (clickedEvent === true)
                 return;
             
             if (total > 1 && current > 0) {
                 current --;
                 
-                send(childPrevious);
+                send();
                 
                 clickedEvent = true;
             }
         });
         
-        
-        
-        $(parentNext).on("click", childNext, function() {
+        $(parentNext).on("click", "", function() {
             if (clickedEvent === true)
                 return;
             
             if (total > 1 && current < (total - 1)) {
                 current ++;
                 
-                send(childNext);
+                send();
                 
                 clickedEvent = true;
             }
@@ -116,17 +122,17 @@ function TableAndPagination() {
             
             var currentIndex = $(event.target).is("i") === false ? $(event.target).index() : $(event.target).parent().index();
             
-            $(this).find("th i").addClass("display_none");
+            $(this).find("th i").hide();
             
             if (sortOrderBy === false) {
-                $(this).find("th").eq(currentIndex).find("i").eq(0).removeClass("display_none");
-                $(this).find("th").eq(currentIndex).find("i").eq(1).addClass("display_none");
+                $(this).find("th").eq(currentIndex).find("i").eq(0).show();
+                $(this).find("th").eq(currentIndex).find("i").eq(1).hide();
                 
                 sortOrderBy = true;
             }
             else {
-                $(this).find("th").eq(currentIndex).find("i").eq(0).addClass("display_none");
-                $(this).find("th").eq(currentIndex).find("i").eq(1).removeClass("display_none");
+                $(this).find("th").eq(currentIndex).find("i").eq(0).hide();
+                $(this).find("th").eq(currentIndex).find("i").eq(1).show();
                 
                 sortOrderBy = false;
             }
@@ -163,11 +169,17 @@ function TableAndPagination() {
     };
     
     self.populate = function(xhr) {
-        $(idResult).find("table tbody").removeClass("visibility_hidden");
+        $(idResult).find(".tableAndPagination .mdc-text-field__input").val("");
+        $(idResult).find("table tbody").css("visibility", "visible");
         
         if (xhr.response.values !== undefined) {
-            $(idResult).find(".search_input input").val(xhr.response.values.search.value);
-            $(idResult).find(".pagination .text").html(xhr.response.values.pagination.text);
+            $(idResult).find(".tableAndPagination .mdc-text-field__input").val(xhr.response.values.search.value);
+            $(idResult).find(".tableAndPagination .text").html(xhr.response.values.pagination.text);
+            
+            if (xhr.response.values.count !== undefined) {
+                $(idResult).find(".tableAndPagination .count").show();
+                $(idResult).find(".tableAndPagination .count span").html(xhr.response.values.count);
+            }
             
             if ($(idResult).find("table tbody").length > 0)
                 $(idResult).find("table tbody").html(xhr.response.values.listHtml);
@@ -182,7 +194,7 @@ function TableAndPagination() {
     
     // Functions private
     function status() {
-        var textHtml = $(idResult).find(".pagination .text").html();
+        var textHtml = $(idResult).find(".tableAndPagination .text").text();
         
         if (textHtml !== undefined) {
             var textSplit = textHtml.split("/");
@@ -190,9 +202,9 @@ function TableAndPagination() {
             var valueB = parseInt($.trim(textSplit[1]));
             
             if (valueA > valueB && $(idResult).find("table tbody tr").length === 0)
-                $(idResult).find(".pagination .previous").click();
+                $(idResult).find(".tableAndPagination .previous").click();
             
-            current = valueA - 1;
+            //current = valueA - 1;
             
             if (current < 0)
                 current = 0;
@@ -200,71 +212,45 @@ function TableAndPagination() {
             total = valueB;
         }
         
-        $(idResult).find(".pagination .previous").addClass("disabled");
-        $(idResult).find(".pagination .next").addClass("disabled");
+        $(idResult).find(".tableAndPagination .previous").addClass("disabled");
+        $(idResult).find(".tableAndPagination .next").addClass("disabled");
         
         if (total > 1 && current > 0)
-            $(idResult).find(".pagination .previous").removeClass("disabled");
+            $(idResult).find(".tableAndPagination .previous").removeClass("disabled");
         
         if (total > 1 && current < (total - 1))
-            $(idResult).find(".pagination .next").removeClass("disabled");
+            $(idResult).find(".tableAndPagination .next").removeClass("disabled");
         
         $.each($(idResult).find("table thead tr"), function(key, value) {
-            $(value).find("th i").addClass("display_none");
+            $(value).find("th i").hide();
         });
         
         if (buttonsStatus === "show")
-            $(idResult).find(".buttons").removeClass("display_none");
+            $(idResult).find(".tableAndPagination .container_buttons").show();
     }
     
-    function send(child) {
-        if ($(child).find("i").length > 1) {
-            $(child).find("i").eq(0).hide();
-            $(child).find("i").eq(1).show();
-        }
-        else if ($(child).find("i").length === 1)
-            $(child).find("i").show();
-        else
-            $(child).parent().find("i").show();
-        
+    function send() {
         var data = {
-            'searchWritten': $(idResult).find(".search_input input").val(),
+            'searchWritten': $(idResult).find(".tableAndPagination .mdc-text-field__input").val(),
             'paginationCurrent': current,
             'token': window.session.token
         };
         
         ajax.send(
             false,
-            true,
             urlRequest,
             "post",
             data,
             "json",
             false,
             function() {
-                $(idResult).find("table tbody").addClass("visibility_hidden");
+                $(idResult).find("table tbody").css("visibility", "hidden");
             },
             function(xhr) {
                 ajax.reply(xhr, "");
                 
-                if (xhr.response.render !== undefined) {
-                    $(idResult).html(xhr.response.render);
-                    
-                    status();
-                }
-                else {
-                    if (xhr.response.values !== undefined)
-                        self.populate(xhr);
-                }
-                
-                if ($(child).find("i").length > 1) {
-                    $(child).find("i").eq(0).show();
-                    $(child).find("i").eq(1).hide();
-                }
-                else if ($(child).find("i").length === 1)
-                    $(child).find("i").hide();
-                else
-                    $(child).parent().find("i").hide();
+                if (xhr.response.values !== undefined)
+                    self.populate(xhr);
                 
                 utility.linkPreventDefault();
                 
