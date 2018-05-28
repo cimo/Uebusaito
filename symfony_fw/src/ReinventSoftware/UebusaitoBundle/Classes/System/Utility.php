@@ -37,6 +37,8 @@ class Utility {
     private $websiteFile;
     private $websiteName;
     
+    private $curlLogin;
+    
     // Properties
     public function getConnection() {
         return $this->connection;
@@ -105,7 +107,11 @@ class Utility {
     public function getWebsiteName() {
         return $this->websiteName;
     }
-      
+    
+    public function getCurlLogin() {
+        return $this->curlLogin;
+    }
+    
     // Functions public
     public function __construct($container, $entityManager) {
         $this->container = $container;
@@ -135,6 +141,8 @@ class Utility {
         
         $this->websiteFile = $this->config->getFile();
         $this->websiteName = $this->config->getName();
+        
+        $this->curlLogin = $this->config->getCurlLogin();
         
         $this->arrayColumnFix();
     }
@@ -250,6 +258,73 @@ class Utility {
         return $bytes;
     }
     
+    public function clientIp() {
+        $ip = "";
+        
+        if (getenv("HTTP_CLIENT_IP"))
+            $ip = getenv("HTTP_CLIENT_IP");
+        else if(getenv("HTTP_X_FORWARDED_FOR"))
+            $ip = getenv("HTTP_X_FORWARDED_FOR");
+        else if(getenv("HTTP_X_FORWARDED"))
+            $ip = getenv("HTTP_X_FORWARDED");
+        else if(getenv("HTTP_FORWARDED_FOR"))
+            $ip = getenv("HTTP_FORWARDED_FOR");
+        else if(getenv("HTTP_FORWARDED"))
+           $ip = getenv("HTTP_FORWARDED");
+        else if(getenv("REMOTE_ADDR"))
+            $ip = getenv("REMOTE_ADDR");
+        else
+            $ip = "UNKNOWN";
+        
+        return $ip;
+    }
+    
+    public function dateFormat($date) {
+        $newData = Array("", "");
+        
+        $dateExplode = explode(" ", $date);
+        
+        if (count($dateExplode) == 0)
+            $dateExplode = $newData;
+        else {
+            $languageDate = isset($_SESSION['languageDate']) == false ? "Y-m-d" : $_SESSION['languageDate'];
+            
+            if (strpos($dateExplode[0], "0000") === false)
+                $dateExplode[0] = date($languageDate, strtotime($dateExplode[0]));
+        }
+        
+        return $dateExplode;
+    }
+    
+    public function timeFormat($type, $time) {
+        $result = Array();
+        
+        if ($type == "micro") {
+            $elements = Array(
+                'y' => $time / 31556926 % 12,
+                'w' => $time / 604800 % 52,
+                'd' => $time / 86400 % 7,
+                'h' => $time / 3600 % 24,
+                'm' => $time / 60 % 60,
+                's' => $time % 60
+            );
+        }
+        else if ($type == "seconds") {
+            $elements = Array(
+                'h' => floor($time / 3600),
+                'm' => floor($time / 60),
+                's' => $time % 60 == 0 ? round($time, 2) : $time % 60
+            );
+        }
+
+        foreach($elements as $key => $value) {
+            if ($value > 0)
+                $result[] = $value . $key;
+        }
+
+        return join(" ", $result);
+    }
+    
     public function arrayLike($elements, $like, $flat) {
         $result = Array();
         
@@ -329,44 +404,6 @@ class Utility {
         }
         
         return $parameters;
-    }
-    
-    public function clientIp() {
-        $ip = "";
-        
-        if (getenv("HTTP_CLIENT_IP"))
-            $ip = getenv("HTTP_CLIENT_IP");
-        else if(getenv("HTTP_X_FORWARDED_FOR"))
-            $ip = getenv("HTTP_X_FORWARDED_FOR");
-        else if(getenv("HTTP_X_FORWARDED"))
-            $ip = getenv("HTTP_X_FORWARDED");
-        else if(getenv("HTTP_FORWARDED_FOR"))
-            $ip = getenv("HTTP_FORWARDED_FOR");
-        else if(getenv("HTTP_FORWARDED"))
-           $ip = getenv("HTTP_FORWARDED");
-        else if(getenv("REMOTE_ADDR"))
-            $ip = getenv("REMOTE_ADDR");
-        else
-            $ip = "UNKNOWN";
-        
-        return $ip;
-    }
-    
-    public function dateFormat($date) {
-        $newData = Array("", "");
-        
-        $dateExplode = explode(" ", $date);
-        
-        if (count($dateExplode) == 0)
-            $dateExplode = $newData;
-        else {
-            $languageDate = isset($_SESSION['languageDate']) == false ? "Y-m-d" : $_SESSION['languageDate'];
-            
-            if (strpos($dateExplode[0], "0000") === false)
-                $dateExplode[0] = date($languageDate, strtotime($dateExplode[0]));
-        }
-        
-        return $dateExplode;
     }
     
     public function assignUserPassword($type, $user, $form) {

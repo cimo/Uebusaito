@@ -10,6 +10,7 @@ class Config {
     private $supportSymlink;
     private $file;
     private $name;
+    private $curlLogin;
     
     // Properties
     public function getDatabaseConnectionFields() {
@@ -40,6 +41,10 @@ class Config {
         return $this->name;
     }
     
+    public function getCurlLogin() {
+        return $this->curlLogin;
+    }
+    
     // Functions public
     public function __construct() {
         $this->databaseConnectionFields = Array("", "", "", Array());
@@ -49,6 +54,7 @@ class Config {
         $this->supportSymlink = true;
         $this->file = "/app_dev.php";
         $this->name = "Uebusaito 1.0.0";
+        $this->curlLogin = Array("", "", "");
     }
     
     // Functions private
