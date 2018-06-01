@@ -1,5 +1,4 @@
 @import "utility.scss";
-@import "widget.scss";
 
 /*$spaceBottom: 120px;
 $textColor: #4089c9;
@@ -1012,8 +1011,14 @@ p {
     .main {
         .sortable_column {
             padding-top: 55px !important;
+            
+            form {
+                width: 100% !important;
+            }
         }
     }
+}
+@media(min-width: $widthDesktop) {
 }
 @media(max-width: "599px") {
     .main {
@@ -1101,6 +1106,16 @@ body {
     .sortable_column {
         padding-top: 120px;
         padding-bottom: $footerHeight;
+        
+        .page_container {
+            form {
+                width: 50%;
+
+                .mdc-text-field, .mdc-select {
+                    width: 100%;
+                }
+            }
+        }
     }
 }
 
@@ -1194,14 +1209,6 @@ body {
     .header {
         h1 {
             margin: 0;
-        }
-    }
-    
-    @media(max-width: $widthMobile) {
-        .form_row {
-            .mdc-text-field--box, .mdc-text-field--outlined, .mdc-text-field__basic, .mdc-select {
-                width: 100%;
-            }
         }
     }
 }

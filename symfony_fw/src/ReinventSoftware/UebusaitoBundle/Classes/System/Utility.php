@@ -297,6 +297,9 @@ class Utility {
     }
     
     public function timeFormat($type, $time) {
+        if ($time == 0)
+            return "0s";
+        
         $result = Array();
         
         if ($type == "micro") {
@@ -323,6 +326,10 @@ class Utility {
         }
 
         return join(" ", $result);
+    }
+    
+    public function cutLengthString($value, $length) {
+        return strlen($value) > $length ? substr(value, 0, $length) . "..." : $value;
     }
     
     public function arrayLike($elements, $like, $flat) {

@@ -20,13 +20,13 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             <div class="mdc-line-ripple"></div>
         </div>
     {% elseif styleType is defined and styleType == "boxTrailing" %}
         <div class="mdc-text-field mdc-text-field--box{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
@@ -38,7 +38,7 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             <div class="mdc-notched-outline">
                 <svg>
@@ -49,7 +49,7 @@
         </div>
     {% elseif styleType is defined and styleType == "outlinedTrailing" %}
         <div class="mdc-text-field mdc-text-field--outlined{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
@@ -66,13 +66,13 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             <div class="mdc-line-ripple"></div>
         </div>
     {% elseif styleType is defined and styleType == "basicTrailing" %}
         <div class="mdc-text-field mdc-text-field__basicTrailing{% if dense is defined %} mdc-text-field--dense{% endif %}">
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %}/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
@@ -112,7 +112,7 @@
     {#<textarea {{ block('widget_attributes') }}>{{ value }}</textarea>#}
     {# cimo + #}
     <div class="mdc-text-field mdc-text-field--textarea" {{ block('widget_attributes') }}>
-        <textarea id="textarea" class="mdc-text-field__input" rows="8" cols="40">{{ value }}</textarea>
+        <textarea id="textarea" class="mdc-text-field__input" rows="8" cols="40" autocomplete="off">{{ value }}</textarea>
         <label for="textarea" class="mdc-floating-label">{% if label is defined %}{{label}}{% endif %}</label>
     </div>
 {%- endblock textarea_widget -%}
@@ -177,7 +177,7 @@
     {# cimo + #}
     <div class="mdc-form-field">
         <div class="mdc-checkbox">
-            <input class="mdc-checkbox__native-control" type="checkbox" id="_remember_me" name="_remember_me" value="1"/>
+            <input class="mdc-checkbox__native-control" type="checkbox" id="_remember_me" name="_remember_me" value="1" autocomplete="off"/>
             <div class="mdc-checkbox__background">
                 <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                     <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
@@ -196,7 +196,7 @@
     {# cimo + #}
     <div class="mdc-form-field">
         <div class="mdc-radio">
-            <input class="mdc-radio__native-control" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
+            <input class="mdc-radio__native-control" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} autocomplete="off"/>
             <div class="mdc-radio__background">
                 <div class="mdc-radio__outer-circle"></div>
                 <div class="mdc-radio__inner-circle"></div>

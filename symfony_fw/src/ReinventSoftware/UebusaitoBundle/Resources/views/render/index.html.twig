@@ -21,11 +21,12 @@
     <link href="{{asset("bundles/uebusaito/css/library/material-components-web.min.css")}}" rel="stylesheet"/>
     
     <link href="{{asset("bundles/uebusaito/css/system/" ~ settingRow['template_name'] ~ ".css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/loader.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/captcha.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/table_and_pagination.css")}}" rel="stylesheet"/>
-    {#<link href="{{asset("bundles/uebusaito/css/upload.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/wysiwyg.css")}}" rel="stylesheet"/>#}
+    <link href="{{asset("bundles/uebusaito/css/system/widget.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/system/loader.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/system/captcha.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/system/table_and_pagination.css")}}" rel="stylesheet"/>
+    {#<link href="{{asset("bundles/uebusaito/css/system/upload.css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/system/wysiwyg.css")}}" rel="stylesheet"/>#}
 {% endblock%}
 
 {% block headerContainer %}
@@ -235,25 +236,21 @@
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/material-components-web.min.js")}}"></script>
     
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Utility.js")}}"></script>
-    
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/widget/WidgetSearch.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/widget/WidgetDatePicker.js")}}"></script>
-    
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Ajax.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/FlashBag.js")}}"></script>
-    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/PopupEasy.js")}}"></script>#}
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Loader.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Captcha.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/TableAndPagination.js")}}"></script>
-    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Upload.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/Wysiwyg.js")}}"></script>#}
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Ajax.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Search.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/FlashBag.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Loader.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/TableAndPagination.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Captcha.js")}}"></script>
+    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/PopupEasy.js")}}"></script>#}
+    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Language.js")}}"></script>#}
+    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Upload.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Wysiwyg.js")}}"></script>#}
+    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/PageComment.js")}}"></script>#}
     
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Authentication.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Registration.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/RecoverPassword.js")}}"></script>
-    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Language.js")}}"></script>#}
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Search.js")}}"></script>
-    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/PageComment.js")}}"></script>#}
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Profile.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Payment.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Page.js")}}"></script>
@@ -261,6 +258,11 @@
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Module.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/RoleUser.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Setting.js")}}"></script>
+    
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/MaterialDesign.js")}}"></script>
+    
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/widget/WidgetSearch.js")}}"></script>
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/widget/WidgetDatePicker.js")}}"></script>
     
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Index.js")}}"></script>
 {% endblock %}

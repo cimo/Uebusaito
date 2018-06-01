@@ -1,4 +1,4 @@
-/* global utility, mdc, widgetSearch, widgetDatePicker, flashBag, authentication, registration, recoverPassword */
+/* global utility, materialDesign, widgetSearch, widgetDatePicker, flashBag, authentication, registration, recoverPassword */
 
 $(document).ready(function() {
     utility.init();
@@ -7,81 +7,19 @@ $(document).ready(function() {
     
     utility.linkPreventDefault();
     
-    utility.mdcTopAppBarCustom();
-    utility.mdcTabsCustom();
-    utility.mdcTextFieldHelperTextClear();
-    utility.mdcButtonEnable();
-    
     //utility.watch("#flashBag", flashBag.sessionActivity);
     
     // Material design
-    window.mdc.autoInit();
-    
-    // Tabs
-    var tabBarMdc = new Array();
-    var tabBarScroller = new Array();
-    
-    $.each($(".mdc-tab-bar"), function(key, value) {
-        tabBarMdc[key] = new mdc.tabs.MDCTabBar.attachTo(value);
-    });
-    $.each($(".mdc-tab-bar-scroller"), function(key, value) {
-        tabBarScroller[key] = new mdc.tabs.MDCTabBarScroller.attachTo(value);
-    });
-    
-    // Checkbox
-    var checkboxMdc = new Array();
-    
-    $.each($(".mdc-checkbox"), function(key, value) {
-        checkboxMdc[key] = new mdc.checkbox.MDCCheckbox.attachTo(value);
-    });
-    
-    // Text field
-    var textFieldMdc = new Array();
-    
-    $.each($(".mdc-text-field").not(".mdc-text-field--textarea"), function(key, value) {
-        textFieldMdc[key] = new mdc.textField.MDCTextField.attachTo(value);
-    });
-    
-    var textFieldInput = new Array();
-    var textFieldHelperText = new Array();
-    
-    $.each($(".mdc-text-field"), function(key, value) {
-        textFieldInput[key] = $(value).find(".mdc-text-field__input");
-        textFieldHelperText[key] = $(value).parent().find(".mdc-text-field-helper-text");
-    });
-    
-    // Select
-    var selectMdc = new Array();
-    
-    $.each($(".mdc-select"), function(key, value) {
-        selectMdc[key] = new mdc.select.MDCSelect.attachTo(value);
-
-        /*$(value).on("MDCSelect:change", "", function() {
-            console.log(selectMdc[key].selectedOptions[0].textContent + " at index " + selectMdc[key].selectedIndex + " with value " + selectMdc[key].value);
-        });*/
-    });
-    
-    // Button
-    var buttonMdc = new Array();
-    
-    $.each($(".mdc-button"), function(key, value) {
-        buttonMdc[key] = mdc.ripple.MDCRipple.attachTo(value);
-    });
-    
-    // Icons
-    $.each($(".mdc-card__action--icon"), function(key, value) {
-        mdc.iconToggle.MDCIconToggle.attachTo(value);
-    });
-    $.each($(".mdc-icon-toggle"), function(key, value) {
-        mdc.iconToggle.MDCIconToggle.attachTo(value);
-    });
-    
-    // Snackbar
-    var snackbarMdc = new Array();
-    
-    $.each($(".mdc-snackbar"), function(key, value) {
-        snackbarMdc[key] = new mdc.snackbar.MDCSnackbar.attachTo(value); 
-    });
+    materialDesign.init();
+    materialDesign.tab();
+    materialDesign.checkbox();
+    materialDesign.textField();
+    materialDesign.select();
+    materialDesign.button();
+    materialDesign.fabButton();
+    materialDesign.icon();
+    materialDesign.snackbar();
+    materialDesign.utility();
     
     // Widget
     widgetSearch.init();
@@ -96,8 +34,10 @@ $(document).ready(function() {
     widgetDatePicker.setInputFill(".widget_datePicker_input");
     widgetDatePicker.create();
     
+    search.init();
+    
     flashBag.init();
-    flashBag.setElement(snackbarMdc[0]);
+    flashBag.setElement(materialDesign.getSnackbarMsc()[0]);
     flashBag.sessionActivity();
     
     captcha.init();
@@ -105,8 +45,6 @@ $(document).ready(function() {
     authentication.init();
     registration.init();
     recoverPassword.init();
-    
-    search.init();
     
     /*wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
     wysiwyg.changeView();
@@ -135,7 +73,7 @@ $(document).ready(function() {
     pageComment.init();*/
     
     $(window).resize(function() {
-        utility.mdcTopAppBarCustom();
+        materialDesign.utility();
         
         /*wysiwyg.changeView();
         

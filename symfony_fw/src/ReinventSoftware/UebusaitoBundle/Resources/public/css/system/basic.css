@@ -1,23 +1,23 @@
-@media (max-width: 839px) { /* line 13, ../../scss/system/utility.scss */
+@media (max-width: 839px) { /* line 13, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
   .display_desktop { display: none !important; }
-  /* line 16, ../../scss/system/utility.scss */
+  /* line 16, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
   .display_mobile { display: block !important; } }
-@media (min-width: 840px) { /* line 21, ../../scss/system/utility.scss */
+@media (min-width: 840px) { /* line 21, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
   .display_desktop { display: block !important; }
-  /* line 24, ../../scss/system/utility.scss */
+  /* line 24, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
   .display_mobile { display: none !important; } }
 @-webkit-viewport { width: device-width; }
 @-moz-viewport { width: device-width; }
 @-ms-viewport { width: device-width; }
 @-o-viewport { width: device-width; }
 @viewport { width: device-width; }
-/* line 45, ../../scss/system/utility.scss */
+/* line 45, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
 .user_select_none { -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
-/* line 53, ../../scss/system/utility.scss */
+/* line 53, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
 .user_touch_none { -ms-touch-action: none; touch-action: none; }
 
-/* line 58, ../../scss/system/utility.scss */
+/* line 58, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
 .clearfix::after { content: ""; clear: both; }
 
 /*.button { -webkit-transform: scale(1) rotate(360deg); transform: scale(1) rotate(360deg); -webkit-transition: -webkit-transform 150ms cubic-bezier(.4, 0, 1, 1); transition: transform 150ms cubic-bezier(.4, 0, 1, 1);
@@ -143,65 +143,6 @@ legend { width: inherit; padding: 0 10px; border-bottom: none;
 
 .ui-resizable-e { width: 15px;
 }*/
-/* Search */
-/* line 2, ../../scss/system/widget.scss */
-.widget_search { color: #ffffff; font-size: 16px; margin: 0; display: flex; align-self: flex-start; width: 58%; position: absolute; right: 108px; height: 40px; }
-/* line 13, ../../scss/system/widget.scss */
-.widget_search .button_open { cursor: pointer; position: absolute; right: 0; -webkit-transition: all 0.4s ease-out; -moz-transition: all 0.4s ease-out; -o-transition: all 0.4s ease-out; transition: all 0.4s ease-out; }
-/* line 24, ../../scss/system/widget.scss */
-.widget_search > div { position: relative; right: 48px; width: 100%; margin-left: 48px; }
-/* line 30, ../../scss/system/widget.scss */
-.widget_search > div input { display: none; border: none; border-bottom: 1px solid #ffffff; font-size: 16px; background: none; color: #ffffff; position: relative; width: 100%; top: 14px; }
-/* line 41, ../../scss/system/widget.scss */
-.widget_search > div input:focus { outline: none; }
-/* line 47, ../../scss/system/widget.scss */
-.widget_search .button_close { display: none; cursor: pointer; position: absolute; right: 0; }
-/* line 54, ../../scss/system/widget.scss */
-.widget_search .animate { right: 100%; }
-@media (max-width: 599px) { /* line 2, ../../scss/system/widget.scss */
-  .widget_search { right: 100px; } }
-
-/* Date picker */
-/* line 64, ../../scss/system/widget.scss */
-.widget_datePicker_back { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: #000000; opacity: 0.5; z-index: 20; }
-
-/* line 75, ../../scss/system/widget.scss */
-.widget_datePicker { display: none; position: fixed; top: 5%; left: 0; right: 0; margin-right: auto; margin-left: auto; padding: 0px; border-radius: 2px; border-top: none; border-bottom: none; width: 310px; background-color: #ffffff; z-index: 21; }
-/* line 91, ../../scss/system/widget.scss */
-.widget_datePicker .header { position: relative; height: 55px; padding: 20px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-left-radius: 0px; }
-/* line 99, ../../scss/system/widget.scss */
-.widget_datePicker .header p { margin: 0; opacity: 0.7; cursor: pointer; }
-/* line 105, ../../scss/system/widget.scss */
-.widget_datePicker .header .mdc-fab { position: absolute; top: 10px; right: 10px; }
-/* line 112, ../../scss/system/widget.scss */
-.widget_datePicker .listYears { display: none; height: 345px; overflow-y: scroll; }
-/* line 117, ../../scss/system/widget.scss */
-.widget_datePicker .listYears .mdc-list { overflow: hidden; padding: 0; margin: 0; }
-/* line 122, ../../scss/system/widget.scss */
-.widget_datePicker .listYears .mdc-list ul { padding: 0; margin: 0; }
-/* line 126, ../../scss/system/widget.scss */
-.widget_datePicker .listYears .mdc-list ul .mdc-list-item { display: block; text-align: center; line-height: 42px; height: 42px; }
-/* line 136, ../../scss/system/widget.scss */
-.widget_datePicker .month { margin: 0; padding: 0; text-align: center; height: 37px; }
-/* line 142, ../../scss/system/widget.scss */
-.widget_datePicker .month div { display: inline-block; }
-/* line 146, ../../scss/system/widget.scss */
-.widget_datePicker .month .label { width: 180px; }
-/* line 150, ../../scss/system/widget.scss */
-.widget_datePicker .month .material-icons { position: relative; top: 8px; width: 48px; cursor: pointer; }
-/* line 158, ../../scss/system/widget.scss */
-.widget_datePicker .week ul { margin: 0; padding: 0; text-align: center; }
-/* line 163, ../../scss/system/widget.scss */
-.widget_datePicker .week ul li { position: relative; display: inline-block; border-radius: 50%; width: 42px; height: 42px; line-height: 42px; opacity: 0.5; font-size: 12px; }
-/* line 175, ../../scss/system/widget.scss */
-.widget_datePicker .day ul { margin: 0; padding: 0; text-align: center; }
-/* line 180, ../../scss/system/widget.scss */
-.widget_datePicker .day ul li { position: relative; display: inline-block; width: 42px; height: 42px; line-height: 42px; font-size: 11px; }
-/* line 188, ../../scss/system/widget.scss */
-.widget_datePicker .day ul li span { display: inline-block; width: 32px; height: 32px; line-height: 32px; cursor: pointer; border-radius: 50%; }
-/* line 199, ../../scss/system/widget.scss */
-.widget_datePicker .button { text-align: right; padding: 10px; }
-
 /*$spaceBottom: 120px;
 $textColor: #4089c9;
 
@@ -420,98 +361,102 @@ p { margin: 0;
 }
 #page_menu_sort, #module_position_sort { position: relative;  div { position: absolute; top: -105px; left: 50%; width: 50px; }
 }*/
-@media (max-width: 839px) { /* line 1013, ../../scss/system/basic.scss */
-  .main .sortable_column { padding-top: 55px !important; } }
-@media (max-width: 599px) { /* line 1020, ../../scss/system/basic.scss */
+@media (max-width: 839px) { /* line 1012, ../../scss/system/basic.scss */
+  .main .sortable_column { padding-top: 55px !important; }
+  /* line 1015, ../../scss/system/basic.scss */
+  .main .sortable_column form { width: 100% !important; } }
+@media (max-width: 599px) { /* line 1025, ../../scss/system/basic.scss */
   .main .sortable_column { padding-top: 45px !important; } }
-/* line 1028, ../../scss/system/basic.scss */
+/* line 1033, ../../scss/system/basic.scss */
 :root { --mdc-theme-primary: #1976d2; --mdc-theme-on-primary: #ffffff; --mdc-theme-secondary: #d50000; --mdc-theme-on-secondary: #ffffff; --mdc-theme-background: #ffffff; --mdc-theme-surface: #ffffff; --mdc-theme-on-surface: #868686; }
 
-/* line 1041, ../../scss/system/basic.scss */
+/* line 1046, ../../scss/system/basic.scss */
 ::placeholder { color: #ffffff; opacity: 1; }
 
-/* line 1045, ../../scss/system/basic.scss */
+/* line 1050, ../../scss/system/basic.scss */
 :-ms-input-placeholder { color: #ffffff; }
 
-/* line 1048, ../../scss/system/basic.scss */
+/* line 1053, ../../scss/system/basic.scss */
 ::-ms-input-placeholder { color: #ffffff; }
 
-/* line 1052, ../../scss/system/basic.scss */
+/* line 1057, ../../scss/system/basic.scss */
 .mdc-top-app-bar { z-index: 1; }
-/* line 1055, ../../scss/system/basic.scss */
+/* line 1060, ../../scss/system/basic.scss */
 .mdc-top-app-bar .mdc-top-app-bar__row { -webkit-transition: all 0.4s ease-out; -moz-transition: all 0.4s ease-out; -o-transition: all 0.4s ease-out; transition: all 0.4s ease-out; background-image: url("../../images/templates/basic/16-9.jpg"); background-size: cover; background-position: center; }
 
-/* line 1066, ../../scss/system/basic.scss */
+/* line 1071, ../../scss/system/basic.scss */
 .mdc-top-app-bar_shrink { height: 64px !important; }
 
-/* line 1070, ../../scss/system/basic.scss */
+/* line 1075, ../../scss/system/basic.scss */
 .mdc-button { margin-top: 5px; }
-/* line 1073, ../../scss/system/basic.scss */
+/* line 1078, ../../scss/system/basic.scss */
 .mdc-button i { margin-top: -2px; }
 
-/* line 1078, ../../scss/system/basic.scss */
+/* line 1083, ../../scss/system/basic.scss */
 .mdc-tab-bar { margin: 0; }
 
-/* line 1082, ../../scss/system/basic.scss */
+/* line 1087, ../../scss/system/basic.scss */
 html, body { margin: 0; padding: 0; }
 
-/* line 1087, ../../scss/system/basic.scss */
+/* line 1092, ../../scss/system/basic.scss */
 html { height: 100%; }
 
-/* line 1090, ../../scss/system/basic.scss */
+/* line 1095, ../../scss/system/basic.scss */
 body { position: relative; min-height: 100%; }
 
-/* line 1095, ../../scss/system/basic.scss */
+/* line 1100, ../../scss/system/basic.scss */
 .logo_main { width: 45px; margin-top: 8px; }
 
-/* line 1101, ../../scss/system/basic.scss */
+/* line 1106, ../../scss/system/basic.scss */
 .main .sortable_column { padding-top: 120px; padding-bottom: 80px; }
+/* line 1111, ../../scss/system/basic.scss */
+.main .sortable_column .page_container form { width: 50%; }
+/* line 1114, ../../scss/system/basic.scss */
+.main .sortable_column .page_container form .mdc-text-field, .main .sortable_column .page_container form .mdc-select { width: 100%; }
 
-/* line 1107, ../../scss/system/basic.scss */
+/* line 1122, ../../scss/system/basic.scss */
 .footer { display: flex; justify-content: center; flex-direction: column; text-align: center; position: absolute; bottom: 0; width: 100%; height: 80px; }
-/* line 1119, ../../scss/system/basic.scss */
+/* line 1134, ../../scss/system/basic.scss */
 .footer .icon div { display: inline-block; margin: 5px 10px; }
-/* line 1126, ../../scss/system/basic.scss */
+/* line 1141, ../../scss/system/basic.scss */
 .footer .text p { margin: 0; font-size: 12px; }
 
-/* line 1133, ../../scss/system/basic.scss */
+/* line 1148, ../../scss/system/basic.scss */
 .module, .module_clean { padding: 5px; overflow: hidden; }
-/* line 1137, ../../scss/system/basic.scss */
+/* line 1152, ../../scss/system/basic.scss */
 .module .settings, .module_clean .settings { display: none; }
-/* line 1141, ../../scss/system/basic.scss */
+/* line 1156, ../../scss/system/basic.scss */
 .module .drag, .module_clean .drag { display: none; }
-/* line 1146, ../../scss/system/basic.scss */
+/* line 1161, ../../scss/system/basic.scss */
 .module .title i, .module .title h1, .module_clean .title i, .module_clean .title h1 { display: inline-block; vertical-align: middle; margin: 0; }
-/* line 1153, ../../scss/system/basic.scss */
+/* line 1168, ../../scss/system/basic.scss */
 .module .mdc-card__actions, .module_clean .mdc-card__actions { padding: 0 !important; min-height: auto !important; }
-/* line 1159, ../../scss/system/basic.scss */
+/* line 1174, ../../scss/system/basic.scss */
 .module .form_row .mdc-text-field--box, .module .form_row .mdc-text-field--outlined, .module .form_row .mdc-text-field__basic, .module_clean .form_row .mdc-text-field--box, .module_clean .form_row .mdc-text-field--outlined, .module_clean .form_row .mdc-text-field__basic { margin-top: 8px; margin-bottom: 0; }
-/* line 1165, ../../scss/system/basic.scss */
+/* line 1180, ../../scss/system/basic.scss */
 .module .form_row .mdc-text-field__basic .mdc-floating-label, .module_clean .form_row .mdc-text-field__basic .mdc-floating-label { padding-left: 28px; }
-/* line 1171, ../../scss/system/basic.scss */
+/* line 1186, ../../scss/system/basic.scss */
 .module .form_row .mdc-text-field__basic .material-icons, .module .form_row .mdc-text-field__basicTrailing .material-icons, .module_clean .form_row .mdc-text-field__basic .material-icons, .module_clean .form_row .mdc-text-field__basicTrailing .material-icons { margin-bottom: 5px; }
-/* line 1176, ../../scss/system/basic.scss */
+/* line 1191, ../../scss/system/basic.scss */
 .module .form_row .mdc-select, .module_clean .form_row .mdc-select { height: 48px; }
 
-/* line 1182, ../../scss/system/basic.scss */
+/* line 1197, ../../scss/system/basic.scss */
 .module { width: 100%; margin: auto; border: 1px solid #dadada; background-color: #ececec; }
-/* line 1188, ../../scss/system/basic.scss */
+/* line 1203, ../../scss/system/basic.scss */
 .module .title { border-bottom: 1px solid #dadada; }
 
-/* line 1195, ../../scss/system/basic.scss */
+/* line 1210, ../../scss/system/basic.scss */
 .page_container .header h1 { margin: 0; }
-@media (max-width: 839px) { /* line 1202, ../../scss/system/basic.scss */
-  .page_container .form_row .mdc-text-field--box, .page_container .form_row .mdc-text-field--outlined, .page_container .form_row .mdc-text-field__basic, .page_container .form_row .mdc-select { width: 100%; } }
 
-/* line 1214, ../../scss/system/basic.scss */
-#panel_id_2 .form_user_authentication .container_submit button { margin-top: 0; width: 100%; }
 /* line 1221, ../../scss/system/basic.scss */
+#panel_id_2 .form_user_authentication .container_submit button { margin-top: 0; width: 100%; }
+/* line 1228, ../../scss/system/basic.scss */
 #panel_id_2 p { margin: 0; }
-/* line 1226, ../../scss/system/basic.scss */
+/* line 1233, ../../scss/system/basic.scss */
 #panel_id_2 .container_buttons a { width: 100%; }
-/* line 1231, ../../scss/system/basic.scss */
+/* line 1238, ../../scss/system/basic.scss */
 #panel_id_2 .container_links { margin-top: 5px; text-align: center; }
-/* line 1235, ../../scss/system/basic.scss */
+/* line 1242, ../../scss/system/basic.scss */
 #panel_id_2 .container_links a { display: block; text-decoration: none !important; }
 
 /*# sourceMappingURL=basic.css.map */

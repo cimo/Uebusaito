@@ -179,7 +179,7 @@ function WidgetDatePicker() {
             html = "<div class=\"mdc-theme--primary-bg mdc-theme--on-primary header\">\n\
                 <p>" + currentYear + "</p>\n\
                 <div class=\"mdc-typography--headline6 text\">" + weekCurrentDay + ", " + monthLabels[language][currentMonth] + " " + currentDay + "</div>\n\
-                <button class=\"mdc-fab material-icons\" aria-label=\"Close\">\n\
+                <button class=\"mdc-fab material-icons mdc-fab--mini\" aria-label=\"Close\">\n\
                     <span class=\"mdc-fab__icon\">\n\
                         close\n\
                     </span>\n\
