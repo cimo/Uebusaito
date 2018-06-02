@@ -6,7 +6,7 @@
         <fieldset class="accordion_container">
             <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}setting_2{% endtrans %}</legend>
             <div class="content">
-                {{form_row(form.templateName, {'label': "setting_3"})}}
+                {{form_row(form.template, {'label': "setting_3"})}}
 
                 <div class="form-group">
                     {{form_label(form.templateColumn, "setting_4")}}
@@ -15,7 +15,7 @@
                         {% for key, value in form.templateColumn %}
                             <div class="display_inline_block">
                                 {{form_widget(value)}}
-                                <img class="display_inline_block margin_right" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/template_column_" ~ key ~ ".png")}}"/>
+                                <img class="display_inline_block margin_right" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/template_column_" ~ key ~ ".png")}}"/>
                             </div>
                         {% endfor %}
                     </div>

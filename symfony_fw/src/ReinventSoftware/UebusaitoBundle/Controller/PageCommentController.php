@@ -257,13 +257,13 @@ class PageCommentController extends Controller {
                     if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$value['username']}/Avatar.jpg") == true)
                         $listHtml .= "<img src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/files/{$value['username']}/Avatar.jpg\"/>";
                     else
-                        $listHtml .= "<img src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/images/templates/{$setting['template_name']}/no_avatar.jpg\"/>";
+                        $listHtml .= "<img src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
                     
                     if ($value['username_reply'] != null) {
                         if (file_exists("{$this->utility->getPathSrcBundle()}/Resources/public/files/{$value['username_reply']}/Avatar.jpg") == true)
                             $listHtml .= "<img class=\"avatar_reply\" src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/files/{$value['username_reply']}/Avatar.jpg\"/>";
                         else
-                            $listHtml .= "<img class=\"avatar_reply\" src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/images/templates/{$setting['template_name']}/no_avatar.jpg\"/>";
+                            $listHtml .= "<img class=\"avatar_reply\" src=\"{$this->utility->getUrlRoot()}/bundles/uebusaito/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
                     }
                     
                 $listHtml .= "</div>

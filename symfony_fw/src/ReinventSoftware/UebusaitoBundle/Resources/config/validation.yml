@@ -414,7 +414,7 @@ ReinventSoftware\UebusaitoBundle\Entity\RoleUser:
 
 ReinventSoftware\UebusaitoBundle\Entity\Setting:
     properties:
-        templateName:
+        template:
             - NotBlank:
                 groups: [setting]
             - Regex:

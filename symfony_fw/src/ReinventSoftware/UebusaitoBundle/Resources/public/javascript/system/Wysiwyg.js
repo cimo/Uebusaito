@@ -125,7 +125,7 @@ function Wysiwyg() {
             }));
             $("#wysiwyg").find(".editor").contents().find("head").append($("<link/>", {
                 rel: "stylesheet",
-                href: window.url.root + "/bundles/uebusaito/css/system/" + window.setting.templateName + ".css",
+                href: window.url.root + "/bundles/uebusaito/css/system/" + window.setting.template + ".css",
                 type: "text/css"
             }));
             
@@ -387,7 +387,7 @@ function Wysiwyg() {
             "<div style=\"margin: 10px 0 0 0;\"><p style=\"display: inline-block; margin: 0; width: 50px;\">Height: </p><input style=\"display: inline-block;\" id=\"image_height\" value=\"\"/></div>",
             function() {
                 var src = $("#image_src").val();
-                var pathFull = window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.templateName + "/" + src;
+                var pathFull = window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.template + "/" + src;
                 
                 var responsive = $("#image_responsive").prop("checked");
                 var classes = "";
@@ -544,7 +544,7 @@ function Wysiwyg() {
         }
         else if (command === "image_ok") {
             var src = $("#wysiwyg").find(".toolbar .popup_settings input[name='image_src']").val();
-            var pathFull = window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.templateName + "/" + src;
+            var pathFull = window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.template + "/" + src;
             
             var responsive = $("#wysiwyg").find(".toolbar .popup_settings input[name='image_responsive']").prop("checked");
             var classes = "";
@@ -989,7 +989,7 @@ function Wysiwyg() {
             $("#wysiwyg").find(".toolbar .popup_settings .only_button").hide();
             $("#wysiwyg").find(".toolbar .popup_settings .only_table").hide();
             
-            var src = $(event.target)[0].src.replace(window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.templateName + "/", "");
+            var src = $(event.target)[0].src.replace(window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.template + "/", "");
             var responsive = $(event.target).hasClass("img-responsive");
             var width = $(event.target)[0].style.width;
             var height = $(event.target)[0].style.width;

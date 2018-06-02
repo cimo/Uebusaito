@@ -8,7 +8,7 @@
                     {% if (file_exists(urlRoot ~ "/bundles/uebusaito/files/" ~ response.values.username ~ "/Avatar.jpg") == true) %}
                         <img src="{{asset("bundles/uebusaito/files/" ~ response.values.username ~ "/Avatar.jpg")}}"/>
                     {% else %}
-                        <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/no_avatar.jpg")}}"/>
+                        <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/no_avatar.jpg")}}"/>
                     {% endif %}
                 </div>
                 <div>

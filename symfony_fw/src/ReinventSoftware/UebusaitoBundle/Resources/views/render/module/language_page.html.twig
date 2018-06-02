@@ -1,10 +1,10 @@
 <div class="margin_bottom">
     <div id="language_flag">
         {% for value in response.values.languageRows %}
-            {% if (file_exists(urlRoot ~ "/bundles/uebusaito/images/templates/" ~ response.values.settingRow['template_name'] ~ "/lang/" ~ value.code ~ ".png") == true) %}
-                <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.values.settingRow['template_name'] ~ "/lang/" ~ value.code ~ ".png")}}" alt="{{value.code}}.png"/>
+            {% if (file_exists(urlRoot ~ "/bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/" ~ value.code ~ ".png") == true) %}
+                <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/" ~ value.code ~ ".png")}}" alt="{{value.code}}.png"/>
             {% else %}
-                <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.values.settingRow['template_name'] ~ "/lang/empty.png")}}" alt="{{value.code}}.png"/>
+                <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/empty.png")}}" alt="{{value.code}}.png"/>
             {% endif %}
         {% endfor %}
     </div>

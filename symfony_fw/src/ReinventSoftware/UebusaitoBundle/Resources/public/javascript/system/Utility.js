@@ -390,7 +390,7 @@ function Utility() {
     self.imageError = function(elements) {
         elements.on("error", "", function() {
             $.each($(this), function(key, value) {
-                $(value).prop("src", window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.templateName + "/error_404.png");
+                $(value).prop("src", window.url.root + "/bundles/uebusaito/images/templates/" + window.setting.template + "/error_404.png");
             });
         });
     };

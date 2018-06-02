@@ -282,7 +282,7 @@ DROP TABLE IF EXISTS `settings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `template_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'basic',
+  `template` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'basic',
   `template_column` int(1) NOT NULL DEFAULT '1',
   `language` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'en',
   `page_date` tinyint(1) NOT NULL DEFAULT '1',

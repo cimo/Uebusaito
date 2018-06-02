@@ -10,7 +10,7 @@
     {{-include("@UebusaitoBundleViews/layout/layout_google.html.twig")-}}
     
     <!-- Favicon -->
-    <link href="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
+    <link href="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
     <!-- Css -->
     <link href="{{asset("bundles/uebusaito/css/library/jquery-ui_1.12.1.min.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/library/jquery-ui_1.12.1_structure.min.css")}}" rel="stylesheet"/>
@@ -20,7 +20,7 @@
     <link href="{{asset("bundles/uebusaito/css/library/material-icons.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/library/material-components-web.min.css")}}" rel="stylesheet"/>
     
-    <link href="{{asset("bundles/uebusaito/css/system/" ~ settingRow['template_name'] ~ ".css")}}" rel="stylesheet"/>
+    <link href="{{asset("bundles/uebusaito/css/system/" ~ settingRow['template'] ~ ".css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/system/widget.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/system/loader.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/system/captcha.css")}}" rel="stylesheet"/>
@@ -36,7 +36,7 @@
                 <a id="menu_root_button" class="material-icons mdc-top-app-bar__navigation-icon  display_mobile" href="javascript:void(0)">menu</a>
                 <span class="mdc-top-app-bar__title display_desktop">{{websiteName}}</span>
                 <span class="mdc-top-app-bar__title display_mobile">
-                    <img class="logo_main" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/logo.svg")}}"/>
+                    <img class="logo_main" src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
                 </span>
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
@@ -85,7 +85,7 @@
                         {{-render(controller("UebusaitoBundle:Authentication:module", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% else %}
                         <div class="content">
-                            <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template_name'] ~ "/maintenance.svg")}}">
+                            <img src="{{asset("bundles/uebusaito/images/templates/" ~ settingRow['template'] ~ "/maintenance.svg")}}">
                             <div>
                                 <a href="{{path("root_render", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "maintenance_authentication"})}}">
                                     {#<i class="fa fa-wrench"></i>#}
@@ -225,7 +225,7 @@
         var setting = {
             'widthMobile': 839,
             'widthDesktop': 840,
-            'templateName': "{{settingRow['template_name']}}",
+            'template': "{{settingRow['template']}}",
             'language': "{{settingRow['language']}}",
             'websiteActive': "{{settingRow['website_active']}}"
         };
