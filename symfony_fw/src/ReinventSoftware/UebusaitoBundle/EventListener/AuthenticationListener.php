@@ -12,8 +12,8 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Captcha;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Captcha;
 
 class AuthenticationListener implements AuthenticationSuccessHandlerInterface, AuthenticationFailureHandlerInterface, LogoutSuccessHandlerInterface {
     // Vars

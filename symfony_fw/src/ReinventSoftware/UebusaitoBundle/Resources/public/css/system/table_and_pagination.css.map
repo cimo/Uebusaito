@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": ";AAGI,sCAAmB,GACf,OAAO,EAAE,IAAI;;AAGjB,0BAAO,GACH,OAAO,EAAE,IAAI",
+"mappings": "AAGI,sCAAmB,GACf,OAAO,EAAE,IAAI;AAGjB,0BAAO,GACH,OAAO,EAAE,IAAI",
 "sources": ["../../scss/system/table_and_pagination.scss"],
 "names": [],
 "file": "table_and_pagination.css"

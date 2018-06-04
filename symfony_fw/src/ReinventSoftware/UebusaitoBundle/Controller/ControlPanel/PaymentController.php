@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\TableAndPagination;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\System\TableAndPagination;
 
 use ReinventSoftware\UebusaitoBundle\Form\PaymentUserSelectionFormType;
 use ReinventSoftware\UebusaitoBundle\Form\PaymentSelectionFormType;

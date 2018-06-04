@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\PayPal;
+use ReinventSoftware\UebusaitoBundle\Classes\System\PayPal;
 
 use ReinventSoftware\UebusaitoBundle\Entity\Payment;
 

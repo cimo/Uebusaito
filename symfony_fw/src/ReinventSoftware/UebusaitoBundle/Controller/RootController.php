@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Captcha;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Captcha;
 
 class RootController extends Controller {
     // Vars

@@ -9,8 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
-use ReinventSoftware\UebusaitoBundle\Classes\Upload;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Upload;
 
 use ReinventSoftware\UebusaitoBundle\Form\UserFormType;
 use ReinventSoftware\UebusaitoBundle\Form\PasswordFormType;

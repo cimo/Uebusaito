@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
-use ReinventSoftware\UebusaitoBundle\Classes\Ajax;
+use ReinventSoftware\UebusaitoBundle\Classes\System\Ajax;
 
 use ReinventSoftware\UebusaitoBundle\Form\RecoverPasswordFormType;
 use ReinventSoftware\UebusaitoBundle\Form\ChangePasswordFormType;

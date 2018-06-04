@@ -1,23 +1,16 @@
-@media (max-width: 839px) { /* line 13, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
-  .display_desktop { display: none !important; }
-  /* line 16, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
+@media (max-width: 839px) { .display_desktop { display: none !important; }
   .display_mobile { display: block !important; } }
-@media (min-width: 840px) { /* line 21, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
-  .display_desktop { display: block !important; }
-  /* line 24, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
+@media (min-width: 840px) { .display_desktop { display: block !important; }
   .display_mobile { display: none !important; } }
 @-webkit-viewport { width: device-width; }
 @-moz-viewport { width: device-width; }
 @-ms-viewport { width: device-width; }
 @-o-viewport { width: device-width; }
 @viewport { width: device-width; }
-/* line 45, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
 .user_select_none { -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
 
-/* line 53, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
 .user_touch_none { -ms-touch-action: none; touch-action: none; }
 
-/* line 58, ../../../../../../../../../../uebusaito/root/symfony_fw/src/ReinventSoftware/UebusaitoBundle/Resources/public/scss/system/utility.scss */
 .clearfix::after { content: ""; clear: both; }
 
 /*.button { -webkit-transform: scale(1) rotate(360deg); transform: scale(1) rotate(360deg); -webkit-transition: -webkit-transform 150ms cubic-bezier(.4, 0, 1, 1); transition: transform 150ms cubic-bezier(.4, 0, 1, 1);
