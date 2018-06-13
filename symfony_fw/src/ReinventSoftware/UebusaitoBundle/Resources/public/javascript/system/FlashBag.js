@@ -35,15 +35,8 @@ function FlashBag() {
     };
     
     self.sessionActivity = function() {
-        if ($("#flashBag").find(".content").html() !== undefined && $("#flashBag").find(".content").html().trim() === "" && window.session.userActivity !== "") {
-            var snackbarDataObj = {
-                message: message,
-                actionText: window.text.close,
-                actionHandler: function() {}
-            };
-
-            element.show(snackbarDataObj);
-        }
+        if ($("#flashBag").find(".content").html() !== undefined && $("#flashBag").find(".content").html().trim() === "" && window.session.userActivity !== "")
+            self.show();
     };
     
     // Functions private

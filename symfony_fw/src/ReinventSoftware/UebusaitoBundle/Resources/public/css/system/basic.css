@@ -370,10 +370,15 @@ p { margin: 0;
 
 .mdc-top-app-bar_shrink { height: 64px !important; }
 
+.mdc-drawer__header { background-image: url("../../images/templates/basic/16-9.jpg"); }
+.mdc-drawer__header .mdc-drawer__header-content p { color: #ffffff; }
+
 .mdc-button { margin-top: 5px; }
 .mdc-button i { margin-top: -2px; }
 
 .mdc-tab-bar { margin: 0; }
+
+.mdc-list { border: 1px solid rgba(0, 0, 0, 0.12); padding: 0; }
 
 html, body { margin: 0; padding: 0; }
 
@@ -395,7 +400,7 @@ body { position: relative; min-height: 100%; }
 .module .settings, .module_clean .settings { display: none; }
 .module .drag, .module_clean .drag { display: none; }
 .module .title i, .module .title h1, .module_clean .title i, .module_clean .title h1 { display: inline-block; vertical-align: middle; margin: 0; }
-.module .mdc-card__actions, .module_clean .mdc-card__actions { padding: 0 !important; min-height: auto !important; }
+.module .mdc-card__actions, .module_clean .mdc-card__actions { min-height: auto !important; padding: 0; }
 .module .form_row .mdc-text-field--box, .module .form_row .mdc-text-field--outlined, .module .form_row .mdc-text-field__basic, .module_clean .form_row .mdc-text-field--box, .module_clean .form_row .mdc-text-field--outlined, .module_clean .form_row .mdc-text-field__basic { margin-top: 8px; margin-bottom: 0; }
 .module .form_row .mdc-text-field__basic .mdc-floating-label, .module_clean .form_row .mdc-text-field__basic .mdc-floating-label { padding-left: 28px; }
 .module .form_row .mdc-text-field__basic .material-icons, .module .form_row .mdc-text-field__basicTrailing .material-icons, .module_clean .form_row .mdc-text-field__basic .material-icons, .module_clean .form_row .mdc-text-field__basicTrailing .material-icons { margin-bottom: 5px; }
@@ -405,6 +410,7 @@ body { position: relative; min-height: 100%; }
 .module .title { border-bottom: 1px solid #dadada; }
 
 .page_container .header h1 { margin: 0; }
+.page_container .controllerAction { padding: 10px; }
 
 #panel_id_2 .form_user_authentication .container_submit button { margin-top: 0; width: 100%; }
 #panel_id_2 p { margin: 0; }

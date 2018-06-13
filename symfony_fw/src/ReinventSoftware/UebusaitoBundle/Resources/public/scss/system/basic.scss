@@ -1072,6 +1072,16 @@ $footerHeight: 80px;
     height: 64px !important;
 }
 
+.mdc-drawer__header {
+    background-image: url("../../images/templates/basic/16-9.jpg");
+    
+    .mdc-drawer__header-content {
+        p {
+            color: #ffffff;
+        }
+    }
+}
+
 .mdc-button {
     margin-top: 5px;
     
@@ -1082,6 +1092,11 @@ $footerHeight: 80px;
 
 .mdc-tab-bar {
     margin: 0;
+}
+
+.mdc-list {
+    border: 1px solid rgba(0,0,0,.12);
+    padding: 0;
 }
 
 html, body {
@@ -1166,8 +1181,8 @@ body {
     }
     
     .mdc-card__actions {
-        padding: 0 !important;
         min-height: auto !important;
+        padding: 0;
     }
     
     .form_row {
@@ -1210,6 +1225,9 @@ body {
         h1 {
             margin: 0;
         }
+    }
+    .controllerAction {
+        padding: 10px;
     }
 }
 .page_footer {

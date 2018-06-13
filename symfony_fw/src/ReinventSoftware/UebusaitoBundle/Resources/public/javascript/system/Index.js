@@ -11,15 +11,23 @@ $(document).ready(function() {
     
     // Material design
     materialDesign.init();
-    materialDesign.tab();
-    materialDesign.checkbox();
-    materialDesign.textField();
-    materialDesign.select();
     materialDesign.button();
     materialDesign.fabButton();
-    materialDesign.icon();
+    materialDesign.iconButton();
+    materialDesign.chip();
+    materialDesign.dialog();
+    materialDesign.drawer();
+    materialDesign.checkbox();
+    materialDesign.radioButton();
+    materialDesign.select();
+    materialDesign.slider();
+    materialDesign.textField();
+    materialDesign.linearProgress();
+    materialDesign.list();
+    materialDesign.menu();
     materialDesign.snackbar();
-    materialDesign.utility();
+    materialDesign.tabBar();
+    materialDesign.fix();
     
     // Widget
     widgetSearch.init();
@@ -37,7 +45,7 @@ $(document).ready(function() {
     search.init();
     
     flashBag.init();
-    flashBag.setElement(materialDesign.getSnackbarMsc()[0]);
+    flashBag.setElement(materialDesign.getSnackbarMsc());
     flashBag.sessionActivity();
     
     captcha.init();
@@ -73,7 +81,9 @@ $(document).ready(function() {
     pageComment.init();*/
     
     $(window).resize(function() {
-        materialDesign.utility();
+        materialDesign.fix();
+        
+        widgetSearch.changeView();
         
         /*wysiwyg.changeView();
         
@@ -82,8 +92,6 @@ $(document).ready(function() {
         controlPanelUser.changeView();
         controlPanelModule.changeView();
         controlPanelRoleUser.changeView();*/
-        
-        widgetSearch.changeView();
     });
 });
 
