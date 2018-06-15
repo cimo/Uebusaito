@@ -142,6 +142,7 @@ class PaymentController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
         
         $form = $this->createForm(PaymentSelectionFormType::class, null, Array(
             'validation_groups' => Array('payment_selection'),

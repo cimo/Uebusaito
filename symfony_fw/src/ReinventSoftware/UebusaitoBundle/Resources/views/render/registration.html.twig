@@ -4,7 +4,7 @@
     {% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}
     
     <nav class="mdc-tab-bar mdc-tab-bar--icons-with-text">
-        <a class="mdc-tab mdc-tab--with-icon-and-text mdc-tab--active" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "private"})}}">
+        <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "private"})}}">
             <i class="material-icons mdc-tab__icon" aria-hidden="true">person</i>
             <span class="mdc-tab__icon-text">{% trans %}registration_1{% endtrans %}</span>
         </a>
@@ -14,7 +14,7 @@
         </a>
         <span class="mdc-tab-bar__indicator"></span>
     </nav>
-    <div class="page_container">
+    <div>
         <h1 class="mdc-typography--headline6">{% trans %}registration_3{% endtrans %}</h1>
         <form id="form_user_registration" action="{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_row(form.username, {'label': "registration_4", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "pets"})}}

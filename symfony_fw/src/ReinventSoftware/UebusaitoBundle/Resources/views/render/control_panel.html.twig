@@ -1,43 +1,53 @@
 <div>
-    <nav id="menu_controlPanel" class="mdc-tab-bar mdc-tab-bar--icons-with-text">
-        {% if is_granted("ROLE_USER") == true %}
-            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">
-                <i class="material-icons mdc-tab__icon" aria-hidden="true">account_circle</i>
-                <span class="mdc-tab__icon-text">{% trans %}control_panel_1{% endtrans %}</span>
-            </a>
-            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payment"})}}">
-                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                <span class="mdc-tab__icon-text">{% trans %}control_panel_2{% endtrans %}</span>
-            </a>
-        {% endif %}
-        {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page"})}}">
-                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                <span class="mdc-tab__icon-text">{% trans %}control_panel_3{% endtrans %}</span>
-            </a>
-            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user"})}}">
-                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                <span class="mdc-tab__icon-text">{% trans %}control_panel_4{% endtrans %}</span>
-            </a>
-            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_module"})}}">
-                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                <span class="mdc-tab__icon-text">{% trans %}control_panel_5{% endtrans %}</span>
-            </a>
-            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role"})}}">
-                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                <span class="mdc-tab__icon-text">{% trans %}control_panel_6{% endtrans %}</span>
-            </a>
-        {% endif %}
-        {% if is_granted("ROLE_ADMIN") == true %}
-            <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_setting"})}}">
-                <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                <span class="mdc-tab__icon-text">{% trans %}control_panel_7{% endtrans %}</span>
-            </a>
-        {% endif %}
-        <span class="mdc-tab-bar__indicator"></span>
-    </nav>
+    <div class="mdc-tab-bar-scroller">
+        <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
+            <a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="javascript:void(0)" aria-label="scroll back button">navigate_before</a>
+        </div>
+        <div class="mdc-tab-bar-scroller__scroll-frame">
+            <nav class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs mdc-tab-bar--icons-with-text">
+                {% if is_granted("ROLE_USER") == true %}
+                    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">
+                        <i class="material-icons mdc-tab__icon" aria-hidden="true">account_circle</i>
+                        <span class="mdc-tab__icon-text">{% trans %}control_panel_1{% endtrans %}</span>
+                    </a>
+                    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payment"})}}">
+                        <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                        <span class="mdc-tab__icon-text">{% trans %}control_panel_2{% endtrans %}</span>
+                    </a>
+                {% endif %}
+                {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
+                    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page"})}}">
+                        <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                        <span class="mdc-tab__icon-text">{% trans %}control_panel_3{% endtrans %}</span>
+                    </a>
+                    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user"})}}">
+                        <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                        <span class="mdc-tab__icon-text">{% trans %}control_panel_4{% endtrans %}</span>
+                    </a>
+                    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_module"})}}">
+                        <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                        <span class="mdc-tab__icon-text">{% trans %}control_panel_5{% endtrans %}</span>
+                    </a>
+                    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role"})}}">
+                        <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                        <span class="mdc-tab__icon-text">{% trans %}control_panel_6{% endtrans %}</span>
+                    </a>
+                {% endif %}
+                {% if is_granted("ROLE_ADMIN") == true %}
+                    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_setting"})}}">
+                        <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
+                        <span class="mdc-tab__icon-text">{% trans %}control_panel_7{% endtrans %}</span>
+                    </a>
+                {% endif %}
+                <span class="mdc-tab-bar__indicator"></span>
+            </nav>
+        </div>
+        <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
+            <a class="mdc-tab-bar-scroller__indicator__inner material-icons" href="javascript:void(0)" aria-label="scroll forward button">navigate_next</a>
+        </div>
+    </div>
 </div>
-<div class="page_container">
+<div>
     {% if urlExtra == "" or urlExtra == "cp_profile" %}
         {% if is_granted("ROLE_USER") == true %}
             <p>{% trans %}control_panel_8{% endtrans %}</p>

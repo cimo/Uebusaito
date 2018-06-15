@@ -249,7 +249,7 @@ date.time: H:i:s
 "table_and_pagination_3": "Search"
 "table_and_pagination_4": "Previous"
 "table_and_pagination_5": "Next"
-"table_and_pagination_6": "Elements found:"
+"table_and_pagination_6": "Elements founded:"
 
 # upload.html.twig
 "upload_1": "Start"

@@ -212,14 +212,14 @@ function TableAndPagination() {
             total = valueB;
         }
         
-        $(idResult).find(".tableAndPagination .previous").addClass("disabled");
-        $(idResult).find(".tableAndPagination .next").addClass("disabled");
+        $(idResult).find(".tableAndPagination .previous .mdc-button").attr("disabled", true);
+        $(idResult).find(".tableAndPagination .next .mdc-button").attr("disabled", true);
         
         if (total > 1 && current > 0)
-            $(idResult).find(".tableAndPagination .previous").removeClass("disabled");
+            $(idResult).find(".tableAndPagination .previous .mdc-button").removeAttr("disabled");
         
         if (total > 1 && current < (total - 1))
-            $(idResult).find(".tableAndPagination .next").removeClass("disabled");
+            $(idResult).find(".tableAndPagination .next .mdc-button").removeAttr("disabled");
         
         $.each($(idResult).find("table thead tr"), function(key, value) {
             $(value).find("th i").hide();

@@ -58,3 +58,4 @@ security:
                 target: root_render
                 path: authentication_exit_check
                 success_handler: uebusaito.authentication_listener
+                invalidate_session: false

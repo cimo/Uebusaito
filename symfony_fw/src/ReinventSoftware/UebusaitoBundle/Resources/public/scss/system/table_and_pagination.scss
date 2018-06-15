@@ -4,8 +4,8 @@
     .container_buttons {
         display: none;
     }
-    
-    .count {
-        display: none;
+    .previous, .text, .next {
+        display: inline-block;
+        vertical-align: middle;
     }
 }

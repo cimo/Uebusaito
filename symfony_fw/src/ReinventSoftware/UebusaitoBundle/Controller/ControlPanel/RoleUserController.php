@@ -140,6 +140,7 @@ class RoleUserController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
         
         $form = $this->createForm(RoleUserSelectionFormType::class, null, Array(
             'validation_groups' => Array('roleUser_selection'),

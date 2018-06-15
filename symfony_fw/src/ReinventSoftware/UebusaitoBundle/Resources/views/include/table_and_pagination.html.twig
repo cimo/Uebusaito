@@ -18,16 +18,16 @@
         </div>
         <div class="mdc-notched-outline__idle"></div>
     </div>
-    <ul>
-        <li class="previous">
-            <a href="javascript:void(0)">{% trans %}table_and_pagination_4{% endtrans %}</a>
-        </li>
-        <li class="text">
+    <div>
+        <div class="previous">
+            <button class="mdc-button" disabled>{% trans %}table_and_pagination_4{% endtrans %}</button>
+        </div>
+        <div class="text">
             <span>{{response.values.pagination.text}}</span>
-        </li>
-        <li class="next">
-            <a href="javascript:void(0)">{% trans %}table_and_pagination_5{% endtrans %}</a>
-        </li>
-    </ul>
+        </div>
+        <div class="next">
+            <button class="mdc-button" disabled>{% trans %}table_and_pagination_5{% endtrans %}</button>
+        </div>
+    </div>
     <p class="count">{% trans %}table_and_pagination_6{% endtrans %} <span>{{response.values.count}}</span></p>
 </div>

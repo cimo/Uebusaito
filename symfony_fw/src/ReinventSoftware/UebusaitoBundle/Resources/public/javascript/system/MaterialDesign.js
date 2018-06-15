@@ -175,18 +175,21 @@ function MaterialDesign() {
     
     self.tabBar = function() {
         $.each($(".mdc-tab-bar").not(".mdc-tab-bar-scroller__scroll-frame__tabs"), function(key, value) {
-            new mdc.tabs.MDCTabBar.attachTo(value);
+            var tabBarMdc = new mdc.tabs.MDCTabBar.attachTo(value);
+            
+            mdcTabBarCustom("tabBar", tabBarMdc);
         });
         
         $.each($(".mdc-tab-bar-scroller"), function(key, value) {
-            new mdc.tabs.MDCTabBarScroller.attachTo(value);
+            var tabBarScrollerMdc = new mdc.tabs.MDCTabBarScroller.attachTo(value);
+            
+            mdcTabBarCustom("tabBarScroller", tabBarScrollerMdc);
         });
     };
     
     self.fix = function() {
         mdcTopAppBarCustom();
         mdcButtonEnable();
-        mdcTabsCustom();
         mdcTextFieldHelperTextClear();
         mdcDrawerCustom();
     };
@@ -220,7 +223,7 @@ function MaterialDesign() {
         $(".mdc-button").removeAttr("disabled");
     }
     
-    function mdcTabsCustom() {
+    function mdcTabBarCustom(type, mdc) {
         var parameters = utility.urlParameters(window.setting.language);
         var parametersReverse = parameters.reverse();
         
@@ -229,6 +232,18 @@ function MaterialDesign() {
         $.each($(".mdc-tab-bar").find(".mdc-tab"), function(key, value) {
             if ($(value).attr("href").indexOf(parametersReverse[0]) !== -1) {
                 $(value).addClass("mdc-tab--active");
+                
+                if (type === "tabBar")
+                    mdc.activeTabIndex = key;
+                else if (type === "tabBarScroller") {
+                    var element = $(value).parent().find(".mdc-tab-bar__indicator");
+                    
+                    utility.mutationObserver("attributes", element[0], function() {
+                        var transformSplit = element.css("transform").split(",");
+                        
+                        element.css("transform", transformSplit[0] + ", " + transformSplit[1] + ", " + transformSplit[2] + ", " + transformSplit[3] + ", " + $(value).position().left + ", " + transformSplit[5]);
+                    });
+                }
                 
                 return false;
             }

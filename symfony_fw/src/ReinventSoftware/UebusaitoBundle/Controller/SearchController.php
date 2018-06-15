@@ -156,24 +156,32 @@ class SearchController extends Controller {
     
     // Functions private
     private function createListHtml($tableResult) {
-        $listHtml = "";
+        $listHtml = "<ul class=\"mdc-list mdc-list--two-line mdc-list--avatar-list\">";
         
-        foreach ($tableResult as $key => $value) {
-            $listHtml .= "<div class=\"box\">
-                <p class=\"title\"><b>{$value['title']}</b></p>";
-                
-                $argumentText = preg_replace("/<(.*?)>/", " ", html_entity_decode($value['argument'], ENT_QUOTES, "utf-8"));
-                
-                if (strlen($argumentText) > 200)
-                    $listHtml .= "<p class=\"argument\">" . substr($argumentText, 0, 200) . "...</p>";
-                else
-                    $listHtml .= "<p class=\"argument\">{$argumentText}</p>";
-            
-                $listHtml .= "<i class=\"fa fa-paper-plane-o\"></i> <a href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/{$value['id']}\">
-                    {$this->utility->getTranslator()->trans("searchController_2")}
+        foreach ($tableResult as $key => $value) {      
+            $listHtml .= "<li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\" aria-hidden=\"true\">receipt</span>
+                <span class=\"mdc-list-item__text\">
+                    {$value['title']}
+                    <span class=\"mdc-list-item__secondary-text\">";
+                        $argument = preg_replace("/<(.*?)>/", " ", html_entity_decode($value['argument'], ENT_QUOTES, "utf-8"));
+                        
+                        if (strlen($argument) > 200)
+                            $listHtml .= substr($argument, 0, 200) . "...";
+                        else
+                            $listHtml .= $argument;
+                    $listHtml .= "</span>
+                </span>
+                <a class=\"mdc-list-item__meta material-icons\" href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/{$value['id']}\" aria-hidden=\"true\">
+                    info
                 </a>
-            </div>";
+            </li>";
+            
+            if ($key < (count($tableResult) - 1))
+                $listHtml .= "<li role=\"separator\" class=\"mdc-list-divider\"></li>";
         }
+        
+        $listHtml .= "</ul>";
         
         return $listHtml;
     }

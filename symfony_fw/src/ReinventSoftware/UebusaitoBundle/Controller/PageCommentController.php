@@ -41,7 +41,7 @@ class PageCommentController extends Controller {
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/page_comment.html.twig")
+    * @Template("@UebusaitoBundleViews/include/page_comment.html.twig")
     */
     public function creationAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -129,7 +129,7 @@ class PageCommentController extends Controller {
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/page_comment.html.twig")
+    * @Template("@UebusaitoBundleViews/include/page_comment.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -173,7 +173,7 @@ class PageCommentController extends Controller {
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"}
     * )
     * @Method({"POST"})
-    * @Template("@UebusaitoBundleViews/render/page_comment.html.twig")
+    * @Template("@UebusaitoBundleViews/include/page_comment.html.twig")
     */
     public function resultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -240,6 +240,7 @@ class PageCommentController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
     }
     
     private function createListHtml($elements) {
