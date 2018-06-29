@@ -128,6 +128,9 @@ class SearchController extends Controller {
         // Logic
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale, $this->urlExtra);
         
+        if ($this->urlExtra == "")
+            $pageRows = Array();
+        
         $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "searchRender", true, true);
         
         $this->response['values']['search'] = $tableAndPagination['search'];
@@ -156,6 +159,9 @@ class SearchController extends Controller {
     
     // Functions private
     private function createListHtml($tableResult) {
+        if (count($tableResult) == 0)
+            return "";
+        
         $listHtml = "<ul class=\"mdc-list mdc-list--two-line mdc-list--avatar-list\">";
         
         foreach ($tableResult as $key => $value) {      

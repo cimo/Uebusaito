@@ -26,7 +26,7 @@ function WidgetSearch() {
     self.create = function() {
         widgetSearchButtonOpen = $(".widget_search").find(".button_open");
         widgetSearchButtonClose = $(".widget_search").find(".button_close");
-        widgetSearchButtonInput = $(".widget_search").find("input");
+        widgetSearchButtonInput = $(".widget_search").find("input[name='form_search[words]']");
         topAppBarSectionStart = $(".mdc-top-app-bar__section--align-start");
 
         $(widgetSearchButtonOpen).on("click", "", function(event) {

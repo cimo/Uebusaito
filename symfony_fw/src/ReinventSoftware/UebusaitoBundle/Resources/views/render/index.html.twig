@@ -25,14 +25,14 @@
     <link href="{{asset("bundles/uebusaito/css/system/loader.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/system/captcha.css")}}" rel="stylesheet"/>
     <link href="{{asset("bundles/uebusaito/css/system/table_and_pagination.css")}}" rel="stylesheet"/>
-    {#<link href="{{asset("bundles/uebusaito/css/system/upload.css")}}" rel="stylesheet"/>
-    <link href="{{asset("bundles/uebusaito/css/system/wysiwyg.css")}}" rel="stylesheet"/>#}
+    <link href="{{asset("bundles/uebusaito/css/system/upload.css")}}" rel="stylesheet"/>
+    {#<link href="{{asset("bundles/uebusaito/css/system/wysiwyg.css")}}" rel="stylesheet"/>#}
     <link href="{{asset("bundles/uebusaito/css/system/widget.css")}}" rel="stylesheet"/>
 {% endblock%}
 
 {% block headerContainer %}
-    <header class="mdc-top-app-bar mdc-top-app-bar--prominent">
-        <div class="mdc-top-app-bar__row">
+    <header class="mdc-top-app-bar">
+        <div class="mdc-top-app-bar__row ">
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                 <a id="menu_root_button" class="material-icons mdc-top-app-bar__navigation-icon show_menu_root display_mobile" href="javascript:void(0)">menu</a>
                 <span class="mdc-top-app-bar__title display_desktop">{{websiteName}}</span>
@@ -149,8 +149,8 @@
             </div>
         </div>
         <div class="text">
-            <p>{{"index_7"|trans}}</p>
-            <p>{{"index_8"|trans}}</p>
+            <p>{{"index_3"|trans}}</p>
+            <p>{{"index_4"|trans}}</p>
         </div>
     </footer>
 {% endblock %}    
@@ -228,13 +228,17 @@
         };
 
         var text = {
-            'warning': "{{"index_3"|trans}}",
-            'ok': "{{"index_4"|trans}}",
-            'close': "{{"index_5"|trans}}",
-            'ajaxConnectionError': "{{"index_6"|trans}}",
-            'today': "{{"index_9"|trans}}",
-            'clear': "{{"index_10"|trans}}",
-            'confirm': "{{"index_11"|trans}}"
+            'warning': "{{"index_5"|trans}}",
+            'ok': "{{"index_6"|trans}}",
+            'close': "{{"index_7"|trans}}",
+            'ajaxConnectionError': "{{"index_8"|trans}}",
+            'create': "{{"index_9"|trans}}",
+            'delete': "{{"index_10"|trans}}",
+            'update': "{{"index_11"|trans}}",
+            'send': "{{"index_12"|trans}}",
+            'modify': "{{"index_13"|trans}}",
+            'expand': "{{"index_14"|trans}}",
+            'collapse': "{{"index_15"|trans}}"
         };
 
         var setting = {
@@ -243,6 +247,12 @@
             'template': "{{settingRow['template']}}",
             'language': "{{settingRow['language']}}",
             'websiteActive': "{{settingRow['website_active']}}"
+        };
+        
+        var widgetDatePickerText = {
+            'today': "{{"widget_date_picker_1"|trans}}",
+            'clear': "{{"widget_date_picker_2"|trans}}",
+            'confirm': "{{"widget_date_picker_3"|trans}}"
         };
     </script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/library/jquery_3.3.1.min.js")}}"></script>
@@ -259,8 +269,8 @@
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Captcha.js")}}"></script>
     {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/PopupEasy.js")}}"></script>#}
     {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Language.js")}}"></script>#}
-    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Upload.js")}}"></script>
-    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Wysiwyg.js")}}"></script>#}
+    <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Upload.js")}}"></script>
+    {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Wysiwyg.js")}}"></script>#}
     {#<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/PageComment.js")}}"></script>#}
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Authentication.js")}}"></script>
     <script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/Registration.js")}}"></script>

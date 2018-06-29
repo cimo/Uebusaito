@@ -50,10 +50,10 @@
     {% elseif styleType is defined and styleType == "outlinedTrailing" %}
         <div class="mdc-text-field mdc-text-field--outlined{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
-            {{- form_label(form) -}}
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
+            {{- form_label(form) -}}
             <div class="mdc-notched-outline">
                 <svg>
                     <path class="mdc-notched-outline__path"/>

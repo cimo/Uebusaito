@@ -28,7 +28,7 @@ class Query {
         $roleIdExplode = explode(",", $roleId);
         array_pop($roleIdExplode);
         
-        $level = Array();
+        $levels = Array();
         
         foreach($roleIdExplode as $key => $value) {
             $query = $this->connection->prepare("SELECT level FROM roles_users
@@ -41,12 +41,12 @@ class Query {
             $row = $query->fetch();
             
             if ($modify == true)
-                array_push($level, ucfirst(strtolower(str_replace("ROLE_", "", $row['level']))));
+                $levels[] = ucfirst(strtolower(str_replace("ROLE_", "", $row['level'])));
             else
-                array_push($level, $row['level']);
+                $levels[] = $row['level'];
         }
         
-        return $level;
+        return $levels;
     }
     
     public function selectAllRoleUserDatabase($change = false) {

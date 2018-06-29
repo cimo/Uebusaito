@@ -12,13 +12,6 @@ date.time: H:i:s
 "User": "Utente"
 "Moderator": "Moderatore"
 
-# Button
-"button_1": "Creare"
-"button_2": "Cancellare"
-"button_3": "Aggiornare"
-"button_4": "Inviare"
-"button_5": "Modificare"
-
 # Module
 "module_1": "Ricerca"
 "module_2": "Autenticazione"
@@ -42,8 +35,8 @@ date.time: H:i:s
 
 # Upload.php
 "class_upload_1": "Errore dimensione massima, il limite è: "
-"class_upload_2": "Errore tipo, solo questo è permesso: "
-"class_upload_3": "Errore misure, solo queste sono permesse: "
+"class_upload_2": "Errore tipo, è permesso solo: "
+"class_upload_3": "Errore misure, sono permesse solo: "
 "class_upload_4": "Errore dimensione chunk."
 "class_upload_5": "File caricato con successo."
 "class_upload_6": "Inpossibile spostare il file al percorso"
@@ -95,7 +88,7 @@ date.time: H:i:s
 "profileController_3": "Profilo non modificato!"
 "profileController_4": "Password modificata."
 "profileController_5": "Password non modificata!"
-"profileController_6": "Invio a PayPal..."
+"profileController_6": "Inviando a PayPal..."
 "profileController_7": "Non inviato a PayPal!"
 
 # RoleUserController.php
@@ -294,15 +287,19 @@ date.time: H:i:s
 # index.html.twig
 "index_1": "SITO ATTUALMENTE"
 "index_2": "IN MANUTENZIONE"
-"index_3": "Attenzione!"
-"index_4": "Ok"
-"index_5": "Chiudere"
-"index_6": "Errire connessione, perfavore ricarica la pagina."
-"index_7": "Copyright © 2018 - Reinvent software."
-"index_8": "Tutti i diritti riservati."
-"index_9": "Oggi"
-"index_10": "Cancella"
-"index_11": "Conferma"
+"index_3": "Copyright © 2018 - Reinvent software."
+"index_4": "Tutti i diritti riservati."
+"index_5": "Attenzione!"
+"index_6": "Ok"
+"index_7": "Chiudere"
+"index_8": "Errire connessione, perfavore ricarica la pagina."
+"index_9": "Creare"
+"index_10": "Cancellare"
+"index_11": "Aggiornare"
+"index_12": "Inviare"
+"index_13": "Modificare"
+"index_14": "Espandi"
+"index_15": "Comprimi"
 
 # page_comment.html.twig
 "page_comment_1": "Messaggio dall'utente: "
@@ -474,7 +471,7 @@ date.time: H:i:s
 
 # profile.html.twig
 "profile_1": "Form profilo"
-"profile_2": "Profilo"
+"profile_2": "Imposta le tue informazioni personali e l'avatar."
 "profile_3": "Username"
 "profile_4": "Nome"
 "profile_5": "Cognome"
@@ -493,14 +490,14 @@ date.time: H:i:s
 
 # profile_credit.html.twig
 "profile_credit_1": "Form profilo credito"
-"profile_credit_2": "Credito"
+"profile_credit_2": "Ricarica i tuoi crediti da utilizzare per fare acquisti."
 "profile_credit_3": "Credito corrente:"
 "profile_credit_4": "Valore di un credito:"
 "profile_credit_5": "Credito"
 
 # profile_password.html.twig
 "profile_password_1": "Form profilo password"
-"profile_password_2": "Password"
+"profile_password_2": "Cambia la tua password per accedere a queston sito."
 "profile_password_3": "Vecchia"
 "profile_password_4": "Nuova"
 "profile_password_5": "Conferma nuova"
@@ -682,3 +679,9 @@ date.time: H:i:s
 "wysiwyg_32": "Span riga: "
 "wysiwyg_33": "Span colonna: "
 "wysiwyg_34": "Ok"
+
+# ---
+# Widget date picker
+"widget_date_picker_1": "Oggi"
+"widget_date_picker_2": "Cancella"
+"widget_date_picker_3": "Conferma"

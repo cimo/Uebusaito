@@ -34,7 +34,7 @@
         
         {% if urlCurrentPageId > 5 %}
             {{-render(controller("UebusaitoBundle:PageComment:creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-            
+
             {{-render(controller("UebusaitoBundle:PageComment:render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
         {% endif %}
     </div>

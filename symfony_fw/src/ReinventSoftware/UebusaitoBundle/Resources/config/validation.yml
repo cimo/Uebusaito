@@ -250,7 +250,7 @@ ReinventSoftware\UebusaitoBundle\Entity\User:
             - Regex:
                 groups: [registration, profile, user_creation, user_profile]
                 htmlPattern: false
-                pattern: /^[0-9]{4}\/[0-9]{1,2}\/[0-9]{1,2}|[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/
+                pattern: /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}|[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}|[0-9]{4}\/[0-9]{1,2}\/[0-9]{1,2}|[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/
         gender:
             - Regex:
                 groups: [user_creation, user_profile]

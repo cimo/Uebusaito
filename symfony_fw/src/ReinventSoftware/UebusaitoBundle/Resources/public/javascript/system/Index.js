@@ -1,4 +1,4 @@
-/* global utility, materialDesign, widgetSearch, widgetDatePicker, flashBag, authentication, registration, recoverPassword */
+/* global utility, materialDesign, widgetSearch, widgetDatePicker, search, flashBag, captcha, authentication, registration, recoverPassword */
 
 $(document).ready(function() {
     utility.init();
@@ -22,7 +22,6 @@ $(document).ready(function() {
     materialDesign.select();
     materialDesign.slider();
     materialDesign.textField();
-    materialDesign.linearProgress();
     materialDesign.list();
     materialDesign.menu();
     materialDesign.snackbar();
@@ -59,7 +58,7 @@ $(document).ready(function() {
     
     language.init();
     
-    controlPanelProfile.init();
+    
     
     controlPanelPayment.init();
     controlPanelPayment.changeView();

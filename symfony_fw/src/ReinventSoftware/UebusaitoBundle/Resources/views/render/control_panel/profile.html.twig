@@ -1,62 +1,47 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}
 
-<div>
-    <h3 class="form_title">{% trans %}profile_1{% endtrans %}</h3>
-    <form id="form_cp_profile" action="{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        <fieldset class="accordion_container">
-            <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}profile_2{% endtrans %}</legend>
-            <div class="content">
-                <div class="form-group">
-                    {{-include("@UebusaitoBundleViews/include/upload.html.twig")-}}
-                    <label class="control-label required" for="form_user_avatar">Avatar</label>
-                    <div class="input-group">
-                        <img class="img-thumbnail avatar" src="{{avatar}}" alt="Avatar"/>
-                    </div>
+<form id="form_cp_profile" action="{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+    <fieldset class="container_accordion">
+        <legend>{% trans %}profile_1{% endtrans %}</legend>
+        <p>{% trans %}profile_2{% endtrans %}</p>
+        <button class="mdc-button mdc-button--raised button_accordion" type="button">
+            {% trans %}index_14{% endtrans %}
+        </button>
+        <div class="accordion">
+            <div id="container_upload_profile">
+                {{-include("@UebusaitoBundleViews/include/upload.html.twig")-}}
+                <label class="control-label required" for="form_user_avatar">Avatar</label>
+                <div>
+                    <img class="avatar" src="{{avatar}}" alt="Avatar"/>
                 </div>
-
-                {% if is_granted("ROLE_ADMIN") == true %}
-                    <div class="form-group">
-                        {{form_label(form.username, "profile_3")}}
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-paw"></i></span>
-                            {{form_errors(form.username)}}
-                            {{form_widget(form.username)}}
-                        </div>
-                    </div>
-                {% endif %}
-
-                {{form_row(form.name, {'label': "profile_4"})}}
-                {{form_row(form.surname, {'label': "profile_5"})}}
-
-                <div class="form-group">
-                    {{form_label(form.email, "profile_6")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                        {{form_errors(form.email)}}
-                        {{form_widget(form.email)}}
-                    </div>
-                </div>
-
-                {{form_row(form.telephone, {'label': "profile_7"})}}
-                {{form_row(form.born, {'label': "profile_8"})}}
-                {{form_row(form.gender, {'label': "profile_9"})}}
-
-                {% if form.fiscalCode.vars.value != "" %}
-                    {{form_row(form.fiscalCode, {'label': "profile_10"})}}
-                    {{form_row(form.companyName, {'label': "profile_11"})}}
-                    {{form_row(form.vat, {'label': "profile_12"})}}
-                {% endif %}
-
-                {{form_row(form.website, {'label': "profile_13"})}}
-                {{form_row(form.state, {'label': "profile_14"})}}
-                {{form_row(form.city, {'label': "profile_15"})}}
-                {{form_row(form.zip, {'label': "profile_16"})}}
-                {{form_row(form.address, {'label': "profile_17"})}}
-
-                {{form_widget(form._token)}}
-
-                <input class="button_custom margin_bottom" type="submit" value="{% trans %}button_3{% endtrans %}"/>
             </div>
-        </fieldset>
-    </form>
-</div>
+
+            {% if is_granted("ROLE_ADMIN") == true %}
+                {{form_row(form.username, {'label': "profile_3", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "pets"})}}
+            {% endif %}
+
+            {{form_row(form.name, {'label': "profile_4", 'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.surname, {'label': "profile_5", 'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.email, {'label': "profile_6", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "email"})}}
+            {{form_row(form.telephone, {'label': "profile_7", 'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.born, {'label': "profile_8", 'dense': "", 'styleType': "outlinedTrailing", 'attr' : {'class': "widget_datePicker_input"} })}}
+            {{form_row(form.gender, {'label': "profile_9"})}}
+
+            {% if form.fiscalCode.vars.value != "" %}
+                {{form_row(form.fiscalCode, {'label': "profile_10", 'dense': ""})}}
+                {{form_row(form.companyName, {'label': "profile_11", 'dense': ""})}}
+                {{form_row(form.vat, {'label': "profile_12", 'dense': ""})}}
+            {% endif %}
+
+            {{form_row(form.website, {'label': "profile_13", 'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.state, {'label': "profile_14", 'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.city, {'label': "profile_15", 'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.zip, {'label': "profile_16", 'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.address, {'label': "profile_17", 'dense': "", 'styleType': "outlinedTrailing"})}}
+
+            {{form_widget(form._token)}}
+
+            {{form_widget(form.submit, {'label': "index_11", 'dense': "", 'raised': ""})}}
+        </div>
+    </fieldset>
+</form>

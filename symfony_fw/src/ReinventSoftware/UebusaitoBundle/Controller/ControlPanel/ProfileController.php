@@ -327,35 +327,26 @@ class ProfileController extends Controller {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $path = Array();
+        $paths = Array();
 
         if ($this->getUser() != null) {
-            array_push($path, "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}");
+            $paths[] = "{$this->utility->getPathSrcBundle()}/Resources/public/files/{$this->getUser()->getUsername()}";
             
             if ($this->utility->getSupportSymlink() == false)
-                array_push($path, "{$this->utility->getPathRoot()}/web/bundles/uebusaito/files/{$this->getUser()->getUsername()}");
+                $paths[] = "{$this->utility->getPathRoot()}/web/bundles/uebusaito/files/{$this->getUser()->getUsername()}";
         }
-
-        $this->response['upload']['inputType'] = "single";
-        $this->response['upload']['maxSize'] = 2097152;
-        $this->response['upload']['type'] = Array('image/jpeg');
-        $this->response['upload']['chunkSize'] = 1000000;
-        $this->response['upload']['nameOverwrite'] = "Avatar";
-        $this->response['upload']['imageWidth'] = 150;
-        $this->response['upload']['imageHeight'] = 150;
         
-        if ($request->get("event") == "upload") {
-            $this->response['upload']['processFile'] = $this->upload->processFile(
-                $path,
-                $this->response['upload']['inputType'],
-                $this->response['upload']['maxSize'],
-                $this->response['upload']['type'],
-                $this->response['upload']['chunkSize'],
-                $this->response['upload']['nameOverwrite'],
-                $this->response['upload']['imageWidth'],
-                $this->response['upload']['imageHeight']
-            );
-        }
+        $this->upload->setSettings(Array(
+            'paths' => $paths,
+            'chunkSize' => 1000000,
+            'inputType' => "single",
+            'types' => Array('image/jpg', 'image/jpeg', 'image/png'),
+            'maxSize' => 2097152,
+            'nameOverwrite' => "Avatar",
+            'imageWidth' => 150,
+            'imageHeight' => 150
+        ));
+        $this->response['upload']['processFile'] = $this->upload->processFile();
         
         return $this->ajax->response(Array(
             'urlLocale' => $this->urlLocale,

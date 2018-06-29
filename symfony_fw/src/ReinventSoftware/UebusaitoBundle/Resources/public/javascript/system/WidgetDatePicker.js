@@ -280,9 +280,9 @@ function WidgetDatePicker() {
     
     function createButtonHtml() {
         return html = "<div class=\"button\">\n\
-            <button class=\"mdc-button button_today\">" + window.text.today + "</button>\n\
-            <button class=\"mdc-button button_clear\">" + window.text.clear + "</button>\n\
-            <button class=\"mdc-button button_confirm\">" + window.text.confirm + "</button>\n\
+            <button class=\"mdc-button button_today\">" + window.widgetDatePickerText.today + "</button>\n\
+            <button class=\"mdc-button button_clear\">" + window.widgetDatePickerText.clear + "</button>\n\
+            <button class=\"mdc-button button_confirm\">" + window.widgetDatePickerText.confirm + "</button>\n\
         </div>";
     }
     
@@ -388,10 +388,10 @@ function WidgetDatePicker() {
     }
     
     function fillInput(type) {
-        result = currentYear + "/" + (currentMonth + 1) + "/" + currentDay;
+        result = currentYear + "-" + (currentMonth + 1) + "-" + currentDay;
         
         if (language === "it")
-            result = currentDay + "/" + (currentMonth + 1) + "/" + currentYear;
+            result = currentDay + "-" + (currentMonth + 1) + "-" + currentYear;
         
         if (type === true)
             $(inputFillTag).val(result);

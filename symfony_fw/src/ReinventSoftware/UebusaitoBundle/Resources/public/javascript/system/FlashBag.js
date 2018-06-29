@@ -7,24 +7,18 @@ function FlashBag() {
     var self = this;
     
     var element;
-    var message;
     
     // Properties
     self.setElement = function(value) {
         element = value;
     }
     
-    self.setMessage = function(value) {
-        message = value;
-    }
-    
     // Functions public
     self.init = function() {
         element = null;
-        message = "";
     }
     
-    self.show = function() {
+    self.show = function(message) {
         var snackbarDataObj = {
             message: message,
             actionText: window.text.close,
@@ -36,7 +30,7 @@ function FlashBag() {
     
     self.sessionActivity = function() {
         if ($("#flashBag").find(".content").html() !== undefined && $("#flashBag").find(".content").html().trim() === "" && window.session.userActivity !== "")
-            self.show();
+            self.show(window.session.userActivity);
     };
     
     // Functions private

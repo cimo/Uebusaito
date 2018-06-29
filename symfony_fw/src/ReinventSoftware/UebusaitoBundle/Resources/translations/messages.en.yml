@@ -12,13 +12,6 @@ date.time: H:i:s
 "User": "User"
 "Moderator": "Moderator"
 
-# Button
-"button_1": "Create"
-"button_2": "Delete"
-"button_3": "Update"
-"button_4": "Send"
-"button_5": "Modify"
-
 # Module
 "module_1": "Search"
 "module_2": "Authentication"
@@ -42,8 +35,8 @@ date.time: H:i:s
 
 # Upload.php
 "class_upload_1": "Error max size, limit is: "
-"class_upload_2": "Error type, only this are allowed: "
-"class_upload_3": "Error measures, only this are allowed: "
+"class_upload_2": "Error type, are allowed only: "
+"class_upload_3": "Error measures, are allowed only: "
 "class_upload_4": "Error chunk size."
 "class_upload_5": "File uploaded successfully."
 "class_upload_6": "Unable to move file to path."
@@ -95,7 +88,7 @@ date.time: H:i:s
 "profileController_3": "Profile not modified!"
 "profileController_4": "Password modified."
 "profileController_5": "Password not modified!"
-"profileController_6": "Send to PayPal..."
+"profileController_6": "Sending to PayPal..."
 "profileController_7": "Not sended to PayPal!"
 
 # RoleUserController.php
@@ -294,15 +287,19 @@ date.time: H:i:s
 # index.html.twig
 "index_1": "WEBSITE CURRENTLY"
 "index_2": "UNDER MAINTENANCE"
-"index_3": "Warning!"
-"index_4": "Ok"
-"index_5": "Close"
-"index_6": "Connection error, please reload the page."
-"index_7": "Copyright © 2018 - Reinvent software."
-"index_8": "All rights reserved."
-"index_9": "Today"
-"index_10": "Cancel"
-"index_11": "Confirm"
+"index_3": "Copyright © 2018 - Reinvent software."
+"index_4": "All rights reserved."
+"index_5": "Warning!"
+"index_6": "Ok"
+"index_7": "Close"
+"index_8": "Connection error, please reload the page."
+"index_9": "Create"
+"index_10": "Delete"
+"index_11": "Update"
+"index_12": "Send"
+"index_13": "Modify"
+"index_14": "Expand"
+"index_15": "Collapse"
 
 # page_comment.html.twig
 "page_comment_1": "Message from user: "
@@ -474,7 +471,7 @@ date.time: H:i:s
 
 # profile.html.twig
 "profile_1": "Profile form"
-"profile_2": "Profile"
+"profile_2": "Set your personal informations and avatar."
 "profile_3": "Username"
 "profile_4": "Name"
 "profile_5": "Surname"
@@ -493,14 +490,14 @@ date.time: H:i:s
 
 # profile_credit.html.twig
 "profile_credit_1": "Profile credit form"
-"profile_credit_2": "Credit"
+"profile_credit_2": "Charge your credits to be used to make purchases."
 "profile_credit_3": "Current credit:"
 "profile_credit_4": "One credit value:"
 "profile_credit_5": "credit"
 
 # profile_password.html.twig
 "profile_password_1": "Profile password form"
-"profile_password_2": "Password"
+"profile_password_2": "Change your password for access to this website."
 "profile_password_3": "Old"
 "profile_password_4": "New"
 "profile_password_5": "New confirm"
@@ -682,3 +679,9 @@ date.time: H:i:s
 "wysiwyg_32": "Rowspan: "
 "wysiwyg_33": "Colspan: "
 "wysiwyg_34": "Ok"
+
+# ---
+# Widget date picker
+"widget_date_picker_1": "Today"
+"widget_date_picker_2": "Clear"
+"widget_date_picker_3": "Confirm"

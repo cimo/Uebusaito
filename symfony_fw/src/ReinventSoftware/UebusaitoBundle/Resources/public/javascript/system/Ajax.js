@@ -105,11 +105,8 @@ function Ajax() {
                 window.session.userActivity = xhr.response.session.userActivity;
         }
         
-        if (reply !== "") {
-            flashBag.setMessage(reply);
-            
-            flashBag.show();
-        }
+        if (reply !== "")
+            flashBag.show(reply);
         
         flashBag.sessionActivity();
     };

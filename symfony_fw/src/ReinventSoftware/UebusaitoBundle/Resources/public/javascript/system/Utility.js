@@ -370,32 +370,54 @@ function Utility() {
         });
     };
     
-    self.accordion = function() {
-        $(".accordion_container").find(".title").on("click", "", function() {
-            if ($(this).find(".icon").hasClass("fa-chevron-circle-down") === true) {
-                $(this).find(".icon").removeClass("fa-chevron-circle-down");
-                $(this).find(".icon").addClass("fa-chevron-circle-up");
-            }
-            else {
-                $(this).find(".icon").removeClass("fa-chevron-circle-up");
-                $(this).find(".icon").addClass("fa-chevron-circle-down");
-            }
+    self.accordion = function(type, materialDesign) {
+        var tag = "";
+        
+        if (type === "button")
+            tag = ".button_accordion";
+        else if (type === "icon")
+            tag = ".icon_accordion";
+        
+        $(".container_accordion").find(tag).on("click", "", function() {
+            var element = $(this);
+            var accordion = $(this).next();
             
-            $(this).next().slideToggle(500, function() {
+            $(".container_accordion").find(".accordion").not(accordion).slideUp("fast");
+            
+            $(".container_accordion").find(".accordion").not(accordion).prev().text(window.text.expand);
+            
+            $(".container_accordion").find(".accordion").not(accordion).removeClass("accordion_active");
+            
+            accordion.slideToggle("fast", function() {
+                if (type === "button") {
+                    if (accordion.hasClass("accordion_active") === false) {
+                        element.text(window.text.collapse);
+                        
+                        accordion.addClass("accordion_active");
+                    }
+                    else {
+                        element.text(window.text.expand);
+                        
+                        accordion.removeClass("accordion_active");
+                    }
+                }
+                else if (type === "icon") {
+                    if (accordion.hasClass("accordion_active") === false) {
+                        element.text("arrow_drop_up");
+                        
+                        accordion.addClass("accordion_active");
+                    }
+                    else {
+                        element.text("arrow_drop_down");
+                        
+                        accordion.removeClass("accordion_active");
+                    }
+                }
+
+                if (materialDesign !== undefined)
+                    materialDesign.textField();
             });
         });
-    };
-    
-    self.progressBar = function(id, start, end) {
-        if (start !== undefined && end !== undefined) {
-            var progress = start / end;
-            var percentage = Math.ceil(progress * 100);
-        }
-        else
-            percentage = 0;
-        
-        $("#" + id).find(".progress-bar").css("width", percentage + "%");
-        $("#" + id).find("span").text(percentage + "%");
     };
     
     self.imageError = function(elements) {

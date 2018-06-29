@@ -11,6 +11,8 @@ function MaterialDesign() {
     var dialogMdc;
     var snackbarMdc;
     
+    var mdcTextFields;
+    
     // Properties
     self.getDialogMsc = function() {
         return dialogMdc;
@@ -24,6 +26,8 @@ function MaterialDesign() {
     self.init = function() {
         dialogMdc = null;
         snackbarMdc = null;
+        
+        mdcTextFields = new Array();
         
         window.mdc.autoInit();
     };
@@ -115,7 +119,8 @@ function MaterialDesign() {
     
     self.textField = function() {
         $.each($(".mdc-text-field"), function(key, value) {
-            new mdc.textField.MDCTextField.attachTo(value);
+            mdcTextFields[key] = new mdc.textField.MDCTextField.attachTo(value);
+            mdcTextFields[key].layout();
         });
         
         /*$.each($(".mdc-text-field"), function(key, value) {
@@ -124,15 +129,20 @@ function MaterialDesign() {
         });*/
     };
     
-    self.linearProgress = function() {
-        $.each($(".mdc-linear-progress"), function(key, value) {
-            var linearProgressMdc = new mdc.linearProgress.MDCLinearProgress.attachTo(value);
-            
-            linearProgressMdc.progress = 0.5;
-
-            if (value.dataset.buffer !== undefined)
-                linearProgressMdc.buffer = 0.75;
-        });
+    self.linearProgress = function(tag, start, end, buffer) {
+        var linearProgressMdc = new mdc.linearProgress.MDCLinearProgress.attachTo($(tag)[0]);
+        
+        if (start !== undefined && end !== undefined) {
+            var progress = start / end;
+            var percentage = Math.ceil(progress * 100);
+        }
+        else
+            percentage = 0;
+        
+        linearProgressMdc.progress = percentage / 100;
+        
+        if (buffer !== undefined)
+            linearProgressMdc.buffer = buffer;
     };
     
     self.list = function() {
@@ -190,6 +200,7 @@ function MaterialDesign() {
     self.fix = function() {
         mdcTopAppBarCustom();
         mdcButtonEnable();
+        mdcTextFieldLayout();
         mdcTextFieldHelperTextClear();
         mdcDrawerCustom();
     };
@@ -247,6 +258,12 @@ function MaterialDesign() {
                 
                 return false;
             }
+        });
+    }
+    
+    function mdcTextFieldLayout() {
+        $.each(mdcTextFields, function(key, value) {
+            mdcTextFields[key].layout();
         });
     }
     

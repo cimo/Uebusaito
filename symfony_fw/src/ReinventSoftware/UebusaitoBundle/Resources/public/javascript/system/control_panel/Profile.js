@@ -1,4 +1,4 @@
-/* global utility, ajax, upload, popupEasy */
+/* global utility, ajax, upload, materialDesign */
 
 var controlPanelProfile = new ControlPanelProfile();
 
@@ -10,9 +10,13 @@ function ControlPanelProfile() {
     
     // Functions public
     self.init = function() {
+        utility.accordion("button", materialDesign);
+        
         upload.init();
+        upload.setTagContainer("#container_upload_profile");
+        upload.setTagProgressBar("#container_upload_profile .upload .mdc-linear-progress");
+        upload.setTagImageRefresh("#container_upload_profile .avatar");
         upload.processFile();
-        upload.setTagImageRefresh(".img-thumbnail.avatar", 1);
         
         $("#form_cp_profile").on("submit", "", function(event) {
             event.preventDefault();
