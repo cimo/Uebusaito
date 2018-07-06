@@ -1,12 +1,16 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}
 
-<div>
-    <h3 class="form_title">{% trans %}payment_user_selection_1{% endtrans %}</h3>
-    <form id="form_cp_payment_user_selection" action="{{path("cp_payment_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        {{form_row(form.userId, {'label': "payment_user_selection_2"})}}
+<form id="form_cp_payment_user_selection" action="{{path("cp_payment_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+    <fieldset class="accordion_container">
+        <legend>{% trans %}paymentUserSelection_1{% endtrans %}</legend>
+        <p>{% trans %}paymentUserSelection_2{% endtrans %}</p>
+        <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_14{% endtrans %}</button>
+        <div class="accordion">
+            {{form_row(form.userId, {'label': "paymentUserSelection_3"})}}
 
-        {{form_widget(form._token)}}
+            {{form_widget(form._token)}}
 
-        <input class="button_custom" type="submit" value="{% trans %}index_12{% endtrans %}"/>
-    </form>
-</div>
+            {{form_widget(form.submit, {'label': "index_12", 'dense': "", 'raised': ""})}}
+        </div>
+    </fieldset>
+</form>

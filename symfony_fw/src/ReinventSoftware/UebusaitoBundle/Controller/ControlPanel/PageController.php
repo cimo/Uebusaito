@@ -69,18 +69,20 @@ class PageController extends Controller {
         // Logic
         $pageEntity = new Page();
         
+        $_SESSION['pageProfileId'] = 0;
+        
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
         
         $form = $this->createForm(PageFormType::class, $pageEntity, Array(
             'validation_groups' => Array('page_creation'),
             'urlLocale' => $this->urlLocale,
             'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-            'choicesParent' => array_flip($this->utility->createPageList($pageRows, true)),
-            'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase(null), "id", "alias")
+            'choicesParent' => array_flip($this->utility->createPageList($pageRows, true))
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_field", true);
+        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", true);
+        $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml();
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -93,7 +95,7 @@ class PageController extends Controller {
                 $pageDatabase = $this->pageDatabase("insert", null, $this->urlLocale, $form);
 
                 if ($pageDatabase == true) {
-                    $this->updatePositionInMenuDatabase($form->get("sort")->getData(), $pageEntity->getId());
+                    $this->updatePositionInMenuDatabase($form->get("menuSort")->getData(), $pageEntity->getId());
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_1");
                 }
@@ -241,12 +243,12 @@ class PageController extends Controller {
                         'validation_groups' => Array('page_profile'),
                         'urlLocale' => $this->urlLocale,
                         'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-                        'choicesParent' => array_flip($this->utility->createPageList($pageRows, true)),
-                        'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
+                        'choicesParent' => array_flip($this->utility->createPageList($pageRows, true))
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_field", true);
+                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", true);
+                    $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml();
                     $this->response['values']['id'] = $_SESSION['pageProfileId'];
                     $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
                     $this->response['values']['dateCreation'] = $this->utility->dateFormat($pageEntity->getDateCreation());
@@ -305,8 +307,11 @@ class PageController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true)
-                $this->response['values']['pageRows'] = array_column($this->query->selectAllPageParentDatabase($request->get("id")), "id", "alias");
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                $rows = array_column($this->query->selectAllPageParentDatabase($request->get("id")), "alias", "id");
+                
+                $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($rows);
+            } 
         }
         
         return $this->ajax->response(Array(
@@ -355,8 +360,7 @@ class PageController extends Controller {
             'validation_groups' => Array('page_profile'),
             'urlLocale' => $this->urlLocale,
             'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
-            'choicesParent' => array_flip($this->utility->createPageList($pageRows, true)),
-            'choicesPositionInMenu' => array_column($this->query->selectAllPageParentDatabase($pageEntity->getParent()), "id", "alias")
+            'choicesParent' => array_flip($this->utility->createPageList($pageRows, true))
         ));
         $form->handleRequest($request);
         
@@ -372,7 +376,7 @@ class PageController extends Controller {
                 $pageDatabase = $this->pageDatabase("update", $pageEntity->getId(), null, $form);
 
                 if ($pageDatabase == true) {
-                    $this->updatePositionInMenuDatabase($form->get("sort")->getData(), $pageEntity->getId());
+                    $this->updatePositionInMenuDatabase($form->get("menuSort")->getData(), $pageEntity->getId());
 
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_4");
                 }
@@ -517,7 +521,15 @@ class PageController extends Controller {
                     {$value['id']}
                 </td>
                 <td class=\"checkbox_column\">
-                    <input class=\"display_inline margin_clear\" type=\"checkbox\"/>
+                    <div class=\"mdc-checkbox\">
+                        <input class=\"mdc-checkbox__native-control\" type=\"checkbox\"/>
+                        <div class=\"mdc-checkbox__background\">
+                            <svg class=\"mdc-checkbox__checkmark\" viewBox=\"0 0 24 24\">
+                                <path class=\"mdc-checkbox__checkmark-path\" fill=\"none\" stroke=\"white\" d=\"M1.73,12.91 8.1,19.28 22.79,4.59\"/>
+                            </svg>
+                            <div class=\"mdc-checkbox__mixedmark\"></div>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     {$value['alias']}
@@ -546,9 +558,9 @@ class PageController extends Controller {
                         else
                             $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
                 $this->listHtml .= "</td>
-                <td class=\"horizontal_center\">";
+                <td>";
                     if ($value['id'] > 5)
-                        $this->listHtml .= "<button class=\"cp_page_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
+                        $this->listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_page_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
             
@@ -582,11 +594,11 @@ class PageController extends Controller {
         $query->execute();
     }
     
-    private function updatePositionInMenuDatabase($sort, $pageId) {
-        $sortExplode = explode(",", $sort);
-        array_pop($sortExplode);
+    private function updatePositionInMenuDatabase($menuSort, $pageId) {
+        $menuSortExplode = explode(",", $menuSort);
+        array_pop($menuSortExplode);
         
-        foreach ($sortExplode as $key => $value) {
+        foreach ($menuSortExplode as $key => $value) {
             if ($value == "")
                 $value = $pageId;
 

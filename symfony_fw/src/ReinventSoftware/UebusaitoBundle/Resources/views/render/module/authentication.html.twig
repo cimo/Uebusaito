@@ -26,7 +26,7 @@
         </p>
         <p><b>{% trans %}authentication_3{% endtrans %}</b></p>
         <p>{{response.values.dateLastLogin[0]}} [{{response.values.dateLastLogin[1]}}]</p>
-        <div class="container_buttons">
+        <div class="button_container">
             <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 1, 'urlExtra': "cp_profile"})}}">{% trans %}authentication_4{% endtrans %}</a>
             <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("authentication_exit_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}">{% trans %}authentication_5{% endtrans %}</a>
         </div>
@@ -43,14 +43,14 @@
             
             {{form_widget(form._token)}}
 
-            <div class="container_submit">
+            <div class="submit_container">
                 {{form_widget(form._remember_me, {'label': "authentication_8"})}}
                 {{form_widget(form.submit, {'label': "authentication_9", 'dense': "", 'raised': ""})}}
             </div>
         </form>
 
         {% if (settingRow['website_active'] == true) %}
-            <div class="container_links">
+            <div class="link_container">
                 <a class="mdc-typography--caption mdc-theme--on-surface" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 4})}}">{% trans %}authentication_11{% endtrans %}</a>
                 <a class="mdc-typography--caption mdc-theme--on-surface" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3})}}">{% trans %}authentication_10{% endtrans %}</a>
             </div>

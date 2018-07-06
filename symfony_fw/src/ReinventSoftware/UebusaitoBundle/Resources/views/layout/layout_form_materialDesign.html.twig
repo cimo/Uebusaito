@@ -90,7 +90,7 @@
 {%- endblock form_widget_simple -%}
 
 {%- block form_widget_compound -%}
-    <div {{ block('widget_container_attributes') }}>
+    <div {{ block('widget_attribute_container') }}>
         {%- if form is rootform -%}
             {{ form_errors(form) }}
         {%- endif -%}
@@ -113,7 +113,7 @@
     {# cimo + #}
     <div class="mdc-text-field mdc-text-field--textarea" {{ block('widget_attributes') }}>
         <textarea id="textarea" class="mdc-text-field__input" rows="8" cols="40" autocomplete="off">{{ value }}</textarea>
-        <label for="textarea" class="mdc-floating-label">{% if label is defined %}{{label}}{% endif %}</label>
+        <label for="textarea" class="mdc-floating-label">{% if label is defined %}{{translation_domain is same as(false) ? label : label|trans({}, translation_domain)}}{% endif %}</label>
     </div>
 {%- endblock textarea_widget -%}
 
@@ -126,7 +126,7 @@
 {%- endblock choice_widget -%}
 
 {%- block choice_widget_expanded -%}
-    <div {{ block('widget_container_attributes') }}>
+    <div {{ block('widget_attribute_container') }}>
     {%- for child in form %}
         {{- form_widget(child) -}}
         {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
@@ -177,7 +177,7 @@
     {# cimo + #}
     <div class="mdc-form-field">
         <div class="mdc-checkbox">
-            <input class="mdc-checkbox__native-control" type="checkbox" id="_remember_me" name="_remember_me" value="1" autocomplete="off"/>
+            <input class="mdc-checkbox__native-control" type="checkbox" id="_remember_me" name="_remember_me" value="1"/>
             <div class="mdc-checkbox__background">
                 <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                     <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
@@ -212,7 +212,7 @@
     {% if widget == 'single_text' %}
         {{- block('form_widget_simple') -}}
     {%- else -%}
-        <div {{ block('widget_container_attributes') }}>
+        <div {{ block('widget_attribute_container') }}>
             {{- form_errors(form.date) -}}
             {{- form_errors(form.time) -}}
             {{- form_widget(form.date) -}}
@@ -225,7 +225,7 @@
     {%- if widget == 'single_text' -%}
         {{ block('form_widget_simple') }}
     {%- else -%}
-        <div {{ block('widget_container_attributes') }}>
+        <div {{ block('widget_attribute_container') }}>
             {{- date_pattern|replace({
                 '{{ year }}':  form_widget(form.year),
                 '{{ month }}': form_widget(form.month),
@@ -240,7 +240,7 @@
         {{ block('form_widget_simple') }}
     {%- else -%}
         {%- set vars = widget == 'text' ? { 'attr': { 'size': 1 }} : {} -%}
-        <div {{ block('widget_container_attributes') }}>
+        <div {{ block('widget_attribute_container') }}>
             {{ form_widget(form.hour, vars) }}{% if with_minutes %}:{{ form_widget(form.minute, vars) }}{% endif %}{% if with_seconds %}:{{ form_widget(form.second, vars) }}{% endif %}
         </div>
     {%- endif -%}
@@ -250,7 +250,7 @@
     {%- if widget == 'single_text' -%}
         {{- block('form_widget_simple') -}}
     {%- else -%}
-        <div {{ block('widget_container_attributes') }}>
+        <div {{ block('widget_attribute_container') }}>
             {{- form_errors(form) -}}
             <table class="{{ table_class|default('') }}" role="presentation">
                 <thead>
@@ -537,10 +537,10 @@
     {{ block('attributes') }}
 {%- endblock widget_attributes -%}
 
-{%- block widget_container_attributes -%}
+{%- block widget_attribute_container -%}
     {%- if id is not empty %}id="{{ id }}"{% endif -%}
     {{ block('attributes') }}
-{%- endblock widget_container_attributes -%}
+{%- endblock widget_attribute_container -%}
 
 {%- block button_attributes -%}
     {# cimo : #}

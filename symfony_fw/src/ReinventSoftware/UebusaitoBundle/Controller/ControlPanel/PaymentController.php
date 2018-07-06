@@ -314,7 +314,15 @@ class PaymentController extends Controller {
                     {$value['id']}
                 </td>
                 <td class=\"checkbox_column\">
-                    <input class=\"display_inline margin_clear\" type=\"checkbox\"/>
+                    <div class=\"mdc-checkbox\">
+                        <input class=\"mdc-checkbox__native-control\" type=\"checkbox\"/>
+                        <div class=\"mdc-checkbox__background\">
+                            <svg class=\"mdc-checkbox__checkmark\" viewBox=\"0 0 24 24\">
+                                <path class=\"mdc-checkbox__checkmark-path\" fill=\"none\" stroke=\"white\" d=\"M1.73,12.91 8.1,19.28 22.79,4.59\"/>
+                            </svg>
+                            <div class=\"mdc-checkbox__mixedmark\"></div>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     {$value['transaction']}
@@ -328,8 +336,8 @@ class PaymentController extends Controller {
                 <td>
                     {$value['payer']}
                 </td>
-                <td class=\"horizontal_center\">
-                    <button class=\"cp_payment_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
+                <td>
+                    <button class=\"mdc-fab mdc-fab--mini cp_payment_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

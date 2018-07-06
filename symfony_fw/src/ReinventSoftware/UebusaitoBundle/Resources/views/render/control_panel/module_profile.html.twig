@@ -1,11 +1,11 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 
 <div>
-    <h3 class="form_title">{% trans %}module_profile_1{% endtrans %}</h3>
+    <h3 class="form_title">{% trans %}moduleProfile_1{% endtrans %}</h3>
     <form id="form_cp_module_profile" action="{{path("cp_module_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         <div class="display_mobile">
             <div class="form-group">
-                {{form_label(form.position, "module_profile_2")}}
+                {{form_label(form.position, "moduleProfile_2")}}
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
                     {{form_errors(form.position)}}
@@ -14,7 +14,7 @@
             </div>
 
             <div class="form-group">
-                {{form_label(form.rankInColumn, "module_profile_3")}}
+                {{form_label(form.rankInColumn, "moduleProfile_3")}}
                 {{form_errors(form.rankInColumn)}}
                 {{form_widget(form.rankInColumn, {'attr': {'size': '8'}})}}
 
@@ -29,7 +29,7 @@
         </div>
 
         <div class="form-group">
-            {{form_label(form.name, "module_profile_4")}}
+            {{form_label(form.name, "moduleProfile_4")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-header"></i></span>
                 {{form_errors(form.name)}}
@@ -37,10 +37,10 @@
             </div>
         </div>
 
-        {{form_row(form.label, {'label': "module_profile_5"})}}
+        {{form_row(form.label, {'label': "moduleProfile_5"})}}
 
         <div class="form-group">
-            {{form_label(form.controllerName, "module_profile_6")}}
+            {{form_label(form.controllerName, "moduleProfile_6")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-file"></i></span>
                 {{form_errors(form.controllerName)}}
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        {{form_row(form.active, {'label': "module_profile_7"})}}
+        {{form_row(form.active, {'label': "moduleProfile_7"})}}
 
         {{form_widget(form._token)}}
 

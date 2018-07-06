@@ -1,5 +1,3 @@
-// Version 1.0.0
-
 /* global utility, loader, flashBag */
 
 var ajax = new Ajax();
@@ -58,14 +56,14 @@ function Ajax() {
         });
     };
     
-    self.reply = function(xhr, tag) {
+    self.reply = function(xhr, tagError) {
         utility.linkPreventDefault();
         
         var reply = "";
         
-        if ($(tag).length > 0) {
-            $(tag).find("*[required='required']").parent().removeClass("mdc-text-field--invalid mdc-text-field--focused");
-            $(tag).find("*[required='required']").parents(".form_row").find(".mdc-text-field-helper-text").text("");
+        if ($(tagError).length > 0) {
+            $(tagError).find("*[required='required']").parent().removeClass("mdc-text-field--invalid mdc-text-field--focused");
+            $(tagError).find("*[required='required']").parents(".form_row").find(".mdc-text-field-helper-text").text("");
         }
         
         if ($.isEmptyObject(xhr.response) === true)
@@ -90,8 +88,8 @@ function Ajax() {
                     if (typeof(value[0]) === "string" && $.isEmptyObject(value) === false && key !== "_token") {
                         var input = null;
 
-                        if ($(tag).length > 0)
-                            input = $(tag).find("*[name*='"+ key + "']")[0];
+                        if ($(tagError).length > 0)
+                            input = $(tagError).find("*[name*='"+ key + "']")[0];
 
                         if (input !== undefined) {
                             $(input).parent().addClass("mdc-text-field--invalid mdc-text-field--focused");

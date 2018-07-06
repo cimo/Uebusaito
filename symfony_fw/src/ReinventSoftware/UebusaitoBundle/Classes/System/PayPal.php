@@ -1,6 +1,4 @@
 <?php
-// Version 1.0.0
-
 namespace ReinventSoftware\UebusaitoBundle\Classes\System;
 
 class PayPal {

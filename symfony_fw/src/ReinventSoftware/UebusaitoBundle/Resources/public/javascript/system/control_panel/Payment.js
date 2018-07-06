@@ -1,4 +1,4 @@
-/* global utility, ajax, popupEasy */
+/* global utility, ajax, popupEasy, materialDesign */
 
 var controlPanelPayment = new ControlPanelPayment();
 
@@ -43,7 +43,7 @@ function ControlPanelPayment() {
     };
     
     self.changeView = function() {
-        if (utility.checkWidthType() === "desktop") {
+        if (utility.checkWidthType() === "mobile") {
             if (selectionSended === true) {
                 selectionId = $("#cp_payment_selection_mobile").find("select option:selected").val();
 
@@ -75,13 +75,16 @@ function ControlPanelPayment() {
     
     // Function private
     function selectionDesktop() {
+        if ($("#cp_payment_selection_result_desktop").find("table tbody td").length > 0)
+            $(".button_accordion").eq(1).click();
+        
         var tableAndPagination = new TableAndPagination();
-        tableAndPagination.setButtonsStatus("show");
         tableAndPagination.init();
+        tableAndPagination.setButtonsStatus("show");
         tableAndPagination.create(window.url.cpPaymentSelection, "#cp_payment_selection_result_desktop", true);
         tableAndPagination.search();
         tableAndPagination.pagination();
-        tableAndPagination.sort(true);
+        tableAndPagination.sort();
         
         $(document).on("click", "#cp_payment_selection_result_desktop .refresh", function() {
             ajax.send(
@@ -108,7 +111,7 @@ function ControlPanelPayment() {
         $(document).on("click", "#cp_payment_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                "<p>" + window.textPayment.label_2 + "</p>",
+                window.textPayment.label_2,
                 function() {
                     popupEasy.close();
                     
@@ -135,9 +138,6 @@ function ControlPanelPayment() {
                         null,
                         null
                     );
-                },
-                function() {
-                    popupEasy.close();
                 }
             );
         });
@@ -208,13 +208,15 @@ function ControlPanelPayment() {
             $("#cp_payment_deletion").on("click", "", function() {
                deletion(null);
             });
+            
+            materialDesign.refresh();
         }
     }
     
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            "<p>" + window.textPayment.label_1 + "</p>",
+            window.textPayment.label_1,
             function() {
                 popupEasy.close();
 
@@ -247,9 +249,6 @@ function ControlPanelPayment() {
                     null,
                     null
                 );
-            },
-            function() {
-                popupEasy.close();
             }
         );
     }

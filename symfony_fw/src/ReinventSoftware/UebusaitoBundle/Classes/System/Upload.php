@@ -1,6 +1,4 @@
 <?php
-// Version 1.0.0
-
 namespace ReinventSoftware\UebusaitoBundle\Classes\System;
 
 use ReinventSoftware\UebusaitoBundle\Classes\System\Utility;
@@ -68,7 +66,7 @@ class Upload {
                 if ($imageSize[0] > $this->settings['imageWidth']  ||  $imageSize[1] > $this->settings['imageHeight']) {
                     return Array(
                         'status' => 1,
-                        'text' => $this->utility->getTranslator()->trans("class_upload_3") . "{$this->settings['imageWidth']} px - {$this->settings['imageHeight']} px."
+                        'text' => $this->utility->getTranslator()->trans("classUpload_3") . "{$this->settings['imageWidth']} px - {$this->settings['imageHeight']} px."
                     );
                 }
             }
@@ -76,14 +74,14 @@ class Upload {
             if ($fileSize > $this->settings['maxSize']) {
                 return Array(
                     'status' => 1,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_1") . $this->utility->sizeUnits($this->settings['maxSize']) . "."
+                    'text' => $this->utility->getTranslator()->trans("classUpload_1") . $this->utility->sizeUnits($this->settings['maxSize']) . "."
                 );
             }
             
             if (in_array(mime_content_type($_FILES["file"]["tmp_name"]), $this->settings['types']) == false) {
                 return Array(
                     'status' => 1,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_2") . implode(", ", $this->settings['types']) . "."
+                    'text' => $this->utility->getTranslator()->trans("classUpload_2") . implode(", ", $this->settings['types']) . "."
                 );
             }
             
@@ -105,7 +103,7 @@ class Upload {
                 
                 return Array(
                     'status' => 1,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_4")
+                    'text' => $this->utility->getTranslator()->trans("classUpload_4")
                 );
             }
             else {
@@ -133,14 +131,14 @@ class Upload {
                 if ($key == count($this->settings['paths']) - 1) {
                     return Array(
                         'status' => 2,
-                        'text' => $this->utility->getTranslator()->trans("class_upload_5")
+                        'text' => $this->utility->getTranslator()->trans("classUpload_5")
                     );
                 }
             }
             else {
                 return Array(
                     'status' => 2,
-                    'text' => $this->utility->getTranslator()->trans("class_upload_6")
+                    'text' => $this->utility->getTranslator()->trans("classUpload_6")
                 );
             }
         }
@@ -154,7 +152,7 @@ class Upload {
         
         return Array(
             'status' => 2,
-            'text' => $this->utility->getTranslator()->trans("class_upload_7")
+            'text' => $this->utility->getTranslator()->trans("classUpload_7")
         );
     }
     

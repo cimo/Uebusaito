@@ -42,7 +42,7 @@ function ControlPanelRoleUser() {
     };
     
     self.changeView = function() {
-        if (utility.checkWidthType() === "desktop") {
+        if (utility.checkWidthType() === "mobile") {
             if (selectionSended === true) {
                 selectionId = $("#cp_roleUser_selection_mobile").find("select option:selected").val();
 
@@ -75,12 +75,12 @@ function ControlPanelRoleUser() {
     // Function private
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
-        tableAndPagination.setButtonsStatus("show");
         tableAndPagination.init();
+        tableAndPagination.setButtonsStatus("show");
         tableAndPagination.create(window.url.cpRoleUserSelection, "#cp_roleUser_selection_result_desktop", true);
         tableAndPagination.search();
         tableAndPagination.pagination();
-        tableAndPagination.sort(true);
+        tableAndPagination.sort();
         
         $(document).on("click", "#cp_roleUser_selection_result_desktop .refresh", function() {
             ajax.send(
@@ -107,7 +107,7 @@ function ControlPanelRoleUser() {
         $(document).on("click", "#cp_roleUser_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                "<p>" + window.textRole.label_2 + "</p>",
+                window.textRole.label_2,
                 function() {
                     popupEasy.close();
                     
@@ -134,9 +134,6 @@ function ControlPanelRoleUser() {
                         null,
                         null
                     );
-                },
-                function() {
-                    popupEasy.close();
                 }
             );
         });
@@ -239,7 +236,7 @@ function ControlPanelRoleUser() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            "<p>" + window.textRole.label_1 + "</p>",
+            window.textRole.label_1,
             function() {
                 popupEasy.close();
 
@@ -272,9 +269,6 @@ function ControlPanelRoleUser() {
                     null,
                     null
                 );
-            },
-            function() {
-                popupEasy.close();
             }
         );
     }

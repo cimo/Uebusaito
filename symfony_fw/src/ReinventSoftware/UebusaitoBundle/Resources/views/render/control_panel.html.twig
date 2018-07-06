@@ -7,35 +7,35 @@
             {% if is_granted("ROLE_USER") == true %}
                 <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_profile"})}}">
                     <i class="material-icons mdc-tab__icon" aria-hidden="true">account_circle</i>
-                    <span class="mdc-tab__icon-text">{% trans %}control_panel_1{% endtrans %}</span>
+                    <span class="mdc-tab__icon-text">{% trans %}controlPanel_1{% endtrans %}</span>
                 </a>
                 <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_payment"})}}">
                     <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                    <span class="mdc-tab__icon-text">{% trans %}control_panel_2{% endtrans %}</span>
+                    <span class="mdc-tab__icon-text">{% trans %}controlPanel_2{% endtrans %}</span>
                 </a>
             {% endif %}
             {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
                 <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page"})}}">
-                    <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                    <span class="mdc-tab__icon-text">{% trans %}control_panel_3{% endtrans %}</span>
+                    <i class="material-icons mdc-tab__icon" aria-hidden="true">pages</i>
+                    <span class="mdc-tab__icon-text">{% trans %}controlPanel_3{% endtrans %}</span>
                 </a>
                 <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user"})}}">
-                    <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                    <span class="mdc-tab__icon-text">{% trans %}control_panel_4{% endtrans %}</span>
+                    <i class="material-icons mdc-tab__icon" aria-hidden="true">people</i>
+                    <span class="mdc-tab__icon-text">{% trans %}controlPanel_4{% endtrans %}</span>
                 </a>
                 <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_module"})}}">
-                    <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                    <span class="mdc-tab__icon-text">{% trans %}control_panel_5{% endtrans %}</span>
+                    <i class="material-icons mdc-tab__icon" aria-hidden="true">view_module</i>
+                    <span class="mdc-tab__icon-text">{% trans %}controlPanel_5{% endtrans %}</span>
                 </a>
                 <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role"})}}">
-                    <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                    <span class="mdc-tab__icon-text">{% trans %}control_panel_6{% endtrans %}</span>
+                    <i class="material-icons mdc-tab__icon" aria-hidden="true">label</i>
+                    <span class="mdc-tab__icon-text">{% trans %}controlPanel_6{% endtrans %}</span>
                 </a>
             {% endif %}
             {% if is_granted("ROLE_ADMIN") == true %}
                 <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_setting"})}}">
-                    <i class="material-icons mdc-tab__icon" aria-hidden="true">payment</i>
-                    <span class="mdc-tab__icon-text">{% trans %}control_panel_7{% endtrans %}</span>
+                    <i class="material-icons mdc-tab__icon" aria-hidden="true">settings</i>
+                    <span class="mdc-tab__icon-text">{% trans %}controlPanel_7{% endtrans %}</span>
                 </a>
             {% endif %}
             <span class="mdc-tab-bar__indicator"></span>
@@ -47,7 +47,7 @@
 </div>
 {% if urlExtra == "" or urlExtra == "cp_profile" %}
     {% if is_granted("ROLE_USER") == true %}
-        <p>{% trans %}control_panel_8{% endtrans %}</p>
+        <p>{% trans %}controlPanel_8{% endtrans %}</p>
         {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
         {{-render(controller("UebusaitoBundle:ControlPanel\\Profile:password", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
         {% if settingRow['credit'] == true %}
@@ -56,16 +56,16 @@
     {% endif %}
 {% elseif urlExtra == "cp_payment" %}
     {% if is_granted("ROLE_USER") == true %}
-        <p>{% trans %}control_panel_9{% endtrans %}</p>
+        <p>{% trans %}controlPanel_9{% endtrans %}</p>
 
         {{-render(controller("UebusaitoBundle:ControlPanel\\Payment:selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
     {% endif %}
 {% elseif urlExtra == "cp_page" or urlExtra == "cp_page/create" or urlExtra == "cp_page/modify" %}
     {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-        <p>{% trans %}control_panel_10{% endtrans %}</p>
-        <div>
-            <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page/create"})}}">{% trans %}index_9{% endtrans %}</a>
-            <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page/modify"})}}">{% trans %}index_13{% endtrans %}</a>
+        <p>{% trans %}controlPanel_10{% endtrans %}</p>
+        <div class="cp_page_button">
+            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page/create"})}}">{% trans %}index_9{% endtrans %}</a>
+            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_page/modify"})}}">{% trans %}index_13{% endtrans %}</a>
         </div>
 
         {% if urlExtra == "cp_page/create" %}
@@ -78,7 +78,7 @@
     {% endif %}
 {% elseif urlExtra == "cp_user" or urlExtra == "cp_user/create" or urlExtra == "cp_user/modify" %}
     {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-        <p>{% trans %}control_panel_11{% endtrans %}</p>
+        <p>{% trans %}controlPanel_11{% endtrans %}</p>
         <div>
             <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user/create"})}}">{% trans %}index_9{% endtrans %}</a>
             <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_user/modify"})}}">{% trans %}index_13{% endtrans %}</a>
@@ -94,7 +94,7 @@
     {% endif %}
 {% elseif urlExtra == "cp_module" or urlExtra == "cp_module/create" or urlExtra == "cp_module/modify" %}
     {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-        <p>{% trans %}control_panel_12{% endtrans %}</p>
+        <p>{% trans %}controlPanel_12{% endtrans %}</p>
         <div class="display_desktop margin_bottom">
             {{-render(controller("UebusaitoBundle:ControlPanel\\Module:drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
         </div>
@@ -113,7 +113,7 @@
     {% endif %}
 {% elseif urlExtra == "cp_role" or urlExtra == "cp_role/create" or urlExtra == "cp_role/modify" %}
     {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-        <p>{% trans %}control_panel_13{% endtrans %}</p>
+        <p>{% trans %}controlPanel_13{% endtrans %}</p>
         <div>
             <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role/create"})}}">{% trans %}index_9{% endtrans %}</a>
             <a class="button_custom" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "cp_role/modify"})}}">{% trans %}index_13{% endtrans %}</a>
@@ -129,42 +129,63 @@
     {% endif %}
 {% elseif urlExtra == "cp_setting" %}
     {% if is_granted("ROLE_ADMIN") == true %}
-        <p>{% trans %}control_panel_14{% endtrans %}</p>
+        <p>{% trans %}controlPanel_14{% endtrans %}</p>
 
         {{-render(controller("UebusaitoBundle:ControlPanel\\Setting:save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
     {% endif %}
 {% endif %}
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
+        utility.accordion("button");
+        
         controlPanelProfile.init();
+        
+        controlPanelPayment.init();
+        controlPanelPayment.changeView();
+        
+        controlPanelPage.init();
+        controlPanelPage.changeView();
+        
+        window.onresize = function() {
+            controlPanelPayment.changeView();
+            controlPanelPage.changeView();
+        };
     });
     
     var textPayment = {
-        'label_1': "{{"control_panel_15"|trans}}",
-        'label_2': "{{"control_panel_16"|trans}}"
+        'label_1': "{{"controlPanel_15"|trans}}",
+        'label_2': "{{"controlPanel_16"|trans}}"
     };
 
     var textPage = {
-        'label_1': "{{"control_panel_17"|trans}}",
-        'label_2': "{{"control_panel_18"|trans}}"
+        'label_1': "{{"controlPanel_17"|trans}}",
+        'label_2': "{{"controlPanel_18"|trans}}"
     };
 
     var textUser = {
-        'label_1': "{{"control_panel_19"|trans}}",
-        'label_2': "{{"control_panel_20"|trans}}"
+        'label_1': "{{"controlPanel_19"|trans}}",
+        'label_2': "{{"controlPanel_20"|trans}}"
     };
 
     var textModule = {
-        'label_1': "{{"control_panel_21"|trans}}",
-        'label_2': "{{"control_panel_22"|trans}}"
+        'label_1': "{{"controlPanel_21"|trans}}",
+        'label_2': "{{"controlPanel_22"|trans}}"
     };
 
     var textRole = {
-        'label_1': "{{"control_panel_23"|trans}}",
-        'label_2': "{{"control_panel_24"|trans}}"
+        'label_1': "{{"controlPanel_23"|trans}}",
+        'label_2': "{{"controlPanel_24"|trans}}"
     };
 
     var textSetting = {
-        'label_1': "{{"control_panel_25"|trans}}"
+        'label_1': "{{"controlPanel_25"|trans}}"
     };
 </script>
+
+<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Profile.js")}}"></script>
+<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Payment.js")}}"></script>
+<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Page.js")}}"></script>
+<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/User.js")}}"></script>
+<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Module.js")}}"></script>
+<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/RoleUser.js")}}"></script>
+<script type="text/javascript" src="{{asset("bundles/uebusaito/javascript/system/control_panel/Setting.js")}}"></script>

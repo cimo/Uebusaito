@@ -2,74 +2,74 @@
     {{-render(controller("UebusaitoBundle:ControlPanel\\Payment:userSelection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
 {% endif %}
 
-<h3 class="form_title">{% trans %}payment_selection_1{% endtrans %}</h3>
-
-<div id="cp_payment_selection_desktop" class="display_desktop">
-    <div id="cp_payment_selection_result_desktop">
-        {{-include("@UebusaitoBundleViews/include/table_and_pagination.html.twig")-}}
-
-        <div class="overflow_y_hidden margin_bottom">
-            <table class="table table-bordered table-striped">
-                <thead class="table_thead">
-                    <tr>
-                        <th class="cursor_pointer">
-                            {% trans %}payment_selection_2{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                        <th class="cursor_pointer">
-                            {% trans %}payment_selection_3{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                        <th class="cursor_pointer">
-                            {% trans %}payment_selection_4{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                        <th class="cursor_pointer">
-                            {% trans %}payment_selection_5{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                        <th class="cursor_pointer">
-                            {% trans %}payment_selection_6{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                        <th class="cursor_pointer">
-                            {% trans %}payment_selection_7{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                        <th class="cursor_pointer">
-                            {% trans %}payment_selection_8{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="table_tbody">
-                    {{response.values.listHtml|raw}}
-                </tbody>
-            </table>
+<fieldset class="accordion_container">
+    <legend>{% trans %}paymentSelection_1{% endtrans %}</legend>
+    <p>{% trans %}paymentSelection_2{% endtrans %}</p>
+    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_14{% endtrans %}</button>
+    <div class="accordion">
+        <div id="cp_payment_selection_desktop" class="display_desktop">
+            <div id="cp_payment_selection_result_desktop">
+                {{-include("@UebusaitoBundleViews/include/table_and_pagination.html.twig")-}}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <span>{% trans %}paymentSelection_3{% endtrans %}</span>
+                                <i class="material-icons">arrow_drop_down</i>
+                                <i class="material-icons">arrow_drop_up</i>
+                            </th>
+                            <th>
+                                <span>{% trans %}paymentSelection_4{% endtrans %}</span>
+                                <i class="material-icons">arrow_drop_down</i>
+                                <i class="material-icons">arrow_drop_up</i>
+                            </th>
+                            <th>
+                                <span>{% trans %}paymentSelection_5{% endtrans %}</span>
+                                <i class="material-icons">arrow_drop_down</i>
+                                <i class="material-icons">arrow_drop_up</i>
+                            </th>
+                            <th>
+                                <span>{% trans %}paymentSelection_6{% endtrans %}</span>
+                                <i class="material-icons">arrow_drop_down</i>
+                                <i class="material-icons">arrow_drop_up</i>
+                            </th>
+                            <th>
+                                <span>{% trans %}paymentSelection_7{% endtrans %}</span>
+                                <i class="material-icons">arrow_drop_down</i>
+                                <i class="material-icons">arrow_drop_up</i>
+                            </th>
+                            <th>
+                                <span>{% trans %}paymentSelection_8{% endtrans %}</span>
+                                <i class="material-icons">arrow_drop_down</i>
+                                <i class="material-icons">arrow_drop_up</i>
+                            </th>
+                            <th>
+                                <span>{% trans %}paymentSelection_9{% endtrans %}</span>
+                                <i class="material-icons">arrow_drop_down</i>
+                                <i class="material-icons">arrow_drop_up</i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{response.values.listHtml|raw}}
+                    </tbody>
+                </table>
+            </div>
+            <button id="cp_payment_selection_button_desktop" class="mdc-button mdc-button--dense mdc-button--raised" type="button">{% trans %}index_12{% endtrans %}</button>
         </div>
-    </div>
-    <button id="cp_payment_selection_button_desktop" class="button_custom" type="button">{% trans %}index_12{% endtrans %}</button>
-</div>
 
-<div id="cp_payment_selection_mobile" class="display_mobile">
-    {% form_theme form "bootstrap_3_layout.html.twig" %}
-    
-    <div>
-        <form id="form_cp_payment_selection_mobile" action="{{path("cp_payment_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            {{form_row(form.id, {'label': "payment_selection_9"})}}
-
-            {{form_widget(form._token)}}
-
-            <input class="button_custom" type="submit" value="{% trans %}index_12{% endtrans %}"/>
-        </form>
-    </div>
-</div>
+        <div id="cp_payment_selection_mobile" class="display_mobile">
+            {% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}
             
-<div id="cp_payment_selection_result"></div>
+            <form id="form_cp_payment_selection_mobile" action="{{path("cp_payment_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                {{form_row(form.id, {'label': "paymentSelection_10"})}}
+
+                {{form_widget(form._token)}}
+
+                {{form_widget(form.submit, {'label': "index_12", 'dense': "", 'raised': ""})}}
+            </form>
+        </div>
+
+        <div id="cp_payment_selection_result"></div>
+    </div>
+</fieldset>

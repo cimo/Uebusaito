@@ -1,24 +1,22 @@
 {% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}
 
-<form id="form_cp_profile_credit" action="{{path("cp_profile_credit", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-    <fieldset class="container_accordion">
-        <legend>{% trans %}profile_credit_1{% endtrans %}</legend>
-        <p>{% trans %}profile_credit_2{% endtrans %}</p>
-        <button class="mdc-button mdc-button--raised button_accordion" type="button">
-            {% trans %}index_14{% endtrans %}
-        </button>
-        <div class="accordion">
-            <p><b>{% trans %}profile_credit_3{% endtrans %}</b> {{response.values.currentCredit}}</p>
-            <p><b>{% trans %}profile_credit_4{% endtrans %}</b> {{settingRow['payPal_credit_amount']}} <u>{{settingRow['payPal_currency_code']|upper}}</u></p>
-            
-            {{form_row(form.credit, {'label': "profile_credit_5", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "monetization_on"})}}
+<fieldset class="accordion_container">
+    <legend>{% trans %}profileCredit_1{% endtrans %}</legend>
+    <p>{% trans %}profileCredit_2{% endtrans %}</p>
+    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_14{% endtrans %}</button>
+    <div class="accordion">
+        <form id="form_cp_profile_credit" action="{{path("cp_profile_credit", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <p><b>{% trans %}profileCredit_3{% endtrans %}</b> {{response.values.currentCredit}}</p>
+            <p><b>{% trans %}profileCredit_4{% endtrans %}</b> {{settingRow['payPal_credit_amount']}} <u>{{settingRow['payPal_currency_code']|upper}}</u></p>
+
+            {{form_row(form.credit, {'label': "profileCredit_5", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "monetization_on"})}}
 
             {{form_widget(form._token)}}
-            
+
             {{form_widget(form.submit, {'label': "", 'dense': "", 'raised': "", 'icon': "payment"})}}
-        </div>
-    </fieldset>
-</form>
+        </form>
+    </div>
+</fieldset>
 
 {% if response.values.payPalSandbox == true %}
     <form id="form_cp_profile_credit_paypal" class="visibility_hidden" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">

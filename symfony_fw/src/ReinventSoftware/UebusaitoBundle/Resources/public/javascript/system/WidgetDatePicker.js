@@ -1,5 +1,3 @@
-// Version 1.0.0
-
 /* global mdc */
 
 var widgetDatePicker = new WidgetDatePicker();
@@ -179,11 +177,7 @@ function WidgetDatePicker() {
             html = "<div class=\"mdc-theme--primary-bg mdc-theme--on-primary header\">\n\
                 <p>" + currentYear + "</p>\n\
                 <div class=\"mdc-typography--headline6 text\">" + weekCurrentDay + ", " + monthLabels[language][currentMonth] + " " + currentDay + "</div>\n\
-                <button class=\"mdc-fab material-icons mdc-fab--mini\" aria-label=\"Close\">\n\
-                    <span class=\"mdc-fab__icon\">\n\
-                        close\n\
-                    </span>\n\
-                </button>\n\
+                <button class=\"mdc-fab mdc-fab--mini cp_payment_deletion\" type=\"button\" aria-label=\"Close\"><span class=\"mdc-fab__icon material-icons\">close</span></button>\n\
             </div>";
         }
         else if (type === false)
@@ -219,7 +213,7 @@ function WidgetDatePicker() {
     function createMonthHtml() {
         var html = "<div class=\"month\">\n\
             <div class=\"left\"><i class=\"material-icons mdc-ripple-surface\">keyboard_arrow_left</i></div>\n\
-            <div class=\"mdc-typography--body1 label\">" + monthLabels[language][currentMonth] + "</div>\n\
+            <div class=\"mdc-typography--body2 label\">" + monthLabels[language][currentMonth] + "</div>\n\
             <div class=\"right\"><i class=\"material-icons mdc-ripple-surface\">keyboard_arrow_right</i></div>\n\
         </div>";
         
@@ -227,7 +221,7 @@ function WidgetDatePicker() {
     }
 
     function createWeekHtml() {
-        var html = "<div class=\"mdc-typography--body1 week\"><ul>";
+        var html = "<div class=\"mdc-typography--body2 week\"><ul>";
         
         for (var a = 0; a <= 6; a ++) {
             html += "<li>" + dayLabels[language][(a + weekDayShift + 7) % 7] + "</li>";
@@ -239,7 +233,7 @@ function WidgetDatePicker() {
     }
     
     function createDayHtml() {
-        var html = "<div class=\"mdc-typography--body1 day\">";
+        var html = "<div class=\"mdc-typography--body2 day\">";
         
         var day = 1;
         
@@ -280,9 +274,9 @@ function WidgetDatePicker() {
     
     function createButtonHtml() {
         return html = "<div class=\"button\">\n\
-            <button class=\"mdc-button button_today\">" + window.widgetDatePickerText.today + "</button>\n\
-            <button class=\"mdc-button button_clear\">" + window.widgetDatePickerText.clear + "</button>\n\
-            <button class=\"mdc-button button_confirm\">" + window.widgetDatePickerText.confirm + "</button>\n\
+            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_today\" type=\"button\">" + window.widgetDatePickerText.today + "</button>\n\
+            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_clear\" type=\"button\">" + window.widgetDatePickerText.clear + "</button>\n\
+            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_confirm\" type=\"button\">" + window.widgetDatePickerText.confirm + "</button>\n\
         </div>";
     }
     
@@ -310,7 +304,7 @@ function WidgetDatePicker() {
             self.create();
         });
         
-        $(".widget_datePicker").find(".material-icons").not(".mdc-fab").off("click").on("click", "", function() {
+        $(".widget_datePicker").find(".calendar .month .material-icons").not(".mdc-fab").off("click").on("click", "", function() {
             if ($(this).parent().prop("class") === "left")
                 currentMonth -= 1;
             else
@@ -379,7 +373,7 @@ function WidgetDatePicker() {
             fillInput(true);
         });
         
-        $(".widget_datePicker").find(".mdc-fab").off("click").on("click", "", function() {
+        $(".widget_datePicker").find(".header > .mdc-fab").off("click").on("click", "", function() {
             $(inputFillTag).focus();
 
             $(".widget_datePicker_back").hide();

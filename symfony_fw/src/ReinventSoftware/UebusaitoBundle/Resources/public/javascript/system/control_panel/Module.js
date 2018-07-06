@@ -45,15 +45,15 @@ function ControlPanelModule() {
     
     self.changeView = function() {
         //$("#module_drag_switch").bootstrapSwitch("state", false, true);
-        utility.sortableDragModules(false, "#form_module_drag_sort");
+        utility.sortableModuleDrag(false, "#form_module_drag_sort");
         
         if (positionSelected >= 0) {
             $("#form_module_position").find("option").removeAttr("selected");
-            $("#form_module_position").find("option").eq(positionSelected).attr("selected", true);
+            $("#form_module_position").find("option").eq(positionSelected).prop("selected", true);
             $("#form_module_position").change();
         }
         
-        if (utility.checkWidthType() === "desktop") {
+        if (utility.checkWidthType() === "mobile") {
             if (selectionSended === true) {
                 selectionId = $("#cp_module_selection_mobile").find("select option:selected").val();
 
@@ -88,7 +88,7 @@ function ControlPanelModule() {
         //$("#module_drag_switch").bootstrapSwitch("state", false);
         
         /*$("#module_drag_switch").on("switchChange.bootstrapSwitch", "", function(event, state) {
-            utility.sortableDragModules(state, "#form_module_drag_sort");
+            utility.sortableModuleDrag(state, "#form_module_drag_sort");
             
             if (state === false)
                 $("#form_cp_module_drag").submit();
@@ -116,12 +116,12 @@ function ControlPanelModule() {
     
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
+        tableAndPagination.init();
         tableAndPagination.setButtonsStatus("show");
-        
         tableAndPagination.create(window.url.cpModuleSelection, "#cp_module_selection_result_desktop", true);
         tableAndPagination.search();
         tableAndPagination.pagination();
-        tableAndPagination.sort(true);
+        tableAndPagination.sort();
         
         $(document).on("click", "#cp_module_selection_result_desktop .refresh", function() {
             ajax.send(
@@ -148,7 +148,7 @@ function ControlPanelModule() {
         $(document).on("click", "#cp_module_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                "<p>" + window.textModule.label_2 + "</p>",
+                window.textModule.label_2,
                 function() {
                     popupEasy.close();
                     
@@ -175,9 +175,6 @@ function ControlPanelModule() {
                         null,
                         null
                     );
-                },
-                function() {
-                    popupEasy.close();
                 }
             );
         });
@@ -288,10 +285,10 @@ function ControlPanelModule() {
         if (isCreation === false)
             $("#form_module_rankInColumn").find("option")[0].remove();
         
-        utility.selectSortable("#form_module_rankInColumn", null, "#form_module_sort", isCreation);
+        utility.sortableElement("#form_module_rankInColumn", null, "#form_module_sort", isCreation);
         
         $("#module_position_sort").find("i").on("click", "", function() {
-            utility.selectSortable("#form_module_rankInColumn", $(this), "#form_module_sort", isCreation);
+            utility.sortableElement("#form_module_rankInColumn", $(this), "#form_module_sort", isCreation);
         });
         
         $("#form_module_position").on("change", "", function() {
@@ -316,13 +313,13 @@ function ControlPanelModule() {
                     
                     if ($("#form_module_position").find("option:selected").index() > 0) {
                         $.each(xhr.response.values.moduleRows, function(key, value) {
-                            $("#form_module_rankInColumn").append($("<option></option>").attr("value", value).text(key));
+                            $("#form_module_rankInColumn").append($("<option></option>").prop("value", value).text(key));
                         });
                     }
                     
-                    $("#form_module_rankInColumn").append($("<option selected=\"selected\"></option>").attr("value", optionSelected.val()).text(optionSelected.text()));
+                    $("#form_module_rankInColumn").append($("<option selected=\"selected\"></option>").prop("value", optionSelected.val()).text(optionSelected.text()));
                     
-                    utility.selectSortable("#form_module_rankInColumn", null, "#form_module_sort", isCreation);
+                    utility.sortableElement("#form_module_rankInColumn", null, "#form_module_sort", isCreation);
                 },
                 null,
                 null
@@ -333,7 +330,7 @@ function ControlPanelModule() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            "<p>" + window.textModule.label_1 + "</p>",
+            window.textModule.label_1,
             function() {
                 popupEasy.close();
 
@@ -368,9 +365,6 @@ function ControlPanelModule() {
                     null,
                     null
                 );
-            },
-            function() {
-                popupEasy.close();
             }
         );
     }

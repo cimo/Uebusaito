@@ -1,5 +1,3 @@
-// Version 1.0.0
-
 /* global utility, popupEasy */
 
 var wysiwyg = new Wysiwyg();
@@ -131,7 +129,7 @@ function Wysiwyg() {
             
             $("#wysiwyg").find(".editor").contents().find("body").prop("contenteditable", "true");
 
-            $("#wysiwyg").find(".editor").contents().find("body").on("click", "a", function(event) {
+            $("#wysiwyg").find(".editor").contents().find("body").off("click").on("click", "a", function(event) {
                 event.preventDefault();
             });
             
@@ -371,9 +369,6 @@ function Wysiwyg() {
                 }
 
                 popupEasy.close();
-            },
-            function() {
-                popupEasy.close();
             }
         );
     }
@@ -408,9 +403,6 @@ function Wysiwyg() {
                 }
 
                 popupEasy.close();
-            },
-            function() {
-                popupEasy.close();
             }
         );
     }
@@ -436,9 +428,6 @@ function Wysiwyg() {
                     editorFix();
                 }
 
-                popupEasy.close();
-            },
-            function() {
                 popupEasy.close();
             }
         );
@@ -473,9 +462,6 @@ function Wysiwyg() {
                     }
 
                     popupEasy.close();
-                },
-                function() {
-                    popupEasy.close();
                 }
             );
         }
@@ -506,9 +492,6 @@ function Wysiwyg() {
                         editorFix();
                     }
 
-                    popupEasy.close();
-                },
-                function() {
                     popupEasy.close();
                 }
             );
@@ -1005,7 +988,7 @@ function Wysiwyg() {
             $("#wysiwyg").find(".toolbar .popup_settings .only_button").show();
             $("#wysiwyg").find(".toolbar .popup_settings .only_table").hide();
             
-            var style = $(event.target).attr("style");
+            var style = $(event.target).prop("style");
             var classes = $(event.target)[0].className;
             var href = $(event.target)[0].href;
             var text = $(event.target)[0].text;

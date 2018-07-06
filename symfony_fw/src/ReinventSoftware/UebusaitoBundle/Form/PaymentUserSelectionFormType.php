@@ -5,6 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PaymentUserSelectionFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -27,6 +28,7 @@ class PaymentUserSelectionFormType extends AbstractType {
             'preferred_choices' => Array(
                 $_SESSION['paymentUserId']
             )
-        ));
+        ))
+        ->add("submit", SubmitType::class, Array());
     }
 }

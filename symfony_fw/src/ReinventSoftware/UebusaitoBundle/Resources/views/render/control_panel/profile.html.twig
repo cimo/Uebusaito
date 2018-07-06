@@ -1,14 +1,12 @@
 {% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}
 
-<form id="form_cp_profile" action="{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-    <fieldset class="container_accordion">
-        <legend>{% trans %}profile_1{% endtrans %}</legend>
-        <p>{% trans %}profile_2{% endtrans %}</p>
-        <button class="mdc-button mdc-button--raised button_accordion" type="button">
-            {% trans %}index_14{% endtrans %}
-        </button>
-        <div class="accordion">
-            <div id="container_upload_profile">
+<fieldset class="accordion_container">
+    <legend>{% trans %}profile_1{% endtrans %}</legend>
+    <p>{% trans %}profile_2{% endtrans %}</p>
+    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_14{% endtrans %}</button>
+    <div class="accordion">
+        <form id="form_cp_profile" action="{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <div id="upload_profile_container">
                 {{-include("@UebusaitoBundleViews/include/upload.html.twig")-}}
                 <label class="control-label required" for="form_user_avatar">Avatar</label>
                 <div>
@@ -42,6 +40,6 @@
             {{form_widget(form._token)}}
 
             {{form_widget(form.submit, {'label': "index_11", 'dense': "", 'raised': ""})}}
-        </div>
-    </fieldset>
-</form>
+        </form>
+    </div>
+</fieldset>

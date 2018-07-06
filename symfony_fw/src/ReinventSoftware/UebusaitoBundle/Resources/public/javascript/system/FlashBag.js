@@ -1,5 +1,3 @@
-// Version 1.0.0
-
 var flashBag = new FlashBag();
 
 function FlashBag() {

@@ -1,7 +1,5 @@
 /* global utility */
 
-// Version 1.0.0
-
 var materialDesign = new MaterialDesign();
 
 function MaterialDesign() {
@@ -14,11 +12,11 @@ function MaterialDesign() {
     var mdcTextFields;
     
     // Properties
-    self.getDialogMsc = function() {
+    self.getDialogMdc = function() {
         return dialogMdc;
     };
     
-    self.getSnackbarMsc = function() {
+    self.getSnackbarMdc = function() {
         return snackbarMdc;
     };
     
@@ -32,6 +30,25 @@ function MaterialDesign() {
         window.mdc.autoInit();
     };
     
+    self.refresh = function() {
+        self.button();
+        self.fabButton();
+        self.iconButton();
+        self.chip();
+        self.dialog();
+        self.drawer();
+        self.checkbox();
+        self.radioButton();
+        self.select();
+        self.slider();
+        self.textField();
+        self.list();
+        self.menu();
+        self.snackbar();
+        self.tabBar();
+        self.fix();
+    };
+    
     self.button = function() {
         $.each($(".mdc-button"), function(key, value) {
             new mdc.ripple.MDCRipple.attachTo(value);
@@ -42,9 +59,9 @@ function MaterialDesign() {
         $.each($(".mdc-fab"), function(key, value) {
             new mdc.ripple.MDCRipple.attachTo(value);
             
-            $(value).on("click", "", function(event) {
+            /*$(value).on("click", "", function(event) {
                 $(this).addClass("mdc-fab--exited");
-            });
+            });*/
         });
     };
     
@@ -63,7 +80,7 @@ function MaterialDesign() {
     self.dialog = function() {
         dialogMdc = new mdc.dialog.MDCDialog.attachTo($(".mdc-dialog")[0]);
         
-        $(".show_dialog").on("click", "", function(event) {
+        /*$(".show_dialog").on("click", "", function(event) {
             dialogMdc.lastFocusedTarget = event.target;
             dialogMdc.show();
         });
@@ -74,7 +91,7 @@ function MaterialDesign() {
 
         dialogMdc.listen("MDCDialog:cancel", function() {
             console.log("Dialog - Canceled");
-        });
+        });*/
     };
     
     self.drawer = function() {
@@ -101,9 +118,9 @@ function MaterialDesign() {
         $.each($(".mdc-select"), function(key, value) {
             var selectMdc = new mdc.select.MDCSelect.attachTo(value);
 
-            $(value).on("change", "", function() {
+            /*$(value).on("change", "", function() {
                 console.log("Select - Item with index " + selectMdc.selectedIndex + " and value " + selectMdc.value);
-            });
+            });*/
         });
     };
     
@@ -111,15 +128,17 @@ function MaterialDesign() {
         $.each($(".mdc-slider"), function(key, value) {
             var sliderMdc = new mdc.slider.MDCSlider.attachTo(value);
 
-            $(value).on("MDCSlider:change", "", function() {
+            /*$(value).on("MDCSlider:change", "", function() {
                 console.log("Slider - Value: " + sliderMdc.value);
-            });
+            });*/
         });
     };
     
     self.textField = function() {
+        mdcTextFields = new Array();
+        
         $.each($(".mdc-text-field"), function(key, value) {
-            mdcTextFields[key] = new mdc.textField.MDCTextField.attachTo(value);
+            mdcTextFields.push(new mdc.textField.MDCTextField.attachTo(value));
             mdcTextFields[key].layout();
         });
         
@@ -161,9 +180,9 @@ function MaterialDesign() {
                 menuMdc.open = !menuMdc.open;
             });
             
-            $(value).on("MDCMenu:selected", "", function(event) {
+            /*$(value).on("MDCMenu:selected", "", function(event) {
                 console.log("Menu - Item with index " + event.detail.index + " and value " + event.detail.item.innerText);
-            });
+            });*/
         });
     };
     
@@ -200,7 +219,6 @@ function MaterialDesign() {
     self.fix = function() {
         mdcTopAppBarCustom();
         mdcButtonEnable();
-        mdcTextFieldLayout();
         mdcTextFieldHelperTextClear();
         mdcDrawerCustom();
     };
@@ -241,7 +259,7 @@ function MaterialDesign() {
         $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");
         
         $.each($(".mdc-tab-bar").find(".mdc-tab"), function(key, value) {
-            if ($(value).attr("href").indexOf(parametersReverse[0]) !== -1) {
+            if ($(value).prop("href").indexOf(parametersReverse[0]) !== -1) {
                 $(value).addClass("mdc-tab--active");
                 
                 if (type === "tabBar")
@@ -258,12 +276,6 @@ function MaterialDesign() {
                 
                 return false;
             }
-        });
-    }
-    
-    function mdcTextFieldLayout() {
-        $.each(mdcTextFields, function(key, value) {
-            mdcTextFields[key].layout();
         });
     }
     

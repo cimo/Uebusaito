@@ -1,11 +1,11 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 
 <div>
-    <h3 class="form_title">{% trans %}user_creation_1{% endtrans %}</h3>
+    <h3 class="form_title">{% trans %}userCreation_1{% endtrans %}</h3>
     <form id="form_cp_user_creation" action="{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         {% if is_granted("ROLE_ADMIN") == true %}
             <div id="user_roleUserId_wordTag_container" class="form-group">
-                {{form_label(form.roleUserId, "user_creation_2")}}
+                {{form_label(form.roleUserId, "userCreation_2")}}
                 {{form_errors(form.roleUserId)}}
                 {{form_widget(form.roleUserId)}}
                 <div class="input-group">
@@ -16,7 +16,7 @@
         {% endif %}
 
         <div class="form-group">
-            {{form_label(form.username, "user_creation_3")}}
+            {{form_label(form.username, "userCreation_3")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-paw"></i></span>
                 {{form_errors(form.username)}}
@@ -24,11 +24,11 @@
             </div>
         </div>
 
-        {{form_row(form.name, {'label': "user_creation_4"})}}
-        {{form_row(form.surname, {'label': "user_creation_5"})}}
+        {{form_row(form.name, {'label': "userCreation_4"})}}
+        {{form_row(form.surname, {'label': "userCreation_5"})}}
 
         <div class="form-group">
-            {{form_label(form.email, "user_creation_6")}}
+            {{form_label(form.email, "userCreation_6")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                 {{form_errors(form.email)}}
@@ -36,22 +36,22 @@
             </div>
         </div>
 
-        {{form_row(form.telephone, {'label': "user_creation_7"})}}
-        {{form_row(form.born, {'label': "user_creation_8"})}}
-        {{form_row(form.gender, {'label': "user_creation_9"})}}
+        {{form_row(form.telephone, {'label': "userCreation_7"})}}
+        {{form_row(form.born, {'label': "userCreation_8"})}}
+        {{form_row(form.gender, {'label': "userCreation_9"})}}
 
-        {{form_row(form.fiscalCode, {'label': "user_creation_10"})}}
-        {{form_row(form.companyName, {'label': "user_creation_11"})}}
-        {{form_row(form.vat, {'label': "user_creation_12"})}}
+        {{form_row(form.fiscalCode, {'label': "userCreation_10"})}}
+        {{form_row(form.companyName, {'label': "userCreation_11"})}}
+        {{form_row(form.vat, {'label': "userCreation_12"})}}
 
-        {{form_row(form.website, {'label': "user_creation_13"})}}
-        {{form_row(form.state, {'label': "user_creation_14"})}}
-        {{form_row(form.city, {'label': "user_creation_15"})}}
-        {{form_row(form.zip, {'label': "user_creation_16"})}}
-        {{form_row(form.address, {'label': "user_creation_17"})}}
+        {{form_row(form.website, {'label': "userCreation_13"})}}
+        {{form_row(form.state, {'label': "userCreation_14"})}}
+        {{form_row(form.city, {'label': "userCreation_15"})}}
+        {{form_row(form.zip, {'label': "userCreation_16"})}}
+        {{form_row(form.address, {'label': "userCreation_17"})}}
 
         <div class="form-group">
-            {{form_label(form.password, "user_creation_18")}}
+            {{form_label(form.password, "userCreation_18")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-key"></i></span>
                 {{form_errors(form.password)}}
@@ -60,7 +60,7 @@
         </div>
 
         <div class="form-group">
-            {{form_label(form.passwordConfirm, "user_creation_19")}}
+            {{form_label(form.passwordConfirm, "userCreation_19")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-key"></i></span>
                 {{form_errors(form.passwordConfirm)}}

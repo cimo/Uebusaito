@@ -2,11 +2,9 @@
 
 $(document).ready(function() {
     utility.init();
-    
     utility.checkMobile(true);
-    
     utility.linkPreventDefault();
-    
+    utility.accordion("button");
     //utility.watch("#flashBag", flashBag.sessionActivity);
     
     // Material design
@@ -44,27 +42,21 @@ $(document).ready(function() {
     search.init();
     
     flashBag.init();
-    flashBag.setElement(materialDesign.getSnackbarMsc());
+    flashBag.setElement(materialDesign.getSnackbarMdc());
     flashBag.sessionActivity();
     
     captcha.init();
+    
+    language.init();
     
     authentication.init();
     registration.init();
     recoverPassword.init();
     
-    /*wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
+    /*pageComment.init();
+    
+    wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
     wysiwyg.changeView();
-    
-    language.init();
-    
-    
-    
-    controlPanelPayment.init();
-    controlPanelPayment.changeView();
-    
-    controlPanelPage.init();
-    controlPanelPage.changeView();
     
     controlPanelUser.init();
     controlPanelUser.changeView();
@@ -75,24 +67,18 @@ $(document).ready(function() {
     controlPanelRoleUser.init();
     controlPanelRoleUser.changeView();
     
-    controlPanelSetting.init();
-    
-    pageComment.init();*/
+    controlPanelSetting.init();*/
     
     $(window).resize(function() {
-        materialDesign.fix();
+        materialDesign.refresh();
         
         widgetSearch.changeView();
         
         /*wysiwyg.changeView();
         
-        controlPanelPayment.changeView();
         controlPanelPage.changeView();
         controlPanelUser.changeView();
         controlPanelModule.changeView();
         controlPanelRoleUser.changeView();*/
     });
-});
-
-$(window).on("load", "", function() {
 });

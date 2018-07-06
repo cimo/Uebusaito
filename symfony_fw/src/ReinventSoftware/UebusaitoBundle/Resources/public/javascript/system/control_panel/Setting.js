@@ -95,7 +95,7 @@ function ControlPanelSetting() {
         $("#setting_language_manage_minus").on("click", "", function() {
             popupEasy.create(
                 window.text.warning,
-                "<p>" + window.textSetting.label_1 + "</p>",
+                window.textSetting.label_1,
                 function() {
                     popupEasy.close();
                     
@@ -125,9 +125,6 @@ function ControlPanelSetting() {
                         null,
                         null
                     );
-                },
-                function() {
-                    popupEasy.close();
                 }
             );
         });

@@ -164,8 +164,9 @@ class Utility {
             session_name() . "_REMEMBERME"
         );
         
-        foreach ($cookies as $value)
+        foreach ($cookies as $value) {
             unset($_COOKIE[$value]);
+        }
     }
     
     public function searchInFile($filePath, $word, $replace) {
@@ -320,7 +321,7 @@ class Utility {
             );
         }
 
-        foreach($elements as $key => $value) {
+        foreach ($elements as $key => $value) {
             if ($value > 0)
                 $result[] = $value . $key;
         }
@@ -336,7 +337,7 @@ class Utility {
         $result = Array();
         
         if ($flat == true) {
-            foreach($elements as $key => $value) {
+            foreach ($elements as $key => $value) {
                 $pregGrep = preg_grep("~$like~i", $value);
 
                 if (empty($pregGrep) == false)
@@ -357,7 +358,7 @@ class Utility {
     public function arrayFindValue($elements, $subElements) {
         $result = false;
         
-        foreach($elements as $key => $value) {
+        foreach ($elements as $key => $value) {
             if (in_array($value, $subElements) == true) {
                 $result = true;
                 
@@ -393,7 +394,7 @@ class Utility {
         $parameters = Array();
         $match = Array();
         
-        foreach($json as $key => $value) {
+        foreach ($json as $key => $value) {
             if (is_object($value) == false)
                 $parameters[$key] = $value;
             else {
@@ -418,16 +419,16 @@ class Utility {
         
         if ($type == "withOld") {
             if (password_verify($form->get("old")->getData(), $row['password']) == false)
-                return $this->translator->trans("class_utility_2");
+                return $this->translator->trans("classUtility_2");
             else if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
-                return $this->translator->trans("class_utility_3");
+                return $this->translator->trans("classUtility_3");
             
             $user->setPassword($this->createPasswordEncoder($type, $user, $form));
         }
         else if ($type == "withoutOld") {
             if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
                 if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
-                    return $this->translator->trans("class_utility_4");
+                    return $this->translator->trans("classUtility_4");
                 
                 $user->setPassword($this->createPasswordEncoder($type, $user, $form));
             }
@@ -443,11 +444,46 @@ class Utility {
         
         $required = $isRequired == true ? "required=\"required\"" : "";
         
-        $html = "<select id=\"$selectId\" class=\"form-control\" $required>
-            <option value=\"\">" . $this->translator->trans("class_utility_6") . "</option>";
-            foreach($rows as $key => $value)
-                $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
-        $html .= "</select>";
+        $html = "<div id=\"$selectId\" class=\"mdc-select\" $required>
+            <select class=\"mdc-select__native-control\">
+                <option value=\"\"></option>";
+                foreach ($rows as $key => $value) {
+                    $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
+                }
+            $html .= "</select>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">" . $this->translator->trans("classUtility_7") . "</label>
+            <div class=\"mdc-line-ripple\"></div>
+        </div>";
+        
+        return $html;
+    }
+    
+    public function createPageSortListHtml($rows = null) {
+        if ($rows == null)
+            $rows = array_column($this->query->selectAllPageParentDatabase(), "alias", "id");
+        
+        $html = "<ul class=\"sort_list\">";
+            foreach ($rows as $key => $value) {
+                $html .= "<li class=\"ui-state-default\">
+                    <div class=\"mdc-chip\">
+                        <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">drag_handle</i>
+                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$key\">[$key] $value</div>
+                    </div>
+                </li>";
+            }
+            
+            if ($_SESSION['pageProfileId'] == 0) {
+                $rows = $this->query->selectAllPageDatabase($_SESSION['formLanguageCodeText']);
+                $id = count($rows) + 1;
+                
+                $html .= "<li class=\"ui-state-default\">
+                    <div class=\"mdc-chip\">
+                        <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">drag_handle</i>
+                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$id\">[$id] " . $this->translator->trans("classUtility_8") . "</div>
+                    </div>
+                </li>";
+            }
+        $html .= "</ul>";
         
         return $html;
     }
@@ -484,7 +520,7 @@ class Utility {
                 $timeLapse = time() - $_SESSION['userActivityTimestamp'];
 
                 if ($timeLapse > $this->sessionMaxIdleTime) {
-                    $userActivity = $this->translator->trans("class_utility_1");
+                    $userActivity = $this->translator->trans("classUtility_1");
                     
                     if ($request->isXmlHttpRequest() == true) {
                         echo json_encode(Array(
@@ -659,7 +695,7 @@ class Utility {
         
         $html = "";
         
-        foreach($rows as $key => $value) {
+        foreach ($rows as $key => $value) {
             $html .= "<option value=\"{$value['code']}\">{$value['code']}</option>";
             
             if ($key == 0)
@@ -674,11 +710,12 @@ class Utility {
         
         $pagesList = $this->createPageList($rows, true);
         
-        $html = "<p class=\"margin_clear\">" . $this->translator->trans("class_utility_5") . "</p>
+        $html = "<p>" . $this->translator->trans("classUtility_5") . "</p>
         <select id=\"$selectId\">
             <option value=\"\">Select</option>";
-            foreach($pagesList as $key => $value)
+            foreach ($pagesList as $key => $value) {
                 $html .= "<option value=\"$key\">$value</option>";
+            }
         $html .= "</select>";
         
         return $html;

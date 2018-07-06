@@ -1,57 +1,51 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}
 
-<div>
-    <h3 class="form_title">{% trans %}page_creation_1{% endtrans %}</h3>
+<fieldset>
+    <legend>{% trans %}pageCreation_1{% endtrans %}</legend>
+    <p>{% trans %}pageCreation_1{% endtrans %}</p>
     <form id="form_cp_page_creation" action="{{path("cp_page_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        <div class="form-group">
-            {{form_label(form.alias, "page_creation_2")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-header"></i></span>
-                {{form_errors(form.alias)}}
-                {{form_widget(form.alias)}}
-            </div>
+        {{form_row(form.alias, {'label': "pageCreation_2", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
+        {{form_row(form.parent, {'label': "pageCreation_3", 'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.title, {'label': "pageCreation_4", 'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.controllerAction, {'label': "pageCreation_5", 'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.argument, {'label': "pageCreation_6", 'dense': "", 'styleType': "outlinedTrailing"})}}
+
+        {#{-include("@UebusaitoBundleViews/include/wysiwyg.html.twig")-}#}
+
+        <div id="page_roleUserId" class="wordTag_container">
+            <div class="wordTag_result"></div>
+            {{response.values.userRoleSelectHtml|raw}}
+            {{form_row(form.roleUserId)}}
         </div>
 
-        {{form_row(form.parent, {'label': "page_creation_3"})}}
-        {{form_row(form.title, {'label': "page_creation_4"})}}
-        {{form_row(form.controllerAction, {'label': "page_creation_5"})}}
-        {{form_row(form.argument, {'label': "page_creation_6"})}}
-        {{-include("@UebusaitoBundleViews/include/wysiwyg.html.twig")-}}
+        {{form_row(form.protected, {'label': "pageCreation_8", 'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.showInMenu, {'label': "pageCreation_9", 'dense': "", 'styleType': "outlinedTrailing"})}}
 
-        <div id="page_roleUserId_wordTag_container" class="form-group">
-            {{form_label(form.roleUserId, "page_creation_7")}}
-            {{form_errors(form.roleUserId)}}
-            {{form_widget(form.roleUserId)}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                {{response.values.userRoleSelectHtml|raw}}
+        <div id="page_menuSort" class="sort_container">
+            <p>{% trans %}pageCreation_10{% endtrans %} <i class="material-icons">list</i></p>
+            <div class="sort_result">
+                {{response.values.pageSortListHtml|raw}}
             </div>
-        </div>
-
-        {{form_row(form.protected, {'label': "page_creation_8"})}}
-        {{form_row(form.showInMenu, {'label': "page_creation_9"})}}
-
-        <div class="form-group">
-            {{form_label(form.positionInMenu, "page_creation_10")}}
-            {{form_errors(form.positionInMenu)}}
-            {{form_widget(form.positionInMenu, {'attr': {'size': '8'}})}}
-
-            {{form_row(form.sort)}}
-            <div id="page_menu_sort">
-                <div class="horizontal_center">
-                    <i id="page_sort_button_up" class="fa fa-caret-square-o-up button_sort"></i>
-                    <i id="page_sort_button_down" class="fa fa-caret-square-o-down button_sort"></i>
-                </div>
+            <div class="sort_control">
+                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>
+                    <i class="material-icons mdc-button__icon button_up" aria-hidden="true">arrow_drop_up</i>
+                    {% trans %}pageCreation_15{% endtrans %}
+                </button>
+                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>
+                    <i class="material-icons mdc-button__icon button_down" aria-hidden="true">arrow_drop_down</i>
+                    {% trans %}pageCreation_16{% endtrans %}
+                </button>
             </div>
+            {{form_row(form.menuSort)}}
         </div>
-
-        {{form_row(form.menuName, {'label': "page_creation_11"})}}
-        {{form_row(form.comment, {'label': "page_creation_12"})}}
-        {{form_row(form.onlyLink, {'label': "page_creation_13"})}}
-        {{form_row(form.link, {'label': "page_creation_14"})}}
+        
+        {{form_row(form.menuName, {'label': "pageCreation_11", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "menu"})}}
+        {{form_row(form.comment, {'label': "pageCreation_12", 'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.onlyLink, {'label': "pageCreation_13", 'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.link, {'label': "pageCreation_14", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "link"})}}
 
         {{form_widget(form._token)}}
 
-        <input class="button_custom" type="submit" value="{% trans %}index_9{% endtrans %}"/>
+        {{form_widget(form.submit, {'label': "index_9", 'dense': "", 'raised': ""})}}
     </form>
-</div>
+</fieldset>

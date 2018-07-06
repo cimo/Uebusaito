@@ -40,7 +40,7 @@ function ControlPanelUser() {
     };
     
     self.changeView = function() {
-        if (utility.checkWidthType() === "desktop") {
+        if (utility.checkWidthType() === "mobile") {
             if (selectionSended === true) {
                 selectionId = $("#cp_user_selection_mobile").find("select option:selected").val();
 
@@ -73,12 +73,12 @@ function ControlPanelUser() {
     // Function private
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
-        tableAndPagination.setButtonsStatus("show");
         tableAndPagination.init();
+        tableAndPagination.setButtonsStatus("show");
         tableAndPagination.create(window.url.cpUserSelection, "#cp_user_selection_result_desktop", true);
         tableAndPagination.search();
         tableAndPagination.pagination();
-        tableAndPagination.sort(true);
+        tableAndPagination.sort();
         
         $(document).on("click", "#cp_user_selection_result_desktop .refresh", function() {
             ajax.send(
@@ -105,7 +105,7 @@ function ControlPanelUser() {
         $(document).on("click", "#cp_user_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.warning,
-                "<p>" + window.textUser.label_2 + "</p>",
+                window.textUser.label_2,
                 function() {
                     popupEasy.close();
                     
@@ -132,9 +132,6 @@ function ControlPanelUser() {
                         null,
                         null
                     );
-                },
-                function() {
-                    popupEasy.close();
                 }
             );
         });
@@ -235,7 +232,7 @@ function ControlPanelUser() {
     function deletion(id) {
         popupEasy.create(
             window.text.warning,
-            "<p>" + window.textUser.label_1 + "</p>",
+            window.textUser.label_1,
             function() {
                 popupEasy.close();
 
@@ -269,9 +266,6 @@ function ControlPanelUser() {
                     null,
                     null
                 );
-            },
-            function() {
-                popupEasy.close();
             }
         );
     }

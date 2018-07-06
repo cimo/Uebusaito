@@ -1,5 +1,3 @@
-// Version 1.0.0
-
 /* global utility, ajax */
 
 function TableAndPagination() {
@@ -48,7 +46,7 @@ function TableAndPagination() {
         utility.linkPreventDefault();
         
         if (selectOnlyOne === true)
-            utility.selectOnlyOneElement(idResult + " .table_tbody");
+            utility.selectOnlyOneElement(idResult + " table tbody");
         
         resizeColumn();
     };
@@ -113,26 +111,23 @@ function TableAndPagination() {
         });
     };
     
-    self.sort = function(delegate) {
-        var parent = delegate === true ? document : idResult + " table thead tr";
-        var child = delegate === true ? idResult + " table thead tr" : "";
-        
-        $(parent).on("click", child, function(event) {
+    self.sort = function() {
+        $(idResult).on("click", "table thead tr th", function(event) {
             var bodyRows = $(idResult).find("table tbody tr");
             
             var currentIndex = $(event.target).is("i") === false ? $(event.target).index() : $(event.target).parent().index();
             
-            $(this).find("th i").hide();
+            $(this).parent().find("i").hide();
             
             if (sortOrderBy === false) {
-                $(this).find("th").eq(currentIndex).find("i").eq(0).show();
-                $(this).find("th").eq(currentIndex).find("i").eq(1).hide();
+                $(this).find("i").eq(0).show();
+                $(this).find("i").eq(1).hide();
                 
                 sortOrderBy = true;
             }
             else {
-                $(this).find("th").eq(currentIndex).find("i").eq(0).hide();
-                $(this).find("th").eq(currentIndex).find("i").eq(1).show();
+                $(this).find("i").eq(0).hide();
+                $(this).find("i").eq(1).show();
                 
                 sortOrderBy = false;
             }
@@ -184,7 +179,7 @@ function TableAndPagination() {
             if ($(idResult).find("table tbody").length > 0)
                 $(idResult).find("table tbody").html(xhr.response.values.listHtml);
             else
-                $(idResult).find(".container_list").html(xhr.response.values.listHtml);
+                $(idResult).find(".list_result").html(xhr.response.values.listHtml);
 
             status();
             
@@ -194,9 +189,9 @@ function TableAndPagination() {
     
     // Functions private
     function status() {
-        var textHtml = $(idResult).find(".tableAndPagination .text").text();
+        var textHtml = $(idResult).find(".tableAndPagination .text").text().trim();
         
-        if (textHtml !== undefined) {
+        if (textHtml !== undefined || textHtml !== "") {
             var textSplit = textHtml.split("/");
             var valueA = parseInt($.trim(textSplit[0]));
             var valueB = parseInt($.trim(textSplit[1]));
@@ -212,21 +207,26 @@ function TableAndPagination() {
             total = valueB;
         }
         
-        $(idResult).find(".tableAndPagination .previous .mdc-button").attr("disabled", true);
-        $(idResult).find(".tableAndPagination .next .mdc-button").attr("disabled", true);
+        $(".tableAndPagination .previous .mdc-button").prop("disabled", true);
+        $(".tableAndPagination .next .mdc-button").prop("disabled", true);
         
-        if (total > 1 && current > 0)
-            $(idResult).find(".tableAndPagination .previous .mdc-button").removeAttr("disabled");
+        var buttonPrevious = $(idResult).find(".tableAndPagination .previous .mdc-button");
+        var buttonNext = $(idResult).find(".tableAndPagination .next .mdc-button");
         
-        if (total > 1 && current < (total - 1))
-            $(idResult).find(".tableAndPagination .next .mdc-button").removeAttr("disabled");
-        
-        $.each($(idResult).find("table thead tr"), function(key, value) {
-            $(value).find("th i").hide();
-        });
-        
-        if (buttonsStatus === "show")
-            $(idResult).find(".tableAndPagination .container_buttons").show();
+        if (buttonPrevious.length > 0 && buttonNext.length > 0) {
+            if (total > 1 && current > 0)
+                buttonPrevious.removeAttr("disabled");
+
+            if (total > 1 && current < (total - 1))
+                buttonNext.removeAttr("disabled");
+
+            $.each($(idResult).find("table thead tr th"), function(key, value) {
+                $(value).find("i").hide();
+            });
+
+            if (buttonsStatus === "show")
+                $(idResult).find(".tableAndPagination .button_container").show();
+        }
     }
     
     function send() {
@@ -255,7 +255,7 @@ function TableAndPagination() {
                 utility.linkPreventDefault();
                 
                 if (selectOnlyOne === true)
-                    utility.selectOnlyOneElement(idResult + " .table_tbody");
+                    utility.selectOnlyOneElement(idResult + " table tbody");
                 
                 resizeColumn();
                 

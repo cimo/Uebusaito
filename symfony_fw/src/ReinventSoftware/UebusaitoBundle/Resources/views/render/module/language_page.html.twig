@@ -1,13 +1,17 @@
-<div class="margin_bottom">
-    <div id="language_flag">
-        {% for value in response.values.languageRows %}
-            {% if (file_exists(urlRoot ~ "/bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/" ~ value.code ~ ".png") == true) %}
-                <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/" ~ value.code ~ ".png")}}" alt="{{value.code}}.png"/>
-            {% else %}
-                <img id="language_flag_{{value.code}}" class="language_page_flag" src="{{asset("bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/empty.png")}}" alt="{{value.code}}.png"/>
-            {% endif %}
-        {% endfor %}
-    </div>
+<div class="language_page_container">
+    {% for value in response.values.languageRows %}
+        {% if (file_exists(urlRoot ~ "/bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/" ~ value.code ~ ".png") == true) %}
+            <div class="mdc-chip">
+                <img class="mdc-chip__icon mdc-chip__icon--leading flag_{{value.code}}" src="{{asset("bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/" ~ value.code ~ ".png")}}" alt="{{value.code}}.png"/>
+                <div class="mdc-chip__text sort_elemet_data">{{value.code}}</div>
+            </div>
+        {% else %}
+            <div class="mdc-chip">
+                <img class="mdc-chip__icon mdc-chip__icon--leading flag_{{value.code}}" src="{{asset("bundles/uebusaito/images/templates/" ~ "/lang/empty.png")}}" alt="{{value.code}}.png"/>
+                <div class="mdc-chip__text sort_elemet_data">---</div>
+            </div>
+        {% endif %}
+    {% endfor %}
     <form id="form_language_page" action="{{path("language_page", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         {{form_row(form.codePage)}}
 
@@ -16,6 +20,6 @@
 </div>
 <script type="text/javascript">
     var textLanguagePage = {
-        'label_1': "{{"language_page_1"|trans}}"
+        'label_1': "{{"languagePage_1"|trans}}"
     };
 </script>

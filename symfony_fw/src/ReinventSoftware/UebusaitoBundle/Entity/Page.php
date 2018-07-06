@@ -62,7 +62,7 @@ class Page {
     private $positionInMenu = null;
     
     // #
-    private $sort = null;
+    private $menuSort = null;
     
     // #
     private $menuName = null;
@@ -143,8 +143,8 @@ class Page {
         $this->positionInMenu = $value;
     }
     
-    public function setSort($value) {
-        $this->sort = $value;
+    public function setMenuSort($value) {
+        $this->menuSort = $value;
     }
     
     public function setMenuName($value) {
@@ -225,8 +225,8 @@ class Page {
         return $this->positionInMenu;
     }
     
-    public function getSort() {
-        return $this->sort;
+    public function getMenuSort() {
+        return $this->menuSort;
     }
     
     public function getMenuName() {

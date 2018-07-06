@@ -1,4 +1,4 @@
-/* global utility, ajax, popupEasy, loader, controlPanelPage, settings */
+/* global utility, ajax, popupEasy, loader, controlPanelPage */
 
 var language = new Language();
 
@@ -10,9 +10,9 @@ function Language() {
     
     // Functions public
     self.init = function() {
-        selectOnModule();
+        //selectOnModule();
         
-        $(".form_language_text").on("submit", "", function(event) {
+        /*$("#form_language_text").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -34,7 +34,7 @@ function Language() {
                 null,
                 null
             );
-        });
+        });*/
     };
     
     self.page = function() {
@@ -68,32 +68,27 @@ function Language() {
     };
     
     // Functions private
-    function selectOnModule() {
+    /*function selectOnModule() {
         $(".form_language_codeText").on("change", "", function() {
             loader.show();
             
             $(this).parents(".form_language_text").submit();
         });
-    }
+    }*/
     
     function selectOnPage() {
-        var languageCodeTextVal = $(".form_language_codeText").val();
+        $(".language_page_container").find(".flag_" + window.setting.language).parent().addClass("mdc-chip--selected");
+        $(".language_page_container").find("input[name='form_language[codePage]']").val(window.setting.language);
         
-        $("#language_flag").find("#language_flag_" + languageCodeTextVal).addClass("button_flag");
-        $("#language_flag").find("input[name='form_language[codePage]']").val(languageCodeTextVal);
-        
-        $("#language_flag img").on("click", "", function(event) {
+        $(".language_page_container .mdc-chip").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {
                 popupEasy.create(
                     window.text.warning,
-                    "<p>" + window.textLanguagePage.label_1 + "</p>",
+                    window.textLanguagePage.label_1,
                     function() {
                         popupEasy.close();
 
                         formPageFlagSubmit(event);
-                    },
-                    function() {
-                        popupEasy.close();
                     }
                 );
             }
@@ -105,14 +100,13 @@ function Language() {
     function formPageFlagSubmit(event) {
         controlPanelPage.setProfileFocus(false);
         
-        $("#language_flag").children().removeClass("button_flag");
-        $(event.target).addClass("button_flag");
-
-        var alt = $(event.target).prop("alt");
-        var altSplit = alt.split(".");
+        $(".language_page_container").children().removeClass("mdc-chip--selected");
+        $(event.target).addClass("mdc-chip--selected");
+        
+        var target = $(event.target).parent().hasClass("mdc-chip") === true ? $(event.target).parent() : $(event.target);
+        var altSplit = target.find("img").prop("alt").split(".");
 
         $("#form_language_page").find("input[name='form_language[codePage]']").val(altSplit[0]);
-
         $("#form_language_page").submit();
     }
 }

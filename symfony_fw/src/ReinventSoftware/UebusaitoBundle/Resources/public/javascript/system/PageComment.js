@@ -117,7 +117,7 @@ function PageComment() {
     
     // Function private
     function reset() {
-        $.each($(".page_comment .container_list").find(".row"), function(key, value) {
+        $.each($(".list_result").find(".row"), function(key, value) {
             $(value).find(".message .argument").prop("contenteditable", false);
             $(value).find(".action .button_modify").text(window.textPageComment.label_2);
         });

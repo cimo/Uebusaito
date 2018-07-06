@@ -23,11 +23,11 @@
         <div>
             {% if settingRow['page_date'] == true %}
                 {% if (response.values.userCreation != "-" and response.values.userModification == "-") %}
-                    <p><i class="fa fa-paw"></i> <b>{% trans %}page_view_1{% endtrans %}</b>{{response.values.userCreation}}</p>
-                    <p><i class="fa fa-calendar"></i> <b>{% trans %}page_view_2{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
+                    <p><i class="fa fa-paw"></i> <b>{% trans %}pageView_1{% endtrans %}</b>{{response.values.userCreation}}</p>
+                    <p><i class="fa fa-calendar"></i> <b>{% trans %}pageView_2{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
                 {% elseif (response.values.userModification != "-") %}
-                    <p><i class="fa fa-paw"></i> <b>{% trans %}page_view_3{% endtrans %}</b>{{response.values.userModification}}</p>
-                    <p><i class="fa fa-calendar"></i> <b>{% trans %}page_view_4{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
+                    <p><i class="fa fa-paw"></i> <b>{% trans %}pageView_3{% endtrans %}</b>{{response.values.userModification}}</p>
+                    <p><i class="fa fa-calendar"></i> <b>{% trans %}pageView_4{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
                 {% endif %}
             {% endif %}
         </div>

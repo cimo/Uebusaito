@@ -176,7 +176,60 @@ function Utility() {
         return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
     };
     
-    self.sortableDragModules = function(type, inputId) {
+    self.sortableElement = function(tagParent, tagInput) {
+        populateSortableInput(tagParent, tagInput);
+        
+        if (self.checkWidthType() === "desktop") {
+            $(".sort_result").find(".mdc-chip").removeClass("mdc-chip--selected");
+            $(".sort_result").off("click");
+            
+            $(tagParent).find(".sort_list").sortable({
+                'placeholder': "sortable_placeholder",
+                'forcePlaceholderSize': true,
+                'tolerance': "pointer",
+                'handle': ".material-icons",
+                'cancel': ".no_sortable",
+                'start': function(event, ui) {
+                    ui.placeholder.height(ui.item.height());
+                },
+                'stop': function(event, ui) {
+                    ui.placeholder.height(0);
+                    
+                    populateSortableInput(tagParent, tagInput);
+                }
+            }).disableSelection();
+        }
+        else {
+            $(".sort_result").off("click").on("click", ".mdc-chip", function(event) {
+                var target = $(event.target).parent().hasClass("mdc-chip") === true ? $(event.target).parent() : $(event.target);
+                
+                if (target.hasClass("mdc-chip") === true) {
+                    if (target.hasClass("mdc-chip--selected") === true) {
+                        target.removeClass("mdc-chip--selected");
+                        
+                        return;
+                    }
+                    
+                    $(".sort_result").find(".mdc-chip").removeClass("mdc-chip--selected");
+
+                    target.hasClass("mdc-chip--selected") === true ? target.removeClass("mdc-chip--selected") : target.addClass("mdc-chip--selected");
+                }
+            });
+            
+            $(tagParent).find(".sort_control").find(".mdc-button").off("click").on("click", "", function(event) {
+                var element = $(tagParent).find(".sort_list .mdc-chip--selected");
+                
+                if ($(event.target).find("i").hasClass("button_up") === true)
+                    element.parent().insertBefore(element.parent().prev());
+                else if ($(event.target).find("i").hasClass("button_down") === true)
+                    element.parent().insertAfter(element.parent().next());
+                
+                populateSortableInput(tagParent, tagInput);
+            });
+        }
+    };
+    
+    self.sortableModuleDrag = function(type, inputId) {
         var columnsObject = $(".sortable_column");
         var moduleSettingsObject = $(".module_settings");
         
@@ -193,14 +246,14 @@ function Utility() {
                 'revert': true,
                 'connectWith': ".sortable_column",
                 'handle': ".module_move",
-                cursorAt: {
+                'cursorAt': {
                     'top': 0,
                     'left': 0
                 },
-                start: function(event, ui) {
+                'start': function(event, ui) {
                     ui.placeholder.height(ui.item.height());
                 },
-                helper: function(event, ui) {
+                'helper': function(event, ui) {
                     if ($(ui).hasClass("display_desktop") === true) {
                         elementUi = $(ui);
                         elementUi.removeClass("display_desktop");
@@ -213,7 +266,7 @@ function Utility() {
                     
                     return clone.get(0);
                 },
-                stop: function(event, ui) {
+                'stop': function(event, ui) {
                     if (elementUi !== null)
                         elementUi.addClass("display_desktop");
                     
@@ -240,13 +293,13 @@ function Utility() {
                         if ($(valueB).parent().hasClass("dropdown-menu") === false) {
                             var id = valueB.id.replace("panel_id_", "");
                             
-                            if ($(valueA).parents(".container_header").length > 0)
+                            if ($(valueA).parents(".header_container").length > 0)
                                 header.push(id);
-                            else if ($(valueA).parents(".container_left").length > 0)
+                            else if ($(valueA).parents(".left_container").length > 0)
                                 left.push(id);
-                            else if ($(valueA).parents(".container_center").length > 0)
+                            else if ($(valueA).parents(".center_container").length > 0)
                                 center.push(id);
-                            else if ($(valueA).parents(".container_right").length > 0)
+                            else if ($(valueA).parents(".right_container").length > 0)
                                 right.push(id);
                         }
                     });
@@ -260,117 +313,52 @@ function Utility() {
         }
     };
     
-    self.selectSortable = function(tagSelect, buttonTarget, tagInput, isCreation) {
-        var selected = $(tagSelect).find("option:selected");
-        
-        $(tagSelect).find("option").prop("disabled", "disabled");
-        
-        if (isCreation === true && buttonTarget === null) {
-            selected = $(tagSelect).find("option[value='']");
-            
-            $(tagSelect).find("option[value='']").appendTo(tagSelect);
-        }
-        
-        $(tagSelect).find("option[value='" + selected.val() + "']").not(":selected").remove();
-        
-        if (selected.length > 0) {
-            if (buttonTarget !== null)
-                (buttonTarget.prop("id").indexOf("up") !== -1) ? selected.first().prev().before(selected) : selected.last().next().after(selected);
-            
-            var list = "";
-            
-            $.each($(tagSelect).find("option"), function(key, value) {
-                list += $(value).val() + ",";
-            });
-            
-            $(tagInput).val(list);
-        }
-    };
-    
-    self.selectOnlyOneElement = function(tag) {
-        $(tag).on("click", "", function(event) {
-            if ($(event.target).is("input") === true) {
-                $.each($(tag).find("input"), function(key, value) {
-                    $(value).not(event.target).prop("checked", false);
-                });
-            }
-        });
-    };
-    
-    self.fileNameFromSrc = function(attribute, extension) {
-        var value = attribute.replace(/\\/g, "/");
-        value = value.substring(value.lastIndexOf("/") + 1);
-        
-        return extension ? value.replace(/[?#].+$/, "") : value.split(".")[0];
-    };
-    
-    self.wordTag = function(tag, type) {
-        if ($(tag).val() !== undefined) {
-            var inputValueSplit = $(tag).val().split(",");
+    self.wordTag = function(tagParent, tagInput) {
+        if ($(tagInput).val() !== undefined) {
+            var inputValueSplit = $(tagInput).val().split(",");
             inputValueSplit.pop();
             
-            $(tag + "_field").parent().find(".wordTag_label").remove();
+            var html = "";
             
             $.each(inputValueSplit, function(key, value) {
-                var index = value;
-                
-                if (type !== "input")
-                    value = $(tag + "_field").find("option").eq(index).text();
-                
-                $(tag + "_field").before("<span id=\"wordTag_" + index + "\" class=\"wordTag_label\"><div class=\"display_inline\">" + value + "</div><i id=\"wordTag_close_" + index + "\" class=\"wordTag_close fa fa-remove\"></i></span>");
-            
-                $("#wordTag_close_" + index).on("click", "", function(event) {
-                    var index = parseInt(event.target.id.replace("wordTag_close_", ""));
-                    var value = $(tag).val().replace(index + ",", "");
-                    
-                    $(tag).val(value);
-                    
-                    $(event.target).parents(".wordTag_label").remove();
-                });
+                html += "<div class=\"mdc-chip\">\n\
+                    <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">delete</i>\n\
+                    <div class=\"mdc-chip__text wordTag_elemet_data\" data-id=\"" + value + "\">" + $(tagInput + "_select").find("option").eq(value).text() + "</div>\n\
+                </div>";
             });
-        }
-        
-        if (type === "input") {
-            $(tag + "_field").on("keyup", "", function() {
-                $(this).val($(this).val().toUpperCase());
-            });
-        }
-        
-        $(tag + "_field").change(function(event) {
-            var inputValue = $(tag).val();
-            var fieldValue = $(tag + "_field").val();
             
-            if (fieldValue !== "" && inputValue.indexOf(fieldValue) === -1) {
-                var inputValueSplit = $(tag).val().split(",");
-                inputValueSplit.pop();
-                
-                $(tag).val(inputValue + fieldValue + ",");
-                
-                var index = inputValueSplit.length;
-                
-                if (type !== "input") {
-                    index = $(event.target).val();
-                    fieldValue = $(tag + "_field").find("option").eq($(event.target).val()).text();
+            $(tagParent).find(".wordTag_result").html(html);
+            
+            $(tagInput + "_select").change(function(event) {
+                if ($.inArray($(event.target).val(), inputValueSplit) === -1) {
+                    $(tagParent).find(".wordTag_result").append(
+                        "<div class=\"mdc-chip\">\n\
+                            <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">delete</i>\n\
+                            <div class=\"mdc-chip__text wordTag_elemet_data\" data-id=\"" + $(event.target).val() + "\">" + $(event.target).find("option[value='" + $(event.target).val() + "']").text() + "</div>\n\
+                        </div>"
+                    );
+                    
+                    inputValueSplit.push($(event.target).val());
+                    
+                    $(tagInput).val(inputValueSplit.join(",") + ",");
                 }
-                
-                $(tag + "_field").before("<span id=\"wordTag_" + index + "\" class=\"wordTag_label\"><div class=\"display_inline\">" + fieldValue + "</div><i id=\"wordTag_close_" + index + "\" class=\"wordTag_close fa fa-remove\"></i></span>");
-                $(tag + "_field").val("");
-                
-                $("#wordTag_close_" + index).on("click", "", function(event) {
-                    var index = parseInt(event.target.id.replace("wordTag_close_", ""));
-                    var value = $(tag).val().replace(index + ",", "");
-                    
-                    $(tag).val(value);
-                    
-                    $(event.target).parents(".wordTag_label").remove();
-                });
-            }
+            });
             
-            $(this).val($(this).find("option").eq(0).val());
-        });
+            $(".wordTag_result").off("click").on("click", ".material-icons", function(event) {
+                var removeItem = $(event.target).next().attr("data-id");
+
+                inputValueSplit = jQuery.grep(inputValueSplit, function(value) {
+                    return value !== removeItem;
+                });
+
+                $(tagInput).val(inputValueSplit.join(",") + ",");
+
+                $(event.target).parents(".mdc-chip").remove();
+            });
+        }
     };
     
-    self.accordion = function(type, materialDesign) {
+    self.accordion = function(type) {
         var tag = "";
         
         if (type === "button")
@@ -378,15 +366,15 @@ function Utility() {
         else if (type === "icon")
             tag = ".icon_accordion";
         
-        $(".container_accordion").find(tag).on("click", "", function() {
+        $(".accordion_container").find(tag).off("click").on("click", "", function() {
             var element = $(this);
             var accordion = $(this).next();
             
-            $(".container_accordion").find(".accordion").not(accordion).slideUp("fast");
+            $(".accordion_container").find(".accordion").not(accordion).slideUp("fast");
             
-            $(".container_accordion").find(".accordion").not(accordion).prev().text(window.text.expand);
+            $(".accordion_container").find(".accordion").not(accordion).prev().text(window.text.expand);
             
-            $(".container_accordion").find(".accordion").not(accordion).removeClass("accordion_active");
+            $(".accordion_container").find(".accordion").not(accordion).removeClass("accordion_active");
             
             accordion.slideToggle("fast", function() {
                 if (type === "button") {
@@ -414,10 +402,26 @@ function Utility() {
                     }
                 }
 
-                if (materialDesign !== undefined)
-                    materialDesign.textField();
+                materialDesign.refresh();
             });
         });
+    };
+    
+    self.selectOnlyOneElement = function(tag) {
+        $(tag).on("click", "", function(event) {
+            if ($(event.target).is("input") === true) {
+                $.each($(tag).find("input"), function(key, value) {
+                    $(value).not(event.target).prop("checked", false);
+                });
+            }
+        });
+    };
+    
+    self.fileNameFromSrc = function(attribute, extension) {
+        var value = attribute.replace(/\\/g, "/");
+        value = value.substring(value.lastIndexOf("/") + 1);
+        
+        return extension ? value.replace(/[?#].+$/, "") : value.split(".")[0];
     };
     
     self.imageError = function(elements) {
@@ -448,6 +452,16 @@ function Utility() {
     };
     
     // Functions private
+    function populateSortableInput(tagParent, tagInput) {
+        var idList = "";
+
+        $.each($(tagParent).find(".sort_elemet_data"), function(key, value) {
+            idList += $(value).attr("data-id") + ",";
+        });
+
+        $(tagInput).val(idList);
+    }
+    
     function swipeFix() {
         var defaults = {
             min: {

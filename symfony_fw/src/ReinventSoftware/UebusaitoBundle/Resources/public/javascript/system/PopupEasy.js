@@ -1,6 +1,4 @@
-// Version 1.0.0
-
-/* global flashBag */
+/* global materialDesign */
 
 var popupEasy = new PopupEasy();
 
@@ -8,55 +6,42 @@ function PopupEasy() {
     // Vars
     var self = this;
     
+    var dialogMdc = null;
+    
     // Properties
     
     // Functions public
-    self.create = function(title, message, callbackOk, callbackCancel, loader) {
-        var buttons = "";
+    self.create = function(title, message, callbackOk, callbackCancel) {
+        $(".mdc-dialog").find(".mdc-dialog__header__title").html(title);
+        $(".mdc-dialog").find(".mdc-dialog__body").html(message);
+        $(".mdc-dialog").find(".mdc-dialog__footer__button--accept").text(window.text.ok);
+        $(".mdc-dialog").find(".mdc-dialog__footer__button--cancel").text(window.text.cancel);
+        
         var clickOk = null;
         var clickCancel = null;
         
-        if (callbackOk !== null) {
-            buttons += "<a id=\"popup_easy_ok\" class=\"button_custom\" type=\"button\">" + window.text.ok + "</a>";
-            
+        if (callbackOk !== undefined) {
             clickOk = function() {
                 callbackOk();
             };
+            
+            $(".mdc-dialog").find(".mdc-dialog__footer__button--accept").on("click", "", clickOk);
         }
         
-        if (callbackCancel !== null) {
-            buttons += "<a id=\"popup_easy_cancel\" class=\"button_custom\" type=\"button\">" + window.text.close + "</a>";
-            
+        if (callbackCancel !== undefined) {
             clickCancel = function() {
                 callbackCancel();
             };
+            
+            $(".mdc-dialog").find(".mdc-dialog__footer__button--cancel").on("click", "", clickCancel);
         }
         
-        if ($("#popup_easy").length > 0) {
-            $("#popup_easy").find(".modal-title").html(title);
-            $("#popup_easy").find(".modal-body").html(message);
-            $("#popup_easy").find(".modal-footer").html(buttons);
-        }
-        
-        if (loader === true) {
-            $("#popup_easy").find(".modal-header").hide();
-            $("#popup_easy").find(".modal-footer").hide();
-        }
-        else {
-            $("#popup_easy").find(".modal-header").show();
-            $("#popup_easy").find(".modal-footer").show();
-        }
-        
-        $("#popup_easy_ok").on("click", "", clickOk);
-        $("#popup_easy_cancel").on("click", "", clickCancel);
-        
-        //flashBag.hide();
-        
-        $("#popup_easy").modal("show");
+        dialogMdc = materialDesign.getDialogMdc();
+        dialogMdc.show();
     };
     
     self.close = function() {
-        $("#popup_easy").modal("hide");
+        dialogMdc.close();
     };
     
     self.recursive = function(title, obj, key) {

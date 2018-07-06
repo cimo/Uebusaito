@@ -153,18 +153,7 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectAllPageChildrenDatabase($parent) {
-        $query = $this->connection->prepare("SELECT * FROM pages
-                                                WHERE parent = :parent");
-
-        $query->bindValue(":parent", $parent);
-        
-        $query->execute();
-        
-        return $query->fetchAll();
-    }
-    
-    public function selectAllPageParentDatabase($parent) {
+    public function selectAllPageParentDatabase($parent = null) {
         if ($parent != null) {
             $query = $this->connection->prepare("SELECT * FROM pages
                                                     WHERE parent = :parent
@@ -176,6 +165,17 @@ class Query {
             $query = $this->connection->prepare("SELECT * FROM pages
                                                     WHERE parent is NULL
                                                     ORDER BY COALESCE(parent, position_in_menu), position_in_menu");
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
+    
+    public function selectAllPageChildrenDatabase($parent) {
+        $query = $this->connection->prepare("SELECT * FROM pages
+                                                WHERE parent = :parent");
+
+        $query->bindValue(":parent", $parent);
         
         $query->execute();
         

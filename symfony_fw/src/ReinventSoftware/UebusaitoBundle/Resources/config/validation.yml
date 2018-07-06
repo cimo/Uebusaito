@@ -161,12 +161,7 @@ ReinventSoftware\UebusaitoBundle\Entity\Page:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^1|^0/
-        positionInMenu:
-            - Regex:
-                groups: [page_creation, page_profile]
-                htmlPattern: false
-                pattern: /^[0-9]+$/
-        sort:
+        menuSort:
             - NotBlank:
                 groups: [page_creation, page_profile]
             - Regex:

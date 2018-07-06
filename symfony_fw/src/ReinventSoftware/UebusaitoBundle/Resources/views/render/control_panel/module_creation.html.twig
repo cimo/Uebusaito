@@ -1,10 +1,10 @@
 {% form_theme form "bootstrap_3_layout.html.twig" %}
 
 <div>
-    <h3 class="form_title">{% trans %}module_creation_1{% endtrans %}</h3>
+    <h3 class="form_title">{% trans %}moduleCreation_1{% endtrans %}</h3>
     <form id="form_cp_module_creation" action="{{path("cp_module_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         <div class="form-group">
-            {{form_label(form.position, "module_creation_2")}}
+            {{form_label(form.position, "moduleCreation_2")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
                 {{form_errors(form.position)}}
@@ -13,7 +13,7 @@
         </div>
 
         <div class="form-group">
-            {{form_label(form.rankInColumn, "module_creation_3")}}
+            {{form_label(form.rankInColumn, "moduleCreation_3")}}
             {{form_errors(form.rankInColumn)}}
             {{form_widget(form.rankInColumn, {'attr': {'size': '8'}})}}
 
@@ -27,7 +27,7 @@
         </div>
 
         <div class="form-group">
-            {{form_label(form.name, "module_creation_4")}}
+            {{form_label(form.name, "moduleCreation_4")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-header"></i></span>
                 {{form_errors(form.name)}}
@@ -35,10 +35,10 @@
             </div>
         </div>
 
-        {{form_row(form.label, {'label': "module_creation_5"})}}
+        {{form_row(form.label, {'label': "moduleCreation_5"})}}
 
         <div class="form-group">
-            {{form_label(form.controllerName, "module_creation_6")}}
+            {{form_label(form.controllerName, "moduleCreation_6")}}
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-file"></i></span>
                 {{form_errors(form.controllerName)}}

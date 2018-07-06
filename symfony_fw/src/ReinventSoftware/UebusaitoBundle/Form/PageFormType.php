@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PageFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -21,8 +22,7 @@ class PageFormType extends AbstractType {
             'validation_groups' => null,
             'urlLocale' => null,
             'pageRow' => null,
-            'choicesParent' => null,
-            'choicesPositionInMenu' => null
+            'choicesParent' => null
         ));
     }
     
@@ -90,27 +90,23 @@ class PageFormType extends AbstractType {
         ))
         ->add("protected", ChoiceType::class, Array(
             'required' => true,
+            'placeholder' => "pageFormType_2",
             'data' => $values['protected'],
             'choices' => Array(
-                "pageFormType_2" => "0",
-                "pageFormType_3" => "1"
+                "pageFormType_6" => "0",
+                "pageFormType_7" => "1"
             )
         ))
         ->add("showInMenu", ChoiceType::class, Array(
             'required' => true,
+            'placeholder' => "pageFormType_3",
             'data' => $values['show_in_menu'],
             'choices' => Array(
-                "pageFormType_2" => "0",
-                "pageFormType_3" => "1"
+                "pageFormType_6" => "0",
+                "pageFormType_7" => "1"
             )
         ))
-        ->add("positionInMenu", ChoiceType::class, Array(
-            'required' => true,
-            'placeholder' => "pageFormType_4",
-            'data' => $values['id'],
-            'choices' => $options['choicesPositionInMenu']
-        ))
-        ->add("sort", HiddenType::class, Array(
+        ->add("menuSort", HiddenType::class, Array(
             'required' => true
         ))
         ->add("menuName", TextType::class, Array(
@@ -119,23 +115,26 @@ class PageFormType extends AbstractType {
         ))
         ->add("comment", ChoiceType::class, Array(
             'required' => true,
+            'placeholder' => "pageFormType_4",
             'data' => $values['comment'],
             'choices' => Array(
-                "pageFormType_2" => "0",
-                "pageFormType_3" => "1"
+                "pageFormType_6" => "0",
+                "pageFormType_7" => "1"
             )
         ))
         ->add("onlyLink", ChoiceType::class, Array(
             'required' => true,
+            'placeholder' => "pageFormType_5",
             'data' => $values['only_link'],
             'choices' => Array(
-                "pageFormType_2" => "0",
-                "pageFormType_3" => "1"
+                "pageFormType_6" => "0",
+                "pageFormType_7" => "1"
             )
         ))
         ->add("link", TextType::class, Array(
             'required' => true,
             'data' => $values['link']
-        ));
+        ))
+        ->add("submit", SubmitType::class, Array());
     }
 }

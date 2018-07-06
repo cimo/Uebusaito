@@ -12,14 +12,14 @@
                     {% endif %}
                 </div>
                 <div>
-                    <p><b>{% trans %}page_comment_1{% endtrans %}</b>{{response.values.username}}</p>
-                    <p class="username_reply"><b>{% trans %}page_comment_2{% endtrans %}</b><span></span></p>
+                    <p><b>{% trans %}pageComment_1{% endtrans %}</b>{{response.values.username}}</p>
+                    <p class="username_reply"><b>{% trans %}pageComment_2{% endtrans %}</b><span></span></p>
                     <div class="message_reply">
-                        <p><b>{% trans %}page_comment_3{% endtrans %}</b></p>
+                        <p><b>{% trans %}pageComment_3{% endtrans %}</b></p>
                         <p class="argument"></p>
                     </div>
                     <form id="form_page_comment" action="{{path("page_comment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-                        {{form_row(form.argument, {'label': "page_comment_3"})}}
+                        {{form_row(form.argument, {'label': "pageComment_3"})}}
 
                         {{-include("@UebusaitoBundleViews/include/captcha.html.twig")-}}
 
@@ -30,7 +30,7 @@
                 </div>
             </div>
         {% else %}
-            <p>{% trans %}page_comment_4{% endtrans %}</p>
+            <p>{% trans %}pageComment_4{% endtrans %}</p>
         {% endif %}
     {% endif %}
     
@@ -38,7 +38,7 @@
         <div id="page_comment_result" class="page_comment no_border">
             {{-include("@UebusaitoBundleViews/include/table_and_pagination.html.twig")-}}
 
-            <div class="container_list">
+            <div class="list_result">
                 {{response.values.listHtml|raw}}
             </div>
         </div>
@@ -47,7 +47,7 @@
 
 <script type="text/javascript">
     var textPageComment = {
-        'label_1': "{{"page_comment_5"|trans}}",
-        'label_2': "{{"page_comment_6"|trans}}"
+        'label_1': "{{"pageComment_5"|trans}}",
+        'label_2': "{{"pageComment_6"|trans}}"
     };
 </script>
