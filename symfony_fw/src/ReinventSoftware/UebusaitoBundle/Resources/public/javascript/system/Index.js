@@ -55,9 +55,6 @@ $(document).ready(function() {
     
     /*pageComment.init();
     
-    wysiwyg.init("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
-    wysiwyg.changeView();
-    
     controlPanelUser.init();
     controlPanelUser.changeView();
     
@@ -74,9 +71,7 @@ $(document).ready(function() {
         
         widgetSearch.changeView();
         
-        /*wysiwyg.changeView();
-        
-        controlPanelPage.changeView();
+        /*controlPanelPage.changeView();
         controlPanelUser.changeView();
         controlPanelModule.changeView();
         controlPanelRoleUser.changeView();*/

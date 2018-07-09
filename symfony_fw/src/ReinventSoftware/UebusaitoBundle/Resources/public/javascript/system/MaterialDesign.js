@@ -254,12 +254,11 @@ function MaterialDesign() {
     
     function mdcTabBarCustom(type, mdc) {
         var parameters = utility.urlParameters(window.setting.language);
-        var parametersReverse = parameters.reverse();
         
         $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");
         
         $.each($(".mdc-tab-bar").find(".mdc-tab"), function(key, value) {
-            if ($(value).prop("href").indexOf(parametersReverse[0]) !== -1) {
+            if ($(value).prop("href").indexOf(parameters[2]) !== -1) {
                 $(value).addClass("mdc-tab--active");
                 
                 if (type === "tabBar")

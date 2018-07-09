@@ -100,10 +100,12 @@ function Language() {
     function formPageFlagSubmit(event) {
         controlPanelPage.setProfileFocus(false);
         
-        $(".language_page_container").children().removeClass("mdc-chip--selected");
-        $(event.target).addClass("mdc-chip--selected");
-        
         var target = $(event.target).parent().hasClass("mdc-chip") === true ? $(event.target).parent() : $(event.target);
+        
+        $(".language_page_container").children().removeClass("mdc-chip--selected");
+        target.addClass("mdc-chip--selected");
+        
+        
         var altSplit = target.find("img").prop("alt").split(".");
 
         $("#form_language_page").find("input[name='form_language[codePage]']").val(altSplit[0]);
