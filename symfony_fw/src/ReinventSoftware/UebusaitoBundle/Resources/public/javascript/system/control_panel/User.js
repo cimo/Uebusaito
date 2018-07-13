@@ -107,8 +107,6 @@ function ControlPanelUser() {
                 window.text.warning,
                 window.textUser.label_2,
                 function() {
-                    popupEasy.close();
-                    
                     ajax.send(
                         true,
                         window.url.cpUserDeletion,
@@ -234,8 +232,6 @@ function ControlPanelUser() {
             window.text.warning,
             window.textUser.label_1,
             function() {
-                popupEasy.close();
-
                 ajax.send(
                     true,
                     false,

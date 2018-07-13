@@ -28,9 +28,12 @@ function ControlPanelPage() {
         
         selectionMobile();
         
-        fieldsVisibility("#form_cp_page_creation");
-        
         positionInMenu();
+        
+        wysiwyg.init();
+        wysiwyg.create("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
+        
+        fieldsVisibility();
         
         utility.wordTag("#page_roleUserId", "#form_page_roleUserId");
         
@@ -126,8 +129,6 @@ function ControlPanelPage() {
                 window.text.warning,
                 window.textPage.label_2,
                 function() {
-                    popupEasy.close();
-                    
                     ajax.send(
                         true,
                         window.url.cpPageDeletion,
@@ -217,29 +218,30 @@ function ControlPanelPage() {
             selectionSended = true;
             
             $("#cp_page_selection_result").html(xhr.response.render);
+            
+            $("#form_page_parent").change();
 
-            fieldsVisibility("#form_cp_page_profile");
-        
             positionInMenu();
 
             language.page();
             
-            //wysiwyg.init();
-            //wysiwyg.create("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
+            wysiwyg.init();
+            wysiwyg.create("#form_page_argument", $("#form_cp_page_profile").find("input[type='submit']"));
+            
+            fieldsVisibility();
             
             utility.selectWithDisabledElement("#form_page_parent", xhr);
 
             utility.wordTag("#page_roleUserId", "#form_page_roleUserId");
             
             materialDesign.refresh();
+            materialDesign.fix();
             
-            $("#form_page_parent").change();
-
-            $("#form_cp_page_profile").find(".form_row").focus(function() {
+            $("#form_cp_page_profile").find(".form_row input, .form_row textarea").on("focus", "", function() {
                 profileFocus = true;
             });
 
-            $("#form_cp_page_profile").find("#wysiwyg .editor").focus(function() {
+            $("#form_cp_page_profile").find("#wysiwyg .editor body").on("focus", "", function() {
                 profileFocus = true;
             });
 
@@ -311,8 +313,6 @@ function ControlPanelPage() {
             window.text.warning,
             window.textPage.label_1,
             function() {
-                popupEasy.close();
-
                 ajax.send(
                     true,
                     window.url.cpPageDeletion,
@@ -333,8 +333,6 @@ function ControlPanelPage() {
                             );
 
                             $("#cp_page_deletion_parent_all").on("click", "", function() {
-                                popupEasy.close();
-                                
                                 ajax.send(
                                     true,
                                     window.url.cpPageDeletion,
@@ -348,8 +346,6 @@ function ControlPanelPage() {
                                     false,
                                     null,
                                     function(xhr) {
-                                        popupEasy.close();
-
                                         ajax.reply(xhr, "");
                                         
                                         deleteResponse(xhr);
@@ -360,8 +356,6 @@ function ControlPanelPage() {
                             });
 
                             $("#cp_page_deletion_parent_new").on("change", "", function() {
-                                popupEasy.close();
-                                
                                 ajax.send(
                                     true,
                                     window.url.cpPageDeletion,
@@ -376,8 +370,6 @@ function ControlPanelPage() {
                                     false,
                                     null,
                                     function(xhr) {
-                                        popupEasy.close();
-
                                         ajax.reply(xhr, "");
                                         
                                         deleteResponse(xhr);
@@ -416,32 +408,39 @@ function ControlPanelPage() {
         }
     }
     
-    function fieldsVisibility(id) {
-        fieldsVisibilityMenu(id);
+    function fieldsVisibility() {
+        fieldsVisibilityMenu();
         
-        fieldsVisibilityLink(id);
+        fieldsVisibilityLink();
         
         $("#form_page_showInMenu").on("change", "", function() {
-            fieldsVisibilityMenu(id);
+            fieldsVisibilityMenu();
         });
         
         $("#form_page_onlyLink").on("change", "", function() {
-            fieldsVisibilityLink(id);
+            fieldsVisibilityLink();
         });
     }
     
-    function fieldsVisibilityMenu(id) {
-        if ($(id).find("#form_page_showInMenu").val() === "0") {
-            $(id).find("#form_page_menuName").parents(".form-group").hide();
+    function fieldsVisibilityMenu() {
+        if ($("#form_page_showInMenu").val() === "0") {
+            $("#form_page_menuName").parents(".form_row ").hide();
+            $("#page_menuSort").hide();
         }
-        else
-            $(id).find("#form_page_menuName").parents(".form-group").show();
+        else {
+            $("#form_page_menuName").parents(".form_row ").show();
+            $("#page_menuSort").show();
+        }
+        
+        materialDesign.refresh();
     }
     
-    function fieldsVisibilityLink(id) {
-        if ($(id).find("#form_page_onlyLink").val() === "0")
-            $(id).find("#form_page_link").parents(".form-group").hide();
+    function fieldsVisibilityLink() {
+        if ($("#form_page_onlyLink").val() === "0")
+            $("#form_page_link").parents(".form_row ").hide();
         else
-            $(id).find("#form_page_link").parents(".form-group").show();
+            $("#form_page_link").parents(".form_row ").show();
+        
+        materialDesign.refresh();
     }
 }

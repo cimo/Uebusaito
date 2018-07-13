@@ -27,8 +27,8 @@
         <p><b>{% trans %}authentication_3{% endtrans %}</b></p>
         <p>{{response.values.dateLastLogin[0]}} [{{response.values.dateLastLogin[1]}}]</p>
         <div class="button_container">
-            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 1, 'urlExtra': "cp_profile"})}}">{% trans %}authentication_4{% endtrans %}</a>
-            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("authentication_exit_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}">{% trans %}authentication_5{% endtrans %}</a>
+            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 1, 'urlExtra': "cp_profile"})}}" type="button">{% trans %}authentication_4{% endtrans %}</a>
+            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("authentication_exit_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" type="button">{% trans %}authentication_5{% endtrans %}</a>
         </div>
     {% else %}
         {% form_theme form "@UebusaitoBundleViews/layout/layout_form_materialDesign.html.twig" %}

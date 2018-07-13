@@ -53,9 +53,7 @@ $(document).ready(function() {
     registration.init();
     recoverPassword.init();
     
-    /*pageComment.init();
-    
-    controlPanelUser.init();
+    /*controlPanelUser.init();
     controlPanelUser.changeView();
     
     controlPanelModule.init();
@@ -64,7 +62,9 @@ $(document).ready(function() {
     controlPanelRoleUser.init();
     controlPanelRoleUser.changeView();
     
-    controlPanelSetting.init();*/
+    controlPanelSetting.init();
+    
+    pageComment.init();*/
     
     $(window).resize(function() {
         materialDesign.refresh();

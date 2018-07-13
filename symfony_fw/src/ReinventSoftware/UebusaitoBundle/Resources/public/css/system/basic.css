@@ -395,6 +395,8 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .mdc-list { border: 1px solid rgba(0, 0, 0, 0.12); padding: 0; }
 
+.mdc-chip--selected .mdc-chip__icon--leading { opacity: 1 !important; }
+
 .logo_main { width: 45px; margin-top: 8px; }
 
 .main .sortable_column { padding-top: 120px; padding-bottom: 80px; }

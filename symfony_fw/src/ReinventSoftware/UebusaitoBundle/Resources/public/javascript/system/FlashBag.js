@@ -1,3 +1,5 @@
+/* global loader */
+
 var flashBag = new FlashBag();
 
 function FlashBag() {
@@ -27,8 +29,11 @@ function FlashBag() {
     };
     
     self.sessionActivity = function() {
-        if ($("#flashBag").find(".content").html() !== undefined && $("#flashBag").find(".content").html().trim() === "" && window.session.userActivity !== "")
+        if ($("#flashBag").find(".content").length > 0 && window.session.userActivity !== "") {
+            loader.hide();
+            
             self.show(window.session.userActivity);
+        }
     };
     
     // Functions private

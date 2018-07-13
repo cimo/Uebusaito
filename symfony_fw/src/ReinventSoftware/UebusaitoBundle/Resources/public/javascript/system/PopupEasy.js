@@ -12,10 +12,12 @@ function PopupEasy() {
     
     // Functions public
     self.create = function(title, message, callbackOk, callbackCancel) {
-        $(".mdc-dialog").find(".mdc-dialog__header__title").html(title);
+        $(".mdc-dialog").find(".mdc-dialog__header__title").text(title);
         $(".mdc-dialog").find(".mdc-dialog__body").html(message);
         $(".mdc-dialog").find(".mdc-dialog__footer__button--accept").text(window.text.ok);
         $(".mdc-dialog").find(".mdc-dialog__footer__button--cancel").text(window.text.cancel);
+        
+        materialDesign.refresh();
         
         var clickOk = null;
         var clickCancel = null;
@@ -25,7 +27,7 @@ function PopupEasy() {
                 callbackOk();
             };
             
-            $(".mdc-dialog").find(".mdc-dialog__footer__button--accept").on("click", "", clickOk);
+            $(".mdc-dialog").find(".mdc-dialog__footer__button--accept").off("click").on("click", "", clickOk);
         }
         
         if (callbackCancel !== undefined) {
@@ -33,7 +35,7 @@ function PopupEasy() {
                 callbackCancel();
             };
             
-            $(".mdc-dialog").find(".mdc-dialog__footer__button--cancel").on("click", "", clickCancel);
+            $(".mdc-dialog").find(".mdc-dialog__footer__button--cancel").off("click").on("click", "", clickCancel);
         }
         
         dialogMdc = materialDesign.getDialogMdc();
@@ -44,17 +46,14 @@ function PopupEasy() {
         dialogMdc.close();
     };
     
-    self.recursive = function(title, obj, key) {
+    self.recursive = function(title, elements, key) {
         self.create(
             title,
-            obj[key],
-            function(){
-                self.close();
-
-                if (key + 1 < obj.length)
-                    self.recursive(title, obj, key + 1);
-            },
-            null
+            elements[key],
+            function() {
+                if (key + 1 < elements.length)
+                    self.recursive(title, elements, key + 1);
+            }
         );
     };
     

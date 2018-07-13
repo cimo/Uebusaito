@@ -27,7 +27,7 @@ function Ajax() {
                 if (xhr.userActivity !== undefined && xhr.userActivity !== "") {
                     window.session.userActivity = xhr.userActivity;
                     
-                    self.reply(xhr, "");
+                    self.reply(xhr.userActivity, "");
                     
                     return;
                 }
@@ -105,8 +105,6 @@ function Ajax() {
         
         if (reply !== "")
             flashBag.show(reply);
-        
-        flashBag.sessionActivity();
     };
     
     // Functions private

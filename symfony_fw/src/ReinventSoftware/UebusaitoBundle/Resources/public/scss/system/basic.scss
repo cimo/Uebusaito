@@ -1166,6 +1166,12 @@ table {
     padding: 0;
 }
 
+.mdc-chip--selected {
+    .mdc-chip__icon--leading {
+        opacity: 1 !important;
+    }
+}
+
 .logo_main {
     width: 45px;
     margin-top: 8px;

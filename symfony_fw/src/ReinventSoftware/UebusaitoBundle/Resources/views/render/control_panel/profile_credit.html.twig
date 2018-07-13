@@ -3,7 +3,7 @@
 <fieldset class="accordion_container">
     <legend>{% trans %}profileCredit_1{% endtrans %}</legend>
     <p>{% trans %}profileCredit_2{% endtrans %}</p>
-    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_14{% endtrans %}</button>
+    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button" disabled>{% trans %}index_14{% endtrans %}</button>
     <div class="accordion">
         <form id="form_cp_profile_credit" action="{{path("cp_profile_credit", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <p><b>{% trans %}profileCredit_3{% endtrans %}</b> {{response.values.currentCredit}}</p>

@@ -1,80 +1,34 @@
+@media(max-width: "839px") {
+    #wysiwyg {
+        .toolbar {
+            .mdc-fab {
+                margin: 2px 0 2px 0;
+            }
+        }
+    }
+}
+
 #wysiwyg {
-    display: none;
     position: relative;
+    margin-top: 10px;
     
     .toolbar {
-        position: relative;
-        
         i {
             display: inline-block;
-            color: #000000;
-            border: 1px solid;
             cursor: pointer;
-            margin-bottom: 5px;
-            padding: 5px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            margin: 2px;
         }
         
-        > div {
+        input, select {
             display: inline-block;
-            
-            > i {
-                margin-right: 5px;
-            }
-            
-            > p {
-                display: inline-block;
-                margin-right: 5px;
-            }
+            position: relative;
+            top: -5px;
         }
         
-        .popup_settings {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            text-align: left;
-            border: 1px solid;
-            padding: 5px;
-            min-width: 100px;
-            background-color: #ffffff;
-            z-index: 5;
-            
-            -webkit-box-shadow: 0px 0px 5px #444444;
-            -moz-box-shadow: 0px 0px 5px #444444;
-            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#444444')";
-            filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#444444')";
-            box-shadow: 0px 0px 5px #444444;
-            
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            
-            fieldset {
-                padding: 0 10px !important;
-                
-                legend {
-                    margin-bottom: 5px;
-                    font-size: 15px;
-                    font-weight: bold;
-                }
-            }
-            
-            a {
-                margin-top: 10px;
-            }
-            
-            input[type='color'] {
-                margin-bottom: 5px;
-            }
-            
-            textarea {
-                resize: none;
-            }
-            
-            .field_container {
-                margin: 10px 0 0 0;
-            }
+        .container_icon {
+            display: inline-block;
         }
     }
     
@@ -82,17 +36,18 @@
         border: 1px solid;
         width: 100%;
         height: 700px;
+        margin-top: 10px;
     }
     
     .source {
         display: none;
-        position: absolute;
-        top: 31px;
         border: 1px solid;
-        width: 100%;
+        width: 98%;
         height: 700px;
         background-color: #faf9f9;
         padding: 5px;
         overflow-y: scroll;
+        overflow-x: hidden;
+        margin-top: 10px;
     }
 }

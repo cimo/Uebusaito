@@ -3,7 +3,7 @@
 <fieldset class="accordion_container">
     <legend>{% trans %}profile_1{% endtrans %}</legend>
     <p>{% trans %}profile_2{% endtrans %}</p>
-    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_14{% endtrans %}</button>
+    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button" disabled>{% trans %}index_14{% endtrans %}</button>
     <div class="accordion">
         <form id="form_cp_profile" action="{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <div id="upload_profile_container">

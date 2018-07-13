@@ -150,8 +150,6 @@ function ControlPanelModule() {
                 window.text.warning,
                 window.textModule.label_2,
                 function() {
-                    popupEasy.close();
-                    
                     ajax.send(
                         true,
                         window.url.cpModuleDeletion,
@@ -332,8 +330,6 @@ function ControlPanelModule() {
             window.text.warning,
             window.textModule.label_1,
             function() {
-                popupEasy.close();
-
                 ajax.send(
                     true,
                     window.url.cpModuleDeletion,

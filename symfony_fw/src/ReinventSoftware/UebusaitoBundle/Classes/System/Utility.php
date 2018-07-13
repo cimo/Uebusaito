@@ -451,7 +451,7 @@ class Utility {
                     $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
                 }
             $html .= "</select>
-            <label class=\"mdc-floating-label mdc-floating-label--float-above\">" . $this->translator->trans("classUtility_7") . "</label>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">" . $this->translator->trans("classUtility_6") . "</label>
             <div class=\"mdc-line-ripple\"></div>
         </div>";
         
@@ -479,7 +479,7 @@ class Utility {
                 $html .= "<li class=\"ui-state-default\">
                     <div class=\"mdc-chip\">
                         <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">drag_handle</i>
-                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$id\">[$id] " . $this->translator->trans("classUtility_8") . "</div>
+                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$id\">[$id] " . $this->translator->trans("classUtility_7") . "</div>
                     </div>
                 </li>";
             }
@@ -710,13 +710,16 @@ class Utility {
         
         $pagesList = $this->createPageList($rows, true);
         
-        $html = "<p>" . $this->translator->trans("classUtility_5") . "</p>
-        <select id=\"$selectId\">
-            <option value=\"\">Select</option>";
-            foreach ($pagesList as $key => $value) {
-                $html .= "<option value=\"$key\">$value</option>";
-            }
-        $html .= "</select>";
+        $html = "<div id=\"$selectId\" class=\"mdc-select\">
+            <select class=\"mdc-select__native-control\">
+                <option value=\"\"></option>";
+                foreach ($pagesList as $key => $value) {
+                    $html .= "<option value=\"$key\">$value</option>";
+                }
+            $html .= "</select>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">" . $this->translator->trans("classUtility_5") . "</label>
+            <div class=\"mdc-line-ripple\"></div>
+        </div>";
         
         return $html;
     }

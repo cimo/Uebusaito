@@ -113,8 +113,6 @@ function ControlPanelPayment() {
                 window.text.warning,
                 window.textPayment.label_2,
                 function() {
-                    popupEasy.close();
-                    
                     ajax.send(
                         true,
                         window.url.cpPaymentDeletion,
@@ -205,11 +203,12 @@ function ControlPanelPayment() {
             
             $("#cp_payment_selection_result").html(xhr.response.render);
             
+            materialDesign.refresh();
+            materialDesign.fix();
+            
             $("#cp_payment_deletion").on("click", "", function() {
                deletion(null);
             });
-            
-            materialDesign.refresh();
         }
     }
     
@@ -218,8 +217,6 @@ function ControlPanelPayment() {
             window.text.warning,
             window.textPayment.label_1,
             function() {
-                popupEasy.close();
-
                 ajax.send(
                     true,
                     window.url.cpPaymentDeletion,

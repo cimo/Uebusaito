@@ -109,8 +109,6 @@ function ControlPanelRoleUser() {
                 window.text.warning,
                 window.textRole.label_2,
                 function() {
-                    popupEasy.close();
-                    
                     ajax.send(
                         true,
                         window.url.cpRoleUserDeletion,
@@ -238,8 +236,6 @@ function ControlPanelRoleUser() {
             window.text.warning,
             window.textRole.label_1,
             function() {
-                popupEasy.close();
-
                 ajax.send(
                     true,
                     window.url.cpRoleUserDeletion,

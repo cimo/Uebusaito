@@ -1,17 +1,9 @@
-#wysiwyg { display: none; position: relative; }
-#wysiwyg .toolbar { position: relative; }
-#wysiwyg .toolbar i { display: inline-block; color: #000000; border: 1px solid; cursor: pointer; margin-bottom: 5px; padding: 5px; }
-#wysiwyg .toolbar > div { display: inline-block; }
-#wysiwyg .toolbar > div > i { margin-right: 5px; }
-#wysiwyg .toolbar > div > p { display: inline-block; margin-right: 5px; }
-#wysiwyg .toolbar .popup_settings { display: none; position: absolute; top: 0; left: 0; text-align: left; border: 1px solid; padding: 5px; min-width: 100px; background-color: #ffffff; z-index: 5; -webkit-box-shadow: 0px 0px 5px #444444; -moz-box-shadow: 0px 0px 5px #444444; -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#444444')"; filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#444444')"; box-shadow: 0px 0px 5px #444444; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-#wysiwyg .toolbar .popup_settings fieldset { padding: 0 10px !important; }
-#wysiwyg .toolbar .popup_settings fieldset legend { margin-bottom: 5px; font-size: 15px; font-weight: bold; }
-#wysiwyg .toolbar .popup_settings a { margin-top: 10px; }
-#wysiwyg .toolbar .popup_settings input[type='color'] { margin-bottom: 5px; }
-#wysiwyg .toolbar .popup_settings textarea { resize: none; }
-#wysiwyg .toolbar .popup_settings .field_container { margin: 10px 0 0 0; }
-#wysiwyg .editor { border: 1px solid; width: 100%; height: 700px; }
-#wysiwyg .source { display: none; position: absolute; top: 31px; border: 1px solid; width: 100%; height: 700px; background-color: #faf9f9; padding: 5px; overflow-y: scroll; }
+@media (max-width: 839px) { #wysiwyg .toolbar .mdc-fab { margin: 2px 0 2px 0; } }
+#wysiwyg { position: relative; margin-top: 10px; }
+#wysiwyg .toolbar i { display: inline-block; cursor: pointer; border: 1px solid #000000; border-radius: 5px; margin: 2px; }
+#wysiwyg .toolbar input, #wysiwyg .toolbar select { display: inline-block; position: relative; top: -5px; }
+#wysiwyg .toolbar .container_icon { display: inline-block; }
+#wysiwyg .editor { border: 1px solid; width: 100%; height: 700px; margin-top: 10px; }
+#wysiwyg .source { display: none; border: 1px solid; width: 98%; height: 700px; background-color: #faf9f9; padding: 5px; overflow-y: scroll; overflow-x: hidden; margin-top: 10px; }
 
 /*# sourceMappingURL=wysiwyg.css.map */

@@ -1,4 +1,4 @@
-/* global utility, ajax, popupEasy, loader, controlPanelPage */
+/* global utility, ajax, popupEasy, loader, controlPanelPage, wysiwyg */
 
 var language = new Language();
 
@@ -53,6 +53,8 @@ function Language() {
                 null,
                 function(xhr) {
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined) {
+                        wysiwyg.historyClear();
+                        
                         $("#form_cp_page_profile").find("input[name='form_page[language]']").val(xhr.response.values.codePage);
                         $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageTitle);
                         $("#wysiwyg").find(".editor").contents().find("body").html(xhr.response.values.pageArgument);
@@ -77,17 +79,15 @@ function Language() {
     }*/
     
     function selectOnPage() {
-        $(".language_page_container").find(".flag_" + window.setting.language).parent().addClass("mdc-chip--selected");
-        $(".language_page_container").find("input[name='form_language[codePage]']").val(window.setting.language);
+        $("#language_page_container").find(".flag_" + window.setting.language).parent().addClass("mdc-chip--selected");
+        $("#language_page_container").find("input[name='form_language[codePage]']").val(window.setting.language);
         
-        $(".language_page_container .mdc-chip").on("click", "", function(event) {
+        $("#language_page_container .mdc-chip").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {
                 popupEasy.create(
                     window.text.warning,
                     window.textLanguagePage.label_1,
                     function() {
-                        popupEasy.close();
-
                         formPageFlagSubmit(event);
                     }
                 );
@@ -102,9 +102,8 @@ function Language() {
         
         var target = $(event.target).parent().hasClass("mdc-chip") === true ? $(event.target).parent() : $(event.target);
         
-        $(".language_page_container").children().removeClass("mdc-chip--selected");
+        $("#language_page_container").children().removeClass("mdc-chip--selected");
         target.addClass("mdc-chip--selected");
-        
         
         var altSplit = target.find("img").prop("alt").split(".");
 

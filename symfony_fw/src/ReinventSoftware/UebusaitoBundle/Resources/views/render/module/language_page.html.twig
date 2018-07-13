@@ -1,4 +1,4 @@
-<div class="language_page_container">
+<div id="language_page_container">
     {% for value in response.values.languageRows %}
         {% if (file_exists(urlRoot ~ "/bundles/uebusaito/images/templates/" ~ response.values.settingRow['template'] ~ "/lang/" ~ value.code ~ ".png") == true) %}
             <div class="mdc-chip">

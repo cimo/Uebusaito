@@ -97,8 +97,6 @@ function ControlPanelSetting() {
                 window.text.warning,
                 window.textSetting.label_1,
                 function() {
-                    popupEasy.close();
-                    
                     ajax.send(
                         true,
                         window.url.cpSettingLanguageManage,

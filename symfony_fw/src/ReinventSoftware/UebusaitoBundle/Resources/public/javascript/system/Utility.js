@@ -26,24 +26,15 @@ function Utility() {
         });
     };
     
-    self.watch = function(tag, callback) {
-        if (watchExecuted === false) {
-            if (callback !== undefined)
-                $(tag).bind("DOMSubtreeModified", callback());
-            
-            watchExecuted = true;
-        }
-    };
-    
     self.mutationObserver = function(type, element, callback) {
         var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                if (mutation.type === type)
+                if ($.inArray(mutation.type, type) !== -1)
                     callback();
             });
         });
         
-        observer.observe(element, {attributes: true, childList: true, subtree: true});
+        observer.observe(element, {'attributes': true, 'childList': true, 'subtree': true, 'characterData': true});
     };
     
     self.checkMobile = function(fix = false) {
@@ -402,7 +393,7 @@ function Utility() {
                     }
                 }
 
-                materialDesign.refresh();
+                materialDesign.fix();
             });
         });
     };

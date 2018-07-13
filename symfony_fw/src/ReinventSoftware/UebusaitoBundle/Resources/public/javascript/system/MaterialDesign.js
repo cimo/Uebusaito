@@ -7,6 +7,7 @@ function MaterialDesign() {
     var self = this;
     
     var dialogMdc;
+    
     var snackbarMdc;
     
     var mdcTextFields;
@@ -23,30 +24,12 @@ function MaterialDesign() {
     // Functions public
     self.init = function() {
         dialogMdc = null;
+        
         snackbarMdc = null;
         
         mdcTextFields = new Array();
         
         window.mdc.autoInit();
-    };
-    
-    self.refresh = function() {
-        self.button();
-        self.fabButton();
-        self.iconButton();
-        self.chip();
-        self.dialog();
-        self.drawer();
-        self.checkbox();
-        self.radioButton();
-        self.select();
-        self.slider();
-        self.textField();
-        self.list();
-        self.menu();
-        self.snackbar();
-        self.tabBar();
-        self.fix();
     };
     
     self.button = function() {
@@ -216,6 +199,24 @@ function MaterialDesign() {
         });
     };
     
+    self.refresh = function() {
+        self.button();
+        self.fabButton();
+        self.iconButton();
+        self.chip();
+        self.dialog();
+        self.drawer();
+        self.checkbox();
+        self.radioButton();
+        self.select();
+        self.slider();
+        self.textField();
+        self.list();
+        self.menu();
+        self.snackbar();
+        self.tabBar();
+    };
+    
     self.fix = function() {
         mdcTopAppBarCustom();
         mdcButtonEnable();
@@ -224,6 +225,32 @@ function MaterialDesign() {
     };
     
     // Functions private
+    function mdcTabBarCustom(type, mdc) {
+        var parameters = utility.urlParameters(window.setting.language);
+        
+        $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");
+        
+        $.each($(".mdc-tab-bar").find(".mdc-tab"), function(key, value) {
+            if ($(value).prop("href").indexOf(parameters[2]) !== -1) {
+                $(value).addClass("mdc-tab--active");
+                
+                if (type === "tabBar")
+                    mdc.activeTabIndex = key;
+                else if (type === "tabBarScroller") {
+                    var element = $(value).parent().find(".mdc-tab-bar__indicator");
+                    
+                    utility.mutationObserver(['attributes'], element[0], function() {
+                        var transformSplit = element.css("transform").split(",");
+                        
+                        element.css("transform", transformSplit[0] + ", " + transformSplit[1] + ", " + transformSplit[2] + ", " + transformSplit[3] + ", " + $(value).position().left + ", " + transformSplit[5]);
+                    });
+                }
+                
+                return false;
+            }
+        });
+    }
+    
     function mdcTopAppBarCustom() {
         var scrollLimit = 30;
         
@@ -249,33 +276,7 @@ function MaterialDesign() {
     }
     
     function mdcButtonEnable() {
-        $(".mdc-button").removeAttr("disabled");
-    }
-    
-    function mdcTabBarCustom(type, mdc) {
-        var parameters = utility.urlParameters(window.setting.language);
-        
-        $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");
-        
-        $.each($(".mdc-tab-bar").find(".mdc-tab"), function(key, value) {
-            if ($(value).prop("href").indexOf(parameters[2]) !== -1) {
-                $(value).addClass("mdc-tab--active");
-                
-                if (type === "tabBar")
-                    mdc.activeTabIndex = key;
-                else if (type === "tabBarScroller") {
-                    var element = $(value).parent().find(".mdc-tab-bar__indicator");
-                    
-                    utility.mutationObserver("attributes", element[0], function() {
-                        var transformSplit = element.css("transform").split(",");
-                        
-                        element.css("transform", transformSplit[0] + ", " + transformSplit[1] + ", " + transformSplit[2] + ", " + transformSplit[3] + ", " + $(value).position().left + ", " + transformSplit[5]);
-                    });
-                }
-                
-                return false;
-            }
-        });
+        $(".mdc-button").not(".no_remove_disabled_md").removeAttr("disabled");
     }
     
     function mdcTextFieldHelperTextClear() {
