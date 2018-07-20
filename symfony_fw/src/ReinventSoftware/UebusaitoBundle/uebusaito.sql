@@ -121,7 +121,7 @@ CREATE TABLE `pages_arguments` (
   `jp` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +130,7 @@ CREATE TABLE `pages_arguments` (
 
 LOCK TABLES `pages_arguments` WRITE;
 /*!40000 ALTER TABLE `pages_arguments` DISABLE KEYS */;
-INSERT INTO `pages_arguments` VALUES (1,'&lt;p&gt;Here you can administrate the website, choise the section on bottom menu.&lt;/p&gt;','&lt;p&gt;Argomento pannello di controllo.&lt;/p&gt;','&lt;p&gt;コントロールパネルのアーギュメント。&lt;/p&gt;'),(2,'&lt;p&gt;This is a cms created with symfony framework.&lt;/p&gt;','&lt;p&gt;Argomento home.&lt;/p&gt;','&lt;p&gt;ホームのアーギュメント。&lt;/p&gt;'),(3,'&lt;p&gt;Registration argument.&lt;/p&gt;','&lt;p&gt;Argomento registrazione.&lt;/p&gt;','&lt;p&gt;登録のアーギュメント。&lt;/p&gt;'),(4,'&lt;p&gt;Recover password argument.&lt;/p&gt;','&lt;p&gt;Argomento recupero password.&lt;/p&gt;','&lt;p&gt;パスワードを回復のアーギュメント。&lt;/p&gt;'),(5,'&lt;p&gt;Search argument.&lt;/p&gt;','&lt;p&gt;Argomento cerca.&lt;/p&gt;','&lt;p&gt;サーチのアーギュメント。&lt;/p&gt;'),(6,'&lt;p&gt;Test argument.&lt;/p&gt;','&lt;p&gt;Argomento test.&lt;/p&gt;',NULL),(7,'&lt;p&gt;Test parent argument.&lt;/p&gt;','&lt;p&gt;Argomento test genitore.&lt;/p&gt;',NULL),(8,'&lt;p&gt;Test children 1 argument.&lt;/p&gt;','&lt;p&gt;Argomento test figlio 1.&lt;/p&gt;',NULL),(9,'&lt;p&gt;Test children 2 argument.&lt;/p&gt;','&lt;p&gt;Argomento test figlio 2.&lt;/p&gt;',NULL),(10,'&lt;p&gt;Test 2 argument.&lt;/p&gt;','&lt;p&gt;Argomento test 2.&lt;/p&gt;',NULL),(11,'&lt;p&gt;Test children 3 argument.&lt;/p&gt;','&lt;p&gt;Argomento test figlio 3.&lt;/p&gt;',NULL),(12,'&lt;p&gt;Test 1 argument.&lt;/p&gt;','&lt;p&gt;Argomento test 1.&lt;/p&gt;',NULL),(13,'&lt;p&gt;Test children 4 argument.&lt;/p&gt;','&lt;p&gt;Argomento test figlio 4.&lt;/p&gt;',NULL),(14,'',NULL,NULL);
+INSERT INTO `pages_arguments` VALUES (1,'Here you can administrate the website, choise the section on bottom menu.','Argomento pannello di controllo.','コントロールパネルのアーギュメント。'),(2,'This is a cms created with symfony framework.','Argomento home.','ホームのアーギュメント。'),(3,'Registration argument.','Argomento registrazione.','登録のアーギュメント。'),(4,'Recover password argument.','Argomento recupero password.','パスワードを回復のアーギュメント。'),(5,'Search argument.','Argomento cerca.','サーチのアーギュメント。'),(6,'Test argument.','Argomento test.',NULL),(7,'Test parent argument.','Argomento test genitore.',NULL),(8,'Test children 1 argument.','Argomento test figlio 1.',NULL),(9,'Test children 2 argument.','Argomento test figlio 2.',NULL),(10,'Test 2 argument.','Argomento test 2.',NULL),(11,'Test children 3 argument.','Argomento test figlio 3.',NULL),(12,'Test 1 argument.','Argomento test 1.',NULL),(13,'Test children 4 argument.','Argomento test figlio 4.',NULL);
 /*!40000 ALTER TABLE `pages_arguments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +176,7 @@ CREATE TABLE `pages_menu_names` (
   `it` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
   `jp` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +185,7 @@ CREATE TABLE `pages_menu_names` (
 
 LOCK TABLES `pages_menu_names` WRITE;
 /*!40000 ALTER TABLE `pages_menu_names` DISABLE KEYS */;
-INSERT INTO `pages_menu_names` VALUES (1,'-','-','-'),(2,'Home','Home','-'),(3,'-','-','-'),(4,'-','-','-'),(5,'-','-','-'),(6,'Test','Test','-'),(7,'Test parent','Test genitore','-'),(8,'Test children 1','Test figlio 1','-'),(9,'Test children 2','Test figlio 2','-'),(10,'Test 2','Test 2','-'),(11,'Test children 3','Test figlio 3','-'),(12,'Test 1','Test 1','-'),(13,'Test children 4','Test figlio 4','-'),(14,'Cimo','-','-');
+INSERT INTO `pages_menu_names` VALUES (1,'-','-','-'),(2,'Home','Home','-'),(3,'-','-','-'),(4,'-','-','-'),(5,'-','-','-'),(6,'Test','Test','-'),(7,'Test parent','Test genitore','-'),(8,'Test children 1','Test figlio 1','-'),(9,'Test children 2','Test figlio 2','-'),(10,'Test 2','Test 2','-'),(11,'Test children 3','Test figlio 3','-'),(12,'Test 1','Test 1','-'),(13,'Test children 4','Test figlio 4','-');
 /*!40000 ALTER TABLE `pages_menu_names` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +203,7 @@ CREATE TABLE `pages_titles` (
   `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,7 +212,7 @@ CREATE TABLE `pages_titles` (
 
 LOCK TABLES `pages_titles` WRITE;
 /*!40000 ALTER TABLE `pages_titles` DISABLE KEYS */;
-INSERT INTO `pages_titles` VALUES (1,'Control panel title','Titolo pannello di controllo','コントロールパネルのタイトル'),(2,'Home title','Titolo home','ホームのタイトル'),(3,'Registration title','Titolo registrazione','登録のタイトル'),(4,'Recover password title','Titolo recupero password','パスワードを回復のタイトル'),(5,'Search title','Titolo cerca','サーチのタイトル'),(6,'Test title','Titolo test','テストのタイトル'),(7,'Test parent title','Titolo test genitore',NULL),(8,'Test children 1 title','Titolo test figlio 1',NULL),(9,'Test children 2 title','Titolo test figlio 2',NULL),(10,'Test 2 title','Titolo test 2',NULL),(11,'Test children 3 title','Titolo test figlio 3',NULL),(12,'Test 1 title','Titolo test 1',NULL),(13,'Test children 4 title','Titolo test figlio 4',NULL),(14,'a',NULL,NULL);
+INSERT INTO `pages_titles` VALUES (1,'Control panel title','Titolo pannello di controllo','コントロールパネルのタイトル'),(2,'Home title','Titolo home','ホームのタイトル'),(3,'Registration title','Titolo registrazione','登録のタイトル'),(4,'Recover password title','Titolo recupero password','パスワードを回復のタイトル'),(5,'Search title','Titolo cerca','サーチのタイトル'),(6,'Test title','Titolo test','テストのタイトル'),(7,'Test parent title','Titolo test genitore',NULL),(8,'Test children 1 title','Titolo test figlio 1',NULL),(9,'Test children 2 title','Titolo test figlio 2',NULL),(10,'Test 2 title','Titolo test 2',NULL),(11,'Test children 3 title','Titolo test figlio 3',NULL),(12,'Test 1 title','Titolo test 1',NULL),(13,'Test children 4 title','Titolo test figlio 4',NULL);
 /*!40000 ALTER TABLE `pages_titles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +311,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,0,1,1,1,1,'paypal@paypal.com','USD','0.01',1);
+INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,0,1,1,1,1,'paypal.business@gmail.com','USD','0.01',1);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,7 +360,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','','','cimo@reinventsoftware.org','3491234567','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-07-09 09:58:19','2018-07-06 15:09:20',NULL,'183.77.252.62',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',11,1,'2016-09-10 17:39:31','2017-12-03 13:13:27','2017-11-06 21:48:31',NULL,'79.51.52.39',0),(3,'1,4,','ROLE_USER,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','3491234567','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-07-19 16:56:52','2018-07-19 16:37:53',NULL,'183.77.252.62',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',11,1,'2016-09-10 17:39:31','2017-12-03 13:13:27','2017-11-06 21:48:31',NULL,'79.51.52.39',0),(3,'1,4,','ROLE_USER,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,4 +377,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-09 11:10:47
+-- Dump completed on 2018-07-19 17:30:19

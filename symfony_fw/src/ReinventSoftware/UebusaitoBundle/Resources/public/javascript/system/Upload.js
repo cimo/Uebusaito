@@ -212,7 +212,7 @@ function Upload() {
         
         var blob = file.slice(start, stop);
         
-        if (navigator.userAgent.indexOf("MSIE") !== -1)
+        if (navigator.userAgent.toLowerCase().indexOf("msie") !== -1)
             reader.readAsArrayBuffer(blob);
         else
             reader.readAsBinaryString(blob);

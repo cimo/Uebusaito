@@ -431,8 +431,6 @@ function ControlPanelPage() {
             $("#form_page_menuName").parents(".form_row ").show();
             $("#page_menuSort").show();
         }
-        
-        materialDesign.refresh();
     }
     
     function fieldsVisibilityLink() {
@@ -440,7 +438,5 @@ function ControlPanelPage() {
             $("#form_page_link").parents(".form_row ").hide();
         else
             $("#form_page_link").parents(".form_row ").show();
-        
-        materialDesign.refresh();
     }
 }

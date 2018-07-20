@@ -230,6 +230,8 @@ function MaterialDesign() {
         
         $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");
         
+        var isActive = false;
+        
         $.each($(".mdc-tab-bar").find(".mdc-tab"), function(key, value) {
             if ($(value).prop("href").indexOf(parameters[2]) !== -1) {
                 $(value).addClass("mdc-tab--active");
@@ -240,9 +242,14 @@ function MaterialDesign() {
                     var element = $(value).parent().find(".mdc-tab-bar__indicator");
                     
                     utility.mutationObserver(['attributes'], element[0], function() {
+                        if (isActive === true)
+                            return false;
+                        
                         var transformSplit = element.css("transform").split(",");
                         
                         element.css("transform", transformSplit[0] + ", " + transformSplit[1] + ", " + transformSplit[2] + ", " + transformSplit[3] + ", " + $(value).position().left + ", " + transformSplit[5]);
+                        
+                        isActive = true;
                     });
                 }
                 

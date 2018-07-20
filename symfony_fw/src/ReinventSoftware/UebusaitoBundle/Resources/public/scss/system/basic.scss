@@ -1305,7 +1305,11 @@ table {
     }
 
     .accordion {
-        display: none;
+        height: 0;
+        overflow: hidden;
+    }
+    .accordion_active {
+        height: auto;
     }
 }
 

@@ -426,7 +426,8 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 .accordion_container { position: relative; margin: 10px 0; }
 .accordion_container > p { margin-top: 30px; }
 .accordion_container .button_accordion { position: absolute; top: 8px; right: 5px; }
-.accordion_container .accordion { display: none; }
+.accordion_container .accordion { height: 0; overflow: hidden; }
+.accordion_container .accordion_active { height: auto; }
 
 .sort_container .sort_list { padding: 0; }
 .sort_container .sort_list li { list-style-type: none; margin: 5px; display: inline-block; }
