@@ -1,0 +1,22 @@
+{% extends "@templateRoot/layout/layout_module_clean.html.twig" %}
+
+{% block panelId %}panel_id_{{response.module.id}}{% endblock %}
+{% block moduleHeaderIcon %}
+    <i class="fa fa-language fa-lg">&nbsp;</i>
+{% endblock %}
+{% block moduleHeader %}
+    {{response.module.label|trans}}
+{% endblock %}
+{% block moduleContainer %}
+    {% form_theme form "bootstrap_3_layout.html.twig" %}
+
+    <div class="language_container horizontal_center">
+        <img id="language_flag_{{app.request.getLocale()}}" class="language_text_flag display_inline" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/lang/" ~ app.request.getLocale() ~ ".png")}}" alt="{{app.request.getLocale()}}.png"/>
+        <form id="form_language_text" class="form_language_text display_inline" action="{{path("language_text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            {{form_row(form.codeText, {'label': false})}}
+
+            {{form_widget(form._token)}}
+        </form>
+    </div>
+{% endblock %}
+{% block moduleFooter %}{% endblock %}

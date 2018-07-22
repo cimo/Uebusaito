@@ -1,0 +1,118 @@
+<?php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+use App\Classes\System\Utility;
+
+use App\Form\AuthenticationFormType;
+
+class AuthenticationController extends Controller {
+    // Vars
+    private $urlLocale;
+    private $urlCurrentPageId;
+    private $urlExtra;
+    
+    private $entityManager;
+    
+    private $response;
+    
+    private $utility;
+    private $query;
+    
+    // Properties
+    
+    // Functions public
+    /**
+    * @Route(
+    *   name = "authentication",
+    *   path = "/authentication/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+	*	methods={"POST"}
+    * )
+    * @Template("@templateRoot/render/module/authentication.html.twig")
+    */
+    public function moduleAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        
+        $this->urlLocale = $this->utility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
+        
+        // Logic
+        $form = $this->createForm(AuthenticationFormType::class, null, Array());
+        $form->handleRequest($request);
+        
+        $moduleRow = $this->query->selectModuleDatabase(2);
+        
+        $this->response['module']['id'] = $moduleRow['id'];
+        $this->response['module']['label'] = $moduleRow['label'];
+        
+        if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+            $this->response['values']['user'] = $this->getUser();
+            $this->response['values']['dateLastLogin'] = $this->utility->dateFormat($this->getUser()->getDateLastLogin());
+            $this->response['values']['roleUserRow'] = $this->query->selectRoleUserDatabase($this->getUser()->getRoleUserId(), true);
+
+            return Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response,
+                'form' => null
+            );
+        }
+        else
+            $this->response['messages']['error'] = $this->utility->getAuthenticationUtils()->getLastAuthenticationError();
+        
+        return Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response,
+            'form' => $form->createView()
+        );
+    }
+    
+    /**
+    * @Route(
+    *   name = "authentication_enter_check",
+    *   path = "/authentication_enter_check/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+	*	methods={"GET", "POST"}
+    * )
+    */
+    public function enterCheckAction() {
+        // Empty is normal!
+    }
+    
+    /**
+    * @Route(
+    *   name = "authentication_exit_check",
+    *   path = "/authentication_exit_check/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+	*	methods={"GET", "POST"}
+    * )
+    */
+    public function exitCheckAction() {
+        // Empty is normal!
+    }
+    
+    // Functions private
+}

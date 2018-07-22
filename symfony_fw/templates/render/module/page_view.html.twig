@@ -1,0 +1,41 @@
+{% extends "@templateRoot/layout/layout_module_clean.html.twig" %}
+
+{% block panelId %}panel_id_{{response.module.id}}{% endblock %}
+{% block moduleContainer %}
+    <div class="page_container">
+        {% if response.values.title != "" %}
+            <div class="header">
+                <h1 class="mdc-typography--headline6">{{response.values.title}}</h1>
+            </div>
+        {% endif %}
+
+        <div class="argument"><p>{{response.values.argument|raw}}</p></div>
+
+        {% if response.values.controllerAction != "" %}
+            <div class="controllerAction">
+                {{-render(controller(response.values.controllerAction, {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block moduleFooter %}
+    <div class="page_footer">
+        <div>
+            {% if settingRow['page_date'] == true %}
+                {% if (response.values.userCreation != "-" and response.values.userModification == "-") %}
+                    <p><i class="fa fa-paw"></i> <b>{% trans %}pageView_1{% endtrans %}</b>{{response.values.userCreation}}</p>
+                    <p><i class="fa fa-calendar"></i> <b>{% trans %}pageView_2{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
+                {% elseif (response.values.userModification != "-") %}
+                    <p><i class="fa fa-paw"></i> <b>{% trans %}pageView_3{% endtrans %}</b>{{response.values.userModification}}</p>
+                    <p><i class="fa fa-calendar"></i> <b>{% trans %}pageView_4{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        {% if urlCurrentPageId > 5 %}
+            {{-render(controller("App\\Controller\\PageCommentController::creationAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+
+            {{-render(controller("App\\Controller\\PageCommentController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+        {% endif %}
+    </div>
+{% endblock %}
