@@ -67,7 +67,7 @@ function Ajax() {
         }
         
         if ($.isEmptyObject(xhr.response) === true)
-            reply = window.text.ajaxConnectionError;
+            reply = window.text.index_8;
         
         if (xhr.response === undefined)
             reply = xhr;

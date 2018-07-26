@@ -33,7 +33,7 @@ class Module {
     private $rankInColumn = null;
     
     // #
-    private $sort = null;
+    private $rankColumnSort = null;
     
     /**
      * @ORM\Column(name="name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
@@ -68,8 +68,8 @@ class Module {
         $this->rankInColumn = $value;
     }
     
-    public function setSort($value) {
-        $this->sort = $value;
+    public function setRankColumnSort($value) {
+        $this->rankColumnSort = $value;
     }
     
     public function setName($value) {
@@ -106,8 +106,8 @@ class Module {
         return $this->rankInColumn;
     }
     
-    public function getSort() {
-        return $this->sort;
+    public function getRankColumnSort() {
+        return $this->rankColumnSort;
     }
     
     public function getName() {

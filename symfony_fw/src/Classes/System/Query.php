@@ -107,7 +107,7 @@ class Query {
                                             AND pages_titles.id = pages.id
                                             AND pages_arguments.id = pages.id
                                             AND pages_menu_names.id = pages.id
-                                            ORDER BY COALESCE(parent, position_in_menu), position_in_menu");
+                                            ORDER BY COALESCE(parent, rank_in_menu), rank_in_menu");
         
         $query->bindValue(":id", $id);
         
@@ -126,7 +126,7 @@ class Query {
                                                 WHERE pages_titles.id = pages.id
                                                 AND pages_arguments.id = pages.id
                                                 AND pages_menu_names.id = pages.id
-                                                ORDER BY COALESCE(parent, position_in_menu), position_in_menu");
+                                                ORDER BY COALESCE(parent, rank_in_menu), rank_in_menu");
         }
         else {
             $query = $this->connection->prepare("SELECT pages.*,
@@ -157,14 +157,14 @@ class Query {
         if ($parent != null) {
             $query = $this->connection->prepare("SELECT * FROM pages
                                                     WHERE parent = :parent
-                                                    ORDER BY COALESCE(parent, position_in_menu), position_in_menu");
+                                                    ORDER BY COALESCE(parent, rank_in_menu), rank_in_menu");
 
             $query->bindValue(":parent", $parent);
         }
         else
             $query = $this->connection->prepare("SELECT * FROM pages
                                                     WHERE parent is NULL
-                                                    ORDER BY COALESCE(parent, position_in_menu), position_in_menu");
+                                                    ORDER BY COALESCE(parent, rank_in_menu), rank_in_menu");
         
         $query->execute();
         

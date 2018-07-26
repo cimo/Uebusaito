@@ -1,77 +1,68 @@
-{% extends "@templateRoot/layout/layout_module_clean.html.twig" %}
-
-{% block panelId %}panel_id_{{response.module.id}}{% endblock %}
-{% block moduleHeader %}
-    {{response.module.label|trans}}
-{% endblock %}
-{% block moduleContainer %}
-    <div class="navbar_fix">
-        <nav id="menu_root" class="navbar navbar-default">
-            <div class="navbar-header">
-                <div class="navbar_header_content">
-                    <button id="menu_root_nav_button" class="navbar-toggle collapsed">
-                        <span class="sr-only">Menu</span>
-                        <span class="icon-bar top-bar"></span>
-                        <span class="icon-bar middle-bar"></span>
-                        <span class="icon-bar bottom-bar"></span>
-                    </button>
-                </div>
-                <div class="navbar_header_content">
-                    <div class="logo_small display_mobile">
-                        <img class="logo_svg" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
-                        <p class="logo_text">{{websiteName}}</p>
-                    </div>
-                </div>
-                <div class="display_inline float_right">
-                    {{headerMobile}}
+<div class="navbar_fix">
+    <nav id="menu_root" class="navbar navbar-default">
+        <div class="navbar-header">
+            <div class="navbar_header_content">
+                <button id="menu_root_nav_button" class="navbar-toggle collapsed">
+                    <span class="sr-only">Menu</span>
+                    <span class="icon-bar top-bar"></span>
+                    <span class="icon-bar middle-bar"></span>
+                    <span class="icon-bar bottom-bar"></span>
+                </button>
+            </div>
+            <div class="navbar_header_content">
+                <div class="logo_small display_mobile">
+                    <img class="logo_svg" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                    <p class="logo_text">{{websiteName}}</p>
                 </div>
             </div>
-            <div id="menu_root_navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    {% macro recursiveList(url, pagesList) %}
-                        {% import _self as self %}
+            <div class="display_inline float_right">
+                {{headerMobile}}
+            </div>
+        </div>
+        <div id="menu_root_navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% macro recursiveList(url, pagesList) %}
+                    {% import _self as self %}
 
-                        {% for value in pagesList %}
-                            {% if value.show_in_menu == 1 %}
-                                {% if value.children != null %}
-                                    <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="{{url}}/{{value.id}}">{{value.menu_name}}</a>
+                    {% for value in pagesList %}
+                        {% if value.show_in_menu == 1 %}
+                            {% if value.children != null %}
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="{{url}}/{{value.id}}">{{value.menu_name}}</a>
+                                    <span></span>
+                                    {% if value.children != "" %}
+                                        <ul class="dropdown-menu dropdown_menu_fix">
+                                            {{self.recursiveList(url, value.children)}}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% else %}
+                                <li>
+                                    {% if value.only_link == true %}
+                                        <a href="{{value.link}}" target="_blank">{{value.menu_name}}</a>
+                                    {% else %}
+                                        <a href="{{url}}/{{value.id}}">{{value.menu_name}}</a>
                                         <span></span>
-                                        {% if value.children != "" %}
-                                            <ul class="dropdown-menu dropdown_menu_fix">
-                                                {{self.recursiveList(url, value.children)}}
-                                            </ul>
-                                        {% endif %}
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        {% if value.only_link == true %}
-                                            <a href="{{value.link}}" target="_blank">{{value.menu_name}}</a>
-                                        {% else %}
-                                            <a href="{{url}}/{{value.id}}">{{value.menu_name}}</a>
-                                            <span></span>
-                                        {% endif %}
+                                    {% endif %}
 
-                                        {% if value.children != "" %}
-                                            <ul>
-                                                {{self.recursiveList(url, value.children)}}
-                                            </ul>
-                                        {% endif %}
-                                    </li>
-                                {% endif %}
+                                    {% if value.children != "" %}
+                                        <ul>
+                                            {{self.recursiveList(url, value.children)}}
+                                        </ul>
+                                    {% endif %}
+                                </li>
                             {% endif %}
-                        {% endfor %}
-                    {% endmacro %}
+                        {% endif %}
+                    {% endfor %}
+                {% endmacro %}
 
-                    {% from _self import recursiveList %}
+                {% from _self import recursiveList %}
 
-                    {{recursiveList(response.values.url, response.values.pageList)}}
-                </ul>
-            </div>
-        </nav>
-    </div>
-{% endblock %}
-{% block moduleFooter %}{% endblock %}
+                {{recursiveList(response.values.url, response.values.pageList)}}
+            </ul>
+        </div>
+    </nav>
+</div>
 
 {% set headerMobile %}
     {% if (response.values.moduleRows[4]['active'] == true) %}

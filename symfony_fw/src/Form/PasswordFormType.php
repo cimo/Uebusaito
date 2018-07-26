@@ -22,14 +22,19 @@ class PasswordFormType extends AbstractType {
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add("old", PasswordType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "passwordFormType_1"
         ))
         ->add("new", PasswordType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "passwordFormType_2"
         ))
         ->add("newConfirm", PasswordType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "passwordFormType_3"
         ))
-        ->add("submit", SubmitType::class, Array());
+        ->add("submit", SubmitType::class, Array(
+            'label' => "passwordFormType_4"
+        ));
     }
 }

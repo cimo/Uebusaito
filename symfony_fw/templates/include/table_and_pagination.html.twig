@@ -1,9 +1,9 @@
 <div class="tableAndPagination">
     <div class="button_container">
-        <button class="mdc-button mdc-button--dense mdc-button--raised refresh" type="button" disabled>
+        <button class="mdc-button mdc-button--dense mdc-button--raised refresh" type="button">
             {% trans %}tableAndPagination_1{% endtrans %}
         </button>
-        <button class="mdc-button mdc-button--dense mdc-button--raised delete_all" type="button" disabled>
+        <button class="mdc-button mdc-button--dense mdc-button--raised delete_all" type="button">
             {% trans %}tableAndPagination_2{% endtrans %}
         </button>
     </div>
@@ -20,7 +20,7 @@
     </div>
     <div>
         <div class="previous">
-            <button class="mdc-button mdc-button--dense mdc-button--raised no_remove_disabled_md" type="button" disabled>
+            <button class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>
                 {% trans %}tableAndPagination_4{% endtrans %}
             </button>
         </div>
@@ -28,7 +28,7 @@
             <span>{{response.values.pagination.text}}</span>
         </div>
         <div class="next">
-            <button class="mdc-button mdc-button--dense mdc-button--raised no_remove_disabled_md" type="button" disabled>
+            <button class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>
                 {% trans %}tableAndPagination_5{% endtrans %}
             </button>
         </div>

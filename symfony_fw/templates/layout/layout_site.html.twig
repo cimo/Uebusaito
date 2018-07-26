@@ -16,15 +16,15 @@
         <div class="mdc-layout-grid main">
             <div class="mdc-layout-grid__inner">
                 {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 2) %}
-                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet display_desktop">
+                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet column_left_container display_desktop">
                         {% block columnLeftContainer %}{% endblock %}
                     </div>
                 {% endif %}
-                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-{{templateColumnCenter}} mdc-layout-grid__cell--span-{{templateColumnCenter}}-tablet">
+                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-{{templateColumnCenter}} mdc-layout-grid__cell--span-{{templateColumnCenter}}-tablet column_center_container">
                     {% block columnCenterContainer %}{% endblock %}
                 </div>
                 {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 3) %}
-                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet display_desktop">
+                    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet column_right_container display_desktop">
                         {% block columnRightContainer %}{% endblock %}
                     </div>
                 {% endif %}

@@ -39,7 +39,7 @@ class ProfileController extends Controller {
     *   path = "/cp_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/profile.html.twig")
     */
@@ -135,7 +135,7 @@ class ProfileController extends Controller {
     *   path = "/cp_profile_password/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/profile_password.html.twig")
     */
@@ -205,7 +205,7 @@ class ProfileController extends Controller {
     *   path = "/cp_profile_credit/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/profile_credit.html.twig")
     */
@@ -270,7 +270,7 @@ class ProfileController extends Controller {
     *   path = "/cp_profile_credit_payPal/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     */
     public function creditPayPalAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
@@ -298,7 +298,7 @@ class ProfileController extends Controller {
     *   path = "/cp_profile_upload/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     */
     public function uploadAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {

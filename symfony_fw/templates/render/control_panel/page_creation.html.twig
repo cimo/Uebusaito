@@ -2,50 +2,50 @@
 
 <fieldset>
     <legend>{% trans %}pageCreation_1{% endtrans %}</legend>
-    <p>{% trans %}pageCreation_1{% endtrans %}</p>
+    <p>{% trans %}pageCreation_2{% endtrans %}</p>
     <form id="form_cp_page_creation" action="{{path("cp_page_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        {{form_row(form.alias, {'label': "pageCreation_2", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
-        {{form_row(form.parent, {'label': "pageCreation_3", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.title, {'label': "pageCreation_4", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.controllerAction, {'label': "pageCreation_5", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.argument, {'label': "pageCreation_6", 'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.alias, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
+        {{form_row(form.parent, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.title, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.controllerAction, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.argument, {'dense': "", 'styleType': "outlinedTrailing"})}}
 
         {{-include("@templateRoot/include/wysiwyg.html.twig")-}}
 
         <div id="page_roleUserId" class="wordTag_container">
-            <div class="wordTag_result"></div>
-            {{response.values.userRoleSelectHtml|raw}}
             {{form_row(form.roleUserId)}}
+            {{response.values.userRoleSelectHtml|raw}}
+            <div class="wordTag_result"></div>
         </div>
 
-        {{form_row(form.protected, {'label': "pageCreation_8", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.showInMenu, {'label': "pageCreation_9", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.menuName, {'label': "pageCreation_11", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "menu"})}}
+        {{form_row(form.protected, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.showInMenu, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.menuName, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "menu"})}}
         
-        <div id="page_menuSort" class="sort_container">
-            <p>{% trans %}pageCreation_10{% endtrans %} <i class="material-icons">list</i></p>
+        <div id="page_rankMenuSort" class="sort_container">
+            <p>{% trans %}pageCreation_3{% endtrans %} <i class="material-icons">list</i></p>
             <div class="sort_result">
                 {{response.values.pageSortListHtml|raw}}
             </div>
             <div class="sort_control">
-                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>
+                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button">
                     <i class="material-icons mdc-button__icon button_up" aria-hidden="true">arrow_drop_up</i>
-                    {% trans %}pageCreation_15{% endtrans %}
+                    {% trans %}pageCreation_4{% endtrans %}
                 </button>
-                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>
+                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button">
                     <i class="material-icons mdc-button__icon button_down" aria-hidden="true">arrow_drop_down</i>
-                    {% trans %}pageCreation_16{% endtrans %}
+                    {% trans %}pageCreation_5{% endtrans %}
                 </button>
             </div>
-            {{form_row(form.menuSort)}}
+            {{form_row(form.rankMenuSort)}}
         </div>
         
-        {{form_row(form.comment, {'label': "pageCreation_12", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.onlyLink, {'label': "pageCreation_13", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.link, {'label': "pageCreation_14", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "link"})}}
+        {{form_row(form.comment, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.onlyLink, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.link, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "link"})}}
 
         {{form_widget(form._token)}}
 
-        {{form_widget(form.submit, {'label': "index_9", 'dense': "", 'raised': ""})}}
+        {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
     </form>
 </fieldset>

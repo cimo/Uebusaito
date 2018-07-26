@@ -1,11 +1,11 @@
 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-    {{-render(controller("App\\Controller\\ControlPanel\\PaymentController:userSelectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+    {{-render(controller("App\\Controller\\ControlPanel\\PaymentController::userSelectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
 {% endif %}
 
 <fieldset class="accordion_container">
     <legend>{% trans %}paymentSelection_1{% endtrans %}</legend>
     <p>{% trans %}paymentSelection_2{% endtrans %}</p>
-    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button" disabled>{% trans %}index_14{% endtrans %}</button>
+    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
     <div class="accordion">
         <div id="cp_payment_selection_desktop" class="display_desktop">
             <div id="cp_payment_selection_result_desktop">
@@ -55,18 +55,18 @@
                     </tbody>
                 </table>
             </div>
-            <button id="cp_payment_selection_button_desktop" class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>{% trans %}index_12{% endtrans %}</button>
+            <button id="cp_payment_selection_button_desktop" class="mdc-button mdc-button--dense mdc-button--raised" type="button">{% trans %}paymentSelection_10{% endtrans %}</button>
         </div>
 
         <div id="cp_payment_selection_mobile" class="display_mobile">
             {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
             
             <form id="form_cp_payment_selection_mobile" action="{{path("cp_payment_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-                {{form_row(form.id, {'label': "paymentSelection_10"})}}
+                {{form_row(form.id)}}
 
                 {{form_widget(form._token)}}
 
-                {{form_widget(form.submit, {'label': "index_12", 'dense': "", 'raised': ""})}}
+                {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
             </form>
         </div>
 

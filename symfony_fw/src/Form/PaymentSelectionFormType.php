@@ -28,6 +28,8 @@ class PaymentSelectionFormType extends AbstractType {
             'placeholder' => "paymentSelectionFormType_1",
             'choices' => $options['choicesId']
         ))
-        ->add("submit", SubmitType::class, Array());
+        ->add("submit", SubmitType::class, Array(
+            'label' => "paymentSelectionFormType_2"
+        ));
     }
 }

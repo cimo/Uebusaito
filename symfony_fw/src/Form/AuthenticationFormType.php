@@ -22,14 +22,19 @@ class AuthenticationFormType extends AbstractType {
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add("_username", TextType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "authenticationFomType_1"
         ))
         ->add("_password", PasswordType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "authenticationFomType_2"
         ))
         ->add("_remember_me", CheckboxType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "authenticationFomType_3"
         ))
-        ->add("submit", SubmitType::class, Array());
+        ->add("submit", SubmitType::class, Array(
+            'label' => "authenticationFomType_4"
+        ));
     }
 }

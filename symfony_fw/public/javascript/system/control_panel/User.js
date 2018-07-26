@@ -1,4 +1,4 @@
-/* global utility, ajax, popupEasy */
+/* global utility, ajax, popupEasy, widgetDatePicker, materialDesign */
 
 var controlPanelUser = new ControlPanelUser();
 
@@ -17,7 +17,7 @@ function ControlPanelUser() {
         
         selectionMobile();
         
-        utility.wordTag("#form_user_roleUserId");
+        utility.wordTag("#user_roleUserId", "#form_user_roleUserId");
         
         $("#form_cp_user_creation").on("submit", "", function(event) {
             event.preventDefault();
@@ -104,7 +104,7 @@ function ControlPanelUser() {
         
         $(document).on("click", "#cp_user_selection_result_desktop .delete_all", function() {
             popupEasy.create(
-                window.text.warning,
+                window.text.index_5,
                 window.textUser.label_2,
                 function() {
                     ajax.send(
@@ -126,6 +126,8 @@ function ControlPanelUser() {
                             });
                             
                             $("#cp_user_selection_result").html("");
+                            
+                            popupEasy.close();
                         },
                         null,
                         null
@@ -197,7 +199,13 @@ function ControlPanelUser() {
             
             $("#cp_user_selection_result").html(xhr.response.render);
 
-            utility.wordTag("#form_user_roleUserId");
+            utility.wordTag("#user_roleUserId", "#form_user_roleUserId");
+            
+            widgetDatePicker.setInputFill(".widget_datePicker_input");
+            widgetDatePicker.action();
+            
+            materialDesign.refresh();
+            materialDesign.fix();
 
             $("#form_cp_user_profile").on("submit", "", function(event) {
                 event.preventDefault();
@@ -213,8 +221,11 @@ function ControlPanelUser() {
                     function(xhr) {
                         ajax.reply(xhr, "#" + event.currentTarget.id);
                         
-                        if (xhr.response.messages.success !== undefined)
+                        if (xhr.response.messages.success !== undefined) {
                             $("#cp_user_selection_result").html("");
+                            
+                            $("#cp_user_selection_result_desktop .refresh").click();
+                        }
                     },
                     null,
                     null
@@ -229,7 +240,7 @@ function ControlPanelUser() {
     
     function deletion(id) {
         popupEasy.create(
-            window.text.warning,
+            window.text.index_5,
             window.textUser.label_1,
             function() {
                 ajax.send(
@@ -257,6 +268,10 @@ function ControlPanelUser() {
                             $("#form_user_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
 
                             $("#cp_user_selection_result").html("");
+                            
+                            $("#cp_user_selection_result_desktop .refresh").click();
+                            
+                            popupEasy.close();
                         }
                     },
                     null,

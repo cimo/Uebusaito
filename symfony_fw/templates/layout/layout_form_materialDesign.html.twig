@@ -175,7 +175,7 @@
 
 {%- block checkbox_widget -%}
     {# cimo + #}
-    <div class="mdc-form-field">
+    {#<div class="mdc-form-field">
         <div class="mdc-checkbox">
             <input class="mdc-checkbox__native-control" type="checkbox" id="_remember_me" name="_remember_me" value="1"/>
             <div class="mdc-checkbox__background">
@@ -186,6 +186,18 @@
             </div>
         </div>
         <label>Remember</label>
+    </div>#}
+    <div class="mdc-form-field">
+        <div class="mdc-checkbox">
+            <input class="mdc-checkbox__native-control" type="checkbox"/>
+            <div class="mdc-checkbox__background">
+                <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                    <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
+                </svg>
+                <div class="mdc-checkbox__mixedmark"></div>
+            </div>
+        </div>
+        <label>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
     </div>
     
     {# cimo - #}
@@ -196,7 +208,7 @@
     {# cimo + #}
     <div class="mdc-form-field">
         <div class="mdc-radio">
-            <input class="mdc-radio__native-control" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} autocomplete="off"/>
+            <input class="mdc-radio__native-control" type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
             <div class="mdc-radio__background">
                 <div class="mdc-radio__outer-circle"></div>
                 <div class="mdc-radio__inner-circle"></div>
@@ -346,7 +358,7 @@
         {%- endif -%}
     {%- endif -%}
     {# cimo + #}
-    <button class="mdc-button{% if dense is defined %} mdc-button--dense{% endif %}{% if raised is defined %} mdc-button--raised{% endif %}" type="{{ type|default('') }}" {{ block('button_attributes') }} disabled>
+    <button class="mdc-button{% if dense is defined %} mdc-button--dense{% endif %}{% if raised is defined %} mdc-button--raised{% endif %}" type="{{ type|default('') }}" {{ block('button_attributes') }}>
         {%- if icon is defined -%}
             <i class="material-icons mdc-button__icon" aria-hidden="true">{{icon}}</i>
         {%- endif -%}

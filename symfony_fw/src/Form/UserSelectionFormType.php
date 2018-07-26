@@ -5,6 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserSelectionFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -26,6 +27,9 @@ class UserSelectionFormType extends AbstractType {
             'required' => true,
             'placeholder' => "userSelectionFormType_1",
             'choices' => $options['choicesId']
+        ))
+        ->add("submit", SubmitType::class, Array(
+            'label' => "userSelectionFormType_2"
         ));
     }
 }

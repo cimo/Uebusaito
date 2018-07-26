@@ -993,7 +993,7 @@ p {
     }
 }
 
-#form_page_positionInMenu, #form_module_rankInColumn {
+#form_page_rankInMenu, #form_module_rankInColumn {
     width: 50%;
 }
 #page_menu_sort, #module_position_sort {
@@ -1063,9 +1063,6 @@ $footerHeight: 80px;
     color: #ffffff;
     opacity: 1;
 }
-:-ms-input-placeholder {
-    color: #ffffff;
-}
 ::-ms-input-placeholder {
     color: #ffffff;
 }
@@ -1116,7 +1113,7 @@ table {
 }
 
 .mdc-top-app-bar {
-    z-index: 1;
+    z-index: 2;
     
     .mdc-top-app-bar__row {
         -webkit-transition: all 0.4s ease-out;
@@ -1170,6 +1167,10 @@ table {
     .mdc-chip__icon--leading {
         opacity: 1 !important;
     }
+}
+
+.mdc-dialog {
+    z-index: 100;
 }
 
 .logo_main {
@@ -1230,7 +1231,7 @@ table {
     }
     
     .drag {
-        display: none;
+        cursor: move;
     }
     
     .title {
@@ -1342,11 +1343,15 @@ table {
     }
 }
 
-.cp_page_button {
+.cp_section_button {
     margin-bottom: 10px;
 }
 
-#panel_id_2 {
+#cp_module_drag_switch {
+    margin-bottom: 10px;
+}
+
+#panel_id_1 {
     .form_user_authentication {
         .submit_container {
             button {

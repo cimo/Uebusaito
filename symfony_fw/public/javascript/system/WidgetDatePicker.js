@@ -139,7 +139,108 @@ function WidgetDatePicker() {
             mdc.ripple.MDCRipple.attachTo(value);
         });
         
-        action();
+        self.action();
+    };
+    
+    self.action = function() {
+        $(inputFillTag).off("click").on("click", "", function() {
+            $(".widget_datePicker_back").show();
+            $(".widget_datePicker").show();
+        });
+        
+        $(".widget_datePicker").find(".header p").off("click").on("click", "", function() {
+            $(".widget_datePicker").find(".calendar").hide();
+            $(".widget_datePicker").find(".listYears").show();
+            
+            var container = $(".widget_datePicker").find(".listYears");
+            var target = $(".widget_datePicker").find(".listYears .mdc-list-item--activated");
+            
+            container.animate({
+                scrollTop: target.offset().top - container.offset().top + container.scrollTop()
+            }, "slow");
+        });
+        
+        $(".widget_datePicker").find(".listYears li").off("click").on("click", "", function() {
+            currentYear = parseInt($(this).text().trim());
+            
+            self.create();
+        });
+        
+        $(".widget_datePicker").find(".calendar .month .material-icons").not(".mdc-fab").off("click").on("click", "", function() {
+            if ($(this).parent().prop("class") === "left")
+                currentMonth -= 1;
+            else
+                currentMonth += 1;
+
+            if (currentMonth === -1) {
+                currentYear -= 1;
+                currentMonth = 11;
+            }
+            else if (currentMonth === monthLabels[language].length) {
+                currentYear += 1;
+
+                currentMonth = 0;
+            }
+            
+            if (currentYear < yearMin) {
+                currentYear = yearMin;
+                currentMonth = 0;
+            }
+            else if (currentYear > yearMax) {
+                currentYear = yearMax;
+                currentMonth = 11;
+            }
+            
+            self.create();
+        });
+        
+        $(".widget_datePicker").find(".day li span").off("mouseover").on("mouseover", "", function() {
+            if ($(this).text().trim() !== "")
+                $(this).addClass("mdc-theme--secondary-bg mdc-theme--on-secondary");
+        });
+        
+        $(".widget_datePicker").find(".day li span").off("mouseout").on("mouseout", "", function() {
+            if ($(this).text().trim() !== "")
+                $(this).removeClass("mdc-theme--secondary-bg mdc-theme--on-secondary");
+        });
+        
+        $(".widget_datePicker").find(".day li span").off("click").on("click", "", function() {
+            var text = $(this).text().trim();
+            
+            if (text !== "") {
+                $(this).parents(".day").find("li span").removeClass("mdc-theme--primary-bg mdc-theme--on-primary");
+                $(this).addClass("mdc-theme--primary-bg mdc-theme--on-primary");
+                
+                currentDay = parseInt(text);
+                
+                var html = createHeaderHtml(false);
+                
+                $(".widget_datePicker").find(".header .text").html(html);
+            }
+        });
+        
+        $(".widget_datePicker").find(".button .button_today").off("click").on("click", "", function() {
+            currentYear = -1;
+            currentMonth = -1;
+            currentDay = -1;
+            
+            self.create();
+        });
+        
+        $(".widget_datePicker").find(".button .button_clear").off("click").on("click", "", function() {
+            fillInput(false);
+        });
+        
+        $(".widget_datePicker").find(".button .button_confirm").off("click").on("click", "", function() {
+            fillInput(true);
+        });
+        
+        $(".widget_datePicker").find(".header > .mdc-fab").off("click").on("click", "", function() {
+            $(inputFillTag).focus();
+
+            $(".widget_datePicker_back").hide();
+            $(".widget_datePicker").hide();
+        });
     };
 
     // Functions private
@@ -274,111 +375,10 @@ function WidgetDatePicker() {
     
     function createButtonHtml() {
         return html = "<div class=\"button\">\n\
-            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_today\" type=\"button\">" + window.widgetDatePickerText.today + "</button>\n\
-            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_clear\" type=\"button\">" + window.widgetDatePickerText.clear + "</button>\n\
-            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_confirm\" type=\"button\">" + window.widgetDatePickerText.confirm + "</button>\n\
+            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_today\" type=\"button\">" + window.textWidgetDatePicker.label_1 + "</button>\n\
+            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_clear\" type=\"button\">" + window.textWidgetDatePicker.label_2 + "</button>\n\
+            <button class=\"mdc-button mdc-button--dense mdc-button--raised button_confirm\" type=\"button\">" + window.textWidgetDatePicker.label_3 + "</button>\n\
         </div>";
-    }
-    
-    function action() {
-        $(inputFillTag).off("click").on("click", "", function() {
-            $(".widget_datePicker_back").show();
-            $(".widget_datePicker").show();
-        });
-        
-        $(".widget_datePicker").find(".header p").off("click").on("click", "", function() {
-            $(".widget_datePicker").find(".calendar").hide();
-            $(".widget_datePicker").find(".listYears").show();
-            
-            var container = $(".widget_datePicker").find(".listYears");
-            var target = $(".widget_datePicker").find(".listYears .mdc-list-item--activated");
-            
-            container.animate({
-                scrollTop: target.offset().top - container.offset().top + container.scrollTop()
-            }, "slow");
-        });
-        
-        $(".widget_datePicker").find(".listYears li").off("click").on("click", "", function() {
-            currentYear = parseInt($(this).text().trim());
-            
-            self.create();
-        });
-        
-        $(".widget_datePicker").find(".calendar .month .material-icons").not(".mdc-fab").off("click").on("click", "", function() {
-            if ($(this).parent().prop("class") === "left")
-                currentMonth -= 1;
-            else
-                currentMonth += 1;
-
-            if (currentMonth === -1) {
-                currentYear -= 1;
-                currentMonth = 11;
-            }
-            else if (currentMonth === monthLabels[language].length) {
-                currentYear += 1;
-
-                currentMonth = 0;
-            }
-            
-            if (currentYear < yearMin) {
-                currentYear = yearMin;
-                currentMonth = 0;
-            }
-            else if (currentYear > yearMax) {
-                currentYear = yearMax;
-                currentMonth = 11;
-            }
-            
-            self.create();
-        });
-        
-        $(".widget_datePicker").find(".day li span").off("mouseover").on("mouseover", "", function() {
-            if ($(this).text().trim() !== "")
-                $(this).addClass("mdc-theme--secondary-bg mdc-theme--on-secondary");
-        });
-        
-        $(".widget_datePicker").find(".day li span").off("mouseout").on("mouseout", "", function() {
-            if ($(this).text().trim() !== "")
-                $(this).removeClass("mdc-theme--secondary-bg mdc-theme--on-secondary");
-        });
-        
-        $(".widget_datePicker").find(".day li span").off("click").on("click", "", function() {
-            var text = $(this).text().trim();
-            
-            if (text !== "") {
-                $(this).parents(".day").find("li span").removeClass("mdc-theme--primary-bg mdc-theme--on-primary");
-                $(this).addClass("mdc-theme--primary-bg mdc-theme--on-primary");
-                
-                currentDay = parseInt(text);
-                
-                var html = createHeaderHtml(false);
-                
-                $(".widget_datePicker").find(".header .text").html(html);
-            }
-        });
-        
-        $(".widget_datePicker").find(".button .button_today").off("click").on("click", "", function() {
-            currentYear = -1;
-            currentMonth = -1;
-            currentDay = -1;
-            
-            self.create();
-        });
-        
-        $(".widget_datePicker").find(".button .button_clear").off("click").on("click", "", function() {
-            fillInput(false);
-        });
-        
-        $(".widget_datePicker").find(".button .button_confirm").off("click").on("click", "", function() {
-            fillInput(true);
-        });
-        
-        $(".widget_datePicker").find(".header > .mdc-fab").off("click").on("click", "", function() {
-            $(inputFillTag).focus();
-
-            $(".widget_datePicker_back").hide();
-            $(".widget_datePicker").hide();
-        });
     }
     
     function fillInput(type) {

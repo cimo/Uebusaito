@@ -1,123 +1,112 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
-<div>
-    <h3 class="form_title">{% trans %}setting_1{% endtrans %}</h3>
-    <form id="form_cp_setting_save" action="{{path("cp_setting_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        <fieldset class="accordion_container">
-            <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}setting_2{% endtrans %}</legend>
-            <div class="content">
-                {{form_row(form.template, {'label': "setting_3"})}}
+<form id="form_cp_setting_save" action="{{path("cp_setting_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+    <fieldset class="accordion_container">
+        <legend>{% trans %}setting_1{% endtrans %}</legend>
+        <p>{% trans %}setting_2{% endtrans %}</p>
+        <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>    
+        <div class="accordion">
+            {{form_row(form.template)}}
 
-                <div class="form-group">
-                    {{form_label(form.templateColumn, "setting_4")}}
-                    <div class="input-group">
-                        {{form_errors(form.templateColumn)}}
-                        {% for key, value in form.templateColumn %}
-                            <div class="display_inline_block">
-                                {{form_widget(value)}}
-                                <img class="display_inline_block margin_right" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/template_column_" ~ key ~ ".png")}}"/>
-                            </div>
-                        {% endfor %}
+            <div class="form_row" style="margin-bottom: 10px;">
+                <p style="margin: 0;">{% trans %}setting_3{% endtrans %}</p>
+                {% for key, value in form.templateColumn %}
+                    <div style="display: inline-block;">
+                        {{form_widget(value)}}
+                        <img style="display: block; margin-left: 10px;" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/template_column_" ~ key ~ ".png")}}"/>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    {{form_label(form.language, "setting_5")}}
-                    <div class="input-group">
-                        <div class="display_inline_block">
-                            {{form_errors(form.language)}}
-                            {{form_widget(form.language)}}
+                {% endfor %}
+                {{form_errors(form.templateColumn)}}
+            </div>
+            
+            <div>
+                {{form_row(form.language)}}
+                <i id="setting_language_manage_modify" class="material-icons">create</i>
+                <i id="setting_language_manage_add" class="material-icons">add</i>
+                <i id="setting_language_manage_remove" class="material-icons">remove</i>
+            </div>
+            
+            <div id="setting_language_manage_container" style="display: none;">
+                <p style="margin: 0;">{% trans %}setting_4{% endtrans %}</p>
+                <div class="form_row">
+                    <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense">
+                        <input id="form_setting_languageManage" class="mdc-text-field__input" type="text" name="form_setting[languageManage]" value="" autocomplete="off"/>
+                        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">face</i>
+                        <label class="mdc-floating-label"></label>
+                        <div class="mdc-notched-outline">
+                            <svg>
+                                <path class="mdc-notched-outline__path"/>
+                            </svg>
                         </div>
-                        <i id="setting_language_manage_modify" class="fa fa-pencil-square fa-2x button_icon_inline"></i>
-                        <i id="setting_language_manage_plus" class="fa fa-plus-circle fa-2x button_icon_inline"></i>
-                        <i id="setting_language_manage_minus" class="fa fa-minus-circle fa-2x button_icon_inline display_none"></i>
+                        <div class="mdc-notched-outline__idle"></div>
                     </div>
+                    <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
                 </div>
-
-                <div id="setting_language_manage_container" class="form-group display_none">
-                    <label class="control-label" for="form_setting_languageManage">{% trans %}setting_6{% endtrans %}</label>
-                    <div class="input-group">
-                        <input id="form_setting_languageManage" class="form-control" name="form_setting[languageManage]" value="" placeholder="en"/>
-                        <input id="form_setting_languageManageDate" class="form-control" name="form_setting[languageManageDate]" value="" placeholder="Y-m-d"/>
-                        <i id="setting_language_manage_confirm" class="fa fa-check-circle-o fa-2x button_icon_inline"></i>
-                        <i id="setting_language_manage_erase" class="fa fa-times-circle-o fa-2x button_icon_inline"></i>
+                <div class="form_row">
+                    <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense">
+                        <input id="form_setting_languageManageDate" class="mdc-text-field__input" type="text" name="form_setting[languageManageDate]" value="" autocomplete="off"/>
+                        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">face</i>
+                        <label class="mdc-floating-label"></label>
+                        <div class="mdc-notched-outline">
+                            <svg>
+                                <path class="mdc-notched-outline__path"/>
+                            </svg>
+                        </div>
+                        <div class="mdc-notched-outline__idle"></div>
                     </div>
+                    <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
                 </div>
-
-                {{form_row(form.pageDate, {'label': "setting_23"})}}
-                {{form_row(form.pageComment, {'label': "setting_24"})}}
-                {{form_row(form.pageCommentActive, {'label': "setting_25"})}}
+                <i id="setting_language_manage_confirm" class="material-icons">check_circle</i>
+                <i id="setting_language_manage_erase" class="material-icons">delete</i>
             </div>
-        </fieldset>
-        <fieldset class="accordion_container">
-            <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}setting_7{% endtrans %}</legend>
-            <div class="content">
-                {{form_row(form.emailAdmin, {'label': "setting_8"})}}
-                {{form_row(form.websiteActive, {'label': "setting_9"})}}
 
-                <div id="setting_roleUserId_wordTag_container" class="form-group">
-                    {{form_label(form.roleUserId, "setting_10")}}
-                    {{form_errors(form.roleUserId)}}
-                    {{form_widget(form.roleUserId)}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                        {{response.values.userRoleSelectHtml|raw}}
-                    </div>
-                </div>
-
-                {{form_row(form.https, {'label': "setting_11"})}}
-                {{form_row(form.registrationUserConfirmAdmin, {'label': "setting_12"})}}
-                {{form_row(form.loginAttemptTime, {'label': "setting_13"})}}
-                {{form_row(form.loginAttemptCount, {'label': "setting_14"})}}
-                {{form_row(form.captcha, {'label': "setting_15"})}}
+            {{form_row(form.pageDate)}}
+            {{form_row(form.pageComment)}}
+            {{form_row(form.pageCommentActive)}}
+        </div>
+    </fieldset>
+    <fieldset class="accordion_container">
+        <legend>{% trans %}setting_5{% endtrans %}</legend>
+        <p>{% trans %}setting_6{% endtrans %}</p>
+        <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
+        <div class="accordion">
+            {{form_row(form.emailAdmin, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.websiteActive)}}
+            
+            <div id="setting_roleUserId" class="wordTag_container">
+                {{form_row(form.roleUserId)}}
+                {{response.values.userRoleSelectHtml|raw}}
+                <div class="wordTag_result"></div>
             </div>
-        </fieldset>
-        <fieldset class="accordion_container">
-            <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}setting_16{% endtrans %}</legend>
-            <div class="content">
-                <div class="form-group">
-                    {{form_label(form.payPalSandbox, "setting_17")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                        {{form_errors(form.payPalSandbox)}}
-                        {{form_widget(form.payPalSandbox)}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{form_label(form.payPalBusiness, "setting_18")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                        {{form_errors(form.payPalBusiness)}}
-                        {{form_widget(form.payPalBusiness)}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{form_label(form.payPalCurrencyCode, "setting_19")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                        {{form_errors(form.payPalCurrencyCode)}}
-                        {{form_widget(form.payPalCurrencyCode)}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{form_label(form.payPalCreditAmount, "setting_20")}}
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-paypal"></i></span>
-                        {{form_errors(form.payPalCreditAmount)}}
-                        {{form_widget(form.payPalCreditAmount)}}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset class="accordion_container">
-            <legend class="title"><i class="fa fa-chevron-circle-down icon"></i> {% trans %}setting_21{% endtrans %}</legend>
-            <div class="content">
-                {{form_row(form.credit, {'label': "setting_22"})}}
-            </div>
-        </fieldset>
 
-        {{form_widget(form._token)}}
+            {{form_row(form.https)}}
+            {{form_row(form.registrationUserConfirmAdmin)}}
+            {{form_row(form.loginAttemptTime, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.loginAttemptCount, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.captcha)}}
+        </div>
+    </fieldset>
+    <fieldset class="accordion_container">
+        <legend>{% trans %}setting_7{% endtrans %}</legend>
+        <p>{% trans %}setting_8{% endtrans %}</p>
+        <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
+        <div class="accordion">
+            {{form_row(form.payPalSandbox)}}
+            {{form_row(form.payPalBusiness, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.payPalCurrencyCode, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.payPalCreditAmount, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        </div>
+    </fieldset>
+    <fieldset class="accordion_container">
+        <legend>{% trans %}setting_9{% endtrans %}</legend>
+        <p>{% trans %}setting_10{% endtrans %}</p>
+        <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
+        <div class="accordion">
+            {{form_row(form.credit, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        </div>
+    </fieldset>
+    
+    {{form_widget(form._token)}}
 
-        <input class="button_custom" type="submit" value="{% trans %}index_11{% endtrans %}"/>
-    </form>
-</div>
+    {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
+</form>

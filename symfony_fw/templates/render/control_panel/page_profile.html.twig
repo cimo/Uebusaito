@@ -6,60 +6,60 @@
     {{-render(controller("App\\Controller\\LanguageController::pageAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
 
     <div>
-        <p><i class="fa fa-paw"></i> <b>{% trans %}pageProfile_16{% endtrans %}</b>{{response.values.userCreation}}</p>
-        <p><i class="fa fa-calendar"></i> <b>{% trans %}pageProfile_17{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
-        <p><i class="fa fa-paw"></i> <b>{% trans %}pageProfile_18{% endtrans %}</b>{{response.values.userModification}}</p>
-        <p><i class="fa fa-calendar"></i> <b>{% trans %}pageProfile_19{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
+        <p><i class="fa fa-paw"></i> <b>{% trans %}pageProfile_2{% endtrans %}</b>{{response.values.userCreation}}</p>
+        <p><i class="fa fa-calendar"></i> <b>{% trans %}pageProfile_3{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
+        <p><i class="fa fa-paw"></i> <b>{% trans %}pageProfile_4{% endtrans %}</b>{{response.values.userModification}}</p>
+        <p><i class="fa fa-calendar"></i> <b>{% trans %}pageProfile_5{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
     </div>
 
     <form id="form_cp_page_profile" action="{{path("cp_page_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        {{form_row(form.language, {'label': "pageProfile_2"})}}
-        {{form_row(form.alias, {'label': "pageProfile_3", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
-        {{form_row(form.parent, {'label': "pageProfile_4", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.title, {'label': "pageProfile_5", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.controllerAction, {'label': "pageProfile_6", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.argument, {'label': "pageProfile_7", 'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.language)}}
+        {{form_row(form.alias, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
+        {{form_row(form.parent, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.title, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.controllerAction, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.argument, {'dense': "", 'styleType': "outlinedTrailing"})}}
         
         {{-include("@templateRoot/include/wysiwyg.html.twig")-}}
         
         <div id="page_roleUserId" class="wordTag_container">
-            <div class="wordTag_result"></div>
-            {{response.values.userRoleSelectHtml|raw}}
             {{form_row(form.roleUserId)}}
+            {{response.values.userRoleSelectHtml|raw}}
+            <div class="wordTag_result"></div>
         </div>
         
-        {{form_row(form.protected, {'label': "pageProfile_9", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.showInMenu, {'label': "pageProfile_10", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.menuName, {'label': "pageProfile_12", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "menu"})}}
+        {{form_row(form.protected, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.showInMenu, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.menuName, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "menu"})}}
         
-        <div id="page_menuSort" class="sort_container">
-            <p>{% trans %}pageProfile_11{% endtrans %} <i class="material-icons">list</i></p>
+        <div id="page_rankMenuSort" class="sort_container">
+            <p>{% trans %}pageProfile_6{% endtrans %} <i class="material-icons">list</i></p>
             <div class="sort_result">
                 {{response.values.pageSortListHtml|raw}}
             </div>
             <div class="sort_control">
-                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>
+                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button">
                     <i class="material-icons mdc-button__icon button_up" aria-hidden="true">arrow_drop_up</i>
-                    {% trans %}pageProfile_20{% endtrans %}
+                    {% trans %}pageProfile_7{% endtrans %}
                 </button>
-                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>
+                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button">
                     <i class="material-icons mdc-button__icon button_down" aria-hidden="true">arrow_drop_down</i>
-                    {% trans %}pageProfile_21{% endtrans %}
+                    {% trans %}pageProfile_8{% endtrans %}
                 </button>
             </div>
-            {{form_row(form.menuSort)}}
+            {{form_row(form.rankMenuSort)}}
         </div>
         
-        {{form_row(form.comment, {'label': "pageProfile_13", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.onlyLink, {'label': "pageProfile_14", 'dense': "", 'styleType': "outlinedTrailing"})}}
-        {{form_row(form.link, {'label': "pageProfile_15", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "link"})}}
+        {{form_row(form.comment, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.onlyLink, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.link, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "link"})}}
 
         {{form_widget(form._token)}}
 
-        {{form_widget(form.submit, {'label': "index_11", 'dense': "", 'raised': ""})}}
+        {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
     </form>
 
-    {% if is_granted("ROLE_ADMIN") == true and response.values.id > 5 %}
+    {% if is_granted("ROLE_ADMIN") == true and response.values.idPage > 5 %}
         {{-include("@templateRoot/render/control_panel/page_deletion.html.twig")-}}
     {% endif %}
 </div>

@@ -44,14 +44,8 @@
                 </span>
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-                {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
-                    {% for value in response.modules.header %}
-                        {% if value.active == true %}
-                            {{-render(controller("App\\Controller\\" ~ value.controller_name, {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-                <a href="javascript:void(0)" class="material-icons mdc-top-app-bar__action-item" aria-label="Language" alt="Language">language</a>
+                {{-render(controller("App\\Controller\\SearchController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                {{-include("@templateRoot/render/module/language_text.html.twig")-}}
                 <a href="javascript:void(0)" class="material-icons mdc-top-app-bar__action-item" aria-label="Account" alt="Account">account_circle</a>
             </section>
         </div>
@@ -132,13 +126,6 @@
 {% endblock %}
 
 {% block footerContainer %}
-    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
-        {% for value in response.modules.footer %}
-            {% if value.active == true %}
-                {{-render(controller("App\\Controller\\" ~ value.controller_name, {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
     <footer class="mdc-theme--primary-bg mdc-theme--on-primary footer">
         <div class="icon">
             <div>
@@ -229,21 +216,7 @@
             'pageCommentRender': "{{path("page_comment_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'pageCommentResult': "{{path("page_comment_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"
         };
-
-        var text = {
-            'warning': "{{"index_5"|trans}}",
-            'ok': "{{"index_6"|trans}}",
-            'close': "{{"index_7"|trans}}",
-            'ajaxConnectionError': "{{"index_8"|trans}}",
-            'create': "{{"index_9"|trans}}",
-            'delete': "{{"index_10"|trans}}",
-            'update': "{{"index_11"|trans}}",
-            'send': "{{"index_12"|trans}}",
-            'modify': "{{"index_13"|trans}}",
-            'expand': "{{"index_14"|trans}}",
-            'collapse': "{{"index_15"|trans}}"
-        };
-
+        
         var setting = {
             'widthMobile': 839,
             'widthDesktop': 840,
@@ -251,11 +224,20 @@
             'language': "{{settingRow['language']}}",
             'websiteActive': "{{settingRow['website_active']}}"
         };
+
+        var text = {
+            'index_5': "{{"index_5"|trans}}",
+            'index_6': "{{"index_6"|trans}}",
+            'index_7': "{{"index_7"|trans}}",
+            'index_8': "{{"index_8"|trans}}",
+            'index_9': "{{"index_9"|trans}}",
+            'index_10': "{{"index_10"|trans}}"
+        };
         
-        var widgetDatePickerText = {
-            'today': "{{"widgetDatePicker_1"|trans}}",
-            'clear': "{{"widgetDatePicker_2"|trans}}",
-            'confirm': "{{"widgetDatePicker_3"|trans}}"
+        var textWidgetDatePicker = {
+            'label_1': "{{"widgetDatePicker_1"|trans}}",
+            'label_2': "{{"widgetDatePicker_2"|trans}}",
+            'label_3': "{{"widgetDatePicker_3"|trans}}"
         };
     </script>
     <script type="text/javascript" src="{{asset("javascript/library/jquery_3.3.1.min.js")}}"></script>

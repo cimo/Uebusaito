@@ -3,44 +3,35 @@ namespace App\Form\Model;
 
 class ModuleDragModel {
     // Vars
-    private $sortHeader;
-    private $sortLeft;
-    private $sortCenter;
-    private $sortRight;
+    private $positionLeft;
+    private $positionCenter;
+    private $positionRight;
     
     // Properties
-    public function setSortHeader($value) {
-        $this->sortHeader = $value;
+    public function setPositionLeft($value) {
+        $this->positionLeft = $value;
     }
     
-    public function setSortLeft($value) {
-        $this->sortLeft = $value;
+    public function setPositionCenter($value) {
+        $this->positionCenter = $value;
     }
     
-    public function setSortCenter($value) {
-        $this->sortCenter = $value;
-    }
-    
-    public function setSortRight($value) {
-        $this->sortRight = $value;
+    public function setPositionRight($value) {
+        $this->positionRight = $value;
     }
     
     // ---
     
-    public function getSortHeader() {
-        return $this->sortHeader;
+    public function getPositionLeft() {
+        return $this->positionLeft;
     }
     
-    public function getSortLeft() {
-        return $this->sortLeft;
+    public function getPositionCenter() {
+        return $this->positionCenter;
     }
     
-    public function getSortCenter() {
-        return $this->sortCenter;
-    }
-    
-    public function getSortRight() {
-        return $this->sortRight;
+    public function getPositionRight() {
+        return $this->positionRight;
     }
     
     // Functions public

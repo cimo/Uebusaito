@@ -18,7 +18,7 @@ class EmptyController extends Controller {
     *   path = "/empty_module/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/module/empty.html.twig")
     */

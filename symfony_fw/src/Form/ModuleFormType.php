@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ModuleFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -17,8 +18,7 @@ class ModuleFormType extends AbstractType {
         $resolver->setDefaults(Array(
             'data_class' => "App\Entity\Module",
             'csrf_protection' => true,
-            'validation_groups' => null,
-            'choicesRankInColumn' => null
+            'validation_groups' => null
         ));
     }
     
@@ -28,36 +28,36 @@ class ModuleFormType extends AbstractType {
             'placeholder' => "moduleFormType_1",
             'data' => $options['data']->getPosition(),
             'choices' => Array(
-                "moduleFormType_2" => 'header',
-                "moduleFormType_3" => 'left',
-                "moduleFormType_4" => 'center',
-                "moduleFormType_5" => 'right'
+                "moduleFormType_2" => 'left',
+                "moduleFormType_3" => 'center',
+                "moduleFormType_4" => 'right'
             )
         ))
-        ->add("rankInColumn", ChoiceType::class, Array(
-            'required' => true,
-            'placeholder' => "moduleFormType_6",
-            'data' => $options['data']->getId(),
-            'choices' => $options['choicesRankInColumn']
-        ))
-        ->add("sort", HiddenType::class, Array(
+        ->add("rankColumnSort", HiddenType::class, Array(
             'required' => true
         ))
         ->add("name", TextType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "moduleFormType_5"
         ))
         ->add("label", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "moduleFormType_6"
         ))
         ->add("controllerName", TextType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "moduleFormType_7"
         ))
         ->add("active", ChoiceType::class, Array(
             'required' => true,
+            'placeholder' => "moduleFormType_8",
             'choices' => Array(
-                "moduleFormType_7" => "0",
-                "moduleFormType_8" => "1"
+                "moduleFormType_9" => "0",
+                "moduleFormType_10" => "1"
             )
+        ))
+        ->add("submit", SubmitType::class, Array(
+            'label' => "moduleFormType_11"
         ));
     }
 }

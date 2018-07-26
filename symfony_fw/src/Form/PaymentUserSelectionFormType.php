@@ -24,11 +24,12 @@ class PaymentUserSelectionFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add("userId", ChoiceType::class, Array(
             'required' => true,
+            'placeholder' => "paymentUserSelectionFormType_1",
             'choices' => $options['choicesId'],
-            'preferred_choices' => Array(
-                $_SESSION['paymentUserId']
-            )
+            'data' => $_SESSION['paymentUserId']
         ))
-        ->add("submit", SubmitType::class, Array());
+        ->add("submit", SubmitType::class, Array(
+            'label' => "paymentUserSelectionFormType_2"
+        ));
     }
 }

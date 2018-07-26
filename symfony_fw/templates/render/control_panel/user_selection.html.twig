@@ -1,62 +1,51 @@
-<h3 class="form_title">{% trans %}userSelection_1{% endtrans %}</h3>
-
-<div id="cp_user_selection_desktop" class="display_desktop">
-    <div id="cp_user_selection_result_desktop">
-        {{-include("@templateRoot/include/table_and_pagination.html.twig")-}}
-
-        <div class="overflow_y_hidden margin_bottom">
-            <table class="table table-bordered table-striped">
-                <thead class="table_thead">
+<fieldset>
+    <legend>{% trans %}userSelection_1{% endtrans %}</legend>
+    <p>{% trans %}userSelection_2{% endtrans %}</p>
+    <div id="cp_user_selection_desktop" class="display_desktop">
+        <div id="cp_user_selection_result_desktop">
+            {{-include("@templateRoot/include/table_and_pagination.html.twig")-}}
+            <table>
+                <thead>
                     <tr>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_2{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                        <th>
+                            <span>{% trans %}userSelection_3{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
                         </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_3{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                        <th>
+                            <span>{% trans %}userSelection_4{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
                         </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_4{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                        <th>
+                            <span>{% trans %}userSelection_5{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
                         </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_5{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                        <th>
+                            <span>{% trans %}userSelection_6{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
                         </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_6{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                        <th>
+                            <span>{% trans %}userSelection_7{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
                         </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_7{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                        <th>
+                            <span>{% trans %}userSelection_8{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
                         </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_8{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                        <th>
+                            <span>{% trans %}userSelection_9{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
                         </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_9{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_10{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
-                        </th>
-                        <th class="cursor_pointer">
-                            {% trans %}userSelection_11{% endtrans %}
-                            <i class="fa fa-caret-down"></i>
-                            <i class="fa fa-caret-up"></i>
+                        <th>
+                            <span>{% trans %}userSelection_10{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
                         </th>
                     </tr>
                 </thead>
@@ -65,22 +54,20 @@
                 </tbody>
             </table>
         </div>
+        <button id="cp_user_selection_button_desktop" class="mdc-button mdc-button--dense mdc-button--raised" type="button">{% trans %}userSelection_11{% endtrans %}</button>
     </div>
-    <button id="cp_user_selection_button_desktop" class="button_custom" type="button">{% trans %}index_12{% endtrans %}</button>
-</div>
 
-<div id="cp_user_selection_mobile" class="display_mobile">
-    {% form_theme form "bootstrap_3_layout.html.twig" %}
-
-    <div>
+    <div id="cp_user_selection_mobile" class="display_mobile">
+        {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
+        
         <form id="form_cp_user_selection_mobile" action="{{path("cp_user_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            {{form_row(form.id, {'label': "userSelection_12"})}}
+            {{form_row(form.id)}}
 
             {{form_widget(form._token)}}
 
-            <input class="button_custom" type="submit" value="{% trans %}index_12{% endtrans %}"/>
+            {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
         </form>
     </div>
-</div>
-            
-<div id="cp_user_selection_result"></div>
+    
+    <div id="cp_user_selection_result"></div>
+</fieldset>

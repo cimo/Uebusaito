@@ -42,7 +42,7 @@ class PageController extends Controller {
     *   path = "/cp_page_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/page_creation.html.twig")
     */
@@ -80,8 +80,10 @@ class PageController extends Controller {
         ));
         $form->handleRequest($request);
         
+        $pageParentRows = array_column($this->query->selectAllPageParentDatabase($form->get("parent")->getData()), "alias", "id");
+        
         $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", true);
-        $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml();
+        $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($pageParentRows);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -94,7 +96,7 @@ class PageController extends Controller {
                 $pageDatabase = $this->pageDatabase("insert", null, $this->urlLocale, $form);
 
                 if ($pageDatabase == true) {
-                    $this->updatePositionInMenuDatabase($form->get("menuSort")->getData(), $pageEntity->getId());
+                    $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_1");
                 }
@@ -127,7 +129,7 @@ class PageController extends Controller {
     *   path = "/cp_page_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/page_selection.html.twig")
     */
@@ -163,7 +165,7 @@ class PageController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
         
         $form = $this->createForm(PageSelectionFormType::class, null, Array(
             'validation_groups' => Array('page_selection'),
@@ -197,7 +199,7 @@ class PageController extends Controller {
     *   path = "/cp_page_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/page_profile.html.twig")
     */
@@ -237,7 +239,7 @@ class PageController extends Controller {
                     $_SESSION['pageProfileId'] = $id;
 
                     $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
-
+                    
                     $form = $this->createForm(PageFormType::class, $pageEntity, Array(
                         'validation_groups' => Array('page_profile'),
                         'urlLocale' => $this->urlLocale,
@@ -246,9 +248,11 @@ class PageController extends Controller {
                     ));
                     $form->handleRequest($request);
 
+                    $pageParentRows = array_column($this->query->selectAllPageParentDatabase($form->get("parent")->getData()), "alias", "id");
+                    
                     $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", true);
-                    $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml();
-                    $this->response['values']['id'] = $_SESSION['pageProfileId'];
+                    $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($pageParentRows);
+                    $this->response['values']['idPage'] = $_SESSION['pageProfileId'];
                     $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
                     $this->response['values']['dateCreation'] = $this->utility->dateFormat($pageEntity->getDateCreation());
                     $this->response['values']['userModification'] = $pageEntity->getUserModification();
@@ -281,7 +285,7 @@ class PageController extends Controller {
     *   path = "/cp_page_profile_sort/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/page_profile.html.twig")
     */
@@ -309,6 +313,12 @@ class PageController extends Controller {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 $rows = array_column($this->query->selectAllPageParentDatabase($request->get("id")), "alias", "id");
                 
+                if ($_SESSION['pageProfileId'] > 0) {
+                    $pageEntity = $this->entityManager->getRepository("App\Entity\Page")->find($_SESSION['pageProfileId']);
+                    
+                    $rows[$pageEntity->getId()] = $pageEntity->getAlias();
+                }
+                
                 $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($rows);
             } 
         }
@@ -327,7 +337,7 @@ class PageController extends Controller {
     *   path = "/cp_page_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/page_profile.html.twig")
     */
@@ -375,7 +385,7 @@ class PageController extends Controller {
                 $pageDatabase = $this->pageDatabase("update", $pageEntity->getId(), null, $form);
 
                 if ($pageDatabase == true) {
-                    $this->updatePositionInMenuDatabase($form->get("menuSort")->getData(), $pageEntity->getId());
+                    $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
 
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_4");
                 }
@@ -408,7 +418,7 @@ class PageController extends Controller {
     *   path = "/cp_page_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/page_deletion.html.twig")
     */
@@ -449,18 +459,20 @@ class PageController extends Controller {
                         }
                     }
                     else {
-                        // Popup
-                        $this->response['values']['id'] = $id;
-                        $this->response['values']['text'] = "<p class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
-                        $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"margin_bottom\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
-                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_deletion_parent_new");
+                        $pageEntity = $this->entityManager->getRepository("App\Entity\Page")->find($id);
+                        
+                        $this->response['values']['idPage'] = $id;
+                        $this->response['values']['idParent'] = $pageEntity->getParent();
+                        $this->response['values']['text'] = "<p>" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
+                        $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"mdc-button mdc-button--dense mdc-button--raised mdc-theme--secondary-bg\" type=\"button\" style=\"display: block;\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
+                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_deletion_parent_new", $this->utility->getTranslator()->trans("pageController_9"));
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
                     $pageDatabase = $this->pageDatabase("deleteAll", null, null, null);
 
                     if ($pageDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
                 }
                 else if ($request->get("event") == "parentAll") {
                     $id = $request->get("id") == null ? $_SESSION['pageProfileId'] : $request->get("id");
@@ -476,7 +488,7 @@ class PageController extends Controller {
                     if ($pageDatabase == true) {
                         $this->response['values']['removedId'] = $this->removedId;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_9");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
                     }
                 }
                 else if ($request->get("event") == "parentNew") {
@@ -489,11 +501,11 @@ class PageController extends Controller {
                     if ($pageDatabase == true) {
                         $this->response['values']['id'] = $id;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_11");
                     }
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_11");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_12");
 
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
@@ -541,21 +553,21 @@ class PageController extends Controller {
                 </td>
                 <td>";
                     if ($value['protected'] == 0)
-                        $this->listHtml .= $this->utility->getTranslator()->trans("pageController_12");
-                    else
                         $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
+                    else
+                        $this->listHtml .= $this->utility->getTranslator()->trans("pageController_14");
                 $this->listHtml .= "</td>
                     <td>";
                         if ($value['show_in_menu'] == 0)
-                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_12");
-                        else
                             $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
+                        else
+                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_14");
                 $this->listHtml .= "</td>
                     <td>";
                         if ($value['only_link'] == 0)
-                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_12");
-                        else
                             $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
+                        else
+                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_14");
                 $this->listHtml .= "</td>
                 <td>";
                     if ($value['id'] > 5)
@@ -593,19 +605,19 @@ class PageController extends Controller {
         $query->execute();
     }
     
-    private function updatePositionInMenuDatabase($menuSort, $pageId) {
-        $menuSortExplode = explode(",", $menuSort);
-        array_pop($menuSortExplode);
+    private function updateRankInMenuDatabase($rankMenuSort, $pageId) {
+        $rankMenuSortExplode = explode(",", $rankMenuSort);
+        array_pop($rankMenuSortExplode);
         
-        foreach ($menuSortExplode as $key => $value) {
+        foreach ($rankMenuSortExplode as $key => $value) {
             if ($value == "")
                 $value = $pageId;
 
             $query = $this->utility->getConnection()->prepare("UPDATE pages
-                                                                SET position_in_menu = :positionInMenu
+                                                                SET rank_in_menu = :rankInMenu
                                                                 WHERE id = :id");
 
-            $query->bindValue(":positionInMenu", $key + 1);
+            $query->bindValue(":rankInMenu", $key + 1);
             $query->bindValue(":id", $value);
 
             $query->execute();

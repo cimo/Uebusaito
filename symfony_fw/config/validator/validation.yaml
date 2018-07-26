@@ -141,22 +141,17 @@ App\Form\Model\ModuleSelectionModel:
 
 App\Form\Model\ModuleDragModel:
     properties:
-        sortHeader:
+        positionLeft:
             - Regex:
                 groups: [module_drag]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
-        sortLeft:
+        positionCenter:
             - Regex:
                 groups: [module_drag]
                 htmlPattern: false
                 pattern: /^[0-9,]+$/
-        sortCenter:
-            - Regex:
-                groups: [module_drag]
-                htmlPattern: false
-                pattern: /^[0-9,]+$/
-        sortRight:
+        positionRight:
             - Regex:
                 groups: [module_drag]
                 htmlPattern: false
@@ -214,7 +209,7 @@ App\Entity\Page:
                 groups: [page_creation, page_profile]
                 htmlPattern: false
                 pattern: /^1|^0/
-        menuSort:
+        rankMenuSort:
             - NotBlank:
                 groups: [page_creation, page_profile]
             - Regex:
@@ -372,7 +367,7 @@ App\Entity\Module:
                 groups: [module_creation, module_profile]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
-        sort:
+        rankColumnSort:
             - NotBlank:
                 groups: [module_creation, module_profile]
             - Regex:
@@ -388,7 +383,7 @@ App\Entity\Module:
             - Regex:
                 groups: [module_creation, module_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z_.]+$/
+                pattern: /^[a-zA-Z::]+$/
         active:
             - NotBlank:
                 groups: [module_profile]

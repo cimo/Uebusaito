@@ -59,18 +59,18 @@
                 </tbody>
             </table>
         </div>
-        <button id="cp_page_selection_button_desktop" class="mdc-button mdc-button--dense mdc-button--raised" type="button" disabled>{% trans %}index_12{% endtrans %}</button>
+        <button id="cp_page_selection_button_desktop" class="mdc-button mdc-button--dense mdc-button--raised" type="button">{% trans %}pageSelection_12{% endtrans %}</button>
     </div>
 
     <div id="cp_page_selection_mobile" class="display_mobile">
         {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
         <form id="form_cp_page_selection_mobile" action="{{path("cp_page_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            {{form_row(form.id, {'label': "pageSelection_12"})}}
+            {{form_row(form.id)}}
 
             {{form_widget(form._token)}}
 
-            {{form_widget(form.submit, {'label': "index_12", 'dense': "", 'raised': ""})}}
+            {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
         </form>
     </div>
 

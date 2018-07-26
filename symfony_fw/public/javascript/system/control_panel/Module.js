@@ -1,4 +1,4 @@
-/* global utility, ajax, popupEasy */
+/* global utility, ajax, popupEasy, materialDesign */
 
 var controlPanelModule = new ControlPanelModule();
 
@@ -9,19 +9,17 @@ function ControlPanelModule() {
     var selectionSended = false;
     var selectionId = -1;
     
-    var positionSelected = -1;
-    
     // Properties
     
     // Functions public
     self.init = function() {
-        sortableDrag();
+        positionDrag();
         
         selectionDesktop();
         
         selectionMobile();
         
-        rankInColumn(true);
+        rankInColumn();
         
         $("#form_cp_module_creation").on("submit", "", function(event) {
             event.preventDefault();
@@ -44,15 +42,6 @@ function ControlPanelModule() {
     };
     
     self.changeView = function() {
-        //$("#module_drag_switch").bootstrapSwitch("state", false, true);
-        utility.sortableModuleDrag(false, "#form_module_drag_sort");
-        
-        if (positionSelected >= 0) {
-            $("#form_module_position").find("option").removeAttr("selected");
-            $("#form_module_position").find("option").eq(positionSelected).prop("selected", true);
-            $("#form_module_position").change();
-        }
-        
         if (utility.checkWidthType() === "mobile") {
             if (selectionSended === true) {
                 selectionId = $("#cp_module_selection_mobile").find("select option:selected").val();
@@ -81,18 +70,21 @@ function ControlPanelModule() {
             if (selectionId >= 0)
                 $("#cp_module_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
         }
+        
+        rankInColumn();
     };
     
     // Function private
-    function sortableDrag() {
-        //$("#module_drag_switch").bootstrapSwitch("state", false);
-        
-        /*$("#module_drag_switch").on("switchChange.bootstrapSwitch", "", function(event, state) {
-            utility.sortableModuleDrag(state, "#form_module_drag_sort");
+    function positionDrag() {
+        $("#cp_module_drag_switch .mdc-switch__native-control").on("click", "", function() {
+            if ($(this).is(":checked") === false) {
+                utility.sortableModule(false, "#form_module_drag_position");
             
-            if (state === false)
                 $("#form_cp_module_drag").submit();
-        });*/
+            }
+            else
+                utility.sortableModule(true, "#form_module_drag_position");
+        });
         
         $("#form_cp_module_drag").on("submit", "", function(event) {
             event.preventDefault();
@@ -147,7 +139,7 @@ function ControlPanelModule() {
         
         $(document).on("click", "#cp_module_selection_result_desktop .delete_all", function() {
             popupEasy.create(
-                window.text.warning,
+                window.text.index_5,
                 window.textModule.label_2,
                 function() {
                     ajax.send(
@@ -169,6 +161,8 @@ function ControlPanelModule() {
                             });
                             
                             $("#cp_module_selection_result").html("");
+                            
+                            popupEasy.close();
                         },
                         null,
                         null
@@ -240,7 +234,10 @@ function ControlPanelModule() {
             
             $("#cp_module_selection_result").html(xhr.response.render);
             
-            rankInColumn(false);
+            rankInColumn();
+            
+            materialDesign.refresh();
+            materialDesign.fix();
 
             $("#form_cp_module_profile").on("submit", "", function(event) {
                 event.preventDefault();
@@ -256,40 +253,27 @@ function ControlPanelModule() {
                     function(xhr) {
                         ajax.reply(xhr, "#" + event.currentTarget.id);
                         
-                        if (xhr.response.messages.success !== undefined)
+                        if (xhr.response.messages.success !== undefined) {
                             $("#cp_module_selection_result").html("");
+                            
+                            $("#cp_module_selection_result_desktop .refresh").click();
+                        }
                     },
                     null,
                     null
                 );
             });
-
-            var selected = $("#form_module_rankInColumn").find(":selected").val();
-
-            if ($("#panel_id_" + selected).parent().hasClass("settings_hide") === true) {
-                $("#form_module_position").parents(".form-group").hide();
-                $("#form_module_rankInColumn").parents(".form-group").hide();
-            }
             
-            positionSelected = $("#form_module_position").find("option:selected").index();
-
             $("#cp_module_deletion").on("click", "", function() {
                deletion(null);
             });
         }
     }
     
-    function rankInColumn(isCreation) {
-        if (isCreation === false)
-            $("#form_module_rankInColumn").find("option")[0].remove();
+    function rankInColumn() {
+        utility.sortableElement("#module_rankColumnSort", "#form_module_rankColumnSort");
         
-        utility.sortableElement("#form_module_rankInColumn", null, "#form_module_sort", isCreation);
-        
-        $("#module_position_sort").find("i").on("click", "", function() {
-            utility.sortableElement("#form_module_rankInColumn", $(this), "#form_module_sort", isCreation);
-        });
-        
-        $("#form_module_position").on("change", "", function() {
+        $("#form_module_position").off("change").on("change", "", function() {
             ajax.send(
                 true,
                 window.url.cpModuleProfileSort,
@@ -305,19 +289,11 @@ function ControlPanelModule() {
                 function(xhr) {
                     ajax.reply(xhr, "");
                     
-                    var optionSelected = $("#form_module_rankInColumn").find("option:selected");
-                    
-                    $("#form_module_rankInColumn").find("option").remove();
-                    
-                    if ($("#form_module_position").find("option:selected").index() > 0) {
-                        $.each(xhr.response.values.moduleRows, function(key, value) {
-                            $("#form_module_rankInColumn").append($("<option></option>").prop("value", value).text(key));
-                        });
+                    if (xhr.response.values.moduleSortListHtml !== undefined) {
+                        $("#module_rankColumnSort").find(".sort_result").html(xhr.response.values.moduleSortListHtml);
+
+                        utility.sortableElement("#module_rankColumnSort", "#form_module_rankColumnSort");
                     }
-                    
-                    $("#form_module_rankInColumn").append($("<option selected=\"selected\"></option>").prop("value", optionSelected.val()).text(optionSelected.text()));
-                    
-                    utility.sortableElement("#form_module_rankInColumn", null, "#form_module_sort", isCreation);
                 },
                 null,
                 null
@@ -327,7 +303,7 @@ function ControlPanelModule() {
     
     function deletion(id) {
         popupEasy.create(
-            window.text.warning,
+            window.text.index_5,
             window.textModule.label_1,
             function() {
                 ajax.send(
@@ -350,12 +326,12 @@ function ControlPanelModule() {
                                 if (xhr.response.values.id === $.trim($(value).text()))
                                     $(value).parents("tr").remove();
                             });
-                            
-                            $("#form_module_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
-
-                            $("#form_module_rankInColumn").find("option[value='" + xhr.response.values.id + "']").remove();
 
                             $("#cp_module_selection_result").html("");
+                            
+                            $("#cp_module_selection_result_desktop .refresh").click();
+                            
+                            popupEasy.close();
                         }
                     },
                     null,

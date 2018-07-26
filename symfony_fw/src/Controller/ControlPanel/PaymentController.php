@@ -37,7 +37,7 @@ class PaymentController extends Controller {
     *   path = "/cp_payment_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/payment_user_selection.html.twig")
     */
@@ -106,7 +106,7 @@ class PaymentController extends Controller {
     *   path = "/cp_payment_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/payment_selection.html.twig")
     */
@@ -141,7 +141,7 @@ class PaymentController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
         
         $form = $this->createForm(PaymentSelectionFormType::class, null, Array(
             'validation_groups' => Array('payment_selection'),
@@ -175,7 +175,7 @@ class PaymentController extends Controller {
     *   path = "/cp_payment_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/payment_profile.html.twig")
     */
@@ -241,7 +241,7 @@ class PaymentController extends Controller {
     *   path = "/cp_payment_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/payment_deletion.html.twig")
     */

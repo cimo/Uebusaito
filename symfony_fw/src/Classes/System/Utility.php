@@ -13,13 +13,14 @@ class Utility {
     private $entityManager;
     
     private $connection;
-    private $sessionMaxIdleTime;
     private $translator;
     private $authorizationChecker;
     private $authenticationUtils;
     private $passwordEncoder;
     private $tokenStorage;
     private $session;
+    
+    private $sessionMaxIdleTime;
     
     private $config;
     private $query;
@@ -44,10 +45,6 @@ class Utility {
         return $this->connection;
     }
     
-    public function getSessionMaxIdleTime() {
-        return $this->sessionMaxIdleTime;
-    }
-    
     public function getTranslator() {
         return $this->translator;
     }
@@ -70,6 +67,10 @@ class Utility {
     
     public function getSession() {
         return $this->session;
+    }
+    
+    public function getSessionMaxIdleTime() {
+        return $this->sessionMaxIdleTime;
     }
     
     public function getQuery() {
@@ -118,13 +119,14 @@ class Utility {
         $this->entityManager = $entityManager;
         
         $this->connection = $this->entityManager->getConnection();
-        $this->sessionMaxIdleTime = 3600;
         $this->translator = $this->container->get("translator");
         $this->authorizationChecker = $this->container->get("security.authorization_checker");
         $this->authenticationUtils = $this->container->get("security.authentication_utils");
         $this->passwordEncoder = $this->container->get("security.password_encoder");
         $this->tokenStorage = $this->container->get("security.token_storage");
         $this->session = $this->container->get("session");
+        
+        $this->sessionMaxIdleTime = 3600;
         
         $this->config = new Config();
         $this->query = new Query($this->connection);
@@ -451,17 +453,14 @@ class Utility {
                     $html .= "<option value=\"{$value['id']}\">{$value['level']}</option>";
                 }
             $html .= "</select>
-            <label class=\"mdc-floating-label mdc-floating-label--float-above\">" . $this->translator->trans("classUtility_6") . "</label>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">" . $this->translator->trans("classUtility_5") . "</label>
             <div class=\"mdc-line-ripple\"></div>
         </div>";
         
         return $html;
     }
     
-    public function createPageSortListHtml($rows = null) {
-        if ($rows == null)
-            $rows = array_column($this->query->selectAllPageParentDatabase(), "alias", "id");
-        
+    public function createPageSortListHtml($rows) {
         $html = "<ul class=\"sort_list\">";
             foreach ($rows as $key => $value) {
                 $html .= "<li class=\"ui-state-default\">
@@ -474,6 +473,33 @@ class Utility {
             
             if ($_SESSION['pageProfileId'] == 0) {
                 $rows = $this->query->selectAllPageDatabase($_SESSION['formLanguageCodeText']);
+                $id = count($rows) + 1;
+                
+                $html .= "<li class=\"ui-state-default\">
+                    <div class=\"mdc-chip\">
+                        <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">drag_handle</i>
+                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$id\">[$id] " . $this->translator->trans("classUtility_6") . "</div>
+                    </div>
+                </li>";
+            }
+        $html .= "</ul>";
+        
+        return $html;
+    }
+    
+    public function createModuleSortListHtml($rows) {
+        $html = "<ul class=\"sort_list\">";
+            foreach ($rows as $key => $value) {
+                $html .= "<li class=\"ui-state-default\">
+                    <div class=\"mdc-chip\">
+                        <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">drag_handle</i>
+                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$key\">[$key] $value</div>
+                    </div>
+                </li>";
+            }
+            
+            if ($_SESSION['moduleProfileId'] == 0) {
+                $rows = $this->query->selectAllModuleDatabase();
                 $id = count($rows) + 1;
                 
                 $html .= "<li class=\"ui-state-default\">
@@ -705,7 +731,7 @@ class Utility {
         return $html;
     }
     
-    public function createPageSelectHtml($urlLocale, $selectId) {
+    public function createPageSelectHtml($urlLocale, $selectId, $label) {
         $rows = $this->query->selectAllPageDatabase($urlLocale);
         
         $pagesList = $this->createPageList($rows, true);
@@ -717,7 +743,7 @@ class Utility {
                     $html .= "<option value=\"$key\">$value</option>";
                 }
             $html .= "</select>
-            <label class=\"mdc-floating-label mdc-floating-label--float-above\">" . $this->translator->trans("classUtility_5") . "</label>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">$label</label>
             <div class=\"mdc-line-ripple\"></div>
         </div>";
         

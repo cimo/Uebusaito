@@ -34,7 +34,7 @@ class AuthenticationController extends Controller {
     *   path = "/authentication/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/module/authentication.html.twig")
     */
@@ -58,10 +58,10 @@ class AuthenticationController extends Controller {
         $form = $this->createForm(AuthenticationFormType::class, null, Array());
         $form->handleRequest($request);
         
-        $moduleRow = $this->query->selectModuleDatabase(2);
+        $moduleEntity = $this->entityManager->getRepository("App\Entity\Module")->find(1);
         
-        $this->response['module']['id'] = $moduleRow['id'];
-        $this->response['module']['label'] = $moduleRow['label'];
+        $this->response['module']['id'] = $moduleEntity->getId();
+        $this->response['module']['label'] = $moduleEntity->getLabel();
         
         if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
             $this->response['values']['user'] = $this->getUser();
@@ -94,7 +94,7 @@ class AuthenticationController extends Controller {
     *   path = "/authentication_enter_check/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"GET", "POST"}
+    *	methods={"GET", "POST"}
     * )
     */
     public function enterCheckAction() {
@@ -107,7 +107,7 @@ class AuthenticationController extends Controller {
     *   path = "/authentication_exit_check/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"GET", "POST"}
+    *	methods={"GET", "POST"}
     * )
     */
     public function exitCheckAction() {

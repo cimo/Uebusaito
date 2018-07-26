@@ -85,7 +85,7 @@ function Language() {
         $("#language_page_container .mdc-chip").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {
                 popupEasy.create(
-                    window.text.warning,
+                    window.text.index_1,
                     window.textLanguagePage.label_1,
                     function() {
                         formPageFlagSubmit(event);

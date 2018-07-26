@@ -27,7 +27,7 @@
             top: -5px;
         }
         
-        .container_icon {
+        .icon_container {
             display: inline-block;
         }
     }
@@ -42,12 +42,10 @@
     .source {
         display: none;
         border: 1px solid;
-        width: 98%;
         height: 700px;
         background-color: #faf9f9;
         padding: 5px;
         overflow-y: scroll;
-        overflow-x: hidden;
         margin-top: 10px;
     }
 }

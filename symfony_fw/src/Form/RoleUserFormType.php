@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RoleUserFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -23,7 +24,11 @@ class RoleUserFormType extends AbstractType {
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add("level", TextType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "roleUserFormType_1"
+        ))
+        ->add("submit", SubmitType::class, Array(
+            'label' => "roleUserFormType_2"
         ));
         
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {

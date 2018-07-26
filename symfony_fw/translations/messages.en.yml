@@ -4,157 +4,30 @@ date.time: H:i:s
 
 # Lang
 "en": "en"
-"it": "it"
 "jp": "jp"
-
-# Role
-"Admin": "Admin"
-"User": "User"
-"Moderator": "Moderator"
-
-# Module
-"module_1": "Search"
-"module_2": "Authentication"
-"module_3": "Page"
-"module_4": "Empty"
+"it": "it"
 
 # Entity
 "entity.user.password": "Need min 8 max 20 character."
 "entity.user.username": "Need min 4 max 20 character (Only . is allowed)."
 
-# ---
-# Classes
+# Index
+"index_1": "WEBSITE CURRENTLY"
+"index_2": "UNDER MAINTENANCE"
+"index_3": "Copyright © 2018 - Reinvent software."
+"index_4": "All rights reserved."
+"index_5": "Warning!"
+"index_6": "Ok"
+"index_7": "Close"
+"index_8": "Connection error, please reload the page."
+"index_9": "Expand"
+"index_10": "Collapse"
 
-# Utility.php
-"classUtility_1": "Session time is over, please login again."
-"classUtility_2": "Old password doesn't match!"
-"classUtility_3": "New password and New confirm password doesn't match!"
-"classUtility_4": "Password and Confirm password doesn't match!"
-"classUtility_5": "Select parent:"
-"classUtility_6": "Roles"
-"classUtility_7": "This page"
+# Registration
+"registration_1": "Private"
+"registration_2": "Company"
+"registration_3": "."
 
-# Upload.php
-"classUpload_1": "Error max size, limit is: "
-"classUpload_2": "Error type, are allowed only: "
-"classUpload_3": "Error measures, are allowed only: "
-"classUpload_4": "Error chunk size."
-"classUpload_5": "File uploaded successfully."
-"classUpload_6": "Unable to move file to path."
-"classUpload_7": "Upload aborted."
-
-# ---
-# Controller / Control panel
-
-# ModuleController.php
-"moduleController_1": "Modules sort complete."
-"moduleController_2": "Modules not sorted!"
-"moduleController_3": "Module create completed."
-"moduleController_4": "Module not created!"
-"moduleController_5": "Module not selected!"
-"moduleController_6": "Module update completed."
-"moduleController_7": "Module update not completed!"
-"moduleController_8": "Module profile sort problem!"
-"moduleController_9": "Module deletion completed."
-"moduleController_10": "All modules deletion completed."
-"moduleController_11": "Module not deleted!"
-"moduleController_12": "No"
-"moduleController_13": "Yes"
-
-# PageController.php
-"pageController_1": "Page create completed."
-"pageController_2": "Page not created!"
-"pageController_3": "Page not selected!"
-"pageController_4": "Page update completed."
-"pageController_5": "Page update not completed!"
-"pageController_6": "Page deletion completed."
-"pageController_7": "This page contain another pages, choise the action:"
-"pageController_8": "Delete all page"
-"pageController_9": "All pages deletion completed."
-"pageController_10": "Parent changed."
-"pageController_11": "Page not deleted!"
-"pageController_12": "No"
-"pageController_13": "Yes"
-
-# PaymentController.php
-"paymentController_1": "User not selected!"
-"paymentController_2": "Payment not selected!"
-"paymentController_3": "Payment deletion completed."
-"paymentController_4": "All payments deletion completed."
-"paymentController_5": "Payment not deleted!"
-
-# ProfileController.php
-"profileController_1": "Username has changed, please login again."
-"profileController_2": "Profile modified."
-"profileController_3": "Profile not modified!"
-"profileController_4": "Password modified."
-"profileController_5": "Password not modified!"
-"profileController_6": "Sending to PayPal..."
-"profileController_7": "Not sended to PayPal!"
-
-# RoleUserController.php
-"roleUserController_1": "Role creation completed."
-"roleUserController_2": "Role not created!"
-"roleUserController_3": "Role not selected!"
-"roleUserController_4": "Role update completed."
-"roleUserController_5": "Role update not completed!"
-"roleUserController_6": "Role deletion completed."
-"roleUserController_7": "All roles deletion completed."
-"roleUserController_8": "Role not deleted!"
-
-# SettingController.php
-"settingController_1": "Protocol value has changed, please login again (if you have changed from https to http you need close and to open browser for to do login)."
-"settingController_2": "Setting update complete."
-"settingController_3": "Setting not saved!"
-"settingController_4": "Language deletion completed."
-"settingController_5": "Language update completed."
-"settingController_6": "Language creation completed."
-"settingController_7": "Language not created!"
-
-# UserController.php
-"userController_1": "User creation completed."
-"userController_2": "User not created!"
-"userController_3": "User not selected!"
-"userController_4": "User update completed."
-"userController_5": "User update not completed!"
-"userController_6": "User deletion completed."
-"userController_7": "All users deletion completed."
-"userController_8": "User not deleted!"
-"userController_9": "No"
-"userController_10": "Yes"
-
-# ---
-# Controller
-
-# LanguageController.php
-"languageController_1": "Change language text not completed!"
-"languageController_2": "Change language page not completed!"
-
-# PageCommentController.php
-"pageCommentController_1": "Comment sended."
-"pageCommentController_2": "Last message is your!"
-"pageCommentController_3": "Comment not sended!"
-"pageCommentController_4": "Comment modified."
-"pageCommentController_5": "Creation: "
-"pageCommentController_6": "Modification: "
-"pageCommentController_7": "Replay"
-"pageCommentController_8": "Modify"
-
-# PageViewController.php
-"pageViewController_1": "Page empty"
-"pageViewController_2": "This page dosen't exist!"
-"pageViewController_3": "This page isn't available if you are logged!"
-"pageViewController_4": "This page isn't available for your role!"
-"pageViewController_5": "Need login for show content!"
-
-# RecoverPasswordController.php
-"recoverPasswordController_1": "Recover completed. Check your email for the instructions."
-"recoverPasswordController_2": "No user found with this email!"
-"recoverPasswordController_3": "Recover not completed!"
-"recoverPasswordController_4": "Change password completed."
-"recoverPasswordController_5": "Change password not completed!"
-
-# RegistrationController.php
 "registrationController_1": "Thank you for your registration. For activate your account click on the link:"
 "registrationController_2": "Thank you for your registration. Waiting for confirmation from the administrator. You will receive an email when your account is activated."
 "registrationController_3": "Registration"
@@ -164,14 +37,47 @@ date.time: H:i:s
 "registrationController_7": "Registration not completed!"
 "registrationController_8": "Thank you for your activation. Now you can use your account."
 
-# SearchController.php
-"searchController_1": "Search not completed!"
-"searchController_2": "Go to content"
+# Password
+"passwordFormType_1": "Password old"
+"passwordFormType_2": "Password new"
+"passwordFormType_3": "Password new confirm"
+"passwordFormType_4": "Send"
 
-# ---
-# EventListener
+# Recover password
+"recoverPassword_1": "."
+"recoverPassword_2": "."
 
-# AuthenticationListener.php
+"recoverPasswordFormType_1": "Email"
+"recoverPasswordFormType_2": "Send"
+
+"recoverPasswordController_1": "Recover completed. Check your email for the instructions."
+"recoverPasswordController_2": "No user found with this email!"
+"recoverPasswordController_3": "Recover not completed!"
+"recoverPasswordController_4": "Change password completed."
+"recoverPasswordController_5": "Change password not completed!"
+
+# Change password
+"changePasswordFormType_1": "Password"
+"changePasswordFormType_2": "Password confirm"
+
+# Credit
+"creditFormType_1": "Credit"
+"creditFormType_2": "Send"
+
+# Authentication
+"authentication_1": "Welcome:"
+"authentication_2": "Role:"
+"authentication_3": "Last login:"
+"authentication_4": "Control panel"
+"authentication_5": "Logout"
+"authentication_6": "Registration"
+"authentication_7": "Forgot password?"
+
+"authenticationFomType_1": "Username"
+"authenticationFomType_2": "Password"
+"authenticationFomType_3": "Remember me"
+"authenticationFomType_4": "Login"
+
 "authenticationListener_1": "Your level does not allow the access."
 "authenticationListener_2": "Your account is locked."
 "authenticationListener_3": "Bad credentials."
@@ -179,68 +85,31 @@ date.time: H:i:s
 "authenticationListener_4b": " minutes before retrying."
 "authenticationListener_5": "Attempt: "
 
-# ---
-# Form
+# Page view
+"pageView_1": "Created from: "
+"pageView_2": "Created on: "
+"pageView_3": "Edited from: "
+"pageView_4": "Edited on: "
 
-# ModuleFormType.php
-"moduleFormType_1": "Select"
-"moduleFormType_2": "Header"
-"moduleFormType_3": "Left"
-"moduleFormType_4": "Center"
-"moduleFormType_5": "Right"
-"moduleFormType_6": "This module"
-"moduleFormType_7": "No"
-"moduleFormType_8": "Yes"
+"pageViewController_1": "Page empty"
+"pageViewController_2": "This page dosen't exist!"
+"pageViewController_3": "This page isn't available if you are logged!"
+"pageViewController_4": "This page isn't available for your role!"
+"pageViewController_5": "Need login for show content!"
 
-# ModuleSelectionFormType.php
-"moduleSelectionFormType_1": "Select"
+# Search
+"searchFormType_1": "Search in the site"
 
-# PageFormType.php
-"pageFormType_1": "Parent"
-"pageFormType_2": "Protected"
-"pageFormType_3": "Show in menu"
-"pageFormType_4": "Comment"
-"pageFormType_5": "Only link"
-"pageFormType_6": "No"
-"pageFormType_7": "Yes"
+"searchController_1": "Search not completed!"
+"searchController_2": "Go to content"
 
-# PageSelectionFormType.php
-"pageSelectionFormType_1": "Select"
+# Language
+"languagePage_1": "Change page language without save data?"
 
-# PaymentSelectionFormType.php
-"paymentSelectionFormType_1": "Select"
+"languageController_1": "Change language text not completed!"
+"languageController_2": "Change language page not completed!"
 
-# RoleUserSelectionFormType.php
-"roleUserSelectionFormType_1": "Select"
-
-# SearchFormType.php
-"searchType_1": "Search in the site"
-
-# SettingFormType.php
-"settingFormType_1": "Type 1"
-"settingFormType_2": "Type 2"
-"settingFormType_3": "Type 3"
-"settingFormType_4": "Type 4"
-"settingFormType_5": "No"
-"settingFormType_6": "Yes"
-
-# UserFormType.php
-"userFormType_1": "Select"
-"userFormType_2": "Man"
-"userFormType_3": "Woman"
-"userFormType_4": "No"
-"userFormType_5": "Yes"
-
-# UserSelectionFormType.php
-"userSelectionFormType_1": "Select"
-
-# ---
-# Views / Include
-
-# loader.html.twig
-"loader_1": "Loading..."
-
-# table_and_pagination.html.twig
+# Table and pagination
 "tableAndPagination_1": "Refresh"
 "tableAndPagination_2": "Delete all"
 "tableAndPagination_3": "Search"
@@ -248,7 +117,7 @@ date.time: H:i:s
 "tableAndPagination_5": "Next"
 "tableAndPagination_6": "Elements founded:"
 
-# upload.html.twig
+# Upload
 "upload_1": "Start"
 "upload_2": "Abort"
 "upload_3": "Paused..."
@@ -258,54 +127,15 @@ date.time: H:i:s
 "upload_7": "Pause"
 "upload_8": "Resume"
 
-# ---
-# Views / Render
+"classUpload_1": "Error max size, limit is: "
+"classUpload_2": "Error type, are allowed only: "
+"classUpload_3": "Error measures, are allowed only: "
+"classUpload_4": "Error chunk size."
+"classUpload_5": "File uploaded successfully."
+"classUpload_6": "Unable to move file to path."
+"classUpload_7": "Upload aborted."
 
-# control_panel.html.twig
-"controlPanel_1": "Profile"
-"controlPanel_2": "Payments"
-"controlPanel_3": "Pages"
-"controlPanel_4": "Users"
-"controlPanel_5": "Modules"
-"controlPanel_6": "Roles"
-"controlPanel_7": "Settings"
-"controlPanel_8": "Profile section."
-"controlPanel_9": "Payments section."
-"controlPanel_10": "Pages section."
-"controlPanel_11": "Users section."
-"controlPanel_12": "Modules section."
-"controlPanel_13": "Roles section."
-"controlPanel_14": "Settings section."
-"controlPanel_15": "Really delete this payment?"
-"controlPanel_16": "Really delete all payments?"
-"controlPanel_17": "Really delete this page?"
-"controlPanel_18": "Really delete all pages?"
-"controlPanel_19": "Really delete this user?"
-"controlPanel_20": "Really delete all users?"
-"controlPanel_21": "Really delete this module?"
-"controlPanel_22": "Really delete all modules?"
-"controlPanel_23": "Really delete this role?"
-"controlPanel_24": "Really delete all roles?"
-"controlPanel_25": "Really delete this language?"
-
-# index.html.twig
-"index_1": "WEBSITE CURRENTLY"
-"index_2": "UNDER MAINTENANCE"
-"index_3": "Copyright © 2018 - Reinvent software."
-"index_4": "All rights reserved."
-"index_5": "Warning!"
-"index_6": "Ok"
-"index_7": "Close"
-"index_8": "Connection error, please reload the page."
-"index_9": "Create"
-"index_10": "Delete"
-"index_11": "Update"
-"index_12": "Send"
-"index_13": "Modify"
-"index_14": "Expand"
-"index_15": "Collapse"
-
-# page_comment.html.twig
+# Page comment
 "pageComment_1": "Message from user: "
 "pageComment_2": "Replay to user: "
 "pageComment_3": "Argument"
@@ -313,346 +143,18 @@ date.time: H:i:s
 "pageComment_5": "Save"
 "pageComment_6": "Modify"
 
-# language_page.html.twig
-"languagePage_1": "Change page language without save data?"
+"pageCommentController_1": "Comment sended."
+"pageCommentController_2": "Last message is your!"
+"pageCommentController_3": "Comment not sended!"
+"pageCommentController_4": "Comment modified."
+"pageCommentController_5": "Created on: "
+"pageCommentController_6": "Edited on: "
+"pageCommentController_7": "Replay"
+"pageCommentController_8": "Modify"
 
-# recover_password.html.twig
-"recoverPassword_1": "Recover password form"
-"recoverPassword_2": "Email"
-"recoverPassword_3": "Change password form"
-"recoverPassword_4": "Password"
-"recoverPassword_5": "Password confirm"
-
-# registration.html.twig
-"registration_1": "Private"
-"registration_2": "Company"
-"registration_3": "Registration form"
-"registration_4": "Username"
-"registration_5": "Name"
-"registration_6": "Surname"
-"registration_7": "Email"
-"registration_8": "Telephone"
-"registration_9": "Born"
-"registration_10": "Gender"
-"registration_11": "Fiscal code"
-"registration_12": "Company name"
-"registration_13": "Vat"
-"registration_14": "Website"
-"registration_15": "State"
-"registration_16": "City"
-"registration_17": "Zip"
-"registration_18": "Address"
-"registration_19": "Password"
-"registration_20": "Password confirm"
-
-# ---
-# Views / Render / Control panel
-
-# module_creation.html.twig
-"moduleCreation_1": "Module creation form"
-"moduleCreation_2": "Position"
-"moduleCreation_3": "Position in column"
-"moduleCreation_4": "Name"
-"moduleCreation_5": "Label"
-"moduleCreation_6": "File name"
-
-# module_deletion.html.twig
-"moduleDeletion_1": "Module deletion"
-"moduleDeletion_2": "Warning! If you delete the module is impossible return back."
-
-# module_profile.html.twig
-"moduleProfile_1": "Module profile form"
-"moduleProfile_2": "Position"
-"moduleProfile_3": "Position in column"
-"moduleProfile_4": "Name"
-"moduleProfile_5": "Label"
-"moduleProfile_6": "File name"
-"moduleProfile_7": "Active"
-
-# module_drag.html.twig
-"moduleDrag_1": "Modules sort form"
-"moduleDrag_2": "Header"
-"moduleDrag_3": "Left"
-"moduleDrag_4": "Center"
-"moduleDrag_5": "Right"
-
-# module_selection.html.twig
-"moduleSelection_1": "Modules selection form"
-"moduleSelection_2": "Id"
-"moduleSelection_3": "Select"
-"moduleSelection_4": "Name"
-"moduleSelection_5": "File name"
-"moduleSelection_6": "Active"
-"moduleSelection_7": "Remove"
-"moduleSelection_8": "Modules"
-
-# page_creation.html.twig
-"pageCreation_1": "Page creation form"
-"pageCreation_2": "Alias"
-"pageCreation_3": "Parent"
-"pageCreation_4": "Title"
-"pageCreation_5": "Controller action"
-"pageCreation_6": "Argument"
-"pageCreation_7": "Roles"
-"pageCreation_8": "Protected"
-"pageCreation_9": "Show in menu"
-"pageCreation_10": "Position in menu"
-"pageCreation_11": "Menu name"
-"pageCreation_12": "Comment"
-"pageCreation_13": "Only link"
-"pageCreation_14": "Link"
-"pageCreation_15": "Sort up"
-"pageCreation_16": "Sort down"
-
-# page_deletion.html.twig
-"pageDeletion_1": "Warning! If you delete the page is impossible return back."
-"pageDeletion_2": "All"
-"pageDeletion_3": "Parent new"
-
-# page_profile.html.twig
-"pageProfile_1": "Page profile form"
-"pageProfile_2": "Language"
-"pageProfile_3": "Alias"
-"pageProfile_4": "Parent"
-"pageProfile_5": "Title"
-"pageProfile_6": "Controller action"
-"pageProfile_7": "Argument"
-"pageProfile_8": "Roles"
-"pageProfile_9": "Protected"
-"pageProfile_10": "Show in menu"
-"pageProfile_11": "Position in menu"
-"pageProfile_12": "Menu name"
-"pageProfile_13": "Comment"
-"pageProfile_14": "Only link"
-"pageProfile_15": "Link"
-"pageProfile_16": "Created by: "
-"pageProfile_17": "Creation: "
-"pageProfile_18": "Modified By: "
-"pageProfile_19": "Modification: "
-"pageProfile_20": "Sort up"
-"pageProfile_21": "Sort down"
-
-# page_selection.html.twig
-"pageSelection_1": "Pages selection form"
-"pageSelection_2": "Pages selection form"
-"pageSelection_3": "Id"
-"pageSelection_4": "Select"
-"pageSelection_5": "Alias"
-"pageSelection_6": "Title"
-"pageSelection_7": "Menu name"
-"pageSelection_8": "Protected"
-"pageSelection_9": "Show in menu"
-"pageSelection_10": "Only link"
-"pageSelection_11": "Remove"
-"pageSelection_12": "Pages"
-
-# payment_deletion.html.twig
-"paymentDeletion_1": "Warning! If you delete the payment is impossible return back."
-
-# payment_profile.html.twig
-"paymentProfile_1": "Payment profile"
-"paymentProfile_2": "Transaction"
-"paymentProfile_3": "Date"
-"paymentProfile_4": "Status"
-"paymentProfile_5": "Payer"
-"paymentProfile_6": "Receiver"
-"paymentProfile_7": "Currency code"
-"paymentProfile_8": "Item name"
-"paymentProfile_9": "Amount"
-"paymentProfile_10": "Quantity"
-
-# payment_selection.html.twig
-"paymentSelection_1": "Payments selection form"
-"paymentSelection_2": "Here you can manage the payments of the chosen user."
-"paymentSelection_3": "Id"
-"paymentSelection_4": "Select"
-"paymentSelection_5": "Transaction"
-"paymentSelection_6": "Date"
-"paymentSelection_7": "Status"
-"paymentSelection_8": "Payer"
-"paymentSelection_9": "Remove"
-"paymentSelection_10": "Payments"
-
-# payment_user_selection.html.twig
-"paymentUserSelection_1": "Payments user selection form"
-"paymentUserSelection_2": "Select the user to see the respective payments."
-"paymentUserSelection_3": "Users"
-
-# profile.html.twig
-"profile_1": "Profile form"
-"profile_2": "Set your personal informations and avatar."
-"profile_3": "Username"
-"profile_4": "Name"
-"profile_5": "Surname"
-"profile_6": "Email"
-"profile_7": "Telephone"
-"profile_8": "Born"
-"profile_9": "Gender"
-"profile_10": "Fiscal code"
-"profile_11:": "Company name"
-"profile_12": "Vat"
-"profile_13": "Website"
-"profile_14": "State"
-"profile_15": "City"
-"profile_16": "Zip"
-"profile_17": "Address"
-
-# profile_credit.html.twig
-"profileCredit_1": "Profile credit form"
-"profileCredit_2": "Charge your credits to be used to make purchases."
-"profileCredit_3": "Current credit:"
-"profileCredit_4": "One credit value:"
-"profileCredit_5": "credit"
-
-# profile_password.html.twig
-"profilePassword_1": "Profile password form"
-"profilePassword_2": "Change your password for access to this website."
-"profilePassword_3": "Old"
-"profilePassword_4": "New"
-"profilePassword_5": "New confirm"
-
-# roleUser_creation.html.twig
-"roleUserCreation_1": "Role creation form"
-"roleUserCreation_2": "Level"
-
-# roleUser_deletion.html.twig
-"roleUserDeletion_1": "Role deletion"
-"roleUserDeletion_2": "Warning! If you delete the role is impossible return back."
-
-# roleUser_profile.html.twig
-"roleUserProfile_1": "Role profile form"
-"roleUserProfile_2": "Level"
-
-# roleUser_selection.html.twig
-"roleUserSelection_1": "Roles selection form"
-"roleUserSelection_2": "Id"
-"roleUserSelection_3": "Select"
-"roleUserSelection_4": "Level"
-"roleUserSelection_5": "Remove"
-"roleUserSelection_6": "Roles"
-
-# setting.html.twig
-"setting_1": "Setting form"
-"setting_2": "Style"
-"setting_3": "Template name"
-"setting_4": "Template column"
-"setting_5": "Language"
-"setting_6": "Language manage"
-"setting_7": "Security"
-"setting_8": "Email admin"
-"setting_9": "Website active"
-"setting_10": "Maintenance roles"
-"setting_11": "Https"
-"setting_12": "Registration user confirm by admin"
-"setting_13": "Login attempt time (minuts)"
-"setting_14": "Login attempt count"
-"setting_15": "Captcha"
-"setting_16": "Paypal"
-"setting_17": "PayPal sandbox"
-"setting_18": "PayPal business"
-"setting_19": "PayPal currency code"
-"setting_20": "PayPal credit amount"
-"setting_21": "Payment"
-"setting_22": "Credit"
-"setting_23": "Page date"
-"setting_24": "Page comment"
-"setting_25": "Page comment active"
-
-# user_creation.html.twig
-"userCreation_1": "User creation form"
-"userCreation_2": "Role"
-"userCreation_3": "Username"
-"userCreation_4": "Name"
-"userCreation_5": "Surname"
-"userCreation_6": "Email"
-"userCreation_7": "Telephone"
-"userCreation_8": "Born"
-"userCreation_9": "Gender"
-"userCreation_10": "Fiscal code"
-"userCreation_11": "Company name"
-"userCreation_12": "Vat"
-"userCreation_13": "Website"
-"userCreation_14": "State"
-"userCreation_15": "City"
-"userCreation_16": "Zip"
-"userCreation_17": "Address"
-"userCreation_18": "Password"
-"userCreation_19": "Password confirm"
-
-# user_deletion.html.twig
-"userDeletion_1": "User deletion"
-"userDeletion_2": "Warning! If you delete the user is impossible return back."
-
-# user_profile.html.twig
-"userProfile_1": "User profile form"
-"userProfile_2": "Role"
-"userProfile_3": "Username"
-"userProfile_4": "Name"
-"userProfile_5": "Surname"
-"userProfile_6": "Email"
-"userProfile_7": "Telephone"
-"userProfile_8": "Born"
-"userProfile_9": "Gender"
-"userProfile_10": "Fiscal code"
-"userProfile_11": "Company name"
-"userProfile_12": "Vat"
-"userProfile_13": "Website"
-"userProfile_14": "State"
-"userProfile_15": "City"
-"userProfile_16": "Zip"
-"userProfile_17": "Address"
-"userProfile_18": "Password"
-"userProfile_19": "Password confirm"
-"userProfile_20": "Not locked"
-"userProfile_21": "Credit"
-
-# user_selection.html.twig
-"userSelection_1": "Users selection form"
-"userSelection_2": "Id"
-"userSelection_3": "Select"
-"userSelection_4": "Role"
-"userSelection_5": "Username"
-"userSelection_6": "Name"
-"userSelection_7": "Surname"
-"userSelection_8": "Email"
-"userSelection_9": "Company name"
-"userSelection_10": "Not locked"
-"userSelection_11": "Remove"
-"userSelection_12": "Users"
-
-# ---
-# Views / Render / Module
-
-# authentication.html.twig
-"authentication_1": "Welcome:"
-"authentication_2": "Role:"
-"authentication_3": "Last login:"
-"authentication_4": "Control panel"
-"authentication_5": "Logout"
-"authentication_6": "Username"
-"authentication_7": "Password"
-"authentication_8": "Remember me"
-"authentication_9": "Login"
-"authentication_10": "Registration"
-"authentication_11": "Forgot password?"
-
-# page_view.html.twig
-"pageView_1": "Created by: "
-"pageView_2": "Creation: "
-"pageView_3": "Modified By: "
-"pageView_4": "Modification: "
-
-# ---
-# Views / Render / Static
-
-# error.html.twig
-"error_1": "Error: "
-
-# ---
 # Captcha
 "captcha_1": "Chaptcha code incorrect!"
 
-# ---
 # Wysiwyg
 "wysiwyg_1": "Text format"
 "wysiwyg_2": "Text size"
@@ -669,9 +171,383 @@ date.time: H:i:s
 "wysiwyg_13": "Insert rows number"
 "wysiwyg_14": "Insert columns number"
 "wysiwyg_15": "Element settings"
+"wysiwyg_16": "Row:"
+"wysiwyg_17": "Add"
+"wysiwyg_18": "Remove"
+"wysiwyg_19": "Colum:"
+"wysiwyg_20": "Add"
+"wysiwyg_21": "Remove"
 
-# ---
 # Widget date picker
 "widgetDatePicker_1": "Today"
 "widgetDatePicker_2": "Clear"
 "widgetDatePicker_3": "Confirm"
+
+# Error
+"error_1": "Error: "
+
+# Utility
+"classUtility_1": "Session time is over, please login again."
+"classUtility_2": "Old password doesn't match!"
+"classUtility_3": "New password and New confirm password doesn't match!"
+"classUtility_4": "Password and Confirm password doesn't match!"
+"classUtility_5": "Roles"
+"classUtility_6": "This page"
+"classUtility_7": "This module"
+
+# Control panel
+"controlPanel_1": "Profile"
+"controlPanel_2": "Payments"
+"controlPanel_3": "Pages"
+"controlPanel_4": "Users"
+"controlPanel_5": "Modules"
+"controlPanel_6": "Roles"
+"controlPanel_7": "Settings"
+"controlPanel_8": "Profile section."
+"controlPanel_9": "Payments section."
+"controlPanel_10": "Pages section."
+"controlPanel_11": "Create"
+"controlPanel_12": "Modify"
+"controlPanel_13": "Users section."
+"controlPanel_14": "Modules section."
+"controlPanel_15": "Roles section."
+"controlPanel_16": "Settings section."
+"controlPanel_17": "Really delete this payment?"
+"controlPanel_18": "Really delete all payments?"
+"controlPanel_19": "Really delete this page?"
+"controlPanel_20": "Really delete all pages?"
+"controlPanel_21": "Really delete this user?"
+"controlPanel_22": "Really delete all users?"
+"controlPanel_23": "Really delete this module?"
+"controlPanel_24": "Really delete all modules?"
+"controlPanel_25": "Really delete this role?"
+"controlPanel_26": "Really delete all roles?"
+"controlPanel_27": "Really delete this language?"
+
+# Profile
+"profile_1": "Profile form"
+"profile_2": "."
+
+"profilePassword_1": "Profile password form"
+"profilePassword_2": "."
+
+"profileCredit_1": "Profile credit form"
+"profileCredit_2": "."
+"profileCredit_3": "Current credit:"
+"profileCredit_4": "One credit value:"
+
+"profileController_1": "Username has changed, please login again."
+"profileController_2": "Profile modified."
+"profileController_3": "Profile not modified!"
+"profileController_4": "Password modified."
+"profileController_5": "Password not modified!"
+"profileController_6": "Sending to PayPal..."
+"profileController_7": "Not sended to PayPal!"
+
+# Payment
+"paymentUserSelection_1": "Payments user selection form"
+"paymentUserSelection_2": "."
+
+"paymentSelection_1": "Payments selection form"
+"paymentSelection_2": "."
+"paymentSelection_3": "Id"
+"paymentSelection_4": "Select"
+"paymentSelection_5": "Transaction"
+"paymentSelection_6": "Date"
+"paymentSelection_7": "Status"
+"paymentSelection_8": "Payer"
+"paymentSelection_9": "Remove"
+"paymentSelection_10": "Send"
+
+"paymentProfile_1": "Payment profile"
+"paymentProfile_2": "Transaction"
+"paymentProfile_3": "Date"
+"paymentProfile_4": "Status"
+"paymentProfile_5": "Payer"
+"paymentProfile_6": "Receiver"
+"paymentProfile_7": "Currency code"
+"paymentProfile_8": "Item name"
+"paymentProfile_9": "Amount"
+"paymentProfile_10": "Quantity"
+
+"paymentDeletion_1": "Warning! If you delete the payment is impossible return back."
+"paymentDeletion_2": "Delete"
+
+"paymentUserSelectionFormType_1": "Users"
+"paymentUserSelectionFormType_2": "Select"
+
+"paymentSelectionFormType_1": "Payments"
+"paymentSelectionFormType_2": "Select"
+
+"paymentController_1": "User not selected!"
+"paymentController_2": "Payment not selected!"
+"paymentController_3": "Payment deletion completed."
+"paymentController_4": "All payments deletion completed."
+"paymentController_5": "Payment not deleted!"
+
+# Page
+"pageCreation_1": "Page creation form"
+"pageCreation_2": "."
+"pageCreation_3": "Position in menu"
+"pageCreation_4": "Sort up"
+"pageCreation_5": "Sort down"
+
+"pageSelection_1": "Pages selection form"
+"pageSelection_2": "."
+"pageSelection_3": "Id"
+"pageSelection_4": "Select"
+"pageSelection_5": "Alias"
+"pageSelection_6": "Title"
+"pageSelection_7": "Menu name"
+"pageSelection_8": "Protected"
+"pageSelection_9": "Show in menu"
+"pageSelection_10": "Only link"
+"pageSelection_11": "Remove"
+"pageSelection_12": "Send"
+
+"pageProfile_1": "Page profile form"
+"pageProfile_2": "Created from: "
+"pageProfile_3": "Created on: "
+"pageProfile_4": "Edited from: "
+"pageProfile_5": "Edited on: "
+"pageProfile_6": "Position in menu"
+"pageProfile_7": "Sort up"
+"pageProfile_8": "Sort down"
+
+"pageDeletion_1": "Warning! If you delete the page is impossible return back."
+"pageDeletion_2": "Delete"
+
+"pageFormType_1": "Alias"
+"pageFormType_2": "Parent"
+"pageFormType_3": "Title"
+"pageFormType_4": "Controller action"
+"pageFormType_5": "Argument"
+"pageFormType_6": "Protected"
+"pageFormType_7": "No"
+"pageFormType_8": "Yes"
+"pageFormType_9": "Show in menu"
+"pageFormType_10": "Menu name"
+"pageFormType_11": "Comment"
+"pageFormType_12": "Only link"
+"pageFormType_13": "Link"
+"pageFormType_14": "Send"
+
+"pageSelectionFormType_1": "Alias"
+"pageSelectionFormType_2": "Select"
+
+"pageController_1": "Page create completed."
+"pageController_2": "Page not created!"
+"pageController_3": "Page not selected!"
+"pageController_4": "Page update completed."
+"pageController_5": "Page update not completed!"
+"pageController_6": "Page deletion completed."
+"pageController_7": "This page contain another pages, choise the action:"
+"pageController_8": "Delete all page"
+"pageController_9": "Change parent"
+"pageController_10": "All pages deletion completed."
+"pageController_11": "Parent changed."
+"pageController_12": "Page not deleted!"
+"pageController_13": "No"
+"pageController_14": "Yes"
+
+# User
+"userCreation_1": "User creation form"
+"userCreation_2": "."
+
+"userSelection_1": "Users selection form"
+"userSelection_2": "."
+"userSelection_3": "Id"
+"userSelection_4": "Select"
+"userSelection_5": "Role"
+"userSelection_6": "Username"
+"userSelection_7": "Email"
+"userSelection_8": "Company name"
+"userSelection_9": "Not locked"
+"userSelection_10": "Remove"
+"userSelection_11": "Select"
+
+"userProfile_1": "User profile form"
+
+"userDeletion_1": "Warning! If you delete the user is impossible return back."
+"userDeletion_2": "Delete"
+
+"userFormType_1": "Username"
+"userFormType_2": "Name"
+"userFormType_3": "Surname"
+"userFormType_4": "Email"
+"userFormType_5": "Telephone"
+"userFormType_6": "Born"
+"userFormType_7": "Gender"
+"userFormType_8": "Man"
+"userFormType_9": "Woman"
+"userFormType_10": "Fiscal code"
+"userFormType_11": "Company name"
+"userFormType_12": "Vat"
+"userFormType_13": "Website"
+"userFormType_14": "State"
+"userFormType_15": "City"
+"userFormType_16": "Zip"
+"userFormType_17": "Address"
+"userFormType_18": "Password"
+"userFormType_19": "Password confirm"
+"userFormType_20": "Not locked"
+"userFormType_21": "No"
+"userFormType_22": "Yes"
+"userFormType_23": "Credit"
+"userFormType_24": "Send"
+
+"userSelectionFormType_1": "Username"
+"userSelectionFormType_2": "Select"
+
+"userController_1": "User creation completed."
+"userController_2": "User not created!"
+"userController_3": "User not selected!"
+"userController_4": "User update completed."
+"userController_5": "User update not completed!"
+"userController_6": "User deletion completed."
+"userController_7": "All users deletion completed."
+"userController_8": "User not deleted!"
+"userController_9": "No"
+"userController_10": "Yes"
+
+# Module
+"module_1": "Authentication"
+"module_2": "Page"
+"module_3": "Empty"
+
+"moduleDrag_1": "Modules sort form"
+"moduleDrag_2": "Off/On"
+
+"moduleCreation_1": "Module creation form"
+"moduleCreation_2": "."
+"moduleCreation_3": "Position in column"
+"moduleCreation_4": "Sort up"
+"moduleCreation_5": "Sort down"
+
+"moduleSelection_1": "Modules selection form"
+"moduleSelection_2": "."
+"moduleSelection_3": "Id"
+"moduleSelection_4": "Select"
+"moduleSelection_5": "Name"
+"moduleSelection_6": "File name"
+"moduleSelection_7": "Active"
+"moduleSelection_8": "Remove"
+"moduleSelection_9": "Select"
+
+"moduleProfile_1": "Module profile form"
+"moduleProfile_2": "Position in column"
+"moduleProfile_3": "Sort up"
+"moduleProfile_4": "Sort down"
+
+"moduleDeletion_1": "Warning! If you delete the module is impossible return back."
+"moduleDeletion_2": "Delete"
+
+"moduleFormType_1": "Position"
+"moduleFormType_2": "Left"
+"moduleFormType_3": "Center"
+"moduleFormType_4": "Right"
+"moduleFormType_5": "Name"
+"moduleFormType_6": "Label"
+"moduleFormType_7": "Controller name"
+"moduleFormType_8": "Active"
+"moduleFormType_9": "No"
+"moduleFormType_10": "Yes"
+"moduleFormType_11": "Send"
+
+"moduleSelectionFormType_1": "Name"
+"moduleSelectionFormType_2": "Select"
+
+"moduleController_1": "Modules sort complete."
+"moduleController_2": "Modules not sorted!"
+"moduleController_3": "Module create completed."
+"moduleController_4": "Module not created!"
+"moduleController_5": "Module not selected!"
+"moduleController_6": "Module update completed."
+"moduleController_7": "Module update not completed!"
+"moduleController_8": "Module profile sort problem!"
+"moduleController_9": "Module deletion completed."
+"moduleController_10": "All modules deletion completed."
+"moduleController_11": "Module not deleted!"
+"moduleController_12": "No"
+"moduleController_13": "Yes"
+
+# Role
+"Admin": "Admin"
+"User": "User"
+"Moderator": "Moderator"
+
+"roleUserCreation_1": "Role creation form"
+"roleUserCreation_2": "."
+
+"roleUserSelection_1": "Roles selection form"
+"roleUserSelection_2": "."
+"roleUserSelection_3": "Id"
+"roleUserSelection_4": "Select"
+"roleUserSelection_5": "Level"
+"roleUserSelection_6": "Remove"
+"roleUserSelection_7": "Select"
+
+"roleUserProfile_1": "Role profile form"
+
+"roleUserDeletion_1": "Warning! If you delete the role is impossible return back."
+"roleUserDeletion_2": "Delete"
+
+"roleUserFormType_1": "Level"
+"roleUserFormType_2": "Send"
+
+"roleUserSelectionFormType_1": "Level"
+"roleUserSelectionFormType_2": "Select"
+
+"roleUserController_1": "Role creation completed."
+"roleUserController_2": "Role not created!"
+"roleUserController_3": "Role not selected!"
+"roleUserController_4": "Role update completed."
+"roleUserController_5": "Role update not completed!"
+"roleUserController_6": "Role deletion completed."
+"roleUserController_7": "All roles deletion completed."
+"roleUserController_8": "Role not deleted!"
+
+# Setting
+"setting_1": "Style"
+"setting_2": "."
+"setting_3": "Column type"
+"setting_4": "Lanuage management"
+"setting_5": "System"
+"setting_6": ".."
+"setting_7": "Payment"
+"setting_8": "..."
+"setting_9": "Credit"
+"setting_10": "...."
+
+"settingFormType_1": "Template"
+"settingFormType_2": "Type 1"
+"settingFormType_3": "Type 2"
+"settingFormType_4": "Type 3"
+"settingFormType_5": "Type 4"
+"settingFormType_6": "Language"
+"settingFormType_7": "Show page date"
+"settingFormType_8": "No"
+"settingFormType_9": "Yes"
+"settingFormType_10": "Show page comment"
+"settingFormType_11": "Page comment active"
+"settingFormType_12": "Email admin"
+"settingFormType_13": "Website active"
+"settingFormType_14": "Https active"
+"settingFormType_15": "User registration confirmed from admin"
+"settingFormType_16": "Login attempt time (minus)"
+"settingFormType_17": "Login attempt count"
+"settingFormType_18": "captcha active"
+"settingFormType_19": "Paypal sandbox active"
+"settingFormType_20": "Paypal business active"
+"settingFormType_21": "Paypal currency code"
+"settingFormType_22": "Paypal credit amount"
+"settingFormType_23": "Cret active"
+"settingFormType_24": "Send"
+
+"settingController_1": "Protocol value has changed, please login again (if you have changed from https to http you need close and to open browser for to do login)."
+"settingController_2": "Setting update complete."
+"settingController_3": "Setting not saved!"
+"settingController_4": "Language deletion completed."
+"settingController_5": "Language update completed."
+"settingController_6": "Language creation completed."
+"settingController_7": "Language not created!"

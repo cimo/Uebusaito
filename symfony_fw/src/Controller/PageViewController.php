@@ -43,7 +43,7 @@ class PageViewController extends Controller {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $moduleEntity = $this->entityManager->getRepository("App\Entity\Module")->find(3);
+        $moduleEntity = $this->entityManager->getRepository("App\Entity\Module")->find(2);
         
         $this->response['module']['id'] = $moduleEntity->getId();
         $this->response['module']['label'] = $moduleEntity->getLabel();

@@ -10,11 +10,9 @@ function ControlPanelSetting() {
     
     // Functions public
     self.init = function() {
-        utility.accordion();
-        
         languageManage();
         
-        utility.wordTag("#form_setting_roleUserId");
+        utility.wordTag("#setting_roleUserId", "#form_setting_roleUserId");
         
         $("#form_setting_payPalCurrencyCode").on("keyup", "", function() {
             $(this).val($(this).val().toUpperCase());
@@ -28,7 +26,7 @@ function ControlPanelSetting() {
             var propNameLanguageManageDate = $("#form_setting_languageManageDate").prop("name");
             $("#form_setting_languageManageDate").removeAttr("name");
             
-            $("#setting_language_manage_minus").removeClass("button_icon_inline");
+            $("#setting_language_manage_remove").removeClass("button_icon_inline");
             $("#setting_language_manage_erase").click();
             
             ajax.send(
@@ -61,12 +59,12 @@ function ControlPanelSetting() {
             $("#setting_language_manage_erase").click();
             
             index = $(this).prop("selectedIndex");
-            code = $("#form_setting_language").find("option").eq(index).val();
+            code = $(this).val();
             
             if (index > 2)
-                $("#setting_language_manage_minus").show();
+                $("#setting_language_manage_remove").show();
             else
-                $("#setting_language_manage_minus").hide();
+                $("#setting_language_manage_remove").hide();
         });
         
         $("#setting_language_manage_modify").on("click", "", function() {
@@ -82,7 +80,7 @@ function ControlPanelSetting() {
             $("#form_setting_languageManageDate").val(valueDateSelected);
         });
         
-        $("#setting_language_manage_plus").on("click", "", function() {
+        $("#setting_language_manage_add").on("click", "", function() {
             eventAjax = "createLanguage";
             
             $("#setting_language_manage_container").show();
@@ -90,41 +88,6 @@ function ControlPanelSetting() {
             $("#form_setting_languageManage").prop("disabled", false);
             $("#form_setting_languageManage").val("");
             $("#form_setting_languageManageDate").val("");
-        });
-        
-        $("#setting_language_manage_minus").on("click", "", function() {
-            popupEasy.create(
-                window.text.warning,
-                window.textSetting.label_1,
-                function() {
-                    ajax.send(
-                        true,
-                        window.url.cpSettingLanguageManage,
-                        "post",
-                        {
-                            'event': "deleteLanguage",
-                            'code': code,
-                            'token': window.session.token
-                        },
-                        "json",
-                        false,
-                        null,
-                        function(xhr) {
-                            ajax.reply(xhr, "");
-                            
-                            if (xhr.response.messages.success !== undefined) {
-                                $("#setting_language_manage_minus").removeClass("button_icon_inline");
-                                $("#setting_language_manage_erase").click();
-                                
-                                $("#form_setting_language").find("option").eq(index).remove();
-                                $(".form_language_codeText").find("option").eq(index).remove();
-                            }
-                        },
-                        null,
-                        null
-                    );
-                }
-            );
         });
         
         $("#setting_language_manage_confirm").on("click", "", function() {
@@ -149,7 +112,7 @@ function ControlPanelSetting() {
                     
                     if (xhr.response.messages.success !== undefined) {
                         $("#form_setting_language").append("<option value=\"" + code + "\">" + code + "</option>");
-                        $(".form_language_codeText").append("<option value=\"" + code + "\">" + code + "</option>");
+                        //$(".form_language_codeText").append("<option value=\"" + code + "\">" + code + "</option>");
                         
                         $("#setting_language_manage_erase").click();
                     }
@@ -159,9 +122,44 @@ function ControlPanelSetting() {
             );
         });
         
+        $("#setting_language_manage_remove").on("click", "", function() {
+            popupEasy.create(
+                window.text.index_5,
+                window.textSetting.label_1,
+                function() {
+                    ajax.send(
+                        true,
+                        window.url.cpSettingLanguageManage,
+                        "post",
+                        {
+                            'event': "deleteLanguage",
+                            'code': code,
+                            'token': window.session.token
+                        },
+                        "json",
+                        false,
+                        null,
+                        function(xhr) {
+                            ajax.reply(xhr, "");
+                            
+                            if (xhr.response.messages.success !== undefined) {
+                                $("#setting_language_manage_erase").click();
+                                
+                                $("#form_setting_language").find("option").eq(index).remove();
+                                //$(".form_language_codeText").find("option").eq(index).remove();
+                            }
+                        },
+                        null,
+                        null
+                    );
+                }
+            );
+        });
+        
         $("#setting_language_manage_erase").on("click", "", function() {
             $("#form_setting_languageManage").val("");
             $("#form_setting_languageManageDate").val("");
+            
             $("#setting_language_manage_container").hide();
         });
     }

@@ -20,16 +20,13 @@ class ModuleDragFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add("sortHeader", HiddenType::class, Array(
+        $builder->add("positionLeft", HiddenType::class, Array(
             'required' => true
         ))
-        ->add("sortLeft", HiddenType::class, Array(
+        ->add("positionCenter", HiddenType::class, Array(
             'required' => true
         ))
-        ->add("sortCenter", HiddenType::class, Array(
-            'required' => true
-        ))
-        ->add("sortRight", HiddenType::class, Array(
+        ->add("positionRight", HiddenType::class, Array(
             'required' => true
         ));
     }

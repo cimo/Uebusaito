@@ -1,75 +1,37 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
-<div>
-    <h3 class="form_title">{% trans %}userCreation_1{% endtrans %}</h3>
+<fieldset>
+    <legend>{% trans %}userCreation_1{% endtrans %}</legend>
+    <p>{% trans %}userCreation_2{% endtrans %}</p>
     <form id="form_cp_user_creation" action="{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         {% if is_granted("ROLE_ADMIN") == true %}
-            <div id="user_roleUserId_wordTag_container" class="form-group">
-                {{form_label(form.roleUserId, "userCreation_2")}}
-                {{form_errors(form.roleUserId)}}
-                {{form_widget(form.roleUserId)}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                    {{response.values.userRoleSelectHtml|raw}}
-                </div>
+            <div id="user_roleUserId" class="wordTag_container">
+                {{form_row(form.roleUserId)}}
+                {{response.values.userRoleSelectHtml|raw}}
+                <div class="wordTag_result"></div>
             </div>
         {% endif %}
-
-        <div class="form-group">
-            {{form_label(form.username, "userCreation_3")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-paw"></i></span>
-                {{form_errors(form.username)}}
-                {{form_widget(form.username)}}
-            </div>
-        </div>
-
-        {{form_row(form.name, {'label': "userCreation_4"})}}
-        {{form_row(form.surname, {'label': "userCreation_5"})}}
-
-        <div class="form-group">
-            {{form_label(form.email, "userCreation_6")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                {{form_errors(form.email)}}
-                {{form_widget(form.email)}}
-            </div>
-        </div>
-
-        {{form_row(form.telephone, {'label': "userCreation_7"})}}
-        {{form_row(form.born, {'label': "userCreation_8"})}}
-        {{form_row(form.gender, {'label': "userCreation_9"})}}
-
-        {{form_row(form.fiscalCode, {'label': "userCreation_10"})}}
-        {{form_row(form.companyName, {'label': "userCreation_11"})}}
-        {{form_row(form.vat, {'label': "userCreation_12"})}}
-
-        {{form_row(form.website, {'label': "userCreation_13"})}}
-        {{form_row(form.state, {'label': "userCreation_14"})}}
-        {{form_row(form.city, {'label': "userCreation_15"})}}
-        {{form_row(form.zip, {'label': "userCreation_16"})}}
-        {{form_row(form.address, {'label': "userCreation_17"})}}
-
-        <div class="form-group">
-            {{form_label(form.password, "userCreation_18")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                {{form_errors(form.password)}}
-                {{form_widget(form.password)}}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{form_label(form.passwordConfirm, "userCreation_19")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                {{form_errors(form.passwordConfirm)}}
-                {{form_widget(form.passwordConfirm)}}
-            </div>
-        </div>
-
+        
+        {{form_row(form.username, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "pets"})}}
+        {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.surname, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.email, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "email"})}}
+        {{form_row(form.telephone, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.born, {'dense': "", 'styleType': "outlinedTrailing", 'attr' : {'class': "widget_datePicker_input"} })}}
+        {{form_row(form.gender)}}
+        {{form_row(form.fiscalCode, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.companyName, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.vat, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.website, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.state, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.city, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.zip, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.address, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.password, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "linear_scale"})}}
+        {{form_row(form.passwordConfirm, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "linear_scale"})}}
+        
         {{form_widget(form._token)}}
-
-        <input class="button_custom" type="submit" value="{% trans %}index_9{% endtrans %}"/>
+        
+        {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
     </form>
-</div>
+</fieldset>

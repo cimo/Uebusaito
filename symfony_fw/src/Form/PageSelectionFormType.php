@@ -28,8 +28,8 @@ class PageSelectionFormType extends AbstractType {
             'placeholder' => "pageSelectionFormType_1",
             'choices' => $options['choicesId']
         ))
-        ->add("submit", SubmitType::class, Array());
+        ->add("submit", SubmitType::class, Array(
+            'label' => "pageSelectionFormType_2"
+        ));
     }
-    
-    // Functions private
 }

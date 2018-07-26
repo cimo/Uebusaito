@@ -29,68 +29,91 @@ class UserFormType extends AbstractType {
             'required' => true
         ))
         ->add("username", TextType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "userFormType_1"
         ))
         ->add("name", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_2"
         ))
         ->add("surname", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_3"
         ))
         ->add("email", EmailType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "userFormType_4"
         ))
         ->add("telephone", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_5"
         ))
         ->add("born", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_6"
         ))
         ->add("gender", ChoiceType::class, Array(
             'required' => false,
-            'placeholder' => "userFormType_1",
+            'placeholder' => "userFormType_7",
             'choices' => Array(
-                'userFormType_2' => "m",
-                'userFormType_3' => "w"
+                'userFormType_8' => "m",
+                'userFormType_9' => "w"
             )
         ))
         ->add("fiscalCode", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_10"
         ))
         ->add("companyName", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_11"
         ))
         ->add("vat", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_12"
         ))
         ->add("website", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_13"
         ))
         ->add("state", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_14"
         ))
         ->add("city", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_15"
         ))
         ->add("zip", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_16"
         ))
         ->add("address", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "userFormType_17"
         ))
         ->add("password", PasswordType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "userFormType_18"
         ))
         ->add("passwordConfirm", PasswordType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "userFormType_19"
         ))
         ->add("notLocked", ChoiceType::class, Array(
             'required' => true,
+            'placeholder' => "userFormType_20",
             'choices' => Array(
-                "userFormType_4" => "0",
-                "userFormType_5" => "1"
+                "userFormType_21" => "0",
+                "userFormType_22" => "1"
             )
         ))
-        ->add("submit", SubmitType::class, Array());
+        ->add("credit", TextType::class, Array(
+            'required' => false,
+            'label' => "userFormType_23"
+        ))
+        ->add("submit", SubmitType::class, Array(
+            'label' => "userFormType_24"
+        ));
     }
 }

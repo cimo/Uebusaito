@@ -3,7 +3,7 @@
 <fieldset class="accordion_container">
     <legend>{% trans %}profile_1{% endtrans %}</legend>
     <p>{% trans %}profile_2{% endtrans %}</p>
-    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button" disabled>{% trans %}index_14{% endtrans %}</button>
+    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
     <div class="accordion">
         <form id="form_cp_profile" action="{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <div id="upload_profile_container">
@@ -15,31 +15,31 @@
             </div>
 
             {% if is_granted("ROLE_ADMIN") == true %}
-                {{form_row(form.username, {'label': "profile_3", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "pets"})}}
+                {{form_row(form.username, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "pets"})}}
             {% endif %}
 
-            {{form_row(form.name, {'label': "profile_4", 'dense': "", 'styleType': "outlinedTrailing"})}}
-            {{form_row(form.surname, {'label': "profile_5", 'dense': "", 'styleType': "outlinedTrailing"})}}
-            {{form_row(form.email, {'label': "profile_6", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "email"})}}
-            {{form_row(form.telephone, {'label': "profile_7", 'dense': "", 'styleType': "outlinedTrailing"})}}
-            {{form_row(form.born, {'label': "profile_8", 'dense': "", 'styleType': "outlinedTrailing", 'attr' : {'class': "widget_datePicker_input"} })}}
-            {{form_row(form.gender, {'label': "profile_9"})}}
+            {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.surname, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.email, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "email"})}}
+            {{form_row(form.telephone, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.born, {'dense': "", 'styleType': "outlinedTrailing", 'attr' : {'class': "widget_datePicker_input"} })}}
+            {{form_row(form.gender)}}
 
             {% if form.fiscalCode.vars.value != "" %}
-                {{form_row(form.fiscalCode, {'label': "profile_10", 'dense': ""})}}
-                {{form_row(form.companyName, {'label': "profile_11", 'dense': ""})}}
-                {{form_row(form.vat, {'label': "profile_12", 'dense': ""})}}
+                {{form_row(form.fiscalCode, {'dense': "", 'styleType': "outlinedTrailing"})}}
+                {{form_row(form.companyName, {'dense': "", 'styleType': "outlinedTrailing"})}}
+                {{form_row(form.vat, {'dense': "", 'styleType': "outlinedTrailing"})}}
             {% endif %}
 
-            {{form_row(form.website, {'label': "profile_13", 'dense': "", 'styleType': "outlinedTrailing"})}}
-            {{form_row(form.state, {'label': "profile_14", 'dense': "", 'styleType': "outlinedTrailing"})}}
-            {{form_row(form.city, {'label': "profile_15", 'dense': "", 'styleType': "outlinedTrailing"})}}
-            {{form_row(form.zip, {'label': "profile_16", 'dense': "", 'styleType': "outlinedTrailing"})}}
-            {{form_row(form.address, {'label': "profile_17", 'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.website, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.state, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.city, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.zip, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.address, {'dense': "", 'styleType': "outlinedTrailing"})}}
 
             {{form_widget(form._token)}}
 
-            {{form_widget(form.submit, {'label': "index_11", 'dense': "", 'raised': ""})}}
+            {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
         </form>
     </div>
 </fieldset>

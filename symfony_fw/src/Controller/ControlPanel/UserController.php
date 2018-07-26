@@ -39,7 +39,7 @@ class UserController extends Controller {
     *   path = "/cp_user_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/user_creation.html.twig")
     */
@@ -69,7 +69,7 @@ class UserController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_field", true);
+        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_select", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -117,7 +117,7 @@ class UserController extends Controller {
     *   path = "/cp_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/user_selection.html.twig")
     */
@@ -151,7 +151,7 @@ class UserController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($userRows, $tableAndPagination['listHtml']);
-        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
         
         $form = $this->createForm(UserSelectionFormType::class, null, Array(
             'validation_groups' => Array('user_selection'),
@@ -185,7 +185,7 @@ class UserController extends Controller {
     *   path = "/cp_user_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/user_profile.html.twig")
     */
@@ -228,7 +228,7 @@ class UserController extends Controller {
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_field", true);
+                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_select", true);
                     $this->response['values']['id'] = $_SESSION['userProfileId'];
                     $this->response['values']['credit'] = $userEntity->getCredit();
 
@@ -259,7 +259,7 @@ class UserController extends Controller {
     *   path = "/cp_user_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/user_profile.html.twig")
     */
@@ -341,7 +341,7 @@ class UserController extends Controller {
     *   path = "/cp_user_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/user_deletion.html.twig")
     */
@@ -428,19 +428,21 @@ class UserController extends Controller {
                     {$value['id']}
                 </td>
                 <td class=\"checkbox_column\">
-                    <input class=\"display_inline margin_clear\" type=\"checkbox\"/>
+                    <div class=\"mdc-checkbox\">
+                        <input class=\"mdc-checkbox__native-control\" type=\"checkbox\"/>
+                        <div class=\"mdc-checkbox__background\">
+                            <svg class=\"mdc-checkbox__checkmark\" viewBox=\"0 0 24 24\">
+                                <path class=\"mdc-checkbox__checkmark-path\" fill=\"none\" stroke=\"white\" d=\"M1.73,12.91 8.1,19.28 22.79,4.59\"/>
+                            </svg>
+                            <div class=\"mdc-checkbox__mixedmark\"></div>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     {$roleUserRow[$key][0]}
                 </td>
                 <td>
                     {$value['username']}
-                </td>
-                <td>
-                    {$value['name']}
-                </td>
-                <td>
-                    {$value['surname']}
                 </td>
                 <td>
                     {$value['email']}
@@ -454,8 +456,8 @@ class UserController extends Controller {
                     else
                         $listHtml .= $this->utility->getTranslator()->trans("userController_10");
                 $listHtml .= "</td>
-                <td class=\"horizontal_center\">
-                    <button class=\"cp_user_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
+                <td>
+                    <button class=\"mdc-fab mdc-fab--mini cp_user_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

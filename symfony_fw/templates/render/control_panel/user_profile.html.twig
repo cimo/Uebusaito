@@ -1,89 +1,46 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
 <div>
-    <h3 class="form_title">{% trans %}userProfile_1{% endtrans %}</h3>
+    <h2 class="mdc-typography--headline6">{% trans %}userProfile_1{% endtrans %}</h2>
+    
     <form id="form_cp_user_profile" action="{{path("cp_user_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         {% if is_granted("ROLE_ADMIN") == true %}
-            <div id="user_roleUserId_wordTag_container" class="form-group">
-                {{form_label(form.roleUserId, "userProfile_2")}}
-                {{form_errors(form.roleUserId)}}
-                {{form_widget(form.roleUserId)}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-                    {{response.values.userRoleSelectHtml|raw}}
-                </div>
+            <div id="user_roleUserId" class="wordTag_container">
+                {{form_row(form.roleUserId)}}
+                {{response.values.userRoleSelectHtml|raw}}
+                <div class="wordTag_result"></div>
             </div>
         {% endif %}
-
-        <div class="form-group">
-            {{form_label(form.username, "userProfile_3")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-paw"></i></span>
-                {{form_errors(form.username)}}
-                {{form_widget(form.username)}}
-            </div>
-        </div>
-
-        {{form_row(form.name, {'label': "userProfile_4"})}}
-        {{form_row(form.surname, {'label': "userProfile_5"})}}
-
-        <div class="form-group">
-            {{form_label(form.email, "userProfile_6")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                {{form_errors(form.email)}}
-                {{form_widget(form.email)}}
-            </div>
-        </div>
-
-        {{form_row(form.telephone, {'label': "userProfile_7"})}}
-        {{form_row(form.born, {'label': "userProfile_8"})}}
-        {{form_row(form.gender, {'label': "userProfile_9"})}}
-
+        
+        {{form_row(form.username, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "pets"})}}
+        {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.surname, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.email, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "email"})}}
+        {{form_row(form.telephone, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.born, {'dense': "", 'styleType': "outlinedTrailing", 'attr' : {'class': "widget_datePicker_input"} })}}
+        {{form_row(form.gender)}}
+        
         {% if form.fiscalCode.vars.value != "" %}
-            {{form_row(form.fiscalCode, {'label': "userProfile_10"})}}
-            {{form_row(form.companyName, {'label': "userProfile_11"})}}
-            {{form_row(form.vat, {'label': "userProfile_12"})}}
+            {{form_row(form.fiscalCode, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.companyName, {'dense': "", 'styleType': "outlinedTrailing"})}}
+            {{form_row(form.vat, {'dense': "", 'styleType': "outlinedTrailing"})}}
         {% endif %}
-
-        {{form_row(form.website, {'label': "userProfile_13"})}}
-        {{form_row(form.state, {'label': "userProfile_14"})}}
-        {{form_row(form.city, {'label': "userProfile_15"})}}
-        {{form_row(form.zip, {'label': "userProfile_16"})}}
-        {{form_row(form.address, {'label': "userProfile_17"})}}
-
-        <div class="form-group">
-            {{form_label(form.password, "userProfile_18")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                {{form_errors(form.password)}}
-                {{form_widget(form.password)}}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{form_label(form.passwordConfirm, "userProfile_19")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                {{form_errors(form.passwordConfirm)}}
-                {{form_widget(form.passwordConfirm)}}
-            </div>
-        </div>
-
-        {{form_row(form.notLocked, {'label': "userProfile_20"})}}
-
-        <div class="form-group">
-            <label class="control-label required" for="user_credit">{% trans %}userProfile_21{% endtrans %}</label>
-            <div class="input-group">
-                <p id ="user_credit">{{response.values.credit}}</p>
-            </div>
-        </div>
-
+        
+        {{form_row(form.website, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.state, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.city, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.zip, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.address, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.password, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "linear_scale"})}}
+        {{form_row(form.passwordConfirm, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "linear_scale"})}}
+        {{form_row(form.notLocked)}}
+        {{form_row(form.credit, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "monetization_on"})}}
+        
         {{form_widget(form._token)}}
-
-        <input class="button_custom" type="submit" value="{% trans %}index_11{% endtrans %}"/>
+        
+        {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
     </form>
-
+    
     {% if is_granted("ROLE_ADMIN") == true and response.values.id > 1 %}
         {{-include("@templateRoot/render/control_panel/user_deletion.html.twig")-}}
     {% endif %}

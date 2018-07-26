@@ -34,7 +34,7 @@ class RootController extends Controller {
     *   path = "/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"GET", "POST"}
+    *	methods={"GET", "POST"}
     * )
     * @Template("@templateRoot/render/index.html.twig")
     */
@@ -78,11 +78,9 @@ class RootController extends Controller {
         
         $this->response['url']['root'] = $this->utility->getUrlRoot();
         
-        $this->response['modules']['header'] = $this->query->selectAllModuleDatabase(null, "header");
         $this->response['modules']['left'] = $this->query->selectAllModuleDatabase(null, "left");
         $this->response['modules']['center'] = $this->query->selectAllModuleDatabase(null, "center");
         $this->response['modules']['right'] = $this->query->selectAllModuleDatabase(null, "right");
-        $this->response['modules']['footer'] = $this->query->selectAllModuleDatabase(null, "footer");
         
         $this->utility->checkSessionOverTime($request, true);
         

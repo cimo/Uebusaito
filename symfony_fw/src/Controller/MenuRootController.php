@@ -43,11 +43,7 @@ class MenuRootController extends Controller {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $moduleRow = $this->query->selectModuleDatabase(1);
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
-        
-        $this->response['module']['id'] = $moduleRow['id'];
-        $this->response['module']['label'] = $moduleRow['label'];
         
         $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}";
         $this->response['values']['pageList'] = $this->utility->createPageList($pageRows, false);

@@ -1,11 +1,11 @@
-/* global utility, materialDesign, widgetSearch, widgetDatePicker, search, flashBag, captcha, authentication, registration, recoverPassword */
+/* global utility, materialDesign, widgetSearch, widgetDatePicker, search, flashBag, captcha, language, authentication, registration, recoverPassword */
 
 $(document).ready(function() {
     utility.init();
     utility.checkMobile(true);
     utility.linkPreventDefault();
     utility.accordion("button");
-    //utility.watch("#flashBag", flashBag.sessionActivity);
+    console.log("flashBag.sessionActivity -> " + window.session.userActivity);
     
     // Material design
     materialDesign.init();
@@ -53,27 +53,11 @@ $(document).ready(function() {
     registration.init();
     recoverPassword.init();
     
-    /*controlPanelUser.init();
-    controlPanelUser.changeView();
-    
-    controlPanelModule.init();
-    controlPanelModule.changeView();
-    
-    controlPanelRoleUser.init();
-    controlPanelRoleUser.changeView();
-    
-    controlPanelSetting.init();
-    
-    pageComment.init();*/
+    /*pageComment.init();*/
     
     $(window).resize(function() {
         materialDesign.refresh();
         
         widgetSearch.changeView();
-        
-        /*controlPanelPage.changeView();
-        controlPanelUser.changeView();
-        controlPanelModule.changeView();
-        controlPanelRoleUser.changeView();*/
     });
 });

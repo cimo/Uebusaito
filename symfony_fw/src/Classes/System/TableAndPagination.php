@@ -40,7 +40,8 @@ class TableAndPagination {
         return Array(
             'search' => $search,
             'pagination' => $pagination,
-            'listHtml' => $listHtml
+            'listHtml' => $listHtml,
+            'count' => count($elements)
         );
     }
     
@@ -54,24 +55,22 @@ class TableAndPagination {
     private function search($index, $value) {
         if ($value == -1)
             $_SESSION[$index] = 0;
-		else
-			$_SESSION[$index] = $value;
-		
-        $test = $_SESSION[$index] == 0 ? "" : $_SESSION[$index];
-        
-		return Array(
-            'value' => $_SESSION[$index]
+        else
+            $_SESSION[$index] = $value;
+	
+        return Array(
+            'value' => $_SESSION[$index] === 0 ? "" : $_SESSION[$index]
         );
     }
     
     private function pagination($index, $value, $count, $show) {
         if ($value == -1)
             $_SESSION[$index] = 0;
-		else
-			$_SESSION[$index] = $value;
+        else
+            $_SESSION[$index] = $value;
         
         $total = ceil($count / $show);
-        $current = $total == 0 ? 0 : $_SESSION[$index] + 1;
+        $current = $total == 0 ? $total : $_SESSION[$index] + 1;
         
         if ($_SESSION[$index] > $total)
             $_SESSION[$index] = $total;

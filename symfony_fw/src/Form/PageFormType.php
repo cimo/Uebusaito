@@ -66,22 +66,26 @@ class PageFormType extends AbstractType {
         ))
         ->add("alias", TextType::class, Array(
             'required' => true,
+            'label' => "pageFormType_1",
             'data' => $values['alias']
         ))
         ->add("parent", ChoiceType::class, Array(
             'required' => false,
-            'placeholder' => "pageFormType_1",
+            'placeholder' => "pageFormType_2",
             'choices' => $options['choicesParent']
         ))
         ->add("title", TextType::class, Array(
             'required' => false,
+            'label' => "pageFormType_3",
             'data' => $values['title']
         ))
         ->add("controllerAction", TextType::class, Array(
-            'required' => false
+            'required' => false,
+            'label' => "pageFormType_4"
         ))
         ->add("argument", TextareaType::class, Array(
             'required' => false,
+            'label' => "pageFormType_5",
             'data' => html_entity_decode($values['argument'], ENT_QUOTES, "utf-8")
         ))
         ->add("roleUserId", HiddenType::class, Array(
@@ -90,51 +94,55 @@ class PageFormType extends AbstractType {
         ))
         ->add("protected", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "pageFormType_2",
+            'placeholder' => "pageFormType_6",
             'data' => $values['protected'],
             'choices' => Array(
-                "pageFormType_6" => "0",
-                "pageFormType_7" => "1"
+                "pageFormType_7" => "0",
+                "pageFormType_8" => "1"
             )
         ))
         ->add("showInMenu", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "pageFormType_3",
+            'placeholder' => "pageFormType_9",
             'data' => $values['show_in_menu'],
             'choices' => Array(
-                "pageFormType_6" => "0",
-                "pageFormType_7" => "1"
+                "pageFormType_7" => "0",
+                "pageFormType_8" => "1"
             )
         ))
-        ->add("menuSort", HiddenType::class, Array(
+        ->add("rankMenuSort", HiddenType::class, Array(
             'required' => true
         ))
         ->add("menuName", TextType::class, Array(
             'required' => true,
+            'label' => "pageFormType_10",
             'data' => $values['menu_name']
         ))
         ->add("comment", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "pageFormType_4",
+            'placeholder' => "pageFormType_11",
             'data' => $values['comment'],
             'choices' => Array(
-                "pageFormType_6" => "0",
-                "pageFormType_7" => "1"
+                "pageFormType_7" => "0",
+                "pageFormType_8" => "1"
             )
         ))
         ->add("onlyLink", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "pageFormType_5",
+            'placeholder' => "pageFormType_12",
             'data' => $values['only_link'],
             'choices' => Array(
-                "pageFormType_6" => "0",
-                "pageFormType_7" => "1"
+                "pageFormType_7" => "0",
+                "pageFormType_8" => "1"
             )
         ))
         ->add("link", TextType::class, Array(
             'required' => true,
+            'label' => "pageFormType_13",
             'data' => $values['link']
         ))
-        ->add("submit", SubmitType::class, Array());
+        ->add("submit", SubmitType::class, Array(
+            'label' => "pageFormType_14",
+        ));
     }
 }

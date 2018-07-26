@@ -21,7 +21,7 @@ function FlashBag() {
     self.show = function(message) {
         var snackbarDataObj = {
             message: message,
-            actionText: window.text.close,
+            actionText: window.text.index_7,
             actionHandler: function() {}
         };
         

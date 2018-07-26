@@ -39,7 +39,7 @@ class RoleUserController extends Controller {
     *   path = "/cp_roleUser_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_creation.html.twig")
     */
@@ -63,6 +63,8 @@ class RoleUserController extends Controller {
         
         // Logic
         $roleUserEntity = new RoleUser();
+        
+        $_SESSION['roleUserProfileId'] = 0;
         
         $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
             'validation_groups' => Array('roleUser_creation')
@@ -105,7 +107,7 @@ class RoleUserController extends Controller {
     *   path = "/cp_roleUser_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_selection.html.twig")
     */
@@ -139,7 +141,7 @@ class RoleUserController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
         
         $form = $this->createForm(RoleUserSelectionFormType::class, null, Array(
             'validation_groups' => Array('roleUser_selection'),
@@ -173,7 +175,7 @@ class RoleUserController extends Controller {
     *   path = "/cp_roleUser_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_profile.html.twig")
     */
@@ -245,7 +247,7 @@ class RoleUserController extends Controller {
     *   path = "/cp_roleUser_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_profile.html.twig")
     */
@@ -311,7 +313,7 @@ class RoleUserController extends Controller {
     *   path = "/cp_roleUser_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_deletion.html.twig")
     */
@@ -383,14 +385,22 @@ class RoleUserController extends Controller {
                     {$value['id']}
                 </td>
                 <td class=\"checkbox_column\">
-                    <input class=\"display_inline margin_clear\" type=\"checkbox\"/>
+                    <div class=\"mdc-checkbox\">
+                        <input class=\"mdc-checkbox__native-control\" type=\"checkbox\"/>
+                        <div class=\"mdc-checkbox__background\">
+                            <svg class=\"mdc-checkbox__checkmark\" viewBox=\"0 0 24 24\">
+                                <path class=\"mdc-checkbox__checkmark-path\" fill=\"none\" stroke=\"white\" d=\"M1.73,12.91 8.1,19.28 22.79,4.59\"/>
+                            </svg>
+                            <div class=\"mdc-checkbox__mixedmark\"></div>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     {$value['level']}
                 </td>";
                 $listHtml .= "<td class=\"horizontal_center\">";
                     if ($value['id'] > 2)
-                        $listHtml .= "<button class=\"cp_roleUser_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
+                        $listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_roleUser_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

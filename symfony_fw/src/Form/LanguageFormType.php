@@ -28,12 +28,7 @@ class LanguageFormType extends AbstractType {
             $builder->add("codeText", ChoiceType::class, Array(
                 'required' => true,
                 'choices' => $options['choicesCodeText'],
-                'preferred_choices' => Array(
-                    $options['preferredChoicesCodeText']
-                ),
-                'attr' => array(
-                    'class' => "form_language_codeText display_inline"
-                )
+                'data' => $options['preferredChoicesCodeText']
             ));
         }
         else if ($options['type'] == "page") {

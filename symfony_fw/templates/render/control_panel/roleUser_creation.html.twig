@@ -1,19 +1,13 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
-<div>
-    <h3 class="form_title">{% trans %}roleUserCreation_1{% endtrans %}</h3>
+<fieldset>
+    <legend>{% trans %}roleUserCreation_1{% endtrans %}</legend>
+    <p>{% trans %}roleUserCreation_2{% endtrans %}</p>
     <form id="form_cp_roleUser_creation" action="{{path("cp_roleUser_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        <div class="form-group">
-            {{form_label(form.level, "roleUserCreation_2")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-header"></i></span>
-                {{form_errors(form.level)}}
-                {{form_widget(form.level)}}
-            </div>
-        </div>
+        {{form_row(form.level, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "supervisor_account"})}}
 
         {{form_widget(form._token)}}
 
-        <input class="button_custom" type="submit" value="{% trans %}index_9{% endtrans %}"/>
+        {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
     </form>
-</div>
+</fieldset>

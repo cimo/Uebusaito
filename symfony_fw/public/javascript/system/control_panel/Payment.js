@@ -110,7 +110,7 @@ function ControlPanelPayment() {
         
         $(document).on("click", "#cp_payment_selection_result_desktop .delete_all", function() {
             popupEasy.create(
-                window.text.warning,
+                window.text.index_5,
                 window.textPayment.label_2,
                 function() {
                     ajax.send(
@@ -132,6 +132,8 @@ function ControlPanelPayment() {
                             });
                             
                             $("#cp_payment_selection_result").html("");
+                            
+                            popupEasy.close();
                         },
                         null,
                         null
@@ -214,7 +216,7 @@ function ControlPanelPayment() {
     
     function deletion(id) {
         popupEasy.create(
-            window.text.warning,
+            window.text.index_5,
             window.textPayment.label_1,
             function() {
                 ajax.send(

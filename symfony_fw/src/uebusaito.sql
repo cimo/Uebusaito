@@ -84,7 +84,7 @@ CREATE TABLE `pages` (
   `role_user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,2,',
   `protected` tinyint(1) NOT NULL DEFAULT '0',
   `show_in_menu` tinyint(1) NOT NULL DEFAULT '1',
-  `position_in_menu` int(11) DEFAULT NULL,
+  `rank_in_menu` int(11) DEFAULT NULL,
   `comment` tinyint(1) NOT NULL DEFAULT '1',
   `only_link` tinyint(1) NOT NULL DEFAULT '0',
   `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
@@ -98,7 +98,7 @@ CREATE TABLE `pages` (
 -- Dump dei dati per la tabella `pages`
 --
 
-INSERT INTO `pages` (`id`, `alias`, `parent`, `controller_action`, `role_user_id`, `protected`, `show_in_menu`, `position_in_menu`, `comment`, `only_link`, `link`, `user_creation`, `date_creation`, `user_modification`, `date_modification`) VALUES
+INSERT INTO `pages` (`id`, `alias`, `parent`, `controller_action`, `role_user_id`, `protected`, `show_in_menu`, `rank_in_menu`, `comment`, `only_link`, `link`, `user_creation`, `date_creation`, `user_modification`, `date_modification`) VALUES
 (1, 'controlPanel', NULL, 'App\\Controller\\ControlPanelController::renderAction', '1,2,', 1, 0, 1, 1, 0, '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00'),
 (2, 'home', NULL, NULL, '1,2,', 0, 1, 2, 1, 0, '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00'),
 (3, 'registration', NULL, 'App\\Controller\\RegistrationController::renderAction', '1,2,', 0, 0, 3, 1, 0, '-', '-', '0000-00-00 00:00:00', '-', '0000-00-00 00:00:00'),

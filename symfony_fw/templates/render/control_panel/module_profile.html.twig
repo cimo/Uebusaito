@@ -1,61 +1,40 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
 <div>
-    <h3 class="form_title">{% trans %}moduleProfile_1{% endtrans %}</h3>
+    <h2 class="mdc-typography--headline6">{% trans %}moduleProfile_1{% endtrans %}</h2>
+    
     <form id="form_cp_module_profile" action="{{path("cp_module_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        <div class="display_mobile">
-            <div class="form-group">
-                {{form_label(form.position, "moduleProfile_2")}}
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-puzzle-piece"></i></span>
-                    {{form_errors(form.position)}}
-                    {{form_widget(form.position)}}
-                </div>
-            </div>
+        {{form_row(form.position)}}
 
-            <div class="form-group">
-                {{form_label(form.rankInColumn, "moduleProfile_3")}}
-                {{form_errors(form.rankInColumn)}}
-                {{form_widget(form.rankInColumn, {'attr': {'size': '8'}})}}
-
-                {{form_row(form.sort)}}
-                <div id="module_position_sort">
-                    <div class="horizontal_center">
-                        <i id="module_sort_button_up" class="fa fa-caret-square-o-up button_sort"></i>
-                        <i id="module_sort_button_down" class="fa fa-caret-square-o-down button_sort"></i>
-                    </div>
-                </div>
+        <div id="module_rankColumnSort" class="sort_container">
+            <p>{% trans %}moduleProfile_2{% endtrans %} <i class="material-icons">list</i></p>
+            <div class="sort_result">
+                {{response.values.moduleSortListHtml|raw}}
             </div>
+            <div class="sort_control">
+                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button">
+                    <i class="material-icons mdc-button__icon button_up" aria-hidden="true">arrow_drop_up</i>
+                    {% trans %}moduleProfile_3{% endtrans %}
+                </button>
+                <button class="mdc-button mdc-button--dense mdc-button--raised" type="button">
+                    <i class="material-icons mdc-button__icon button_down" aria-hidden="true">arrow_drop_down</i>
+                    {% trans %}moduleProfile_4{% endtrans %}
+                </button>
+            </div>
+            {{form_row(form.rankColumnSort)}}
         </div>
-
-        <div class="form-group">
-            {{form_label(form.name, "moduleProfile_4")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-header"></i></span>
-                {{form_errors(form.name)}}
-                {{form_widget(form.name)}}
-            </div>
-        </div>
-
-        {{form_row(form.label, {'label': "moduleProfile_5"})}}
-
-        <div class="form-group">
-            {{form_label(form.controllerName, "moduleProfile_6")}}
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-file"></i></span>
-                {{form_errors(form.controllerName)}}
-                {{form_widget(form.controllerName)}}
-            </div>
-        </div>
-
-        {{form_row(form.active, {'label': "moduleProfile_7"})}}
+        
+        {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
+        {{form_row(form.label, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.controllerName, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "toll"})}}
+        {{form_row(form.active)}}
 
         {{form_widget(form._token)}}
 
-        <input class="button_custom" type="submit" value="{% trans %}index_11{% endtrans %}"/>
+        {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
     </form>
-
-    {% if is_granted("ROLE_ADMIN") == true and response.values.id > 5 %}
+    
+    {% if is_granted("ROLE_ADMIN") == true and response.values.id > 2 %}
         {{-include("@templateRoot/render/control_panel/module_deletion.html.twig")-}}
     {% endif %}
 </div>

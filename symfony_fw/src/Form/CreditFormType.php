@@ -22,8 +22,11 @@ class CreditFormType extends AbstractType {
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add("credit", TextType::class, Array(
-            'required' => true
+            'required' => true,
+            'label' => "creditFormType_1"
         ))
-        ->add("submit", SubmitType::class, Array());
+        ->add("submit", SubmitType::class, Array(
+            'label' => "creditFormType_2"
+        ));
     }
 }

@@ -1,14 +1,19 @@
-{% form_theme form "bootstrap_3_layout.html.twig" %}
+{% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
-<div>
-    <h3 class="form_title">{% trans %}moduleDrag_1{% endtrans %}</h3>
-    <input id="module_drag_switch" type="checkbox" data-on-color="success" data-off-color="danger">
-    <form id="form_cp_module_drag" action="{{path("cp_module_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-        {{form_widget(form.sortHeader, {'label': "moduleDrag_2"})}}
-        {{form_widget(form.sortLeft, {'label': "moduleDrag_3"})}}
-        {{form_widget(form.sortCenter, {'label': "moduleDrag_4"})}}
-        {{form_widget(form.sortRight, {'label': "moduleDrag_5"})}}
-
-        {{form_widget(form._token)}}
-    </form>
+<h2 class="mdc-typography--headline6">{% trans %}moduleDrag_1{% endtrans %}</h2>
+<div id="cp_module_drag_switch">
+    <div class="mdc-switch">
+        <input class="mdc-switch__native-control" type="checkbox" role="switch">
+        <div class="mdc-switch__background">
+            <div class="mdc-switch__knob"></div>
+        </div>
+    </div>
+    <label for="basic-switch">{% trans %}moduleDrag_2{% endtrans %}</label>
 </div>
+<form id="form_cp_module_drag" action="{{path("cp_module_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+    {{form_widget(form.positionLeft)}}
+    {{form_widget(form.positionCenter)}}
+    {{form_widget(form.positionRight)}}
+
+    {{form_widget(form._token)}}
+</form>

@@ -40,7 +40,7 @@ class ModuleController extends Controller {
     *   path = "/cp_module_drag/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/module_drag.html.twig")
     */
@@ -70,28 +70,22 @@ class ModuleController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
-                $sortHeaderExplode = explode(",", $form->get("sortHeader")->getData());
-                $sortLeftExplode = explode(",", $form->get("sortLeft")->getData());
-                $sortCenterExplode = explode(",", $form->get("sortCenter")->getData());
-                $sortRightExplode = explode(",", $form->get("sortRight")->getData());
-
-                if (count($sortHeaderExplode) > 0) {
-                    foreach ($sortHeaderExplode as $key => $value)
-                        $this->moduleDatabase("update", $value, $key + 1, "header");
-                }
-
-                if (count($sortLeftExplode) > 0) {
-                    foreach ($sortLeftExplode as $key => $value)
+                $positionLeftExplode = explode(",", $form->get("positionLeft")->getData());
+                $positionCenterExplode = explode(",", $form->get("positionCenter")->getData());
+                $positionRightExplode = explode(",", $form->get("positionRight")->getData());
+                
+                if (count($positionLeftExplode) > 0) {
+                    foreach ($positionLeftExplode as $key => $value)
                         $this->moduleDatabase("update", $value, $key + 1, "left");
                 }
 
-                if (count($sortCenterExplode) > 0) {
-                    foreach ($sortCenterExplode as $key => $value)
+                if (count($positionCenterExplode) > 0) {
+                    foreach ($positionCenterExplode as $key => $value)
                         $this->moduleDatabase("update", $value, $key + 1, "center");
                 }
 
-                if (count($sortRightExplode) > 0) {
-                    foreach ($sortRightExplode as $key => $value)
+                if (count($positionRightExplode) > 0) {
+                    foreach ($positionRightExplode as $key => $value)
                         $this->moduleDatabase("update", $value, $key + 1, "right");
                 }
 
@@ -125,7 +119,7 @@ class ModuleController extends Controller {
     *   path = "/cp_module_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/module_creation.html.twig")
     */
@@ -139,6 +133,7 @@ class ModuleController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -150,11 +145,16 @@ class ModuleController extends Controller {
         // Logic
         $moduleEntity = new Module();
         
+        $_SESSION['moduleProfileId'] = 0;
+        
         $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
-            'validation_groups' => Array('module_creation'),
-            'choicesRankInColumn' => Array()
+            'validation_groups' => Array('module_creation')
         ));
         $form->handleRequest($request);
+        
+        $moduleRows = Array();
+        
+        $this->response['values']['moduleSortListHtml'] = $this->utility->createModuleSortListHtml($moduleRows);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -164,7 +164,7 @@ class ModuleController extends Controller {
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 
-                $this->updateRankInColumnDatabase($form->get("sort")->getData(), $moduleEntity->getId());
+                $this->updateRankInColumnDatabase($form->get("rankColumnSort")->getData(), $moduleEntity->getId());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_3");
             }
@@ -196,7 +196,7 @@ class ModuleController extends Controller {
     *   path = "/cp_module_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/module_selection.html.twig")
     */
@@ -230,7 +230,7 @@ class ModuleController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
         
         $form = $this->createForm(ModuleSelectionFormType::class, null, Array(
             'validation_groups' => Array('module_selection'),
@@ -264,7 +264,7 @@ class ModuleController extends Controller {
     *   path = "/cp_module_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/module_profile.html.twig")
     */
@@ -304,11 +304,13 @@ class ModuleController extends Controller {
                     $_SESSION['moduleProfileId'] = $id;
 
                     $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
-                        'validation_groups' => Array('module_profile'),
-                        'choicesRankInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
+                        'validation_groups' => Array('module_profile')
                     ));
                     $form->handleRequest($request);
-
+                    
+                    $rows = array_column($this->query->selectAllModuleDatabase(null, $form->get("position")->getData()), "name", "id");
+                    
+                    $this->response['values']['moduleSortListHtml'] = $this->utility->createModuleSortListHtml($rows);
                     $this->response['values']['id'] = $_SESSION['moduleProfileId'];
 
                     $this->response['render'] = $this->renderView("@templateRoot/render/control_panel/module_profile.html.twig", Array(
@@ -338,7 +340,7 @@ class ModuleController extends Controller {
     *   path = "/cp_module_profile_sort/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/module_profile.html.twig")
     */
@@ -363,8 +365,21 @@ class ModuleController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true)
-                $this->response['values']['moduleRows'] = array_column($this->query->selectAllModuleDatabase(null, $request->get("position")), "id", "name");
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("position") != "") {
+                    $rows = array_column($this->query->selectAllModuleDatabase(null, $request->get("position")), "name", "id");
+
+                    if ($_SESSION['moduleProfileId'] > 0) {
+                        $moduleEntity = $this->entityManager->getRepository("App\Entity\Module")->find($_SESSION['moduleProfileId']);
+
+                        $rows[$moduleEntity->getId()] = $moduleEntity->getName();
+                    }
+                }
+                else
+                    $rows = Array();
+                
+                $this->response['values']['moduleSortListHtml'] = $this->utility->createModuleSortListHtml($rows);
+            }
         }
         
         return $this->ajax->response(Array(
@@ -381,7 +396,7 @@ class ModuleController extends Controller {
     *   path = "/cp_module_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/module_profile.html.twig")
     */
@@ -408,8 +423,7 @@ class ModuleController extends Controller {
         $moduleEntity = $this->entityManager->getRepository("App\Entity\Module")->find($_SESSION['moduleProfileId']);
         
         $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
-            'validation_groups' => Array('module_profile'),
-            'choicesRankInColumn' => array_column($this->query->selectAllModuleDatabase(null, $moduleEntity->getPosition()), "id", "name")
+            'validation_groups' => Array('module_profile')
         ));
         $form->handleRequest($request);
         
@@ -419,7 +433,7 @@ class ModuleController extends Controller {
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 
-                $this->updateRankInColumnDatabase($form->get("sort")->getData(), $moduleEntity->getId());
+                $this->updateRankInColumnDatabase($form->get("rankColumnSort")->getData(), $moduleEntity->getId());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
             }
@@ -451,7 +465,7 @@ class ModuleController extends Controller {
     *   path = "/cp_module_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/module_deletion.html.twig")
     */
@@ -523,7 +537,15 @@ class ModuleController extends Controller {
                     {$value['id']}
                 </td>
                 <td class=\"checkbox_column\">
-                    <input class=\"display_inline margin_clear\" type=\"checkbox\"/>
+                    <div class=\"mdc-checkbox\">
+                        <input class=\"mdc-checkbox__native-control\" type=\"checkbox\"/>
+                        <div class=\"mdc-checkbox__background\">
+                            <svg class=\"mdc-checkbox__checkmark\" viewBox=\"0 0 24 24\">
+                                <path class=\"mdc-checkbox__checkmark-path\" fill=\"none\" stroke=\"white\" d=\"M1.73,12.91 8.1,19.28 22.79,4.59\"/>
+                            </svg>
+                            <div class=\"mdc-checkbox__mixedmark\"></div>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     {$value['name']}
@@ -538,8 +560,8 @@ class ModuleController extends Controller {
                         $listHtml .= $this->utility->getTranslator()->trans("moduleController_13");
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">";
-                    if ($value['id'] > 5)
-                        $listHtml .= "<button class=\"cp_module_deletion button_custom_danger\"><i class=\"fa fa-remove\"></i></button>
+                    if ($value['id'] > 2)
+                        $listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_module_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }
@@ -547,11 +569,11 @@ class ModuleController extends Controller {
         return $listHtml;
     }
     
-    private function updateRankInColumnDatabase($sort, $moduleId) {
-        $sortExplode = explode(",", $sort);
-        array_pop($sortExplode);
+    private function updateRankInColumnDatabase($rankColumnSort, $moduleId) {
+        $rankColumnSortExplode = explode(",", $rankColumnSort);
+        array_pop($rankColumnSortExplode);
         
-        foreach ($sortExplode as $key => $value) {
+        foreach ($rankColumnSortExplode as $key => $value) {
             if ($value == "")
                 $value = $moduleId;
 
@@ -584,7 +606,7 @@ class ModuleController extends Controller {
                                                                 WHERE id > :idExclude
                                                                 AND id = :id");
 
-            $query->bindValue(":idExclude", 4);
+            $query->bindValue(":idExclude", 2);
             $query->bindValue(":id", $id);
 
             return $query->execute();
@@ -593,7 +615,7 @@ class ModuleController extends Controller {
             $query = $this->utility->getConnection()->prepare("DELETE FROM modules
                                                                 WHERE id > :idExclude");
 
-            $query->bindValue(":idExclude", 4);
+            $query->bindValue(":idExclude", 2);
 
             return $query->execute();
         }

@@ -106,29 +106,6 @@ function Utility() {
         return split;
     };
     
-    self.selectWithDisabledElement = function(id, xhr) {
-        var options = $(id).find("option");
-        
-        var disabled = false;
-        var optionLength = 0;
-        
-        $.each(options, function(key, val) {
-            var optionValue = parseInt(val.value);
-            var optionText = val.text.substr(0, val.text.indexOf("-|") + 2);
-            var idElementSelected = parseInt(xhr.response.values.id);
-            
-            if (optionValue === idElementSelected) {
-                disabled = true;
-                optionLength = optionText.length;
-            }
-            else if (optionText.length <= optionLength)
-                disabled = false;
-            
-            if (disabled === true)
-                $(id).find("option").eq(key).prop("disabled", true);
-        });
-    };
-    
     self.removeElementAndResetIndex = function(element, index) {
         element.length = Object.keys(element).length;
         element.splice = [].splice;
@@ -223,87 +200,57 @@ function Utility() {
         }
     };
     
-    self.sortableModuleDrag = function(type, inputId) {
-        var columnsObject = $(".sortable_column");
-        var moduleSettingsObject = $(".module_settings");
+    self.sortableModule = function(type, inputId) {
+        var column = $(".sortable_column");
+        var module = $(".module, .module_clean");
         
         if (type === true) {
-            var elementUi = null;
+            module.find(".settings").show();
             
-            columnsObject.addClass("sortable_column_enabled");
-            moduleSettingsObject.show();
-            
-            columnsObject.sortable({
-                'cursor': "move",
-                'placeholder': "sortable_placeholder",
-                'tolerance': "pointer",
-                'revert': true,
-                'connectWith': ".sortable_column",
-                'handle': ".module_move",
-                'cursorAt': {
-                    'top': 0,
-                    'left': 0
-                },
-                'start': function(event, ui) {
-                    ui.placeholder.height(ui.item.height());
-                },
-                'helper': function(event, ui) {
-                    if ($(ui).hasClass("display_desktop") === true) {
-                        elementUi = $(ui);
-                        elementUi.removeClass("display_desktop");
+            if (self.checkWidthType() === "desktop") {
+                column.sortable({
+                    'placeholder': "sortable_placeholder",
+                    'forcePlaceholderSize': true,
+                    'tolerance': "pointer",
+                    'handle': ".material-icons",
+                    'connectWith': ".sortable_column",
+                    'start': function(event, ui) {
+                        ui.placeholder.height(ui.item.height());
+                    },
+                    'stop': function(event, ui) {
+                        ui.placeholder.height(0);
                     }
-                    else
-                        elementUi = null;
-                    
-                    var clone = $(ui).clone();
-                    clone.css({'position': "absolute"});
-                    
-                    return clone.get(0);
-                },
-                'stop': function(event, ui) {
-                    if (elementUi !== null)
-                        elementUi.addClass("display_desktop");
-                    
-                    ui.placeholder.height(0);
-                }
-            }).disableSelection();
+                }).disableSelection();
+            }
         }
         else {
-            if (columnsObject.data("ui-sortable")) {
-                columnsObject.sortable("destroy");
-                
-                columnsObject.removeClass("sortable_column_enabled");
-                moduleSettingsObject.hide();
-                
-                var header = new Array();
-                var left = new Array();
-                var center = new Array();
-                var right = new Array();
-                
-                $.each(columnsObject, function(keyA, valueA) {
-                    var panels = $(valueA).children().find(".module_settings").parent();
+            if (column.data("ui-sortable"))
+                column.sortable("destroy");
+            
+            module.find(".settings").hide();
+            
+            var left = new Array();
+            var center = new Array();
+            var right = new Array();
+            
+            $.each(column, function(keyA, valueA) {
+                var panels = $(valueA).children().find(".settings").parent();
 
-                    $.each(panels, function(keyB, valueB) {
-                        if ($(valueB).parent().hasClass("dropdown-menu") === false) {
-                            var id = valueB.id.replace("panel_id_", "");
-                            
-                            if ($(valueA).parents(".header_container").length > 0)
-                                header.push(id);
-                            else if ($(valueA).parents(".left_container").length > 0)
-                                left.push(id);
-                            else if ($(valueA).parents(".center_container").length > 0)
-                                center.push(id);
-                            else if ($(valueA).parents(".right_container").length > 0)
-                                right.push(id);
-                        }
-                    });
+                $.each(panels, function(keyB, valueB) {
+                    var id = $(valueB).prop("id").replace("panel_id_", "");
+
+                    if ($(valueA).parents(".column_left_container").length > 0)
+                        left.push(id);
+                    else if ($(valueA).parents(".column_center_container").length > 0)
+                        center.push(id);
+                    else if ($(valueA).parents(".column_right_container").length > 0)
+                        right.push(id);
                 });
-                
-                $(inputId + "Header").val(header);
-                $(inputId + "Left").val(left);
-                $(inputId + "Center").val(center);
-                $(inputId + "Right").val(right);
-            }
+            });
+            
+            $(inputId + "Left").val(left);
+            $(inputId + "Center").val(center);
+            $(inputId + "Right").val(right);
         }
     };
     
@@ -341,7 +288,7 @@ function Utility() {
             $(".wordTag_result").off("click").on("click", ".material-icons", function(event) {
                 var removeItem = $(event.target).next().attr("data-id");
 
-                inputValueSplit = jQuery.grep(inputValueSplit, function(value) {
+                inputValueSplit = $.grep(inputValueSplit, function(value) {
                     return value !== removeItem;
                 });
 
@@ -364,18 +311,18 @@ function Utility() {
             var element = $(this);
             var accordion = $(this).next();
             
-            $(".accordion_container").find(".accordion").not(accordion).prev().text(window.text.expand);
+            $(".accordion_container").find(".accordion").not(accordion).prev().text(window.text.index_9);
             
             $(".accordion_container").find(".accordion").not(accordion).removeClass("accordion_active");
             
             if (type === "button") {
                 if (accordion.hasClass("accordion_active") === false) {
-                    element.text(window.text.collapse);
+                    element.text(window.text.index_10);
 
                     accordion.addClass("accordion_active");
                 }
                 else {
-                    element.text(window.text.expand);
+                    element.text(window.text.index_9);
 
                     accordion.removeClass("accordion_active");
                 }
@@ -402,6 +349,30 @@ function Utility() {
                     $(value).not(event.target).prop("checked", false);
                 });
             }
+        });
+    };
+    
+    self.pageSelectFieldWithDisabledElement = function(id, xhr) {
+        var options = $(id).find("option");
+        
+        var disabled = false;
+        var optionLength = 0;
+        
+        $.each(options, function(key, val) {
+            var optionValue = parseInt(val.value);
+            var optionText = val.text.substr(0, val.text.indexOf("-|") + 2);
+            var idPageElementSelected = parseInt(xhr.response.values.idPage);
+            var idParentElementSelected = parseInt(xhr.response.values.idParent);
+            
+            if (optionValue === idPageElementSelected || optionValue === idParentElementSelected) {
+                disabled = true;
+                optionLength = optionText.length;
+            }
+            else if (optionText.length <= optionLength)
+                disabled = false;
+            
+            if (disabled === true)
+                $(id).find("option").eq(key).prop("disabled", true);
         });
     };
     

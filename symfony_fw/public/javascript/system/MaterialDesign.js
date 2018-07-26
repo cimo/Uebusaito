@@ -219,9 +219,8 @@ function MaterialDesign() {
     
     self.fix = function() {
         mdcTopAppBarCustom();
-        mdcButtonEnable();
-        mdcTextFieldHelperTextClear();
         mdcDrawerCustom();
+        mdcTextFieldHelperTextClear();
     };
     
     // Functions private
@@ -282,20 +281,16 @@ function MaterialDesign() {
         }
     }
     
-    function mdcButtonEnable() {
-        $(".mdc-button").not(".no_remove_disabled_md").removeAttr("disabled");
+    function mdcDrawerCustom() {
+        if (utility.checkWidthType() === "desktop") {
+            $("body").removeClass("mdc-drawer-scroll-lock");
+            $(".mdc-drawer").removeClass("mdc-drawer--open");
+        }
     }
     
     function mdcTextFieldHelperTextClear() {
         $(".mdc-text-field__input").on("blur", "", function(event) {
             $(event.target).parents(".form_row").find(".mdc-text-field-helper-text").text("");
         });
-    }
-    
-    function mdcDrawerCustom() {
-        if (utility.checkWidthType() === "desktop") {
-            $("body").removeClass("mdc-drawer-scroll-lock");
-            $(".mdc-drawer").removeClass("mdc-drawer--open");
-        }
     }
 }

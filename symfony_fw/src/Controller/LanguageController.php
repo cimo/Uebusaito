@@ -34,7 +34,7 @@ class LanguageController extends Controller {
     *   path = "/language_text/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/module/language_text.html.twig")
     */
@@ -56,7 +56,6 @@ class LanguageController extends Controller {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $moduleRow = $this->query->selectModuleDatabase(4);
         $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);
         
         $form = $this->createForm(LanguageFormType::class, null, Array(
@@ -66,9 +65,6 @@ class LanguageController extends Controller {
             'preferredChoicesCodeText' => $languageRow['code']
         ));
         $form->handleRequest($request);
-        
-        $this->response['module']['id'] = $moduleRow['id'];
-        $this->response['module']['label'] = $moduleRow['label'];
         
         if ($request->isMethod("POST") == true) {
             if ($form->isValid() == true || $this->isCsrfTokenValid("intention", $request->get("form_language")['_token']) == true)
@@ -101,7 +97,7 @@ class LanguageController extends Controller {
     *   path = "/language_page/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/module/language_page.html.twig")
     */

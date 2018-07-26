@@ -36,7 +36,7 @@ class SearchController extends Controller {
     *   path = "/search_module/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/module/widget_search.html.twig")
     */
@@ -62,11 +62,6 @@ class SearchController extends Controller {
             'validation_groups' => Array('search_module')
         ));
         $form->handleRequest($request);
-        
-        $moduleRow = $this->query->selectModuleDatabase(5);
-        
-        $this->response['module']['id'] = $moduleRow['id'];
-        $this->response['module']['label'] = $moduleRow['label'];
         
         if ($request->isMethod("POST") == true) {
             if ($form->isValid() == true || $this->isCsrfTokenValid("intention", $request->get("form_search")['_token']) == true) {
@@ -102,7 +97,7 @@ class SearchController extends Controller {
     *   path = "/search_render/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-	*	methods={"POST"}
+    *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/search.html.twig")
     */
@@ -135,7 +130,7 @@ class SearchController extends Controller {
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = count($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
         
         if ($this->tableAndPagination->checkPost() == true) {
             return $this->ajax->response(Array(

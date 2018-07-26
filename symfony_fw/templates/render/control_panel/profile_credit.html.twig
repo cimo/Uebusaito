@@ -3,17 +3,17 @@
 <fieldset class="accordion_container">
     <legend>{% trans %}profileCredit_1{% endtrans %}</legend>
     <p>{% trans %}profileCredit_2{% endtrans %}</p>
-    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button" disabled>{% trans %}index_14{% endtrans %}</button>
+    <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
     <div class="accordion">
         <form id="form_cp_profile_credit" action="{{path("cp_profile_credit", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             <p><b>{% trans %}profileCredit_3{% endtrans %}</b> {{response.values.currentCredit}}</p>
             <p><b>{% trans %}profileCredit_4{% endtrans %}</b> {{settingRow['payPal_credit_amount']}} <u>{{settingRow['payPal_currency_code']|upper}}</u></p>
 
-            {{form_row(form.credit, {'label': "profileCredit_5", 'dense': "", 'styleType': "outlinedTrailing", 'icon': "monetization_on"})}}
+            {{form_row(form.credit, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "monetization_on"})}}
 
             {{form_widget(form._token)}}
 
-            {{form_widget(form.submit, {'label': "", 'dense': "", 'raised': "", 'icon': "payment"})}}
+            {{form_widget(form.submit, {'dense': "", 'raised': "", 'icon': "payment"})}}
         </form>
     </div>
 </fieldset>

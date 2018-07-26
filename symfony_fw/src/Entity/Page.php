@@ -57,12 +57,12 @@ class Page {
     private $showInMenu = true;
     
     /**
-     * @ORM\Column(name="position_in_menu", type="integer", nullable=true, columnDefinition="int(11)")
+     * @ORM\Column(name="rank_in_menu", type="integer", nullable=true, columnDefinition="int(11)")
      */
-    private $positionInMenu = null;
+    private $rankInMenu = null;
     
     // #
-    private $menuSort = null;
+    private $rankMenuSort = null;
     
     // #
     private $menuName = null;
@@ -139,12 +139,12 @@ class Page {
         $this->showInMenu = $value;
     }
     
-    public function setPositionInMenu($value) {
-        $this->positionInMenu = $value;
+    public function setRankInMenu($value) {
+        $this->rankInMenu = $value;
     }
     
-    public function setMenuSort($value) {
-        $this->menuSort = $value;
+    public function setRankMenuSort($value) {
+        $this->rankMenuSort = $value;
     }
     
     public function setMenuName($value) {
@@ -221,12 +221,12 @@ class Page {
         return $this->showInMenu;
     }
     
-    public function getPositionInMenu() {
-        return $this->positionInMenu;
+    public function getRankInMenu() {
+        return $this->rankInMenu;
     }
     
-    public function getMenuSort() {
-        return $this->menuSort;
+    public function getRankMenuSort() {
+        return $this->rankMenuSort;
     }
     
     public function getMenuName() {
