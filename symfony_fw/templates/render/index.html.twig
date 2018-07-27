@@ -45,8 +45,8 @@
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
                 {{-render(controller("App\\Controller\\SearchController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                {{-include("@templateRoot/render/module/language_text.html.twig")-}}
-                <a href="javascript:void(0)" class="material-icons mdc-top-app-bar__action-item" aria-label="Account" alt="Account">account_circle</a>
+                {{-render(controller("App\\Controller\\LanguageController::textAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                <a id="user_logout" href="javascript:void(0)" class="material-icons mdc-top-app-bar__action-item" aria-label="Account" alt="Account">account_circle</a>
             </section>
         </div>
         <aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
@@ -212,9 +212,8 @@
             'cpRoleUserDeletion': "{{path("cp_roleUser_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpSettingSave': "{{path("cp_setting_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
             'cpSettingLanguageManage': "{{path("cp_setting_language_manage", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'pageCommentCreation': "{{path("page_comment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'pageCommentRender': "{{path("page_comment_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'pageCommentResult': "{{path("page_comment_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"
+            'pageCommentRender': "{{path("pageComment_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
+            'pageCommentCreation': "{{path("pageComment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"
         };
         
         var setting = {
@@ -256,7 +255,7 @@
     <script type="text/javascript" src="{{asset("javascript/system/PopupEasy.js")}}"></script>
     <script type="text/javascript" src="{{asset("javascript/system/Language.js")}}"></script>
     <script type="text/javascript" src="{{asset("javascript/system/Wysiwyg.js")}}"></script>
-    {#<script type="text/javascript" src="{{asset("javascript/system/PageComment.js")}}"></script>#}
+    <script type="text/javascript" src="{{asset("javascript/system/PageComment.js")}}"></script>
     <script type="text/javascript" src="{{asset("javascript/system/MaterialDesign.js")}}"></script>
     <script type="text/javascript" src="{{asset("javascript/system/WidgetSearch.js")}}"></script>
     <script type="text/javascript" src="{{asset("javascript/system/WidgetDatePicker.js")}}"></script>

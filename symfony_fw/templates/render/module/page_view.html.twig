@@ -33,9 +33,9 @@
         </div>
         
         {% if urlCurrentPageId > 5 %}
-            {{-render(controller("App\\Controller\\PageCommentController::creationAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-
             {{-render(controller("App\\Controller\\PageCommentController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+
+            {{-render(controller("App\\Controller\\PageCommentController::creationAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
         {% endif %}
     </div>
 {% endblock %}

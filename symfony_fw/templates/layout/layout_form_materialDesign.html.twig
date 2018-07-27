@@ -112,9 +112,10 @@
     {#<textarea {{ block('widget_attributes') }}>{{ value }}</textarea>#}
     {# cimo + #}
     <div class="mdc-text-field mdc-text-field--textarea">
-        <textarea class="mdc-text-field__input" {{ block('widget_attributes') }} rows="8" cols="40" autocomplete="off">{{ value }}</textarea>
+        <textarea class="mdc-text-field__input" {{ block('widget_attributes') }} autocomplete="off">{{ value }}</textarea>
         <label for="textarea" class="mdc-floating-label">{% if label is defined %}{{translation_domain is same as(false) ? label : label|trans({}, translation_domain)}}{% endif %}</label>
     </div>
+    <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
 {%- endblock textarea_widget -%}
 
 {%- block choice_widget -%}

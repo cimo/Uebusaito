@@ -158,6 +158,7 @@ function MaterialDesign() {
             var menuMdc = new mdc.menu.MDCMenu(value);
             
             menuMdc.quickOpen = false;
+            menuMdc.setAnchorCorner(1 | 4 | 8); //BOTTOM: 1, CENTER: 2, RIGHT: 4, FLIP_RTL: 8
             
             $(value).prev().on("click", "", function(event) {
                 menuMdc.open = !menuMdc.open;

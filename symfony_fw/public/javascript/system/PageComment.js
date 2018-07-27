@@ -12,11 +12,11 @@ function PageComment() {
     self.init = function() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.init();
-        tableAndPagination.create(window.url.pageCommentResult, "#page_comment_result", false);
+        tableAndPagination.create(window.url.pageCommentRender, "#pageComment_result", false);
         tableAndPagination.search();
         tableAndPagination.pagination();
         
-        $("#form_page_comment").on("submit", "", function(event) {
+        $("#form_pageComment").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -37,7 +37,7 @@ function PageComment() {
             );
         });
         
-        $(document).on("click", "#page_comment_result .button_reply", function(event) {
+        $(document).on("click", "#pageComment_result .button_reply", function(event) {
             event.preventDefault();
             
             reset();
@@ -47,7 +47,7 @@ function PageComment() {
             
             ajax.send(
                 true,
-                window.url.pageCommentResult,
+                window.url.pageCommentRender,
                 "post",
                 {
                     'event': "reply",
@@ -66,7 +66,7 @@ function PageComment() {
                     $(".username_reply").find("span").text(xhr.response.values.usernameReply);
                     $(".message_reply").find(".argument").text(xhr.response.values.argumentReply);
                     
-                    $("#form_page_comment").find("textarea[name='argument']").focus();
+                    $("#form_pageComment").find("textarea[name='argument']").focus();
                     
                     utility.goToAnchor("#page_commnet_anchor");
                 },
@@ -75,7 +75,7 @@ function PageComment() {
             );
         });
         
-        $(document).on("click", "#page_comment_result .button_modify", function(event) {
+        $(document).on("click", "#pageComment_result .button_modify", function(event) {
             event.preventDefault();
             
             reset();
@@ -92,7 +92,7 @@ function PageComment() {
             else {
                 ajax.send(
                     true,
-                    window.url.pageCommentResult,
+                    window.url.pageCommentRender,
                     "post",
                     {
                         'event': "modify",

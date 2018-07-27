@@ -97,6 +97,21 @@ date.time: H:i:s
 "pageViewController_4": "This page isn't available for your role!"
 "pageViewController_5": "Need login for show content!"
 
+# Page comment
+"pageComment_1": "Comments are disabled."
+"pageComment_2": "Save"
+"pageComment_3": "Modify"
+
+"pageCommentType_1": "Argument"
+"pageCommentType_2": "Send"
+
+"pageCommentController_1": "Search not completed!"
+"pageCommentController_2": "Comment sended."
+"pageCommentController_3": "Last message is your!"
+"pageCommentController_4": "Comment not sended!"
+"pageCommentController_5": "Created on: "
+"pageCommentController_6": "Edited on: "
+
 # Search
 "searchFormType_1": "Search in the site"
 
@@ -134,23 +149,6 @@ date.time: H:i:s
 "classUpload_5": "File uploaded successfully."
 "classUpload_6": "Unable to move file to path."
 "classUpload_7": "Upload aborted."
-
-# Page comment
-"pageComment_1": "Message from user: "
-"pageComment_2": "Replay to user: "
-"pageComment_3": "Argument"
-"pageComment_4": "Comments are disabled."
-"pageComment_5": "Save"
-"pageComment_6": "Modify"
-
-"pageCommentController_1": "Comment sended."
-"pageCommentController_2": "Last message is your!"
-"pageCommentController_3": "Comment not sended!"
-"pageCommentController_4": "Comment modified."
-"pageCommentController_5": "Created on: "
-"pageCommentController_6": "Edited on: "
-"pageCommentController_7": "Replay"
-"pageCommentController_8": "Modify"
 
 # Captcha
 "captcha_1": "Chaptcha code incorrect!"

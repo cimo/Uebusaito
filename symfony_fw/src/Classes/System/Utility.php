@@ -768,18 +768,18 @@ class Utility {
     }
     
     public function checkLanguage($request) {
-        if ($request->request->get("form_language")['codeText'] != null)
-            $_SESSION['formLanguageCodeText'] = $request->request->get("form_language")['codeText'];
+        if ($request->get("codeText") != null)
+            $_SESSION['languageTextCode'] = $request->get("codeText");
         
-        if (isset($_SESSION['formLanguageCodeText']) == false) {
+        if (isset($_SESSION['languageTextCode']) == false) {
             $row = $this->query->selectSettingDatabase();
             
-            $_SESSION['formLanguageCodeText'] = $row['language'];
+            $_SESSION['languageTextCode'] = $row['language'];
         }
         
-        $request->setLocale($_SESSION['formLanguageCodeText']);
+        $request->setLocale($_SESSION['languageTextCode']);
         
-        return $_SESSION['formLanguageCodeText'];
+        return $_SESSION['languageTextCode'];
     }
     
     // Functions private

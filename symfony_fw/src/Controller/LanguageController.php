@@ -56,23 +56,13 @@ class LanguageController extends Controller {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);
-        
-        $form = $this->createForm(LanguageFormType::class, null, Array(
-            'validation_groups' => Array('language_text'),
-            'type' => "text",
-            'choicesCodeText' => array_column($this->query->selectAllLanguageDatabase(), "code", "code"),
-            'preferredChoicesCodeText' => $languageRow['code']
-        ));
-        $form->handleRequest($request);
+        $this->response['values']['languageRows'] = $this->query->selectAllLanguageDatabase();
         
         if ($request->isMethod("POST") == true) {
-            if ($form->isValid() == true || $this->isCsrfTokenValid("intention", $request->get("form_language")['_token']) == true)
-                $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$form->get("codeText")->getData()}/{$request->get("urlCurrentPageId")}/{$request->get("urlExtra")}";
-            else {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true)
+                $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$request->get("codeText")}/{$request->get("urlCurrentPageId")}/{$request->get("urlExtra")}";
+            else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_1");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
             
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
@@ -86,8 +76,7 @@ class LanguageController extends Controller {
             'urlLocale' => $this->urlLocale,
             'urlCurrentPageId' => $this->urlCurrentPageId,
             'urlExtra' => $this->urlExtra,
-            'response' => $this->response,
-            'form' => $form->createView()
+            'response' => $this->response
         );
     }
     
@@ -118,10 +107,7 @@ class LanguageController extends Controller {
         
         // Logic
         $form = $this->createForm(LanguageFormType::class, null, Array(
-            'validation_groups' => Array('language_code'),
-            'type' => "page",
-            'choicesCodeText' => null,
-            'preferredChoicesCodeText' => null
+            'validation_groups' => Array('language_code')
         ));
         $form->handleRequest($request);
         

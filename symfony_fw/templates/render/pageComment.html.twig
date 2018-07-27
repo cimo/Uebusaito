@@ -1,0 +1,35 @@
+{% if (response.values.pageRow['comment'] == true and settingRow['pageComment'] == true) %}
+    {% if (response.values.listHtml is defined and response.values.listHtml != "") %}
+        <div id="pageComment_result">
+
+            {{-include("@templateRoot/include/table_and_pagination.html.twig")-}}
+
+            <div class="list_result">
+                {{response.values.listHtml|raw}}
+            </div>
+        </div>
+    {% endif %}
+    
+    {% if (response.values.username is defined) %}
+        {% if (settingRow['pageComment_active'] == true) %}
+            {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
+            
+            <form id="form_pageComment" action="{{path("pageComment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+                {{form_row(form.argument, {'dense': "", 'styleType': "outlinedTrailing"})}}
+                
+                {{form_widget(form._token)}}
+
+                {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
+            </form>
+        {% else %}
+            <p>{% trans %}pageComment_1{% endtrans %}</p>
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+<script type="text/javascript">
+    var textPageComment = {
+        'label_1': "{{"pageComment_2"|trans}}",
+        'label_2': "{{"pageComment_3"|trans}}"
+    };
+</script>

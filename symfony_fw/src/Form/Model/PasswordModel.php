@@ -33,8 +33,4 @@ class PasswordModel {
     public function getNewConfirm() {
         return $this->newConfirm;
     }
-    
-    // Functions public
-    
-    // Functions private
 }

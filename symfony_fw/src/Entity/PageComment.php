@@ -26,6 +26,11 @@ class PageComment {
     private $username = "";
     
     /**
+     * @ORM\Column(name="id_reply", type="integer", nullable=true, columnDefinition="int(11)")
+     */
+    private $idReply = null;
+    
+    /**
      * @ORM\Column(name="username_reply", type="string", nullable=true, columnDefinition="varchar(20)")
      */
     private $usernameReply = null;
@@ -52,6 +57,10 @@ class PageComment {
     
     public function setUsername($value) {
         $this->username = $value;
+    }
+    
+    public function setIdReply($value) {
+        $this->iddReply = $value;
     }
     
     public function setUsernameReply($value) {
@@ -82,6 +91,10 @@ class PageComment {
     
     public function getUsername() {
         return $this->username;
+    }
+    
+    public function getIdReply() {
+        return $this->idReply;
     }
     
     public function getUsernameReply() {

@@ -236,7 +236,7 @@ $footerColor: #ffffff;*/
         }
     }
     
-    .page_comment {
+    .pageComment {
         .avatar_reply {
             left: 65px;
         }
@@ -308,7 +308,7 @@ $footerColor: #ffffff;*/
         }
     }
     
-    .page_comment {
+    .pageComment {
         img {
             margin-bottom: 20px;
         }
@@ -590,7 +590,7 @@ p {
     }
 }
 
-.page_comment {
+.pageComment {
     position: relative;
     margin: 20px 0;
     border-top: 1px solid #eeeeee;
@@ -1173,6 +1173,10 @@ table {
     z-index: 100;
 }
 
+.mdc-menu-anchor {
+    align-self: flex-start;
+}
+
 .logo_main {
     width: 45px;
     margin-top: 8px;
@@ -1192,6 +1196,9 @@ table {
                     margin-bottom: 10px;
                 }
             }
+        }
+        .page_footer {
+            width: 100%;
         }
     }
 }
@@ -1347,26 +1354,14 @@ table {
     margin-bottom: 10px;
 }
 
-#cp_module_drag_switch {
-    margin-bottom: 10px;
-}
-
 #panel_id_1 {
-    .form_user_authentication {
-        .submit_container {
-            button {
-                margin-top: 0;
-                width: 100%;
-            }
-        }
-    }
-    
     p {
         margin: 0;
     }
     
-    .button_container {
-        a {
+    .submit_container {
+        button {
+            margin-top: 0;
             width: 100%;
         }
     }
@@ -1380,4 +1375,42 @@ table {
             text-decoration: none !important;
         }
     }
+    
+    .button_container {
+        a {
+            width: 100%;
+        }
+    }
+}
+
+#language_text_container {
+    .mdc-list-item {
+        span {
+            img {
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+#pageComment_result {
+    .mdc-list-item__meta {
+        cursor: pointer;
+    }
+}
+
+#form_pageComment {
+    .mdc-text-field--textarea {
+        width: 100%;
+        
+        .mdc-text-field__input {
+            resize: none;
+        }
+    }
+}
+
+#cp_module_drag_switch {
+    margin-bottom: 10px;
 }

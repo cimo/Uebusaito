@@ -15,8 +15,4 @@ class SearchModel {
     public function getWords() {
         return $this->words;
     }
-    
-    // Functions public
-    
-    // Functions private
 }

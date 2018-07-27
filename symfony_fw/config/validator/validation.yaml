@@ -10,13 +10,6 @@ App\Form\Model\SearchModel:
 
 App\Form\Model\LanguageModel:
     properties:
-        codeText:
-            - NotBlank:
-                groups: [language_text]
-            - Regex:
-                groups: [language_text]
-                htmlPattern: false
-                pattern: /^[a-z]{2}$/
         codePage:
             - NotBlank:
                 groups: [language_code]
@@ -234,9 +227,9 @@ App\Entity\PageComment:
     properties:
         argument:
             - NotBlank:
-                groups: [page_comment]
+                groups: [pageComment]
             - Regex:
-                groups: [page_comment]
+                groups: [pageComment]
                 htmlPattern: false
                 pattern: /^.{1,255}$/
 

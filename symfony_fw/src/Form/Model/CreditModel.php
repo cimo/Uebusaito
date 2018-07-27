@@ -15,8 +15,4 @@ class CreditModel {
     public function getCredit() {
         return $this->credit;
     }
-    
-    // Functions public
-    
-    // Functions private
 }

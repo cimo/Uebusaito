@@ -182,9 +182,18 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectPageCommentDatabase($id) {
-        $query = $this->connection->prepare("SELECT * FROM pages_comments
-                                                WHERE id = :id");
+    public function selectPageCommentDatabase($id, $username = null) {
+        if ($username == null) {
+            $query = $this->connection->prepare("SELECT * FROM pages_comments
+                                                    WHERE id = :id");
+        }
+        else {
+            $query = $this->connection->prepare("SELECT * FROM pages_comments
+                                                    WHERE id_reply = :id
+                                                    AND username = :username");
+            
+            $query->bindValue(":username", $username);
+        }
 
         $query->bindValue(":id", $id);
         

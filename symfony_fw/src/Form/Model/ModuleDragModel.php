@@ -33,8 +33,4 @@ class ModuleDragModel {
     public function getPositionRight() {
         return $this->positionRight;
     }
-    
-    // Functions public
-    
-    // Functions private
 }

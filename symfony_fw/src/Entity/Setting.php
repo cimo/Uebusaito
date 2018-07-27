@@ -36,12 +36,12 @@ class Setting {
     private $pageDate = true;
     
     /**
-     * @ORM\Column(name="page_comment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="pageComment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
     private $pageComment = true;
     
     /**
-     * @ORM\Column(name="page_comment_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="pageComment_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
     private $pageCommentActive = true;
     

@@ -55,6 +55,9 @@ function ControlPanelSetting() {
         var code = "";
         var eventAjax = "";
         
+        if (index < 2)
+            $("#setting_language_manage_remove").hide();
+        
         $("#form_setting_language").on("change", "", function() {
             $("#setting_language_manage_erase").click();
             
@@ -112,7 +115,11 @@ function ControlPanelSetting() {
                     
                     if (xhr.response.messages.success !== undefined) {
                         $("#form_setting_language").append("<option value=\"" + code + "\">" + code + "</option>");
-                        //$(".form_language_codeText").append("<option value=\"" + code + "\">" + code + "</option>");
+                        $("#language_text_container").find(".mdc-menu__items.mdc-list").append(
+                                "<li class=\"mdc-list-item\" role=\"menuitem\">\n\
+                                    <img class=\"" + code + "\" src=\"" + window.url.root + "images/templates/" + window.setting.template + "/lang/" + code + ".png\" alt=\"" + code + ".png\"/>\n\
+                                </li>"
+                        );
                         
                         $("#setting_language_manage_erase").click();
                     }
@@ -146,7 +153,7 @@ function ControlPanelSetting() {
                                 $("#setting_language_manage_erase").click();
                                 
                                 $("#form_setting_language").find("option").eq(index).remove();
-                                //$(".form_language_codeText").find("option").eq(index).remove();
+                                $("#language_text_container").find(".mdc-list-item").eq(index - 1).remove();
                             }
                         },
                         null,

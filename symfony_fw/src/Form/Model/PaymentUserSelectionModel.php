@@ -15,8 +15,4 @@ class PaymentUserSelectionModel {
     public function getUserId() {
         return $this->userId;
     }
-    
-    // Functions public
-    
-    // Functions private
 }

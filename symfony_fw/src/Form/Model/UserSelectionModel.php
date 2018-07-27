@@ -15,8 +15,4 @@ class UserSelectionModel {
     public function getId() {
         return $this->id;
     }
-    
-    // Functions public
-    
-    // Functions private
 }

@@ -15,8 +15,4 @@ class RecoverPasswordModel {
     public function getEmail() {
         return $this->email;
     }
-    
-    // Functions public
-    
-    // Functions private
 }

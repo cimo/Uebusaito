@@ -10,7 +10,7 @@ function Authentication() {
     
     // Functions public
     self.init = function() {
-        $(".form_user_authentication").on("submit", "", function(event) {
+        $("#form_authentication").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -36,12 +36,12 @@ function Authentication() {
             );
         });
         
-        $(".logout_button").on("click", "", function(event) {
+        $("#user_logout").on("click", "", function(event) {
             event.preventDefault();
             
             ajax.send(
                 true,
-                event.target.href,
+                window.url.authenticationExitCheck,
                 "post",
                 {
                     'event': "logout",
@@ -51,10 +51,7 @@ function Authentication() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.response.messages !== undefined)
-                        ajax.reply(xhr, "");
-                    else
-                        window.location.href = xhr.response.values.url;
+                    window.location.href = xhr.response.values.url;
                 },
                 null,
                 null

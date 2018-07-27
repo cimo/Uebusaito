@@ -53,10 +53,11 @@ $(document).ready(function() {
     registration.init();
     recoverPassword.init();
     
-    /*pageComment.init();*/
+    pageComment.init();
     
     $(window).resize(function() {
         materialDesign.refresh();
+        materialDesign.fix();
         
         widgetSearch.changeView();
     });

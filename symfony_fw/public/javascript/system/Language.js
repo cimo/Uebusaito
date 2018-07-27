@@ -1,4 +1,4 @@
-/* global utility, ajax, popupEasy, loader, controlPanelPage, wysiwyg */
+/* global ajax, popupEasy, controlPanelPage, wysiwyg */
 
 var language = new Language();
 
@@ -10,31 +10,27 @@ function Language() {
     
     // Functions public
     self.init = function() {
-        //selectOnModule();
-        
-        /*$("#form_language_text").on("submit", "", function(event) {
-            event.preventDefault();
-            
+        $("#language_text_container").find(".mdc-list-item").on("click", "", function(event) {
             ajax.send(
                 true,
-                $(this).prop("action"),
-                $(this).prop("method"),
-                $(this).serialize(),
+                window.url.languageText,
+                "post",
+                {
+                    'event': "languageText",
+                    'codeText': $(event.target).find("img").prop("class"),
+                    'token': window.session.token
+                },
                 "json",
                 false,
                 null,
                 function(xhr) {
-                    $("#language_button").dropdown("toggle");
-                    
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined)
                         window.location.href = xhr.response.values.url;
-                    else
-                        ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
             );
-        });*/
+        });
     };
     
     self.page = function() {
@@ -70,14 +66,6 @@ function Language() {
     };
     
     // Functions private
-    /*function selectOnModule() {
-        $(".form_language_codeText").on("change", "", function() {
-            loader.show();
-            
-            $(this).parents(".form_language_text").submit();
-        });
-    }*/
-    
     function selectOnPage() {
         $("#language_page_container").find(".flag_" + window.setting.language).parent().addClass("mdc-chip--selected");
         $("#language_page_container").find("input[name='form_language[codePage]']").val(window.setting.language);

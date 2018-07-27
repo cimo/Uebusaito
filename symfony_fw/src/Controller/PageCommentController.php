@@ -34,13 +34,72 @@ class PageCommentController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "page_comment_creation",
-    *   path = "/page_comment_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "pageComment_render",
+    *   path = "/pageComment_render/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/page_comment.html.twig")
+    * @Template("@templateRoot/render/pageComment.html.twig")
+    */
+    public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
+        
+        // Logic
+        $this->response['values']['pageRow'] = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
+        
+        $pageCommentRows = $this->query->selectAllPageCommentDatabase($this->urlCurrentPageId);
+
+        $tableAndPagination = $this->tableAndPagination->request($pageCommentRows, 20, "pageComment", false, true);
+
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
+        
+        if ($this->tableAndPagination->checkPost() == true) {
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        else
+            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_1");
+        
+        return Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
+        );
+    }
+    
+    /**
+    * @Route(
+    *   name = "pageComment_creation",
+    *   path = "/pageComment_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *	methods={"POST"}
+    * )
+    * @Template("@templateRoot/render/pageComment.html.twig")
     */
     public function creationAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -71,7 +130,7 @@ class PageCommentController extends Controller {
         $pageCommentEntity = new PageComment();
         
         $form = $this->createForm(PageCommentFormType::class, $pageCommentEntity, Array(
-            'validation_groups' => Array('page_comment')
+            'validation_groups' => Array('pageComment')
         ));
         $form->handleRequest($request);
         
@@ -79,7 +138,7 @@ class PageCommentController extends Controller {
             if ($form->isValid() == true) {
                 $pageCommentRows = $this->query->selectAllPageCommentDatabase($this->urlCurrentPageId);
                 
-                if ($pageRow['comment'] == true && $settingRow['page_comment'] == true && $settingRow['page_comment_active'] == true
+                if ($pageRow['comment'] == true && $settingRow['pageComment'] == true && $settingRow['pageComment_active'] == true
                         && $pageCommentRows[count($pageCommentRows) - 1]['username'] != $this->getUser()->getUsername()) {
                     $pageCommentEntity->setPageId($this->urlCurrentPageId);
                     $pageCommentEntity->setUsername($this->getUser()->getUsername());
@@ -93,13 +152,13 @@ class PageCommentController extends Controller {
                     $this->entityManager->persist($pageCommentEntity);
                     $this->entityManager->flush();
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_1");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_2");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_2");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_3");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_3");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_4");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -120,193 +179,61 @@ class PageCommentController extends Controller {
         );
     }
     
-    /**
-    * @Route(
-    *   name = "page_comment_render",
-    *   path = "/page_comment_render/{_locale}/{urlCurrentPageId}/{urlExtra}",
-    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-    *	methods={"POST"}
-    * )
-    * @Template("@templateRoot/render/page_comment.html.twig")
-    */
-    public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
-        $this->urlLocale = $_locale;
-        $this->urlCurrentPageId = $urlCurrentPageId;
-        $this->urlExtra = $urlExtra;
-        
-        $this->entityManager = $this->getDoctrine()->getManager();
-        
-        $this->response = Array();
-        
-        $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
-        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
-        // Logic
-        $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
-        
-        $this->response['values']['pageRow'] = $pageRow;
-        
-        $_SESSION['usernameReply'] = "";
-        
-        $this->tableAndPaginationLogic();
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response
-        );
-    }
-    
-    /**
-    * @Route(
-    *   name = "page_comment_result",
-    *   path = "/page_comment_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
-    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-    *	methods={"POST"}
-    * )
-    * @Template("@templateRoot/render/page_comment.html.twig")
-    */
-    public function resultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
-        $this->urlLocale = $_locale;
-        $this->urlCurrentPageId = $urlCurrentPageId;
-        $this->urlExtra = $urlExtra;
-        
-        $this->entityManager = $this->getDoctrine()->getManager();
-        
-        $this->response = Array();
-        
-        $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
-        // Logic
-        $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
-        $settingRow = $this->query->selectSettingDatabase();
-        
-        $this->response['values']['pageRow'] = $pageRow;
-        
-        if ($request->isMethod("POST") == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-                if ($request->get("event") == "reply" && $pageRow['comment'] == true && $settingRow['page_comment_active'] == true) {
-                    $pageCommentRow = $this->query->selectPageCommentDatabase($request->get("id"));
-
-                    $_SESSION['usernameReply'] = $pageCommentRow['username'];
-
-                    $this->response['values']['usernameReply'] = $_SESSION['usernameReply'];
-                    $this->response['values']['argumentReply'] = $pageCommentRow['argument'];
-                }
-                else if ($request->get("event") == "modify" && $pageRow['comment'] == true && $settingRow['page_comment_active'] == true) {
-                    $pageCommentDatabase = $this->pageCommentDatabase($request->get("id"), $request->get("content"));
-
-                    if ($pageCommentDatabase == true) {
-                        $this->tableAndPaginationLogic();
-
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_4");
-                    }
-                }
-                else
-                    $this->tableAndPaginationLogic();
-            }
-        }
-        
-        return $this->ajax->response(Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response
-        ));
-    }
-    
     // Functions private
-    private function tableAndPaginationLogic() {
-        $pageCommentRows = $this->query->selectAllPageCommentDatabase($this->urlCurrentPageId);
-
-        $tableAndPagination = $this->tableAndPagination->request($pageCommentRows, 20, "pageComment", false, true);
-
-        $this->response['values']['search'] = $tableAndPagination['search'];
-        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = $tableAndPagination['count'];
-    }
-    
     private function createListHtml($elements) {
         $setting = $this->query->selectSettingDatabase();
         
-        $listHtml = "";
+        $html = "<ul class=\"mdc-list mdc-list--two-line mdc-list--avatar-list\">";
         
-        $count = count($elements);
+        $elementsCount = count($elements);
         
         foreach ($elements as $key => $value) {
-            $listHtml .= "<div>
-                <div class=\"horizontal_center\">
-                    <p>{$value['username']}</p>";
+            $html .= "<li class=\"mdc-list-item\">";
+                if (file_exists("{$this->utility->getPathWeb()}/files/{$value['username']}/Avatar.jpg") == true)
+                    $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/files/{$value['username']}/Avatar.jpg\" aria-hidden=\"true\"/>";
+                else
+                    $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\" aria-hidden=\"true\"/>";
+                
+                $detail = "";
+                
+                if (strpos($value['date_creation'], "0000") === false && strpos($value['date_modification'], "0000") !== false) {
+                    $dateFormat = $this->utility->dateFormat($value['date_creation']);
                     
-                    if (file_exists("{$this->utility->getPathWeb()}/files/{$value['username']}/Avatar.jpg") == true)
-                        $listHtml .= "<img src=\"{$this->utility->getUrlRoot()}/files/{$value['username']}/Avatar.jpg\"/>";
-                    else
-                        $listHtml .= "<img src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
+                    $detail = $this->utility->getTranslator()->trans("pageCommentController_5") . "{$dateFormat[0]} [{$dateFormat[1]}]";
+                }
+                else {
+                    $dateFormat = $this->utility->dateFormat($value['date_modification']);
                     
-                    if ($value['username_reply'] != null) {
-                        if (file_exists("{$this->utility->getPathWeb()}/files/{$value['username_reply']}/Avatar.jpg") == true)
-                            $listHtml .= "<img class=\"avatar_reply\" src=\"{$this->utility->getUrlRoot()}/files/{$value['username_reply']}/Avatar.jpg\"/>";
-                        else
-                            $listHtml .= "<img class=\"avatar_reply\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
-                    }
-                    
-                $listHtml .= "</div>
-                <div>
-                    <div class=\"message\">
-                        <p contenteditable=\"false\" class=\"argument item_{$value['id']}\">{$value['argument']}</p>
-                        <div class=\"info\">";
-                            
-                            if (strpos($value['date_creation'], "0000") === false && strpos($value['date_modification'], "0000") !== false) {
-                                $dateFormat = $this->utility->dateFormat($value['date_creation']);
-                                
-                                $listHtml .= "<p><i class=\"fa fa-calendar\"></i> <b>{$this->utility->getTranslator()->trans("pageCommentController_5")}</b>{$dateFormat[0]} [{$dateFormat[1]}]</p>";
-                            }
-                            else {
-                                $dateFormat = $this->utility->dateFormat($value['date_modification']);
-                                
-                                $listHtml .= "<p><i class=\"fa fa-calendar\"></i> <b>{$this->utility->getTranslator()->trans("pageCommentController_6")}</b>{$dateFormat[0]} [{$dateFormat[1]}]</p>";
-                            }
-                            
-                        $listHtml .= "</div>
-                    </div>
-                    <div class=\"action\">";
-                        if ($this->getUser() != null) {
-                            if ($key == ($count - 1) && $this->getUser()->getUsername() != $elements[$count - 1]['username']) {
-                                $listHtml .= "<i class=\"fa fa-pencil\"></i>
-                                <a class=\"button_reply\" class=\"display_inline_block margin_bottom\" href=\"#\">
-                                    {$this->utility->getTranslator()->trans("pageCommentController_7")}
-                                </a>";
-                            }
+                    $detail = $this->utility->getTranslator()->trans("pageCommentController_6") . "{$dateFormat[0]} [{$dateFormat[1]}]";
+                }
+                
+                $html .= "<span class=\"mdc-list-item__text\">
+                    $detail
+                    <span class=\"mdc-list-item__secondary-text\">{$value['argument']}</span>
+                </span>";
 
-                            if ($this->getUser()->getUsername() == $value['username']) {
-                                $listHtml .= "<i class=\"fa fa-pencil-square-o\"></i>
-                                <a class=\"button_modify\" class=\"display_inline_block margin_bottom\" href=\"#\">
-                                    {$this->utility->getTranslator()->trans("pageCommentController_8")}
-                                </a>";
-                            }
-                        }
-                    $listHtml .= "</div>
-                </div>
-            </div>";
+                if ($this->getUser() != null) {
+                    if ($this->getUser()->getUsername() != $value['username']) {
+                        $row = $this->query->selectPageCommentDatabase($value['id'], $this->getUser()->getUsername());
+                        
+                        if ($row == false)
+                            $html .= "<span class=\"mdc-list-item__meta material-icons\" aria-hidden=\"true\">reply</span>";
+                    }
+                    else {
+                        if ($key == $elementsCount - 1)
+                            $html .= "<span class=\"mdc-list-item__meta material-icons\" aria-hidden=\"true\">edit</span>";
+                    }
+                }
+
+            $html .= "</li>";
+            
+            if ($key < $elementsCount - 1)
+                $html .= "<li role=\"separator\" class=\"mdc-list-divider\"></li>";
         }
         
-        return $listHtml;
+        $html .= "</ul>";
+        
+        return $html;
     }
     
     private function pageCommentDatabase($id, $argument) {

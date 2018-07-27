@@ -24,8 +24,4 @@ class ChangePasswordModel {
     public function getPasswordConfirm() {
         return $this->passwordConfirm;
     }
-    
-    // Functions public
-    
-    // Functions private
 }
