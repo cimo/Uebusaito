@@ -59,8 +59,14 @@ class LanguageController extends Controller {
         $this->response['values']['languageRows'] = $this->query->selectAllLanguageDatabase();
         
         if ($request->isMethod("POST") == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true)
-                $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$request->get("codeText")}/{$request->get("urlCurrentPageId")}/{$request->get("urlExtra")}";
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                $rootName = "/";
+                
+                if ($request->get("urlCurrentPageId") == 0)
+                    $rootName = "/control_panel/";
+                
+                $this->response['values']['url'] = "{$this->utility->getUrlRoot()}$rootName{$request->get("languageTextCode")}/{$request->get("urlCurrentPageId")}/{$request->get("urlExtra")}";
+            }
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_1");
             

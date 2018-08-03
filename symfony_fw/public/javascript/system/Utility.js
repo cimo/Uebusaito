@@ -200,60 +200,6 @@ function Utility() {
         }
     };
     
-    self.sortableModule = function(type, inputId) {
-        var column = $(".sortable_column");
-        var module = $(".module, .module_clean");
-        
-        if (type === true) {
-            module.find(".settings").show();
-            
-            if (self.checkWidthType() === "desktop") {
-                column.sortable({
-                    'placeholder': "sortable_placeholder",
-                    'forcePlaceholderSize': true,
-                    'tolerance': "pointer",
-                    'handle': ".material-icons",
-                    'connectWith': ".sortable_column",
-                    'start': function(event, ui) {
-                        ui.placeholder.height(ui.item.height());
-                    },
-                    'stop': function(event, ui) {
-                        ui.placeholder.height(0);
-                    }
-                }).disableSelection();
-            }
-        }
-        else {
-            if (column.data("ui-sortable"))
-                column.sortable("destroy");
-            
-            module.find(".settings").hide();
-            
-            var left = new Array();
-            var center = new Array();
-            var right = new Array();
-            
-            $.each(column, function(keyA, valueA) {
-                var panels = $(valueA).children().find(".settings").parent();
-
-                $.each(panels, function(keyB, valueB) {
-                    var id = $(valueB).prop("id").replace("panel_id_", "");
-
-                    if ($(valueA).parents(".column_left_container").length > 0)
-                        left.push(id);
-                    else if ($(valueA).parents(".column_center_container").length > 0)
-                        center.push(id);
-                    else if ($(valueA).parents(".column_right_container").length > 0)
-                        right.push(id);
-                });
-            });
-            
-            $(inputId + "Left").val(left);
-            $(inputId + "Center").val(center);
-            $(inputId + "Right").val(right);
-        }
-    };
-    
     self.wordTag = function(tagParent, tagInput) {
         if ($(tagInput).val() !== undefined) {
             var inputValueSplit = $(tagInput).val().split(",");
@@ -339,6 +285,8 @@ function Utility() {
                     accordion.removeClass("accordion_active");
                 }
             }
+            
+            materialDesign.refresh();
         });
     };
     

@@ -1,11 +1,11 @@
-# Date
-date.day: d-m-Y
-date.time: H:i:s
-
 # Lang
 "en": "en"
 "jp": "jp"
 "it": "it"
+
+# Date
+date.day: d-m-Y
+date.time: H:i:s
 
 # Entity
 "entity.user.password": "Need min 8 max 20 character."
@@ -22,6 +22,62 @@ date.time: H:i:s
 "index_8": "Connection error, please reload the page."
 "index_9": "Expand"
 "index_10": "Collapse"
+
+# My page
+"myPage_1": "My page section."
+"myPage_2": "Profile"
+"myPage_3": "Payment"
+"myPage_4": "Really delete this payment?"
+"myPage_5": "Really delete all payments?"
+
+"myPageProfile_1": "Profile form"
+"myPageProfile_2": "."
+
+"myPageProfilePassword_1": "Profile password form"
+"myPageProfilePassword_2": "."
+
+"myPageProfileCredit_1": "Profile credit form"
+"myPageProfileCredit_2": "."
+"myPageProfileCredit_3": "Current credit:"
+"myPageProfileCredit_4": "One credit value:"
+
+"myPageProfileController_1": "Username has changed, please login again."
+"myPageProfileController_2": "Profile modified."
+"myPageProfileController_3": "Profile not modified!"
+"myPageProfileController_4": "Password modified."
+"myPageProfileController_5": "Password not modified!"
+"myPageProfileController_6": "Sending to PayPal..."
+"myPageProfileController_7": "Not sended to PayPal!"
+
+"myPagePaymentSelection_1": "Payments selection form"
+"myPagePaymentSelection_2": "."
+"myPagePaymentSelection_3": "Id"
+"myPagePaymentSelection_4": "Select"
+"myPagePaymentSelection_5": "Transaction"
+"myPagePaymentSelection_6": "Date"
+"myPagePaymentSelection_7": "Status"
+"myPagePaymentSelection_8": "Payer"
+"myPagePaymentSelection_9": "Remove"
+"myPagePaymentSelection_10": "Send"
+
+"myPagePaymentProfile_1": "Payment profile"
+"myPagePaymentProfile_2": "Transaction"
+"myPagePaymentProfile_3": "Date"
+"myPagePaymentProfile_4": "Status"
+"myPagePaymentProfile_5": "Payer"
+"myPagePaymentProfile_6": "Receiver"
+"myPagePaymentProfile_7": "Currency code"
+"myPagePaymentProfile_8": "Item name"
+"myPagePaymentProfile_9": "Amount"
+"myPagePaymentProfile_10": "Quantity"
+
+"myPagePaymentDeletion_1": "Warning! If you delete the payment is impossible return back."
+"myPagePaymentDeletion_2": "Delete"
+
+"myPagePaymentController_1": "Payment not selected!"
+"myPagePaymentController_2": "Payment deletion completed."
+"myPagePaymentController_3": "All payments deletion completed."
+"myPagePaymentController_4": "Payment not deleted!"
 
 # Registration
 "registration_1": "Private"
@@ -68,7 +124,7 @@ date.time: H:i:s
 "authentication_1": "Welcome:"
 "authentication_2": "Role:"
 "authentication_3": "Last login:"
-"authentication_4": "Control panel"
+"authentication_4": "My page"
 "authentication_5": "Logout"
 "authentication_6": "Registration"
 "authentication_7": "Forgot password?"
@@ -98,19 +154,20 @@ date.time: H:i:s
 "pageViewController_5": "Need login for show content!"
 
 # Page comment
-"pageComment_1": "Comments are disabled."
-"pageComment_2": "Save"
-"pageComment_3": "Modify"
+"pageComment_1": "Need to do login for use the comments!"
+"pageComment_2": "Comments are disabled."
 
 "pageCommentType_1": "Argument"
 "pageCommentType_2": "Send"
 
 "pageCommentController_1": "Search not completed!"
 "pageCommentController_2": "Comment sended."
-"pageCommentController_3": "Last message is your!"
-"pageCommentController_4": "Comment not sended!"
-"pageCommentController_5": "Created on: "
-"pageCommentController_6": "Edited on: "
+"pageCommentController_3": "Comment not sended! Last comment is yours."
+"pageCommentController_4": "Comment replied."
+"pageCommentController_5": "Comment edited."
+"pageCommentController_6": "Comment not sended!"
+"pageCommentController_7": "Created on: "
+"pageCommentController_8": "Edited on: "
 
 # Search
 "searchFormType_1": "Search in the site"
@@ -123,6 +180,12 @@ date.time: H:i:s
 
 "languageController_1": "Change language text not completed!"
 "languageController_2": "Change language page not completed!"
+
+# Menu user
+"menuUser_1": "Control panel"
+"menuUser_2": "My page"
+"menuUser_3": "Logout"
+"menuUser_4": "Login"
 
 # Table and pagination
 "tableAndPagination_1": "Refresh"
@@ -194,14 +257,14 @@ date.time: H:i:s
 "classUtility_7": "This module"
 
 # Control panel
-"controlPanel_1": "Profile"
-"controlPanel_2": "Payments"
-"controlPanel_3": "Pages"
-"controlPanel_4": "Users"
-"controlPanel_5": "Modules"
-"controlPanel_6": "Roles"
-"controlPanel_7": "Settings"
-"controlPanel_8": "Profile section."
+"controlPanel_1": "Website home"
+"controlPanel_2": "Sytem info"
+"controlPanel_3": "Payments"
+"controlPanel_4": "Pages"
+"controlPanel_5": "Users"
+"controlPanel_6": "Modules"
+"controlPanel_7": "Roles"
+"controlPanel_8": "Settings"
 "controlPanel_9": "Payments section."
 "controlPanel_10": "Pages section."
 "controlPanel_11": "Create"
@@ -221,26 +284,7 @@ date.time: H:i:s
 "controlPanel_25": "Really delete this role?"
 "controlPanel_26": "Really delete all roles?"
 "controlPanel_27": "Really delete this language?"
-
-# Profile
-"profile_1": "Profile form"
-"profile_2": "."
-
-"profilePassword_1": "Profile password form"
-"profilePassword_2": "."
-
-"profileCredit_1": "Profile credit form"
-"profileCredit_2": "."
-"profileCredit_3": "Current credit:"
-"profileCredit_4": "One credit value:"
-
-"profileController_1": "Username has changed, please login again."
-"profileController_2": "Profile modified."
-"profileController_3": "Profile not modified!"
-"profileController_4": "Password modified."
-"profileController_5": "Password not modified!"
-"profileController_6": "Sending to PayPal..."
-"profileController_7": "Not sended to PayPal!"
+"controlPanel_28": "You don't have the permissions for access on this page!"
 
 # Payment
 "paymentUserSelection_1": "Payments user selection form"
@@ -360,7 +404,7 @@ date.time: H:i:s
 "userSelection_6": "Username"
 "userSelection_7": "Email"
 "userSelection_8": "Company name"
-"userSelection_9": "Not locked"
+"userSelection_9": "Active"
 "userSelection_10": "Remove"
 "userSelection_11": "Select"
 
@@ -388,7 +432,7 @@ date.time: H:i:s
 "userFormType_17": "Address"
 "userFormType_18": "Password"
 "userFormType_19": "Password confirm"
-"userFormType_20": "Not locked"
+"userFormType_20": "Active"
 "userFormType_21": "No"
 "userFormType_22": "Yes"
 "userFormType_23": "Credit"
@@ -412,9 +456,6 @@ date.time: H:i:s
 "module_1": "Authentication"
 "module_2": "Page"
 "module_3": "Empty"
-
-"moduleDrag_1": "Modules sort form"
-"moduleDrag_2": "Off/On"
 
 "moduleCreation_1": "Module creation form"
 "moduleCreation_2": "."
@@ -455,19 +496,17 @@ date.time: H:i:s
 "moduleSelectionFormType_1": "Name"
 "moduleSelectionFormType_2": "Select"
 
-"moduleController_1": "Modules sort complete."
-"moduleController_2": "Modules not sorted!"
-"moduleController_3": "Module create completed."
-"moduleController_4": "Module not created!"
-"moduleController_5": "Module not selected!"
-"moduleController_6": "Module update completed."
-"moduleController_7": "Module update not completed!"
-"moduleController_8": "Module profile sort problem!"
-"moduleController_9": "Module deletion completed."
-"moduleController_10": "All modules deletion completed."
-"moduleController_11": "Module not deleted!"
-"moduleController_12": "No"
-"moduleController_13": "Yes"
+"moduleController_1": "Module create completed."
+"moduleController_2": "Module not created!"
+"moduleController_3": "Module not selected!"
+"moduleController_4": "Module update completed."
+"moduleController_5": "Module update not completed!"
+"moduleController_6": "Module profile sort problem!"
+"moduleController_7": "Module deletion completed."
+"moduleController_8": "All modules deletion completed."
+"moduleController_9": "Module not deleted!"
+"moduleController_10": "No"
+"moduleController_11": "Yes"
 
 # Role
 "Admin": "Admin"

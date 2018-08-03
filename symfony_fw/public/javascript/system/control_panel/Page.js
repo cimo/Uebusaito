@@ -148,8 +148,6 @@ function ControlPanelPage() {
                             });
                             
                             $("#cp_page_selection_result").html("");
-                            
-                            popupEasy.close();
                         },
                         null,
                         null
@@ -235,7 +233,6 @@ function ControlPanelPage() {
             utility.wordTag("#page_roleUserId", "#form_page_roleUserId");
             
             materialDesign.refresh();
-            materialDesign.fix();
             
             $("#form_cp_page_profile").find(".form_row input, .form_row textarea").on("focus", "", function() {
                 profileFocus = true;
@@ -408,8 +405,6 @@ function ControlPanelPage() {
             $("#cp_page_selection_result").html("");
             
             $("#cp_page_selection_result_desktop .refresh").click();
-            
-            popupEasy.close();
         }
     }
     
@@ -422,14 +417,12 @@ function ControlPanelPage() {
             fieldsVisibilityMenu();
             
             materialDesign.refresh();
-            materialDesign.fix();
         });
         
         $("#form_page_onlyLink").on("change", "", function() {
             fieldsVisibilityLink();
             
             materialDesign.refresh();
-            materialDesign.fix();
         });
     }
     

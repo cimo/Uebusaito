@@ -1,8 +1,8 @@
 /* global utility, ajax, upload */
 
-var controlPanelProfile = new ControlPanelProfile();
+var myPageProfile = new MyPageProfile();
 
-function ControlPanelProfile() {
+function MyPageProfile() {
     // Vars
     var self = this;
     
@@ -11,12 +11,13 @@ function ControlPanelProfile() {
     // Functions public
     self.init = function() {
         upload.init();
-        upload.setTagContainer("#upload_profile_container");
-        upload.setTagProgressBar("#upload_profile_container .upload .mdc-linear-progress");
-        upload.setTagImageRefresh("#upload_profile_container .avatar");
+        upload.setUrlRequest(window.url.myPageProfileUpload);
+        upload.setTagContainer("#upload_myPage_profile_container");
+        upload.setTagProgressBar("#upload_myPage_profile_container .upload .mdc-linear-progress");
+        upload.setTagImageRefresh("#upload_myPage_profile_container .avatar");
         upload.processFile();
         
-        $("#form_cp_profile").on("submit", "", function(event) {
+        $("#form_myPage_profile").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -35,7 +36,7 @@ function ControlPanelProfile() {
             );
         });
 
-        $("#form_cp_profile_password").on("submit", "", function(event) {
+        $("#form_myPage_profile_password").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -54,7 +55,7 @@ function ControlPanelProfile() {
             );
         });
         
-        $("#form_cp_profile_credit").on("submit", "", function(event) {
+        $("#form_myPage_profile_credit").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -69,10 +70,10 @@ function ControlPanelProfile() {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
                     if (xhr.response.errors === undefined) {
-                        var credit = $("#form_cp_profile_credit").find("input[name='credit']").val();
-                        $("#form_cp_profile_credit_paypal").find("input[name='quantity']").val(credit);
+                        var credit = $("#form_myPage_profile_credit").find("input[name='credit']").val();
+                        $("#form_myPage_profile_credit_paypal").find("input[name='quantity']").val(credit);
                         
-                        $("#form_cp_profile_credit_paypal").submit();
+                        $("#form_myPage_profile_credit_paypal").submit();
                     }
                 },
                 null,

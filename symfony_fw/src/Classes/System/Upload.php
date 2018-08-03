@@ -121,7 +121,7 @@ class Upload {
 			if ($this->settings['nameOverwrite'] != "")
 				$this->name =  $this->settings['nameOverwrite'] . "." . pathinfo($this->name, PATHINFO_EXTENSION);
 
-			@rename("{$this->settings['path']}/$this->tmp", "{$this->settings['path']}/$this->name");
+			rename("{$this->settings['path']}/$this->tmp", "{$this->settings['path']}/$this->name");
 
 			if ($this->settings['path'] == "") {
 				return Array(

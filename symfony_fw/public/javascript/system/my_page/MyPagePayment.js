@@ -1,8 +1,8 @@
-/* global utility, ajax, popupEasy, widgetDatePicker, materialDesign */
+/* global utility, ajax, popupEasy, materialDesign */
 
-var controlPanelUser = new ControlPanelUser();
+var myPagePayment = new MyPagePayment();
 
-function ControlPanelUser() {
+function MyPagePayment() {
     // Vars
     var self = this;
     
@@ -16,41 +16,20 @@ function ControlPanelUser() {
         selectionDesktop();
         
         selectionMobile();
-        
-        utility.wordTag("#user_roleUserId", "#form_user_roleUserId");
-        
-        $("#form_cp_user_creation").on("submit", "", function(event) {
-            event.preventDefault();
-            
-            ajax.send(
-                true,
-                $(this).prop("action"),
-                $(this).prop("method"),
-                $(this).serialize(),
-                "json",
-                false,
-                null,
-                function(xhr) {
-                    ajax.reply(xhr, "#" + event.currentTarget.id);
-                },
-                null,
-                null
-            );
-        });
     };
     
     self.changeView = function() {
         if (utility.checkWidthType() === "mobile") {
             if (selectionSended === true) {
-                selectionId = $("#cp_user_selection_mobile").find("select option:selected").val();
+                selectionId = $("#myPage_payment_selection_mobile").find("select option:selected").val();
 
                 selectionSended = false;
             }
 
             if (selectionId >= 0) {
-                $("#cp_user_selection_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+                $("#myPage_payment_selection_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
 
-                var idColumns = $("#cp_user_selection_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+                var idColumns = $("#myPage_payment_selection_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
                 $.each(idColumns, function(key, value) {
                     if ($(value).text().trim() === String(selectionId))
@@ -60,13 +39,13 @@ function ControlPanelUser() {
         }
         else {
             if (selectionSended === true) {
-                selectionId = $("#cp_user_selection_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+                selectionId = $("#myPage_payment_selection_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
 
                 selectionSended = false;
             }
 
             if (selectionId > 0)
-                $("#cp_user_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+                $("#myPage_payment_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
         }
     };
     
@@ -75,15 +54,15 @@ function ControlPanelUser() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.init();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.create(window.url.cpUserSelection, "#cp_user_selection_result_desktop", true);
+        tableAndPagination.create(window.url.myPagePaymentSelection, "#myPage_payment_selection_result_desktop", true);
         tableAndPagination.search();
         tableAndPagination.pagination();
         tableAndPagination.sort();
         
-        $(document).on("click", "#cp_user_selection_result_desktop .refresh", function() {
+        $(document).on("click", "#myPage_payment_selection_result_desktop .refresh", function() {
             ajax.send(
                 true,
-                window.url.cpUserSelection,
+                window.url.myPagePaymentSelection,
                 "post",
                 {
                     'event': "refresh",
@@ -102,14 +81,14 @@ function ControlPanelUser() {
             );
         });
         
-        $(document).on("click", "#cp_user_selection_result_desktop .delete_all", function() {
+        $(document).on("click", "#myPage_payment_selection_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.index_5,
-                window.textUser.label_2,
+                window.textPayment.label_2,
                 function() {
                     ajax.send(
                         true,
-                        window.url.cpUserDeletion,
+                        window.url.myPagePaymentDeletion,
                         "post",
                         {
                             'event': "deleteAll",
@@ -121,11 +100,11 @@ function ControlPanelUser() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            $.each($("#cp_user_selection_result_desktop").find("table .id_column"), function(key, value) {
+                            $.each($("#myPage_payment_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
                             
-                            $("#cp_user_selection_result").html("");
+                            $("#myPage_payment_selection_result").html("");
                         },
                         null,
                         null
@@ -134,18 +113,18 @@ function ControlPanelUser() {
             );
         });
         
-        $(document).on("click", "#cp_user_selection_result_desktop .cp_user_deletion", function() {
+        $(document).on("click", "#myPage_payment_selection_result_desktop .myPage_payment_deletion", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deletion(id);
         });
         
-        $(document).on("click", "#cp_user_selection_button_desktop", function(event) {
+        $(document).on("click", "#myPage_payment_selection_button_desktop", function(event) {
             var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
-                window.url.cpUserProfileResult,
+                window.url.myPagePaymentProfileResult,
                 "post",
                 {
                     'event': "result",
@@ -155,7 +134,7 @@ function ControlPanelUser() {
                 "json",
                 false,
                 function() {
-                    $("#cp_user_selection_result").html("");
+                    $("#myPage_payment_selection_result").html("");
                 },
                 function(xhr) {
                     profile(xhr, "#" + event.currentTarget.id);
@@ -167,7 +146,7 @@ function ControlPanelUser() {
     }
     
     function selectionMobile() {
-        $(document).on("submit", "#form_cp_user_selection_mobile", function(event) {
+        $(document).on("submit", "#form_myPage_payment_selection_mobile", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -178,7 +157,7 @@ function ControlPanelUser() {
                 "json",
                 false,
                 function() {
-                    $("#cp_user_selection_result").html("");
+                    $("#myPage_payment_selection_result").html("");
                 },
                 function(xhr) {
                     profile(xhr, "#" + event.currentTarget.id);
@@ -195,41 +174,11 @@ function ControlPanelUser() {
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
             selectionSended = true;
             
-            $("#cp_user_selection_result").html(xhr.response.render);
-
-            utility.wordTag("#user_roleUserId", "#form_user_roleUserId");
-            
-            widgetDatePicker.setInputFill(".widget_datePicker_input");
-            widgetDatePicker.action();
+            $("#myPage_payment_selection_result").html(xhr.response.render);
             
             materialDesign.refresh();
-
-            $("#form_cp_user_profile").on("submit", "", function(event) {
-                event.preventDefault();
-
-                ajax.send(
-                    true,
-                    $(this).prop("action"),
-                    $(this).prop("method"),
-                    $(this).serialize(),
-                    "json",
-                    false,
-                    null,
-                    function(xhr) {
-                        ajax.reply(xhr, "#" + event.currentTarget.id);
-                        
-                        if (xhr.response.messages.success !== undefined) {
-                            $("#cp_user_selection_result").html("");
-                            
-                            $("#cp_user_selection_result_desktop .refresh").click();
-                        }
-                    },
-                    null,
-                    null
-                );
-            });
             
-            $("#cp_user_deletion").on("click", "", function() {
+            $("#myPage_payment_deletion").on("click", "", function() {
                deletion(null);
             });
         }
@@ -238,12 +187,11 @@ function ControlPanelUser() {
     function deletion(id) {
         popupEasy.create(
             window.text.index_5,
-            window.textUser.label_1,
+            window.textPayment.label_1,
             function() {
                 ajax.send(
                     true,
-                    false,
-                    window.url.cpUserDeletion,
+                    window.url.myPagePaymentDeletion,
                     "post",
                     {
                         'event': "delete",
@@ -257,16 +205,14 @@ function ControlPanelUser() {
                         ajax.reply(xhr, "");
                         
                         if (xhr.response.messages.success !== undefined) {
-                            $.each($("#cp_user_selection_result_desktop").find("table .id_column"), function(key, value) {
+                            $.each($("#myPage_payment_selection_result_desktop").find("table .id_column"), function(key, value) {
                                 if (xhr.response.values.id === $.trim($(value).text()))
                                     $(value).parents("tr").remove();
                             });
 
-                            $("#form_user_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+                            $("#form_payment_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
 
-                            $("#cp_user_selection_result").html("");
-                            
-                            $("#cp_user_selection_result_desktop .refresh").click();
+                            $("#myPage_payment_selection_result").html("");
                         }
                     },
                     null,

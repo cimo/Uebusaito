@@ -54,22 +54,14 @@ class RootController extends Controller {
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
+        $this->utility->checkSessionOverTime($request, true);
+        
         // Logic
         $cookieSecure = $this->utility->getProtocol() == "https://" ? true : false;
         
         $this->utility->configureCookie(session_name(), 0, $cookieSecure, true);
         
-        $languageRow = $this->query->selectLanguageDatabase($this->urlLocale);
-                
-        $_SESSION['languageDate'] = $languageRow['date'];
-        
-        if ($request->get("event") == "captchaImage") {
-            $this->response['captchaImage'] = $this->captcha->create(7);
-            
-            return $this->ajax->response(Array(
-                'response' => $this->response
-            ));
-        }
+        $_SESSION['currentPageId'] = $urlCurrentPageId;
         
         $this->response['path']['documentRoot'] = $_SERVER['DOCUMENT_ROOT'];
         $this->response['path']['root'] = $this->utility->getPathRoot();
@@ -82,13 +74,19 @@ class RootController extends Controller {
         $this->response['modules']['center'] = $this->query->selectAllModuleDatabase(null, "center");
         $this->response['modules']['right'] = $this->query->selectAllModuleDatabase(null, "right");
         
-        $this->utility->checkSessionOverTime($request, true);
-        
         $this->get("twig")->addGlobal("php_session", $_SESSION);
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
         
         $this->get("twig")->addGlobal("isMobile", $this->utility->checkMobile());
+        
+        if ($request->get("event") == "captchaImage") {
+            $this->response['captchaImage'] = $this->captcha->create(7);
+            
+            return $this->ajax->response(Array(
+                'response' => $this->response
+            ));
+        }
         
         return Array(
             'urlLocale' => $this->urlLocale,

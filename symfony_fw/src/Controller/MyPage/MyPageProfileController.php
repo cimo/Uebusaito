@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\ControlPanel;
+namespace App\Controller\MyPage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ use App\Form\UserFormType;
 use App\Form\PasswordFormType;
 use App\Form\CreditFormType;
 
-class ProfileController extends Controller {
+class MyPageProfileController extends Controller {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -34,14 +34,30 @@ class ProfileController extends Controller {
     
     // Functions public
     /**
+    * @Template("@templateRoot/render/myPage.html.twig")
+    */
+    public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        return Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
+        );
+    }
+    
+    /**
     * @Route(
-    *   name = "cp_profile",
-    *   path = "/cp_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "myPage_profile",
+    *   path = "/myPage_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/profile.html.twig")
+    * @Template("@templateRoot/render/my_page/myPage_profile.html.twig")
     */
     public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -65,7 +81,12 @@ class ProfileController extends Controller {
         // Logic
         $usernameOld = $this->getUser()->getUsername();
         
-        $avatar = "{$this->utility->getUrlRoot()}/files/$usernameOld/Avatar.jpg";
+        $settingRow = $this->query->selectSettingDatabase();
+        
+        $avatar = "{$this->utility->getUrlRoot()}/images/templates/{$settingRow['template']}/no_avatar.jpg";
+        
+        if (file_exists("{$this->utility->getPathWeb()}/files/$usernameOld/Avatar.jpg") == true)
+            $avatar = "{$this->utility->getUrlRoot()}/files/$usernameOld/Avatar.jpg";
         
         $form = $this->createForm(UserFormType::class, $this->getUser(), Array(
             'validation_groups' => Array('profile')
@@ -76,17 +97,15 @@ class ProfileController extends Controller {
         
         $form->remove("roleUserId");
         $form->remove("password");
-        $form->remove("notLocked");
+        $form->remove("active");
         
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
                 if ($form->has("username") == true) {
-                    if (file_exists("{$this->utility->getPathWeb()}/files/$usernameOld") == true) {
-                        @rename("{$this->utility->getPathWeb()}/files/$usernameOld",
-                                "{$this->utility->getPathWeb()}/files/{$form->get("username")->getData()}");
-					}
+                    if (file_exists("{$this->utility->getPathWeb()}/files/$usernameOld") == true)
+                        rename("{$this->utility->getPathWeb()}/files/$usernameOld", "{$this->utility->getPathWeb()}/files/{$form->get("username")->getData()}");
                 }
                 
                 // Insert in database
@@ -96,17 +115,17 @@ class ProfileController extends Controller {
                 if ($form->has("username") == true && $form->get("username")->getData() != $usernameOld) {
                     $this->utility->getTokenStorage()->setToken(null);
                     
-                    $message = $this->utility->getTranslator()->trans("profileController_1");
+                    $message = $this->utility->getTranslator()->trans("myPageProfileController_1");
                     
                     $_SESSION['userActivity'] = $message;
                     
                     $this->response['messages']['info'] = $message;
                 }
                 else
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_2");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPageProfileController_2");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_3");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPageProfileController_3");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -131,13 +150,13 @@ class ProfileController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_profile_password",
-    *   path = "/cp_profile_password/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "myPage_profile_password",
+    *   path = "/myPage_profile_password/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/profile_password.html.twig")
+    * @Template("@templateRoot/render/my_page/myPage_profile_password.html.twig")
     */
     public function passwordAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -172,13 +191,13 @@ class ProfileController extends Controller {
                     $this->entityManager->persist($this->getUser());
                     $this->entityManager->flush();
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_4");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPageProfileController_4");
                 }
                 else
                     $this->response['messages']['error'] = $messagePassword;
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_5");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPageProfileController_5");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -201,13 +220,13 @@ class ProfileController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_profile_credit",
-    *   path = "/cp_profile_credit/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "myPage_profile_credit",
+    *   path = "/myPage_profile_credit/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/profile_credit.html.twig")
+    * @Template("@templateRoot/render/my_page/myPage_profile_credit.html.twig")
     */
     public function creditAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -241,9 +260,9 @@ class ProfileController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true)
-                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("profileController_6");
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPageProfileController_6");
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("profileController_7");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPageProfileController_7");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
 
@@ -266,36 +285,8 @@ class ProfileController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_profile_credit_payPal",
-    *   path = "/cp_profile_credit_payPal/{_locale}/{urlCurrentPageId}/{urlExtra}",
-    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-    *	methods={"POST"}
-    * )
-    */
-    public function creditPayPalAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
-        $this->urlLocale = $_locale;
-        $this->urlCurrentPageId = $urlCurrentPageId;
-        $this->urlExtra = $urlExtra;
-        
-        $this->entityManager = $this->getDoctrine()->getManager();
-        
-        $this->response = Array();
-        
-        $this->utility = new Utility($this->container, $this->entityManager);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
-        // Logic
-        return new Response();
-    }
-    
-    /**
-    * @Route(
-    *   name = "cp_profile_upload",
-    *   path = "/cp_profile_upload/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "myPage_profile_upload",
+    *   path = "/myPage_profile_upload/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
@@ -342,6 +333,34 @@ class ProfileController extends Controller {
             'urlExtra' => $this->urlExtra,
             'response' => $this->response
         ));
+    }
+    
+    /**
+    * @Route(
+    *   name = "myPage_profile_credit_payPal",
+    *   path = "/myPage_profile_credit_payPal/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *	methods={"POST"}
+    * )
+    */
+    public function creditPayPalAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
+        
+        // Logic
+        return new Response();
     }
     
     // Functions private

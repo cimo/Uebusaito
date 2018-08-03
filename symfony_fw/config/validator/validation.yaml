@@ -132,24 +132,6 @@ App\Form\Model\ModuleSelectionModel:
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
-App\Form\Model\ModuleDragModel:
-    properties:
-        positionLeft:
-            - Regex:
-                groups: [module_drag]
-                htmlPattern: false
-                pattern: /^[0-9,]+$/
-        positionCenter:
-            - Regex:
-                groups: [module_drag]
-                htmlPattern: false
-                pattern: /^[0-9,]+$/
-        positionRight:
-            - Regex:
-                groups: [module_drag]
-                htmlPattern: false
-                pattern: /^[0-9,]+$/
-
 App\Form\Model\RoleUserSelectionModel:
     properties:
         id:
@@ -228,10 +210,6 @@ App\Entity\PageComment:
         argument:
             - NotBlank:
                 groups: [pageComment]
-            - Regex:
-                groups: [pageComment]
-                htmlPattern: false
-                pattern: /^.{1,255}$/
 
 App\Entity\User:
     properties:
@@ -338,7 +316,7 @@ App\Entity\User:
                 htmlPattern: false
                 pattern: /^.{8,30}$/
                 message: entity.user.password
-        notLocked:
+        active:
             - NotBlank:
                 groups: [user_profile]
             - Regex:

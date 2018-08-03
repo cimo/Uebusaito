@@ -1,38 +1,5 @@
 {% extends "@templateRoot/layout/layout_site.html.twig" %}
 
-{% block headMeta %}
-    <title>{{websiteName}}</title>
-    
-    <!-- Meta -->
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
-{% endblock %}
-
-{% block headLink %}
-    {{-include("@templateRoot/layout/layout_google.html.twig")-}}
-    
-    <!-- Favicon -->
-    <link href="{{asset("images/templates/" ~ settingRow['template'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
-    
-    <!-- Css -->
-    <link href="{{asset("css/library/jquery-ui_1.12.1.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/library/jquery-ui_1.12.1_structure.min.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/library/Roboto+Mono.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/library/Roboto_300_400_500.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/library/material-icons.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/library/material-components-web.min.css")}}" rel="stylesheet"/>
-    
-    <link href="{{asset("css/system/" ~ settingRow['template'] ~ ".css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/system/loader.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/system/captcha.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/system/table_and_pagination.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/system/upload.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/system/wysiwyg.css")}}" rel="stylesheet"/>
-    <link href="{{asset("css/system/widget.css")}}" rel="stylesheet"/>
-{% endblock%}
-
 {% block headerContainer %}
     <header class="mdc-top-app-bar">
         <div class="mdc-top-app-bar__row ">
@@ -46,7 +13,7 @@
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
                 {{-render(controller("App\\Controller\\SearchController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                 {{-render(controller("App\\Controller\\LanguageController::textAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                <a id="user_logout" href="javascript:void(0)" class="material-icons mdc-top-app-bar__action-item" aria-label="Account" alt="Account">account_circle</a>
+                {{-include("@templateRoot/include/menu_user.html.twig")-}}
             </section>
         </div>
         <aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
@@ -56,7 +23,7 @@
                         <p>Header here<p>
                     </div>
                 </header>
-                <nav id="icon-with-text-demo" class="mdc-drawer__content mdc-list">
+                <nav class="mdc-drawer__content mdc-list">
                     <a class="mdc-list-item mdc-list-item--activated" href="javascript:void(0)">
                         <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>Home
                     </a>
@@ -67,7 +34,7 @@
 {% endblock %}
 
 {% block columnLeftContainer %}
-    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null and urlExtra != "user_login" %}
         <div class="sortable_column">
             {% for value in response.modules.left %}
                 {% if value.active == true %}
@@ -80,9 +47,15 @@
 
 {% block columnCenterContainer %}
     {% if app.request.get("error") is not null and app.request.get("error") is not empty %}
-        {{-include("@templateRoot/render/static/error.html.twig")-}}
+        <div class="sortable_column">
+            {{-include("@templateRoot/render/static/error.html.twig")-}}
+        </div>
     {% else %}
-        {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
+        {% if (urlExtra == "user_login") %}
+            <div class="sortable_column">
+                {{-render(controller("App\\Controller\\AuthenticationController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+            </div>
+        {% elseif (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" %}
             <div class="sortable_column">
                 {% for value in response.modules.center %}
                     {% if value.active == true %}
@@ -114,7 +87,7 @@
 {% endblock %}
 
 {% block columnRightContainer %}
-    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null %}
+    {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null and urlExtra != "user_login" %}
         <div class="sortable_column">
             {% for value in response.modules.right %}
                 {% if value.active == true %}
@@ -143,124 +116,4 @@
             <p>{{"index_4"|trans}}</p>
         </div>
     </footer>
-{% endblock %}    
-
-{% block bodyIncludeDown %}
-    {{-include("@templateRoot/include/loader.html.twig")-}}
-    {{-include("@templateRoot/include/flash_bag.html.twig")-}}
-    {{-include("@templateRoot/include/popup_easy.html.twig")-}}
-{% endblock %}
-
-{% block javascript %}
-    <script type="text/javascript">
-        var session = {
-            'token': "{{csrf_token("intention")}}",
-            'userActivity': "{{php_session.userActivity}}"
-        };
-
-        var path = {
-            'documentRoot': "{{response.path.documentRoot}}",
-            'root': "{{response.path.root}}",
-            'src': "{{response.path.src}}",
-            'web': "{{response.path.web}}"
-        };
-
-        var url = {
-            'root': "{{response.url.root}}",
-            'rootRender': "{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'languageText': "{{path("language_text", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'languagePage': "{{path("language_page", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'searchModule': "{{path("search_module", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'searchRender': "{{path("search_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'registration': "{{path("registration", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'recoverPassword': "{{path("recover_password", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'authentication': "{{path("authentication", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'authenticationEnterCheck': "{{path("authentication_enter_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'authenticationExitCheck': "{{path("authentication_exit_check", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'controlPanel': "{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpProfile': "{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpProfilePassword': "{{path("cp_profile_password", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpProfileCredit': "{{path("cp_profile_credit", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpProfileCreditPayPal': "{{path("cp_profile_credit_payPal", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpProfileUpload': "{{path("cp_profile_upload", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPaymentUserSelection': "{{path("cp_payment_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPaymentSelection': "{{path("cp_payment_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPaymentProfileResult': "{{path("cp_payment_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPaymentDeletion': "{{path("cp_payment_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPageCreation': "{{path("cp_page_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPageSelection': "{{path("cp_page_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPageProfileResult': "{{path("cp_page_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPageProfileSort': "{{path("cp_page_profile_sort", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPageProfileSave': "{{path("cp_page_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpPageDeletion': "{{path("cp_page_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpUserCreation': "{{path("cp_user_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpUserSelection': "{{path("cp_user_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpUserProfileResult': "{{path("cp_user_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpUserProfileSave': "{{path("cp_user_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpUserDeletion': "{{path("cp_user_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModuleDrag': "{{path("cp_module_drag", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModuleCreation': "{{path("cp_module_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModuleSelection': "{{path("cp_module_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModuleProfileResult': "{{path("cp_module_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModuleProfileSort': "{{path("cp_module_profile_sort", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModuleProfileSave': "{{path("cp_module_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpModuleDeletion': "{{path("cp_module_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleUserCreation': "{{path("cp_roleUser_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleUserSelection': "{{path("cp_roleUser_selection", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleUserProfileResult': "{{path("cp_roleUser_profile_result", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleUserProfileSave': "{{path("cp_roleUser_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpRoleUserDeletion': "{{path("cp_roleUser_deletion", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpSettingSave': "{{path("cp_setting_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'cpSettingLanguageManage': "{{path("cp_setting_language_manage", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'pageCommentRender': "{{path("pageComment_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}",
-            'pageCommentCreation': "{{path("pageComment_creation", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}"
-        };
-        
-        var setting = {
-            'widthMobile': 839,
-            'widthDesktop': 840,
-            'template': "{{settingRow['template']}}",
-            'language': "{{settingRow['language']}}",
-            'websiteActive': "{{settingRow['website_active']}}"
-        };
-
-        var text = {
-            'index_5': "{{"index_5"|trans}}",
-            'index_6': "{{"index_6"|trans}}",
-            'index_7': "{{"index_7"|trans}}",
-            'index_8': "{{"index_8"|trans}}",
-            'index_9': "{{"index_9"|trans}}",
-            'index_10': "{{"index_10"|trans}}"
-        };
-        
-        var textWidgetDatePicker = {
-            'label_1': "{{"widgetDatePicker_1"|trans}}",
-            'label_2': "{{"widgetDatePicker_2"|trans}}",
-            'label_3': "{{"widgetDatePicker_3"|trans}}"
-        };
-    </script>
-    <script type="text/javascript" src="{{asset("javascript/library/jquery_3.3.1.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/library/jquery-ui_1.12.1.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/library/jquery-mobile_1.5.0.min.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/library/material-components-web.min.js")}}"></script>
-    
-    <script type="text/javascript" src="{{asset("javascript/system/Utility.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Ajax.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Search.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Loader.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/FlashBag.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/TableAndPagination.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Captcha.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Upload.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/PopupEasy.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Language.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Wysiwyg.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/PageComment.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/MaterialDesign.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/WidgetSearch.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/WidgetDatePicker.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Authentication.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Registration.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/RecoverPassword.js")}}"></script>
-    <script type="text/javascript" src="{{asset("javascript/system/Index.js")}}"></script>
 {% endblock %}

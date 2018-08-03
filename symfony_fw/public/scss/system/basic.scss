@@ -1012,11 +1012,9 @@ p {
         .sortable_column {
             padding-top: 55px !important;
             
-            .page_container {
-                form {
-                    .mdc-text-field, .mdc-select {
-                        width: 100% !important;
-                    }
+            form {
+                .mdc-text-field, .mdc-select {
+                    width: 100% !important;
                 }
             }
         }
@@ -1187,19 +1185,18 @@ table {
         padding-top: 120px;
         padding-bottom: $footerHeight;
         
-        .page_container {
-            form {
-                .mdc-text-field, .mdc-select {
-                    width: 50%;
-                }
-                .mdc-select {
-                    margin-bottom: 10px;
-                }
+        form {
+            .mdc-text-field, .mdc-select {
+                width: 50%;
+            }
+            .mdc-select {
+                margin-bottom: 10px;
             }
         }
-        .page_footer {
-            width: 100%;
-        }
+    }
+    
+    .page_footer {
+        width: 100%;
     }
 }
 
@@ -1232,10 +1229,6 @@ table {
 .module, .module_clean {
     padding: 5px;
     overflow: hidden;
-    
-    .settings {
-        display: none;
-    }
     
     .drag {
         cursor: move;
@@ -1350,13 +1343,29 @@ table {
     }
 }
 
+.user_login {
+    max-width: 300px;
+}
+
 .cp_section_button {
     margin-bottom: 10px;
+}
+
+.menu_control_panel {
+    width: 100%;
+    
+    .material-icons {
+        margin-right: 5px;
+    }
 }
 
 #panel_id_1 {
     p {
         margin: 0;
+    }
+    
+    .mdc-text-field {
+        width: 100%;
     }
     
     .submit_container {
@@ -1395,12 +1404,6 @@ table {
     }
 }
 
-#pageComment_result {
-    .mdc-list-item__meta {
-        cursor: pointer;
-    }
-}
-
 #form_pageComment {
     .mdc-text-field--textarea {
         width: 100%;
@@ -1410,7 +1413,34 @@ table {
         }
     }
 }
+#pageComment_result {
+    .mdc-list-item {
+        height: auto;
+        padding: 10px;
+        
+        .quote_text {
+            .quote_avatar {
+                width: 40px;
+                height: 40px;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 5px;
+                border-radius: 50%;
+            }
 
-#cp_module_drag_switch {
-    margin-bottom: 10px;
+            display: block;
+            background: #ededed;
+            padding: 10px;
+            border-radius: 20px;
+            white-space: initial !important;
+        }
+        
+        .argument {
+            padding: 10px 10px 0 10px;
+        }
+        .mdc-list-item__meta {
+            cursor: pointer;
+            z-index: 1;
+        }
+    }
 }

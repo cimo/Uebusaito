@@ -132,8 +132,6 @@ function ControlPanelPayment() {
                             });
                             
                             $("#cp_payment_selection_result").html("");
-                            
-                            popupEasy.close();
                         },
                         null,
                         null
@@ -206,7 +204,6 @@ function ControlPanelPayment() {
             $("#cp_payment_selection_result").html(xhr.response.render);
             
             materialDesign.refresh();
-            materialDesign.fix();
             
             $("#cp_payment_deletion").on("click", "", function() {
                deletion(null);

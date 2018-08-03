@@ -13,8 +13,6 @@ function ControlPanelModule() {
     
     // Functions public
     self.init = function() {
-        positionDrag();
-        
         selectionDesktop();
         
         selectionMobile();
@@ -75,37 +73,6 @@ function ControlPanelModule() {
     };
     
     // Function private
-    function positionDrag() {
-        $("#cp_module_drag_switch .mdc-switch__native-control").on("click", "", function() {
-            if ($(this).is(":checked") === false) {
-                utility.sortableModule(false, "#form_module_drag_position");
-            
-                $("#form_cp_module_drag").submit();
-            }
-            else
-                utility.sortableModule(true, "#form_module_drag_position");
-        });
-        
-        $("#form_cp_module_drag").on("submit", "", function(event) {
-            event.preventDefault();
-            
-            ajax.send(
-                true,
-                $(this).prop("action"),
-                $(this).prop("method"),
-                $(this).serialize(),
-                "json",
-                false,
-                null,
-                function(xhr) {
-                    ajax.reply(xhr, "#" + event.currentTarget.id);
-                },
-                null,
-                null
-            );
-        });
-    }
-    
     function selectionDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.init();
@@ -161,8 +128,6 @@ function ControlPanelModule() {
                             });
                             
                             $("#cp_module_selection_result").html("");
-                            
-                            popupEasy.close();
                         },
                         null,
                         null
@@ -237,7 +202,6 @@ function ControlPanelModule() {
             rankInColumn();
             
             materialDesign.refresh();
-            materialDesign.fix();
 
             $("#form_cp_module_profile").on("submit", "", function(event) {
                 event.preventDefault();
@@ -330,8 +294,6 @@ function ControlPanelModule() {
                             $("#cp_module_selection_result").html("");
                             
                             $("#cp_module_selection_result_desktop .refresh").click();
-                            
-                            popupEasy.close();
                         }
                     },
                     null,

@@ -61,28 +61,32 @@ function MaterialDesign() {
     };
     
     self.dialog = function() {
-        dialogMdc = new mdc.dialog.MDCDialog.attachTo($(".mdc-dialog")[0]);
-        
-        /*$(".show_dialog").on("click", "", function(event) {
-            dialogMdc.lastFocusedTarget = event.target;
-            dialogMdc.show();
-        });
-        
-        dialogMdc.listen("MDCDialog:accept", function() {
-            console.log("Dialog - Accepted");
-        });
+        if ($(".mdc-dialog").length > 0) {
+            dialogMdc = new mdc.dialog.MDCDialog.attachTo($(".mdc-dialog")[0]);
 
-        dialogMdc.listen("MDCDialog:cancel", function() {
-            console.log("Dialog - Canceled");
-        });*/
+            /*$(".show_dialog").on("click", "", function(event) {
+                dialogMdc.lastFocusedTarget = event.target;
+                dialogMdc.show();
+            });
+
+            dialogMdc.listen("MDCDialog:accept", function() {
+                console.log("Dialog - Accepted");
+            });
+
+            dialogMdc.listen("MDCDialog:cancel", function() {
+                console.log("Dialog - Canceled");
+            });*/
+        }
     };
     
     self.drawer = function() {
-        var drawerMdc = new mdc.drawer.MDCTemporaryDrawer($(".mdc-drawer--temporary")[0]);
-        
-        $(".show_menu_root").on("click", "", function(event) {
-            drawerMdc.open = true;
-        });
+        if ($(".mdc-drawer--temporary").length > 0) {
+            var drawerMdc = new mdc.drawer.MDCTemporaryDrawer($(".mdc-drawer--temporary")[0]);
+
+            $(".show_menu_root").on("click", "", function(event) {
+                drawerMdc.open = true;
+            });
+        }
     };
     
     self.checkbox = function() {
@@ -132,19 +136,21 @@ function MaterialDesign() {
     };
     
     self.linearProgress = function(tag, start, end, buffer) {
-        var linearProgressMdc = new mdc.linearProgress.MDCLinearProgress.attachTo($(tag)[0]);
-        
-        if (start !== undefined && end !== undefined) {
-            var progress = start / end;
-            var percentage = Math.ceil(progress * 100);
+        if ($(tag).length > 0) {
+            var linearProgressMdc = new mdc.linearProgress.MDCLinearProgress.attachTo($(tag)[0]);
+
+            if (start !== undefined && end !== undefined) {
+                var progress = start / end;
+                var percentage = Math.ceil(progress * 100);
+            }
+            else
+                percentage = 0;
+
+            linearProgressMdc.progress = percentage / 100;
+
+            if (buffer !== undefined)
+                linearProgressMdc.buffer = buffer;
         }
-        else
-            percentage = 0;
-        
-        linearProgressMdc.progress = percentage / 100;
-        
-        if (buffer !== undefined)
-            linearProgressMdc.buffer = buffer;
     };
     
     self.list = function() {
@@ -187,17 +193,19 @@ function MaterialDesign() {
     };
     
     self.tabBar = function() {
-        $.each($(".mdc-tab-bar").not(".mdc-tab-bar-scroller__scroll-frame__tabs"), function(key, value) {
-            var tabBarMdc = new mdc.tabs.MDCTabBar.attachTo(value);
-            
-            mdcTabBarCustom("tabBar", tabBarMdc);
-        });
-        
-        $.each($(".mdc-tab-bar-scroller"), function(key, value) {
-            var tabBarScrollerMdc = new mdc.tabs.MDCTabBarScroller.attachTo(value);
-            
-            mdcTabBarCustom("tabBarScroller", tabBarScrollerMdc);
-        });
+        if ($(".mdc-tab-bar").find(".mdc-tab").length > 0) {
+            $.each($(".mdc-tab-bar").not(".mdc-tab-bar-scroller__scroll-frame__tabs"), function(key, value) {
+                var tabBarMdc = new mdc.tabs.MDCTabBar.attachTo(value);
+
+                mdcTabBarCustom("tabBar", tabBarMdc);
+            });
+
+            $.each($(".mdc-tab-bar-scroller"), function(key, value) {
+                var tabBarScrollerMdc = new mdc.tabs.MDCTabBarScroller.attachTo(value);
+
+                mdcTabBarCustom("tabBarScroller", tabBarScrollerMdc);
+            });
+        }
     };
     
     self.refresh = function() {
@@ -227,58 +235,60 @@ function MaterialDesign() {
     // Functions private
     function mdcTabBarCustom(type, mdc) {
         var parameters = utility.urlParameters(window.setting.language);
-        
+
         $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");
-        
+
         var isActive = false;
-        
+
         $.each($(".mdc-tab-bar").find(".mdc-tab"), function(key, value) {
             if ($(value).prop("href").indexOf(parameters[2]) !== -1) {
                 $(value).addClass("mdc-tab--active");
-                
+
                 if (type === "tabBar")
                     mdc.activeTabIndex = key;
                 else if (type === "tabBarScroller") {
                     var element = $(value).parent().find(".mdc-tab-bar__indicator");
-                    
+
                     utility.mutationObserver(['attributes'], element[0], function() {
                         if (isActive === true)
                             return false;
-                        
+
                         var transformSplit = element.css("transform").split(",");
-                        
+
                         element.css("transform", transformSplit[0] + ", " + transformSplit[1] + ", " + transformSplit[2] + ", " + transformSplit[3] + ", " + $(value).position().left + ", " + transformSplit[5]);
-                        
+
                         isActive = true;
                     });
                 }
-                
+
                 return false;
             }
         });
     }
     
     function mdcTopAppBarCustom() {
-        var scrollLimit = 30;
-        
-        if (utility.checkWidthType() === "desktop") {
-            $(".mdc-top-app-bar").addClass("mdc-top-app-bar--prominent");
-            
-            if ($(document).scrollTop() > scrollLimit)
-                $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
-            
-            $(window).scroll(function() {
-                if (utility.checkWidthType() === "desktop") {
-                    if ($(document).scrollTop() > scrollLimit)
-                      $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
-                    else
-                      $(".mdc-top-app-bar__row").removeClass("mdc-top-app-bar_shrink");
-                }
-            });
-        }
-        else {
-            $(".mdc-top-app-bar").removeClass("mdc-top-app-bar--prominent");
-            $(".mdc-top-app-bar__row").removeClass("mdc-top-app-bar_shrink");
+        if ($(".mdc-top-app-bar").length > 0) {
+            var scrollLimit = 30;
+
+            if (utility.checkWidthType() === "desktop") {
+                $(".mdc-top-app-bar").addClass("mdc-top-app-bar--prominent");
+
+                if ($(document).scrollTop() > scrollLimit)
+                    $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
+
+                $(window).scroll(function() {
+                    if (utility.checkWidthType() === "desktop") {
+                        if ($(document).scrollTop() > scrollLimit)
+                          $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
+                        else
+                          $(".mdc-top-app-bar__row").removeClass("mdc-top-app-bar_shrink");
+                    }
+                });
+            }
+            else {
+                $(".mdc-top-app-bar").removeClass("mdc-top-app-bar--prominent");
+                $(".mdc-top-app-bar__row").removeClass("mdc-top-app-bar_shrink");
+            }
         }
     }
     

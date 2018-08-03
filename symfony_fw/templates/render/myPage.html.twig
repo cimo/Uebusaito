@@ -1,0 +1,45 @@
+<p>{% trans %}myPage_1{% endtrans %}</p>
+
+<nav class="mdc-tab-bar mdc-tab-bar--icons-with-text">
+    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 1, 'urlExtra': "profile"})}}">
+        <i class="material-icons mdc-tab__icon" aria-hidden="true">person</i>
+        <span class="mdc-tab__icon-text">{% trans %}myPage_2{% endtrans %}</span>
+    </a>
+    <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 1, 'urlExtra': "payment"})}}">
+        <i class="material-icons mdc-tab__icon" aria-hidden="true">account_balance</i>
+        <span class="mdc-tab__icon-text">{% trans %}myPage_3{% endtrans %}</span>
+    </a>
+    <span class="mdc-tab-bar__indicator"></span>
+</nav>
+
+{% if urlExtra == "profile" %}
+    {{-render(controller("App\\Controller\\MyPage\\MyPageProfileController::profileAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+    {{-render(controller("App\\Controller\\MyPage\\MyPageProfileController::passwordAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+
+    {% if settingRow['credit'] == true %}
+        {{-render(controller("App\\Controller\\MyPage\\MyPageProfileController::creditAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+    {% endif %}
+{% elseif urlExtra == "payment" %}
+    {{-render(controller("App\\Controller\\MyPage\\MyPagePaymentController::selectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+{% endif %}
+
+<script type="text/javascript">
+    window.onload = function() {
+        myPageProfile.init();
+        
+        myPagePayment.init();
+        myPagePayment.changeView();
+
+        window.onresize = function() {
+            myPagePayment.changeView();
+        };
+    };
+    
+    var textPayment = {
+        'label_1': "{{"myPage_4"|trans}}",
+        'label_2': "{{"myPage_5"|trans}}"
+    };
+</script>
+
+<script type="text/javascript" src="{{asset("javascript/system/my_page/MyPageProfile.js")}}"></script>
+<script type="text/javascript" src="{{asset("javascript/system/my_page/MyPagePayment.js")}}"></script>

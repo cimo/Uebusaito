@@ -1,12 +1,12 @@
 {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
 <fieldset class="accordion_container">
-    <legend>{% trans %}profile_1{% endtrans %}</legend>
-    <p>{% trans %}profile_2{% endtrans %}</p>
+    <legend>{% trans %}myPageProfile_1{% endtrans %}</legend>
+    <p>{% trans %}myPageProfile_2{% endtrans %}</p>
     <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
     <div class="accordion">
-        <form id="form_cp_profile" action="{{path("cp_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            <div id="upload_profile_container">
+        <form id="form_myPage_profile" action="{{path("myPage_profile", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+            <div id="upload_myPage_profile_container">
                 
                 {{-include("@templateRoot/include/upload.html.twig")-}}
                 

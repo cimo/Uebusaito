@@ -100,7 +100,7 @@ class UserFormType extends AbstractType {
             'required' => true,
             'label' => "userFormType_19"
         ))
-        ->add("notLocked", ChoiceType::class, Array(
+        ->add("active", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "userFormType_20",
             'choices' => Array(

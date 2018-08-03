@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\ControlPanel;
+namespace App\Controller\MyPage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,10 +10,9 @@ use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
 use App\Classes\System\TableAndPagination;
 
-use App\Form\PaymentUserSelectionFormType;
 use App\Form\PaymentSelectionFormType;
 
-class PaymentController extends Controller {
+class MyPagePaymentController extends Controller {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -33,84 +32,13 @@ class PaymentController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_payment_user_selection",
-    *   path = "/cp_payment_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "myPage_payment_selection",
+    *   path = "/myPage_payment_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/payment_user_selection.html.twig")
-    */
-    public function userSelectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
-        $this->urlLocale = $_locale;
-        $this->urlCurrentPageId = $urlCurrentPageId;
-        $this->urlExtra = $urlExtra;
-        
-        $this->entityManager = $this->getDoctrine()->getManager();
-        
-        $this->response = Array();
-        
-        $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
-        
-        // Logic
-        if (isset($_SESSION['paymentUserId']) == false)
-            $_SESSION['paymentUserId'] = 0;
-        
-        $_SESSION['paymentProfileId'] = 0;
-        
-        $form = $this->createForm(PaymentUserSelectionFormType::class, null, Array(
-            'validation_groups' => Array('payment_user_selection'),
-            'choicesId' => array_column($this->query->selectAllUserDatabase($this->getUser()->getId()), "id", "username")
-        ));
-        $form->handleRequest($request);
-        
-        if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
-                if ($form->get("userId")->getData() != null) {
-                    $_SESSION['paymentUserId'] = $form->get("userId")->getData();
-                    
-                    $this->response['messages']['success'] = "";
-                    
-                    return $this->ajax->response(Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-                }
-            }
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_1");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
-        }
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response,
-            'form' => $form->createView()
-        );
-    }
-    
-    /**
-    * @Route(
-    *   name = "cp_payment_selection",
-    *   path = "/cp_payment_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
-    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-    *	methods={"POST"}
-    * )
-    * @Template("@templateRoot/render/control_panel/payment_selection.html.twig")
+    * @Template("@templateRoot/render/my_page/myPage_payment_selection.html.twig")
     */
     public function selectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -130,10 +58,12 @@ class PaymentController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $paymentRows = $this->query->selectAllPaymentDatabase($_SESSION['paymentUserId']);
+        $_SESSION['paymentProfileId'] = 0;
+        
+        $paymentRows = $this->query->selectAllPaymentDatabase($this->getUser()->getId());
 
         $tableAndPagination = $this->tableAndPagination->request($paymentRows, 20, "payment", true, true);
 
@@ -144,7 +74,7 @@ class PaymentController extends Controller {
         
         $form = $this->createForm(PaymentSelectionFormType::class, null, Array(
             'validation_groups' => Array('payment_selection'),
-            'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($_SESSION['paymentUserId']), "id", "transaction"), true)
+            'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($this->getUser()->getId()), "id", "transaction"), true)
         ));
         $form->handleRequest($request);
         
@@ -170,13 +100,13 @@ class PaymentController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_payment_profile_result",
-    *   path = "/cp_payment_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "myPage_payment_profile_result",
+    *   path = "/myPage_payment_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/payment_profile.html.twig")
+    * @Template("@templateRoot/render/my_page/myPage_payment_profile.html.twig")
     */
     public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -194,7 +124,7 @@ class PaymentController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -214,7 +144,7 @@ class PaymentController extends Controller {
 
                     $this->response['values']['payment'] = $paymentEntity;
 
-                    $this->response['render'] = $this->renderView("@templateRoot/render/control_panel/payment_profile.html.twig", Array(
+                    $this->response['render'] = $this->renderView("@templateRoot/render/my_page/myPage_payment_profile.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
                         'urlCurrentPageId' => $this->urlCurrentPageId,
                         'urlExtra' => $this->urlExtra,
@@ -222,7 +152,7 @@ class PaymentController extends Controller {
                     ));
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_2");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPagePaymentController_1");
             }
         }
         
@@ -236,13 +166,13 @@ class PaymentController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_payment_deletion",
-    *   path = "/cp_payment_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "myPage_payment_deletion",
+    *   path = "/myPage_payment_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/payment_deletion.html.twig")
+    * @Template("@templateRoot/render/my_page/myPage_payment_deletion.html.twig")
     */
     public function deletionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -260,7 +190,7 @@ class PaymentController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -273,17 +203,17 @@ class PaymentController extends Controller {
                     if ($paymentDatabase == true) {
                         $this->response['values']['id'] = $id;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_3");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPagePaymentController_2");
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
                     $paymentDatabase = $this->paymentDatabase("deleteAll", null);
 
                     if ($paymentDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("paymentController_4");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPagePaymentController_3");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_5");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPagePaymentController_4");
 
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
@@ -335,7 +265,7 @@ class PaymentController extends Controller {
                     {$value['payer']}
                 </td>
                 <td>
-                    <button class=\"mdc-fab mdc-fab--mini cp_payment_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
+                    <button class=\"mdc-fab mdc-fab--mini myPage_payment_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }
@@ -345,19 +275,23 @@ class PaymentController extends Controller {
     
     private function paymentDatabase($type, $id) {
         if ($type == "delete") {
-            $query = $this->utility->getConnection()->prepare("DELETE FROM payments
+            $query = $this->utility->getConnection()->prepare("UPDATE payments
+                                                                SET status_delete = :statusDelete
                                                                 WHERE user_id = :userId
                                                                 AND id = :id");
             
+            $query->bindValue(":statusDelete", 1);
             $query->bindValue(":userId", $_SESSION['paymentUserId']);
             $query->bindValue(":id", $id);
             
             return $query->execute();
         }
         else if ($type == "deleteAll") {
-            $query = $this->utility->getConnection()->prepare("DELETE FROM payments
+            $query = $this->utility->getConnection()->prepare("UPDATE payments
+                                                                SET status_delete = :statusDelete
                                                                 WHERE user_id = :userId");
             
+            $query->bindValue(":statusDelete", 1);
             $query->bindValue(":userId", $_SESSION['paymentUserId']);
             
             return $query->execute();

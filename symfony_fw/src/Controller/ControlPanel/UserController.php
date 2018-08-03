@@ -296,12 +296,10 @@ class UserController extends Controller {
                 if ($messagePassword == "ok") {
                     $usernameOld = $userEntity->getUsername();
 
-                    if (file_exists("{$this->utility->getPathWeb()}/files/$usernameOld") == true) {
-                        @rename("{$this->utility->getPathWeb()}/files/$usernameOld",
-                                "{$this->utility->getPathWeb()}/files/{$form->get("username")->getData()}");
-					}
+                    if (file_exists("{$this->utility->getPathWeb()}/files/$usernameOld") == true)
+                        rename("{$this->utility->getPathWeb()}/files/$usernameOld", "{$this->utility->getPathWeb()}/files/{$form->get("username")->getData()}");
 					
-                    if ($form->get("notLocked")->getData() == true)
+                    if ($form->get("active")->getData() == true)
                         $userEntity->setHelpCode("");
 
                     // Update in database
@@ -451,7 +449,7 @@ class UserController extends Controller {
                     {$value['company_name']}
                 </td>
                 <td>";
-                    if ($value['not_locked'] == 0)
+                    if ($value['active'] == 0)
                         $listHtml .= $this->utility->getTranslator()->trans("userController_9");
                     else
                         $listHtml .= $this->utility->getTranslator()->trans("userController_10");

@@ -6,6 +6,7 @@ function Upload() {
     // Vars
     var self = this;
     
+    var urlRequest;
     var tagContainer;
     var tagProgressBar;
     var tagImageRefresh;
@@ -24,6 +25,10 @@ function Upload() {
     var timeLeft;
     
     // Properties
+    self.setUrlRequest = function(value) {
+        urlRequest = value;
+    };
+    
     self.setTagContainer = function(value) {
         tagContainer = value;
     };
@@ -51,6 +56,7 @@ function Upload() {
         totalTime = 0;
         timeLeft = 0;
         
+        urlRequest = "";
         tagContainer = "";
         tagImageRefresh = "";
         tagProgressBar = "";
@@ -64,7 +70,7 @@ function Upload() {
             formData.append('file', file);
             
             $.ajax({
-                'url': window.url.cpProfileUpload + "?action=change",
+                'url': urlRequest + "?action=change",
                 'method': "post",
                 'data': formData,
                 'dataType': "json",
@@ -159,7 +165,7 @@ function Upload() {
         uploadAborted = true;
         
         var xhr = new XMLHttpRequest();
-        xhr.open("post", window.url.cpProfileUpload + "?action=abort&tmp=" + tmp, true);
+        xhr.open("post", urlRequest + "?action=abort&tmp=" + tmp, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
         xhr.onreadystatechange = function() {
@@ -219,7 +225,7 @@ function Upload() {
 
         reader.onloadend = function() {
             var xhr = new XMLHttpRequest();
-            xhr.open("post", window.url.cpProfileUpload + "?action=start&tmp=" + tmp, true);
+            xhr.open("post", urlRequest + "?action=start&tmp=" + tmp, true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
             xhr.onreadystatechange = function() {
@@ -259,7 +265,7 @@ function Upload() {
     
     function sendComplete() {
         var xhr = new XMLHttpRequest();
-        xhr.open("post", window.url.cpProfileUpload + "?action=finish&tmp=" + tmp + "&name=" + file.name, true);
+        xhr.open("post", urlRequest + "?action=finish&tmp=" + tmp + "&name=" + file.name, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
         xhr.onreadystatechange = function() {

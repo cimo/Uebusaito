@@ -111,9 +111,9 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $credit = 0;
     
     /**
-     * @ORM\Column(name="not_locked", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
-    private $notLocked = false;
+    private $active = false;
     
     /**
      * @ORM\Column(name="date_registration", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
@@ -218,8 +218,8 @@ class User implements UserInterface, EquatableInterface, \Serializable {
         $this->credit = $value;
     }
     
-    public function setNotLocked($value) {
-        $this->notLocked = $value;
+    public function setActive($value) {
+        $this->active = $value;
     }
     
     public function setDateRegistration($value) {
@@ -316,8 +316,8 @@ class User implements UserInterface, EquatableInterface, \Serializable {
         return $this->credit;
     }
     
-    public function getNotLocked() {
-        return $this->notLocked;
+    public function getActive() {
+        return $this->active;
     }
     
     public function getDateRegistration() {

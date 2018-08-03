@@ -16,6 +16,8 @@ function PageComment() {
         tableAndPagination.search();
         tableAndPagination.pagination();
         
+        $("#form_pageComment_type").val("new");
+        
         $("#form_pageComment").on("submit", "", function(event) {
             event.preventDefault();
             
@@ -29,8 +31,6 @@ function PageComment() {
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
-                    
-                    reset();
                 },
                 null,
                 null
@@ -38,88 +38,25 @@ function PageComment() {
         });
         
         $(document).on("click", "#pageComment_result .button_reply", function(event) {
-            event.preventDefault();
+            var id = $(event.target).parent().attr("data-comment");
+            var argument = $(event.target).parent().find(".argument").text();
             
-            reset();
+            $("#form_pageComment_type").val("reply_" + id);
             
-            var argument = $(event.target).parent().prev().find(".argument");
-            var argumentId = argument.prop("class").replace("argument item_", "");
-            
-            ajax.send(
-                true,
-                window.url.pageCommentRender,
-                "post",
-                {
-                    'event': "reply",
-                    'id': argumentId,
-                    'token': window.session.token
-                },
-                "json",
-                false,
-                null,
-                function(xhr) {
-                    ajax.reply(xhr, "");
-                    
-                    $(".username_reply").show();
-                    $(".message_reply").show();
-                    
-                    $(".username_reply").find("span").text(xhr.response.values.usernameReply);
-                    $(".message_reply").find(".argument").text(xhr.response.values.argumentReply);
-                    
-                    $("#form_pageComment").find("textarea[name='argument']").focus();
-                    
-                    utility.goToAnchor("#page_commnet_anchor");
-                },
-                null,
-                null
-            );
+            $("#form_pageComment").find(".mdc-text-field__input").next().addClass("mdc-floating-label--float-above");
+            $("#form_pageComment").find(".mdc-text-field__input").val("[q=]" + argument + "[=q]\n");
         });
         
-        $(document).on("click", "#pageComment_result .button_modify", function(event) {
-            event.preventDefault();
+        $(document).on("click", "#pageComment_result .button_edit", function(event) {
+            var id = $(event.target).parent().attr("data-comment");
+            var argument = $(event.target).parent().find(".argument").text();
             
-            reset();
+            $("#form_pageComment_type").val("edit_" + id);
             
-            var argument = $(event.target).parent().prev().find(".argument");
-            var argumentId = argument.prop("class").replace("argument item_", "");
-            
-            if (argument.prop("contenteditable") === "false") {
-                argument.prop("contenteditable", true);
-                argument.focus();
-
-                $(event.target).text(window.textPageComment.label_1);
-            }
-            else {
-                ajax.send(
-                    true,
-                    window.url.pageCommentRender,
-                    "post",
-                    {
-                        'event': "modify",
-                        'id': argumentId,
-                        'content': argument.text(),
-                        'token': window.session.token
-                    },
-                    "json",
-                    false,
-                    null,
-                    function(xhr) {
-                        ajax.reply(xhr, "");
-                        
-                        tableAndPagination.populate(xhr);
-                    },
-                    null,
-                    null
-                );
-            }
+            $("#form_pageComment").find(".mdc-text-field__input").next().addClass("mdc-floating-label--float-above");
+            $("#form_pageComment").find(".mdc-text-field__input").val(argument);
         });
     };
     
     // Function private
-    function reset() {
-        $.each($(".list_result").find(".row"), function(key, value) {
-            $(value).find(".message .argument").prop("contenteditable", false);
-            $(value).find(".action .button_modify").text(window.textPageComment.label_2);
-        });
-    }
 }

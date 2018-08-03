@@ -64,7 +64,7 @@ class SearchController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true) {
-            if ($form->isValid() == true || $this->isCsrfTokenValid("intention", $request->get("form_search")['_token']) == true) {
+            if ($form->isValid() == true) {
                 $words = $form->get("words")->getData();
 
                 $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/5/$words";
@@ -99,7 +99,7 @@ class SearchController extends Controller {
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/search.html.twig")
+    * @Template("@templateRoot/include/search.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;

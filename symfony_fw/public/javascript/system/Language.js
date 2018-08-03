@@ -17,7 +17,7 @@ function Language() {
                 "post",
                 {
                     'event': "languageText",
-                    'codeText': $(event.target).find("img").prop("class"),
+                    'languageTextCode': $(event.target).find("img").prop("class"),
                     'token': window.session.token
                 },
                 "json",

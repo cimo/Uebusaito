@@ -55,6 +55,8 @@ $(document).ready(function() {
     
     pageComment.init();
     
+    menuUser.init();
+    
     $(window).resize(function() {
         materialDesign.refresh();
         materialDesign.fix();

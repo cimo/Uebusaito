@@ -4,11 +4,11 @@
     {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
     
     <nav class="mdc-tab-bar mdc-tab-bar--icons-with-text">
-        <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "private"})}}">
+        <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "private"})}}">
             <i class="material-icons mdc-tab__icon" aria-hidden="true">person</i>
             <span class="mdc-tab__icon-text">{% trans %}registration_1{% endtrans %}</span>
         </a>
-        <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': "company"})}}">
+        <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "company"})}}">
             <i class="material-icons mdc-tab__icon" aria-hidden="true">account_balance</i>
             <span class="mdc-tab__icon-text">{% trans %}registration_2{% endtrans %}</span>
         </a>

@@ -29,6 +29,9 @@ function Ajax() {
                     
                     self.reply(xhr.userActivity, "");
                     
+                    if (loaderEnabled === true)
+                        loader.hide();
+                    
                     return;
                 }
                 

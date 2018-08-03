@@ -199,7 +199,7 @@ class Utility {
         fclose($writing);
         
         if ($checked == true) 
-            @rename($filePath + ".tmp", $filePath);
+            rename($filePath + ".tmp", $filePath);
         else
             unlink($filePath + ".tmp");
     }
@@ -331,8 +331,21 @@ class Utility {
         return join(" ", $result);
     }
     
-    public function cutLengthString($value, $length) {
+    public function cutStringOnLength($value, $length) {
         return strlen($value) > $length ? substr(value, 0, $length) . "..." : $value;
+    }
+    
+    public function takeStringBetween($string, $start, $end) {
+        $string = " " . $string;
+        $position = strpos($string, $start);
+        
+        if ($position == 0)
+            return "";
+        
+        $position += strlen($start);
+        $length = strpos($string, $end, $position) - $position;
+        
+        return substr($string, $position, $length);
     }
     
     public function arrayLike($elements, $like, $flat) {
@@ -472,8 +485,8 @@ class Utility {
             }
             
             if ($_SESSION['pageProfileId'] == 0) {
-                $rows = $this->query->selectAllPageDatabase($_SESSION['formLanguageCodeText']);
-                $id = count($rows) + 1;
+                $pageRows = $this->query->selectAllPageDatabase($_SESSION['languageTextCode']);
+                $id = count($pageRows) + 1;
                 
                 $html .= "<li class=\"ui-state-default\">
                     <div class=\"mdc-chip\">
@@ -499,8 +512,8 @@ class Utility {
             }
             
             if ($_SESSION['moduleProfileId'] == 0) {
-                $rows = $this->query->selectAllModuleDatabase();
-                $id = count($rows) + 1;
+                $moduleRows = $this->query->selectAllModuleDatabase();
+                $id = count($moduleRows) + 1;
                 
                 $html .= "<li class=\"ui-state-default\">
                     <div class=\"mdc-chip\">
@@ -659,13 +672,13 @@ class Utility {
         return Array(true, $result[0], $result[1]);
     }
     
-    public function checkUserNotLocked($username) {
+    public function checkUserActive($username) {
         $row = $this->query->selectUserDatabase($username);
         
         if ($row == false)
-            return true;
+            return false;
         else
-            return $row['not_locked'];
+            return $row['active'];
     }
     
     public function checkUserRole($roleName, $roleId) {
@@ -703,11 +716,11 @@ class Utility {
         
         if ($rowsCount == 0) {
             $user->setRoleUserId("1,2,");
-            $user->setNotLocked(1);
+            $user->setActive(1);
         }
         else {
             $user->setRoleUserId("1,");
-            $user->setNotLocked(0);
+            $user->setActive(0);
         }
     }
     
@@ -768,8 +781,8 @@ class Utility {
     }
     
     public function checkLanguage($request) {
-        if ($request->get("codeText") != null)
-            $_SESSION['languageTextCode'] = $request->get("codeText");
+        if ($request->get("languageTextCode") != null)
+            $_SESSION['languageTextCode'] = $request->get("languageTextCode");
         
         if (isset($_SESSION['languageTextCode']) == false) {
             $row = $this->query->selectSettingDatabase();

@@ -12,7 +12,6 @@ use App\Classes\System\TableAndPagination;
 
 use App\Entity\Module;
 
-use App\Form\ModuleDragFormType;
 use App\Form\ModuleFormType;
 use App\Form\ModuleSelectionFormType;
 
@@ -34,85 +33,6 @@ class ModuleController extends Controller {
     // Properties
     
     // Functions public
-    /**
-    * @Route(
-    *   name = "cp_module_drag",
-    *   path = "/cp_module_drag/{_locale}/{urlCurrentPageId}/{urlExtra}",
-    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
-    *	methods={"POST"}
-    * )
-    * @Template("@templateRoot/render/control_panel/module_drag.html.twig")
-    */
-    public function dragAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
-        $this->urlLocale = $_locale;
-        $this->urlCurrentPageId = $urlCurrentPageId;
-        $this->urlExtra = $urlExtra;
-        
-        $this->entityManager = $this->getDoctrine()->getManager();
-        
-        $this->response = Array();
-        
-        $this->utility = new Utility($this->container, $this->entityManager);
-        $this->ajax = new Ajax($this->container, $this->entityManager);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
-        
-        // Logic
-        $form = $this->createForm(ModuleDragFormType::class, null, Array(
-            'validation_groups' => Array('module_drag')
-        ));
-        $form->handleRequest($request);
-        
-        if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
-                $positionLeftExplode = explode(",", $form->get("positionLeft")->getData());
-                $positionCenterExplode = explode(",", $form->get("positionCenter")->getData());
-                $positionRightExplode = explode(",", $form->get("positionRight")->getData());
-                
-                if (count($positionLeftExplode) > 0) {
-                    foreach ($positionLeftExplode as $key => $value)
-                        $this->moduleDatabase("update", $value, $key + 1, "left");
-                }
-
-                if (count($positionCenterExplode) > 0) {
-                    foreach ($positionCenterExplode as $key => $value)
-                        $this->moduleDatabase("update", $value, $key + 1, "center");
-                }
-
-                if (count($positionRightExplode) > 0) {
-                    foreach ($positionRightExplode as $key => $value)
-                        $this->moduleDatabase("update", $value, $key + 1, "right");
-                }
-
-                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_1");
-            }
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_2");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
-            
-            return $this->ajax->response(Array(
-                'urlLocale' => $this->urlLocale,
-                'urlCurrentPageId' => $this->urlCurrentPageId,
-                'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
-        }
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response,
-            'form' => $form->createView()
-        );
-    }
-    
     /**
     * @Route(
     *   name = "cp_module_creation",
@@ -166,10 +86,10 @@ class ModuleController extends Controller {
                 
                 $this->updateRankInColumnDatabase($form->get("rankColumnSort")->getData(), $moduleEntity->getId());
 
-                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_3");
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_1");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_4");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_2");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -322,7 +242,7 @@ class ModuleController extends Controller {
                     ));
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_3");
             }
         }
         
@@ -435,10 +355,10 @@ class ModuleController extends Controller {
                 
                 $this->updateRankInColumnDatabase($form->get("rankColumnSort")->getData(), $moduleEntity->getId());
 
-                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_4");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_7");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_5");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -498,17 +418,17 @@ class ModuleController extends Controller {
                     if ($moduleDatabase == true) {
                         $this->response['values']['id'] = $id;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_9");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_6");
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
                     $moduleDatabase = $this->moduleDatabase("deleteAll", null, null, null);
 
                     if ($moduleDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_10");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("moduleController_7");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_11");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("moduleController_8");
 
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
@@ -555,9 +475,9 @@ class ModuleController extends Controller {
                 </td>
                 <td>";
                     if ($value['active'] == 0)
-                        $listHtml .= $this->utility->getTranslator()->trans("moduleController_12");
+                        $listHtml .= $this->utility->getTranslator()->trans("moduleController_9");
                     else
-                        $listHtml .= $this->utility->getTranslator()->trans("moduleController_13");
+                        $listHtml .= $this->utility->getTranslator()->trans("moduleController_10");
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">";
                     if ($value['id'] > 2)

@@ -128,8 +128,6 @@ function ControlPanelRoleUser() {
                             });
                             
                             $("#cp_role_selection_result").html("");
-                            
-                            popupEasy.close();
                         },
                         null,
                         null
@@ -202,7 +200,6 @@ function ControlPanelRoleUser() {
             $("#cp_roleUser_selection_result").html(xhr.response.render);
             
             materialDesign.refresh();
-            materialDesign.fix();
 
             $("#form_roleUser_level").on("keyup", "", function() {
                 $(this).val($(this).val().toUpperCase());
@@ -268,8 +265,6 @@ function ControlPanelRoleUser() {
                             $("#cp_roleUser_selection_result").html("");
                             
                             $("#cp_roleUser_selection_result_desktop .refresh").click();
-                            
-                            popupEasy.close();
                         }
                     },
                     null,

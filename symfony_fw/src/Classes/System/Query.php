@@ -182,17 +182,21 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectPageCommentDatabase($id, $username = null) {
-        if ($username == null) {
+    public function selectPageCommentDatabase($type, $id, $username = null) {
+        if ($type == "single") {
             $query = $this->connection->prepare("SELECT * FROM pages_comments
                                                     WHERE id = :id");
         }
-        else {
+        else if ($type = "reply") {
             $query = $this->connection->prepare("SELECT * FROM pages_comments
                                                     WHERE id_reply = :id
                                                     AND username = :username");
             
             $query->bindValue(":username", $username);
+        }
+        else if ($type = "edit") {
+            $query = $this->connection->prepare("SELECT * FROM pages_comments
+                                                    WHERE id_reply = :id");
         }
 
         $query->bindValue(":id", $id);
@@ -288,9 +292,11 @@ class Query {
     
     public function selectPaymentDatabase($transaction) {
         $query = $this->connection->prepare("SELECT * FROM payments
-                                                WHERE transaction = :transaction");
+                                                WHERE transaction = :transaction
+                                                AND status_delete = :statusDelete");
         
         $query->bindValue(":transaction", $transaction);
+        $query->bindValue(":statusDelete", 0);
         
         $query->execute();
         
@@ -299,9 +305,11 @@ class Query {
     
     public function selectAllPaymentDatabase($userId) {
         $query = $this->connection->prepare("SELECT * FROM payments
-                                                WHERE user_id = :userId");
+                                                WHERE user_id = :userId
+                                                AND status_delete = :statusDelete");
         
         $query->bindValue(":userId", $userId);
+        $query->bindValue(":statusDelete", 0);
         
         $query->execute();
         

@@ -43,12 +43,14 @@ class PageComment {
     /**
      * @ORM\Column(name="date_creation", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateCreation = "";
+    private $dateCreation = "0000-00-00 00:00:00";
     
     /**
      * @ORM\Column(name="date_modification", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateModification = "";
+    private $dateModification = "0000-00-00 00:00:00";
+    
+    private $type = "";
     
     // Properties
     public function setPageId($value) {
@@ -60,7 +62,7 @@ class PageComment {
     }
     
     public function setIdReply($value) {
-        $this->iddReply = $value;
+        $this->idReply = $value;
     }
     
     public function setUsernameReply($value) {
@@ -77,6 +79,10 @@ class PageComment {
     
     public function setDateModification($value) {
         $this->dateModification = $value;
+    }
+    
+    public function setType($value) {
+        $this->type = $value;
     }
     
     // ---
@@ -111,5 +117,9 @@ class PageComment {
     
     public function getDateModification() {
         return $this->dateModification;
+    }
+    
+    public function getType() {
+        return $this->type;
     }
 }

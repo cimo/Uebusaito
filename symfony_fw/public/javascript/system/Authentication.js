@@ -35,28 +35,6 @@ function Authentication() {
                 null
             );
         });
-        
-        $("#user_logout").on("click", "", function(event) {
-            event.preventDefault();
-            
-            ajax.send(
-                true,
-                window.url.authenticationExitCheck,
-                "post",
-                {
-                    'event': "logout",
-                    'token': window.session.token
-                },
-                "json",
-                false,
-                null,
-                function(xhr) {
-                    window.location.href = xhr.response.values.url;
-                },
-                null,
-                null
-            );
-        });
     };
     
     // Function private

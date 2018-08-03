@@ -32,7 +32,7 @@ class PayPalIpnListener {
     public function onKernelResponse(FilterResponseEvent $event) {
         $request = $event->getRequest();
         
-        if (strpos($request->getUri(), "cp_profile_credit_payPal") !== false) {
+        if (strpos($request->getUri(), "myPage_profile_credit_payPal") !== false) {
             $settingRow = $this->query->selectSettingDatabase();
             
             $payPal = new PayPal(true, false, $settingRow['payPal_sandbox']);

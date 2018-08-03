@@ -135,7 +135,7 @@ class RegistrationController extends Controller {
         else {
             $userEntity = $this->entityManager->getRepository("App\Entity\User")->find($userRow['id']);
             
-            $userEntity->setNotLocked(1);
+            $userEntity->setActive(1);
             $userEntity->setHelpCode(null);
             $userEntity->setCredit(0);
             

@@ -95,7 +95,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         if ($request->isXmlHttpRequest() == true) {
             $username = $request->get("_username");
             
-            if ($this->utility->checkUserNotLocked($username) == false)
+            if ($this->utility->checkUserActive($username) == false)
                 $message = $this->utility->getTranslator()->trans("authenticationListener_2");
             else {
                 $checkCaptcha = $this->captcha->check($this->settingRow['captcha'], $request->get("captcha"));
