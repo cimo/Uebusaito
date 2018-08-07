@@ -20,17 +20,17 @@
 {% endblock %}
 {% block moduleFooter %}
     <div class="page_footer">
-        <div>
-            {% if settingRow['page_date'] == true %}
+        {% if settingRow['page_date'] == true %}
+            <div class="mdc-typography--caption page_detail">
                 {% if (response.values.userCreation != "-" and response.values.userModification == "-") %}
-                    <p><i class="fa fa-paw"></i> <b>{% trans %}pageView_1{% endtrans %}</b>{{response.values.userCreation}}</p>
-                    <p><i class="fa fa-calendar"></i> <b>{% trans %}pageView_2{% endtrans %}</b>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
+                    <p><i class="material-icons md-14">pets</i> <span class="mdc-theme--on-surface">{% trans %}pageView_1{% endtrans %}</span>{{response.values.userCreation}}</p>
+                    <p><i class="material-icons md-14">calendar_today</i> <span class="mdc-theme--on-surface">{% trans %}pageView_2{% endtrans %}</span>{{response.values.dateCreation[0]}} [{{response.values.dateCreation[1]}}]</p>
                 {% elseif (response.values.userModification != "-") %}
-                    <p><i class="fa fa-paw"></i> <b>{% trans %}pageView_3{% endtrans %}</b>{{response.values.userModification}}</p>
-                    <p><i class="fa fa-calendar"></i> <b>{% trans %}pageView_4{% endtrans %}</b>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
+                    <p><i class="material-icons md-14">pets</i> <span class="mdc-theme--on-surface">{% trans %}pageView_3{% endtrans %}</span>{{response.values.userModification}}</p>
+                    <p><i class="material-icons md-14">calendar_today</i> <span class="mdc-theme--on-surface">{% trans %}pageView_4{% endtrans %}</span>{{response.values.dateModification[0]}} [{{response.values.dateModification[1]}}]</p>
                 {% endif %}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
         
         {% if urlCurrentPageId > 5 %}
             {{-render(controller("App\\Controller\\PageCommentController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}

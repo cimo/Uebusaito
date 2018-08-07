@@ -64,12 +64,14 @@ class UserController extends Controller {
         // Logic
         $userEntity = new User();
         
+        $_SESSION['userProfileId'] = 0;
+        
         $form = $this->createForm(UserFormType::class, $userEntity, Array(
             'validation_groups' => Array('user_creation')
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_select", true);
+        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_select", "userController_1", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -84,13 +86,13 @@ class UserController extends Controller {
                     $this->entityManager->persist($userEntity);
                     $this->entityManager->flush();
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_1");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_2");
                 }
                 else
                     $this->response['messages']['error'] = $messagePassword;
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_2");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -228,7 +230,7 @@ class UserController extends Controller {
                     ));
                     $form->handleRequest($request);
 
-                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_select", true);
+                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_select", "userController_1", true);
                     $this->response['values']['id'] = $_SESSION['userProfileId'];
                     $this->response['values']['credit'] = $userEntity->getCredit();
 
@@ -241,7 +243,7 @@ class UserController extends Controller {
                     ));
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_3");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_4");
             }
         }
         
@@ -306,13 +308,13 @@ class UserController extends Controller {
                     $this->entityManager->persist($userEntity);
                     $this->entityManager->flush();
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_4");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_5");
                 }
                 else
                     $this->response['messages']['error'] = $messagePassword;
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_5");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_6");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -376,7 +378,7 @@ class UserController extends Controller {
                     if ($userDatabase == true) {
                         $this->response['values']['id'] = $id;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_6");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_7");
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
@@ -389,10 +391,10 @@ class UserController extends Controller {
                     $userDatabase = $this->userDatabase("deleteAll", null);
 
                     if ($userDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_7");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("userController_8");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_8");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("userController_9");
 
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
@@ -450,9 +452,9 @@ class UserController extends Controller {
                 </td>
                 <td>";
                     if ($value['active'] == 0)
-                        $listHtml .= $this->utility->getTranslator()->trans("userController_9");
-                    else
                         $listHtml .= $this->utility->getTranslator()->trans("userController_10");
+                    else
+                        $listHtml .= $this->utility->getTranslator()->trans("userController_11");
                 $listHtml .= "</td>
                 <td>
                     <button class=\"mdc-fab mdc-fab--mini cp_user_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>

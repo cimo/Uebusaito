@@ -217,7 +217,7 @@ function Utility() {
             $(tagParent).find(".wordTag_result").html(html);
             
             $(tagInput + "_select").change(function(event) {
-                if ($.inArray($(event.target).val(), inputValueSplit) === -1) {
+                if ($.inArray($(event.target).val(), inputValueSplit) === -1 && $(event.target).val() !== "") {
                     $(tagParent).find(".wordTag_result").append(
                         "<div class=\"mdc-chip\">\n\
                             <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">delete</i>\n\
@@ -357,6 +357,39 @@ function Utility() {
             scrollTop: $(tag).offset().top
         }, 1000);
     };
+    
+    self.menuRoot = function() {
+        $(".menu_root_container").find(".mdc-list-item").on("click", "", function(event) {
+            if ($(event.target).hasClass("parent_icon") === true)
+                event.preventDefault();
+        });
+        
+        $(".menu_root_container").off("click").on("click", ".parent_icon", function() {
+            if ($(this).parent().next().css("display") !== "block")
+                $(this).parent().next().show();
+            else
+                $(this).parent().next().hide();
+        });
+        
+        if (window.location.href.indexOf("control_panel") === -1) {
+            var parameters = utility.urlParameters(window.setting.language);
+            
+            $(".menu_root_container").find(".target").removeClass("current");
+            
+            $.each($(".menu_root_container").find(".target"), function(key, value) {
+                if ($(value).prop("href").indexOf(parameters[1]) !== -1) {
+                    $(value).addClass("current");
+
+                    return false;
+                }
+                else if (parseInt(parameters[1]) === 2 && key === 0) {
+                    $(value).addClass("current");
+
+                    return false;
+                }
+            });
+        }
+    }
     
     // Functions private
     function populateSortableInput(tagParent, tagInput) {

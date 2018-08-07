@@ -83,7 +83,7 @@ function MaterialDesign() {
         if ($(".mdc-drawer--temporary").length > 0) {
             var drawerMdc = new mdc.drawer.MDCTemporaryDrawer($(".mdc-drawer--temporary")[0]);
 
-            $(".show_menu_root").on("click", "", function(event) {
+            $(".menu_root_mobile").on("click", "", function(event) {
                 drawerMdc.open = true;
             });
         }
@@ -273,15 +273,21 @@ function MaterialDesign() {
             if (utility.checkWidthType() === "desktop") {
                 $(".mdc-top-app-bar").addClass("mdc-top-app-bar--prominent");
 
-                if ($(document).scrollTop() > scrollLimit)
+                if ($(document).scrollTop() > scrollLimit) {
                     $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
+                    $(".logo_main_big").hide();
+                }
 
                 $(window).scroll(function() {
                     if (utility.checkWidthType() === "desktop") {
-                        if ($(document).scrollTop() > scrollLimit)
-                          $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
-                        else
-                          $(".mdc-top-app-bar__row").removeClass("mdc-top-app-bar_shrink");
+                        if ($(document).scrollTop() > scrollLimit) {
+                            $(".mdc-top-app-bar__row").addClass("mdc-top-app-bar_shrink");
+                            $(".logo_main_big").hide();
+                        }
+                        else {
+                            $(".mdc-top-app-bar__row").removeClass("mdc-top-app-bar_shrink");
+                            $(".logo_main_big").show();
+                        }
                     }
                 });
             }
@@ -297,6 +303,45 @@ function MaterialDesign() {
             $("body").removeClass("mdc-drawer-scroll-lock");
             $(".mdc-drawer").removeClass("mdc-drawer--open");
         }
+        
+        var parameters = utility.urlParameters(window.setting.language);
+        
+        $(".mdc-drawer").find(".mdc-list-item").removeClass("mdc-list-item--activated");
+        
+        $.each($(".mdc-drawer"), function(key, value) {
+            $.each($(value).find(".mdc-list-item"), function(keySub, valueSub) {
+                if (window.location.href.indexOf("control_panel") !== -1) {
+                    if (parameters[2] === undefined) {
+                        if (keySub === 1) {
+                            $(valueSub).addClass("mdc-list-item--activated");
+
+                            return false;
+                        }
+                    }
+                    else {
+                        if ($(valueSub).prop("href").indexOf(parameters[2]) !== -1) {
+                            $(valueSub).addClass("mdc-list-item--activated");
+
+                            return false;
+                        }
+                    }
+                }
+                else {
+                    if ($(valueSub).prop("href").indexOf(parameters[1]) !== -1) {
+                        $(valueSub).addClass("mdc-list-item--activated");
+                        
+                        $(valueSub).parentsUntil($(".menu_root_container"), ".children_container" ).show();
+
+                        return false;
+                    }
+                    else if (parseInt(parameters[1]) === 2 && keySub === 0) {
+                        $(valueSub).addClass("mdc-list-item--activated");
+
+                        return false;
+                    }
+                }
+            });
+        });
     }
     
     function mdcTextFieldHelperTextClear() {

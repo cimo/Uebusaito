@@ -1,6 +1,14 @@
 $widthMobile: "839px";
 $widthDesktop: "840px";
 
+$mdc-theme-primary: #1976d2;
+$mdc-theme-on-primary: #ffffff;
+$mdc-theme-secondary: #d50000;
+$mdc-theme-on-secondary: #ffffff;
+$mdc-theme-background: #ffffff;
+$mdc-theme-surface: #ffffff;
+$mdc-theme-on-surface: #868686;
+
 @mixin opacity($value) {
     $msOpacity: $value * 100;
     
@@ -59,3 +67,15 @@ $widthDesktop: "840px";
     content: "";
     clear: both;
 }
+
+.material-icons.md-14 { font-size: 14px; }
+.material-icons.primary { color: $mdc-theme-primary; }
+.material-icons.secondary { color: $mdc-theme-secondary; }
+
+/* Rules for using icons as black on a light background. 
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }*/
+
+/* Rules for using icons as white on a dark background.
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }*/

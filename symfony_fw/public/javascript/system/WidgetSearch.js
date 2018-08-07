@@ -35,8 +35,8 @@ function WidgetSearch() {
                 $(widgetSearchButtonClose).show();
                 $(widgetSearchButtonInput).show();
                 
-                if (utility.checkWidthType() === "mobile")
-                    $(topAppBarSectionStart[0]).hide();
+                $(topAppBarSectionStart[0]).hide();
+                $(".menu_root_container").hide();
             }
         });
 
@@ -49,8 +49,8 @@ function WidgetSearch() {
                 widgetSearchButtonInput.val("");
                 $(widgetSearchButtonInput).hide();
                 
-                if (utility.checkWidthType() === "mobile")
-                    $(topAppBarSectionStart[0]).css("display", "inline-flex");
+                $(topAppBarSectionStart[0]).css("display", "inline-flex");
+                $(".menu_root_container").show();
             }
         });
     };

@@ -6,6 +6,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerI
 use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -19,6 +21,8 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
     // Vars
     private $container;
     private $entityManager;
+    private $router;
+    private $requestStack;
     
     private $response;
     
@@ -32,9 +36,11 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
     // Properties
     
     // Functions public
-    public function __construct(ContainerInterface $container, EntityManager $entityManager) {
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack) {
         $this->container = $container;
         $this->entityManager = $entityManager;
+        $this->router = $router;
+        $this->requestStack = $requestStack;
         
         $this->response = Array();
         
@@ -139,15 +145,20 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
     public function onLogoutSuccess(Request $request) {
         $referer = $request->headers->get("referer");
         
-        if ($request->isXmlHttpRequest() == true) {
-            $this->response['values']['url'] = $referer;
-            
-            return $this->ajax->response(Array(
-                'response' => $this->response
-            ));
+        $url = $referer;
+        
+        if (strpos($request, "control_panel") !== false) {
+            $url = $this->router->generate(
+                "root_render",
+                Array(
+                    '_locale' => $_SESSION['languageTextCode'],
+                    'urlCurrentPageId' => 2,
+                    'urlExtra' => ""
+                )
+            );
         }
-        else
-            return new RedirectResponse($referer);
+
+        return new RedirectResponse($url);
     }
     
     // Functions private

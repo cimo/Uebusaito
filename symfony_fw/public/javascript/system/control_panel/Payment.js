@@ -30,7 +30,7 @@ function ControlPanelPayment() {
                     if (xhr.response.messages.success !== undefined)
                         location.reload();
                     else
-                        ajax.reply(xhr, "");
+                        ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
                 null,
                 null
@@ -75,8 +75,7 @@ function ControlPanelPayment() {
     
     // Function private
     function selectionDesktop() {
-        if ($("#cp_payment_selection_result_desktop").find("table tbody td").length > 0)
-            $(".button_accordion").eq(1).click();
+        $(".button_accordion").eq(1).click();
         
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.init();

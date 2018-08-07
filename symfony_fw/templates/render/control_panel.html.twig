@@ -1,13 +1,18 @@
 {% extends "@templateRoot/layout/layout_site.html.twig" %}
 
+{% import _self as macro %}
+
 {% block headerContainer %}
     <header class="mdc-top-app-bar">
         <div class="mdc-top-app-bar__row">
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                <a id="menu_root_button" class="material-icons mdc-top-app-bar__navigation-icon show_menu_root display_mobile" href="javascript:void(0)">menu</a>
-                <span class="mdc-top-app-bar__title display_desktop">{{websiteName}}</span>
+                <a class="material-icons mdc-top-app-bar__navigation-icon menu_root_mobile display_mobile" href="javascript:void(0)">menu</a>
+                <div class="display_desktop">
+                    <img class="logo_main_big" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                    <span class="mdc-top-app-bar__title">{{websiteName}}</span>
+                </div>
                 <span class="mdc-top-app-bar__title display_mobile">
-                    <img class="logo_main" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                    <img class="logo_main_small" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
                 </span>
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
@@ -16,51 +21,16 @@
                 {{-include("@templateRoot/include/menu_user.html.twig")-}}
             </section>
         </div>
-        <aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
+        <aside class="mdc-drawer mdc-drawer--temporary mdc-typography cp_menu">
             <nav class="mdc-drawer__drawer">
                 <header class="mdc-drawer__header">
                     <div class="mdc-drawer__header-content">
-                        <p>Header here<p>
+                        <img class="logo_main_big" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                        <span>{{websiteName}}</span>
                     </div>
                 </header>
-                <nav class="mdc-drawer__content mdc-list menu_control_panel">
-                    {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-                        <a class="mdc-list-item" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 2, 'urlExtra': ""})}}">
-                            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
-                            <span>{% trans %}controlPanel_1{% endtrans %}</span>
-                        </a>
-                        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 2, 'urlExtra': "cp_sytem_info"})}}">
-                            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">developer_board</i>
-                            <span>{% trans %}controlPanel_2{% endtrans %}</span>
-                        </a>
-                        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_payment"})}}">
-                            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">payment</i>
-                            <span>{% trans %}controlPanel_3{% endtrans %}</span>
-                        </a>
-                        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page"})}}">
-                            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">pages</i>
-                            <span>{% trans %}controlPanel_4{% endtrans %}</span>
-                        </a>
-                        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user"})}}">
-                            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
-                            <span>{% trans %}controlPanel_5{% endtrans %}</span>
-                        </a>
-                        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module"})}}">
-                            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">extension</i>
-                            <span>{% trans %}controlPanel_6{% endtrans %}</span>
-                        </a>
-                        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role"})}}">
-                            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">label</i>
-                            <span>{% trans %}controlPanel_7{% endtrans %}</span>
-                        </a>
-                    {% endif %}
-                    
-                    {% if is_granted("ROLE_ADMIN") == true %}
-                        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_setting"})}}">
-                            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
-                            <span>{% trans %}controlPanel_8{% endtrans %}</span>
-                        </a>
-                    {% endif %}
+                <nav class="mdc-drawer__content mdc-list">
+                    {{macro.menuControlPanel(urlLocale)}}
                 </nav>
             </nav>
         </aside>
@@ -70,46 +40,10 @@
 {% block columnLeftContainer %}
     {% if app.user %}
         <div class="sortable_column">
-            <nav class="mdc-drawer mdc-drawer--permanent mdc-typography menu_control_panel">
+            <nav class="mdc-drawer mdc-drawer--permanent mdc-typography cp_menu">
                 <div class="mdc-drawer__content">
                     <nav class="mdc-list">
-                        {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-                            <a class="mdc-list-item" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 2, 'urlExtra': ""})}}">
-                                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
-                                <span>{% trans %}controlPanel_1{% endtrans %}</span>
-                            </a>
-                            <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 2, 'urlExtra': "cp_sytem_info"})}}">
-                                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">developer_board</i>
-                                <span>{% trans %}controlPanel_2{% endtrans %}</span>
-                            </a>
-                            <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_payment"})}}">
-                                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">payment</i>
-                                <span>{% trans %}controlPanel_3{% endtrans %}</span>
-                            </a>
-                            <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page"})}}">
-                                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">pages</i>
-                                <span>{% trans %}controlPanel_4{% endtrans %}</span>
-                            </a>
-                            <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user"})}}">
-                                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
-                                <span>{% trans %}controlPanel_5{% endtrans %}</span>
-                            </a>
-                            <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module"})}}">
-                                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">extension</i>
-                                <span>{% trans %}controlPanel_6{% endtrans %}</span>
-                            </a>
-                            <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role"})}}">
-                                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">label</i>
-                                <span>{% trans %}controlPanel_7{% endtrans %}</span>
-                            </a>
-                        {% endif %}
-                        
-                        {% if is_granted("ROLE_ADMIN") == true %}
-                            <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_setting"})}}">
-                                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
-                                <span>{% trans %}controlPanel_8{% endtrans %}</span>
-                            </a>
-                        {% endif %}
+                        {{macro.menuControlPanel(urlLocale)}}
                     </nav>
                 </div>
             </nav>
@@ -122,7 +56,7 @@
         <div class="sortable_column">
             {% if urlExtra == "" or urlExtra == "cp_sytem_info" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-                    <ul class="mdc-list mdc-list--two-line mdc-list--avatar-list">
+                    <ul class="mdc-list mdc-list--two-line mdc-list--avatar-list cp_system_info">
                         {% for key, value in response.output.phpinfo %}
                             <li class="mdc-list-item">
                                 <span class="mdc-list-item__graphic material-icons" aria-hidden="true">info</span>
@@ -290,3 +224,43 @@
         </div>
     {% endif %}
 {% endblock %}
+
+{% macro menuControlPanel(urlLocale) %}
+    {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
+        <a class="mdc-list-item" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 2, 'urlExtra': ""})}}">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+            <span>{% trans %}controlPanel_1{% endtrans %}</span>
+        </a>
+        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_sytem_info"})}}">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">developer_board</i>
+            <span>{% trans %}controlPanel_2{% endtrans %}</span>
+        </a>
+        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_payment"})}}">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">payment</i>
+            <span>{% trans %}controlPanel_3{% endtrans %}</span>
+        </a>
+        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page"})}}">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">pages</i>
+            <span>{% trans %}controlPanel_4{% endtrans %}</span>
+        </a>
+        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user"})}}">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
+            <span>{% trans %}controlPanel_5{% endtrans %}</span>
+        </a>
+        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module"})}}">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">extension</i>
+            <span>{% trans %}controlPanel_6{% endtrans %}</span>
+        </a>
+        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role"})}}">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">label</i>
+            <span>{% trans %}controlPanel_7{% endtrans %}</span>
+        </a>
+    {% endif %}
+
+    {% if is_granted("ROLE_ADMIN") == true %}
+        <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_setting"})}}">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
+            <span>{% trans %}controlPanel_8{% endtrans %}</span>
+        </a>
+    {% endif %}
+{% endmacro %}

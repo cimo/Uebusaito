@@ -4,6 +4,7 @@ namespace App\EventListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,6 +16,7 @@ class RequestListener {
     private $container;
     private $entityManager;
     private $router;
+    private $requestStack;
     
     private $utility;
     private $query;
@@ -22,10 +24,11 @@ class RequestListener {
     // Properties
     
     // Functions public
-    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router) {
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack) {
         $this->container = $container;
         $this->entityManager = $entityManager;
         $this->router = $router;
+        $this->requestStack = $requestStack;
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();

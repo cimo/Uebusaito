@@ -3,6 +3,8 @@ namespace App\EventListener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 use App\Classes\System\Utility;
@@ -14,6 +16,8 @@ class PayPalIpnListener {
     // Vars
     private $container;
     private $entityManager;
+    private $router;
+    private $requestStack;
     
     private $utility;
     private $query;
@@ -21,9 +25,11 @@ class PayPalIpnListener {
     // Properties
     
     // Functions public
-    public function __construct(ContainerInterface $container, EntityManager $entityManager) {
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack) {
         $this->container = $container;
         $this->entityManager = $entityManager;
+        $this->router = $router;
+        $this->requestStack = $requestStack;
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();

@@ -45,16 +45,7 @@ class MenuRootController extends Controller {
         // Logic
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
         
-        $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}";
         $this->response['values']['pageList'] = $this->utility->createPageList($pageRows, false);
-        $this->response['values']['moduleRows'] = $this->query->selectAllModuleDatabase();
-        $this->response['values']['languageSelectOptionHtml'] = $this->utility->createLanguageSelectOptionHtml($this->urlLocale);
-        
-        if ($this->getUser() != null) {
-            $this->response['values']['user'] = $this->getUser();
-            $this->response['values']['dateLastLogin'] = $this->utility->dateFormat($this->getUser()->getDateLastLogin());
-            $this->response['values']['roleUserRow'] = $this->query->selectRoleUserDatabase($this->getUser()->getRoleUserId(), true);
-        }
         
         return Array(
             'urlLocale' => $this->urlLocale,

@@ -1,5 +1,3 @@
-/* global ajax */
-
 var menuUser = new MenuUser();
 
 function MenuUser() {

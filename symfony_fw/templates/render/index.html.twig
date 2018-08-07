@@ -2,12 +2,18 @@
 
 {% block headerContainer %}
     <header class="mdc-top-app-bar">
-        <div class="mdc-top-app-bar__row ">
+        <div class="mdc-top-app-bar__row">
+            <div class="display_desktop">
+                {{-render(controller("App\\Controller\\MenuRootController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "desktop"}))-}}
+            </div>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                <a id="menu_root_button" class="material-icons mdc-top-app-bar__navigation-icon show_menu_root display_mobile" href="javascript:void(0)">menu</a>
-                <span class="mdc-top-app-bar__title display_desktop">{{websiteName}}</span>
+                <a class="material-icons mdc-top-app-bar__navigation-icon menu_root_mobile display_mobile" href="javascript:void(0)">menu</a>
+                <div class="display_desktop">
+                    <img class="logo_main_big" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                    <span class="mdc-top-app-bar__title">{{websiteName}}</span>
+                </div>
                 <span class="mdc-top-app-bar__title display_mobile">
-                    <img class="logo_main" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                    <img class="logo_main_small" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
                 </span>
             </section>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
@@ -20,13 +26,12 @@
             <nav class="mdc-drawer__drawer">
                 <header class="mdc-drawer__header">
                     <div class="mdc-drawer__header-content">
-                        <p>Header here<p>
+                        <img class="logo_main_big" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/logo.svg")}}"/>
+                        <span>{{websiteName}}</span>
                     </div>
                 </header>
                 <nav class="mdc-drawer__content mdc-list">
-                    <a class="mdc-list-item mdc-list-item--activated" href="javascript:void(0)">
-                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>Home
-                    </a>
+                    {{-render(controller("App\\Controller\\MenuRootController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "mobile"}))-}}
                 </nav>
             </nav>
         </aside>
@@ -64,23 +69,12 @@
                 {% endfor %}
             </div>
         {% else %}
-            <div class="maintenance">
-                {% if settingRow['website_active'] == false %}
-                    {% if urlExtra == "maintenance_authentication" %}
-                        {{-render(controller("App\\Controller\\AuthenticationController::moduleAction", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                    {% else %}
-                        <div class="content">
-                            <img src="{{asset("images/templates/" ~ settingRow['template'] ~ "/maintenance.svg")}}">
-                            <div>
-                                <a href="{{path("root_render", {'_locale': settingRow['language'], 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "maintenance_authentication"})}}">
-                                    {#<i class="fa fa-wrench"></i>#}
-                                </a>
-                            </div>
-                            <p>{% trans %}index_1{% endtrans %}</p>
-                            <p>{% trans %}index_2{% endtrans %}</p>
-                        </div>
-                    {% endif %}
-                {% endif %}
+            <div class="sortable_column">
+                <div class="maintenance_container">
+                    <img src="{{asset("images/templates/" ~ settingRow['template'] ~ "/maintenance.svg")}}">
+                    <p>{% trans %}index_1{% endtrans %}</p>
+                    <p>{% trans %}index_2{% endtrans %}</p>
+                </div>
             </div>
         {% endif %}
     {% endif %}

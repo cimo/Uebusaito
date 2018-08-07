@@ -69,7 +69,7 @@ class SettingController extends Controller {
         ));
         $form->handleRequest($request);
         
-        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_setting_roleUserId_select", true);
+        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_setting_roleUserId_select", "settingController_1", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
@@ -83,17 +83,17 @@ class SettingController extends Controller {
                 if ($form->get("https")->getData() != $settingEntity->getHttps()) {
                     $this->utility->getTokenStorage()->setToken(null);
                     
-                    $message = $this->utility->getTranslator()->trans("settingController_1");
+                    $message = $this->utility->getTranslator()->trans("settingController_2");
                     
                     $_SESSION['userActivity'] = $message;
                     
                     $this->response['messages']['info'] = $message;
                 }
                 else
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_2");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_3");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_3");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_4");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -156,7 +156,7 @@ class SettingController extends Controller {
 
                         $this->settingDatabase("deleteLanguageInPage", $code);
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_4");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
                     }
                 }
                 else if ($request->get("event") == "modifyLanguage" || $request->get("event") == "createLanguage") {
@@ -191,18 +191,18 @@ class SettingController extends Controller {
 
                         if ($settingDatabase == true) {
                             if ($request->get("event") == "modifyLanguage")
-                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
+                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_6");
                             else if ($request->get("event") == "createLanguage") {
                                 touch("{$this->utility->getPathRoot()}/translations/messages.$code.yml");
 
                                 $this->settingDatabase("insertLanguageInPage", $code);
 
-                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_6");
+                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_7");
                             }
                         }
                     }
                     else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_7");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_8");
                 }
 
                 return $this->ajax->response(Array(

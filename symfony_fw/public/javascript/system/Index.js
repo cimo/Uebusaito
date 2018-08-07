@@ -5,7 +5,7 @@ $(document).ready(function() {
     utility.checkMobile(true);
     utility.linkPreventDefault();
     utility.accordion("button");
-    console.log("flashBag.sessionActivity -> " + window.session.userActivity);
+    utility.menuRoot();
     
     // Material design
     materialDesign.init();

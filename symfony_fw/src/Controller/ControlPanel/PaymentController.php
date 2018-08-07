@@ -74,23 +74,23 @@ class PaymentController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
-                if ($form->get("userId")->getData() != null) {
+                if ($form->get("userId")->getData() > 0) {
                     $_SESSION['paymentUserId'] = $form->get("userId")->getData();
                     
                     $this->response['messages']['success'] = "";
-                    
-                    return $this->ajax->response(Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
+                }
+                else {
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_1");
+                    $this->response['errors'] = $this->ajax->errors($form);
                 }
             }
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("paymentController_1");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
         }
         
         return Array(
@@ -133,6 +133,9 @@ class PaymentController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
         
         // Logic
+        if (isset($_SESSION['paymentUserId']) == false)
+            $_SESSION['paymentUserId'] = 0;
+        
         $paymentRows = $this->query->selectAllPaymentDatabase($_SESSION['paymentUserId']);
 
         $tableAndPagination = $this->tableAndPagination->request($paymentRows, 20, "payment", true, true);

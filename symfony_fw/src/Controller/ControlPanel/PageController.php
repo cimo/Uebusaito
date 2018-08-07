@@ -82,7 +82,7 @@ class PageController extends Controller {
         
         $pageParentRows = array_column($this->query->selectAllPageParentDatabase($form->get("parent")->getData()), "alias", "id");
         
-        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", true);
+        $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", "pageController_1", true);
         $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($pageParentRows);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -98,11 +98,11 @@ class PageController extends Controller {
                 if ($pageDatabase == true) {
                     $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
                     
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_1");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_2");
                 }
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_2");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -250,7 +250,7 @@ class PageController extends Controller {
 
                     $pageParentRows = array_column($this->query->selectAllPageParentDatabase($form->get("parent")->getData()), "alias", "id");
                     
-                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", true);
+                    $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", "pageController_1", true);
                     $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($pageParentRows);
                     $this->response['values']['idPage'] = $_SESSION['pageProfileId'];
                     $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
@@ -267,7 +267,7 @@ class PageController extends Controller {
                     ));
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_3");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_4");
             }
         }
         
@@ -387,11 +387,11 @@ class PageController extends Controller {
                 if ($pageDatabase == true) {
                     $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
 
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_4");
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_5");
                 }
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_5");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_6");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -455,7 +455,7 @@ class PageController extends Controller {
                         if ($pageDatabase == true) {
                             $this->response['values']['id'] = $id;
 
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_6");
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_7");
                         }
                     }
                     else {
@@ -463,16 +463,16 @@ class PageController extends Controller {
                         
                         $this->response['values']['idPage'] = $id;
                         $this->response['values']['idParent'] = $pageEntity->getParent();
-                        $this->response['values']['text'] = "<p>" . $this->utility->getTranslator()->trans("pageController_7") . "</p>";
-                        $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"mdc-button mdc-button--dense mdc-button--raised mdc-theme--secondary-bg\" type=\"button\" style=\"display: block;\">" . $this->utility->getTranslator()->trans("pageController_8") . "</button>";
-                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_deletion_parent_new", $this->utility->getTranslator()->trans("pageController_9"));
+                        $this->response['values']['text'] = "<p>" . $this->utility->getTranslator()->trans("pageController_8") . "</p>";
+                        $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"mdc-button mdc-button--dense mdc-button--raised mdc-theme--secondary-bg\" type=\"button\" style=\"display: block;\">" . $this->utility->getTranslator()->trans("pageController_9") . "</button>";
+                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_deletion_parent_new", $this->utility->getTranslator()->trans("pageController_10"));
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
                     $pageDatabase = $this->pageDatabase("deleteAll", null, null, null);
 
                     if ($pageDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_11");
                 }
                 else if ($request->get("event") == "parentAll") {
                     $id = $request->get("id") == null ? $_SESSION['pageProfileId'] : $request->get("id");
@@ -488,7 +488,7 @@ class PageController extends Controller {
                     if ($pageDatabase == true) {
                         $this->response['values']['removedId'] = $this->removedId;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_10");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_11");
                     }
                 }
                 else if ($request->get("event") == "parentNew") {
@@ -501,11 +501,11 @@ class PageController extends Controller {
                     if ($pageDatabase == true) {
                         $this->response['values']['id'] = $id;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_11");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_12");
                     }
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_12");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_13");
 
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
@@ -553,21 +553,21 @@ class PageController extends Controller {
                 </td>
                 <td>";
                     if ($value['protected'] == 0)
-                        $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
-                    else
                         $this->listHtml .= $this->utility->getTranslator()->trans("pageController_14");
+                    else
+                        $this->listHtml .= $this->utility->getTranslator()->trans("pageController_15");
                 $this->listHtml .= "</td>
                     <td>";
                         if ($value['show_in_menu'] == 0)
-                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
-                        else
                             $this->listHtml .= $this->utility->getTranslator()->trans("pageController_14");
+                        else
+                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_15");
                 $this->listHtml .= "</td>
                     <td>";
                         if ($value['only_link'] == 0)
-                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_13");
-                        else
                             $this->listHtml .= $this->utility->getTranslator()->trans("pageController_14");
+                        else
+                            $this->listHtml .= $this->utility->getTranslator()->trans("pageController_15");
                 $this->listHtml .= "</td>
                 <td>";
                     if ($value['id'] > 5)

@@ -78,7 +78,10 @@ class RootController extends Controller {
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
         
-        $this->get("twig")->addGlobal("isMobile", $this->utility->checkMobile());
+        if ($this->container->get("session")->isStarted() == true) {
+            $session = $request->getSession();
+            $session->set("php_session", $_SESSION);
+        }
         
         if ($request->get("event") == "captchaImage") {
             $this->response['captchaImage'] = $this->captcha->create(7);

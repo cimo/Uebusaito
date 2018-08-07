@@ -64,16 +64,16 @@ class ControlPanelController extends Controller {
         $this->response['modules']['center'] = $this->query->selectAllModuleDatabase(null, "center");
         $this->response['modules']['right'] = $this->query->selectAllModuleDatabase(null, "right");
         
+        $this->response['output']['phpinfo'] = $this->parsePhpinfo();
+        
         $this->get("twig")->addGlobal("php_session", $_SESSION);
         $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
         
-        $this->get("twig")->addGlobal("isMobile", $this->utility->checkMobile());
-        
-        /*ob_start();
-        phpinfo();
-        $this->response['output']['phpinfo'] = ob_get_clean();*/
-        $this->response['output']['phpinfo'] = $this->parsePhpinfo();
+        if ($this->container->get("session")->isStarted() == true) {
+            $session = $request->getSession();
+            $session->set("php_session", $_SESSION);
+        }
         
         // Logic
         return Array(
@@ -88,34 +88,36 @@ class ControlPanelController extends Controller {
     function parsePhpinfo() {
         ob_start();
         phpinfo();
-        $s = ob_get_contents();
+        $contents = ob_get_contents();
         ob_end_clean();
         
-        $s = strip_tags($s, '<h2><th><td>');
-        $s = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $s);
-        $s = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $s);
-        $t = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $s, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $contents = strip_tags($contents, "<h2><th><td>");
+        $contents = preg_replace("/<th[^>]*>([^<]+)<\/th>/", '<info>\1</info>', $contents);
+        $contents = preg_replace("/<td[^>]*>([^<]+)<\/td>/", '<info>\1</info>', $contents);
         
-        $r = array(); $count = count($t);
+        $title = preg_split("/(<h2[^>]*>[^<]+<\/h2>)/", $contents, -1, PREG_SPLIT_DELIM_CAPTURE);
         
-        $p1 = '<info>([^<]+)<\/info>';
-        $p2 = '/'.$p1.'\s*'.$p1.'\s*'.$p1.'/';
-        $p3 = '/'.$p1.'\s*'.$p1.'/';
+        $rows = Array();
+        $countTitle = count($title);
         
-        for ($i = 1; $i < $count; $i++) {
-            if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matchs)) {
+        $pA = "<info>([^<]+)<\/info>";
+        $pB = "/$pA\s*$pA\s*$pA/";
+        $pC = "/$pA\s*$pA/";
+        
+        for ($a = 1; $a < $countTitle; $a++) {
+            if (preg_match("/<h2[^>]*>([^<]+)<\/h2>/", $title[$a], $matchs)) {
                 $name = trim($matchs[1]);
-                $vals = explode("\n", $t[$i + 1]);
+                $titleExplode = explode("\n", $title[$a + 1]);
                 
-                foreach ($vals AS $val) {
-                    if (preg_match($p2, $val, $matchs))
-                        $r[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]));
-                    else if (preg_match($p3, $val, $matchs))
-                        $r[$name][trim($matchs[1])] = trim($matchs[2]);
+                foreach ($titleExplode as $key => $value) {
+                    if (preg_match($pB, $value, $matchs))
+                        $rows[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]));
+                    else if (preg_match($pC, $value, $matchs))
+                        $rows[$name][trim($matchs[1])] = trim($matchs[2]);
                 }
             }
         }
         
-        return $r;
+        return $rows;
     }
 }

@@ -4,6 +4,7 @@ namespace App\EventListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,6 +16,7 @@ class ErrorListener {
     private $container;
     private $entityManager;
     private $router;
+    private $requestStack;
     
     private $utility;
     private $query;
@@ -22,10 +24,11 @@ class ErrorListener {
     // Properties
     
     // Functions public
-    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router) {
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack) {
         $this->container = $container;
         $this->entityManager = $entityManager;
         $this->router = $router;
+        $this->requestStack = $requestStack;
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
@@ -36,9 +39,19 @@ class ErrorListener {
 
         if ($exception instanceof NotFoundHttpException) {
             if ($event->getRequest()->get("_route") == null) {
-                $settingRow = $this->query->selectSettingDatabase();
+                $session = $this->requestStack->getCurrentRequest()->getSession();
                 
-                $response = new RedirectResponse("{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$settingRow['language']}?error=404");
+                $url = $this->router->generate(
+                    "root_render",
+                    Array(
+                        '_locale' => $session->get("php_session")['languageTextCode'],
+                        'urlCurrentPageId' => 2,
+                        'urlExtra' => "",
+                        'error' => "404"
+                    )
+                );
+                
+                $response = new RedirectResponse($url);
                 
                 $event->setResponse($response);
             }
