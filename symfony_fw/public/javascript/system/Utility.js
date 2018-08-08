@@ -4,8 +4,6 @@ function Utility() {
     // Vars
     var self = this;
     
-    var watchExecuted;
-    
     var touchMove;
     
     // Properties
@@ -15,8 +13,6 @@ function Utility() {
     
     // Functions public
     self.init = function() {
-        watchExecuted = false;
-
         touchMove = false;
     };
     
@@ -99,8 +95,8 @@ function Utility() {
     self.urlParameters = function(language) {
         var href = window.location.href;
         
-        var start = href.indexOf("/" + language + "/");
-        var split = href.substring(start, href.length).split("/");
+        var pageStart = href.indexOf("/" + language + "/");
+        var split = href.substring(pageStart, href.length).split("/");
         split.shift();
         
         return split;
@@ -389,6 +385,34 @@ function Utility() {
                 }
             });
         }
+    }
+    
+    self.bodyProgress = function() {
+        $(document).on("readystatechange", "", function(event) {
+            var linearProgressMdc = new mdc.linearProgress.MDCLinearProgress.attachTo($("#body_progress").find(".mdc-linear-progress")[0]);
+            
+            var elements = new Array();
+            
+            var progress = 0;
+            
+            if ($(this)[0].readyState === "interactive") {
+                $.each($(this).find("*"), function(key, value) {
+                    elements.push(value);
+                });
+                
+                $.each(elements, function(key, value) {
+                    progress = Math.ceil(key / elements.length);
+
+                    linearProgressMdc.progress = progress;
+                });
+            }
+            
+            if (progress >= 1) {
+                $("#body_progress").fadeOut("slow", function() {
+                    $("#body_content").css("opacity", "1");
+                });
+            }
+        });
     }
     
     // Functions private

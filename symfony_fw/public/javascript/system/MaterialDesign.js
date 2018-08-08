@@ -29,7 +29,7 @@ function MaterialDesign() {
         
         mdcTextFields = new Array();
         
-        window.mdc.autoInit();
+        //window.mdc.autoInit();
     };
     
     self.button = function() {
@@ -138,16 +138,14 @@ function MaterialDesign() {
     self.linearProgress = function(tag, start, end, buffer) {
         if ($(tag).length > 0) {
             var linearProgressMdc = new mdc.linearProgress.MDCLinearProgress.attachTo($(tag)[0]);
-
-            if (start !== undefined && end !== undefined) {
-                var progress = start / end;
-                var percentage = Math.ceil(progress * 100);
-            }
-            else
-                percentage = 0;
-
-            linearProgressMdc.progress = percentage / 100;
-
+            
+            var progress = 0;
+            
+            if (start !== undefined && end !== undefined)
+                progress = Math.ceil(start / end);
+            
+            linearProgressMdc.progress = progress;
+            
             if (buffer !== undefined)
                 linearProgressMdc.buffer = buffer;
         }

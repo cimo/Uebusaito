@@ -27,8 +27,11 @@ function ControlPanelPayment() {
                     $("#cp_payment_selection_result").html("");
                 },
                 function(xhr) {
-                    if (xhr.response.messages.success !== undefined)
-                        location.reload();
+                    if (xhr.response.messages.success !== undefined) {
+                        selectionDesktop();
+                        
+                        $("#cp_payment_selection_result_desktop").find(".refresh").click();
+                    }
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);
                 },

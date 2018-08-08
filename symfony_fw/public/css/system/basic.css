@@ -32,7 +32,7 @@
   .menu_root_container .mdc-list-item { position: relative; }
   .menu_root_container .mdc-list-item .parent_icon { margin-right: 0; position: absolute; right: 0; padding: 12px; }
   .menu_root_container .children_container { display: none; } }
-@media (min-width: 840px) { .menu_root_container { position: absolute; z-index: 5; left: 200px; bottom: 0; }
+@media (min-width: 840px) { .menu_root_container { position: absolute; left: 200px; bottom: 0; z-index: 2; }
   .menu_root_container ul { display: flex; list-style: none; padding: 0; }
   .menu_root_container ul .parent:hover > .parent_content { display: block !important; background-color: #1976d2; }
   .menu_root_container ul .parent .material-icons { vertical-align: middle; color: #ffffff; }
@@ -82,7 +82,7 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .mdc-chip--selected .mdc-chip__icon--leading { opacity: 1 !important; }
 
-.mdc-dialog { z-index: 100; }
+.mdc-dialog { z-index: 1100; }
 
 .mdc-menu-anchor { align-self: flex-start; }
 
@@ -143,6 +143,10 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .cp_system_info .mdc-list-item { height: auto; }
 
+#body_progress { display: block; }
+
+#body_content { opacity: 0; }
+
 #panel_id_1 p { margin: 0; }
 #panel_id_1 .mdc-text-field { width: 100%; }
 #panel_id_1 .submit_container button { margin-top: 0; width: 100%; }
@@ -159,7 +163,7 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 #pageComment_result .mdc-list-item .quote_text { display: block; background: #ededed; padding: 10px; border-radius: 20px; white-space: initial !important; }
 #pageComment_result .mdc-list-item .quote_text .quote_avatar { width: 40px; height: 40px; display: inline-block; vertical-align: middle; margin-right: 5px; border-radius: 50%; }
 #pageComment_result .mdc-list-item .argument { padding: 10px 10px 0 10px; }
-#pageComment_result .mdc-list-item .mdc-list-item__meta { cursor: pointer; z-index: 1; }
+#pageComment_result .mdc-list-item .mdc-list-item__meta { cursor: pointer; z-index: 2; }
 
 :root { --mdc-theme-primary: #1976d2; --mdc-theme-on-primary: #ffffff; --mdc-theme-secondary: #d50000; --mdc-theme-on-secondary: #ffffff; --mdc-theme-background: #ffffff; --mdc-theme-surface: #ffffff; --mdc-theme-on-surface: #868686; }
 

@@ -1,7 +1,9 @@
 /* global utility, materialDesign, widgetSearch, widgetDatePicker, search, flashBag, captcha, language, authentication, registration, recoverPassword */
 
+utility.init();
+utility.bodyProgress();
+
 $(document).ready(function() {
-    utility.init();
     utility.checkMobile(true);
     utility.linkPreventDefault();
     utility.accordion("button");

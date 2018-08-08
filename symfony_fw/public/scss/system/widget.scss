@@ -70,7 +70,7 @@
     bottom: 0;
     background-color: #000000;
     opacity: 0.5;
-    z-index: 20;
+    z-index: 1200;
 }
 .widget_datePicker {
     display: none;
@@ -86,7 +86,7 @@
     border-bottom: none;
     width: 310px;
     background-color: #ffffff;
-    z-index: 21;
+    z-index: 1201;
     
     .header {
         position: relative;

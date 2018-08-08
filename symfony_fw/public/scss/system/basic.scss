@@ -51,9 +51,9 @@ $boxBackgroundColor: #ededed;
 @media(min-width: $widthDesktop) {
     .menu_root_container {
         position: absolute;
-        z-index: 5;
         left: 200px;
         bottom: 0;
+        z-index: 2;
 
         ul {
             display: flex;
@@ -256,7 +256,7 @@ table {
 }
 
 .mdc-dialog {
-    z-index: 100;
+    z-index: 1100;
 }
 
 .mdc-menu-anchor {
@@ -468,6 +468,13 @@ table {
     }
 }
 
+#body_progress {
+    display: block;
+}
+#body_content {
+    opacity: 0;
+}
+
 #panel_id_1 {
     p {
         margin: 0;
@@ -549,7 +556,7 @@ table {
         }
         .mdc-list-item__meta {
             cursor: pointer;
-            z-index: 1;
+            z-index: 2;
         }
     }
 }
