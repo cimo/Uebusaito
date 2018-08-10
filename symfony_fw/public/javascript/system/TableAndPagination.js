@@ -199,8 +199,6 @@ function TableAndPagination() {
             if (valueA > valueB && $(idResult).find("table tbody tr").length === 0)
                 $(idResult).find(".tableAndPagination .previous").click();
             
-            //current = valueA - 1;
-            
             if (current < 0)
                 current = 0;
             

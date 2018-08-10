@@ -37,7 +37,7 @@ class PageCommentController extends Controller {
     *   name = "pageComment_render",
     *   path = "/pageComment_render/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/include/pageComment.html.twig")
@@ -94,7 +94,7 @@ class PageCommentController extends Controller {
     *   name = "pageComment_save",
     *   path = "/pageComment_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/include/pageComment.html.twig")
@@ -248,13 +248,13 @@ class PageCommentController extends Controller {
                         $row = $this->query->selectPageCommentDatabase("reply", $value['id'], $this->getUser()->getUsername());
                         
                         if ($row == false)
-                            $html .= "<span class=\"mdc-list-item__meta material-icons button_reply\" aria-hidden=\"true\">reply</span>";
+                            $html .= "<span class=\"mdc-list-item__meta material-icons button_reply\">reply</span>";
                     }
                     else {
                         $row = $this->query->selectPageCommentDatabase("edit", $value['id']);
                         
                         if ($row == false)
-                            $html .= "<span class=\"mdc-list-item__meta material-icons button_edit\" aria-hidden=\"true\">edit</span>";
+                            $html .= "<span class=\"mdc-list-item__meta material-icons button_edit\">edit</span>";
                     }
                 }
 

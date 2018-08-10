@@ -50,6 +50,7 @@ class PageComment {
      */
     private $dateModification = "0000-00-00 00:00:00";
     
+    // #
     private $type = "";
     
     // Properties

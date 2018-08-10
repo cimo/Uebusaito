@@ -38,7 +38,7 @@ class RoleUserController extends Controller {
     *   name = "cp_roleUser_creation",
     *   path = "/cp_roleUser_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_creation.html.twig")
@@ -106,7 +106,7 @@ class RoleUserController extends Controller {
     *   name = "cp_roleUser_selection",
     *   path = "/cp_roleUser_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_selection.html.twig")
@@ -174,7 +174,7 @@ class RoleUserController extends Controller {
     *   name = "cp_roleUser_profile_result",
     *   path = "/cp_roleUser_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_profile.html.twig")
@@ -246,7 +246,7 @@ class RoleUserController extends Controller {
     *   name = "cp_roleUser_profile_save",
     *   path = "/cp_roleUser_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_profile.html.twig")
@@ -312,7 +312,7 @@ class RoleUserController extends Controller {
     *   name = "cp_roleUser_deletion",
     *   path = "/cp_roleUser_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/roleUser_deletion.html.twig")

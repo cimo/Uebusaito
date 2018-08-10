@@ -18,52 +18,52 @@ class Payment {
     /**
      * @ORM\Column(name="user_id", type="integer", columnDefinition="int(11) NOT NULL")
      */
-    private $userId;
+    private $userId = 0;
     
     /**
      * @ORM\Column(name="transaction", type="string", columnDefinition="varchar(255) NOT NULL")
      */
-    private $transaction;
+    private $transaction = "";
     
     /**
-     * @ORM\Column(name="date", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="date", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $date;
+    private $date = "0000-00-00 00:00:00";
     
     /**
      * @ORM\Column(name="status", type="string", columnDefinition="varchar(255) NOT NULL")
      */
-    private $status;
+    private $status = "";
     
     /**
      * @ORM\Column(name="payer", type="string", columnDefinition="varchar(255) NOT NULL")
      */
-    private $payer;
+    private $payer = "";
     
     /**
      * @ORM\Column(name="receiver", type="string", columnDefinition="varchar(255) NOT NULL")
      */
-    private $receiver;
+    private $receiver = "";
     
     /**
      * @ORM\Column(name="currency_code", type="string", columnDefinition="varchar(3) NOT NULL")
      */
-    private $currencyCode;
+    private $currencyCode = "";
     
     /**
      * @ORM\Column(name="item_name", type="string", columnDefinition="varchar(255) NOT NULL")
      */
-    private $itemName;
+    private $itemName = "";
     
     /**
      * @ORM\Column(name="amount", type="string", columnDefinition="varchar(255) NOT NULL")
      */
-    private $amount;
+    private $amount = "";
     
     /**
      * @ORM\Column(name="quantity", type="string", columnDefinition="varchar(255) NOT NULL")
      */
-    private $quantity;
+    private $quantity = "";
     
     // Properties
     public function setUserId($value) {

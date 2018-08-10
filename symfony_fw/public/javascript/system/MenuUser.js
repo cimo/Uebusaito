@@ -20,6 +20,12 @@ function MenuUser() {
         $("#menu_user").find(".login").on("click", "", function() {
             window.location.href = window.url.root + "/" + window.session.languageTextCode + "/0/user_login";
         });
+        $("#menu_user").find(".registration").on("click", "", function() {
+            window.location.href = window.url.root + "/" + window.session.languageTextCode + "/3";
+        });
+        $("#menu_user").find(".recover_password").on("click", "", function() {
+            window.location.href = window.url.root + "/" + window.session.languageTextCode + "/4";
+        });
     };
     
     // Functions private

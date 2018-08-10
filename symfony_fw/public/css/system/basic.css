@@ -20,11 +20,11 @@
 .material-icons.secondary { color: #d50000; }
 
 /* Rules for using icons as black on a light background. 
-.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
-.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }*/
+.material-icons.md-dark {color: rgba(0, 0, 0, 0.54);}
+.material-icons.md-dark.md-inactive {color: rgba(0, 0, 0, 0.26);}*/
 /* Rules for using icons as white on a dark background.
-.material-icons.md-light { color: rgba(255, 255, 255, 1); }
-.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }*/
+.material-icons.md-light {color: rgba(255, 255, 255, 1);}
+.material-icons.md-light.md-inactive {color: rgba(255, 255, 255, 0.3);}*/
 @media (max-width: 839px) { .main .sortable_column { padding-top: 55px !important; }
   .main .sortable_column form .mdc-text-field, .main .sortable_column form .mdc-select { width: 100% !important; }
   .sort_container .sort_list i { cursor: pointer !important; }
@@ -143,9 +143,7 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .cp_system_info .mdc-list-item { height: auto; }
 
-#body_progress { display: block; }
-
-#body_content { opacity: 0; }
+#body_progress { display: block; height: 100%; background-color: #ffffff; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 2000; }
 
 #panel_id_1 p { margin: 0; }
 #panel_id_1 .mdc-text-field { width: 100%; }

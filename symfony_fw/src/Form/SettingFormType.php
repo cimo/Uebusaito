@@ -148,8 +148,17 @@ class SettingFormType extends AbstractType {
                 "settingFormType_9" => "1"
             )
         ))
+        ->add("useType", ChoiceType::class, Array(
+            'required' => true,
+            'placeholder' => "settingFormType_24",
+            'choices' => Array(
+                "settingFormType_25" => "1",
+                "settingFormType_26" => "2",
+                "settingFormType_27" => "3"
+            )
+        ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "settingFormType_24"
+            'label' => "settingFormType_28"
         ));
         
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $formEvent) {

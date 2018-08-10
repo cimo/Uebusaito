@@ -33,7 +33,7 @@ class LanguageController extends Controller {
     *   name = "language_text",
     *   path = "/language_text/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/module/language_text.html.twig")
@@ -65,7 +65,7 @@ class LanguageController extends Controller {
                 if ($request->get("urlCurrentPageId") == 0)
                     $rootName = "/control_panel/";
                 
-                $this->response['values']['url'] = "{$this->utility->getUrlRoot()}$rootName{$request->get("languageTextCode")}/{$request->get("urlCurrentPageId")}/{$request->get("urlExtra")}";
+                $this->response['values']['url'] = "{$this->utility->getUrlRoot()}$rootName{$this->urlLocale}/{$this->urlCurrentPageId}/{$this->urlExtra}";
             }
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("languageController_1");
@@ -91,7 +91,7 @@ class LanguageController extends Controller {
     *   name = "language_page",
     *   path = "/language_page/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/module/language_page.html.twig")

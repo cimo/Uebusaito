@@ -361,7 +361,7 @@
     {# cimo + #}
     <button class="mdc-button{% if dense is defined %} mdc-button--dense{% endif %}{% if raised is defined %} mdc-button--raised{% endif %}" type="{{ type|default('') }}" {{ block('button_attributes') }}>
         {%- if icon is defined -%}
-            <i class="material-icons mdc-button__icon" aria-hidden="true">{{icon}}</i>
+            <i class="material-icons mdc-button__icon">{{icon}}</i>
         {%- endif -%}
         {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
     </button>

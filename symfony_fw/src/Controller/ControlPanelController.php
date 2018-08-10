@@ -29,7 +29,7 @@ class ControlPanelController extends Controller {
     *   name = "control_panel",
     *   path = "/control_panel/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"GET"}
     * )
     * @Template("@templateRoot/render/control_panel.html.twig")

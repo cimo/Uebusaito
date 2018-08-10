@@ -35,7 +35,7 @@ class SearchController extends Controller {
     *   name = "search_module",
     *   path = "/search_module/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/module/widget_search.html.twig")
@@ -96,7 +96,7 @@ class SearchController extends Controller {
     *   name = "search_render",
     *   path = "/search_render/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
-    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = ".*"},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/include/search.html.twig")
@@ -160,7 +160,7 @@ class SearchController extends Controller {
         
         foreach ($tableResult as $key => $value) {      
             $listHtml .= "<li class=\"mdc-list-item\">
-                <span class=\"mdc-list-item__graphic material-icons\" aria-hidden=\"true\">receipt</span>
+                <span class=\"mdc-list-item__graphic material-icons\">receipt</span>
                 <span class=\"mdc-list-item__text\">
                     {$value['title']}
                     <span class=\"mdc-list-item__secondary-text\">";
@@ -172,7 +172,7 @@ class SearchController extends Controller {
                             $listHtml .= $argument;
                     $listHtml .= "</span>
                 </span>
-                <a class=\"mdc-list-item__meta material-icons\" href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/{$value['id']}\" aria-hidden=\"true\">
+                <a class=\"mdc-list-item__meta material-icons\" href=\"{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/{$value['id']}\">
                     info
                 </a>
             </li>";

@@ -90,7 +90,7 @@ class Page {
     /**
      * @ORM\Column(name="date_creation", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateCreation = "";
+    private $dateCreation = "0000-00-00 00:00:00";
     
     /**
      * @ORM\Column(name="user_modification", type="string", columnDefinition="varchar(20) NOT NULL DEFAULT '-'")
@@ -100,7 +100,7 @@ class Page {
     /**
      * @ORM\Column(name="date_modification", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateModification = "";
+    private $dateModification = "0000-00-00 00:00:00";
     
     // Properties
     public function setAlias($value) {

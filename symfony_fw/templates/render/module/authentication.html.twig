@@ -20,7 +20,7 @@
         <p>{{response.values.user.username}}</p>
         <p><b>{% trans %}authentication_2{% endtrans %}</b></p>
         <p>
-            {% for value in response.values.roleUserRow %}
+            {% for key, value in response.values.roleUserRow %}
                 - {{value|trans}}
             {% endfor %}
         </p>

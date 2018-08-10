@@ -408,8 +408,8 @@ function Utility() {
             }
             
             if (progress >= 1) {
-                $("#body_progress").fadeOut("slow", function() {
-                    $("#body_content").css("opacity", "1");
+                document.fonts.ready.then(function() {
+                    $("#body_progress").fadeOut("slow");
                 });
             }
         });

@@ -325,15 +325,15 @@ function MaterialDesign() {
                     }
                 }
                 else {
-                    if ($(valueSub).prop("href").indexOf(parameters[1]) !== -1) {
+                    if ((parameters[0] === "" || parameters[1] === "2") && keySub === 0) {
                         $(valueSub).addClass("mdc-list-item--activated");
-                        
-                        $(valueSub).parentsUntil($(".menu_root_container"), ".children_container" ).show();
 
                         return false;
                     }
-                    else if (parseInt(parameters[1]) === 2 && keySub === 0) {
+                    else if ($(valueSub).prop("href").indexOf(parameters[1]) !== -1 && parseInt(parameters[1]) > 5) {
                         $(valueSub).addClass("mdc-list-item--activated");
+                        
+                        $(valueSub).parentsUntil($(".menu_root_container"), ".children_container" ).show();
 
                         return false;
                     }

@@ -508,3 +508,19 @@ App\Entity\Setting:
                 groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
+
+App\Entity\MicroserviceApi:
+    properties:
+        name:
+            - NotBlank:
+                groups: [microservice_api_creation, microservice_api_profile]
+        description:
+            - NotBlank:
+                groups: [microservice_api_creation, microservice_api_profile]
+        active:
+            - NotBlank:
+                groups: [microservice_api_creation, microservice_api_profile]
+            - Regex:
+                groups: [microservice_api_creation, microservice_api_profile]
+                htmlPattern: false
+                pattern: /^1|^0/

@@ -316,5 +316,33 @@ class Query {
         return $query->fetchAll();
     }
     
+    public function selectMicroserviceApiDatabase($id) {
+        $query = $this->connection->prepare("SELECT * FROM microservice_api
+                                                WHERE id = :id
+                                                AND active = :active");
+        
+        $query->bindValue(":id", $id);
+        $query->bindValue(":active", 1);
+        
+        $query->execute();
+        
+        return $query->fetch();
+    }
+    
+    public function selectAllMicroserviceApiDatabase($bypass = false) {
+        if ($bypass == false) {
+            $query = $this->connection->prepare("SELECT * FROM microservice_api
+                                                    WHERE active = :active");
+
+            $query->bindValue(":active", 1);
+        }
+        else
+            $query = $this->connection->prepare("SELECT * FROM microservice_api");
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
+    
     // Functions private
 }

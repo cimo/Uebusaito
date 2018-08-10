@@ -110,6 +110,11 @@ class Setting {
      */
     private $credit = true;
     
+    /**
+     * @ORM\Column(name="use_type", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '1'")
+     */
+    private $useType = 1;
+    
     // Properties
     public function setTemplate($value) {
         $this->template = $value;
@@ -185,6 +190,10 @@ class Setting {
     
     public function setCredit($value) {
         $this->credit = $value;
+    }
+    
+    public function setUseType($value) {
+        $this->useType = $value;
     }
     
     // ---
@@ -267,5 +276,9 @@ class Setting {
     
     public function getCredit() {
         return $this->credit;
+    }
+    
+    public function getUseType() {
+        return $this->useType;
     }
 }
