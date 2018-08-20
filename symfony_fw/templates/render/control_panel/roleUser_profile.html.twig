@@ -11,7 +11,7 @@
         {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
     </form>
 
-    {% if is_granted("ROLE_ADMIN") == true and response.values.id > 2 %}
+    {% if is_granted("ROLE_ADMIN") == true and response.values.id > 4 %}
         {{-include("@templateRoot/render/control_panel/roleUser_deletion.html.twig")-}}
     {% endif %}
 </div>

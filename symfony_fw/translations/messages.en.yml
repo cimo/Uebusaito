@@ -268,27 +268,35 @@ date.time: H:i:s
 "controlPanel_6": "Modules"
 "controlPanel_7": "Roles"
 "controlPanel_8": "Settings"
-"controlPanel_9": "Api"
-"controlPanel_10": "Create"
-"controlPanel_11": "Modify"
-"controlPanel_12": "You don't have the permissions for access on this page!"
+"controlPanel_9": "Microservice"
+"controlPanel_10": "Api"
+"controlPanel_11": "Create"
+"controlPanel_12": "Modify"
+"controlPanel_13": "You don't have the permissions for access on this page!"
+
 "controlPanel_payment_1": "Payments section."
 "controlPanel_payment_2": "Really delete this payment?"
 "controlPanel_payment_3": "Really delete all payments?"
+
 "controlPanel_page_1": "Pages section."
 "controlPanel_page_2": "Really delete this page?"
 "controlPanel_page_3": "Really delete all pages?"
+
 "controlPanel_user_1": "Users section."
 "controlPanel_user_2": "Really delete this user?"
 "controlPanel_user_3": "Really delete all users?"
+
 "controlPanel_module_1": "Modules section."
 "controlPanel_module_2": "Really delete this module?"
 "controlPanel_module_3": "Really delete all modules?"
+
 "controlPanel_role_1": "Roles section."
 "controlPanel_role_2": "Really delete this role?"
 "controlPanel_role_3": "Really delete all roles?"
+
 "controlPanel_setting_1": "Settings section."
 "controlPanel_setting_2": "Really delete this language?"
+
 "controlPanel_microservice_api_1": "Api section."
 "controlPanel_microservice_api_2": ""
 
@@ -604,7 +612,7 @@ date.time: H:i:s
 "settingController_8": "Language not created!"
 
 # Microservice api
-"microserviceApi_1": "Modify"
+"microserviceApi_1": "Profile"
 "microserviceApi_2": "Active"
 "microserviceApi_3": "Not active"
 

@@ -28,9 +28,35 @@ function ControlPanelPayment() {
                 },
                 function(xhr) {
                     if (xhr.response.messages.success !== undefined) {
-                        selectionDesktop();
+                        ajax.send(
+                            true,
+                            window.url.cpPaymentSelection,
+                            "post",
+                            {
+                                'event': "select",
+                                'token': window.session.token
+                            },
+                            "json",
+                            false,
+                            null,
+                            function(xhr) {
+                                ajax.reply(xhr, "");
+
+                                $("#form_payment_selection_id").find("option").remove();
+
+                                $("#form_payment_selection_id").append("<option selected value=\"\"></option>");
+
+                                $.each(xhr.response.values.paymentRows, function(key, value) {
+                                    $("#form_payment_selection_id").append("<option value=\"" + value.id + "\">" + value.transaction + "</option>");
+                                });
+                            },
+                            null,
+                            null
+                        );
                         
                         $("#cp_payment_selection_result_desktop").find(".refresh").click();
+                        
+                        $(".button_accordion").eq(1).click();
                     }
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -43,6 +69,8 @@ function ControlPanelPayment() {
         selectionDesktop();
         
         selectionMobile();
+        
+        $(".button_accordion").eq(1).click();
     };
     
     self.changeView = function() {
@@ -78,8 +106,6 @@ function ControlPanelPayment() {
     
     // Function private
     function selectionDesktop() {
-        $(".button_accordion").eq(1).click();
-        
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.init();
         tableAndPagination.setButtonsStatus("show");

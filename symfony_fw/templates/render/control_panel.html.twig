@@ -103,8 +103,8 @@
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
                     <p>{% trans %}controlPanel_page_1{% endtrans %}</p>
                     <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page_create"})}}" type="button">{% trans %}controlPanel_10{% endtrans %}</a>
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page_modify"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page_create"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page_modify"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
                     </div>
 
                     {% if urlExtra == "cp_page_create" %}
@@ -135,8 +135,8 @@
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
                     <p>{% trans %}controlPanel_user_1{% endtrans %}</p>
                     <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user_create"})}}" type="button">{% trans %}controlPanel_10{% endtrans %}</a>
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user_modify"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user_create"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user_modify"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
                     </div>
 
                     {% if urlExtra == "cp_user_create" %}
@@ -167,8 +167,8 @@
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
                     <p>{% trans %}controlPanel_module_1{% endtrans %}</p>
                     <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module_create"})}}" type="button">{% trans %}controlPanel_10{% endtrans %}</a>
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module_modify"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module_create"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module_modify"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
                     </div>
 
                     {% if urlExtra == "cp_module_create" %}
@@ -199,8 +199,8 @@
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
                     <p>{% trans %}controlPanel_role_1{% endtrans %}</p>
                     <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role_create"})}}">{% trans %}controlPanel_10{% endtrans %}</a>
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role_modify"})}}">{% trans %}controlPanel_11{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role_create"})}}">{% trans %}controlPanel_11{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role_modify"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
                     </div>
 
                     {% if urlExtra == "cp_role_create" %}
@@ -251,7 +251,7 @@
                     
                     {% if urlExtra == "cp_microservice_api" %}
                         <div class="cp_section_button">
-                            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_create"})}}">{% trans %}controlPanel_10{% endtrans %}</a>
+                            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_create"})}}">{% trans %}controlPanel_11{% endtrans %}</a>
                         </div>
                         
                         {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceApiController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
@@ -277,7 +277,7 @@
         </div>
     {% else %}
         <div class="sortable_column">
-            <p>{% trans %}controlPanel_12{% endtrans %}</p>
+            <p>{% trans %}controlPanel_13{% endtrans %}</p>
         </div>
     {% endif %}
 {% endblock %}
@@ -320,9 +320,10 @@
             <span>{% trans %}controlPanel_8{% endtrans %}</span>
         </a>
         {% if settingRow['use_type'] == 2 %}
+            <p class="mdc-typography--overline title_groupe">{% trans %}controlPanel_9{% endtrans %}</p>
             <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api"})}}">
                 <i class="material-icons mdc-list-item__graphic">perm_data_setting</i>
-                <span>{% trans %}controlPanel_9{% endtrans %}</span>
+                <span>{% trans %}controlPanel_10{% endtrans %}</span>
             </a>
         {% endif %}
     {% endif %}

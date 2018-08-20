@@ -25,6 +25,7 @@ class MicroserviceApiController extends Controller {
     
     private $utility;
     private $query;
+    private $ajax;
     
     // Properties
     
@@ -61,7 +62,6 @@ class MicroserviceApiController extends Controller {
         if ($request->isMethod("GET") == true && $checkUserRole == true)
             $this->response['values']['microserviceApiRows'] = $this->query->selectAllMicroserviceApiDatabase(true);
         
-        // Logic
         return Array(
             'urlLocale' => $this->urlLocale,
             'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -111,6 +111,8 @@ class MicroserviceApiController extends Controller {
                 // Insert in database
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
+                
+                mkdir("{$this->utility->getPathSrc()}/Controller/Microservice/Api/{$form->get("folderName")->getData()}");
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceApiController_1");
             }
@@ -127,7 +129,6 @@ class MicroserviceApiController extends Controller {
             ));
         }
         
-        // Logic
         return Array(
             'urlLocale' => $this->urlLocale,
             'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -184,6 +185,8 @@ class MicroserviceApiController extends Controller {
                 // Update in database
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
+                
+                mkdir("{$this->utility->getPathSrc()}/Controller/Microservice/Api/{$microserviceApiEntity->getFolderName()}");
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceApiController_3");
             }

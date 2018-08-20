@@ -514,6 +514,13 @@ App\Entity\MicroserviceApi:
         name:
             - NotBlank:
                 groups: [microservice_api_creation, microservice_api_profile]
+        folderName:
+            - NotBlank:
+                groups: [microservice_api_creation, microservice_api_profile]
+            - Regex:
+                groups: [microservice_api_creation, microservice_api_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z0-9]+$/
         description:
             - NotBlank:
                 groups: [microservice_api_creation, microservice_api_profile]

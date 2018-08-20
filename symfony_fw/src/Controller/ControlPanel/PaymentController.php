@@ -145,6 +145,8 @@ class PaymentController extends Controller {
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
         $this->response['values']['count'] = $tableAndPagination['count'];
         
+        $this->response['values']['paymentRows'] = $paymentRows;
+        
         $form = $this->createForm(PaymentSelectionFormType::class, null, Array(
             'validation_groups' => Array('payment_selection'),
             'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($_SESSION['paymentUserId']), "id", "transaction"), true)

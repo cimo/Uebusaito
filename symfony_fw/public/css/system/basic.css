@@ -138,6 +138,7 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .cp_menu { width: 100%; }
 .cp_menu .material-icons { margin-right: 5px; }
+.cp_menu .title_groupe { margin: 0 0 0 10px; }
 
 .cp_section_button { margin-bottom: 10px; }
 

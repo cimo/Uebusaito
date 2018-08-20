@@ -399,7 +399,7 @@ class RoleUserController extends Controller {
                     {$value['level']}
                 </td>";
                 $listHtml .= "<td class=\"horizontal_center\">";
-                    if ($value['id'] > 2)
+                    if ($value['id'] > 4)
                         $listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_roleUser_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
@@ -414,7 +414,7 @@ class RoleUserController extends Controller {
                                                                 WHERE id > :idExclude
                                                                 AND id = :id");
             
-            $query->bindValue(":idExclude", 2);
+            $query->bindValue(":idExclude", 4);
             $query->bindValue(":id", $id);
             
             return $query->execute();
@@ -423,7 +423,7 @@ class RoleUserController extends Controller {
             $query = $this->utility->getConnection()->prepare("DELETE FROM roles_users
                                                                 WHERE id > :idExclude");
             
-            $query->bindValue(":idExclude", 2);
+            $query->bindValue(":idExclude", 4);
             
             return $query->execute();
         }
