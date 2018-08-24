@@ -9,8 +9,8 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 /**
  * @ORM\Table(name="users", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"username"}, groups={"registration", "user_creation", "user_profile"})
- * @UniqueEntity(fields={"email"}, groups={"registration", "user_creation", "user_profile"})
+ * @UniqueEntity(fields={"username"}, groups={"registration", "user_create", "user_profile"})
+ * @UniqueEntity(fields={"email"}, groups={"registration", "user_create", "user_profile"})
  */
 class User implements UserInterface, EquatableInterface, \Serializable {
     /**
@@ -51,9 +51,9 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $telephone = null;
     
     /**
-     * @ORM\Column(name="born", type="string", columnDefinition="varchar(10) NOT NULL DEFAULT '0000-00-00'")
+     * @ORM\Column(name="born", type="string", nullable=true, columnDefinition="varchar(10)")
      */
-    private $born = "";
+    private $born = null;
     
     /**
      * @ORM\Column(name="gender", type="string", nullable=true, columnDefinition="varchar(6)")
@@ -118,17 +118,17 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     /**
      * @ORM\Column(name="date_registration", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateRegistration = "";
+    private $dateRegistration = "0000-00-00 00:00:00";
     
     /**
      * @ORM\Column(name="date_current_login", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateCurrentLogin = "";
+    private $dateCurrentLogin = "0000-00-00 00:00:00";
     
     /**
      * @ORM\Column(name="date_last_login", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateLastLogin = "";
+    private $dateLastLogin = "0000-00-00 00:00:00";
     
     /**
      * @ORM\Column(name="help_code", type="string", nullable=true, columnDefinition="varchar(255)")

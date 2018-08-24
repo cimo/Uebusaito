@@ -72,15 +72,15 @@ class MicroserviceApiController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_microservice_api_creation",
-    *   path = "/cp_microservice_api_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_microservice_api_create",
+    *   path = "/cp_microservice_api_create/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/microservice_api_creation.html.twig")
+    * @Template("@templateRoot/render/control_panel/microservice_api_create.html.twig")
     */
-    public function creationAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -102,7 +102,7 @@ class MicroserviceApiController extends Controller {
         $microserviceApiEntity = new MicroserviceApi();
         
         $form = $this->createForm(MicroserviceApiFormType::class, $microserviceApiEntity, Array(
-            'validation_groups' => Array('microservice_api_creation')
+            'validation_groups' => Array('microservice_api_create')
         ));
         $form->handleRequest($request);
         

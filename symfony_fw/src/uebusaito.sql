@@ -67,6 +67,39 @@ INSERT INTO `microservice_api` VALUES (1,'Kasutamo mono 2d','Test',1);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `microservice_deploy`
+--
+
+DROP TABLE IF EXISTS `microservice_deploy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `microservice_deploy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `git_user_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `git_user_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `git_clone_url` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `git_clone_path` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `user_git_script` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `user_web_script` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `root_web_path` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `microservice_deploy`
+--
+
+LOCK TABLES `microservice_deploy` WRITE;
+/*!40000 ALTER TABLE `microservice_deploy` DISABLE KEYS */;
+INSERT INTO `microservice_deploy` VALUES (1,'Apolis dev','Development server','ruby-devops@rubygroupe.jp','rubygroupe-git','https://rubygroupe-git:ruby2015@github.com/RUBYGROUPE/apolis.git','/home/user_1/www/apolis_dev','user_1','user_1:www-data','/home/user_1/www/apolis_dev/src',1);
+/*!40000 ALTER TABLE `microservice_deploy` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `modules`
 --
 
@@ -115,10 +148,10 @@ CREATE TABLE `pages` (
   `comment` tinyint(1) NOT NULL DEFAULT '1',
   `only_link` tinyint(1) NOT NULL DEFAULT '0',
   `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
-  `user_creation` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
-  `date_creation` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `user_modification` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
-  `date_modification` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `user_create` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
+  `date_create` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `user_modify` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
+  `date_modify` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -174,8 +207,8 @@ CREATE TABLE `pages_comments` (
   `id_reply` int(11) DEFAULT NULL,
   `username_reply` varchar(20) COLLATE utf8_unicode_ci DEFAULT '',
   `argument` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `date_creation` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modification` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_create` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modify` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -288,7 +321,7 @@ CREATE TABLE `roles_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `level` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'ROLE_USER',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +330,7 @@ CREATE TABLE `roles_users` (
 
 LOCK TABLES `roles_users` WRITE;
 /*!40000 ALTER TABLE `roles_users` DISABLE KEYS */;
-INSERT INTO `roles_users` VALUES (1,'ROLE_USER'),(2,'ROLE_ADMIN'),(3,'ROLE_MODERATOR'),(4,'ROLE_TEST');
+INSERT INTO `roles_users` VALUES (1,'ROLE_USER'),(2,'ROLE_ADMIN'),(3,'ROLE_MODERATOR'),(4,'ROLE_API'),(5,'ROLE_TEST');
 /*!40000 ALTER TABLE `roles_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -389,7 +422,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','3491234567','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-08-10 16:00:03','2018-08-10 12:03:23',NULL,'183.77.252.62',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-08 10:56:08','2018-08-03 11:06:00',NULL,'183.77.252.62',0),(3,'1,4,','ROLE_USER,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','3491234567','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-08-23 16:30:27','2018-08-23 11:30:48',NULL,'183.77.252.62',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,'1960-12-30',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-08 10:56:08','2018-08-03 11:06:00',NULL,'183.77.252.62',0),(3,'1,4,','ROLE_USER,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2017-10-14 14:31:11','0000-00-00 00:00:00',NULL,'87.11.116.214',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,4 +439,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-10 19:14:03
+-- Dump completed on 2018-08-23 17:08:49

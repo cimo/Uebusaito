@@ -41,14 +41,14 @@ class PageComment {
     private $argument = "";
     
     /**
-     * @ORM\Column(name="date_creation", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
+     * @ORM\Column(name="date_create", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateCreation = "0000-00-00 00:00:00";
+    private $dateCreate = "0000-00-00 00:00:00";
     
     /**
-     * @ORM\Column(name="date_modification", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
+     * @ORM\Column(name="date_modify", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateModification = "0000-00-00 00:00:00";
+    private $dateModify = "0000-00-00 00:00:00";
     
     // #
     private $type = "";
@@ -74,12 +74,12 @@ class PageComment {
         $this->argument = $value;
     }
     
-    public function setDateCreation($value) {
-        $this->dateCreation = $value;
+    public function setDateCreate($value) {
+        $this->dateCreate = $value;
     }
     
-    public function setDateModification($value) {
-        $this->dateModification = $value;
+    public function setDateModify($value) {
+        $this->dateModify = $value;
     }
     
     public function setType($value) {
@@ -112,12 +112,12 @@ class PageComment {
         return $this->argument;
     }
     
-    public function getDateCreation() {
-        return $this->dateCreation;
+    public function getDateCreate() {
+        return $this->dateCreate;
     }
     
-    public function getDateModification() {
-        return $this->dateModification;
+    public function getDateModify() {
+        return $this->dateModify;
     }
     
     public function getType() {

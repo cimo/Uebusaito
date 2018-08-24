@@ -29,7 +29,7 @@ function RecoverPassword() {
             );
         });
         
-        $("#form_change_password").on("submit", "", function(event) {
+        $("#form_forgot_password").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(

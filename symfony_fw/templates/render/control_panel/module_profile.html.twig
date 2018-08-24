@@ -2,7 +2,6 @@
 
 <div>
     <h2 class="mdc-typography--headline6">{% trans %}moduleProfile_1{% endtrans %}</h2>
-    
     <form id="form_cp_module_profile" action="{{path("cp_module_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         {{form_row(form.position)}}
 
@@ -35,6 +34,6 @@
     </form>
     
     {% if is_granted("ROLE_ADMIN") == true and response.values.id > 2 %}
-        {{-include("@templateRoot/render/control_panel/module_deletion.html.twig")-}}
+        {{-include("@templateRoot/render/control_panel/module_delete.html.twig")-}}
     {% endif %}
 </div>

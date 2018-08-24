@@ -344,5 +344,24 @@ class Query {
         return $query->fetchAll();
     }
     
+    public function selectMicroserviceDeployDatabase($id) {
+        $query = $this->connection->prepare("SELECT * FROM microservice_deploy
+                                                WHERE id = :id");
+        
+        $query->bindValue(":id", $id);
+        
+        $query->execute();
+        
+        return $query->fetch();
+    }
+    
+    public function selectAllMicroserviceDeployDatabase() {
+        $query = $this->connection->prepare("SELECT * FROM microservice_deploy");
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
+    
     // Functions private
 }

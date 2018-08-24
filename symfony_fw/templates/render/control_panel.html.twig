@@ -77,9 +77,9 @@
                 {% endif %}
             {% elseif urlExtra == "cp_payment" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-                    <p>{% trans %}controlPanel_payment_1{% endtrans %}</p>
+                    <p>{% trans %}controlPanelPayment_1{% endtrans %}</p>
 
-                    {{-render(controller("App\\Controller\\ControlPanel\\PaymentController::selectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {{-render(controller("App\\Controller\\ControlPanel\\PaymentController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
                     <script type="text/javascript">
                         window.onload = function() {
@@ -92,25 +92,24 @@
                         };
                         
                         var textPayment = {
-                            'label_1': "{{"controlPanel_payment_2"|trans}}",
-                            'label_2': "{{"controlPanel_payment_3"|trans}}"
+                            'label_1': "{{"controlPanelPayment_2"|trans}}",
+                            'label_2': "{{"controlPanelPayment_3"|trans}}"
                         };
                     </script>
-
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/Payment.js")}}"></script>
                 {% endif %}
-            {% elseif urlExtra == "cp_page" or urlExtra == "cp_page_create" or urlExtra == "cp_page_modify" %}
+            {% elseif urlExtra == "cp_page" or urlExtra == "cp_page_create" or urlExtra == "cp_page_select" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-                    <p>{% trans %}controlPanel_page_1{% endtrans %}</p>
+                    <p>{% trans %}controlPanelPage_1{% endtrans %}</p>
                     <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page_create"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page_modify"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page_create"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_page_select"})}}" type="button">{% trans %}controlPanel_13{% endtrans %}</a>
                     </div>
 
                     {% if urlExtra == "cp_page_create" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\PageController::creationAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                    {% elseif urlExtra == "cp_page_modify" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\PageController::selectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                        {{-render(controller("App\\Controller\\ControlPanel\\PageController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% elseif urlExtra == "cp_page_select" %}
+                        {{-render(controller("App\\Controller\\ControlPanel\\PageController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
                     <script type="text/javascript">
@@ -124,25 +123,24 @@
                         };
 
                         var textPage = {
-                            'label_1': "{{"controlPanel_page_2"|trans}}",
-                            'label_2': "{{"controlPanel_page_3"|trans}}"
+                            'label_1': "{{"controlPanelPage_2"|trans}}",
+                            'label_2': "{{"controlPanelPage_3"|trans}}"
                         };
                     </script>
-
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/Page.js")}}"></script>
                 {% endif %}
-            {% elseif urlExtra == "cp_user" or urlExtra == "cp_user_create" or urlExtra == "cp_user_modify" %}
+            {% elseif urlExtra == "cp_user" or urlExtra == "cp_user_create" or urlExtra == "cp_user_select" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-                    <p>{% trans %}controlPanel_user_1{% endtrans %}</p>
+                    <p>{% trans %}controlPanelUser_1{% endtrans %}</p>
                     <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user_create"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user_modify"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user_create"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_user_select"})}}" type="button">{% trans %}controlPanel_13{% endtrans %}</a>
                     </div>
 
                     {% if urlExtra == "cp_user_create" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\UserController::creationAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                    {% elseif urlExtra == "cp_user_modify" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\UserController::selectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                        {{-render(controller("App\\Controller\\ControlPanel\\UserController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% elseif urlExtra == "cp_user_select" %}
+                        {{-render(controller("App\\Controller\\ControlPanel\\UserController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
                     <script type="text/javascript">
@@ -156,25 +154,24 @@
                         };
 
                         var textUser = {
-                            'label_1': "{{"controlPanel_user_2"|trans}}",
-                            'label_2': "{{"controlPanel_user_3"|trans}}"
+                            'label_1': "{{"controlPanelUser_2"|trans}}",
+                            'label_2': "{{"controlPanelUser_3"|trans}}"
                         };
                     </script>
-
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/User.js")}}"></script>
                 {% endif %}
-            {% elseif urlExtra == "cp_module" or urlExtra == "cp_module_create" or urlExtra == "cp_module_modify" %}
+            {% elseif urlExtra == "cp_module" or urlExtra == "cp_module_create" or urlExtra == "cp_module_select" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-                    <p>{% trans %}controlPanel_module_1{% endtrans %}</p>
+                    <p>{% trans %}controlPanelModule_1{% endtrans %}</p>
                     <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module_create"})}}" type="button">{% trans %}controlPanel_11{% endtrans %}</a>
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module_modify"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module_create"})}}" type="button">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_module_select"})}}" type="button">{% trans %}controlPanel_13{% endtrans %}</a>
                     </div>
 
                     {% if urlExtra == "cp_module_create" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\ModuleController::creationAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                    {% elseif urlExtra == "cp_module_modify" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\ModuleController::selectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                        {{-render(controller("App\\Controller\\ControlPanel\\ModuleController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% elseif urlExtra == "cp_module_select" %}
+                        {{-render(controller("App\\Controller\\ControlPanel\\ModuleController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
                     <script type="text/javascript">
@@ -188,25 +185,24 @@
                         };
 
                         var textModule = {
-                            'label_1': "{{"controlPanel_module_2"|trans}}",
-                            'label_2': "{{"controlPanel_module_3"|trans}}"
+                            'label_1': "{{"controlPanelModule_2"|trans}}",
+                            'label_2': "{{"controlPanelModule_3"|trans}}"
                         };
                     </script>
-
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/Module.js")}}"></script>
                 {% endif %}
-            {% elseif urlExtra == "cp_role" or urlExtra == "cp_role_create" or urlExtra == "cp_role_modify" %}
+            {% elseif urlExtra == "cp_role" or urlExtra == "cp_role_create" or urlExtra == "cp_role_select" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
-                    <p>{% trans %}controlPanel_role_1{% endtrans %}</p>
+                    <p>{% trans %}controlPanelRole_1{% endtrans %}</p>
                     <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role_create"})}}">{% trans %}controlPanel_11{% endtrans %}</a>
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role_modify"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role_create"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_role_select"})}}">{% trans %}controlPanel_13{% endtrans %}</a>
                     </div>
 
                     {% if urlExtra == "cp_role_create" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\RoleUserController::creationAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                    {% elseif urlExtra == "cp_role_modify" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\RoleUserController::selectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                        {{-render(controller("App\\Controller\\ControlPanel\\RoleUserController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% elseif urlExtra == "cp_role_select" %}
+                        {{-render(controller("App\\Controller\\ControlPanel\\RoleUserController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
                     <script type="text/javascript">
@@ -220,16 +216,15 @@
                         };
 
                         var textRole = {
-                            'label_1': "{{"controlPanel_role_2"|trans}}",
-                            'label_2': "{{"controlPanel_role_3"|trans}}"
+                            'label_1': "{{"controlPanelRole_2"|trans}}",
+                            'label_2': "{{"controlPanelRole_3"|trans}}"
                         };
                     </script>
-
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/RoleUser.js")}}"></script>
                 {% endif %}
             {% elseif urlExtra == "cp_setting" %}
                 {% if is_granted("ROLE_ADMIN") == true %}
-                    <p>{% trans %}controlPanel_setting_1{% endtrans %}</p>
+                    <p>{% trans %}controlPanelSetting_1{% endtrans %}</p>
 
                     {{-render(controller("App\\Controller\\ControlPanel\\SettingController::saveAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
@@ -239,25 +234,57 @@
                         };
 
                         var textSetting = {
-                            'label_1': "{{"controlPanel_setting_2"|trans}}"
+                            'label_1': "{{"controlPanelSetting_2"|trans}}"
                         };
                     </script>
-
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/Setting.js")}}"></script>
                 {% endif %}
-            {% elseif (urlExtra == "cp_microservice_api" or urlExtra == "cp_microservice_api_create" or "cp_microservice_api_modify" in urlExtra) and settingRow['use_type'] == 2 %}
+            {% elseif (urlExtra == "cp_microservice_deploy" or urlExtra == "cp_microservice_deploy_create" or "cp_microservice_deploy_select" in urlExtra) and settingRow['use_type'] == 2 %}
                 {% if is_granted("ROLE_ADMIN") == true %}
-                    <p>{% trans %}controlPanel_microservice_api_1{% endtrans %}</p>
+                    <p>{% trans %}controlPanelMicroserviceDeploy_1{% endtrans %}</p>
+                    <div class="cp_section_button">
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_deploy_create"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_deploy_select"})}}">{% trans %}controlPanel_13{% endtrans %}</a>
+                    </div>
                     
-                    {% if urlExtra == "cp_microservice_api" %}
-                        <div class="cp_section_button">
-                            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_create"})}}">{% trans %}controlPanel_11{% endtrans %}</a>
-                        </div>
+                    {% if urlExtra == "cp_microservice_deploy" %}
+                        {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceDeployController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% elseif urlExtra == "cp_microservice_deploy_create" %}
+                        {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceDeployController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% elseif urlExtra == "cp_microservice_deploy_select" %}
+                        {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceDeployController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% endif %}
+                    
+                    <script type="text/javascript">
+                        window.onload = function() {
+                            controlPanelMicroserviceDeploy.init();
+                            controlPanelMicroserviceDeploy.changeView();
+                        };
                         
+                        window.onresize = function() {
+                            controlPanelMicroserviceDeploy.changeView();
+                        };
+
+                        var textMicroserviceDeploy = {
+                            'label_1': "{{"controlPanelMicroserviceDeploy_2"|trans}}",
+                            'label_2': "{{"controlPanelMicroserviceDeploy_3"|trans}}",
+                            'label_3': "{{"controlPanelMicroserviceDeploy_4"|trans}}"
+                        };
+                    </script>
+                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/MicroserviceDeploy.js")}}"></script>
+                {% endif %}
+            {% elseif (urlExtra == "cp_microservice_api" or urlExtra == "cp_microservice_api_create" or "cp_microservice_api_profile" in urlExtra) and settingRow['use_type'] == 2 %}
+                {% if is_granted("ROLE_ADMIN") == true %}
+                    <p>{% trans %}controlPanelMicroserviceApi_1{% endtrans %}</p>
+                    <div class="cp_section_button">
+                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_create"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
+                    </div>
+
+                    {% if urlExtra == "cp_microservice_api" %}
                         {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceApiController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% elseif urlExtra == "cp_microservice_api_create" %}
-                        {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceApiController::creationAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-                    {% elseif "cp_microservice_api_modify" in urlExtra %}
+                        {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceApiController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {% elseif "cp_microservice_api_profile" in urlExtra %}
                         {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceApiController::profileSaveAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
@@ -265,19 +292,14 @@
                         window.onload = function() {
                             controlPanelMicroserviceApi.init();
                         };
-
-                        var textMicroserviceApi = {
-                            'label_1': "{{"controlPanel_microservice_api_2"|trans}}"
-                        };
                     </script>
-
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/MicroserviceApi.js")}}"></script>
                 {% endif %}
             {% endif %}
         </div>
     {% else %}
         <div class="sortable_column">
-            <p>{% trans %}controlPanel_13{% endtrans %}</p>
+            <p>{% trans %}controlPanel_14{% endtrans %}</p>
         </div>
     {% endif %}
 {% endblock %}
@@ -321,9 +343,13 @@
         </a>
         {% if settingRow['use_type'] == 2 %}
             <p class="mdc-typography--overline title_groupe">{% trans %}controlPanel_9{% endtrans %}</p>
+            <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_deploy"})}}">
+                <i class="material-icons mdc-list-item__graphic">build</i>
+                <span>{% trans %}controlPanel_10{% endtrans %}</span>
+            </a>
             <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api"})}}">
                 <i class="material-icons mdc-list-item__graphic">perm_data_setting</i>
-                <span>{% trans %}controlPanel_10{% endtrans %}</span>
+                <span>{% trans %}controlPanel_11{% endtrans %}</span>
             </a>
         {% endif %}
     {% endif %}

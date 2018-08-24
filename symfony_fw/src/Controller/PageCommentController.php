@@ -137,7 +137,7 @@ class PageCommentController extends Controller {
                         if ($pageCommentRows[count($pageCommentRows) - 1]['username'] !== $this->getUser()->getUsername()) {
                             $pageCommentEntity->setPageId($this->urlCurrentPageId);
                             $pageCommentEntity->setUsername($this->getUser()->getUsername());
-                            $pageCommentEntity->setDateCreation(date("Y-m-d H:i:s"));
+                            $pageCommentEntity->setDateCreate(date("Y-m-d H:i:s"));
 
                             // Insert in database
                             $this->entityManager->persist($pageCommentEntity);
@@ -155,7 +155,7 @@ class PageCommentController extends Controller {
                         $pageCommentEntity->setPageId($this->urlCurrentPageId);
                         $pageCommentEntity->setUsername($this->getUser()->getUsername());
                         $pageCommentEntity->setIdReply($typeExplode[1]);
-                        $pageCommentEntity->setDateCreation(date("Y-m-d H:i:s"));
+                        $pageCommentEntity->setDateCreate(date("Y-m-d H:i:s"));
                         $pageCommentEntity->setUsernameReply($pageCommentRow['username']);
 
                         // Insert in database
@@ -214,13 +214,13 @@ class PageCommentController extends Controller {
                 
                 $detail = "";
                 
-                if (strpos($value['date_creation'], "0000") === false && strpos($value['date_modification'], "0000") !== false) {
-                    $dateFormat = $this->utility->dateFormat($value['date_creation']);
+                if (strpos($value['date_create'], "0000") === false && strpos($value['date_modify'], "0000") !== false) {
+                    $dateFormat = $this->utility->dateFormat($value['date_create']);
                     
                     $detail = $this->utility->getTranslator()->trans("pageCommentController_7") . "{$dateFormat[0]} [{$dateFormat[1]}]";
                 }
                 else {
-                    $dateFormat = $this->utility->dateFormat($value['date_modification']);
+                    $dateFormat = $this->utility->dateFormat($value['date_modify']);
                     
                     $detail = $this->utility->getTranslator()->trans("pageCommentController_8") . "{$dateFormat[0]} [{$dateFormat[1]}]";
                 }
@@ -272,12 +272,12 @@ class PageCommentController extends Controller {
     private function pageCommentDatabase($id, $argument) {
         $query = $this->utility->getConnection()->prepare("UPDATE pages_comments
                                                             SET argument = :argument,
-                                                                date_modification = :dateModification
+                                                                date_modify = :dateModify
                                                             WHERE id = :id
                                                             AND username = :username");
 
         $query->bindValue(":argument", $argument);
-        $query->bindValue(":dateModification", date("Y-m-d H:i:s"));
+        $query->bindValue(":dateModify", date("Y-m-d H:i:s"));
         $query->bindValue(":id", $id);
         $query->bindValue(":username", $this->getUser()->getUsername());
 

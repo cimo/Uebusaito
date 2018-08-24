@@ -6,22 +6,22 @@ function ControlPanelRoleUser() {
     // Vars
     var self = this;
     
-    var selectionSended = false;
-    var selectionId = -1;
+    var selectSended = false;
+    var selectId = -1;
     
     // Properties
     
     // Functions public
     self.init = function() {
-        selectionDesktop();
+        selectDesktop();
         
-        selectionMobile();
+        selectMobile();
         
         $("#form_roleUser_level").on("keyup", "", function() {
             $(this).val($(this).val().toUpperCase());
         });
         
-        $("#form_cp_roleUser_creation").on("submit", "", function(event) {
+        $("#form_cp_roleUser_create").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -43,49 +43,49 @@ function ControlPanelRoleUser() {
     
     self.changeView = function() {
         if (utility.checkWidthType() === "mobile") {
-            if (selectionSended === true) {
-                selectionId = $("#cp_roleUser_selection_mobile").find("select option:selected").val();
+            if (selectSended === true) {
+                selectId = $("#cp_roleUser_select_mobile").find("select option:selected").val();
 
-                selectionSended = false;
+                selectSended = false;
             }
 
-            if (selectionId >= 0) {
-                $("#cp_roleUser_selection_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+            if (selectId >= 0) {
+                $("#cp_roleUser_select_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
 
-                var idColumns = $("#cp_roleUser_selection_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+                var id = $("#cp_roleUser_select_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
-                $.each(idColumns, function(key, value) {
-                    if ($(value).text().trim() === String(selectionId))
+                $.each(id, function(key, value) {
+                    if ($(value).text().trim() === String(selectId))
                         $(value).parents("tr").find(".checkbox_column input").prop("checked", true);
                 });
             }
         }
         else {
-            if (selectionSended === true) {
-                selectionId = $("#cp_roleUser_selection_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+            if (selectSended === true) {
+                selectId = $("#cp_roleUser_select_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
 
-                selectionSended = false;
+                selectSended = false;
             }
 
-            if (selectionId > 0)
-                $("#cp_roleUser_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+            if (selectId > 0)
+                $("#cp_roleUser_select_mobile").find("select option[value='" + selectId + "']").prop("selected", true);
         }
     };
     
     // Function private
-    function selectionDesktop() {
+    function selectDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.init();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.create(window.url.cpRoleUserSelection, "#cp_roleUser_selection_result_desktop", true);
+        tableAndPagination.create(window.url.cpRoleUserSelect, "#cp_roleUser_select_result_desktop", true);
         tableAndPagination.search();
         tableAndPagination.pagination();
         tableAndPagination.sort();
         
-        $(document).on("click", "#cp_roleUser_selection_result_desktop .refresh", function() {
+        $(document).on("click", "#cp_roleUser_select_result_desktop .refresh", function() {
             ajax.send(
                 true,
-                window.url.cpRoleUserSelection,
+                window.url.cpRoleUserSelect,
                 "post",
                 {
                     'event': "refresh",
@@ -104,14 +104,14 @@ function ControlPanelRoleUser() {
             );
         });
         
-        $(document).on("click", "#cp_roleUser_selection_result_desktop .delete_all", function() {
+        $(document).on("click", "#cp_roleUser_select_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.index_5,
                 window.textRole.label_2,
                 function() {
                     ajax.send(
                         true,
-                        window.url.cpRoleUserDeletion,
+                        window.url.cpRoleUserDelete,
                         "post",
                         {
                             'event': "deleteAll",
@@ -123,11 +123,11 @@ function ControlPanelRoleUser() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            $.each($("#cp_roleUser_selection_result_desktop").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_roleUser_select_result_desktop").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
                             
-                            $("#cp_role_selection_result").html("");
+                            $("#cp_role_select_result").html("");
                         },
                         null,
                         null
@@ -136,18 +136,18 @@ function ControlPanelRoleUser() {
             );
         });
         
-        $(document).on("click", "#cp_roleUser_selection_result_desktop .cp_roleUser_deletion", function() {
+        $(document).on("click", "#cp_roleUser_select_result_desktop .cp_roleUser_delete", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text());
             
-            deletion(id);
+            deleteElement(id);
         });
         
-        $(document).on("click", "#cp_roleUser_selection_button_desktop", function(event) {
+        $(document).on("click", "#cp_roleUser_select_button_desktop", function(event) {
             var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
-                window.url.cpRoleUserProfileResult,
+                window.url.cpRoleUserProfile,
                 "post",
                 {
                     'event': "result",
@@ -157,7 +157,7 @@ function ControlPanelRoleUser() {
                 "json",
                 false,
                 function() {
-                    $("#cp_roleUser_selection_result").html("");
+                    $("#cp_roleUser_select_result").html("");
                 },
                 function(xhr) {
                     profile(xhr, "#" + event.currentTarget.id);
@@ -168,8 +168,8 @@ function ControlPanelRoleUser() {
         });
     }
     
-    function selectionMobile() {
-        $(document).on("submit", "#form_cp_roleUser_selection_mobile", function(event) {
+    function selectMobile() {
+        $(document).on("submit", "#form_cp_roleUser_select_mobile", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -180,7 +180,7 @@ function ControlPanelRoleUser() {
                 "json",
                 false,
                 function() {
-                    $("#cp_roleUser_selection_result").html("");
+                    $("#cp_roleUser_select_result").html("");
                 },
                 function(xhr) {
                     profile(xhr, "#" + event.currentTarget.id);
@@ -195,9 +195,9 @@ function ControlPanelRoleUser() {
         ajax.reply(xhr, tag);
         
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
-            selectionSended = true;
+            selectSended = true;
             
-            $("#cp_roleUser_selection_result").html(xhr.response.render);
+            $("#cp_roleUser_select_result").html(xhr.response.render);
             
             materialDesign.refresh();
 
@@ -220,9 +220,9 @@ function ControlPanelRoleUser() {
                         ajax.reply(xhr, "#" + event.currentTarget.id);
                         
                         if (xhr.response.messages.success !== undefined) {
-                            $("#cp_roleUser_selection_result").html("");
+                            $("#cp_roleUser_select_result").html("");
                             
-                            $("#cp_roleUser_selection_result_desktop .refresh").click();
+                            $("#cp_roleUser_select_result_desktop .refresh").click();
                         }
                     },
                     null,
@@ -230,20 +230,20 @@ function ControlPanelRoleUser() {
                 );
             });
 
-            $("#cp_roleUser_deletion").on("click", "", function() {
-               deletion(null);
+            $("#cp_roleUser_delete").on("click", "", function() {
+               deleteElement(null);
             });
         }
     }
     
-    function deletion(id) {
+    function deleteElement(id) {
         popupEasy.create(
             window.text.index_5,
             window.textRole.label_1,
             function() {
                 ajax.send(
                     true,
-                    window.url.cpRoleUserDeletion,
+                    window.url.cpRoleUserDelete,
                     "post",
                     {
                         'event': "delete",
@@ -257,14 +257,16 @@ function ControlPanelRoleUser() {
                         ajax.reply(xhr, "");
                         
                         if (xhr.response.messages.success !== undefined) {
-                            $.each($("#cp_roleUser_selection_result_desktop").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_roleUser_select_result_desktop").find("table .id_column"), function(key, value) {
                                 if (xhr.response.values.id === $.trim($(value).text()))
                                     $(value).parents("tr").remove();
                             });
                             
-                            $("#cp_roleUser_selection_result").html("");
+                            $("#form_roleUser_select_id").find("option[value='" + xhr.response.values.id + "']").remove();
                             
-                            $("#cp_roleUser_selection_result_desktop .refresh").click();
+                            $("#cp_roleUser_select_result").html("");
+                            
+                            $("#cp_roleUser_select_result_desktop").find(".refresh").click();
                         }
                     },
                     null,

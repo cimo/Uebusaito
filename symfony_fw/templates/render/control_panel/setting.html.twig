@@ -8,30 +8,28 @@
         <div class="accordion">
             {{form_row(form.template)}}
 
-            <div class="form_row" style="margin-bottom: 10px;">
-                <p style="margin: 0;">{% trans %}setting_3{% endtrans %}</p>
+            <div class="form_row template_colum">
+                <p>{% trans %}setting_3{% endtrans %}</p>
                 {% for key, value in form.templateColumn %}
-                    <div style="display: inline-block;">
+                    <div>
                         {{form_widget(value)}}
-                        <img style="display: block; margin-left: 10px;" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/template_column_" ~ key ~ ".png")}}"/>
+                        <img src="{{asset("images/templates/" ~ settingRow['template'] ~ "/template_column_" ~ key ~ ".png")}}"/>
                     </div>
                 {% endfor %}
                 {{form_errors(form.templateColumn)}}
             </div>
-            
             <div>
                 {{form_row(form.language)}}
-                <i id="setting_language_manage_modify" class="material-icons">create</i>
-                <i id="setting_language_manage_add" class="material-icons">add</i>
-                <i id="setting_language_manage_remove" class="material-icons">remove</i>
+                <i id="setting_language_manage_modify" class="material-icons cursor_custom">create</i>
+                <i id="setting_language_manage_create" class="material-icons cursor_custom">add</i>
+                <i id="setting_language_manage_delete" class="material-icons cursor_custom">remove</i>
             </div>
-            
-            <div id="setting_language_manage_container" style="display: none;">
-                <p style="margin: 0;">{% trans %}setting_4{% endtrans %}</p>
+            <div id="setting_language_manage_container">
+                <p>{% trans %}setting_4{% endtrans %}</p>
                 <div class="form_row">
                     <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense">
                         <input id="form_setting_languageManage" class="mdc-text-field__input" type="text" name="form_setting[languageManage]" value="" autocomplete="off"/>
-                        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">face</i>
+                        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">language</i>
                         <label class="mdc-floating-label"></label>
                         <div class="mdc-notched-outline">
                             <svg>
@@ -45,7 +43,7 @@
                 <div class="form_row">
                     <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense">
                         <input id="form_setting_languageManageDate" class="mdc-text-field__input" type="text" name="form_setting[languageManageDate]" value="" autocomplete="off"/>
-                        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">face</i>
+                        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">language</i>
                         <label class="mdc-floating-label"></label>
                         <div class="mdc-notched-outline">
                             <svg>
@@ -56,8 +54,8 @@
                     </div>
                     <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
                 </div>
-                <i id="setting_language_manage_confirm" class="material-icons">check_circle</i>
-                <i id="setting_language_manage_erase" class="material-icons">delete</i>
+                <i id="setting_language_manage_confirm" class="material-icons cursor_custom">check_circle_outline</i>
+                <i id="setting_language_manage_close" class="material-icons cursor_custom">highlight_off</i>
             </div>
 
             {{form_row(form.pageDate)}}

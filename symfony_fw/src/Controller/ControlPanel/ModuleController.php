@@ -13,7 +13,7 @@ use App\Classes\System\TableAndPagination;
 use App\Entity\Module;
 
 use App\Form\ModuleFormType;
-use App\Form\ModuleSelectionFormType;
+use App\Form\ModuleSelectFormType;
 
 class ModuleController extends Controller {
     // Vars
@@ -35,15 +35,15 @@ class ModuleController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_module_creation",
-    *   path = "/cp_module_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_module_create",
+    *   path = "/cp_module_create/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/module_creation.html.twig")
+    * @Template("@templateRoot/render/control_panel/module_create.html.twig")
     */
-    public function creationAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -68,7 +68,7 @@ class ModuleController extends Controller {
         $_SESSION['moduleProfileId'] = 0;
         
         $form = $this->createForm(ModuleFormType::class, $moduleEntity, Array(
-            'validation_groups' => Array('module_creation')
+            'validation_groups' => Array('module_create')
         ));
         $form->handleRequest($request);
         
@@ -112,15 +112,15 @@ class ModuleController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_module_selection",
-    *   path = "/cp_module_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_module_select",
+    *   path = "/cp_module_select/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/module_selection.html.twig")
+    * @Template("@templateRoot/render/control_panel/module_select.html.twig")
     */
-    public function selectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -152,8 +152,8 @@ class ModuleController extends Controller {
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
         $this->response['values']['count'] = $tableAndPagination['count'];
         
-        $form = $this->createForm(ModuleSelectionFormType::class, null, Array(
-            'validation_groups' => Array('module_selection'),
+        $form = $this->createForm(ModuleSelectFormType::class, null, Array(
+            'validation_groups' => Array('module_select'),
             'choicesId' => array_reverse(array_column($moduleRows, "id", "name"), true)
         ));
         $form->handleRequest($request);
@@ -180,15 +180,15 @@ class ModuleController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_module_profile_result",
-    *   path = "/cp_module_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_module_profile",
+    *   path = "/cp_module_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/module_profile.html.twig")
     */
-    public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -210,13 +210,13 @@ class ModuleController extends Controller {
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if (($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_module_selection")['_token']) == true)) {
+                    || $this->isCsrfTokenValid("intention", $request->get("form_module_select")['_token']) == true)) {
                 $id = 0;
 
                 if (empty($request->get("id")) == false)
                     $id = $request->get("id");
-                else if (empty($request->get("form_module_selection")['id']) == false)
-                    $id = $request->get("form_module_selection")['id'];
+                else if (empty($request->get("form_module_select")['id']) == false)
+                    $id = $request->get("form_module_select")['id'];
 
                 $moduleEntity = $this->entityManager->getRepository("App\Entity\Module")->find($id);
 
@@ -381,15 +381,15 @@ class ModuleController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_module_deletion",
-    *   path = "/cp_module_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_module_delete",
+    *   path = "/cp_module_delete/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/module_deletion.html.twig")
+    * @Template("@templateRoot/render/control_panel/module_delete.html.twig")
     */
-    public function deletionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -481,7 +481,7 @@ class ModuleController extends Controller {
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">";
                     if ($value['id'] > 2)
-                        $listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_module_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
+                        $listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_module_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

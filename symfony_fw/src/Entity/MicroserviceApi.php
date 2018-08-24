@@ -21,11 +21,6 @@ class MicroserviceApi {
     private $name = "";
     
     /**
-     * @ORM\Column(name="folder_name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
-     */
-    private $folderName = "";
-    
-    /**
      * @ORM\Column(name="description", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $description = "";
@@ -38,10 +33,6 @@ class MicroserviceApi {
     // Properties
     public function setName($value) {
         $this->name = $value;
-    }
-    
-    public function setFolderName($value) {
-        $this->folderName = $value;
     }
     
     public function setDescription($value) {
@@ -60,10 +51,6 @@ class MicroserviceApi {
     
     public function getName() {
         return $this->name;
-    }
-    
-    public function getFolderName() {
-        return $this->folderName;
     }
     
     public function getDescription() {

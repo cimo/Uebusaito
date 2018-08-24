@@ -1,5 +1,4 @@
 <p>{% trans %}myPage_1{% endtrans %}</p>
-
 <nav class="mdc-tab-bar mdc-tab-bar--icons-with-text">
     <a class="mdc-tab mdc-tab--with-icon-and-text" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 1, 'urlExtra': "mp_profile"})}}">
         <i class="material-icons mdc-tab__icon">person</i>
@@ -20,7 +19,7 @@
         {{-render(controller("App\\Controller\\MyPage\\MyPageProfileController::creditAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
     {% endif %}
 {% elseif urlExtra == "mp_payment" %}
-    {{-render(controller("App\\Controller\\MyPage\\MyPagePaymentController::selectionAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+    {{-render(controller("App\\Controller\\MyPage\\MyPagePaymentController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
 {% endif %}
 
 <script type="text/javascript">
@@ -40,6 +39,5 @@
         'label_2': "{{"myPage_5"|trans}}"
     };
 </script>
-
 <script type="text/javascript" src="{{asset("javascript/system/my_page/MyPageProfile.js")}}"></script>
 <script type="text/javascript" src="{{asset("javascript/system/my_page/MyPagePayment.js")}}"></script>

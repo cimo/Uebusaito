@@ -8,7 +8,7 @@ function ControlPanelMicroserviceApi() {
     
     // Functions public
     self.init = function() {
-        $("#form_cp_microservice_api_creation").on("submit", "", function(event) {
+        $("#form_cp_microservice_api_create").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(

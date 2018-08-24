@@ -13,7 +13,7 @@ use App\Classes\System\TableAndPagination;
 use App\Entity\Page;
 
 use App\Form\PageFormType;
-use App\Form\PageSelectionFormType;
+use App\Form\PageSelectFormType;
 
 class PageController extends Controller {
     // Vars
@@ -38,15 +38,15 @@ class PageController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_page_creation",
-    *   path = "/cp_page_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_page_create",
+    *   path = "/cp_page_create/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/page_creation.html.twig")
+    * @Template("@templateRoot/render/control_panel/page_create.html.twig")
     */
-    public function creationAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -73,7 +73,7 @@ class PageController extends Controller {
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
         
         $form = $this->createForm(PageFormType::class, $pageEntity, Array(
-            'validation_groups' => Array('page_creation'),
+            'validation_groups' => Array('page_create'),
             'urlLocale' => $this->urlLocale,
             'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
             'choicesParent' => array_flip($this->utility->createPageList($pageRows, true))
@@ -87,7 +87,7 @@ class PageController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
-                $pageEntity->setDateCreation(date("Y-m-d H:i:s"));
+                $pageEntity->setDateCreate(date("Y-m-d H:i:s"));
                 
                 // Insert in database
                 $this->entityManager->persist($pageEntity);
@@ -125,15 +125,15 @@ class PageController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_page_selection",
-    *   path = "/cp_page_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_page_select",
+    *   path = "/cp_page_select/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/page_selection.html.twig")
+    * @Template("@templateRoot/render/control_panel/page_select.html.twig")
     */
-    public function selectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -167,8 +167,8 @@ class PageController extends Controller {
         $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
         $this->response['values']['count'] = $tableAndPagination['count'];
         
-        $form = $this->createForm(PageSelectionFormType::class, null, Array(
-            'validation_groups' => Array('page_selection'),
+        $form = $this->createForm(PageSelectFormType::class, null, Array(
+            'validation_groups' => Array('page_select'),
             'choicesId' => array_flip($this->utility->createPageList($pageRows, true))
         ));
         $form->handleRequest($request);
@@ -195,15 +195,15 @@ class PageController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_page_profile_result",
-    *   path = "/cp_page_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_page_profile",
+    *   path = "/cp_page_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/page_profile.html.twig")
     */
-    public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -225,13 +225,13 @@ class PageController extends Controller {
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_page_selection")['_token']) == true) {
+                    || $this->isCsrfTokenValid("intention", $request->get("form_page_select")['_token']) == true) {
                 $id = 0;
 
                 if (empty($request->get("id")) == false)
                     $id = $request->get("id");
-                else if (empty($request->get("form_page_selection")['id']) == false)
-                    $id = $request->get("form_page_selection")['id'];
+                else if (empty($request->get("form_page_select")['id']) == false)
+                    $id = $request->get("form_page_select")['id'];
 
                 $pageEntity = $this->entityManager->getRepository("App\Entity\Page")->find($id);
 
@@ -253,10 +253,10 @@ class PageController extends Controller {
                     $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", "pageController_1", true);
                     $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($pageParentRows);
                     $this->response['values']['idPage'] = $_SESSION['pageProfileId'];
-                    $this->response['values']['userCreation'] = $pageEntity->getUserCreation();
-                    $this->response['values']['dateCreation'] = $this->utility->dateFormat($pageEntity->getDateCreation());
-                    $this->response['values']['userModification'] = $pageEntity->getUserModification();
-                    $this->response['values']['dateModification'] = $this->utility->dateFormat($pageEntity->getDateModification());
+                    $this->response['values']['userCreate'] = $pageEntity->getUserCreate();
+                    $this->response['values']['dateCreate'] = $this->utility->dateFormat($pageEntity->getDateCreate());
+                    $this->response['values']['userModify'] = $pageEntity->getUserModify();
+                    $this->response['values']['dateModify'] = $this->utility->dateFormat($pageEntity->getDateModify());
 
                     $this->response['render'] = $this->renderView("@templateRoot/render/control_panel/page_profile.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
@@ -375,8 +375,8 @@ class PageController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
-                $pageEntity->setUserModification($this->getUser()->getUsername());
-                $pageEntity->setDateModification(date("Y-m-d H:i:s"));
+                $pageEntity->setUserModify($this->getUser()->getUsername());
+                $pageEntity->setDateModify(date("Y-m-d H:i:s"));
                 
                 // Update in database
                 $this->entityManager->persist($pageEntity);
@@ -414,15 +414,15 @@ class PageController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_page_deletion",
-    *   path = "/cp_page_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_page_delete",
+    *   path = "/cp_page_delete/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/page_deletion.html.twig")
+    * @Template("@templateRoot/render/control_panel/page_delete.html.twig")
     */
-    public function deletionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -464,8 +464,8 @@ class PageController extends Controller {
                         $this->response['values']['idPage'] = $id;
                         $this->response['values']['idParent'] = $pageEntity->getParent();
                         $this->response['values']['text'] = "<p>" . $this->utility->getTranslator()->trans("pageController_8") . "</p>";
-                        $this->response['values']['button'] = "<button id=\"cp_page_deletion_parent_all\" class=\"mdc-button mdc-button--dense mdc-button--raised mdc-theme--secondary-bg\" type=\"button\" style=\"display: block;\">" . $this->utility->getTranslator()->trans("pageController_9") . "</button>";
-                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_deletion_parent_new", $this->utility->getTranslator()->trans("pageController_10"));
+                        $this->response['values']['button'] = "<button id=\"cp_page_delete_parent_all\" class=\"mdc-button mdc-button--dense mdc-button--raised mdc-theme--secondary-bg\" type=\"button\" style=\"display: block;\">" . $this->utility->getTranslator()->trans("pageController_9") . "</button>";
+                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_delete_parent_new", $this->utility->getTranslator()->trans("pageController_10"));
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
@@ -571,7 +571,7 @@ class PageController extends Controller {
                 $this->listHtml .= "</td>
                 <td>";
                     if ($value['id'] > 5)
-                        $this->listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_page_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
+                        $this->listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_page_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
             

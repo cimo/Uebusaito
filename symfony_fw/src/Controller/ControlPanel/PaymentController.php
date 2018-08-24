@@ -10,8 +10,8 @@ use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
 use App\Classes\System\TableAndPagination;
 
-use App\Form\PaymentUserSelectionFormType;
-use App\Form\PaymentSelectionFormType;
+use App\Form\PaymentUserSelectFormType;
+use App\Form\PaymentSelectFormType;
 
 class PaymentController extends Controller {
     // Vars
@@ -33,15 +33,15 @@ class PaymentController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_payment_user_selection",
-    *   path = "/cp_payment_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_payment_user_select",
+    *   path = "/cp_payment_user_select/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/payment_user_selection.html.twig")
+    * @Template("@templateRoot/render/control_panel/payment_user_select.html.twig")
     */
-    public function userSelectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function userSelectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -66,8 +66,8 @@ class PaymentController extends Controller {
         
         $_SESSION['paymentProfileId'] = 0;
         
-        $form = $this->createForm(PaymentUserSelectionFormType::class, null, Array(
-            'validation_groups' => Array('payment_user_selection'),
+        $form = $this->createForm(PaymentUserSelectFormType::class, null, Array(
+            'validation_groups' => Array('payment_user_select'),
             'choicesId' => array_column($this->query->selectAllUserDatabase($this->getUser()->getId()), "id", "username")
         ));
         $form->handleRequest($request);
@@ -104,15 +104,15 @@ class PaymentController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_payment_selection",
-    *   path = "/cp_payment_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_payment_select",
+    *   path = "/cp_payment_select/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/payment_selection.html.twig")
+    * @Template("@templateRoot/render/control_panel/payment_select.html.twig")
     */
-    public function selectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -147,8 +147,8 @@ class PaymentController extends Controller {
         
         $this->response['values']['paymentRows'] = $paymentRows;
         
-        $form = $this->createForm(PaymentSelectionFormType::class, null, Array(
-            'validation_groups' => Array('payment_selection'),
+        $form = $this->createForm(PaymentSelectFormType::class, null, Array(
+            'validation_groups' => Array('payment_select'),
             'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($_SESSION['paymentUserId']), "id", "transaction"), true)
         ));
         $form->handleRequest($request);
@@ -175,15 +175,15 @@ class PaymentController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_payment_profile_result",
-    *   path = "/cp_payment_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_payment_profile",
+    *   path = "/cp_payment_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/payment_profile.html.twig")
     */
-    public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -204,13 +204,13 @@ class PaymentController extends Controller {
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_payment_selection")['_token']) == true) {
+                    || $this->isCsrfTokenValid("intention", $request->get("form_payment_select")['_token']) == true) {
                 $id = 0;
 
                 if (empty($request->get("id")) == false)
                     $id = $request->get("id");
-                else if (empty($request->get("form_payment_selection")['id']) == false)
-                    $id = $request->get("form_payment_selection")['id'];
+                else if (empty($request->get("form_payment_select")['id']) == false)
+                    $id = $request->get("form_payment_select")['id'];
 
                 $paymentEntity = $this->entityManager->getRepository("App\Entity\Payment")->find($id);
 
@@ -241,15 +241,15 @@ class PaymentController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_payment_deletion",
-    *   path = "/cp_payment_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_payment_delete",
+    *   path = "/cp_payment_delete/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/payment_deletion.html.twig")
+    * @Template("@templateRoot/render/control_panel/payment_delete.html.twig")
     */
-    public function deletionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -340,7 +340,7 @@ class PaymentController extends Controller {
                     {$value['payer']}
                 </td>
                 <td>
-                    <button class=\"mdc-fab mdc-fab--mini cp_payment_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
+                    <button class=\"mdc-fab mdc-fab--mini cp_payment_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

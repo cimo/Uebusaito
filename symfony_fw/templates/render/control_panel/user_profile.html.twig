@@ -2,7 +2,6 @@
 
 <div>
     <h2 class="mdc-typography--headline6">{% trans %}userProfile_1{% endtrans %}</h2>
-    
     <form id="form_cp_user_profile" action="{{path("cp_user_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
         {% if is_granted("ROLE_ADMIN") == true %}
             <div id="user_roleUserId" class="wordTag_container">
@@ -42,6 +41,6 @@
     </form>
     
     {% if is_granted("ROLE_ADMIN") == true and response.values.id > 1 %}
-        {{-include("@templateRoot/render/control_panel/user_deletion.html.twig")-}}
+        {{-include("@templateRoot/render/control_panel/user_delete.html.twig")-}}
     {% endif %}
 </div>

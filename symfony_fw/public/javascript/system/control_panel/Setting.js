@@ -26,8 +26,8 @@ function ControlPanelSetting() {
             var propNameLanguageManageDate = $("#form_setting_languageManageDate").prop("name");
             $("#form_setting_languageManageDate").removeAttr("name");
             
-            $("#setting_language_manage_remove").removeClass("button_icon_inline");
-            $("#setting_language_manage_erase").click();
+            $("#setting_language_manage_delete").removeClass("button_icon_inline");
+            $("#setting_language_manage_close").click();
             
             ajax.send(
                 true,
@@ -56,18 +56,18 @@ function ControlPanelSetting() {
         var eventAjax = "";
         
         if (index < 2)
-            $("#setting_language_manage_remove").hide();
+            $("#setting_language_manage_delete").hide();
         
         $("#form_setting_language").on("change", "", function() {
-            $("#setting_language_manage_erase").click();
+            $("#setting_language_manage_close").click();
             
             index = $(this).prop("selectedIndex");
             code = $(this).val();
             
             if (index > 2)
-                $("#setting_language_manage_remove").show();
+                $("#setting_language_manage_delete").show();
             else
-                $("#setting_language_manage_remove").hide();
+                $("#setting_language_manage_delete").hide();
         });
         
         $("#setting_language_manage_modify").on("click", "", function() {
@@ -83,7 +83,7 @@ function ControlPanelSetting() {
             $("#form_setting_languageManageDate").val(valueDateSelected);
         });
         
-        $("#setting_language_manage_add").on("click", "", function() {
+        $("#setting_language_manage_create").on("click", "", function() {
             eventAjax = "createLanguage";
             
             $("#setting_language_manage_container").show();
@@ -121,7 +121,7 @@ function ControlPanelSetting() {
                                 </li>"
                         );
                         
-                        $("#setting_language_manage_erase").click();
+                        $("#setting_language_manage_close").click();
                     }
                 },
                 null,
@@ -129,7 +129,7 @@ function ControlPanelSetting() {
             );
         });
         
-        $("#setting_language_manage_remove").on("click", "", function() {
+        $("#setting_language_manage_delete").on("click", "", function() {
             popupEasy.create(
                 window.text.index_5,
                 window.textSetting.label_1,
@@ -150,7 +150,7 @@ function ControlPanelSetting() {
                             ajax.reply(xhr, "");
                             
                             if (xhr.response.messages.success !== undefined) {
-                                $("#setting_language_manage_erase").click();
+                                $("#setting_language_manage_close").click();
                                 
                                 $("#form_setting_language").find("option").eq(index).remove();
                                 $("#language_text_container").find(".mdc-list-item").eq(index - 1).remove();
@@ -163,7 +163,7 @@ function ControlPanelSetting() {
             );
         });
         
-        $("#setting_language_manage_erase").on("click", "", function() {
+        $("#setting_language_manage_close").on("click", "", function() {
             $("#form_setting_languageManage").val("");
             $("#form_setting_languageManageDate").val("");
             

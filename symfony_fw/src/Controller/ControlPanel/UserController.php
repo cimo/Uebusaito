@@ -13,7 +13,7 @@ use App\Classes\System\TableAndPagination;
 use App\Entity\User;
 
 use App\Form\UserFormType;
-use App\Form\UserSelectionFormType;
+use App\Form\UserSelectFormType;
 
 class UserController extends Controller {
     // Vars
@@ -35,15 +35,15 @@ class UserController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_user_creation",
-    *   path = "/cp_user_creation/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_user_create",
+    *   path = "/cp_user_create/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/user_creation.html.twig")
+    * @Template("@templateRoot/render/control_panel/user_create.html.twig")
     */
-    public function creationAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -67,7 +67,7 @@ class UserController extends Controller {
         $_SESSION['userProfileId'] = 0;
         
         $form = $this->createForm(UserFormType::class, $userEntity, Array(
-            'validation_groups' => Array('user_creation')
+            'validation_groups' => Array('user_create')
         ));
         $form->handleRequest($request);
         
@@ -115,15 +115,15 @@ class UserController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_user_selection",
-    *   path = "/cp_user_selection/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_user_select",
+    *   path = "/cp_user_select/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/user_selection.html.twig")
+    * @Template("@templateRoot/render/control_panel/user_select.html.twig")
     */
-    public function selectionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -155,8 +155,8 @@ class UserController extends Controller {
         $this->response['values']['listHtml'] = $this->createListHtml($userRows, $tableAndPagination['listHtml']);
         $this->response['values']['count'] = $tableAndPagination['count'];
         
-        $form = $this->createForm(UserSelectionFormType::class, null, Array(
-            'validation_groups' => Array('user_selection'),
+        $form = $this->createForm(UserSelectFormType::class, null, Array(
+            'validation_groups' => Array('user_select'),
             'choicesId' => array_reverse(array_column($userRows, "id", "username"), true)
         ));
         $form->handleRequest($request);
@@ -183,15 +183,15 @@ class UserController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_user_profile_result",
-    *   path = "/cp_user_profile_result/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_user_profile",
+    *   path = "/cp_user_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/user_profile.html.twig")
     */
-    public function profileResultAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -212,13 +212,13 @@ class UserController extends Controller {
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_user_selection")['_token']) == true) {
+                    || $this->isCsrfTokenValid("intention", $request->get("form_user_select")['_token']) == true) {
                 $id = 0;
 
                 if (empty($request->get("id")) == false)
                     $id = $request->get("id");
-                else if (empty($request->get("form_user_selection")['id']) == false)
-                    $id = $request->get("form_user_selection")['id'];
+                else if (empty($request->get("form_user_select")['id']) == false)
+                    $id = $request->get("form_user_select")['id'];
 
                 $userEntity = $this->entityManager->getRepository("App\Entity\User")->find($id);
 
@@ -337,15 +337,15 @@ class UserController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_user_deletion",
-    *   path = "/cp_user_deletion/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_user_delete",
+    *   path = "/cp_user_delete/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/render/control_panel/user_deletion.html.twig")
+    * @Template("@templateRoot/render/control_panel/user_delete.html.twig")
     */
-    public function deletionAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -457,7 +457,7 @@ class UserController extends Controller {
                         $listHtml .= $this->utility->getTranslator()->trans("userController_11");
                 $listHtml .= "</td>
                 <td>
-                    <button class=\"mdc-fab mdc-fab--mini cp_user_deletion\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
+                    <button class=\"mdc-fab mdc-fab--mini cp_user_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

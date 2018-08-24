@@ -10,7 +10,7 @@ use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
 
 use App\Form\RecoverPasswordFormType;
-use App\Form\ChangePasswordFormType;
+use App\Form\ForgotPasswordFormType;
 
 class RecoverPasswordController extends Controller {
     // Vars
@@ -115,8 +115,8 @@ class RecoverPasswordController extends Controller {
             
             $this->response['values']['userId'] = $userEntity->getId();
             
-            $form = $this->createForm(ChangePasswordFormType::class, null, Array(
-                'validation_groups' => Array('change_password')
+            $form = $this->createForm(ForgotPasswordFormType::class, null, Array(
+                'validation_groups' => Array('forgot_password')
             ));
             $form->handleRequest($request);
             

@@ -6,8 +6,8 @@ function ControlPanelPage() {
     // Vars
     var self = this;
     
-    var selectionSended = false;
-    var selectionId = -1;
+    var selectSended = false;
+    var selectId = -1;
     
     var profileFocus = false;
     
@@ -24,20 +24,20 @@ function ControlPanelPage() {
     
     // Functions public
     self.init = function() {
-        selectionDesktop();
+        selectDesktop();
         
-        selectionMobile();
+        selectMobile();
         
         rankInMenu();
         
         wysiwyg.init();
-        wysiwyg.create("#form_page_argument", $("#form_cp_page_creation").find("input[type='submit']"));
+        wysiwyg.create("#form_page_argument", $("#form_cp_page_create").find("input[type='submit']"));
         
         fieldsVisibility();
         
         utility.wordTag("#page_roleUserId", "#form_page_roleUserId");
         
-        $("#form_cp_page_creation").on("submit", "", function(event) {
+        $("#form_cp_page_create").on("submit", "", function(event) {
             event.preventDefault();
             
             ajax.send(
@@ -61,51 +61,51 @@ function ControlPanelPage() {
         profileFocus = false;
 
         if (utility.checkWidthType() === "mobile") {
-            if (selectionSended === true) {
-                selectionId = $("#form_cp_page_selection_mobile").find("select option:selected").val();
+            if (selectSended === true) {
+                selectId = $("#form_cp_page_select_mobile").find("select option:selected").val();
 
-                selectionSended = false;
+                selectSended = false;
             }
 
-            if (selectionId >= 0) {
-                $("#cp_page_selection_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
+            if (selectId >= 0) {
+                $("#cp_page_select_result_desktop").find(".checkbox_column input[type='checkbox']").prop("checked", false);
 
-                var idColumns = $("#cp_page_selection_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
+                var id = $("#cp_page_select_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
-                $.each(idColumns, function(key, value) {
-                    if ($(value).text().trim() === String(selectionId))
+                $.each(id, function(key, value) {
+                    if ($(value).text().trim() === String(selectId))
                         $(value).parents("tr").find(".checkbox_column input").prop("checked", true);
                 });
             }
         }
         else {
-            if (selectionSended === true) {
-                selectionId = $("#cp_page_selection_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+            if (selectSended === true) {
+                selectId = $("#cp_page_select_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
 
-                selectionSended = false;
+                selectSended = false;
             }
 
-            if (selectionId > 0)
-                $("#form_cp_page_selection_mobile").find("select option[value='" + selectionId + "']").prop("selected", true);
+            if (selectId > 0)
+                $("#form_cp_page_select_mobile").find("select option[value='" + selectId + "']").prop("selected", true);
         }
         
         rankInMenu();
     };
     
     // Function private
-    function selectionDesktop() {
+    function selectDesktop() {
         var tableAndPagination = new TableAndPagination();
         tableAndPagination.init();
         tableAndPagination.setButtonsStatus("show");
-        tableAndPagination.create(window.url.cpPageSelection, "#cp_page_selection_result_desktop", true);
+        tableAndPagination.create(window.url.cpPageSelect, "#cp_page_select_result_desktop", true);
         tableAndPagination.search();
         tableAndPagination.pagination();
         tableAndPagination.sort();
         
-        $(document).on("click", "#cp_page_selection_result_desktop .refresh", function() {
+        $(document).on("click", "#cp_page_select_result_desktop .refresh", function() {
             ajax.send(
                 true,
-                window.url.cpPageSelection,
+                window.url.cpPageSelect,
                 "post",
                 {
                     'event': "refresh",
@@ -124,14 +124,14 @@ function ControlPanelPage() {
             );
         });
         
-        $(document).on("click", "#cp_page_selection_result_desktop .delete_all", function() {
+        $(document).on("click", "#cp_page_select_result_desktop .delete_all", function() {
             popupEasy.create(
                 window.text.index_5,
                 window.textPage.label_2,
                 function() {
                     ajax.send(
                         true,
-                        window.url.cpPageDeletion,
+                        window.url.cpPageDelete,
                         "post",
                         {
                             'event': "deleteAll",
@@ -143,11 +143,11 @@ function ControlPanelPage() {
                         function(xhr) {
                             ajax.reply(xhr, "");
 
-                            $.each($("#cp_page_selection_result_desktop").find("table .id_column"), function(key, value) {
+                            $.each($("#cp_page_select_result_desktop").find("table .id_column"), function(key, value) {
                                 $(value).parents("tr").remove();
                             });
                             
-                            $("#cp_page_selection_result").html("");
+                            $("#cp_page_select_result").html("");
                         },
                         null,
                         null
@@ -156,18 +156,18 @@ function ControlPanelPage() {
             );
         });
         
-        $(document).on("click", "#cp_page_selection_result_desktop .cp_page_deletion", function() {
+        $(document).on("click", "#cp_page_select_result_desktop .cp_page_delete", function() {
             var id = $.trim($(this).parents("tr").find(".id_column").text().trim());
             
-            deletion(id);
+            deleteElement(id);
         });
         
-        $(document).on("click", "#cp_page_selection_button_desktop", function(event) {
+        $(document).on("click", "#cp_page_select_button_desktop", function(event) {
             var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text().trim());
 
             ajax.send(
                 true,
-                window.url.cpPageProfileResult,
+                window.url.cpPageProfile,
                 "post",
                 {
                     'event': "result",
@@ -177,7 +177,7 @@ function ControlPanelPage() {
                 "json",
                 false,
                 function() {
-                    $("#cp_page_selection_result").html("");
+                    $("#cp_page_select_result").html("");
                 },
                 function(xhr) {
                     profile(xhr, "#" + event.currentTarget.id);
@@ -188,8 +188,8 @@ function ControlPanelPage() {
         });
     }
     
-    function selectionMobile() {
-        $(document).on("submit", "#form_cp_page_selection_mobile", function(event) {
+    function selectMobile() {
+        $(document).on("submit", "#form_cp_page_select_mobile", function(event) {
             event.preventDefault();
 
             ajax.send(
@@ -200,7 +200,7 @@ function ControlPanelPage() {
                 "json",
                 false,
                 function() {
-                    $("#cp_page_selection_result").html("");
+                    $("#cp_page_select_result").html("");
                 },
                 function(xhr) {
                     profile(xhr, "#" + event.currentTarget.id);
@@ -215,9 +215,9 @@ function ControlPanelPage() {
         ajax.reply(xhr, tag);
         
         if ($.isEmptyObject(xhr.response) === false && xhr.response.render !== undefined) {
-            selectionSended = true;
+            selectSended = true;
             
-            $("#cp_page_selection_result").html(xhr.response.render);
+            $("#cp_page_select_result").html(xhr.response.render);
             
             rankInMenu();
 
@@ -259,9 +259,9 @@ function ControlPanelPage() {
                         if ($.isEmptyObject(xhr.response.messages.success) === false) {
                             profileFocus = false;
 
-                            $("#cp_page_selection_result").html("");
+                            $("#cp_page_select_result").html("");
                             
-                            $("#cp_page_selection_result_desktop .refresh").click();
+                            $("#cp_page_select_result_desktop .refresh").click();
                         }
                     },
                     null,
@@ -269,8 +269,8 @@ function ControlPanelPage() {
                 );
             });
             
-            $("#cp_page_deletion").on("click", "", function() {
-               deletion(null);
+            $("#cp_page_delete").on("click", "", function() {
+               deleteElement(null);
             });
         }
     }
@@ -306,14 +306,14 @@ function ControlPanelPage() {
         });
     }
     
-    function deletion(id) {
+    function deleteElement(id) {
         popupEasy.create(
             window.text.index_5,
             window.textPage.label_1,
             function() {
                 ajax.send(
                     true,
-                    window.url.cpPageDeletion,
+                    window.url.cpPageDelete,
                     "post",
                     {
                         'event': "delete",
@@ -330,10 +330,10 @@ function ControlPanelPage() {
                                 xhr.response.values.text + xhr.response.values.button + xhr.response.values.pageSelectHtml
                             );
 
-                            $("#cp_page_deletion_parent_all").on("click", "", function() {
+                            $("#cp_page_delete_parent_all").on("click", "", function() {
                                 ajax.send(
                                     true,
-                                    window.url.cpPageDeletion,
+                                    window.url.cpPageDelete,
                                     "post",
                                     {
                                         'event': "parentAll",
@@ -353,10 +353,10 @@ function ControlPanelPage() {
                                 );
                             });
 
-                            $("#cp_page_deletion_parent_new").on("change", "", function() {
+                            $("#cp_page_delete_parent_new").on("change", "", function() {
                                 ajax.send(
                                     true,
-                                    window.url.cpPageDeletion,
+                                    window.url.cpPageDelete,
                                     "post",
                                     {
                                         'event': "parentNew",
@@ -377,7 +377,7 @@ function ControlPanelPage() {
                                 );
                             });
 
-                            utility.pageSelectFieldWithDisabledElement("#cp_page_deletion_parent_new", xhr);
+                            utility.pageSelectFieldWithDisabledElement("#cp_page_delete_parent_new", xhr);
                         }
                         else {
                             ajax.reply(xhr, "");
@@ -394,17 +394,17 @@ function ControlPanelPage() {
     
     function deleteResponse(xhr) {
         if (xhr.response.messages.success !== undefined) {
-            $.each($("#cp_page_selection_result_desktop").find("table .id_column"), function(key, value) {
+            $.each($("#cp_page_select_result_desktop").find("table .id_column"), function(key, value) {
                 if (xhr.response.values.id !== undefined && xhr.response.values.id === $.trim($(value).text()) ||
                         xhr.response.values.removedId !== undefined && $.inArray($.trim($(value).text()), xhr.response.values.removedId) !== -1)
                     $(value).parents("tr").remove();
             });
 
-            $("#form_page_selection_id").find("option[value='" + xhr.response.values.id + "']").remove();
+            $("#form_page_select_id").find("option[value='" + xhr.response.values.id + "']").remove();
 
-            $("#cp_page_selection_result").html("");
+            $("#cp_page_select_result").html("");
             
-            $("#cp_page_selection_result_desktop .refresh").click();
+            $("#cp_page_select_result_desktop").find(".refresh").click();
         }
     }
     

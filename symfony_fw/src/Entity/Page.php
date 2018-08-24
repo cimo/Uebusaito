@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Table(name="pages", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
- * @UniqueEntity(fields={"alias"}, groups={"page_creation", "page_profile"})
+ * @UniqueEntity(fields={"alias"}, groups={"page_create", "page_profile"})
  */
 class Page {
     /**
@@ -83,24 +83,24 @@ class Page {
     private $link = "";
     
     /**
-     * @ORM\Column(name="user_creation", type="string", columnDefinition="varchar(20) NOT NULL DEFAULT '-'")
+     * @ORM\Column(name="user_create", type="string", columnDefinition="varchar(20) NOT NULL DEFAULT '-'")
      */
-    private $userCreation = "";
+    private $userCreate = "";
     
     /**
-     * @ORM\Column(name="date_creation", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
+     * @ORM\Column(name="date_create", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateCreation = "0000-00-00 00:00:00";
+    private $dateCreate = "0000-00-00 00:00:00";
     
     /**
-     * @ORM\Column(name="user_modification", type="string", columnDefinition="varchar(20) NOT NULL DEFAULT '-'")
+     * @ORM\Column(name="user_modify", type="string", columnDefinition="varchar(20) NOT NULL DEFAULT '-'")
      */
-    private $userModification = "";
+    private $userModify = "";
     
     /**
-     * @ORM\Column(name="date_modification", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
+     * @ORM\Column(name="date_modify", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $dateModification = "0000-00-00 00:00:00";
+    private $dateModify = "0000-00-00 00:00:00";
     
     // Properties
     public function setAlias($value) {
@@ -163,20 +163,20 @@ class Page {
         $this->link = $value;
     }
     
-    public function setUserCreation($value) {
-        $this->userCreation = $value;
+    public function setUserCreate($value) {
+        $this->userCreate = $value;
     }
     
-    public function setDateCreation($value) {
-        $this->dateCreation = $value;
+    public function setDateCreate($value) {
+        $this->dateCreate = $value;
     }
     
-    public function setUserModification($value) {
-        $this->userModification = $value;
+    public function setUserModify($value) {
+        $this->userModify = $value;
     }
     
-    public function setDateModification($value) {
-        $this->dateModification = $value;
+    public function setDateModify($value) {
+        $this->dateModify = $value;
     }
     
     // ---
@@ -245,19 +245,19 @@ class Page {
         return $this->link;
     }
     
-    public function getUserCreation() {
-        return $this->userCreation;
+    public function getUserCreate() {
+        return $this->userCreate;
     }
     
-    public function getDateCreation() {
-        return $this->dateCreation;
+    public function getDateCreate() {
+        return $this->dateCreate;
     }
     
-    public function getUserModification() {
-        return $this->userModification;
+    public function getUserModify() {
+        return $this->userModify;
     }
     
-    public function getDateModification() {
-        return $this->dateModification;
+    public function getDateModify() {
+        return $this->dateModify;
     }
 }

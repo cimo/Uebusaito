@@ -1,6 +1,5 @@
 <div>
     <h2 class="mdc-typography--headline6">{% trans %}paymentProfile_1{% endtrans %}</h2>
-    
     <ul class="mdc-list mdc-list--two-line mdc-list--avatar-list">
         <li class="mdc-list-item">
             <span class="mdc-list-item__graphic material-icons">info</span>
@@ -84,6 +83,6 @@
     </ul>
 
     {% if is_granted("ROLE_ADMIN") == true %}
-        {{-include("@templateRoot/render/control_panel/payment_deletion.html.twig")-}}
+        {{-include("@templateRoot/render/control_panel/payment_delete.html.twig")-}}
     {% endif %}
 </div>

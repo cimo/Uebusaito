@@ -1,4 +1,6 @@
 var kasutamuMono2d = new KasutamuMono2d();
+kasutamuMono2d.init();
+kasutamuMono2d.create();
 
 function KasutamuMono2d() {
     // Vars

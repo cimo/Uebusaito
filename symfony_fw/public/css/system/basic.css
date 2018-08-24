@@ -32,7 +32,7 @@
   .menu_root_container .mdc-list-item { position: relative; }
   .menu_root_container .mdc-list-item .parent_icon { margin-right: 0; position: absolute; right: 0; padding: 12px; }
   .menu_root_container .children_container { display: none; } }
-@media (min-width: 840px) { .menu_root_container { position: absolute; left: 200px; bottom: 0; z-index: 2; }
+@media (min-width: 840px) { .menu_root_container { position: absolute; left: 200px; bottom: 0; z-index: 100; }
   .menu_root_container ul { display: flex; list-style: none; padding: 0; }
   .menu_root_container ul .parent:hover > .parent_content { display: block !important; background-color: #1976d2; }
   .menu_root_container ul .parent .material-icons { vertical-align: middle; color: #ffffff; }
@@ -86,6 +86,12 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .mdc-menu-anchor { align-self: flex-start; }
 
+.mdc-card:not(.module) { border-radius: 24px 4px; width: 250px; margin: 10px; }
+.mdc-card:not(.module) .mdc_card_header { display: flex; border-top-left-radius: inherit; }
+.mdc-card:not(.module) .mdc_card_header .mdc-card__media { width: 110px; border-top-left-radius: inherit; }
+.mdc-card:not(.module) .mdc_card_header .mdc-card__media img { width: 80px; position: absolute; top: 0; }
+.mdc-card:not(.module) .mdc_card_header .mdc_card_description { padding: 10px; }
+
 .logo_main_big { display: block; width: 70px; margin: auto; }
 
 .logo_main_small { width: 45px; margin-top: 8px; }
@@ -125,6 +131,7 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 .accordion_container .accordion { height: 0; overflow: hidden; }
 .accordion_container .accordion_active { height: auto; }
 
+.sort_container > p .material-icons { vertical-align: middle; margin-top: -1px; }
 .sort_container .sort_list { padding: 0; }
 .sort_container .sort_list li { list-style-type: none; margin: 5px; display: inline-block; }
 .sort_container .sort_list li i { cursor: move; }
@@ -144,6 +151,8 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .cp_system_info .mdc-list-item { height: auto; }
 
+.cursor_custom { cursor: pointer; }
+
 #body_progress { display: block; height: 100%; background-color: #ffffff; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 2000; }
 
 #panel_id_1 p { margin: 0; }
@@ -155,14 +164,28 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 #language_text_container .mdc-list-item span img { display: inline-block; vertical-align: middle; margin-right: 10px; }
 
-#form_pageComment .mdc-text-field--textarea { width: 100%; }
-#form_pageComment .mdc-text-field--textarea .mdc-text-field__input { resize: none; }
+#page_rankMenuSort > p { vertical-align: middle; margin-bottom: 2px; }
 
 #pageComment_result .mdc-list-item { height: auto; padding: 10px; }
 #pageComment_result .mdc-list-item .quote_text { display: block; background: #ededed; padding: 10px; border-radius: 20px; white-space: initial !important; }
 #pageComment_result .mdc-list-item .quote_text .quote_avatar { width: 40px; height: 40px; display: inline-block; vertical-align: middle; margin-right: 5px; border-radius: 50%; }
 #pageComment_result .mdc-list-item .argument { padding: 10px 10px 0 10px; }
-#pageComment_result .mdc-list-item .mdc-list-item__meta { cursor: pointer; z-index: 2; }
+#pageComment_result .mdc-list-item .mdc-list-item__meta { cursor: pointer; z-index: 100; }
+
+#setting_language_manage_container { display: none; }
+#setting_language_manage_container > p { margin: 0; }
+
+#wysiwyg .toolbar .select_format, #wysiwyg .toolbar .select_font { width: 120px; }
+
+#form_cp_setting_save .template_column { margin-bottom: 10px; }
+#form_cp_setting_save .template_column p { margin: 0; }
+#form_cp_setting_save .template_column div { display: inline-block; }
+#form_cp_setting_save .template_column div img { display: block; margin-left: 10px; }
+
+#form_pageComment .mdc-text-field--textarea { width: 100%; }
+#form_pageComment .mdc-text-field--textarea .mdc-text-field__input { resize: none; }
+
+#cp_microservice_deploy_render_result { margin-top: 10px; }
 
 :root { --mdc-theme-primary: #1976d2; --mdc-theme-on-primary: #ffffff; --mdc-theme-secondary: #d50000; --mdc-theme-on-secondary: #ffffff; --mdc-theme-background: #ffffff; --mdc-theme-surface: #ffffff; --mdc-theme-on-surface: #868686; }
 

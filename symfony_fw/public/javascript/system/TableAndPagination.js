@@ -36,10 +36,10 @@ function TableAndPagination() {
         buttonsStatus = "";
     };
     
-    self.create = function(url, id, singleSelection) {
+    self.create = function(url, id, singleSelect) {
         urlRequest = url;
         idResult = id;
-        selectOnlyOne = singleSelection;
+        selectOnlyOne = singleSelect;
         
         status();
         
