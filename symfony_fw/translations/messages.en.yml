@@ -116,6 +116,7 @@ date.time: H:i:s
 # Forgot password
 "forgotPasswordFormType_1": "Password"
 "forgotPasswordFormType_2": "Password confirm"
+"forgotPasswordFormType_3": "Send"
 
 # Credit
 "creditFormType_1": "Credit"

@@ -5,6 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ForgotPasswordFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -14,7 +15,8 @@ class ForgotPasswordFormType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(Array(
             'data_class' => "App\Form\Model\ForgotPasswordModel",
-            'csrf_protection' => true
+            'csrf_protection' => true,
+            'validation_groups' => null
         ));
     }
     
@@ -26,6 +28,9 @@ class ForgotPasswordFormType extends AbstractType {
         ->add("passwordConfirm", PasswordType::class, Array(
             'required' => true,
             'label' => "forgotPasswordFormType_2"
+        ))
+        ->add("submit", SubmitType::class, Array(
+            'label' => "forgotPasswordFormType_3"
         ));
     }
 }

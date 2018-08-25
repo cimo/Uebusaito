@@ -13,15 +13,19 @@ class Query {
     }
     
     public function selectUserWithHelpCodeDatabase($helpCode) {
-        $query = $this->connection->prepare("SELECT * FROM users
-                                                WHERE help_code IS NOT NULL
-                                                AND help_code = :helpCode");
-        
-        $query->bindValue(":helpCode", $helpCode);
-        
-        $query->execute();
-        
-        return $query->fetch();
+        if (trim($helpCode) != "") {
+            $query = $this->connection->prepare("SELECT * FROM users
+                                                    WHERE help_code IS NOT NULL
+                                                    AND help_code = :helpCode");
+
+            $query->bindValue(":helpCode", $helpCode);
+
+            $query->execute();
+
+            return $query->fetch();
+        }
+        else
+            return false;
     }
     
     public function selectRoleUserDatabase($roleId, $modify = false) {
