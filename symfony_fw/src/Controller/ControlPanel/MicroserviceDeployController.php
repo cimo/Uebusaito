@@ -60,7 +60,7 @@ class MicroserviceDeployController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         $microserviceDeployRows = $this->query->selectAllMicroserviceDeployDatabase();
@@ -123,7 +123,7 @@ class MicroserviceDeployController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         $microserviceDeployEntity = new MicroserviceDeploy();
@@ -139,17 +139,11 @@ class MicroserviceDeployController extends Controller {
             if ($form->isValid() == true) {
                 $microserviceDeployEntity->setActive(true);
                 
-                $shellScript = $this->shellScript($form);
-                
-                if ($shellScript == true) {
-                    // Insert in database
-                    $this->entityManager->persist($microserviceDeployEntity);
-                    $this->entityManager->flush();
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_2");
-                }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_3");
+                // Insert in database
+                $this->entityManager->persist($microserviceDeployEntity);
+                $this->entityManager->flush();
+
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_2");
             }
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_3");
@@ -201,7 +195,7 @@ class MicroserviceDeployController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         $_SESSION['microserviceDeployProfileId'] = 0;
@@ -268,7 +262,7 @@ class MicroserviceDeployController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -341,7 +335,7 @@ class MicroserviceDeployController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         $microserviceDeployEntity = $this->entityManager->getRepository("App\Entity\MicroserviceDeploy")->find($_SESSION['microserviceDeployProfileId']);
@@ -353,17 +347,11 @@ class MicroserviceDeployController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isValid() == true) {
-                $shellScript = $this->shellScript($form);
-                
-                if ($shellScript == true) {
-                    // Update in database
-                    $this->entityManager->persist($microserviceDeployEntity);
-                    $this->entityManager->flush();
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_5");
-                }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_6");
+                // Update in database
+                $this->entityManager->persist($microserviceDeployEntity);
+                $this->entityManager->flush();
+
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_5");
             }
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_6");
@@ -413,19 +401,21 @@ class MicroserviceDeployController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-                $microserviceDeployRow = $this->query->selectMicroserviceDeployDatabase($_SESSION['microserviceDeployProfileId']);
+                $microserviceDeployRow = $this->query->selectMicroserviceDeployDatabase($request->get("id"));
                 
-                //$shellExec = shell_exec("");
+                $sshConnection = $this->sshConnection($microserviceDeployRow, $request);
                 
-                if ($shellExec == true)
-                    $this->response['messages']['success'] = "Command executed.";
+                $this->response['values']['sshConnection'] = $sshConnection;
+                
+                if ($sshConnection != "")
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_7");
                 else
-                    $this->response['messages']['error'] = "Command not executed!";
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_8");
             }
         }
         
@@ -463,7 +453,7 @@ class MicroserviceDeployController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -476,17 +466,17 @@ class MicroserviceDeployController extends Controller {
                     if ($microserviceDeployDatabase == true) {
                         $this->response['values']['id'] = $id;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_7");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_9");
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
                     $microserviceDeployDatabase = $this->microserviceDeployDatabase("deleteAll", null);
 
                     if ($microserviceDeployDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_8");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_10");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_9");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_11");
 
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
@@ -528,7 +518,7 @@ class MicroserviceDeployController extends Controller {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_3")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_email']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['system_user']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -536,7 +526,7 @@ class MicroserviceDeployController extends Controller {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_4")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_name']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['key_public']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -544,7 +534,7 @@ class MicroserviceDeployController extends Controller {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_5")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['key_private']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -552,7 +542,7 @@ class MicroserviceDeployController extends Controller {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_6")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_path']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['ip']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -560,7 +550,7 @@ class MicroserviceDeployController extends Controller {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_7")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_git_script']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_email']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -568,7 +558,7 @@ class MicroserviceDeployController extends Controller {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_8")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_web_script']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_name']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -576,11 +566,45 @@ class MicroserviceDeployController extends Controller {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_9")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_10")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_path']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_11")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_git_script']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_12")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_web_script']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_13")}
                     <span class=\"mdc-list-item__secondary-text\">{$elements[0]['root_web_path']}</span>
                 </span>
             </li>
         </ul>
-        <button id=\"microservice_deploy_start\" class=\"mdc-button mdc-button--dense mdc-button--raised\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_10")}</button>";
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"clone\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_12")}</button>
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"pull\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_13")}</button>
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"reset\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_14")}</button>";
         
         return $renderHtml;
     }
@@ -612,9 +636,9 @@ class MicroserviceDeployController extends Controller {
                 </td>
                 <td>";
                     if ($value['active'] == 0)
-                        $listHtml .= $this->utility->getTranslator()->trans("microserviceDeployController_11");
+                        $listHtml .= $this->utility->getTranslator()->trans("microserviceDeployController_15");
                     else
-                        $listHtml .= $this->utility->getTranslator()->trans("microserviceDeployController_12");
+                        $listHtml .= $this->utility->getTranslator()->trans("microserviceDeployController_16");
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">
                     <button class=\"mdc-fab mdc-fab--mini cp_module_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
@@ -641,7 +665,7 @@ class MicroserviceDeployController extends Controller {
         }
     }
     
-    private function shellScript($form) {
+    private function sshConnection($row, $request) {
         /*shellScript = "#!/bin/bash
 
         gitCloneUrl=https://rubygroupe-git:ruby2015@github.com/RUBYGROUPE/apolis.git
@@ -695,33 +719,61 @@ class MicroserviceDeployController extends Controller {
                 echo \"Empty value, please restart!\"
         fi";*/
         
-        $shellScript = "#!/bin/bash
-        echo \"Git shell\"
-        ";
+        $result = "";
         
-        $pathKey = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/amazon_server.pem";
-        $pathSh = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/connection.sh";
-        //chmod($pathSh, 0664);
-        //chmod($pathSh, 0111);
+        if ($request->get("command") == "clone" || $request->get("command") == "pull" || $request->get("command") == "reset") {
+            $pathKeyPublic = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/{$row['key_public']}";
+            $pathKeyPrivate = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/{$row['key_private']}";
+
+            $connection = ssh2_connect($row['ip'], 22);
+
+            if (ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate)) {
+                $commands = Array();
+                
+                if ($request->get("command") == "clone") {
+                    $commands = Array(
+                        "git config --global user.email '{$row['git_user_email']}'",
+                        "git config --global user.name '{$row['git_user_name']}'",
+                        "cd {$row['git_clone_path']}",
+                        "sudo -u {$row['user_git_script']} git clone {$row['git_clone_url']} {$row['git_clone_path']}",
+                        "sudo chown -R {$row['user_web_script']} {$row['root_web_path']}",
+                        "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
+                        "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
+                    );
+                    
+                }
+                else if ($request->get("command") == "pull") {
+                    $commands = Array(
+                        "git config --global user.email '{$row['git_user_email']}'",
+                        "git config --global user.name '{$row['git_user_name']}'",
+                        "cd {$row['git_clone_path']}",
+                        "sudo -u user_1 git pull {$row['git_clone_url']} develop",
+                        "sudo chown -R {$row['user_web_script']} {$row['root_web_path']}",
+                        "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
+                        "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
+                    );
+                }
+                else if ($request->get("command") == "reset") {
+                    //...
+                }
+                
+                $stream = ssh2_exec($connection, implode(";", $commands));
+
+                stream_set_blocking($stream, true);
+
+                $err_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+                $dio_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
+
+                stream_set_blocking($err_stream, true);
+                stream_set_blocking($dio_stream, true);
+
+                $result .= stream_get_contents($err_stream) . "\r\n";
+                $result .= stream_get_contents($dio_stream) . "\r\n";
+
+                fclose($stream);
+            }
+        }
         
-        /*$path = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/" . $form->get("name")->getData() . ".sh";
-        
-        chmod($path, 0664);
-        $content = file_put_contents($path, $shellScript);
-        chmod($path, 0111);*/
-        
-        /*$resFile = fopen("ssh2.sftp://18.213.67.135/".$csv_filename, 'w');
-        $srcFile = fopen("/home/myusername/".$csv_filename, 'r');
-        $writtenBytes = stream_copy_to_stream($srcFile, $resFile);
-        fclose($resFile);
-        fclose($srcFile);*/
-        
-        //ssh -i /home/user_1/www/key.pem user@18.213.67.135 "ls"
-        //$sshCmd = "ssh user_batch@18.213.67.135; Apolis_dev_batch_dda814; 'bash -s' < \"/path/to/script.sh\"; logout;";
-        
-        //$shellExec = shell_exec("/usr/bin/ssh -i $pathKey ubuntu@18.213.67.135");
-        $shellExec = shell_exec("sh /home/user_1/www/ls1.reinventsoftware.org/uebusaito/symfony_fw/src/Controller/Microservice/Deploy/connection.sh 2>&1");
-        var_dump($shellExec);
-        return $shellExec;
+        return $result;
     }
 }

@@ -296,7 +296,10 @@ function ControlPanelMicroserviceDeploy() {
     }
     
     function execute() {
-        $("#microservice_deploy_start").on("click", "", function() {
+        $(".git_execute").on("click", "", function() {
+            var id = $("#form_microservice_deploy_select_id").val();
+            var command = $(this).attr("data-command");
+            
             popupEasy.create(
                 window.text.index_5,
                 window.textMicroserviceDeploy.label_3,
@@ -307,13 +310,20 @@ function ControlPanelMicroserviceDeploy() {
                         "post",
                         {
                             'event': "execute",
+                            'id': id,
+                            'command': command,
                             'token': window.session.token
                         },
                         "json",
                         false,
-                        null,
+                        function() {
+                            $("#cp_microservice_deploy_ssh_connection_result").html("");
+                        },
                         function(xhr) {
                             ajax.reply(xhr, "");
+                            
+                            if (xhr.response.values !== undefined)
+                                $("#cp_microservice_deploy_ssh_connection_result").html(xhr.response.values.sshConnection);
                         },
                         null,
                         null

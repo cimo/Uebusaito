@@ -50,3 +50,5 @@ Temporary Items
 nbproject
 /symfony_fw/src/ReinventSoftware/UebusaitoBundle/koala-config.json
 /symfony_fw/src/Controller/Microservice/Deploy/amazon_server.pem
+/symfony_fw/src/Controller/Microservice/Deploy/amazon_server.pub
+/symfony_fw/src/Controller/Microservice/Deploy/amazon_server

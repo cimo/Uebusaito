@@ -56,7 +56,7 @@ class MicroserviceApiController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         if ($request->isMethod("GET") == true && $checkUserRole == true)
@@ -96,7 +96,7 @@ class MicroserviceApiController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         $microserviceApiEntity = new MicroserviceApi();
@@ -111,8 +111,6 @@ class MicroserviceApiController extends Controller {
                 // Insert in database
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
-                
-                mkdir("{$this->utility->getPathSrc()}/Controller/Microservice/Api/{$form->get("folderName")->getData()}");
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceApiController_1");
             }
@@ -164,7 +162,7 @@ class MicroserviceApiController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
         $this->urlExtraExplode = explode("_", $this->urlExtra);
@@ -186,8 +184,6 @@ class MicroserviceApiController extends Controller {
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
                 
-                mkdir("{$this->utility->getPathSrc()}/Controller/Microservice/Api/{$microserviceApiEntity->getFolderName()}");
-
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceApiController_3");
             }
             else {

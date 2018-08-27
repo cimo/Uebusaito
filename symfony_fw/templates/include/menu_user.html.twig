@@ -3,7 +3,7 @@
     <div class="mdc-menu" tabindex="-1">
         <ul id="menu_user" class="mdc-menu__items mdc-list" role="menu" aria-hidden="true">
             {% if app.user %}
-                {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
+                {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true or is_granted("ROLE_MICROSERVICE") == true %}
                     <li class="mdc-list-item control_panel" role="menuitem">
                         <span>{% trans %}menuUser_1{% endtrans %}</span>
                     </li>

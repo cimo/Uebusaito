@@ -5,8 +5,8 @@
         <legend>{% trans %}microserviceApiProfile_1{% endtrans %}</legend>
         <p>{% trans %}microserviceApiProfile_2{% endtrans %}</p>
         <form id="form_cp_microservice_api_profile" action="{{path("cp_microservice_api_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
-            {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "supervisor_account"})}}
-            {{form_row(form.description, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "supervisor_account"})}}
+            {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
+            {{form_row(form.description, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
             {{form_row(form.active)}}
 
             {{form_widget(form._token)}}

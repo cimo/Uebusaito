@@ -187,6 +187,8 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 #cp_microservice_deploy_render_result { margin-top: 10px; }
 
+#cp_microservice_deploy_ssh_connection_result { margin-top: 20px; }
+
 :root { --mdc-theme-primary: #1976d2; --mdc-theme-on-primary: #ffffff; --mdc-theme-secondary: #d50000; --mdc-theme-on-secondary: #ffffff; --mdc-theme-background: #ffffff; --mdc-theme-surface: #ffffff; --mdc-theme-on-surface: #868686; }
 
 ::placeholder { color: #ffffff; opacity: 1; }

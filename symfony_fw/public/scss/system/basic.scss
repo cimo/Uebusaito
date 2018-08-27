@@ -651,6 +651,9 @@ table {
 #cp_microservice_deploy_render_result {
     margin-top: 10px;
 }
+#cp_microservice_deploy_ssh_connection_result {
+    margin-top: 20px;
+}
 
 :root {
     --mdc-theme-primary: #{$mdc-theme-primary};            // mdc-theme--primary-bg

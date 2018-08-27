@@ -26,6 +26,26 @@ class MicroserviceDeploy {
     private $description = "";
     
     /**
+     * @ORM\Column(name="system_user", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     */
+    private $systemUser = "";
+    
+    /**
+     * @ORM\Column(name="key_public", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     */
+    private $keyPublic = "";
+    
+    /**
+     * @ORM\Column(name="key_private", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     */
+    private $keyPrivate = "";
+    
+    /**
+     * @ORM\Column(name="ip", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     */
+    private $ip = "";
+    
+    /**
      * @ORM\Column(name="git_user_email", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $gitUserEmail = "";
@@ -78,6 +98,22 @@ class MicroserviceDeploy {
         $this->description = $value;
     }
     
+    public function setSystemUser($value) {
+        $this->systemUser = $value;
+    }
+    
+    public function setKeyPublic($value) {
+        $this->keyPublic = $value;
+    }
+    
+    public function setKeyPrivate($value) {
+        $this->keyPrivate = $value;
+    }
+    
+    public function setIp($value) {
+        $this->ip = $value;
+    }
+    
     public function setGitUserEmail($value) {
         $this->gitUserEmail = $value;
     }
@@ -122,6 +158,22 @@ class MicroserviceDeploy {
     
     public function getDescription() {
         return $this->description;
+    }
+    
+    public function getSystemUser() {
+        return $this->systemUser;
+    }
+    
+    public function getKeyPublic() {
+        return $this->keyPublic;
+    }
+    
+    public function getKeyPrivate() {
+        return $this->keyPrivate;
+    }
+    
+    public function getIp() {
+        return $this->ip;
     }
     
     public function getGitUserEmail() {

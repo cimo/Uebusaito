@@ -240,7 +240,7 @@
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/Setting.js")}}"></script>
                 {% endif %}
             {% elseif (urlExtra == "cp_microservice_deploy" or urlExtra == "cp_microservice_deploy_create" or "cp_microservice_deploy_select" in urlExtra) and settingRow['use_type'] == 2 %}
-                {% if is_granted("ROLE_ADMIN") == true %}
+                {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MICROSERVICE") == true %}
                     <p>{% trans %}controlPanelMicroserviceDeploy_1{% endtrans %}</p>
                     <div class="cp_section_button">
                         <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_deploy_create"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
@@ -274,7 +274,7 @@
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/MicroserviceDeploy.js")}}"></script>
                 {% endif %}
             {% elseif (urlExtra == "cp_microservice_api" or urlExtra == "cp_microservice_api_create" or "cp_microservice_api_profile" in urlExtra) and settingRow['use_type'] == 2 %}
-                {% if is_granted("ROLE_ADMIN") == true %}
+                {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MICROSERVICE") == true %}
                     <p>{% trans %}controlPanelMicroserviceApi_1{% endtrans %}</p>
                     <div class="cp_section_button">
                         <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_create"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
@@ -334,13 +334,13 @@
             <i class="material-icons mdc-list-item__graphic">label</i>
             <span>{% trans %}controlPanel_7{% endtrans %}</span>
         </a>
-    {% endif %}
-
-    {% if is_granted("ROLE_ADMIN") == true %}
         <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_setting"})}}">
             <i class="material-icons mdc-list-item__graphic">settings</i>
             <span>{% trans %}controlPanel_8{% endtrans %}</span>
         </a>
+    {% endif %}
+
+    {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MICROSERVICE") == true %}
         {% if settingRow['use_type'] == 2 %}
             <p class="mdc-typography--overline title_groupe">{% trans %}controlPanel_9{% endtrans %}</p>
             <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_deploy"})}}">
