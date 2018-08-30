@@ -69,7 +69,7 @@ class RegistrationController extends Controller {
             $form->handleRequest($request);
             
             if ($request->isMethod("POST") == true) {
-                if ($form->isValid() == true) {
+                if ($form->isSubmitted() == true && $form->isValid() == true) {
                     $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
 
                     if ($messagePassword == "ok") {

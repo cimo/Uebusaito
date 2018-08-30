@@ -74,7 +74,7 @@ class UserController extends Controller {
         $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_user_roleUserId_select", "userController_1", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
 
                 if ($messagePassword == "ok") {
@@ -292,7 +292,7 @@ class UserController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
 
                 if ($messagePassword == "ok") {

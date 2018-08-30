@@ -125,7 +125,7 @@ class PageCommentController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $settingRow = $this->query->selectSettingDatabase();
                 $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
                 $pageCommentRows = $this->query->selectAllPageCommentDatabase($this->urlCurrentPageId);

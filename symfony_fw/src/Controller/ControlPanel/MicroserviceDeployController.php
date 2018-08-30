@@ -15,6 +15,8 @@ use App\Entity\MicroserviceDeploy;
 use App\Form\MicroserviceDeployFormType;
 use App\Form\MicroserviceDeploySelectFormType;
 
+use App\Service\FileUploader;
+
 class MicroserviceDeployController extends Controller {
     // Vars
     private $urlLocale;
@@ -72,7 +74,7 @@ class MicroserviceDeployController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true)
+            if ($form->isSubmitted() == true && $form->isValid() == true)
                 $this->response['values']['renderHtml'] = $this->createRenderHtml($microserviceDeployRows);
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_1");
@@ -136,7 +138,7 @@ class MicroserviceDeployController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $microserviceDeployEntity->setActive(true);
                 
                 // Insert in database
@@ -346,7 +348,34 @@ class MicroserviceDeployController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
+                $row = $this->query->selectMicroserviceDeployDatabase($_SESSION['microserviceDeployProfileId']);
+                
+                $pathKeyPublic = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy";
+                $pathKeyPrivate = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy";
+                
+                // Remove old key
+                unlink("$pathKeyPublic/{$row['key_public']}");
+                unlink("$pathKeyPrivate/{$row['key_private']}");
+                
+                // Upload key public
+                $keyPublic = $microserviceDeployEntity->getKeyPublic();
+                $fileName = $keyPublic->getClientOriginalName();
+                $keyPublic->move(
+                    $pathKeyPublic,
+                    $fileName
+                );
+                $microserviceDeployEntity->setKeyPublic($fileName);
+                
+                // Upload key private
+                $keyPrivate = $microserviceDeployEntity->getKeyPrivate();
+                $fileName = $keyPrivate->getClientOriginalName();
+                $keyPrivate->move(
+                    $pathKeyPrivate,
+                    $fileName
+                );
+                $microserviceDeployEntity->setKeyPrivate($fileName);
+                
                 // Update in database
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
@@ -601,6 +630,24 @@ class MicroserviceDeployController extends Controller {
                     <span class=\"mdc-list-item__secondary-text\">{$elements[0]['root_web_path']}</span>
                 </span>
             </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    <div class=\"mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense\">
+                        <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" autocomplete=\"off\"/>
+                        <i class=\"material-icons mdc-text-field__icon\">textsms</i>
+                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label required\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_14")}</label>
+                        <div class=\"mdc-notched-outline\">
+                            <svg>
+                                <path class=\"mdc-notched-outline__path\"/>
+                            </svg>
+                        </div>
+                        <div class=\"mdc-notched-outline__idle\"></div>
+                    </div>
+                    <span class=\"mdc-list-item__secondary-text\"></span>
+                </span>
+            </li>
         </ul>
         <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"clone\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_12")}</button>
         <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"pull\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_13")}</button>
@@ -666,67 +713,14 @@ class MicroserviceDeployController extends Controller {
     }
     
     private function sshConnection($row, $request) {
-        /*shellScript = "#!/bin/bash
-
-        gitCloneUrl=https://rubygroupe-git:ruby2015@github.com/RUBYGROUPE/apolis.git
-        gitClonePath=/home/user_1/www/apolis_dev
-        userGitScript=user_1
-        userWebScript=user_1:www-data
-        rootWebPath=/home/user_1/www/apolis_dev/src
-
-        #git config --global core.mergeoptions --no-edit
-        git config --global user.email \"ruby-devops@rubygroupe.jp\"
-        git config --global user.name \"rubygroupe-git\"
-
-        echo \"Git shell\"
-        read -p \"1) Clone - 2) Pull: - 3) Reset: > \" gitChoice
-
-        if [ ! -z $gitChoice ]
-        then
-                if [ $gitChoice -eq 1 ]
-                then
-                        sudo -u $userGitScript git clone $gitCloneUrl $gitClonePath
-                elif [ $gitChoice -eq 2 ]
-                then
-                        read -p \"Insert branch name: > \" branchNameA branchNameB
-
-                        if [ ! -z \"$branchNameA $branchNameB\" ]
-                        then
-                                cd $gitClonePath
-                                sudo -u $userGitScript git pull $gitCloneUrl $branchNameA $branchNameB
-                        else
-                                echo \"Empty value, please restart!\"
-                        fi
-                elif [ $gitChoice -eq 3 ]
-                then
-                        read -p \"Insert branch name: > \" branchNameA branchNameB
-
-                        if [ ! -z \"$branchNameA $branchNameB\" ]
-                        then
-                                cd $gitClonePath
-                                sudo -u $userGitScript git fetch --all
-                                sudo -u $userGitScript git reset --hard $branchNameA $branchNameB
-                        fi
-                fi
-                echo \"Settings project in progress, please wait...\"
-
-                sudo chown -R $userWebScript $rootWebPath
-                sudo find $rootWebPath -type d -exec chmod 775 {} \;
-                sudo find $rootWebPath -type f -exec chmod 664 {} \;
-
-                echo \"Finito ciao ciao =D\"
-        else
-                echo \"Empty value, please restart!\"
-        fi";*/
-        
         $result = "";
         
         if ($request->get("command") == "clone" || $request->get("command") == "pull" || $request->get("command") == "reset") {
             $pathKeyPublic = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/{$row['key_public']}";
             $pathKeyPrivate = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/{$row['key_private']}";
-
+            
             $connection = ssh2_connect($row['ip'], 22);
-
+            
             if (ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate)) {
                 $commands = Array();
                 
@@ -740,40 +734,48 @@ class MicroserviceDeployController extends Controller {
                         "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
                     );
-                    
                 }
                 else if ($request->get("command") == "pull") {
                     $commands = Array(
                         "git config --global user.email '{$row['git_user_email']}'",
                         "git config --global user.name '{$row['git_user_name']}'",
                         "cd {$row['git_clone_path']}",
-                        "sudo -u user_1 git pull {$row['git_clone_url']} develop",
+                        "sudo -u user_1 git pull {$row['git_clone_url']} {$request->get("branchName")}",
                         "sudo chown -R {$row['user_web_script']} {$row['root_web_path']}",
                         "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
                     );
                 }
                 else if ($request->get("command") == "reset") {
-                    //...
+                    $commands = Array(
+                        "git config --global user.email '{$row['git_user_email']}'",
+                        "git config --global user.name '{$row['git_user_name']}'",
+                        "cd {$row['git_clone_path']}",
+                        "sudo -u {$row['user_git_script']} git fetch --all",
+                        "sudo -u {$row['user_git_script']} git reset --hard {$request->get("branchName")}",
+                        "sudo chown -R {$row['user_web_script']} {$row['root_web_path']}",
+                        "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
+                        "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
+                    );
                 }
                 
                 $stream = ssh2_exec($connection, implode(";", $commands));
-
+                
                 stream_set_blocking($stream, true);
-
+                
                 $err_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
                 $dio_stream = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
-
+                
                 stream_set_blocking($err_stream, true);
                 stream_set_blocking($dio_stream, true);
-
+                
                 $result .= stream_get_contents($err_stream) . "\r\n";
                 $result .= stream_get_contents($dio_stream) . "\r\n";
-
+                
                 fclose($stream);
             }
         }
         
-        return $result;
+        return "<pre>$result</pre>";
     }
 }

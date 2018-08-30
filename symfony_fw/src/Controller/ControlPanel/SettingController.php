@@ -72,7 +72,7 @@ class SettingController extends Controller {
         $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_setting_roleUserId_select", "settingController_1", true);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 if ($form->get("templateColumn")->getData() != $settingEntity->getTemplateColumn())
                     $this->moduleDatabase($form->get("templateColumn")->getData());
                 

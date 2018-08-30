@@ -107,7 +107,7 @@ class MicroserviceApiController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 // Insert in database
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
@@ -179,7 +179,7 @@ class MicroserviceApiController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 // Update in database
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();

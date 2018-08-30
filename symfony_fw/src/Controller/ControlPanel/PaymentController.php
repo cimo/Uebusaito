@@ -73,7 +73,7 @@ class PaymentController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 if ($form->get("userId")->getData() > 0) {
                     $_SESSION['paymentUserId'] = $form->get("userId")->getData();
                     

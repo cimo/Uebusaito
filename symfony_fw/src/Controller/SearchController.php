@@ -64,7 +64,7 @@ class SearchController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $words = $form->get("words")->getData();
 
                 $this->response['values']['url'] = "{$this->utility->getUrlRoot()}{$this->utility->getWebsiteFile()}/{$this->urlLocale}/5/$words";

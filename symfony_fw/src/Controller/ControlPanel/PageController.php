@@ -86,7 +86,7 @@ class PageController extends Controller {
         $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($pageParentRows);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $pageEntity->setDateCreate(date("Y-m-d H:i:s"));
                 
                 // Insert in database
@@ -374,7 +374,7 @@ class PageController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $pageEntity->setUserModify($this->getUser()->getUsername());
                 $pageEntity->setDateModify(date("Y-m-d H:i:s"));
                 

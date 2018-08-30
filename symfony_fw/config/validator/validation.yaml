@@ -537,6 +537,10 @@ App\Entity\MicroserviceDeploy:
         ip:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                    groups: [microservice_deploy_create, microservice_deploy_profile]
+                    htmlPattern: false
+                    pattern: /^[0-9.]+$/
         gitUserEmail:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]

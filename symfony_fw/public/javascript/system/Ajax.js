@@ -9,7 +9,7 @@ function Ajax() {
     // Properties
     
     // Functions public
-    self.send = function(loaderEnabled, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete) {
+    self.send = function(loaderEnabled, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete, processData, contentType) {
         if (loaderEnabled === true)
             loader.show();
         
@@ -46,7 +46,7 @@ function Ajax() {
                     loader.hide();
                 
                 if (xhr.status === 408 || status === "timeout")
-                    self.send(loaderEnabled, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete);
+                    self.send(loaderEnabled, url, method, data, dataType, cache, callbackBefore, callbackSuccess, callbackError, callbackComplete, processData, contentType);
                 else {
                     if (callbackError !== null)
                         callbackError(xhr);
@@ -55,7 +55,9 @@ function Ajax() {
             complete: function() {
                 if (callbackComplete !== null)
                     callbackComplete();
-            }
+            },
+            'processData': processData,
+            'contentType': contentType
         });
     };
     

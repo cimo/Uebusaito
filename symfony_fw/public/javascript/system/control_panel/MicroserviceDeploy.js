@@ -33,6 +33,7 @@ function ControlPanelMicroserviceDeploy() {
                     
                     if (xhr.response.values !== undefined) {
                         $("#cp_microservice_deploy_render_result").html(xhr.response.values.renderHtml);
+                        $("#cp_microservice_deploy_ssh_connection_result").html("");
                         
                         materialDesign.refresh();
                         
@@ -231,7 +232,7 @@ function ControlPanelMicroserviceDeploy() {
                     true,
                     $(this).prop("action"),
                     $(this).prop("method"),
-                    $(this).serialize(),
+                    new FormData(this),
                     "json",
                     false,
                     null,
@@ -245,7 +246,9 @@ function ControlPanelMicroserviceDeploy() {
                         }
                     },
                     null,
-                    null
+                    null,
+                    false,
+                    false
                 );
             });
             
@@ -299,6 +302,7 @@ function ControlPanelMicroserviceDeploy() {
         $(".git_execute").on("click", "", function() {
             var id = $("#form_microservice_deploy_select_id").val();
             var command = $(this).attr("data-command");
+            var branchName = $("#cp_microservice_deploy_render_result").find("input[name='branchName']").val();
             
             popupEasy.create(
                 window.text.index_5,
@@ -312,6 +316,7 @@ function ControlPanelMicroserviceDeploy() {
                             'event': "execute",
                             'id': id,
                             'command': command,
+                            'branchName': branchName,
                             'token': window.session.token
                         },
                         "json",

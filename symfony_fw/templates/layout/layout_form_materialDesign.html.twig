@@ -100,6 +100,14 @@
     </div>
 {%- endblock form_widget_compound -%}
 
+{%- block file_widget -%}
+    {% set type = type|default('file') %}
+    <div style="margin: 10px 0 0 5px;">
+        <label>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+        <input type="{{ type }}" {{ block('widget_attributes') }}/>
+    </div>
+{%- endblock file_widget -%}
+
 {%- block collection_widget -%}
     {% if prototype is defined %}
         {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
@@ -113,7 +121,7 @@
     {# cimo + #}
     <div class="mdc-text-field mdc-text-field--textarea">
         <textarea class="mdc-text-field__input" {{ block('widget_attributes') }} autocomplete="off">{{ value }}</textarea>
-        <label for="textarea" class="mdc-floating-label">{% if label is defined %}{{translation_domain is same as(false) ? label : label|trans({}, translation_domain)}}{% endif %}</label>
+        <label class="mdc-floating-label">{% if label is defined %}{{translation_domain is same as(false) ? label : label|trans({}, translation_domain)}}{% endif %}</label>
     </div>
     <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
 {%- endblock textarea_widget -%}

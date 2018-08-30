@@ -7,8 +7,8 @@
         {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.description, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.systemUser, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
-        <p>{% trans %}microserviceDeployFormType_4{% endtrans %}</p>
-        <p>{% trans %}microserviceDeployFormType_5{% endtrans %}</p>
+        {{form_row(form.keyPublic, {'label': "microserviceDeployFormType_4"})}}
+        {{form_row(form.keyPrivate, {'label': "microserviceDeployFormType_5"})}}
         {{form_row(form.ip, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.gitUserEmail, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.gitUserName, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}

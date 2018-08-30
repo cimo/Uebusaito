@@ -102,7 +102,7 @@ class MyPageProfileController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 if ($form->has("username") == true) {
                     if (file_exists("{$this->utility->getPathWeb()}/files/$usernameOld") == true)
                         rename("{$this->utility->getPathWeb()}/files/$usernameOld", "{$this->utility->getPathWeb()}/files/{$form->get("username")->getData()}");
@@ -183,7 +183,7 @@ class MyPageProfileController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $messagePassword = $this->utility->assignUserPassword("withOld", $this->getUser(), $form);
 
                 if ($messagePassword == "ok") {
@@ -259,7 +259,7 @@ class MyPageProfileController extends Controller {
         $this->response['values']['payPalSandbox'] = $settingRow['payPal_sandbox'];
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true)
+            if ($form->isSubmitted() == true && $form->isValid() == true)
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPageProfileController_6");
             else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPageProfileController_7");

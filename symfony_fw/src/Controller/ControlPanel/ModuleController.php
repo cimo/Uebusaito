@@ -77,7 +77,7 @@ class ModuleController extends Controller {
         $this->response['values']['moduleSortListHtml'] = $this->utility->createModuleSortListHtml($moduleRows);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $moduleEntity->setActive(false);
 
                 // Insert in database
@@ -348,7 +348,7 @@ class ModuleController extends Controller {
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isValid() == true) {
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
                 // Update in database
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();

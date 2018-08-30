@@ -5,6 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -33,6 +34,16 @@ class MicroserviceDeployFormType extends AbstractType {
         ->add("systemUser", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_3"
+        ))
+        ->add('keyPublic', FileType::class, Array(
+            'required' => true,
+            'label' => "microserviceDeployFormType_4",
+            'data_class' => null
+        ))
+        ->add('keyPrivate', FileType::class, Array(
+            'required' => true,
+            'label' => "microserviceDeployFormType_5",
+            'data_class' => null
         ))
         ->add("ip", TextType::class, Array(
             'required' => true,
@@ -68,14 +79,14 @@ class MicroserviceDeployFormType extends AbstractType {
         ))
         ->add("active", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "microserviceDeployFormType_14",
+            'placeholder' => "microserviceDeployFormType_15",
             'choices' => Array(
-                "microserviceDeployFormType_15" => "0",
-                "microserviceDeployFormType_16" => "1"
+                "microserviceDeployFormType_16" => "0",
+                "microserviceDeployFormType_17" => "1"
             )
         ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "microserviceDeployFormType_17"
+            'label' => "microserviceDeployFormType_18"
         ));
     }
 }
