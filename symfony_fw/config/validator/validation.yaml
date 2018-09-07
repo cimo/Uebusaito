@@ -378,7 +378,7 @@ App\Entity\RoleUser:
             - Regex:
                 groups: [roleUser_create, roleUser_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z_]+$/
+                pattern: /^[A-Z_]+$/
 
 App\Entity\Setting:
     properties:

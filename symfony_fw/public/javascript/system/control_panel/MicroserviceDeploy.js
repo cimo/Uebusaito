@@ -79,14 +79,14 @@ function ControlPanelMicroserviceDeploy() {
                 var id = $("#cp_microservice_deploy_select_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
                 $.each(id, function(key, value) {
-                    if ($(value).text().trim() === String(selectId))
+                    if ($.trim($(value).text()) === String(selectId))
                         $(value).parents("tr").find(".checkbox_column input").prop("checked", true);
                 });
             }
         }
         else {
             if (selectSended === true) {
-                selectId = $("#cp_microservice_deploy_select_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+                selectId = $.trim($("#cp_microservice_deploy_select_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text());
 
                 selectSended = false;
             }
@@ -302,7 +302,7 @@ function ControlPanelMicroserviceDeploy() {
         $(".git_execute").on("click", "", function() {
             var id = $("#form_microservice_deploy_select_id").val();
             var command = $(this).attr("data-command");
-            var branchName = $("#cp_microservice_deploy_render_result").find("input[name='branchName']").val();
+            var branchName = $("#cp_microservice_deploy_render_result").find("input[name='branchName']");
             
             popupEasy.create(
                 window.text.index_5,
@@ -316,12 +316,17 @@ function ControlPanelMicroserviceDeploy() {
                             'event': "execute",
                             'id': id,
                             'command': command,
-                            'branchName': branchName,
+                            'branchName': branchName.val(),
                             'token': window.session.token
                         },
                         "json",
                         false,
                         function() {
+                            if (command !== "pull") {
+                                branchName.val("");
+                                branchName.focus();
+                            }
+                            
                             $("#cp_microservice_deploy_ssh_connection_result").html("");
                         },
                         function(xhr) {

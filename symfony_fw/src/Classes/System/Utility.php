@@ -684,13 +684,8 @@ class Utility {
     public function checkUserRole($roleName, $roleId) {
         $row = $this->query->selectRoleUserDatabase($roleId);
         
-        foreach ($roleName as $key => $value) {
-            if (in_array($value, $row) == true) {
-                return true;
-
-                break;
-            }
-        }
+        if ($this->arrayFindValue($roleName, $row) == true)
+            return true;
         
         return false;
     }

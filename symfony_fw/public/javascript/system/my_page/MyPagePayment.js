@@ -32,14 +32,14 @@ function MyPagePayment() {
                 var id = $("#myPage_payment_select_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
                 $.each(id, function(key, value) {
-                    if ($(value).text().trim() === String(selectId))
+                    if ($.trim($(value).text()) === String(selectId))
                         $(value).parents("tr").find(".checkbox_column input").prop("checked", true);
                 });
             }
         }
         else {
             if (selectSended === true) {
-                selectId = $("#myPage_payment_select_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+                selectId = $.trim($("#myPage_payment_select_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text());
 
                 selectSended = false;
             }

@@ -189,7 +189,7 @@ function TableAndPagination() {
     
     // Functions private
     function status() {
-        var textHtml = $(idResult).find(".tableAndPagination .text").text().trim();
+        var textHtml = $.trim($(idResult).find(".tableAndPagination .text").text());
         
         if (textHtml !== undefined || textHtml !== "") {
             var textSplit = textHtml.split("/");

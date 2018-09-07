@@ -26,6 +26,8 @@ function FlashBag() {
         };
         
         element.show(snackbarDataObj);
+        
+        $("#flashBag").find(".mdc-snackbar__action-button").removeAttr("aria-hidden");
     };
     
     self.sessionActivity = function() {

@@ -46,7 +46,7 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $email = "";
     
     /**
-     * @ORM\Column(name="telephone", type="string", nullable=true, columnDefinition="varchar(10)")
+     * @ORM\Column(name="telephone", type="string", nullable=true, columnDefinition="varchar(20)")
      */
     private $telephone = null;
     

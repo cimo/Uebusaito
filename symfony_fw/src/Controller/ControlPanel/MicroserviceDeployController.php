@@ -276,9 +276,9 @@ class MicroserviceDeployController extends Controller {
                     $id = $request->get("id");
                 else if (empty($request->get("form_microservice_deploy_select")['id']) == false)
                     $id = $request->get("form_microservice_deploy_select")['id'];
-
+                
                 $microserviceDeployEntity = $this->entityManager->getRepository("App\Entity\MicroserviceDeploy")->find($id);
-
+                
                 if ($microserviceDeployEntity != null) {
                     $_SESSION['microserviceDeployProfileId'] = $id;
 
@@ -435,16 +435,20 @@ class MicroserviceDeployController extends Controller {
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-                $microserviceDeployRow = $this->query->selectMicroserviceDeployDatabase($request->get("id"));
-                
-                $sshConnection = $this->sshConnection($microserviceDeployRow, $request);
-                
-                $this->response['values']['sshConnection'] = $sshConnection;
-                
-                if ($sshConnection != "")
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_7");
+                if ($request->get("command") == "clone" || $request->get("command") == "reset" || ($request->get("command") == "pull" && $request->get("branchName") != "")) {
+                    $microserviceDeployRow = $this->query->selectMicroserviceDeployDatabase($request->get("id"));
+
+                    $sshConnection = $this->sshConnection($microserviceDeployRow, $request);
+
+                    $this->response['values']['sshConnection'] = $sshConnection;
+
+                    if ($sshConnection != "")
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_7");
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_8");
+                }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_8");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_9");
             }
         }
         
@@ -495,17 +499,17 @@ class MicroserviceDeployController extends Controller {
                     if ($microserviceDeployDatabase == true) {
                         $this->response['values']['id'] = $id;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_9");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_10");
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
                     $microserviceDeployDatabase = $this->microserviceDeployDatabase("deleteAll", null);
 
                     if ($microserviceDeployDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_10");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_11");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_11");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_12");
 
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
@@ -649,9 +653,9 @@ class MicroserviceDeployController extends Controller {
                 </span>
             </li>
         </ul>
-        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"clone\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_12")}</button>
-        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"pull\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_13")}</button>
-        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"reset\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_14")}</button>";
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"clone\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_13")}</button>
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"pull\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_14")}</button>
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"reset\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_15")}</button>";
         
         return $renderHtml;
     }
@@ -683,9 +687,9 @@ class MicroserviceDeployController extends Controller {
                 </td>
                 <td>";
                     if ($value['active'] == 0)
-                        $listHtml .= $this->utility->getTranslator()->trans("microserviceDeployController_15");
-                    else
                         $listHtml .= $this->utility->getTranslator()->trans("microserviceDeployController_16");
+                    else
+                        $listHtml .= $this->utility->getTranslator()->trans("microserviceDeployController_17");
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">
                     <button class=\"mdc-fab mdc-fab--mini cp_module_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
@@ -740,7 +744,7 @@ class MicroserviceDeployController extends Controller {
                         "git config --global user.email '{$row['git_user_email']}'",
                         "git config --global user.name '{$row['git_user_name']}'",
                         "cd {$row['git_clone_path']}",
-                        "sudo -u user_1 git pull {$row['git_clone_url']} {$request->get("branchName")}",
+                        "sudo -u user_1 git pull --no-edit {$row['git_clone_url']} {$request->get("branchName")}",
                         "sudo chown -R {$row['user_web_script']} {$row['root_web_path']}",
                         "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
@@ -752,7 +756,7 @@ class MicroserviceDeployController extends Controller {
                         "git config --global user.name '{$row['git_user_name']}'",
                         "cd {$row['git_clone_path']}",
                         "sudo -u {$row['user_git_script']} git fetch --all",
-                        "sudo -u {$row['user_git_script']} git reset --hard {$request->get("branchName")}",
+                        "sudo -u {$row['user_git_script']} git reset --hard",
                         "sudo chown -R {$row['user_web_script']} {$row['root_web_path']}",
                         "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"

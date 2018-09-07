@@ -125,7 +125,7 @@ function Wysiwyg() {
         }
         else if (type === "source") {
             if ($(iframeBody).length > 0) {
-                var html = $(iframeBody).html().trim();
+                var html = $.trim($(iframeBody).html());
                 
                 $(containerTag).val(html);
                 

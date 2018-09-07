@@ -28,7 +28,7 @@ class Query {
             return false;
     }
     
-    public function selectRoleUserDatabase($roleId, $modify = false) {
+    public function selectRoleUserDatabase($roleId, $change = false) {
         $roleIdExplode = explode(",", $roleId);
         array_pop($roleIdExplode);
         
@@ -44,7 +44,7 @@ class Query {
             
             $row = $query->fetch();
             
-            if ($modify == true)
+            if ($change == true)
                 $levels[] = ucfirst(strtolower(str_replace("ROLE_", "", $row['level'])));
             else
                 $levels[] = $row['level'];

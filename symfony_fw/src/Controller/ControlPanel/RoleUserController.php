@@ -261,6 +261,7 @@ class RoleUserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -282,7 +283,17 @@ class RoleUserController extends Controller {
                 // Update in database
                 $this->entityManager->persist($roleUserEntity);
                 $this->entityManager->flush();
-
+                
+                $userRows = $this->query->selectAllUserDatabase();
+                
+                foreach ($userRows as $key => $value) {
+                    $roleRow = $this->query->selectRoleUserDatabase($value['role_user_id']);
+                    
+                    $roleImplode = implode(",", $roleRow);
+                    
+                    $this->roleUserDatabase("update", $value['id'], $roleImplode);
+                }
+                
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleUserController_4");
             }
             else {
@@ -327,6 +338,7 @@ class RoleUserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -344,16 +356,21 @@ class RoleUserController extends Controller {
                     $roleUserDatabase = $this->roleUserDatabase("delete", $id);
 
                     if ($roleUserDatabase == true) {
+                        $this->deleteFromTable("delete", $id);
+                        
                         $this->response['values']['id'] = $id;
 
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleUserController_6");
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
-                    $roleUserDatabase = $this->roleUserDatabase("deleteAll", null);
+                    $roleUserDatabase = $this->roleUserDatabase("deleteAll");
 
-                    if ($roleUserDatabase == true)
+                    if ($roleUserDatabase == true) {
+                        $this->deleteFromTable("deleteAll");
+                        
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleUserController_7");
+                    }
                 }
                 else
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("roleUserController_8");
@@ -408,8 +425,18 @@ class RoleUserController extends Controller {
         return $listHtml;
     }
     
-    private function roleUserDatabase($type, $id) {
-        if ($type == "delete") {
+    private function roleUserDatabase($type, $id = null, $roles = null) {
+        if ($type == "update") {
+            $query = $this->utility->getConnection()->prepare("UPDATE users
+                                                                SET roles = :roles
+                                                                WHERE id = :id");
+
+            $query->bindValue(":roles", $roles);
+            $query->bindValue(":id", $id);
+
+            $query->execute();
+        }
+        else if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM roles_users
                                                                 WHERE id > :idExclude
                                                                 AND id = :id");
@@ -427,5 +454,138 @@ class RoleUserController extends Controller {
             
             return $query->execute();
         }
+    }
+    
+    private function deleteFromTable($type, $id = null) {
+        $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
+        $userRows = $this->query->selectAllUserDatabase(1);
+        $settingRow = $this->query->selectSettingDatabase();
+        
+        if ($type == "delete") {
+            foreach ($pageRows as $key => $value) {
+                $roleExplode = explode(",", $value['role_user_id']);
+                
+                $key = array_search($id, $roleExplode);
+                
+                if ($key !== false) {
+                    unset($roleExplode[$key]);
+                    
+                    $roleImplode = implode(",", $roleExplode);
+                    
+                    $query = $this->utility->getConnection()->prepare("UPDATE pages
+                                                                        SET role_user_id = :roleImplode
+                                                                        WHERE id = :id");
+                    
+                    $query->bindValue(":roleImplode", $roleImplode);
+                    $query->bindValue(":id", $value['id']);
+                    
+                    $query->execute();
+                }
+            }
+            
+            foreach ($userRows as $key => $value) {
+                $roleExplode = explode(",", $value['role_user_id']);
+                
+                $key = array_search($id, $roleExplode);
+                
+                if ($key !== false) {
+                    unset($roleExplode[$key]);
+                    
+                    $roleImplode = implode(",", $roleExplode);
+                    
+                    $roleUserRow = $this->query->selectRoleUserDatabase($roleImplode);
+                    
+                    $roleUserImplode = implode(",", $roleUserRow);
+                    
+                    $query = $this->utility->getConnection()->prepare("UPDATE users
+                                                                        SET role_user_id = :roleImplode,
+                                                                            roles = :roleUserImplode
+                                                                        WHERE id = :id");
+                    
+                    $query->bindValue(":roleImplode", $roleImplode);
+                    $query->bindValue(":roleUserImplode", $roleUserImplode);
+                    $query->bindValue(":id", $value['id']);
+                    
+                    $query->execute();
+                }
+            }
+            
+            $roleExplode = explode(",", $settingRow['role_user_id']);
+            
+            $key = array_search($id, $roleExplode);
+            
+            if ($key !== false) {
+                unset($roleExplode[$key]);
+                
+                $roleImplode = implode(",", $roleExplode);
+                
+                $query = $this->utility->getConnection()->prepare("UPDATE settings
+                                                                    SET role_user_id = :roleImplode
+                                                                    WHERE id = :id");
+                
+                $query->bindValue(":roleImplode", $roleImplode);
+                $query->bindValue(":id", 1);
+                
+                $query->execute();
+            }
+        }
+        else if ($type == "deleteAll") {
+            foreach ($pageRows as $key => $value) {
+                $roleImplode = $this->roleImplode($value['role_user_id']);
+                
+                $query = $this->utility->getConnection()->prepare("UPDATE pages
+                                                                    SET role_user_id = :roleImplode
+                                                                    WHERE id = :id");
+                
+                $query->bindValue(":roleImplode", $roleImplode);
+                $query->bindValue(":id", $value['id']);
+                
+                $query->execute();
+            }
+            
+            foreach ($userRows as $key => $value) {
+                $roleImplode = $this->roleImplode($value['role_user_id']);
+                
+                $roleUserRow = $this->query->selectRoleUserDatabase($roleImplode);
+                
+                $roleUserImplode = implode(",", $roleUserRow);
+                
+                $query = $this->utility->getConnection()->prepare("UPDATE users
+                                                                    SET role_user_id = :roleImplode,
+                                                                        roles = :roleUserImplode
+                                                                    WHERE id = :id");
+                
+                $query->bindValue(":roleImplode", $roleImplode);
+                $query->bindValue(":roleUserImplode", $roleUserImplode);
+                $query->bindValue(":id", $value['id']);
+                
+                $query->execute();
+            }
+            
+            $roleImplode = $this->roleImplode($settingRow['role_user_id']);
+            
+            $query = $this->utility->getConnection()->prepare("UPDATE settings
+                                                                SET role_user_id = :roleImplode
+                                                                WHERE id = :id");
+            
+            $query->bindValue(":roleImplode", $roleImplode);
+            $query->bindValue(":id", 1);
+            
+            $query->execute();
+        }
+    }
+    
+    private function roleImplode($roleUserId) {
+        $roleExplode = explode(",", $roleUserId);
+
+        for ($i = 0; $i < count($roleExplode); $i ++) {
+            if (intval($roleExplode[$i]) > 4)
+                unset($roleExplode[$i]);
+        }
+        
+        if (isset($roleExplode[0]) == false && empty($roleExplode[1]) == true)
+            $roleExplode[1] = "1,";
+
+        return implode(",", $roleExplode);
     }
 }

@@ -161,7 +161,7 @@ function WidgetDatePicker() {
         });
         
         $(".widget_datePicker").find(".listYears li").off("click").on("click", "", function() {
-            currentYear = parseInt($(this).text().trim());
+            currentYear = parseInt($.trim($(this).text()));
             
             self.create();
         });
@@ -195,17 +195,17 @@ function WidgetDatePicker() {
         });
         
         $(".widget_datePicker").find(".day li span").off("mouseover").on("mouseover", "", function() {
-            if ($(this).text().trim() !== "")
+            if ($.trim($(this).text()) !== "")
                 $(this).addClass("mdc-theme--secondary-bg mdc-theme--on-secondary");
         });
         
         $(".widget_datePicker").find(".day li span").off("mouseout").on("mouseout", "", function() {
-            if ($(this).text().trim() !== "")
+            if ($.trim($(this).text()) !== "")
                 $(this).removeClass("mdc-theme--secondary-bg mdc-theme--on-secondary");
         });
         
         $(".widget_datePicker").find(".day li span").off("click").on("click", "", function() {
-            var text = $(this).text().trim();
+            var text = $.trim($(this).text());
             
             if (text !== "") {
                 $(this).parents(".day").find("li span").removeClass("mdc-theme--primary-bg mdc-theme--on-primary");

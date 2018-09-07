@@ -73,14 +73,14 @@ function ControlPanelPage() {
                 var id = $("#cp_page_select_result_desktop").find(".checkbox_column input[type='checkbox']").parents("tr").find(".id_column");
 
                 $.each(id, function(key, value) {
-                    if ($(value).text().trim() === String(selectId))
+                    if ($.trim($(value).text()) === String(selectId))
                         $(value).parents("tr").find(".checkbox_column input").prop("checked", true);
                 });
             }
         }
         else {
             if (selectSended === true) {
-                selectId = $("#cp_page_select_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text().trim();
+                selectId = $.trim($("#cp_page_select_result_desktop").find(".checkbox_column input[type='checkbox']:checked").parents("tr").find(".id_column").text());
 
                 selectSended = false;
             }
@@ -144,7 +144,10 @@ function ControlPanelPage() {
                             ajax.reply(xhr, "");
 
                             $.each($("#cp_page_select_result_desktop").find("table .id_column"), function(key, value) {
-                                $(value).parents("tr").remove();
+                                var id = $.trim($(value).parents("tr").find(".id_column").text());
+                                
+                                if (id > 5)
+                                    $(value).parents("tr").remove();
                             });
                             
                             $("#cp_page_select_result").html("");
@@ -157,13 +160,13 @@ function ControlPanelPage() {
         });
         
         $(document).on("click", "#cp_page_select_result_desktop .cp_page_delete", function() {
-            var id = $.trim($(this).parents("tr").find(".id_column").text().trim());
+            var id = $.trim($(this).parents("tr").find(".id_column").text());
             
             deleteElement(id);
         });
         
         $(document).on("click", "#cp_page_select_button_desktop", function(event) {
-            var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text().trim());
+            var id = $.trim($(this).parent().find(".checkbox_column input:checked").parents("tr").find(".id_column").text());
 
             ajax.send(
                 true,
