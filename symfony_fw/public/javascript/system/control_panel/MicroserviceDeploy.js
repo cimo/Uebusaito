@@ -27,6 +27,8 @@ function ControlPanelMicroserviceDeploy() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -54,6 +56,8 @@ function ControlPanelMicroserviceDeploy() {
                 $(this).prop("method"),
                 $(this).serialize(),
                 "json",
+                false,
+                false,
                 false,
                 null,
                 function(xhr) {
@@ -117,6 +121,8 @@ function ControlPanelMicroserviceDeploy() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -143,6 +149,8 @@ function ControlPanelMicroserviceDeploy() {
                         },
                         "json",
                         false,
+                        true,
+                        "application/x-www-form-urlencoded; charset=UTF-8",
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -180,6 +188,8 @@ function ControlPanelMicroserviceDeploy() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_microservice_deploy_select_result").html("");
                 },
@@ -203,6 +213,8 @@ function ControlPanelMicroserviceDeploy() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_microservice_deploy_select_result").html("");
                 },
@@ -235,6 +247,8 @@ function ControlPanelMicroserviceDeploy() {
                     new FormData(this),
                     "json",
                     false,
+                    false,
+                    false,
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -246,9 +260,7 @@ function ControlPanelMicroserviceDeploy() {
                         }
                     },
                     null,
-                    null,
-                    false,
-                    false
+                    null
                 );
             });
             
@@ -274,6 +286,8 @@ function ControlPanelMicroserviceDeploy() {
                     },
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "");
@@ -321,6 +335,8 @@ function ControlPanelMicroserviceDeploy() {
                         },
                         "json",
                         false,
+                        true,
+                        "application/x-www-form-urlencoded; charset=UTF-8",
                         function() {
                             if (command !== "pull") {
                                 branchName.val("");

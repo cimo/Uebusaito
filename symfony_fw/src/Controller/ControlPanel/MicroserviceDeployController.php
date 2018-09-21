@@ -355,26 +355,39 @@ class MicroserviceDeployController extends Controller {
                 $pathKeyPrivate = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy";
                 
                 // Remove old key
-                unlink("$pathKeyPublic/{$row['key_public']}");
-                unlink("$pathKeyPrivate/{$row['key_private']}");
+                if (file_exists("$pathKeyPublic/{$row['key_public']}") == true)
+                    unlink("$pathKeyPublic/{$row['key_public']}");
+                
+                if (file_exists("$pathKeyPublic/{$row['key_private']}") == true)
+                    unlink("$pathKeyPrivate/{$row['key_private']}");
                 
                 // Upload key public
                 $keyPublic = $microserviceDeployEntity->getKeyPublic();
+                
+                if ($keyPublic != null) {
                 $fileName = $keyPublic->getClientOriginalName();
-                $keyPublic->move(
-                    $pathKeyPublic,
-                    $fileName
-                );
-                $microserviceDeployEntity->setKeyPublic($fileName);
+                    $keyPublic->move(
+                        $pathKeyPublic,
+                        $fileName
+                    );
+                    $microserviceDeployEntity->setKeyPublic($fileName);
+                }
+                else
+                    $microserviceDeployEntity->setKeyPublic($row['key_public']);
                 
                 // Upload key private
                 $keyPrivate = $microserviceDeployEntity->getKeyPrivate();
-                $fileName = $keyPrivate->getClientOriginalName();
-                $keyPrivate->move(
-                    $pathKeyPrivate,
-                    $fileName
-                );
-                $microserviceDeployEntity->setKeyPrivate($fileName);
+                
+                if ($keyPrivate != null) {
+                    $fileName = $keyPrivate->getClientOriginalName();
+                    $keyPrivate->move(
+                        $pathKeyPrivate,
+                        $fileName
+                    );
+                    $microserviceDeployEntity->setKeyPrivate($fileName);
+                }
+                else
+                    $microserviceDeployEntity->setKeyPrivate($row['key_private']);
                 
                 // Update in database
                 $this->entityManager->persist($microserviceDeployEntity);
@@ -638,7 +651,7 @@ class MicroserviceDeployController extends Controller {
             <li class=\"mdc-list-item\">
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
-                    <div class=\"mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense\">
+                    <div style=\"margin-top: 6px;\" class=\"mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense\">
                         <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" autocomplete=\"off\"/>
                         <i class=\"material-icons mdc-text-field__icon\">textsms</i>
                         <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label required\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_14")}</label>

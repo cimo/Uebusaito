@@ -47,6 +47,8 @@ function ControlPanelPage() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -113,6 +115,8 @@ function ControlPanelPage() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -139,6 +143,8 @@ function ControlPanelPage() {
                         },
                         "json",
                         false,
+                        true,
+                        "application/x-www-form-urlencoded; charset=UTF-8",
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -179,6 +185,8 @@ function ControlPanelPage() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_page_select_result").html("");
                 },
@@ -202,6 +210,8 @@ function ControlPanelPage() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_page_select_result").html("");
                 },
@@ -255,6 +265,8 @@ function ControlPanelPage() {
                     $(this).serialize(),
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -293,6 +305,8 @@ function ControlPanelPage() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -325,6 +339,8 @@ function ControlPanelPage() {
                     },
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         if (xhr.response.values.text !== undefined && xhr.response.values.button !== undefined && xhr.response.values.pageSelectHtml !== undefined) {
@@ -345,6 +361,8 @@ function ControlPanelPage() {
                                     },
                                     "json",
                                     false,
+                                    true,
+                                    "application/x-www-form-urlencoded; charset=UTF-8",
                                     null,
                                     function(xhr) {
                                         ajax.reply(xhr, "");
@@ -369,6 +387,8 @@ function ControlPanelPage() {
                                     },
                                     "json",
                                     false,
+                                    true,
+                                    "application/x-www-form-urlencoded; charset=UTF-8",
                                     null,
                                     function(xhr) {
                                         ajax.reply(xhr, "");

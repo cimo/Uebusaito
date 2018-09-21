@@ -20,6 +20,8 @@ function Authentication() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     if (xhr.response.messages !== undefined) {

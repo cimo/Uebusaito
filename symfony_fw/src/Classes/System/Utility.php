@@ -384,6 +384,15 @@ class Utility {
         return $result;
     }
     
+    public function arrayFindKeyWithValue($elements, $label, $item) {
+        foreach($elements as $key => $value) {
+            if ($value[$label] === $item )
+                return $key;
+        }
+        
+        return false;
+    }
+    
     public function arrayExplodeFindValue($elementsFirst, $elementsSecond) {
         $elementsFirstExplode = explode(",", $elementsFirst);
         array_pop($elementsFirstExplode);
@@ -395,6 +404,28 @@ class Utility {
             return true;
         
         return false;
+    }
+    
+    function arrayUniqueMulti($elements, $index, $fix = true) {
+        $results = Array();
+        
+        $i = 0;
+        $keys = Array();
+        
+        foreach($elements as $key => $value) {
+            if (in_array($value[$index], $keys) == false) {
+                $results[$i] = $value;
+                
+                $keys[$i] = $value[$index];
+            }
+            
+            $i ++;
+        }
+        
+        if ($fix == true)
+            $results = array_values($results);
+        
+        return $results;
     }
     
     public function urlParameters($completeUrl, $baseUrl) {

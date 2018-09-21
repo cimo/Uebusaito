@@ -31,6 +31,8 @@ function ControlPanelRoleUser() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -93,6 +95,8 @@ function ControlPanelRoleUser() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -119,6 +123,8 @@ function ControlPanelRoleUser() {
                         },
                         "json",
                         false,
+                        true,
+                        "application/x-www-form-urlencoded; charset=UTF-8",
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -159,6 +165,8 @@ function ControlPanelRoleUser() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_roleUser_select_result").html("");
                 },
@@ -182,6 +190,8 @@ function ControlPanelRoleUser() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_roleUser_select_result").html("");
                 },
@@ -218,6 +228,8 @@ function ControlPanelRoleUser() {
                     $(this).serialize(),
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -255,6 +267,8 @@ function ControlPanelRoleUser() {
                     },
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "");

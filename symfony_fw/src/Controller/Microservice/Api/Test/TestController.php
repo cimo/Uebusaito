@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\Microservice\Api\KasutamuMono2d;
+namespace App\Controller\Microservice\Api\Test;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
 
-class KasutamuMono2dController extends Controller {
+class TestController extends Controller {
     // Vars
     private $entityManager;
     
@@ -24,11 +24,11 @@ class KasutamuMono2dController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "kasutamu_mono_2d_api_render",
-    *   path = "/kasutamu_mono_2d_api_render",
+    *   name = "test_api",
+    *   path = "/test_api",
     *	methods={"GET"}
     * )
-    * @Template("@templateRoot/microservice/api/kasutamu_mono_2d/index.html.twig")
+    * @Template("@templateRoot/microservice/api/test/index.html.twig")
     */
     public function renderAction(Request $request) {
         header("Access-Control-Allow-Origin: *");
@@ -51,8 +51,8 @@ class KasutamuMono2dController extends Controller {
     
     /**
     * @Route(
-    *   name = "kasutamu_mono_2d_api_preview",
-    *   path = "/kasutamu_mono_2d_api_preview",
+    *   name = "test_api_request",
+    *   path = "/test_api_request",
     *	methods={"POST"}
     * )
     */
@@ -69,27 +69,8 @@ class KasutamuMono2dController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true) {
-            if (isset($_POST['imageBase64']) == true) {
-                $path = "{$this->utility->getPathWeb()}/microservice/api/kasutamu_mono_2d/preview_customization";
-                
-                if (file_exists($path) == false)
-                    mkdir($path, 0777, true);
-                
-                $imageBase64 = $_POST['imageBase64'];
-                $imageBase64 = str_replace("data:image/png;base64,", "", $imageBase64);
-                $imageBase64 = str_replace(" ", "+", $imageBase64);
-                
-                $uniqid = uniqid();
-                
-                $content = file_put_contents("$path/$uniqid.jpg", base64_decode($imageBase64));
-                
-                $this->response['values']['id'] = $uniqid;
-                
-                if ($content == true)
-                    $this->response['messages']['success'] = "File saved.";
-                else
-                    $this->response['messages']['error'] = "Unable to save the file!";
-            }
+            if (isset($_POST['event']) == true && $_POST['event'] == "test_api_request")
+                $this->response['messages']['success'] = "Test api completed.";
             else
                 $this->response['messages']['error'] = "Problem with request!";
             

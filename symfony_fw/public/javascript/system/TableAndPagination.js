@@ -241,6 +241,8 @@ function TableAndPagination() {
             data,
             "json",
             false,
+            true,
+            "application/x-www-form-urlencoded; charset=UTF-8",
             function() {
                 $(idResult).find("table tbody").css("visibility", "hidden");
             },

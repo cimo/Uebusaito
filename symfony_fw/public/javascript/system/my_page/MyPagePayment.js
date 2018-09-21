@@ -70,6 +70,8 @@ function MyPagePayment() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -96,6 +98,8 @@ function MyPagePayment() {
                         },
                         "json",
                         false,
+                        true,
+                        "application/x-www-form-urlencoded; charset=UTF-8",
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -133,6 +137,8 @@ function MyPagePayment() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#myPage_payment_select_result").html("");
                 },
@@ -156,6 +162,8 @@ function MyPagePayment() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#myPage_payment_select_result").html("");
                 },
@@ -200,6 +208,8 @@ function MyPagePayment() {
                     },
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "");

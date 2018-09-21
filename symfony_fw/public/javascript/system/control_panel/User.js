@@ -29,6 +29,8 @@ function ControlPanelUser() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -91,6 +93,8 @@ function ControlPanelUser() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -117,6 +121,8 @@ function ControlPanelUser() {
                         },
                         "json",
                         false,
+                        true,
+                        "application/x-www-form-urlencoded; charset=UTF-8",
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -157,6 +163,8 @@ function ControlPanelUser() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_user_select_result").html("");
                 },
@@ -180,6 +188,8 @@ function ControlPanelUser() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_user_select_result").html("");
                 },
@@ -217,6 +227,8 @@ function ControlPanelUser() {
                     $(this).serialize(),
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -255,6 +267,8 @@ function ControlPanelUser() {
                     },
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "");

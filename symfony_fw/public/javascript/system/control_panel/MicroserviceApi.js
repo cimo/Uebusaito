@@ -18,6 +18,8 @@ function ControlPanelMicroserviceApi() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -37,6 +39,8 @@ function ControlPanelMicroserviceApi() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);

@@ -44,6 +44,8 @@ function ControlPanelPayment() {
                             },
                             "json",
                             false,
+                            true,
+                            "application/x-www-form-urlencoded; charset=UTF-8",
                             null,
                             function(xhr) {
                                 ajax.reply(xhr, "");
@@ -125,6 +127,8 @@ function ControlPanelPayment() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "");
@@ -151,6 +155,8 @@ function ControlPanelPayment() {
                         },
                         "json",
                         false,
+                        true,
+                        "application/x-www-form-urlencoded; charset=UTF-8",
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
@@ -188,6 +194,8 @@ function ControlPanelPayment() {
                 },
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_payment_select_result").html("");
                 },
@@ -211,6 +219,8 @@ function ControlPanelPayment() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_payment_select_result").html("");
                 },
@@ -255,6 +265,8 @@ function ControlPanelPayment() {
                     },
                     "json",
                     false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
                         ajax.reply(xhr, "");
