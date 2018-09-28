@@ -61,6 +61,8 @@ table thead tr th { position: relative; padding: 0 24px 0 24px; text-align: cent
 table thead tr th i { top: 0; right: 0; position: absolute; }
 table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; padding: 5px; }
 
+.table_loading { visibility: hidden; font-size: 35px; }
+
 .mdc-top-app-bar { z-index: 1000; }
 .mdc-top-app-bar .mdc-top-app-bar__row { -webkit-transition: all 0.4s ease-out; -moz-transition: all 0.4s ease-out; -o-transition: all 0.4s ease-out; transition: all 0.4s ease-out; background-image: url("../../images/templates/basic/16-9.jpg"); background-size: cover; background-position: center; }
 .mdc-top-app-bar .mdc-top-app-bar__row .mdc-top-app-bar__title { padding: 0; }

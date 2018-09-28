@@ -244,6 +244,8 @@ function TableAndPagination() {
             true,
             "application/x-www-form-urlencoded; charset=UTF-8",
             function() {
+                $(idResult).find(".table_loading").css("visibility", "visible");
+                
                 $(idResult).find("table tbody").css("visibility", "hidden");
             },
             function(xhr) {
@@ -260,6 +262,8 @@ function TableAndPagination() {
                 resizeColumn();
                 
                 clickedEvent = false;
+                
+                $(idResult).find(".table_loading").css("visibility", "hidden");
             },
             null,
             null

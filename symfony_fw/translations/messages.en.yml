@@ -604,9 +604,8 @@ date.time: H:i:s
 "settingFormType_23": "Credit active"
 "settingFormType_24": "Use type"
 "settingFormType_25": "Website"
-"settingFormType_26": "Microservice"
-"settingFormType_27": "Ecommerce"
-"settingFormType_28": "Send"
+"settingFormType_26": "Ecommerce"
+"settingFormType_27": "Send"
 
 "settingController_1": "Roles maintenance"
 "settingController_2": "Protocol value has changed, please login again (if you have changed from https to http you need close and to open browser for to do login)."

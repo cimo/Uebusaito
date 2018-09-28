@@ -17,7 +17,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
         
-        {{-include("@templateRoot/include/google_scripts.html.twig")-}}
+        {{-include("@templateRoot/include/google_script.html.twig")-}}
 
         <!-- Favicon -->
         <link href="{{asset("images/templates/" ~ settingRow['template'] ~ "/favicon.ico")}}" rel="icon" type="image/x-icon">
@@ -31,6 +31,7 @@
         <link href="{{asset("css/library/material-components-web.min.css")}}" rel="stylesheet"/>
 
         <link href="{{asset("css/system/" ~ settingRow['template'] ~ ".css")}}" rel="stylesheet"/>
+        <link href="{{asset("css/system/animation.css")}}" rel="stylesheet"/>
         <link href="{{asset("css/system/loader.css")}}" rel="stylesheet"/>
         <link href="{{asset("css/system/captcha.css")}}" rel="stylesheet"/>
         <link href="{{asset("css/system/table_and_pagination.css")}}" rel="stylesheet"/>

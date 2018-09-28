@@ -188,6 +188,10 @@ table {
         }
     }
 }
+.table_loading {
+    visibility: hidden;
+    font-size: 35px;
+}
 
 .mdc-top-app-bar {
     z-index: 1000;

@@ -29,6 +29,8 @@ function ControlPanelPayment() {
                 $(this).serialize(),
                 "json",
                 false,
+                true,
+                "application/x-www-form-urlencoded; charset=UTF-8",
                 function() {
                     $("#cp_payment_select_result").html("");
                 },
@@ -49,7 +51,7 @@ function ControlPanelPayment() {
                             null,
                             function(xhr) {
                                 ajax.reply(xhr, "");
-
+                                
                                 $("#form_payment_select_id").find("option").remove();
 
                                 $("#form_payment_select_id").append("<option selected value=\"\"></option>");
@@ -57,6 +59,8 @@ function ControlPanelPayment() {
                                 $.each(xhr.response.values.paymentRows, function(key, value) {
                                     $("#form_payment_select_id").append("<option value=\"" + value.id + "\">" + value.transaction + "</option>");
                                 });
+                                
+                                $("#cp_payment_select_result_desktop").find(".table_loading").css("visibility", "hidden");
                             },
                             null,
                             null
@@ -65,6 +69,8 @@ function ControlPanelPayment() {
                         $("#cp_payment_select_result_desktop").find(".refresh").click();
                         
                         $(".button_accordion").eq(1).click();
+                        
+                        $("#cp_payment_select_result_desktop").find(".table_loading").css("visibility", "visible");
                     }
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);
