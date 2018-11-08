@@ -67,7 +67,7 @@ class PageCommentController extends Controller {
 
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml'], $this->query);
         $this->response['values']['count'] = $tableAndPagination['count'];
         
         if ($this->tableAndPagination->checkPost() == true) {
@@ -139,7 +139,7 @@ class PageCommentController extends Controller {
                             $pageCommentEntity->setUsername($this->getUser()->getUsername());
                             $pageCommentEntity->setDateCreate(date("Y-m-d H:i:s"));
 
-                            // Insert in database
+                            // Database insert
                             $this->entityManager->persist($pageCommentEntity);
                             $this->entityManager->flush();
 
@@ -158,7 +158,7 @@ class PageCommentController extends Controller {
                         $pageCommentEntity->setDateCreate(date("Y-m-d H:i:s"));
                         $pageCommentEntity->setUsernameReply($pageCommentRow['username']);
 
-                        // Insert in database
+                        // Database insert
                         $this->entityManager->persist($pageCommentEntity);
                         $this->entityManager->flush();
                         
@@ -198,8 +198,8 @@ class PageCommentController extends Controller {
     }
     
     // Functions private
-    private function createListHtml($elements) {
-        $setting = $this->query->selectSettingDatabase();
+    private function createListHtml($elements, $query) {
+        $setting = $query->selectSettingDatabase();
         
         $html = "<ul class=\"mdc-list mdc-list--two-line mdc-list--avatar-list\">";
         
@@ -245,13 +245,13 @@ class PageCommentController extends Controller {
                 
                 if ($this->getUser() != null) {
                     if ($this->getUser()->getUsername() != $value['username']) {
-                        $row = $this->query->selectPageCommentDatabase("reply", $value['id'], $this->getUser()->getUsername());
+                        $row = $query->selectPageCommentDatabase("reply", $value['id'], $this->getUser()->getUsername());
                         
                         if ($row == false)
                             $html .= "<span class=\"mdc-list-item__meta material-icons button_reply\">reply</span>";
                     }
                     else {
-                        $row = $this->query->selectPageCommentDatabase("edit", $value['id']);
+                        $row = $query->selectPageCommentDatabase("edit", $value['id']);
                         
                         if ($row == false)
                             $html .= "<span class=\"mdc-list-item__meta material-icons button_edit\">edit</span>";

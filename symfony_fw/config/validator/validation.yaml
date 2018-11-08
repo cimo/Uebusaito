@@ -142,6 +142,16 @@ App\Form\Model\RoleUserSelectModel:
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
+App\Form\Model\ApiTestSelectModel:
+    properties:
+        id:
+            - NotBlank:
+                groups: [apiTest_select]
+            - Regex:
+                groups: [apiTest_select]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
+
 App\Entity\Page:
     properties:
         language:
@@ -583,5 +593,28 @@ App\Entity\MicroserviceApi:
                 groups: [microservice_api_create, microservice_api_profile]
             - Regex:
                 groups: [microservice_api_create, microservice_api_profile]
+                htmlPattern: false
+                pattern: /^1|^0/
+
+App\Entity\ApiTest:
+    properties:
+        name:
+            - NotBlank:
+                groups: [apiTest_create, apiTest_profile]
+        ip:
+            - NotBlank:
+                groups: [apiTest_create, apiTest_profile]
+            - Regex:
+                    groups: [apiTest_create, apiTest_profile]
+                    htmlPattern: false
+                    pattern: /^[0-9.]+$/
+        token:
+            - NotBlank:
+                groups: [apiTest_create, apiTest_profile]
+        active:
+            - NotBlank:
+                groups: [apiTest_create, apiTest_profile]
+            - Regex:
+                groups: [apiTest_create, apiTest_profile]
                 htmlPattern: false
                 pattern: /^1|^0/

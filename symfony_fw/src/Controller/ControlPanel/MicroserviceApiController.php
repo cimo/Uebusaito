@@ -108,7 +108,7 @@ class MicroserviceApiController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Insert in database
+                // Database insert
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
 
@@ -165,9 +165,9 @@ class MicroserviceApiController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $this->urlExtraExplode = explode("_", $this->urlExtra);
+        $urlExtraExplode = explode("_", $this->urlExtra);
         
-        $id = isset($this->urlExtraExplode[4]) == true ? $this->urlExtraExplode[4] : 0;
+        $id = isset($urlExtraExplode[4]) == true ? $urlExtraExplode[4] : 0;
         
         $this->response['values']['id'] = $id;
         
@@ -180,7 +180,7 @@ class MicroserviceApiController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Update in database
+                // Database update
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
                 

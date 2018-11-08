@@ -53,7 +53,6 @@ class ModuleController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -80,7 +79,7 @@ class ModuleController extends Controller {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $moduleEntity->setActive(false);
 
-                // Insert in database
+                // Database insert
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 
@@ -330,7 +329,6 @@ class ModuleController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -349,7 +347,7 @@ class ModuleController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Update in database
+                // Database update
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 

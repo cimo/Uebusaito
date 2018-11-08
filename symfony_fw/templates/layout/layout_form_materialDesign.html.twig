@@ -94,7 +94,6 @@
         {%- if form is rootform -%}
             {{ form_errors(form) }}
         {%- endif -%}
-        {{dump(attr)}}
         {{- block('form_rows') -}}
         {{- form_rest(form) -}}
     </div>

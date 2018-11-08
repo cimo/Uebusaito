@@ -9,7 +9,6 @@ function Api() {
     
     // Functions public
     self.init = function() {
-        console.log("Test api started.");
     };
     
     // Functions private

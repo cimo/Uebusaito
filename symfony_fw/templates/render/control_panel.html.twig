@@ -276,11 +276,11 @@
             {% elseif (urlExtra == "cp_microservice_api" or urlExtra == "cp_microservice_api_create" or "cp_microservice_api_profile" in urlExtra) %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MICROSERVICE") == true %}
                     <p>{% trans %}controlPanelMicroserviceApi_1{% endtrans %}</p>
-                    <div class="cp_section_button">
-                        <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_create"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
-                    </div>
-
+                    
                     {% if urlExtra == "cp_microservice_api" %}
+                        <div class="cp_section_button">
+                            <a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_create"})}}">{% trans %}controlPanel_12{% endtrans %}</a>
+                        </div>
                         {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceApiController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% elseif urlExtra == "cp_microservice_api_create" %}
                         {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceApiController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
@@ -291,9 +291,15 @@
                     <script type="text/javascript">
                         window.onload = function() {
                             controlPanelMicroserviceApi.init();
+                            controlPanelApiTest.init();
+                        };
+                        
+                        var textApiTest = {
+                            'label_1': "{{"apiTest_1"|trans}}"
                         };
                     </script>
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/MicroserviceApi.js")}}"></script>
+                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/ApiTest.js")}}"></script>
                 {% endif %}
             {% endif %}
         </div>

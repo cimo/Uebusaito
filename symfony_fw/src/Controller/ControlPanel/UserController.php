@@ -82,7 +82,7 @@ class UserController extends Controller {
 
                     mkdir("{$this->utility->getPathWeb()}/files/{$form->get("username")->getData()}");
                     
-                    // Insert in database
+                    // Database update
                     $this->entityManager->persist($userEntity);
                     $this->entityManager->flush();
 
@@ -152,7 +152,7 @@ class UserController extends Controller {
         
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($userRows, $tableAndPagination['listHtml']);
+        $this->response['values']['listHtml'] = $this->createListHtml($userRows, $tableAndPagination['listHtml'], $this->query);
         $this->response['values']['count'] = $tableAndPagination['count'];
         
         $form = $this->createForm(UserSelectFormType::class, null, Array(
@@ -304,7 +304,7 @@ class UserController extends Controller {
                     if ($form->get("active")->getData() == true)
                         $userEntity->setHelpCode("");
 
-                    // Update in database
+                    // Database update
                     $this->entityManager->persist($userEntity);
                     $this->entityManager->flush();
 
@@ -355,6 +355,7 @@ class UserController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -414,13 +415,13 @@ class UserController extends Controller {
     }
     
     // Functions private    
-    private function createListHtml($userRows, $tableResult) {
+    private function createListHtml($userRows, $tableResult, $query) {
         $listHtml = "";
         
         $roleUserRow = Array();
         
         foreach ($userRows as $key => $value)
-            $roleUserRow[] = $this->query->selectRoleUserDatabase($value['role_user_id'], true);
+            $roleUserRow[] = $query->selectRoleUserDatabase($value['role_user_id'], true);
         
         foreach ($tableResult as $key => $value) {
             $listHtml .= "<tr>

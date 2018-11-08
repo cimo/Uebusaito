@@ -42,6 +42,11 @@ class RequestListener {
         
         $settingRow = $this->query->selectSettingDatabase();
         
+        $url = $this->utility->checkSessionOverTime($request, false, $this->router);
+        
+        if ($url != "")
+            $event->setResponse(new RedirectResponse($url));
+        
         if ($settingRow['https'] == true) {
             if ($request->isSecure() == false) {
                 $request->server->set("HTTPS", true);

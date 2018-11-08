@@ -575,15 +575,22 @@ class Utility {
         return $list;
     }
     
-    public function checkSessionOverTime($request, $root = false) {
-        if ($root == true) {
-            if (isset($_SESSION['userActivityCount']) == false || isset($_SESSION['userActivity']) == false) {
-                $_SESSION['userActivityCount'] = 0;
-                $_SESSION['userActivity'] = "";
+    public function checkSessionOverTime($request, $root = false, $router = null) {
+        if (isset($_SESSION['userActivity']) == true) {
+            if ($request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "") {
+                echo json_encode(Array(
+                    'userActivity' => $_SESSION['userActivity']
+                ));
+                
+                unset($_SESSION['userActivity']);
+                
+                exit;
             }
         }
+        else
+            $_SESSION['userActivity'] = "";
         
-        if ($request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+        if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
             if (isset($_SESSION['userActivityTimestamp']) == false)
                 $_SESSION['userActivityTimestamp'] = time();
             else {
@@ -596,39 +603,38 @@ class Utility {
                         echo json_encode(Array(
                             'userActivity' => $userActivity
                         ));
+                        
+                        unset($_SESSION['userActivity']);
 
                         exit;
                     }
-                    else
+                    else {
                         $this->tokenStorage->setToken(null);
-                    
-                    $_SESSION['userActivity'] = $userActivity;
-                    
-                    unset($_SESSION['userActivityTimestamp']);
+                        
+                        $_SESSION['userActivity'] = $userActivity;
+                        
+                        unset($_SESSION['userActivityTimestamp']);
+                        
+                        if ($router != null) {
+                            $url = $router->generate(
+                                "root_render",
+                                Array(
+                                    '_locale' => $_SESSION['languageTextCode'],
+                                    'urlCurrentPageId' => 2,
+                                    'urlExtra' => ""
+                                )
+                            );
+                            
+                            return $url;
+                        }
+                    }
                 }
                 else
                     $_SESSION['userActivityTimestamp'] = time();
             }
         }
         
-        if (isset($_SESSION['userActivity']) == true) {
-            if ($request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "") {
-                echo json_encode(Array(
-                    'userActivity' => $_SESSION['userActivity']
-                ));
-
-                exit;
-            }
-        }
-        
-        if ($root == true && $_SESSION['userActivity'] != "") {
-            if ($_SESSION['userActivityCount'] > 1) {
-                $_SESSION['userActivityCount'] = 0;
-                $_SESSION['userActivity'] = "";
-            }
-            
-            $_SESSION['userActivityCount'] ++;
-        }
+        return "";
     }
     
     public function checkAttemptLogin($type, $userValue, $settingRow) {

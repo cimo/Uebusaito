@@ -31,7 +31,6 @@ class ErrorListener {
         $this->requestStack = $requestStack;
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
     }
     
     public function onKernelException(GetResponseForExceptionEvent $event) {

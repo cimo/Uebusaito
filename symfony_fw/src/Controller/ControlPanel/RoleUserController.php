@@ -73,7 +73,7 @@ class RoleUserController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Insert in database
+                // Database insert
                 $this->entityManager->persist($roleUserEntity);
                 $this->entityManager->flush();
 
@@ -280,7 +280,7 @@ class RoleUserController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Update in database
+                // Database update
                 $this->entityManager->persist($roleUserEntity);
                 $this->entityManager->flush();
                 
@@ -356,7 +356,7 @@ class RoleUserController extends Controller {
                     $roleUserDatabase = $this->roleUserDatabase("delete", $id);
 
                     if ($roleUserDatabase == true) {
-                        $this->deleteFromTable("delete", $id);
+                        $this->deleteFromTable("delete", $this->query, $id);
                         
                         $this->response['values']['id'] = $id;
 
@@ -367,7 +367,7 @@ class RoleUserController extends Controller {
                     $roleUserDatabase = $this->roleUserDatabase("deleteAll");
 
                     if ($roleUserDatabase == true) {
-                        $this->deleteFromTable("deleteAll");
+                        $this->deleteFromTable("deleteAll", $this->query);
                         
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("roleUserController_7");
                     }
@@ -456,10 +456,10 @@ class RoleUserController extends Controller {
         }
     }
     
-    private function deleteFromTable($type, $id = null) {
-        $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
-        $userRows = $this->query->selectAllUserDatabase(1);
-        $settingRow = $this->query->selectSettingDatabase();
+    private function deleteFromTable($type, $query, $id = null) {
+        $pageRows = $query->selectAllPageDatabase($this->urlLocale);
+        $userRows = $query->selectAllUserDatabase(1);
+        $settingRow = $query->selectSettingDatabase();
         
         if ($type == "delete") {
             foreach ($pageRows as $key => $value) {
@@ -472,14 +472,14 @@ class RoleUserController extends Controller {
                     
                     $roleImplode = implode(",", $roleExplode);
                     
-                    $query = $this->utility->getConnection()->prepare("UPDATE pages
-                                                                        SET role_user_id = :roleImplode
-                                                                        WHERE id = :id");
+                    $queryPage = $this->utility->getConnection()->prepare("UPDATE pages
+                                                                            SET role_user_id = :roleImplode
+                                                                            WHERE id = :id");
                     
-                    $query->bindValue(":roleImplode", $roleImplode);
-                    $query->bindValue(":id", $value['id']);
+                    $queryPage->bindValue(":roleImplode", $roleImplode);
+                    $queryPage->bindValue(":id", $value['id']);
                     
-                    $query->execute();
+                    $queryPage->execute();
                 }
             }
             
@@ -493,20 +493,20 @@ class RoleUserController extends Controller {
                     
                     $roleImplode = implode(",", $roleExplode);
                     
-                    $roleUserRow = $this->query->selectRoleUserDatabase($roleImplode);
+                    $roleUserRow = $query->selectRoleUserDatabase($roleImplode);
                     
                     $roleUserImplode = implode(",", $roleUserRow);
                     
-                    $query = $this->utility->getConnection()->prepare("UPDATE users
-                                                                        SET role_user_id = :roleImplode,
-                                                                            roles = :roleUserImplode
-                                                                        WHERE id = :id");
+                    $queryUser = $this->utility->getConnection()->prepare("UPDATE users
+                                                                            SET role_user_id = :roleImplode,
+                                                                                roles = :roleUserImplode
+                                                                            WHERE id = :id");
                     
-                    $query->bindValue(":roleImplode", $roleImplode);
-                    $query->bindValue(":roleUserImplode", $roleUserImplode);
-                    $query->bindValue(":id", $value['id']);
+                    $queryUser->bindValue(":roleImplode", $roleImplode);
+                    $queryUser->bindValue(":roleUserImplode", $roleUserImplode);
+                    $queryUser->bindValue(":id", $value['id']);
                     
-                    $query->execute();
+                    $queryUser->execute();
                 }
             }
             
@@ -519,28 +519,28 @@ class RoleUserController extends Controller {
                 
                 $roleImplode = implode(",", $roleExplode);
                 
-                $query = $this->utility->getConnection()->prepare("UPDATE settings
-                                                                    SET role_user_id = :roleImplode
-                                                                    WHERE id = :id");
+                $querySetting = $this->utility->getConnection()->prepare("UPDATE settings
+                                                                            SET role_user_id = :roleImplode
+                                                                            WHERE id = :id");
                 
-                $query->bindValue(":roleImplode", $roleImplode);
-                $query->bindValue(":id", 1);
+                $querySetting->bindValue(":roleImplode", $roleImplode);
+                $querySetting->bindValue(":id", 1);
                 
-                $query->execute();
+                $querySetting->execute();
             }
         }
         else if ($type == "deleteAll") {
             foreach ($pageRows as $key => $value) {
                 $roleImplode = $this->roleImplode($value['role_user_id']);
                 
-                $query = $this->utility->getConnection()->prepare("UPDATE pages
-                                                                    SET role_user_id = :roleImplode
-                                                                    WHERE id = :id");
+                $queryPage = $this->utility->getConnection()->prepare("UPDATE pages
+                                                                        SET role_user_id = :roleImplode
+                                                                        WHERE id = :id");
                 
-                $query->bindValue(":roleImplode", $roleImplode);
-                $query->bindValue(":id", $value['id']);
+                $queryPage->bindValue(":roleImplode", $roleImplode);
+                $queryPage->bindValue(":id", $value['id']);
                 
-                $query->execute();
+                $queryPage->execute();
             }
             
             foreach ($userRows as $key => $value) {
@@ -550,28 +550,28 @@ class RoleUserController extends Controller {
                 
                 $roleUserImplode = implode(",", $roleUserRow);
                 
-                $query = $this->utility->getConnection()->prepare("UPDATE users
-                                                                    SET role_user_id = :roleImplode,
-                                                                        roles = :roleUserImplode
-                                                                    WHERE id = :id");
+                $queryUser = $this->utility->getConnection()->prepare("UPDATE users
+                                                                        SET role_user_id = :roleImplode,
+                                                                            roles = :roleUserImplode
+                                                                        WHERE id = :id");
                 
-                $query->bindValue(":roleImplode", $roleImplode);
-                $query->bindValue(":roleUserImplode", $roleUserImplode);
-                $query->bindValue(":id", $value['id']);
+                $queryUser->bindValue(":roleImplode", $roleImplode);
+                $queryUser->bindValue(":roleUserImplode", $roleUserImplode);
+                $queryUser->bindValue(":id", $value['id']);
                 
-                $query->execute();
+                $queryUser->execute();
             }
             
             $roleImplode = $this->roleImplode($settingRow['role_user_id']);
             
-            $query = $this->utility->getConnection()->prepare("UPDATE settings
-                                                                SET role_user_id = :roleImplode
-                                                                WHERE id = :id");
+            $querySetting = $this->utility->getConnection()->prepare("UPDATE settings
+                                                                        SET role_user_id = :roleImplode
+                                                                        WHERE id = :id");
             
-            $query->bindValue(":roleImplode", $roleImplode);
-            $query->bindValue(":id", 1);
+            $querySetting->bindValue(":roleImplode", $roleImplode);
+            $querySetting->bindValue(":id", 1);
             
-            $query->execute();
+            $querySetting->execute();
         }
     }
     

@@ -118,7 +118,6 @@ class MicroserviceDeployController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -141,7 +140,7 @@ class MicroserviceDeployController extends Controller {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $microserviceDeployEntity->setActive(true);
                 
-                // Insert in database
+                // Database insert
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
 
@@ -257,7 +256,6 @@ class MicroserviceDeployController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
-        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -389,7 +387,7 @@ class MicroserviceDeployController extends Controller {
                 else
                     $microserviceDeployEntity->setKeyPrivate($row['key_private']);
                 
-                // Update in database
+                // Database update
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
 

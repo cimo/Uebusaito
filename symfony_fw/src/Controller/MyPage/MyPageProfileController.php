@@ -108,7 +108,7 @@ class MyPageProfileController extends Controller {
                         rename("{$this->utility->getPathWeb()}/files/$usernameOld", "{$this->utility->getPathWeb()}/files/{$form->get("username")->getData()}");
                 }
                 
-                // Insert in database
+                // Database insert
                 $this->entityManager->persist($this->getUser());
                 $this->entityManager->flush();
 
@@ -187,7 +187,7 @@ class MyPageProfileController extends Controller {
                 $messagePassword = $this->utility->assignUserPassword("withOld", $this->getUser(), $form);
 
                 if ($messagePassword == "ok") {
-                    // Insert in database
+                    // Database insert
                     $this->entityManager->persist($this->getUser());
                     $this->entityManager->flush();
 

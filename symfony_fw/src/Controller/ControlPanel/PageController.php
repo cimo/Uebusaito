@@ -89,7 +89,7 @@ class PageController extends Controller {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $pageEntity->setDateCreate(date("Y-m-d H:i:s"));
                 
-                // Insert in database
+                // Database insert
                 $this->entityManager->persist($pageEntity);
                 $this->entityManager->flush();
 
@@ -378,7 +378,7 @@ class PageController extends Controller {
                 $pageEntity->setUserModify($this->getUser()->getUsername());
                 $pageEntity->setDateModify(date("Y-m-d H:i:s"));
                 
-                // Update in database
+                // Database update
                 $this->entityManager->persist($pageEntity);
                 $this->entityManager->flush();
 

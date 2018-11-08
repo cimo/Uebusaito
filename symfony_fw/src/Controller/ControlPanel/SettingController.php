@@ -60,7 +60,7 @@ class SettingController extends Controller {
         // Logic
         $settingEntity = $this->entityManager->getRepository("App\Entity\Setting")->find(1);
         
-        $languageCustomData = $this->languageCustomData();
+        $languageCustomData = $this->languageCustomData($this->query);
         
         $form = $this->createForm(SettingFormType::class, $settingEntity, Array(
             'validation_groups' => Array('setting'),
@@ -74,9 +74,9 @@ class SettingController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 if ($form->get("templateColumn")->getData() != $settingEntity->getTemplateColumn())
-                    $this->moduleDatabase($form->get("templateColumn")->getData());
+                    $this->moduleDatabase($form->get("templateColumn")->getData(), $this->query);
                 
-                // Update in database
+                // Database update
                 $this->entityManager->persist($settingEntity);
                 $this->entityManager->flush();
                     
@@ -223,8 +223,8 @@ class SettingController extends Controller {
     }
     
     // Functions private
-    private function languageCustomData() {
-        $languageRows = $this->query->selectAllLanguageDatabase();
+    private function languageCustomData($query) {
+        $languageRows = $query->selectAllLanguageDatabase();
         
         $customData = Array();
         
@@ -236,89 +236,89 @@ class SettingController extends Controller {
         return $customData;
     }
     
-    private function moduleDatabase($templateColumn) {
+    private function moduleDatabase($templateColumn, $query) {
         if ($templateColumn == 1) {
-            $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                SET position_tmp = :positionTmp,
-                                                                    position = :position
-                                                                WHERE id != :id
-                                                                AND position_tmp = :position");
+            $queryModule = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                        SET position_tmp = :positionTmp,
+                                                                            position = :position
+                                                                        WHERE id != :id
+                                                                        AND position_tmp = :position");
             
-            $query->bindValue(":id", 3);
-            $query->bindValue(":positionTmp", "");
-            $query->bindValue(":position", "right");
+            $queryModule->bindValue(":id", 3);
+            $queryModule->bindValue(":positionTmp", "");
+            $queryModule->bindValue(":position", "right");
             
-            $query->execute();
+            $queryModule->execute();
             
-            $query->bindValue(":positionTmp", "");
-            $query->bindValue(":position", "left");
+            $queryModule->bindValue(":positionTmp", "");
+            $queryModule->bindValue(":position", "left");
             
-            $query->execute();
+            $queryModule->execute();
         }
         else if ($templateColumn == 2 || $templateColumn == 3 || $templateColumn == 4) {
-            $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                SET position_tmp = :positionTmp,
-                                                                    position = :position
-                                                                WHERE position = :positionTmp");
+            $queryModule = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                        SET position_tmp = :positionTmp,
+                                                                            position = :position
+                                                                        WHERE position = :positionTmp");
             
             if ($templateColumn == 2) {
-                $query->bindValue(":positionTmp", "right");
-                $query->bindValue(":position", "center");
+                $queryModule->bindValue(":positionTmp", "right");
+                $queryModule->bindValue(":position", "center");
                 
-                $query->execute();
+                $queryModule->execute();
                 
-                $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                    SET position_tmp = :positionTmp,
-                                                                        position = :position
-                                                                    WHERE position_tmp = :position");
+                $queryModule = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                            SET position_tmp = :positionTmp,
+                                                                                position = :position
+                                                                            WHERE position_tmp = :position");
 
-                $query->bindValue(":positionTmp", "");
-                $query->bindValue(":position", "left");
+                $queryModule->bindValue(":positionTmp", "");
+                $queryModule->bindValue(":position", "left");
             }
             else if ($templateColumn == 3) {
-                $query->bindValue(":positionTmp", "left");
-                $query->bindValue(":position", "center");
+                $queryModule->bindValue(":positionTmp", "left");
+                $queryModule->bindValue(":position", "center");
                 
-                $query->execute();
+                $queryModule->execute();
                 
-                $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                    SET position_tmp = :positionTmp,
-                                                                        position = :position
-                                                                    WHERE position_tmp = :position");
+                $queryModule = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                            SET position_tmp = :positionTmp,
+                                                                                position = :position
+                                                                            WHERE position_tmp = :position");
 
-                $query->bindValue(":positionTmp", "");
-                $query->bindValue(":position", "right");
+                $queryModule->bindValue(":positionTmp", "");
+                $queryModule->bindValue(":position", "right");
             }
             else if ($templateColumn == 4) {
-                $query->bindValue(":positionTmp", "right");
-                $query->bindValue(":position", "center");
+                $queryModule->bindValue(":positionTmp", "right");
+                $queryModule->bindValue(":position", "center");
 
-                $query->execute();
+                $queryModule->execute();
 
-                $query->bindValue(":positionTmp", "left");
-                $query->bindValue(":position", "center");
+                $queryModule->bindValue(":positionTmp", "left");
+                $queryModule->bindValue(":position", "center");
             }
             
-            $query->execute();
+            $queryModule->execute();
         }
         
-        $this->updateModuleRankInColumn("left");
-        $this->updateModuleRankInColumn("center");
-        $this->updateModuleRankInColumn("right");
+        $this->updateModuleRankInColumn("left", $query);
+        $this->updateModuleRankInColumn("center", $query);
+        $this->updateModuleRankInColumn("right", $query);
     }
     
-    private function updateModuleRankInColumn($position) {
-        $moduleRows = $this->query->selectAllModuleDatabase(null, $position);
+    private function updateModuleRankInColumn($position, $query) {
+        $moduleRows = $query->selectAllModuleDatabase(null, $position);
         
         foreach($moduleRows as $key => $value) {
-            $query = $this->utility->getConnection()->prepare("UPDATE modules
-                                                                SET rank_in_column = :rankInColumn
-                                                                WHERE id = :id");
+            $queryModule = $this->utility->getConnection()->prepare("UPDATE modules
+                                                                        SET rank_in_column = :rankInColumn
+                                                                        WHERE id = :id");
             
-            $query->bindValue(":rankInColumn", $key + 1);
-            $query->bindValue(":id", $value['id']);
+            $queryModule->bindValue(":rankInColumn", $key + 1);
+            $queryModule->bindValue(":id", $value['id']);
             
-            $query->execute();
+            $queryModule->execute();
         }
     }
     

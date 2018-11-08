@@ -110,7 +110,7 @@ class RegistrationController extends Controller {
 
                         mkdir("{$this->utility->getPathWeb()}/files/{$userEntity->getUsername()}");
 
-                        // Insert in database
+                        // Database insert
                         $this->entityManager->persist($userEntity);
                         $this->entityManager->flush();
 
@@ -139,7 +139,7 @@ class RegistrationController extends Controller {
             $userEntity->setHelpCode(null);
             $userEntity->setCredit(0);
             
-            // Insert in database
+            // Database insert
             $this->entityManager->persist($userEntity);
             $this->entityManager->flush();
             
