@@ -1,14 +1,14 @@
 #!/bin/bash
 
-gitCloneUrl=https://username:password@path.git
+gitCloneUrl=https://username:password@github.com/cimo/Uebusaito.git
 gitClonePath=/home/user_1/www/project_folder
 userGitScript=user_1
 userWebScript=user_1:www-data
-rootWebPath=/home/user_1/www/project_folder/src
+rootWebPath=/home/user_1/www/project_folder
 
-#git config --global core.mergeoptions --no-edit
-git config --global user.email "email"
-git config --global user.name "username"
+#sudo git config --global core.mergeoptions --no-edit
+sudo git config --global user.email "email"
+sudo git config --global user.name "username"
 
 echo "Git shell"
 read -p "1) Clone - 2) Pull: - 3) Reset: > " gitChoice
