@@ -1,7 +1,7 @@
 <?php
 namespace App\Form\Model;
 
-class ApiTestSelectModel {
+class ApiBasicSelectModel {
     // Vars
     private $id;
     

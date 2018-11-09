@@ -291,15 +291,15 @@
                     <script type="text/javascript">
                         window.onload = function() {
                             controlPanelMicroserviceApi.init();
-                            controlPanelApiTest.init();
+                            controlPanelApiBasic.init();
                         };
                         
-                        var textApiTest = {
-                            'label_1': "{{"apiTest_1"|trans}}"
+                        var textApiBasic = {
+                            'label_1': "{{"apiBasic_1"|trans}}"
                         };
                     </script>
                     <script type="text/javascript" src="{{asset("javascript/system/control_panel/MicroserviceApi.js")}}"></script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/ApiTest.js")}}"></script>
+                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/ApiBasic.js")}}"></script>
                 {% endif %}
             {% endif %}
         </div>

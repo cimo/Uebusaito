@@ -5,11 +5,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Table(name="microservice_apiTest", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
- * @ORM\Entity(repositoryClass="App\Repository\ApiTestRepository")
- * @UniqueEntity(fields={"name"}, groups={"apiTest_profile"})
+ * @ORM\Table(name="microservice_apiBasic", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
+ * @ORM\Entity(repositoryClass="App\Repository\ApiBasicRepository")
+ * @UniqueEntity(fields={"name"}, groups={"apiBasic_profile"})
  */
-class ApiTest {
+class ApiBasic {
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -23,14 +23,19 @@ class ApiTest {
     private $name = "";
     
     /**
-     * @ORM\Column(name="ip", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="token", type="string", columnDefinition="varchar(255) NOT NULL")
+     */
+    private $token = "";
+    
+    /**
+     * @ORM\Column(name="ip", type="string", columnDefinition="varchar(255) DEFAULT ''")
      */
     private $ip = "";
     
     /**
-     * @ORM\Column(name="token", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="url_callback", type="string", columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $token = "";
+    private $urlCallback = "";
     
     /**
      * @ORM\Column(name="active", type="string", columnDefinition="tinyint(11) NOT NULL")
@@ -42,12 +47,16 @@ class ApiTest {
         $this->name = $value;
     }
     
+    public function setToken($value) {
+        $this->token = $value;
+    }
+    
     public function setIp($value) {
         $this->ip = $value;
     }
     
-    public function setToken($value) {
-        $this->token = $value;
+    public function setUrlCallback($value) {
+        $this->urlCallback = $value;
     }
     
     public function setActive($value) {
@@ -64,12 +73,16 @@ class ApiTest {
         return $this->name;
     }
     
+    public function getToken() {
+        return $this->token;
+    }
+    
     public function getIp() {
         return $this->ip;
     }
     
-    public function getToken() {
-        return $this->token;
+    public function getUrlCallback() {
+        return $this->urlCallback;
     }
     
     public function getActive() {

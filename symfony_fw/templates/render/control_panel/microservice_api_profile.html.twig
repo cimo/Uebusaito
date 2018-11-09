@@ -14,6 +14,6 @@
             {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
         </form>
     </fieldset>
-    {{-render(controller("App\\Controller\\Microservice\\Api\\Test\\ApiTestController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-    {{-render(controller("App\\Controller\\Microservice\\Api\\Test\\ApiTestController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+    {{-render(controller("App\\Controller\\Microservice\\Api\\Basic\\ApiBasicController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+    {{-render(controller("App\\Controller\\Microservice\\Api\\Basic\\ApiBasicController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
 {% endif %}

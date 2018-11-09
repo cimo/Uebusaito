@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\Microservice\Api\Test;
+namespace App\Controller\Microservice\Api\Basic;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,11 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
 
-use App\Entity\ApiTest;
-use App\Form\ApiTestFormType;
-use App\Form\ApiTestSelectFormType;
+use App\Entity\ApiBasic;
+use App\Form\ApiBasicFormType;
+use App\Form\ApiBasicSelectFormType;
 
-class ApiTestController extends Controller {
+class ApiBasicController extends Controller {
     // Vars
     private $entityManager;
     
@@ -27,13 +27,13 @@ class ApiTestController extends Controller {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_apiTest_create",
-    *   path = "/cp_apiTest_create/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_apiBasic_create",
+    *   path = "/cp_apiBasic_create/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/microservice/api/test/create.html.twig")
+    * @Template("@templateRoot/microservice/api/basic/create.html.twig")
     */
     public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -54,25 +54,25 @@ class ApiTestController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $apiTestEntity = new ApiTest();
+        $apiBasicEntity = new ApiBasic();
         
-        $_SESSION['apiTestProfileId'] = 0;
+        $_SESSION['apiBasicProfileId'] = 0;
         
-        $form = $this->createForm(ApiTestFormType::class, $apiTestEntity, Array(
-            'validation_groups' => Array('apiTest_create')
+        $form = $this->createForm(ApiBasicFormType::class, $apiBasicEntity, Array(
+            'validation_groups' => Array('apiBasic_create')
         ));
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 // Database insert
-                $this->entityManager->persist($apiTestEntity);
+                $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
 
-                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiTestController_1");
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_1");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_2");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_2");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -95,13 +95,13 @@ class ApiTestController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_apiTest_select",
-    *   path = "/cp_apiTest_select/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_apiBasic_select",
+    *   path = "/cp_apiBasic_select/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = "", "id" = "0"},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/microservice/api/test/select.html.twig")
+    * @Template("@templateRoot/microservice/api/basic/select.html.twig")
     */
     public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -122,12 +122,12 @@ class ApiTestController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $_SESSION['apiTestProfileId'] = 0;
+        $_SESSION['apiBasicProfileId'] = 0;
         
-        $rows = $this->selectAllApiTestDatabase(true);
+        $rows = $this->selectAllApiBasicDatabase(true);
         
-        $form = $this->createForm(ApiTestSelectFormType::class, null, Array(
-            'validation_groups' => Array('apiTest_select'),
+        $form = $this->createForm(ApiBasicSelectFormType::class, null, Array(
+            'validation_groups' => Array('apiBasic_select'),
             'choicesId' => array_reverse(array_column($rows, "id", "name"), true)
         ));
         $form->handleRequest($request);
@@ -154,13 +154,13 @@ class ApiTestController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_apiTest_profile",
-    *   path = "/cp_apiTest_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_apiBasic_profile",
+    *   path = "/cp_apiBasic_profile/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/microservice/api/test/profile.html.twig")
+    * @Template("@templateRoot/microservice/api/basic/profile.html.twig")
     */
     public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -183,25 +183,25 @@ class ApiTestController extends Controller {
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_apiTest_select")['_token']) == true) {
+                    || $this->isCsrfTokenValid("intention", $request->get("form_apiBasic_select")['_token']) == true) {
                 $id = 0;
 
                 if (empty($request->get("id")) == false)
                     $id = $request->get("id");
-                else if (empty($request->get("form_apiTest_select")['id']) == false)
-                    $id = $request->get("form_apiTest_select")['id'];
+                else if (empty($request->get("form_apiBasic_select")['id']) == false)
+                    $id = $request->get("form_apiBasic_select")['id'];
 
-                $apiTestEntity = $this->entityManager->getRepository("App\Entity\ApiTest")->find($id);
+                $apiBasicEntity = $this->entityManager->getRepository("App\Entity\ApiBasic")->find($id);
 
-                if ($apiTestEntity != null) {
-                    $_SESSION['apiTestProfileId'] = $id;
+                if ($apiBasicEntity != null) {
+                    $_SESSION['apiBasicProfileId'] = $id;
 
-                    $form = $this->createForm(ApiTestFormType::class, $apiTestEntity, Array(
-                        'validation_groups' => Array('apiTest_profile')
+                    $form = $this->createForm(ApiBasicFormType::class, $apiBasicEntity, Array(
+                        'validation_groups' => Array('apiBasic_profile')
                     ));
                     $form->handleRequest($request);
                     
-                    $this->response['render'] = $this->renderView("@templateRoot/microservice/api/test/profile.html.twig", Array(
+                    $this->response['render'] = $this->renderView("@templateRoot/microservice/api/basic/profile.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
                         'urlCurrentPageId' => $this->urlCurrentPageId,
                         'urlExtra' => $this->urlExtra,
@@ -210,7 +210,7 @@ class ApiTestController extends Controller {
                     ));
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_3");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_3");
             }
         }
         
@@ -224,13 +224,13 @@ class ApiTestController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_apiTest_profile_save",
-    *   path = "/cp_apiTest_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_apiBasic_profile_save",
+    *   path = "/cp_apiBasic_profile_save/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/microservice/api/test/profile.html.twig")
+    * @Template("@templateRoot/microservice/api/basic/profile.html.twig")
     */
     public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -251,23 +251,23 @@ class ApiTestController extends Controller {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
         
         // Logic
-        $apiTestEntity = $this->entityManager->getRepository("App\Entity\ApiTest")->find($_SESSION['apiTestProfileId']);
+        $apiBasicEntity = $this->entityManager->getRepository("App\Entity\ApiBasic")->find($_SESSION['apiBasicProfileId']);
         
-        $form = $this->createForm(ApiTestFormType::class, $apiTestEntity, Array(
-            'validation_groups' => Array('apiTest_profile')
+        $form = $this->createForm(ApiBasicFormType::class, $apiBasicEntity, Array(
+            'validation_groups' => Array('apiBasic_profile')
         ));
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 // Update database
-                $this->entityManager->persist($apiTestEntity);
+                $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
                 
-                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiTestController_4");
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_4");
             }
             else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_5");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_5");
                 $this->response['errors'] = $this->ajax->errors($form);
             }
             
@@ -290,13 +290,13 @@ class ApiTestController extends Controller {
     
     /**
     * @Route(
-    *   name = "cp_apiTest_delete",
-    *   path = "/cp_apiTest_delete/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_apiBasic_delete",
+    *   path = "/cp_apiBasic_delete/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/microservice/api/test/delete.html.twig")
+    * @Template("@templateRoot/microservice/api/basic/delete.html.twig")
     */
     public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
         $this->urlLocale = $_locale;
@@ -320,23 +320,23 @@ class ApiTestController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
-                    $id = $request->get("id") == null ? $_SESSION['apiTestProfileId'] : $request->get("id");
+                    $id = $request->get("id") == null ? $_SESSION['apiBasicProfileId'] : $request->get("id");
                     
-                    $apiTestEntity = $this->entityManager->getRepository("App\Entity\ApiTest")->find($id);
+                    $apiBasicEntity = $this->entityManager->getRepository("App\Entity\ApiBasic")->find($id);
 
-                    if ($apiTestEntity != null) {
-                        $this->entityManager->remove($apiTestEntity);
+                    if ($apiBasicEntity != null) {
+                        $this->entityManager->remove($apiBasicEntity);
                         $this->entityManager->flush();
                         
                         $this->response['values']['id'] = $id;
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiTestController_6");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_6");
                     }
                     else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_7");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_7");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_7");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_7");
 
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
@@ -357,11 +357,54 @@ class ApiTestController extends Controller {
     
     /**
     * @Route(
-    *   name = "apiTest_check",
-    *   path = "/apiTest_check",
+    *   name = "cp_apiBasic_log",
+    *   path = "/cp_apiBasic_log/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
-    * @Template("@templateRoot/microservice/api/test/index.html.twig")
+    */
+    public function logAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
+        
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
+        
+        // Logic
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "log")
+                    $this->response['values']['log'] = "<pre class=\"apiBasic_log\">" . file_get_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic_1.log") . "</pre>";
+            }
+        }
+        
+        return $this->ajax->response(Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
+        ));
+    }
+    
+    /**
+    * @Route(
+    *   name = "apiBasic_check",
+    *   path = "/apiBasic_check",
+    *	methods={"POST"}
+    * )
+    * @Template("@templateRoot/microservice/api/basic/index.html.twig")
     */
     public function checkAction(Request $request) {
         header("Access-Control-Allow-Origin: *");
@@ -376,17 +419,25 @@ class ApiTestController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true) {
-            if ($request->get("event") != null && $request->get("event") == "apiTest_check") {
-                $row = $this->selectApiTestDatabase(1);
+            if ($request->get("event") != null && $request->get("event") == "apiBasic_check") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-
-                if ($row != false && $microserviceApiRow != false)
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiTestController_8");
+                $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"));
+                
+                if ($microserviceApiRow != false) {
+                    if ($apiBasicRow != false) {
+                        if ($apiBasicRow['ip'] != "" && $apiBasicRow['ip'] != $_SERVER['REMOTE_ADDR'])
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_14");
+                        else
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_8");
+                    }
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
+                }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_9");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_9");
             }
             else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_10");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
             
             return $this->ajax->response(Array(
                 'response' => $this->response
@@ -396,8 +447,8 @@ class ApiTestController extends Controller {
     
     /**
     * @Route(
-    *   name = "apiTest_request",
-    *   path = "/apiTest_request",
+    *   name = "apiBasic_request",
+    *   path = "/apiBasic_request",
     *	methods={"POST"}
     * )
     */
@@ -414,42 +465,54 @@ class ApiTestController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true) {
-            if ($request->get("event") != null && $request->get("event") == "apiTest_request"
-                    && $request->get("customerId") != null) {
-                $row = $this->selectApiTestDatabase(1);
+            if ($request->get("event") != null && $request->get("event") == "apiBasic_request") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
+                $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"));
+                
+                if ($microserviceApiRow != false) {
+                    if ($apiBasicRow != false) {
+                        if ($apiBasicRow['ip'] != "" && $apiBasicRow['ip'] != $_SERVER['REMOTE_ADDR'])
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_14");
+                        else {
+                            if ($apiBasicRow['url_callback'] != "") {
+                                $curl = curl_init($apiBasicRow['url_callback']);
 
-                if ($row != false && $microserviceApiRow != false) {
-                    $curl = curl_init("https://www.google.com");
+                                if ($curl == FALSE)
+                                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_15");
+                                else {
+                                    $postFields = "customerId=" . $request->get("customerId");
 
-                    if ($curl == FALSE)
-                        return false;
-                    
-                    $postFields = "customerId=" . $request->get("customerId");
+                                    curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+                                    curl_setopt($curl, CURLOPT_POST, 1);
+                                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                                    curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
+                                    curl_setopt($curl, CURLOPT_SSLVERSION, 6);
+                                    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
+                                    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 
-                    curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                    curl_setopt($curl, CURLOPT_POST, 1);
-                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
-                    curl_setopt($curl, CURLOPT_SSLVERSION, 6);
-                    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
-                    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+                                    curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+                                    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+                                    curl_setopt($curl, CURLOPT_HTTPHEADER, Array('Connection: Close'));
 
-                    curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
-                    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-                    curl_setopt($curl, CURLOPT_HTTPHEADER, Array('Connection: Close'));
-
-                    $curlResponse = curl_exec($curl);
-                    $curlInfo = curl_getinfo($curl);
-                    curl_close($curl);
-
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiTestController_11");
+                                    $curlResponse = curl_exec($curl);
+                                    $curlInfo = curl_getinfo($curl);
+                                    curl_close($curl);
+                                }
+                            }
+                            
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_11");
+                        }
+                    }
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_9");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_9");
             }
             else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiTestController_10");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
+            
+            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic_1.log", date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL);
             
             return $this->ajax->response(Array(
                 'response' => $this->response
@@ -458,14 +521,24 @@ class ApiTestController extends Controller {
     }
     
     // Functions private
-    private function selectApiTestDatabase($id) {
+    private function selectApiBasicDatabase($value) {
         $connection = $this->entityManager->getConnection();
         
-        $query = $connection->prepare("SELECT * FROM microservice_apiTest
-                                        WHERE id = :id
-                                        AND active = :active");
+        if (is_numeric($value) == true) {
+            $query = $connection->prepare("SELECT * FROM microservice_apiBasic
+                                            WHERE id = :id
+                                            AND active = :active");
+            
+            $query->bindValue(":id", $value);
+        }
+        else {
+            $query = $connection->prepare("SELECT * FROM microservice_apiBasic
+                                            WHERE token = :token
+                                            AND active = :active");
+            
+            $query->bindValue(":token", $value);
+        }
         
-        $query->bindValue(":id", $id);
         $query->bindValue(":active", 1);
         
         $query->execute();
@@ -473,17 +546,17 @@ class ApiTestController extends Controller {
         return $query->fetch();
     }
     
-    private function selectAllApiTestDatabase($bypass = false) {
+    private function selectAllApiBasicDatabase($bypass = false) {
         $connection = $this->entityManager->getConnection();
         
         if ($bypass == false) {
-            $query = $connection->prepare("SELECT * FROM microservice_apiTest
+            $query = $connection->prepare("SELECT * FROM microservice_apiBasic
                                             WHERE active = :active");
 
             $query->bindValue(":active", 1);
         }
         else
-            $query = $connection->prepare("SELECT * FROM microservice_apiTest");
+            $query = $connection->prepare("SELECT * FROM microservice_apiBasic");
         
         $query->execute();
         

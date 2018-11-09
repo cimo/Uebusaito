@@ -7,14 +7,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ApiTestSelectFormType extends AbstractType {
+class ApiBasicSelectFormType extends AbstractType {
     public function getBlockPrefix() {
-        return "form_apiTest_select";
+        return "form_apiBasic_select";
     }
     
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(Array(
-            'data_class' => "App\Form\Model\ApiTestSelectModel",
+            'data_class' => "App\Form\Model\ApiBasicSelectModel",
             'csrf_protection' => true,
             'csrf_token_id' => "intention",
             'validation_groups' => null,
@@ -25,11 +25,11 @@ class ApiTestSelectFormType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add("id", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "apiTestSelectFormType_1",
+            'placeholder' => "apiBasicSelectFormType_1",
             'choices' => $options['choicesId']
         ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "apiTestSelectFormType_2"
+            'label' => "apiBasicSelectFormType_2"
         ));
     }
 }

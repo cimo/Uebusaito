@@ -3,7 +3,7 @@ namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class ApiTestRepository extends EntityRepository {
+class ApiBasicRepository extends EntityRepository {
     // Functions public
     
     // Functions private

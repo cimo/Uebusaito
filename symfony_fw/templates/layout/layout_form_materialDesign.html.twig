@@ -20,13 +20,13 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             <div class="mdc-line-ripple"></div>
         </div>
     {% elseif styleType is defined and styleType == "boxTrailing" %}
         <div class="mdc-text-field mdc-text-field--box{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
@@ -38,7 +38,7 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             <div class="mdc-notched-outline">
                 <svg>
@@ -49,7 +49,7 @@
         </div>
     {% elseif styleType is defined and styleType == "outlinedTrailing" %}
         <div class="mdc-text-field mdc-text-field--outlined{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
@@ -66,13 +66,13 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             <div class="mdc-line-ripple"></div>
         </div>
     {% elseif styleType is defined and styleType == "basicTrailing" %}
         <div class="mdc-text-field mdc-text-field__basicTrailing{% if dense is defined %} mdc-text-field--dense{% endif %}">
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{value}}"{% endif %} autocomplete="off"/>
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
             {{- form_label(form) -}}
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
@@ -83,10 +83,10 @@
     {% if type != "hidden" %}
         <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
     {% else %}
-        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is defined %}value="{{ value }}" {% endif %}/>
     {% endif %}
     {# cimo - #}
-    {#<input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>#}
+    {#<input type="{{ type }}" {{ block('widget_attributes') }} {% if value is defined %}value="{{ value }}" {% endif %}/>#}
 {%- endblock form_widget_simple -%}
 
 {%- block form_widget_compound -%}

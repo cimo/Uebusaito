@@ -142,13 +142,13 @@ App\Form\Model\RoleUserSelectModel:
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
-App\Form\Model\ApiTestSelectModel:
+App\Form\Model\ApiBasicSelectModel:
     properties:
         id:
             - NotBlank:
-                groups: [apiTest_select]
+                groups: [apiBasic_select]
             - Regex:
-                groups: [apiTest_select]
+                groups: [apiBasic_select]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
@@ -596,25 +596,23 @@ App\Entity\MicroserviceApi:
                 htmlPattern: false
                 pattern: /^1|^0/
 
-App\Entity\ApiTest:
+App\Entity\ApiBasic:
     properties:
         name:
             - NotBlank:
-                groups: [apiTest_create, apiTest_profile]
-        ip:
-            - NotBlank:
-                groups: [apiTest_create, apiTest_profile]
-            - Regex:
-                    groups: [apiTest_create, apiTest_profile]
-                    htmlPattern: false
-                    pattern: /^[0-9.]+$/
+                groups: [apiBasic_create, apiBasic_profile]
         token:
             - NotBlank:
-                groups: [apiTest_create, apiTest_profile]
+                groups: [apiBasic_create, apiBasic_profile]
+        ip:
+            - Regex:
+                    groups: [apiBasic_create, apiBasic_profile]
+                    htmlPattern: false
+                    pattern: /^[0-9.]+$/
         active:
             - NotBlank:
-                groups: [apiTest_create, apiTest_profile]
+                groups: [apiBasic_create, apiBasic_profile]
             - Regex:
-                groups: [apiTest_create, apiTest_profile]
+                groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
                 pattern: /^1|^0/

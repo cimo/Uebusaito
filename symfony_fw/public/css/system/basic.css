@@ -155,6 +155,8 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .cursor_custom { cursor: pointer; }
 
+.apiBasic_log { height: 300px; overflow-y: scroll; }
+
 #body_progress { display: block; height: 100%; background-color: #ffffff; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 2000; }
 
 #panel_id_1 p { margin: 0; }

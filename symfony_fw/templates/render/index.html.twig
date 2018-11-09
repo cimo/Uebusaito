@@ -4,7 +4,9 @@
     <header class="mdc-top-app-bar">
         <div class="mdc-top-app-bar__row">
             <div class="display_desktop">
-                {{-render(controller("App\\Controller\\MenuRootController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "desktop"}))-}}
+                {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null and urlExtra != "user_login" %}
+                    {{-render(controller("App\\Controller\\MenuRootController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "desktop"}))-}}
+                {% endif %}
             </div>
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                 <a class="material-icons mdc-top-app-bar__navigation-icon menu_root_mobile display_mobile" href="javascript:void(0)">menu</a>
@@ -30,9 +32,11 @@
                         <span>{{websiteName}}</span>
                     </div>
                 </header>
-                <nav class="mdc-drawer__content mdc-list">
-                    {{-render(controller("App\\Controller\\MenuRootController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "mobile"}))-}}
-                </nav>
+                {% if (settingRow['website_active'] == true or is_granted("IS_AUTHENTICATED_FULLY") == true) and urlExtra != "maintenance_authentication" and app.request.get("error") is null and urlExtra != "user_login" %}
+                    <nav class="mdc-drawer__content mdc-list">
+                        {{-render(controller("App\\Controller\\MenuRootController::moduleAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': "mobile"}))-}}
+                    </nav>
+                {% endif %}
             </nav>
         </aside>
     </header>

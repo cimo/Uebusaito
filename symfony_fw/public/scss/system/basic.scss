@@ -510,6 +510,11 @@ table {
     cursor: pointer;
 }
 
+.apiBasic_log {
+    height: 300px;
+    overflow-y: scroll;
+}
+
 #body_progress {
     display: block;
     height: 100%;
