@@ -512,7 +512,7 @@ class ApiBasicController extends Controller {
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
             
-            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic_1.log", date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL);
+            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic_1.log", date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL, FILE_APPEND);
             
             return $this->ajax->response(Array(
                 'response' => $this->response

@@ -513,6 +513,9 @@ table {
 .apiBasic_log {
     height: 300px;
     overflow-y: scroll;
+    padding: 10px;
+    background-color: #000000;
+    color: white;
 }
 
 #body_progress {
