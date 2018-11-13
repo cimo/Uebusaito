@@ -225,14 +225,14 @@ date.time: H:i:s
 "wysiwyg_2": "Text size"
 "wysiwyg_3": "Settings"
 "wysiwyg_4": "Close"
-"wysiwyg_5": "Link creation"
+"wysiwyg_5": "Link create"
 "wysiwyg_6": "Insert full url"
 "wysiwyg_7": "Insert full or relative url"
 "wysiwyg_8": "Insert url or path"
-"wysiwyg_9": "Button creation"
+"wysiwyg_9": "Button create"
 "wysiwyg_10": "Insert name"
 "wysiwyg_11": "Insert link"
-"wysiwyg_12": "Table creation"
+"wysiwyg_12": "Table create"
 "wysiwyg_13": "Insert rows number"
 "wysiwyg_14": "Insert columns number"
 "wysiwyg_15": "Element settings"
@@ -349,7 +349,7 @@ date.time: H:i:s
 "paymentController_5": "Payment not deleted!"
 
 # Page
-"pageCreate_1": "Page creation form"
+"pageCreate_1": "Page create form"
 "pageCreate_2": "."
 "pageCreate_3": "Position in menu"
 "pageCreate_4": "Sort up"
@@ -415,7 +415,7 @@ date.time: H:i:s
 "pageController_15": "Yes"
 
 # User
-"userCreate_1": "User creation form"
+"userCreate_1": "User create form"
 "userCreate_2": "."
 
 "userSelect_1": "Users selection form"
@@ -464,7 +464,7 @@ date.time: H:i:s
 "userSelectFormType_2": "Select"
 
 "userController_1": "Roles"
-"userController_2": "User creation completed."
+"userController_2": "User create completed."
 "userController_3": "User not created!"
 "userController_4": "User not selected!"
 "userController_5": "User update completed."
@@ -480,7 +480,7 @@ date.time: H:i:s
 "module_2": "Page"
 "module_3": "Empty"
 
-"moduleCreate_1": "Module creation form"
+"moduleCreate_1": "Module create form"
 "moduleCreate_2": "."
 "moduleCreate_3": "Position in column"
 "moduleCreate_4": "Sort up"
@@ -524,19 +524,18 @@ date.time: H:i:s
 "moduleController_3": "Module not selected!"
 "moduleController_4": "Module update completed."
 "moduleController_5": "Module update not completed!"
-"moduleController_6": "Module profile sort problem!"
-"moduleController_7": "Module deletion completed."
-"moduleController_8": "All modules deletion completed."
-"moduleController_9": "Module not deleted!"
-"moduleController_10": "No"
-"moduleController_11": "Yes"
+"moduleController_6": "Module deletion completed."
+"moduleController_7": "All modules deletion completed."
+"moduleController_8": "Module not deleted!"
+"moduleController_9": "No"
+"moduleController_10": "Yes"
 
 # Role
 "Admin": "Admin"
 "User": "User"
 "Moderator": "Moderator"
 
-"roleUserCreate_1": "Role creation form"
+"roleUserCreate_1": "Role create form"
 "roleUserCreate_2": "."
 
 "roleUserSelect_1": "Roles selection form"
@@ -558,7 +557,7 @@ date.time: H:i:s
 "roleUserSelectFormType_1": "Level"
 "roleUserSelectFormType_2": "Select"
 
-"roleUserController_1": "Role creation completed."
+"roleUserController_1": "Role create completed."
 "roleUserController_2": "Role not created!"
 "roleUserController_3": "Role not selected!"
 "roleUserController_4": "Role update completed."
@@ -613,7 +612,7 @@ date.time: H:i:s
 "settingController_4": "Setting not saved!"
 "settingController_5": "Language deletion completed."
 "settingController_6": "Language update completed."
-"settingController_7": "Language creation completed."
+"settingController_7": "Language create completed."
 "settingController_8": "Language not created!"
 
 # Microservice deploy
@@ -683,7 +682,7 @@ date.time: H:i:s
 "microserviceApi_2": "Active"
 "microserviceApi_3": "Not active"
 
-"microserviceApiCreate_1": "Api creation form"
+"microserviceApiCreate_1": "Api create form"
 "microserviceApiCreate_2": "."
 
 "microserviceApiProfile_1": "Api profile form"
@@ -696,7 +695,7 @@ date.time: H:i:s
 "microserviceApiFormType_5": "Yes"
 "microserviceApiFormType_6": "Send"
 
-"microserviceApiController_1": "Api creation completed."
+"microserviceApiController_1": "Api create completed."
 "microserviceApiController_2": "Api not created!"
 "microserviceApiController_3": "Api update completed."
 "microserviceApiController_4": "Api update not completed!"
