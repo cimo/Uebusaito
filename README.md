@@ -5,65 +5,75 @@ This is a open source cms with symfony framework.
 
 | Features |
 |:---|
-| Full responsive (smartphone, tablet, pc) |
+| Full responsive (pc, tablet, smartphone) |
 | Cross-browser (Chrome, firefox, internet explorer, opera, safari) |
-| Dynamic language |
-| Login, registration and recover password |
+| Dynamic multi language |
+| Login, registration, recover password and profile |
 | Search in website |
 | Credit and paypal payment |
-| Upload file system |
-| Wysiwyg page creation (Create page without code) |
+| Upload file chunk system |
+| Wysiwyg page creation (create page without code) |
 | Page comments |
-| Extend with module system |
 | Scss style |
+| Microservice (Deploy and api) |
+| Extend with module system |
 
 | Control panel |
 |:---|
-| Profile management |
-| Payments management |
-| Pages create and management |
-| Users create and management |
-| Modules create and management |
-| Roles create and management |
-| Settings management |
+| System info |
+| Payments |
+| Pages |
+| Users |
+| Modules |
+| Roles |
+| Settings |
+| Microservice (Deploy - Api) |
 
 ## Images
 <img src="screenshots/1.png" width="200" alt="1"/>
 <img src="screenshots/2.png" width="200" alt="2"/>
 
 ## Instructions:
-1) On linux, open terminal and write:
+1) Copy files on your server.
 
-	sudo curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony
-	
-	sudo chmod a+x /usr/local/bin/symfony
-	
-	sudo symfony new /YOUR_PATH/symfony_fw 3.3
-	
-	sudo chmod 775 /YOUR_PATH/symfony_fw
-	
-	sudo chown -R YOUR_USER:www-data /YOUR_PATH/symfony_fw
-	
-	sudo find /YOUR_PATH/symfony_fw -type d -exec chmod 775 {} \;
-	
-	sudo find /YOUR_PATH/symfony_fw -type f -exec chmod 664 {} \;
+2) Write on terminal:
 
-2) Download this git and copy <b>"symfony_fw"</b> content in <b>"/YOUR_PATH/symfony_fw"</b> (Replace all).
-
-3) Insert in your mysql database <b>"/symfony_fw/src/ReinventSoftware/UebusaitoBundle/uebusaito.sql"</b>.
-
-4) On linux, open terminal and write:
-
-	cd /YOUR_PATH/symfony_fw
+	cd /home/user_1/www/symfony_fw
 	
-	sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
+	sudo nano .env
+
+3) Modify:
 	
-	sudo -u www-data php bin/console assets:install --symlink --relative
+	APP_ENV=dev
 	
-	sudo -u www-data php bin/console server:start YOUR_IP:80
+	DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name
+	
+4) Save, close the file and write on terminal:
+	
+	sudo nano /config/packages/framework.yaml
+	
+5) In "session:" modify:
+        
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        
+        name: new_name
+        
+        cookie_domain: .domain_name.xxx
+        
+6) Save, close the file and write on terminal:
+        
+	sudo -u user_1 composer update
+        
+        sudo chmod 775 /home/user_1/www/symfony_fw
+        
+        sudo chown -R user_1:www-data /home/user_1/www/symfony_fw
+        
+        sudo find /home/user_1/www/symfony_fw -type d -exec chmod 775 {} \;
+        
+        sudo find /home/user_1/www/symfony_fw -type f -exec chmod 664 {} \;
+        
+        sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
 
-5) Go on your browser and write <b>"https://YOUR_IP/symfony_fw/web/app_dev.php"</b>
+7) For admin login use <b>"cimo, Password1"</b>.
 
-6) For admin login use <b>"cimo, Password1"</b>.
-
-<b>By CIMO - www.reinventsoftware.org</b>
+<b>By CIMO - https://www.reinventsoftware.org</b>

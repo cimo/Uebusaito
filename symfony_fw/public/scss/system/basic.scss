@@ -501,6 +501,9 @@ table {
     margin-bottom: 10px;
 }
 .cp_system_info {
+    overflow-y: scroll;
+    height: 510px;
+    
     .mdc-list-item {
         height: auto;
     }

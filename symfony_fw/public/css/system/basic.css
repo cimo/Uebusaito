@@ -151,6 +151,7 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .cp_section_button { margin-bottom: 10px; }
 
+.cp_system_info { overflow-y: scroll; height: 510px; }
 .cp_system_info .mdc-list-item { height: auto; }
 
 .cursor_custom { cursor: pointer; }

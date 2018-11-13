@@ -62,35 +62,36 @@ CREATE TABLE `microservice_api` (
 
 LOCK TABLES `microservice_api` WRITE;
 /*!40000 ALTER TABLE `microservice_api` DISABLE KEYS */;
-INSERT INTO `microservice_api` VALUES (1,'Api test','Test api functionality',1);
+INSERT INTO `microservice_api` VALUES (1,'Api basic','Test api functionality',1);
 /*!40000 ALTER TABLE `microservice_api` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `microservice_apiTest`
+-- Table structure for table `microservice_apiBasic`
 --
 
-DROP TABLE IF EXISTS `microservice_apiTest`;
+DROP TABLE IF EXISTS `microservice_apiBasic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `microservice_apiTest` (
+CREATE TABLE `microservice_apiBasic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `url_callback` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `microservice_apiTest`
+-- Dumping data for table `microservice_apiBasic`
 --
 
-LOCK TABLES `microservice_apiTest` WRITE;
-/*!40000 ALTER TABLE `microservice_apiTest` DISABLE KEYS */;
-INSERT INTO `microservice_apiTest` VALUES (1,'Site_1','123.456.789.000','token_test',0);
-/*!40000 ALTER TABLE `microservice_apiTest` ENABLE KEYS */;
+LOCK TABLES `microservice_apiBasic` WRITE;
+/*!40000 ALTER TABLE `microservice_apiBasic` DISABLE KEYS */;
+INSERT INTO `microservice_apiBasic` VALUES (1,'Site_1','token_basic',NULL,NULL,1);
+/*!40000 ALTER TABLE `microservice_apiBasic` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -404,7 +405,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,0,1,1,1,1,'paypal.business@gmail.com','USD','0.01',1,1);
+INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,0,1,1,1,1,'paypal.business@gmail.com','EUR','0.01',1,1);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -453,7 +454,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-11-08 20:00:17','2018-11-08 19:34:35',NULL,'183.77.252.62',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-11-12 13:05:13','2018-11-12 12:32:04',NULL,'183.77.252.62',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -470,4 +471,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-08 20:14:39
+-- Dump completed on 2018-11-12 13:29:35
