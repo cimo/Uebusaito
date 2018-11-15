@@ -34,6 +34,9 @@ function ControlPanelApiBasic() {
         $("#form_cp_apiBasic_create").on("submit", "", function(event) {
             event.preventDefault();
             
+            var optionCount = $("#form_apiBasic_select_id").find("option").length;
+            var name = $(this).find("input[name='form_apiBasic[name]']").val();
+            
             ajax.send(
                 true,
                 $(this).prop("action"),
@@ -46,6 +49,9 @@ function ControlPanelApiBasic() {
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
+                    
+                    if (xhr.response.messages.success !== undefined)
+                        $("#form_apiBasic_select_id").append("<option value=\"" + optionCount + "\">" + name + "</option>");
                 },
                 null,
                 null

@@ -28,11 +28,11 @@ class ApiBasicFormType extends AbstractType {
         ))
         ->add("token", TextType::class, Array(
             'required' => true,
-            'label' => "apiBasicFormType_3"
+            'label' => "apiBasicFormType_2"
         ))
         ->add("ip", TextType::class, Array(
             'required' => false,
-            'label' => "apiBasicFormType_2"
+            'label' => "apiBasicFormType_3"
         ))
         ->add("urlCallback", TextType::class, Array(
             'required' => false,

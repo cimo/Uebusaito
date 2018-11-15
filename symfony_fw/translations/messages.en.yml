@@ -689,11 +689,12 @@ date.time: H:i:s
 "microserviceApiProfile_2": "."
 
 "microserviceApiFormType_1": "Name"
-"microserviceApiFormType_2": "Description"
-"microserviceApiFormType_3": "Active"
-"microserviceApiFormType_4": "No"
-"microserviceApiFormType_5": "Yes"
-"microserviceApiFormType_6": "Send"
+"microserviceApiFormType_2": "Controller"
+"microserviceApiFormType_3": "Description"
+"microserviceApiFormType_4": "Active"
+"microserviceApiFormType_5": "No"
+"microserviceApiFormType_6": "Yes"
+"microserviceApiFormType_7": "Send"
 
 "microserviceApiController_1": "Api create completed."
 "microserviceApiController_2": "Api not created!"
@@ -715,8 +716,8 @@ date.time: H:i:s
 "apiBasicDelete_2": "Delete"
 
 "apiBasicFormType_1": "Name"
-"apiBasicFormType_2": "Ip"
-"apiBasicFormType_3": "Token"
+"apiBasicFormType_2": "Token"
+"apiBasicFormType_3": "Ip"
 "apiBasicFormType_4": "Url callback"
 "apiBasicFormType_5": "Active"
 "apiBasicFormType_6": "No"

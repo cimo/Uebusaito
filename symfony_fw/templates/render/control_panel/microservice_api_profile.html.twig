@@ -6,6 +6,7 @@
         <p>{% trans %}microserviceApiProfile_2{% endtrans %}</p>
         <form id="form_cp_microservice_api_profile" action="{{path("cp_microservice_api_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
             {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
+            {{form_row(form.controller, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
             {{form_row(form.description, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
             {{form_row(form.active)}}
 
@@ -14,6 +15,8 @@
             {{form_widget(form.submit, {'dense': "", 'raised': ""})}}
         </form>
     </fieldset>
-    {{-render(controller("App\\Controller\\Microservice\\Api\\Basic\\ApiBasicController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
-    {{-render(controller("App\\Controller\\Microservice\\Api\\Basic\\ApiBasicController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+    {% if response.values.id > 0 %}
+        {{-render(controller("App\\Controller\\Microservice\\Api\\" ~ response.values.microserviceApiEntity.name ~ "\\Api" ~ response.values.microserviceApiEntity.controller ~ "Controller::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+        {{-render(controller("App\\Controller\\Microservice\\Api\\" ~ response.values.microserviceApiEntity.name ~ "\\Api" ~ response.values.microserviceApiEntity.controller ~ "Controller::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+    {% endif %}
 {% endif %}

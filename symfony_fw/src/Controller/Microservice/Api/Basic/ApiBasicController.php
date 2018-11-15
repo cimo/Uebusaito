@@ -386,7 +386,7 @@ class ApiBasicController extends Controller {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "log")
-                    $this->response['values']['log'] = "<pre class=\"apiBasic_log\">" . file_get_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic_1.log") . "</pre>";
+                    $this->response['values']['log'] = "<pre class=\"api_log\">" . file_get_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log") . "</pre>";
             }
         }
         
@@ -419,7 +419,7 @@ class ApiBasicController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true) {
-            if ($request->get("event") != null && $request->get("event") == "apiBasic_check") {
+            if ($request->get("event") != null && $request->get("event") == "apiBasic") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
                 $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"));
                 
@@ -465,7 +465,7 @@ class ApiBasicController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true) {
-            if ($request->get("event") != null && $request->get("event") == "apiBasic_request") {
+            if ($request->get("event") != null && $request->get("event") == "apiBasic") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
                 $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"));
                 
@@ -474,31 +474,8 @@ class ApiBasicController extends Controller {
                         if ($apiBasicRow['ip'] != "" && $apiBasicRow['ip'] != $_SERVER['REMOTE_ADDR'])
                             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_14");
                         else {
-                            if ($apiBasicRow['url_callback'] != "") {
-                                $curl = curl_init($apiBasicRow['url_callback']);
-
-                                if ($curl == FALSE)
-                                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_15");
-                                else {
-                                    $postFields = "customerId=" . $request->get("customerId");
-
-                                    curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-                                    curl_setopt($curl, CURLOPT_POST, 1);
-                                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                                    curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
-                                    curl_setopt($curl, CURLOPT_SSLVERSION, 6);
-                                    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
-                                    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-
-                                    curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
-                                    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-                                    curl_setopt($curl, CURLOPT_HTTPHEADER, Array('Connection: Close'));
-
-                                    $curlResponse = curl_exec($curl);
-                                    $curlInfo = curl_getinfo($curl);
-                                    curl_close($curl);
-                                }
-                            }
+                            if ($apiBasicRow['url_callback'] != "")
+                                $this->urlCallback($request, $apiBasicRow);
                             
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_11");
                         }
@@ -512,7 +489,7 @@ class ApiBasicController extends Controller {
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
             
-            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic_1.log", date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL, FILE_APPEND);
+            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL, FILE_APPEND);
             
             return $this->ajax->response(Array(
                 'response' => $this->response
@@ -563,18 +540,63 @@ class ApiBasicController extends Controller {
         return $query->fetchAll();
     }
     
-    public function createSelectHtml($rows, $selectId, $label) {
-        $html = "<div id=\"$selectId\" class=\"mdc-select\">
-            <select class=\"mdc-select__native-control\">
-                <option value=\"\"></option>";
-                foreach ($rows as $key => $value) {
-                    $html .= "<option value=\"$key\">$value</option>";
-                }
-            $html .= "</select>
-            <label class=\"mdc-floating-label mdc-floating-label--float-above\">$label</label>
-            <div class=\"mdc-line-ripple\"></div>
-        </div>";
-        
-        return $html;
+    private function urlCallback($request, $row) {
+        $curl = curl_init();
+
+        if ($curl == FALSE)
+            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_15");
+        else {
+            $postFields = Array(
+                'event' => 'apiSanyo',
+                'kanjiFirstname' => $request->get("kanjiFirstname"),
+                'kanjiLastname' => $request->get("kanjiLastname"),
+                'kanaFirstname' => $request->get("kanaFirstname"),
+                'kanaLastname' => $request->get("kanaLastname"),
+                'postalcode' => $request->get("postalcode"),
+                'region' => $request->get("region"),
+                'town' => $request->get("town"),
+                'line1' => $request->get("line1"),
+                'line2' => $request->get("line2"),
+                'uid' => $request->get("uid"),
+                'contactEmailMB' => $request->get("contactEmailMB"),
+                'phone1' => $request->get("phone1"),
+                'gender' => $request->get("gender"),
+                'birthDate' => $request->get("birthDate"),
+                'password' => $request->get("password"),
+                'registerTime' => $request->get("registerTime"),
+                'updateTime' => $request->get("updateTime"),
+                'useFlag' => $request->get("useFlag"),
+                'externalMemberNumber' => $request->get("externalMemberNumber"),
+                'displayname' => $request->get("displayname"),
+                'blackMemberFlag' => $request->get("blackMemberFlag"),
+                'overseasFlag' => $request->get("overseasFlag"),
+                'loginDisabled' => $request->get("loginDisabled"),
+                'requestEmailType' => $request->get("requestEmailType"),
+                'cellphone' => $request->get("cellphone"),
+                'contactEmail' => $request->get("contactEmail")
+            );
+
+            curl_setopt($curl, CURLOPT_URL, $row['url_callback']);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($curl, CURLOPT_ENCODING, "");
+            curl_setopt($curl, CURLOPT_NOBODY, true);
+            curl_setopt($curl, CURLOPT_AUTOREFERER, true);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 120);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 120);
+            curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
+
+            $curlResponse = curl_exec($curl);
+            $curlInfo = curl_getinfo($curl);
+            curl_close($curl);
+
+            $this->response['messages']['urlCallbackResponse'] = $curlResponse;
+            $this->response['messages']['urlCallbackInfo'] = $curlInfo;
+        }
     }
 }

@@ -1,6 +1,6 @@
 {% if response.values is defined %}
     {% for key, value in response.values.microserviceApiRows %}
-        <div style="margin-top: 20px;" class="mdc-card">
+        <div style="margin-top: 20px;" class="mdc-card api_card">
             <div class="mdc_card_header">
                 <div class="mdc-card__media mdc-card__media--square">
                     <img src="{{asset("images/templates/" ~ settingRow['template'] ~ "/api.png")}}" alt="api.png"/>

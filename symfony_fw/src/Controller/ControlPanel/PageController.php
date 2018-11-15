@@ -87,6 +87,7 @@ class PageController extends Controller {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
+                $pageEntity->setUserCreate($this->getUser()->getUsername());
                 $pageEntity->setDateCreate(date("Y-m-d H:i:s"));
                 
                 // Database insert
@@ -224,8 +225,7 @@ class PageController extends Controller {
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_page_select")['_token']) == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true || $this->isCsrfTokenValid("intention", $request->get("form_page_select")['_token']) == true) {
                 $id = 0;
 
                 if (empty($request->get("id")) == false)
@@ -676,12 +676,13 @@ class PageController extends Controller {
             return $query->execute();
         }
         else if ($type == "delete") {
-            $query = $this->utility->getConnection()->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names FROM pages, pages_titles, pages_arguments, pages_menu_names
+            $query = $this->utility->getConnection()->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names, pages_comments FROM pages, pages_titles, pages_arguments, pages_menu_names, pages_comments
                                                                 WHERE pages.id > :idExclude
                                                                 AND pages.id = :id
                                                                 AND pages_titles.id = :id
                                                                 AND pages_arguments.id = :id
-                                                                AND pages_menu_names.id = :id");
+                                                                AND pages_menu_names.id = :id
+                                                                AND pages_comments.page_id = :id");
             
             $query->bindValue(":idExclude", 5);
             $query->bindValue(":id", $id);
@@ -689,11 +690,12 @@ class PageController extends Controller {
             return $query->execute();
         }
         else if ($type == "deleteAll") {
-            $query = $this->utility->getConnection()->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names FROM pages, pages_titles, pages_arguments, pages_menu_names
+            $query = $this->utility->getConnection()->prepare("DELETE pages, pages_titles, pages_arguments, pages_menu_names, pages_comments FROM pages, pages_titles, pages_arguments, pages_menu_names, pages_comments
                                                                 WHERE pages.id > :idExclude
                                                                 AND pages_titles.id > :idExclude
                                                                 AND pages_arguments.id > :idExclude
-                                                                AND pages_menu_names.id > :idExclude");
+                                                                AND pages_menu_names.id > :idExclude
+                                                                AND pages_comments.page_id > :idExclude");
             
             $query->bindValue(":idExclude", 5);
             

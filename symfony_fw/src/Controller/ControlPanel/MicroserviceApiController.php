@@ -172,6 +172,8 @@ class MicroserviceApiController extends Controller {
         $this->response['values']['id'] = $id;
         
         $microserviceApiEntity = $this->entityManager->getRepository("App\Entity\MicroserviceApi")->find($id);
+        
+        $this->response['values']['microserviceApiEntity'] = $microserviceApiEntity;
 
         $form = $this->createForm(MicroserviceApiFormType::class, $microserviceApiEntity, Array(
             'validation_groups' => Array('microservice_api_profile')

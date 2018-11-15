@@ -26,20 +26,24 @@ class MicroserviceApiFormType extends AbstractType {
             'required' => true,
             'label' => "microserviceApiFormType_1"
         ))
-        ->add("description", TextType::class, Array(
+        ->add("controller", TextType::class, Array(
             'required' => true,
             'label' => "microserviceApiFormType_2"
         ))
+        ->add("description", TextType::class, Array(
+            'required' => true,
+            'label' => "microserviceApiFormType_3"
+        ))
         ->add("active", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "microserviceApiFormType_3",
+            'placeholder' => "microserviceApiFormType_4",
             'choices' => Array(
-                "microserviceApiFormType_4" => "0",
-                "microserviceApiFormType_5" => "1"
+                "microserviceApiFormType_5" => "0",
+                "microserviceApiFormType_6" => "1"
             )
         ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "microserviceApiFormType_6"
+            'label' => "microserviceApiFormType_7"
         ));
     }
 }

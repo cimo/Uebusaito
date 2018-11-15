@@ -51,6 +51,7 @@ class PageViewController extends Controller {
         $this->response['values']['controllerAction'] = null;
         $this->response['values']['title'] = $this->utility->getTranslator()->trans("pageViewController_1");
         $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_2");
+        $this->response['values']['comment'] = false;
         $this->response['values']['userCreate'] = "-";
         $this->response['values']['dateCreate'] = "-";
         $this->response['values']['userModify'] = "-";
@@ -62,10 +63,11 @@ class PageViewController extends Controller {
             $this->response['values']['controllerAction'] = $pageRow['controller_action'];
             $this->response['values']['title'] = $pageRow['title'];
             $this->response['values']['argument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "utf-8");
+            $this->response['values']['comment'] = $pageRow['comment'];
             $this->response['values']['userCreate'] = $pageRow['user_create'];
-            $this->response['values']['dateCreate'] = strpos($pageRow['date_create'], "0000") !== false ? "" : $this->utility->dateFormat($pageRow['date_create']);
+            $this->response['values']['dateCreate'] = strpos($pageRow['date_create'], "0000") !== false ? "-" : $this->utility->dateFormat($pageRow['date_create']);
             $this->response['values']['userModify'] = $pageRow['user_modify'];
-            $this->response['values']['dateModify'] = strpos($pageRow['date_modify'], "0000") !== false ? "" : $this->utility->dateFormat($pageRow['date_modify']);
+            $this->response['values']['dateModify'] = strpos($pageRow['date_modify'], "0000") !== false ? "-" : $this->utility->dateFormat($pageRow['date_modify']);
             
             if ($this->utility->getAuthorizationChecker()->isGranted("IS_AUTHENTICATED_FULLY") == true) {
                 if ($pageRow['protected'] == false && ($pageRow['id'] == 3 || $pageRow['id'] == 4)) {

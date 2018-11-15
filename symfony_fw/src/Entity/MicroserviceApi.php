@@ -21,6 +21,11 @@ class MicroserviceApi {
     private $name = "";
     
     /**
+     * @ORM\Column(name="controller", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     */
+    private $controller = "";
+    
+    /**
      * @ORM\Column(name="description", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $description = "";
@@ -33,6 +38,10 @@ class MicroserviceApi {
     // Properties
     public function setName($value) {
         $this->name = $value;
+    }
+    
+    public function setController($value) {
+        $this->controller = $value;
     }
     
     public function setDescription($value) {
@@ -51,6 +60,10 @@ class MicroserviceApi {
     
     public function getName() {
         return $this->name;
+    }
+    
+    public function getController() {
+        return $this->controller;
     }
     
     public function getDescription() {

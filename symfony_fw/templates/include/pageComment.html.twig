@@ -1,12 +1,14 @@
-{% if (response.values.listHtml is defined and response.values.listHtml != "") %}
-    <div id="pageComment_result">
+{% if (settingRow['pageComment'] == true) %}
+    {% if (response.values.listHtml is defined and response.values.count > 0) %}
+        <div id="pageComment_result">
 
-        {{-include("@templateRoot/include/table_and_pagination.html.twig")-}}
+            {{-include("@templateRoot/include/table_and_pagination.html.twig")-}}
 
-        <div class="list_result">
-            {{response.values.listHtml|raw}}
+            <div class="list_result">
+                {{response.values.listHtml|raw}}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endif %}
 
 {% if (settingRow['pageComment_active'] == true) %}

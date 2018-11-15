@@ -585,6 +585,9 @@ App\Entity\MicroserviceApi:
         name:
             - NotBlank:
                 groups: [microservice_api_create, microservice_api_profile]
+        controller:
+            - NotBlank:
+                groups: [microservice_api_create, microservice_api_profile]
         description:
             - NotBlank:
                 groups: [microservice_api_create, microservice_api_profile]
