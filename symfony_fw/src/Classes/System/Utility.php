@@ -406,7 +406,7 @@ class Utility {
         return false;
     }
     
-    function arrayUniqueMulti($elements, $index, $fix = true) {
+    public function arrayUniqueMulti($elements, $index, $fix = true) {
         $results = Array();
         
         $i = 0;
@@ -727,6 +727,21 @@ class Utility {
         return false;
     }
     
+    public function checkLanguage($request) {
+        if (isset($_SESSION['languageTextCode']) == false) {
+            $row = $this->query->selectSettingDatabase();
+            
+            $_SESSION['languageTextCode'] = $row['language'];
+        }
+        
+        if ($request->get("languageTextCode") != null)
+            $_SESSION['languageTextCode'] = $request->get("languageTextCode");
+        
+        $request->setLocale($_SESSION['languageTextCode']);
+        
+        return $_SESSION['languageTextCode'];
+    }
+    
     // Symfony
     public function assignUserParameter($user) {
         $query = $this->connection->prepare("SELECT id FROM users
@@ -797,21 +812,6 @@ class Utility {
         }
         
         return $pagesListHierarchy;
-    }
-    
-    public function checkLanguage($request) {
-        if (isset($_SESSION['languageTextCode']) == false) {
-            $row = $this->query->selectSettingDatabase();
-            
-            $_SESSION['languageTextCode'] = $row['language'];
-        }
-        
-        if ($request->get("languageTextCode") != null)
-            $_SESSION['languageTextCode'] = $request->get("languageTextCode");
-        
-        $request->setLocale($_SESSION['languageTextCode']);
-        
-        return $_SESSION['languageTextCode'];
     }
     
     // Functions private

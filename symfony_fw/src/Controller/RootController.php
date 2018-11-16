@@ -57,9 +57,9 @@ class RootController extends Controller {
         $this->utility->checkSessionOverTime($request, true);
         
         // Logic
-        $cookieSecure = $this->utility->getProtocol() == "https://" ? true : false;
+        $protocol = $this->utility->getProtocol() == "https://" ? true : false;
         
-        $this->utility->configureCookie(session_name(), 0, $cookieSecure, true);
+        $this->utility->configureCookie(session_name(), 0, $protocol, true);
         
         $_SESSION['currentPageId'] = $urlCurrentPageId;
         
