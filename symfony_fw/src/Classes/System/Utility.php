@@ -436,13 +436,13 @@ class Utility {
         return $lastPathExplode;
     }
     
-    public function requestParametersParse($json) {
-        $parameters = Array();
+    public function requestParametersParse($parameters) {
+        $result = Array();
         $match = Array();
         
-        foreach ($json as $key => $value) {
+        foreach($parameters as $key => $value) {
             if (is_object($value) == false)
-                $parameters[$key] = $value;
+                $result[$key] = $value;
             else {
                 preg_match("#\[(.*?)\]#", $value->name, $match);
                 
@@ -453,11 +453,11 @@ class Utility {
                 else
                     $keyTmp = $match[1];
                     
-                $parameters[$keyTmp] = $value->value;
+                $result[$keyTmp] = $value->value;
             }
         }
         
-        return $parameters;
+        return $result;
     }
     
     public function assignUserPassword($type, $user, $form) {

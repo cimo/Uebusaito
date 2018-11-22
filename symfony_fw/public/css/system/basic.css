@@ -94,6 +94,8 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 .mdc-card:not(.module) .mdc_card_header .mdc-card__media img { width: 80px; position: absolute; top: 0; }
 .mdc-card:not(.module) .mdc_card_header .mdc_card_description { padding: 10px; }
 
+.mdc-snackbar__action-button { opacity: 1; visibility: visible; }
+
 .logo_main_big { display: block; width: 70px; margin: auto; }
 
 .logo_main_small { width: 45px; margin-top: 8px; }
