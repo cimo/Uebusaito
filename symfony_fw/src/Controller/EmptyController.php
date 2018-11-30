@@ -6,8 +6,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use App\Classes\System\Utility;
+use App\Classes\System\Ajax;
+
 class EmptyController extends Controller {
     // Vars
+    private $urlLocale;
+    private $urlCurrentPageId;
+    private $urlExtra;
+    
+    private $entityManager;
+    
+    private $response;
+    
+    private $utility;
+    private $query;
+    private $ajax;
     
     // Properties
     
@@ -30,6 +44,10 @@ class EmptyController extends Controller {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         // Logic
         return Array(

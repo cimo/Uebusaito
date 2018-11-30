@@ -76,7 +76,7 @@ class MyPageProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
         // Logic
         $usernameOld = $this->getUser()->getUsername();
@@ -168,13 +168,14 @@ class MyPageProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
         // Logic
         $form = $this->createForm(PasswordFormType::class, null, Array(
@@ -245,7 +246,7 @@ class MyPageProfileController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
         // Logic
         $settingRow = $this->query->selectSettingDatabase();
@@ -302,6 +303,7 @@ class MyPageProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         $this->upload = new Upload($this->container, $this->entityManager);
         
@@ -354,6 +356,8 @@ class MyPageProfileController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         

@@ -15,11 +15,16 @@ use App\Form\ApiBasicSelectFormType;
 
 class ApiBasicController extends Controller {
     // Vars
+    private $urlLocale;
+    private $urlCurrentPageId;
+    private $urlExtra;
+    
     private $entityManager;
     
     private $response;
     
     private $utility;
+    private $query;
     private $ajax;
     
     // Properties
@@ -45,13 +50,14 @@ class ApiBasicController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
         // Logic
         $apiBasicEntity = new ApiBasic();
@@ -113,13 +119,14 @@ class ApiBasicController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
         // Logic
         $_SESSION['apiBasicProfileId'] = 0;
@@ -172,13 +179,14 @@ class ApiBasicController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -242,13 +250,14 @@ class ApiBasicController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
         // Logic
         $apiBasicEntity = $this->entityManager->getRepository("App\Entity\ApiBasic")->find($_SESSION['apiBasicProfileId']);
@@ -308,13 +317,14 @@ class ApiBasicController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -380,13 +390,117 @@ class ApiBasicController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "log")
                     $this->response['values']['log'] = "<pre class=\"api_log\">" . file_get_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log") . "</pre>";
+            }
+        }
+        
+        return $this->ajax->response(Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
+        ));
+    }
+    
+    /**
+    * @Route(
+    *   name = "cp_apiBasic_graph",
+    *   path = "/cp_apiBasic_graph/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
+    *	methods={"POST"}
+    * )
+    */
+    public function graphAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+        $this->urlLocale = $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->container, $this->entityManager);
+        
+        $this->urlLocale = $this->utility->checkLanguage($request);
+        
+        $this->utility->checkSessionOverTime($request);
+        
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
+        
+        // Logic
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "graph") {
+                    $this->response['render'] = $this->renderView("@templateRoot/include/chaato.html.twig", Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
+                    
+                    $this->response['values']['selectPeriodYearHtml'] = $this->createSelectPeriodYearHtml($request);
+                    $this->response['values']['selectPeriodMonthHtml'] = $this->createSelectPeriodMonthHtml($request);
+                    
+                    // Label
+                    $labelItems = Array(
+                        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
+                    );
+                    
+                    // Datasets
+                    $requestRows = $this->selectAllApiBasicRequestDatabase();
+                    
+                    $datasetName = Array();
+                    $datasetItems = Array();
+                    $count = 0;
+                    
+                    foreach ($labelItems as $key => $value) {
+                        if (isset($requestRows[$count]) == true) {
+                            $dateExplode = explode(" ", $requestRows[$count]['date']);
+                            $date = $dateExplode[0];
+                            
+                            $dateA = new \DateTime("{$_SESSION['apiBasicGraphPeriod_year']}/{$_SESSION['apiBasicGraphPeriod_month']}/{$labelItems[$key]}");
+                            $dateB = new \DateTime($date);
+                            
+                            if (date_diff($dateA, $dateB)->y == 0 && date_diff($dateA, $dateB)->m == 0 && date_diff($dateA, $dateB)->d == 0) {
+                                $datasetName[] = $requestRows[$count]['ip'];
+                                $datasetItems[] = $requestRows[$count]['count'];
+                                
+                                $count ++;
+                            }
+                            else {
+                                $datasetName[] = "";
+                                $datasetItems[] = "";
+                            }
+                                
+                        }
+                        else {
+                            $datasetName[] = "";
+                            $datasetItems[] = "";
+                        }
+                    }
+                    
+                    $this->response['values']['json'] = Array(
+                        "label" => Array(
+                            "name" => "Requests",
+                            "items" => $labelItems
+                        ),
+                        "datasets" => Array(
+                            Array(
+                                "name" => $datasetName,
+                                "color" => "#ff0000",
+                                "items" => $datasetItems
+                            )
+                        )
+                    );
+                }
             }
         }
         
@@ -421,7 +535,7 @@ class ApiBasicController extends Controller {
         if ($request->isMethod("POST") == true) {
             if ($request->get("event") != null && $request->get("event") == "apiBasic") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"));
+                $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"), true);
                 
                 if ($microserviceApiRow != false) {
                     if ($apiBasicRow != false) {
@@ -467,7 +581,7 @@ class ApiBasicController extends Controller {
         if ($request->isMethod("POST") == true) {
             if ($request->get("event") != null && $request->get("event") == "apiBasic") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"));
+                $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"), true);
                 
                 if ($microserviceApiRow != false) {
                     if ($apiBasicRow != false) {
@@ -476,6 +590,13 @@ class ApiBasicController extends Controller {
                         else {
                             if ($apiBasicRow['url_callback'] != "")
                                 $this->urlCallback($request, $apiBasicRow);
+                            
+                            $requestRow = $this->selectApiBasicRequestDatabase();
+                            
+                            if ($requestRow == false)
+                                $this->apiBasicRequestDatabase("insert");
+                            else
+                                $this->apiBasicRequestDatabase("update", $requestRow);
                             
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_11");
                         }
@@ -489,7 +610,7 @@ class ApiBasicController extends Controller {
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
             
-            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL, FILE_APPEND);
+            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i:s e") . " - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL, FILE_APPEND);
             
             return $this->ajax->response(Array(
                 'response' => $this->response
@@ -498,20 +619,62 @@ class ApiBasicController extends Controller {
     }
     
     // Functions private
-    private function selectApiBasicDatabase($value) {
+    private function apiBasicRequestDatabase($type, $row = null) {
+        if ($type == "insert") {
+            $query = $this->utility->getConnection()->prepare("INSERT INTO microservice_apiBasic_request (
+                                                                    date,
+                                                                    ip
+                                                                )
+                                                                VALUES (
+                                                                    :date,
+                                                                    :ip
+                                                                );");
+            
+            $query->bindValue(":date", date("Y-m-d H:i:s"));
+            $query->bindValue(":ip", $_SERVER['REMOTE_ADDR']);
+        }
+        else if ($type == "update") {
+            $query = $this->utility->getConnection()->prepare("UPDATE microservice_apiBasic_request
+                                                                SET count = :count
+                                                                WHERE date LIKE :date");
+            
+            $query->bindValue(":count", $row['count'] + 1);
+            $query->bindValue(":date", "%" . date("Y-m-d") . "%");
+        }
+        
+        return $query->execute();
+    }
+    
+    private function selectApiBasicDatabase($value, $onlyActive) {
         $connection = $this->entityManager->getConnection();
         
         if (is_numeric($value) == true) {
-            $query = $connection->prepare("SELECT * FROM microservice_apiBasic
-                                            WHERE id = :id
-                                            AND active = :active");
+            if ($onlyActive == true) {
+                $query = $connection->prepare("SELECT * FROM microservice_apiBasic
+                                                WHERE id = :id
+                                                AND active = :active");
+                
+                $query->bindValue(":active", 1);
+            }
+            else {
+                $query = $connection->prepare("SELECT * FROM microservice_apiBasic
+                                                WHERE id = :id");
+            }
             
             $query->bindValue(":id", $value);
         }
         else {
-            $query = $connection->prepare("SELECT * FROM microservice_apiBasic
-                                            WHERE token = :token
-                                            AND active = :active");
+            if ($onlyActive == true) {
+                $query = $connection->prepare("SELECT * FROM microservice_apiBasic
+                                                WHERE token = :token
+                                                AND active = :active");
+                
+                $query->bindValue(":active", 1);
+            }
+            else {
+                $query = $connection->prepare("SELECT * FROM microservice_apiBasic
+                                                WHERE token = :token");
+            }
             
             $query->bindValue(":token", $value);
         }
@@ -523,10 +686,10 @@ class ApiBasicController extends Controller {
         return $query->fetch();
     }
     
-    private function selectAllApiBasicDatabase($bypass = false) {
+    private function selectAllApiBasicDatabase($onlyActive = false) {
         $connection = $this->entityManager->getConnection();
         
-        if ($bypass == false) {
+        if ($onlyActive == false) {
             $query = $connection->prepare("SELECT * FROM microservice_apiBasic
                                             WHERE active = :active");
 
@@ -540,11 +703,105 @@ class ApiBasicController extends Controller {
         return $query->fetchAll();
     }
     
+    private function selectApiBasicRequestDatabase() {
+        $connection = $this->entityManager->getConnection();
+        
+        $query = $connection->prepare("SELECT * FROM microservice_apiBasic_request
+                                        WHERE date LIKE :date");
+        
+        $query->bindValue(":date", "%" . date("Y-m-d") . "%");
+        
+        $query->execute();
+        
+        return $query->fetch();
+    }
+    
+    private function selectAllApiBasicRequestDatabase() {
+        $connection = $this->entityManager->getConnection();
+        
+        $query = $connection->prepare("SELECT * FROM microservice_apiBasic_request");
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
+    
+    private function createSelectPeriodYearHtml($request) {
+        $periodMin = new \DateTime("2017/01/01");
+        $periodMax = new \DateTime(date("Y/01/01"));
+        
+        $difference = date_diff($periodMin, $periodMax)->y;
+        
+        $html = "<div style=\"width: 100px;\" class=\"mdc-select\">
+            <select class=\"mdc-select__native-control graph_period_year\" name=\"graph_period_year\">";
+            
+            for ($a = 0; $a < $difference; $a ++) {
+                $date = $periodMin->add(new \DateInterval("P1Y"));
+                
+                $year = date("Y");
+
+                if ($request->get("year") != null && $request->get("year") != "")
+                    $year = $request->get("year");
+                else if (isset($_SESSION['apiBasicGraphPeriod_year']) == true)
+                    $year = $_SESSION['apiBasicGraphPeriod_year'];
+
+                $_SESSION["apiBasicGraphPeriod_year"] = $year;
+                
+                $periodMax = new \DateTime(date("$year/01/01"));
+                
+                $selected = "";
+                
+                if (date_diff($periodMin, $periodMax)->y == 0)
+                    $selected = "selected=\"selected\"";
+                
+                $html .= "<option $selected value=\"{$date->format("Y")}\">{$date->format("Y")}</option>";
+            }
+            
+            $html .= "</select>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">{$this->utility->getTranslator()->trans("apiBasicController_15")}</label>
+            <div class=\"mdc-line-ripple\"></div>
+        </div>";
+        
+        return $html;
+    }
+    
+    private function createSelectPeriodMonthHtml($request) {
+        $month = date("m");
+        
+        if ($request->get("month") != null && $request->get("month") != "")
+            $month = $request->get("month");
+        else if (isset($_SESSION['apiBasicGraphPeriod_month']) == true)
+            $month = $_SESSION['apiBasicGraphPeriod_month'];
+        
+        $_SESSION["apiBasicGraphPeriod_month"] = $month;
+        
+        $html = "<div style=\"width: 100px;\" class=\"mdc-select\">
+            <select class=\"mdc-select__native-control graph_period_month\" name=\"graph_period_month\">";
+            
+            for ($a = 1; $a <= 12; $a ++) {
+                $aTmp = sprintf("%02d", $a);
+                
+                $selected = "";
+                
+                if ($aTmp == $month)
+                    $selected = "selected=\"selected\"";
+                
+                $html .= "<option $selected value=\"$aTmp\">$aTmp</option>";
+            }
+            
+            $html .= "</select>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">{$this->utility->getTranslator()->trans("apiBasicController_16")}</label>
+            <div class=\"mdc-line-ripple\"></div>
+        </div>";
+        
+        return $html;
+    }
+    
     private function urlCallback($request, $row) {
         $curl = curl_init();
 
         if ($curl == FALSE)
-            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_15");
+            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_17");
         else {
             $postFields = Array(
                 'event' => 'apiSanyo',

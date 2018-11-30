@@ -96,6 +96,32 @@ INSERT INTO `microservice_apiBasic` VALUES (1,'Site_1','token_basic',NULL,NULL,1
 UNLOCK TABLES;
 
 --
+-- Table structure for table `microservice_apiBasic_request`
+--
+
+DROP TABLE IF EXISTS `microservice_apiBasic_request`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `microservice_apiBasic_request` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` varchar(19) COLLATE utf8_unicode_ci DEFAULT '0000-00-00 00:00:00',
+  `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `count` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `microservice_apiBasic_request`
+--
+
+LOCK TABLES `microservice_apiBasic_request` WRITE;
+/*!40000 ALTER TABLE `microservice_apiBasic_request` DISABLE KEYS */;
+INSERT INTO `microservice_apiBasic_request` VALUES (1,'2018-12-05 12:05:29','192.168.56.1',1),(2,'2018-12-06 12:05:29','192.168.56.1',2),(3,'2018-12-07 12:05:29','192.168.56.1',1),(4,'2018-12-08 12:05:29','192.168.56.1',4),(5,'2018-12-09 12:05:29','192.168.56.1',1),(6,'2018-12-10 12:05:29','192.168.56.1',1),(7,'2018-12-11 12:05:29','192.168.56.1',6),(8,'2018-12-12 12:05:29','192.168.56.1',1),(9,'2018-12-13 12:05:29','192.168.56.1',8),(10,'2018-12-14 12:05:29','192.168.56.1',1),(11,'2018-12-16 12:05:29','192.168.56.1',4),(12,'2018-12-17 12:05:29','192.168.56.1',1),(13,'2018-12-18 12:05:29','192.168.56.1',6),(14,'2018-12-19 12:05:29','192.168.56.1',1),(15,'2018-12-20 12:05:29','192.168.56.1',2),(16,'2018-12-22 12:05:29','192.168.56.1',1),(17,'2018-12-23 12:05:29','192.168.56.1',9),(18,'2018-12-24 12:05:29','192.168.56.1',1),(19,'2018-12-25 12:05:29','192.168.56.1',13),(20,'2018-12-26 12:05:29','192.168.56.1',1);
+/*!40000 ALTER TABLE `microservice_apiBasic_request` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `microservice_deploy`
 --
 
@@ -455,7 +481,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-11-16 18:41:01','2018-11-15 16:23:15',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-11-30 12:33:32','2018-11-30 10:01:03',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -472,4 +498,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-16 20:03:53
+-- Dump completed on 2018-11-30 18:34:41

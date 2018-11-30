@@ -89,7 +89,7 @@ class PayPal {
         
         if($this->debug == true) {
             if ($curlInfo['http_code'] != 200) {
-                error_log(date("Y-m-d H:i e") . " - PayPal responded with http code: " . print_r($curlInfo['http_code'], true) . PHP_EOL);
+                error_log(date("Y-m-d H:i:s e") . " - PayPal responded with http code: " . print_r($curlInfo['http_code'], true) . PHP_EOL);
                 
                 return false;
             }
@@ -102,7 +102,7 @@ class PayPal {
         
         if ($curlResponse == "VERIFIED") {
             if ($this->debug == true)
-                error_log(date("Y-m-d H:i e") . " - Verified IPN: " . print_r($postFields, true) . PHP_EOL);
+                error_log(date("Y-m-d H:i:s e") . " - Verified IPN: " . print_r($postFields, true) . PHP_EOL);
             
             return true;
         }

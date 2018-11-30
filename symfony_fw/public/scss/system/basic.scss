@@ -528,6 +528,10 @@ table {
     color: white;
 }
 
+.graph_container {
+    height: 400px;
+}
+
 #body_progress {
     display: block;
     height: 100%;
@@ -649,12 +653,17 @@ table {
             margin: 0;
         }
         
-        div {
+        &> div {
             display: inline-block;
+            margin-left: 35px;
+            
+            .mdc-form-field {
+                vertical-align: top;
+            }
             
             img {
-                display: block;
                 margin-left: 10px;
+                display: block;
             }
         }
     }

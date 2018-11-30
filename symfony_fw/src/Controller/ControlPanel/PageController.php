@@ -63,7 +63,7 @@ class PageController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         // Logic
         $pageEntity = new Page();
@@ -152,7 +152,7 @@ class PageController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         // Logic
         $_SESSION['pageProfileId'] = 0;
@@ -221,7 +221,7 @@ class PageController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -306,7 +306,7 @@ class PageController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
@@ -358,7 +358,7 @@ class PageController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         // Logic
         $pageEntity = $this->entityManager->getRepository("App\Entity\Page")->find($_SESSION['pageProfileId']);
@@ -439,7 +439,7 @@ class PageController extends Controller {
         
         $this->utility->checkSessionOverTime($request);
         
-        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
         // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {

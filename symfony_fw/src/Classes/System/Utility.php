@@ -209,7 +209,7 @@ class Utility {
             $rdi = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
             $rii = new RecursiveIteratorIterator($rdi, RecursiveIteratorIterator::CHILD_FIRST);
 
-            foreach($rii as $file) {
+            foreach ($rii as $file) {
                 if (file_exists($file->getRealPath()) == true) {
                     if ($file->isDir() == true)
                         rmdir($file->getRealPath());
@@ -385,7 +385,7 @@ class Utility {
     }
     
     public function arrayFindKeyWithValue($elements, $label, $item) {
-        foreach($elements as $key => $value) {
+        foreach ($elements as $key => $value) {
             if ($value[$label] === $item )
                 return $key;
         }
@@ -412,7 +412,7 @@ class Utility {
         $i = 0;
         $keys = Array();
         
-        foreach($elements as $key => $value) {
+        foreach ($elements as $key => $value) {
             if (in_array($value[$index], $keys) == false) {
                 $results[$i] = $value;
                 
@@ -428,6 +428,12 @@ class Utility {
         return $results;
     }
     
+    public function arrayCombine($elementsA, $elementsB) {
+        $count = min(count($elementsA), count($elementsB));
+        
+        return array_combine(array_slice($elementsA, 0, $count), array_slice($elementsB, 0, $count));
+    }
+    
     public function urlParameters($completeUrl, $baseUrl) {
         $lastPath = substr($completeUrl, strpos($completeUrl, $baseUrl) + strlen($baseUrl));
         $lastPathExplode = explode("/", $lastPath);
@@ -440,7 +446,7 @@ class Utility {
         $result = Array();
         $match = Array();
         
-        foreach($parameters as $key => $value) {
+        foreach ($parameters as $key => $value) {
             if (is_object($value) == false)
                 $result[$key] = $value;
             else {
@@ -718,11 +724,13 @@ class Utility {
             return $row['active'];
     }
     
-    public function checkUserRole($roleName, $roleId) {
-        $row = $this->query->selectRoleUserDatabase($roleId);
-        
-        if ($this->arrayFindValue($roleName, $row) == true)
-            return true;
+    public function checkUserRole($roleName, $user) {
+        if ($user != null) {
+            $row = $this->query->selectRoleUserDatabase($user->getRoleUserId());
+
+            if ($this->arrayFindValue($roleName, $row) == true)
+                return true;
+        }
         
         return false;
     }

@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
+use App\Classes\System\Ajax;
 
 class MenuRootController extends Controller {
     // Vars
@@ -19,6 +20,7 @@ class MenuRootController extends Controller {
     
     private $utility;
     private $query;
+    private $ajax;
     
     // Properties
     
@@ -37,6 +39,7 @@ class MenuRootController extends Controller {
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         

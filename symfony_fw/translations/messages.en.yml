@@ -740,4 +740,6 @@ date.time: H:i:s
 "apiBasicController_12": "ApiBasic problem with parameters!"
 "apiBasicController_13": "ApiBasic problem with token!"
 "apiBasicController_14": "ApiBasic problem with ip."
-"apiBasicController_15": "ApiBasic problem with url callback."
+"apiBasicController_15": "Year"
+"apiBasicController_16": "Month"
+"apiBasicController_17": "ApiBasic problem with url callback."

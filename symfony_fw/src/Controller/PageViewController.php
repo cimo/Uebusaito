@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
+use App\Classes\System\Ajax;
 
 class PageViewController extends Controller {
     // Vars
@@ -19,6 +20,7 @@ class PageViewController extends Controller {
     
     private $utility;
     private $query;
+    private $ajax;
     
     // Properties
     
@@ -37,6 +39,7 @@ class PageViewController extends Controller {
         
         $this->utility = new Utility($this->container, $this->entityManager);
         $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -83,20 +86,32 @@ class PageViewController extends Controller {
                     );
                 }
                 else if ($pageRow['protected'] == true) {
-                    $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser()->getRoleUserId());
-                    $arrayExplodeFindValue = $this->utility->arrayExplodeFindValue($pageRow['role_user_id'], $this->getUser()->getRoleUserId());
-                            
-                    if ($checkUserRole == false && $arrayExplodeFindValue == false) {
-                        // Page not available for role
-                        $this->response['values']['controllerAction'] = null;
-                        $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_4");
+                    $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
+                    
+                    if ($checkUserRole == true) {
+                        $arrayExplodeFindValue = $this->utility->arrayExplodeFindValue($pageRow['role_user_id'], $this->getUser()->getRoleUserId());
 
-                        return Array(
-                            'urlLocale' => $this->urlLocale,
-                            'urlCurrentPageId' => $pageRow['id'],
-                            'urlExtra' => $this->urlExtra,
-                            'response' => $this->response
-                        );
+                        if ($arrayExplodeFindValue == false) {
+                            // Page not available for role
+                            $this->response['values']['controllerAction'] = null;
+                            $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_4");
+
+                            return Array(
+                                'urlLocale' => $this->urlLocale,
+                                'urlCurrentPageId' => $pageRow['id'],
+                                'urlExtra' => $this->urlExtra,
+                                'response' => $this->response
+                            );
+                        }
+                        else {
+                            // Page normal
+                            return Array(
+                                'urlLocale' => $this->urlLocale,
+                                'urlCurrentPageId' => $pageRow['id'],
+                                'urlExtra' => $this->urlExtra,
+                                'response' => $this->response
+                            );
+                        }
                     }
                     else {
                         // Page normal

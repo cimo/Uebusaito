@@ -11,8 +11,8 @@
     {% endif %}
 {% endif %}
 
-{% if (settingRow['pageComment_active'] == true) %}
-    {% if form is defined %}
+{% if form is defined %}
+    {% if (settingRow['pageComment_active'] == true) %}
         {% if app.user %}
             {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
@@ -28,9 +28,9 @@
         {% else %}
             <p>{% trans %}pageComment_1{% endtrans %}</p>
         {% endif %}
+    {% else %}
+        <p>{% trans %}pageComment_2{% endtrans %}</p>
     {% endif %}
-{% else %}
-    <p>{% trans %}pageComment_2{% endtrans %}</p>
 {% endif %}
 
 <script type="text/javascript">

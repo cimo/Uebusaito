@@ -4,10 +4,16 @@ function ControlPanelApiBasic() {
     // Vars
     var self = this;
     
+    var year;
+    var month;
+    
     // Properties
     
     // Functions public
     self.init = function() {
+        year = "";
+        month = "";
+        
         $(document).on("submit", "#form_cp_apiBasic_select", function(event) {
             event.preventDefault();
 
@@ -90,6 +96,54 @@ function ControlPanelApiBasic() {
                                 "File log",
                                 xhr.response.values.log
                             );
+                        }
+                    },
+                    null,
+                    null
+                );
+            });
+            
+            $("#button_apiBasic_show_graph").on("click", "", function(event) {
+                ajax.send(
+                    true,
+                    window.url.cpApiBasicGraph,
+                    "post",
+                    {
+                        'event': "graph",
+                        'year': year,
+                        'month': month,
+                        'token': window.session.token
+                    },
+                    "json",
+                    false,
+                    true,
+                    "application/x-www-form-urlencoded; charset=UTF-8",
+                    null,
+                    function(xhr) {
+                        ajax.reply(xhr, "");
+                        
+                        if (xhr.response.render !== undefined) {
+                            popupEasy.create(
+                                "Show graph - " + xhr.response.values.selectPeriodYearHtml + xhr.response.values.selectPeriodMonthHtml,
+                                xhr.response.render
+                            );
+                    
+                            $(".graph_period_year, .graph_period_month").on("change", "", function() {
+                                if ($(this).hasClass("graph_period_year") === true)
+                                    year = $(this).val();
+                                else if ($(this).hasClass("graph_period_month") === true)
+                                    month = $(this).val();
+                                
+                                $("#button_apiBasic_show_graph").click();
+                            });
+                            
+                            chaato.init();
+                            chaato.setBackgroundType("grid"); // grid - lineX - lineY
+                            chaato.setAnimationSpeed(0.20);
+                            chaato.setPadding(30);
+                            chaato.setTranslate(new Array(95, 20));
+                            chaato.setScale(new Array(0.91, 0.88));
+                            chaato.create(xhr.response.values.json);
                         }
                     },
                     null,

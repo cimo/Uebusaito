@@ -12,7 +12,7 @@ function PopupEasy() {
     
     // Functions public
     self.create = function(title, message, callbackOk, callbackCancel) {
-        $(".mdc-dialog").find(".mdc-dialog__header__title").text(title);
+        $(".mdc-dialog").find(".mdc-dialog__header__title").html(title);
         $(".mdc-dialog").find(".mdc-dialog__body").html(message);
         $(".mdc-dialog").find(".mdc-dialog__footer__button--accept").text(window.text.index_6);
         $(".mdc-dialog").find(".mdc-dialog__footer__button--cancel").text(window.text.index_7);

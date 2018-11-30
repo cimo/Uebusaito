@@ -67,7 +67,7 @@ class PageCommentController extends Controller {
 
         $this->response['values']['search'] = $tableAndPagination['search'];
         $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml'], $this->query);
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
         $this->response['values']['count'] = $tableAndPagination['count'];
         
         if ($this->tableAndPagination->checkPost() == true) {
@@ -198,8 +198,8 @@ class PageCommentController extends Controller {
     }
     
     // Functions private
-    private function createListHtml($elements, $query) {
-        $setting = $query->selectSettingDatabase();
+    private function createListHtml($elements) {
+        $setting = $this->query->selectSettingDatabase();
         
         $html = "<ul class=\"mdc-list mdc-list--two-line mdc-list--avatar-list\">";
         
@@ -245,13 +245,13 @@ class PageCommentController extends Controller {
                 
                 if ($this->getUser() != null) {
                     if ($this->getUser()->getUsername() != $value['username']) {
-                        $row = $query->selectPageCommentDatabase("reply", $value['id'], $this->getUser()->getUsername());
+                        $row = $this->query->selectPageCommentDatabase("reply", $value['id'], $this->getUser()->getUsername());
                         
                         if ($row == false)
                             $html .= "<span class=\"mdc-list-item__meta material-icons button_reply\">reply</span>";
                     }
                     else {
-                        $row = $query->selectPageCommentDatabase("edit", $value['id']);
+                        $row = $this->query->selectPageCommentDatabase("edit", $value['id']);
                         
                         if ($row == false)
                             $html .= "<span class=\"mdc-list-item__meta material-icons button_edit\">edit</span>";

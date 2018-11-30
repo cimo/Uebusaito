@@ -34,7 +34,7 @@ class Query {
         
         $levels = Array();
         
-        foreach($roleIdExplode as $key => $value) {
+        foreach ($roleIdExplode as $key => $value) {
             $query = $this->connection->prepare("SELECT level FROM roles_users
                                                     WHERE id = :value");
             

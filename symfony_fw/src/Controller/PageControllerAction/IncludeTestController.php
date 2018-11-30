@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
+use App\Classes\System\Ajax;
 
 class IncludeTestController extends Controller {
     // Vars
@@ -18,6 +19,8 @@ class IncludeTestController extends Controller {
     private $response;
     
     private $utility;
+    private $query;
+    private $ajax;
     
     // Properties
     
@@ -35,6 +38,8 @@ class IncludeTestController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
