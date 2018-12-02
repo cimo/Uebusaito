@@ -1,6 +1,7 @@
 #!/bin/bash
 
 gitCloneUrl=https://username:password@github.com/cimo/Uebusaito.git
+#gitCloneUrl=https://oauth2:token@github.com/cimo/Uebusaito.git
 gitClonePath=/home/user_1/www/project_folder
 userGitScript=user_1
 userWebScript=user_1:www-data
@@ -22,7 +23,7 @@ then
     then
         read -p "Insert branch name: > " branchNameA branchNameB
 
-        if [ ! -z "$branchNameA $branchNameB" ]
+        if [ ! -z "$branchNameA $branchNameB" -a "$branchNameA $branchNameB" != " " ]
         then
                 cd $gitClonePath
                 sudo -u $userGitScript git pull --no-edit $gitCloneUrl $branchNameA $branchNameB
