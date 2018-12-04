@@ -60,7 +60,7 @@ function ControlPanelPayment() {
                                     $("#form_payment_select_id").append("<option value=\"" + value.id + "\">" + value.transaction + "</option>");
                                 });
                                 
-                                $("#cp_payment_select_result_desktop").find(".table_loading").css("visibility", "hidden");
+                                $("#cp_payment_select_result_desktop").find(".update_loading").css("visibility", "hidden");
                             },
                             null,
                             null
@@ -70,7 +70,7 @@ function ControlPanelPayment() {
                         
                         $(".button_accordion").eq(1).click();
                         
-                        $("#cp_payment_select_result_desktop").find(".table_loading").css("visibility", "visible");
+                        $("#cp_payment_select_result_desktop").find(".update_loading").css("visibility", "visible");
                     }
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);

@@ -8,6 +8,7 @@ $(document).ready(function() {
     utility.linkPreventDefault();
     utility.accordion("button");
     utility.menuRoot();
+    utility.uploadFakeClick();
     
     // Material design
     materialDesign.init();

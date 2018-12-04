@@ -63,6 +63,9 @@ class PageViewController extends Controller {
         $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
         
         if ($pageRow != false) {
+            if ($pageRow['only_parent'] == true)
+                return $this->pageDoesNotExist();
+            
             $this->response['values']['controllerAction'] = $pageRow['controller_action'];
             $this->response['values']['title'] = $pageRow['title'];
             $this->response['values']['argument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "utf-8");

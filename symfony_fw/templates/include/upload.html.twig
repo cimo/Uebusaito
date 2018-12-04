@@ -1,5 +1,13 @@
 <div class="upload">
-    <input class="file" type="file" name="file"/>
+    <div class="form_row">
+        <div class="material_upload">
+            <button class="mdc-fab" aria-label="Upload" type="button">
+                <span class="mdc-fab__icon material-icons">cloud_upload</span>
+            </button>
+            <label>{{label}}</label>
+            <input class="file" type="file" name="file">
+        </div>
+    </div>
     
     {{-include("@templateRoot/include/progress_bar.html.twig")-}}
     

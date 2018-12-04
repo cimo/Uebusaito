@@ -1,4 +1,4 @@
-/* global utility, loader, flashBag */
+/* global utility, ajax, loader, flashBag */
 
 var upload = new Upload();
 
@@ -69,17 +69,17 @@ function Upload() {
             var formData = new FormData();
             formData.append('file', file);
             
-            $.ajax({
-                'url': urlRequest + "?action=change",
-                'method': "post",
-                'data': formData,
-                'dataType': "json",
-                'cache': false,
-                'processData': false,
-                'contentType': false,
-                beforeSend: function() {
-                },
-                success: function(xhr) {
+            ajax.send(
+                true,
+                urlRequest + "?action=change",
+                "post",
+                formData,
+                "json",
+                false,
+                false,
+                false,
+                null,
+                function(xhr) {
                     if (xhr.userActivity !== undefined && xhr.userActivity !== "") {
                         window.session.userActivity = xhr.userActivity;
 
@@ -121,12 +121,11 @@ function Upload() {
 
                     loader.hide();
                 },
-                error: function(xhr, status) {
+                function() {
                     loader.hide();
                 },
-                complete: function() {
-                }
-            });
+                null
+            );
         });
     };
     

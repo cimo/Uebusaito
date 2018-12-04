@@ -75,7 +75,7 @@ function Chaato() {
         backgroundType = "grid";
         
         animationCount = 0;
-        animationSpeed = 0.20;
+        animationSpeed = 0.50;
         
         mousePosition = {};
         
@@ -91,13 +91,13 @@ function Chaato() {
 
         var tmpItemMax = new Array();
 
-        $.each(jsonResult.datasets, function(key, value) {
-            tmpItemMax[key] = Math.max.apply(null, jsonResult.datasets[key].items);
+        $.each(jsonResult.elements, function(key, value) {
+            tmpItemMax[key] = Math.max.apply(null, jsonResult.elements[key].items);
         });
         
         itemMax = Math.max.apply(null, tmpItemMax);
         itemMaxKey = indexOfMax(tmpItemMax);
-        itemSpace = Math.floor(canvasHeight / jsonResult.datasets[itemMaxKey].items.length) - 1;
+        itemSpace = Math.floor(canvasHeight / jsonResult.elements[itemMaxKey].items.length) - 1;
 
         render();
 
@@ -117,12 +117,12 @@ function Chaato() {
         
         background();
         
-        $.each(jsonResult.datasets, function(key, value) {
+        $.each(jsonResult.elements, function(key, value) {
             $.each(value, function(keySub, valueSub) {
                 if (keySub === "items") {
                     listItems[key] = [];
                     
-                    dataLine(key, jsonResult.datasets[key].color, valueSub);
+                    dataLine(key, jsonResult.elements[key].color, valueSub);
                 }
             });
         });
@@ -170,7 +170,7 @@ function Chaato() {
         });
         
         // Items
-        var itemsLength = jsonResult.datasets[itemMaxKey].items.length;
+        var itemsLength = jsonResult.elements[itemMaxKey].items.length;
         
         var step = parseInt(itemMax / labelItems.length);
         
@@ -219,7 +219,7 @@ function Chaato() {
             context.lineJoin = "round";
 
             var x = (key * labelSpace);
-            var y = canvasHeight - ((value * itemSpace) / (itemMax / jsonResult.datasets[itemMaxKey].items.length));
+            var y = canvasHeight - ((value * itemSpace) / (itemMax / jsonResult.elements[itemMaxKey].items.length));
             
             context.moveTo(x, y);
             context.lineTo(itemPrevious[0], itemPrevious[1]);
@@ -241,7 +241,7 @@ function Chaato() {
     
     function dataLineAnimation(index, color, items, itemPrevious, animationCount) {
         var x = (animationCount * labelSpace);
-        var y = canvasHeight - (items[animationCount] * itemSpace / (itemMax / jsonResult.datasets[itemMaxKey].items.length));
+        var y = canvasHeight - (items[animationCount] * itemSpace / (itemMax / jsonResult.elements[itemMaxKey].items.length));
         
         var amount = 0;
 
@@ -324,8 +324,8 @@ function Chaato() {
                 
                 if (distance <= 10) {
                     $(".graph_container").find(".info p span").eq(0).text(jsonResult.label.name);
-                    $(".graph_container").find(".info p span").eq(1).text(jsonResult.datasets[key].name[keySub]);
-                    $(".graph_container").find(".info p span").eq(2).text(jsonResult.datasets[key].items[keySub]);
+                    $(".graph_container").find(".info p span").eq(1).text(jsonResult.elements[key].name[keySub]);
+                    $(".graph_container").find(".info p span").eq(2).text(jsonResult.elements[key].items[keySub]);
                     $(".graph_container").find(".info").show();
                 }
             });

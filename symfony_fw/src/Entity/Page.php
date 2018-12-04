@@ -73,6 +73,11 @@ class Page {
     private $comment = true;
     
     /**
+     * @ORM\Column(name="only_parent", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     */
+    private $onlyParent = false;
+    
+    /**
      * @ORM\Column(name="only_link", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
     private $onlyLink = false;
@@ -155,6 +160,10 @@ class Page {
         $this->comment = $value;
     }
     
+    public function setOnlyParent($value) {
+        $this->onlyParent = $value;
+    }
+    
     public function setOnlyLink($value) {
         $this->onlyLink = $value;
     }
@@ -235,6 +244,10 @@ class Page {
     
     public function getComment() {
         return $this->comment;
+    }
+    
+    public function getOnlyParent() {
+        return $this->onlyParent;
     }
     
     public function getOnlyLink() {

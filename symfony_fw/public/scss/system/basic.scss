@@ -188,7 +188,8 @@ table {
         }
     }
 }
-.table_loading {
+
+.update_loading {
     visibility: hidden;
     font-size: 35px;
 }
@@ -530,6 +531,18 @@ table {
 
 .graph_container {
     height: 400px;
+}
+
+.material_upload {
+    margin: 10px 0 0 5px;
+    
+    label {
+        vertical-align: super;
+    }
+    
+    input {
+        display: none;
+    }
 }
 
 #body_progress {

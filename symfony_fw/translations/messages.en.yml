@@ -150,7 +150,7 @@ date.time: H:i:s
 "pageView_4": "Edited on: "
 
 "pageViewController_1": "Page empty"
-"pageViewController_2": "This page dosen't exist!"
+"pageViewController_2": "This page doesn't exist!"
 "pageViewController_3": "This page isn't available if you are logged!"
 "pageViewController_4": "This page isn't available for your role!"
 "pageViewController_5": "Need login for show content!"
@@ -391,9 +391,10 @@ date.time: H:i:s
 "pageFormType_9": "Show in menu"
 "pageFormType_10": "Menu name"
 "pageFormType_11": "Comment"
-"pageFormType_12": "Only link"
-"pageFormType_13": "Link"
-"pageFormType_14": "Send"
+"pageFormType_12": "Only parent"
+"pageFormType_13": "Only link"
+"pageFormType_14": "Link"
+"pageFormType_15": "Send"
 
 "pageSelectFormType_1": "Alias"
 "pageSelectFormType_2": "Select"
@@ -742,4 +743,4 @@ date.time: H:i:s
 "apiBasicController_14": "ApiBasic problem with ip."
 "apiBasicController_15": "Year"
 "apiBasicController_16": "Month"
-"apiBasicController_17": "ApiBasic problem with url callback."
+"apiBasicController_17": "ApiBasic problem with curl."

@@ -129,17 +129,15 @@ function ControlPanelApiBasic() {
                             );
                     
                             $(".graph_period_year, .graph_period_month").on("change", "", function() {
-                                if ($(this).hasClass("graph_period_year") === true)
-                                    year = $(this).val();
-                                else if ($(this).hasClass("graph_period_month") === true)
-                                    month = $(this).val();
+                                year = $(".graph_period_year").val();
+                                month = $(".graph_period_month").val();
                                 
                                 $("#button_apiBasic_show_graph").click();
                             });
                             
                             chaato.init();
                             chaato.setBackgroundType("grid"); // grid - lineX - lineY
-                            chaato.setAnimationSpeed(0.20);
+                            chaato.setAnimationSpeed(0.50);
                             chaato.setPadding(30);
                             chaato.setTranslate(new Array(95, 20));
                             chaato.setScale(new Array(0.91, 0.88));

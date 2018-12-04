@@ -123,7 +123,7 @@ class Upload {
 
 			rename("{$this->settings['path']}/$this->tmp", "{$this->settings['path']}/$this->name");
 
-			if ($this->settings['path'] == "") {
+			if (empty($this->settings['path']) == true) {
 				return Array(
 					'status' => 2,
 					'text' => $this->utility->getTranslator()->trans("classUpload_5")

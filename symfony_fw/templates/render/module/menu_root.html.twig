@@ -5,8 +5,16 @@
         <ul>
             {% for key, value in response.values.pageList %}
                 {% if value.show_in_menu == true %}
+                    {% if value.only_parent == true %}
+                        {% set href = "#" %}
+                    {% elseif value.only_link == true %}
+                        {% set href = value.link %}
+                    {% else %}
+                        {% set href = path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': value.id, 'urlExtra': ""}) %}
+                    {% endif %}
+                    
                     <li class="parent">
-                        <a class="target {% if value.children|length > 0 %}target_clean{% endif %}" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': value.id, 'urlExtra': ""})}}">
+                        <a class="target {% if value.children|length > 0 %}target_clean{% endif %}" href="{{href}}">
                             <span>{{value.menu_name}}</span>
                             <i class="material-icons" {% if value.children|length == 0 %}style="visibility: hidden; width: 0;"{% endif %}>keyboard_arrow_down</i>
                         </a>
@@ -25,7 +33,15 @@
         
         {% for key, value in response.values.pageList %}
             {% if value.show_in_menu == true %}
-                <a class="mdc-list-item {% if value.children|length > 0 %}target_clean{% endif %}" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': value.id, 'urlExtra': ""})}}">
+                {% if value.only_parent == true %}
+                    {% set href = "#" %}
+                {% elseif value.only_link == true %}
+                    {% set href = value.link %}
+                {% else %}
+                    {% set href = path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': value.id, 'urlExtra': ""}) %}
+                {% endif %}
+                
+                <a class="mdc-list-item {% if value.children|length > 0 %}target_clean{% endif %}" href="{{href}}">
                     <span>{{value.menu_name}}</span>
                     <i class="mdc-list-item__graphic material-icons parent_icon" {% if value.children|length == 0 %}style="visibility: hidden; width: 0;"{% endif %}>toc</i>
                 </a>
@@ -44,8 +60,16 @@
     <ul class="children_container">
         {% for key, value in pageList %}
             {% if value.show_in_menu == true %}
+                {% if value.only_parent == true %}
+                    {% set href = "#" %}
+                {% elseif value.only_link == true %}
+                    {% set href = value.link %}
+                {% else %}
+                    {% set href = path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': value.id, 'urlExtra': ""}) %}
+                {% endif %}
+
                 <li class="parent">
-                    <a class="target" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': value.id, 'urlExtra': ""})}}">
+                    <a class="target" href="{{href}}">
                         <span>{{value.menu_name}}</span>
                         <i class="material-icons" {% if value.children|length == 0 %}style="visibility: hidden; width: 0;"{% endif %}>keyboard_arrow_right</i>
                     </a>
@@ -69,7 +93,15 @@
     <div class="children_container">
         {% for key, value in pageList %}
             {% if value.show_in_menu == true %}
-                <a class="mdc-list-item {% if value.children|length > 0 %}target_clean{% endif %}" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': value.id, 'urlExtra': ""})}}">
+                {% if value.only_parent == true %}
+                    {% set href = "#" %}
+                {% elseif value.only_link == true %}
+                    {% set href = value.link %}
+                {% else %}
+                    {% set href = path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': value.id, 'urlExtra': ""}) %}
+                {% endif %}
+                
+                <a class="mdc-list-item {% if value.children|length > 0 %}target_clean{% endif %}" href="{{href}}">
                     {{loopSpace}}&nbsp;<span>{{value.menu_name}}</span>
                     <i class="mdc-list-item__graphic material-icons parent_icon" {% if value.children|length == 0 %}style="visibility: hidden; width: 0;"{% endif %}>toc</i>
                 </a>

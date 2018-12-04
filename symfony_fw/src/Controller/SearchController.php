@@ -122,7 +122,7 @@ class SearchController extends Controller {
         // Logic
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale, $this->urlExtra);
         
-        if ($this->urlExtra == "")
+        if (empty($this->urlExtra) == true)
             $pageRows = Array();
         
         $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "searchRender", true, true);

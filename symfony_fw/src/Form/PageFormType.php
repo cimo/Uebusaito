@@ -40,6 +40,7 @@ class PageFormType extends AbstractType {
                 'id' => "0",
                 'menu_name' => "-",
                 'comment' => "1",
+                'only_parent' => "0",
                 'only_link' => "0",
                 'link' => "-"
             );
@@ -55,6 +56,7 @@ class PageFormType extends AbstractType {
                 'id' => $options['data']->getId(),
                 'menu_name' => $options['pageRow']['menu_name'],
                 'comment' => $options['data']->getComment(),
+                'only_parent' => $options['data']->getOnlyParent(),
                 'only_link' => $options['data']->getOnlyLink(),
                 'link' => $options['data']->getLink()
             );
@@ -127,9 +129,18 @@ class PageFormType extends AbstractType {
                 "pageFormType_8" => "1"
             )
         ))
-        ->add("onlyLink", ChoiceType::class, Array(
+        ->add("onlyParent", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "pageFormType_12",
+            'data' => $values['only_parent'],
+            'choices' => Array(
+                "pageFormType_7" => "0",
+                "pageFormType_8" => "1"
+            )
+        ))
+        ->add("onlyLink", ChoiceType::class, Array(
+            'required' => true,
+            'placeholder' => "pageFormType_13",
             'data' => $values['only_link'],
             'choices' => Array(
                 "pageFormType_7" => "0",
@@ -138,11 +149,11 @@ class PageFormType extends AbstractType {
         ))
         ->add("link", TextType::class, Array(
             'required' => true,
-            'label' => "pageFormType_13",
+            'label' => "pageFormType_14",
             'data' => $values['link']
         ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "pageFormType_14",
+            'label' => "pageFormType_15",
         ));
     }
 }

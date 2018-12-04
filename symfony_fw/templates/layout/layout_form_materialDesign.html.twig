@@ -101,7 +101,10 @@
 
 {%- block file_widget -%}
     {% set type = type|default('file') %}
-    <div style="margin: 10px 0 0 5px;">
+    <div class="material_upload">
+        <button class="mdc-fab" aria-label="Upload" type="button">
+            <span class="mdc-fab__icon material-icons">cloud_upload</span>
+        </button>
         <label>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
         <input type="{{ type }}" {{ block('widget_attributes') }}/>
     </div>

@@ -610,7 +610,7 @@ class PageController extends Controller {
         array_pop($rankMenuSortExplode);
         
         foreach ($rankMenuSortExplode as $key => $value) {
-            if ($value == "")
+            if (empty($value) == true)
                 $value = $pageId;
 
             $query = $this->utility->getConnection()->prepare("UPDATE pages

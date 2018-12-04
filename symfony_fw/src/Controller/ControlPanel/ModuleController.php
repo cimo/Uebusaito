@@ -495,7 +495,7 @@ class ModuleController extends Controller {
         array_pop($rankColumnSortExplode);
         
         foreach ($rankColumnSortExplode as $key => $value) {
-            if ($value == "")
+            if (empty($value) == true)
                 $value = $moduleId;
 
             $query = $this->utility->getConnection()->prepare("UPDATE modules

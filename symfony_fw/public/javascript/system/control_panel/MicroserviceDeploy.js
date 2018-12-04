@@ -54,7 +54,7 @@ function ControlPanelMicroserviceDeploy() {
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
-                $(this).serialize(),
+                new FormData(this),
                 "json",
                 false,
                 false,

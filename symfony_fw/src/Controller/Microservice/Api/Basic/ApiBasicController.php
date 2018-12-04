@@ -384,6 +384,7 @@ class ApiBasicController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -427,6 +428,7 @@ class ApiBasicController extends Controller {
         $this->response = Array();
         
         $this->utility = new Utility($this->container, $this->entityManager);
+        $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
@@ -454,36 +456,36 @@ class ApiBasicController extends Controller {
                         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"
                     );
                     
-                    // Datasets
-                    $requestRows = $this->selectAllApiBasicRequestDatabase();
+                    // Elements
+                    $requestBasicRows = $this->selectAllApiBasicRequestDatabase("apiBasic");
                     
-                    $datasetName = Array();
-                    $datasetItems = Array();
-                    $count = 0;
+                    $elementBasicNames = Array();
+                    $elementBasicItems = Array();
+                    $countBasic = 0;
                     
                     foreach ($labelItems as $key => $value) {
-                        if (isset($requestRows[$count]) == true) {
-                            $dateExplode = explode(" ", $requestRows[$count]['date']);
+                        if (isset($requestBasicRows[$countBasic]) == true) {
+                            $dateExplode = explode(" ", $requestBasicRows[$countBasic]['date']);
                             $date = $dateExplode[0];
                             
-                            $dateA = new \DateTime("{$_SESSION['apiBasicGraphPeriod_year']}/{$_SESSION['apiBasicGraphPeriod_month']}/{$labelItems[$key]}");
+                            $dateA = new \DateTime("{$_SESSION['apiBasicGraphPeriod_year']}-{$_SESSION['apiBasicGraphPeriod_month']}-{$labelItems[$key]}");
                             $dateB = new \DateTime($date);
                             
                             if (date_diff($dateA, $dateB)->y == 0 && date_diff($dateA, $dateB)->m == 0 && date_diff($dateA, $dateB)->d == 0) {
-                                $datasetName[] = $requestRows[$count]['ip'];
-                                $datasetItems[] = $requestRows[$count]['count'];
+                                $elementBasicNames[] = $requestBasicRows[$countBasic]['name'];
+                                $elementBasicItems[] = $requestBasicRows[$countBasic]['count'];
                                 
-                                $count ++;
+                                $countBasic ++;
                             }
                             else {
-                                $datasetName[] = "";
-                                $datasetItems[] = "";
+                                $elementBasicNames[] = "";
+                                $elementBasicItems[] = "";
                             }
                                 
                         }
                         else {
-                            $datasetName[] = "";
-                            $datasetItems[] = "";
+                            $elementBasicNames[] = "";
+                            $elementBasicItems[] = "";
                         }
                     }
                     
@@ -492,11 +494,11 @@ class ApiBasicController extends Controller {
                             "name" => "Requests",
                             "items" => $labelItems
                         ),
-                        "datasets" => Array(
+                        "elements" => Array(
                             Array(
-                                "name" => $datasetName,
+                                "name" => $elementBasicNames,
                                 "color" => "#ff0000",
-                                "items" => $datasetItems
+                                "items" => $elementBasicItems
                             )
                         )
                     );
@@ -578,6 +580,8 @@ class ApiBasicController extends Controller {
         $this->ajax = new Ajax($this->container, $this->entityManager);
         
         // Logic
+        $name = "apiBasic";
+        
         if ($request->isMethod("POST") == true) {
             if ($request->get("event") != null && $request->get("event") == "apiBasic") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
@@ -591,12 +595,12 @@ class ApiBasicController extends Controller {
                             if ($apiBasicRow['url_callback'] != "")
                                 $this->urlCallback($request, $apiBasicRow);
                             
-                            $requestRow = $this->selectApiBasicRequestDatabase();
+                            $requestRow = $this->selectApiBasicRequestDatabase($name);
                             
                             if ($requestRow == false)
-                                $this->apiBasicRequestDatabase("insert");
+                                $this->apiBasicRequestDatabase("insert", $name);
                             else
-                                $this->apiBasicRequestDatabase("update", $requestRow);
+                                $this->apiBasicRequestDatabase("update", $name, $requestRow);
                             
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_11");
                         }
@@ -610,7 +614,7 @@ class ApiBasicController extends Controller {
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
             
-            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i:s e") . " - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL, FILE_APPEND);
+            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i:s e") . " - $name - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL, FILE_APPEND);
             
             return $this->ajax->response(Array(
                 'response' => $this->response
@@ -703,12 +707,14 @@ class ApiBasicController extends Controller {
         return $query->fetchAll();
     }
     
-    private function selectApiBasicRequestDatabase() {
+    private function selectApiBasicRequestDatabase($name) {
         $connection = $this->entityManager->getConnection();
         
         $query = $connection->prepare("SELECT * FROM microservice_apiBasic_request
-                                        WHERE date LIKE :date");
+                                        WHERE name = :name
+                                        AND date LIKE :date");
         
+        $query->bindValue(":name", $name);
         $query->bindValue(":date", "%" . date("Y-m-d") . "%");
         
         $query->execute();
@@ -716,10 +722,15 @@ class ApiBasicController extends Controller {
         return $query->fetch();
     }
     
-    private function selectAllApiBasicRequestDatabase() {
+    private function selectAllApiBasicRequestDatabase($name) {
         $connection = $this->entityManager->getConnection();
         
-        $query = $connection->prepare("SELECT * FROM microservice_apiBasic_request");
+        $query = $connection->prepare("SELECT * FROM microservice_apiBasic_request
+                                        WHERE name = :name
+                                        AND date LIKE :date");
+        
+        $query->bindValue(":name", $name);
+        $query->bindValue(":date", "%{$_SESSION['apiBasicGraphPeriod_year']}-{$_SESSION['apiBasicGraphPeriod_month']}%");
         
         $query->execute();
         
@@ -800,11 +811,11 @@ class ApiBasicController extends Controller {
     private function urlCallback($request, $row) {
         $curl = curl_init();
 
-        if ($curl == FALSE)
+        if ($curl == false)
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_17");
         else {
             $postFields = Array(
-                'event' => 'apiSanyo',
+                'event' => 'apiBasic',
                 'kanjiFirstname' => $request->get("kanjiFirstname"),
                 'kanjiLastname' => $request->get("kanjiLastname"),
                 'kanaFirstname' => $request->get("kanaFirstname"),

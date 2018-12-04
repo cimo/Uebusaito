@@ -104,6 +104,7 @@ DROP TABLE IF EXISTS `microservice_apiBasic_request`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `microservice_apiBasic_request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `date` varchar(19) COLLATE utf8_unicode_ci DEFAULT '0000-00-00 00:00:00',
   `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `count` int(11) DEFAULT '1',
@@ -117,7 +118,7 @@ CREATE TABLE `microservice_apiBasic_request` (
 
 LOCK TABLES `microservice_apiBasic_request` WRITE;
 /*!40000 ALTER TABLE `microservice_apiBasic_request` DISABLE KEYS */;
-INSERT INTO `microservice_apiBasic_request` VALUES (1,'2018-12-05 12:05:29','192.168.56.1',1),(2,'2018-12-06 12:05:29','192.168.56.1',2),(3,'2018-12-07 12:05:29','192.168.56.1',1),(4,'2018-12-08 12:05:29','192.168.56.1',4),(5,'2018-12-09 12:05:29','192.168.56.1',1),(6,'2018-12-10 12:05:29','192.168.56.1',1),(7,'2018-12-11 12:05:29','192.168.56.1',6),(8,'2018-12-12 12:05:29','192.168.56.1',1),(9,'2018-12-13 12:05:29','192.168.56.1',8),(10,'2018-12-14 12:05:29','192.168.56.1',1),(11,'2018-12-16 12:05:29','192.168.56.1',4),(12,'2018-12-17 12:05:29','192.168.56.1',1),(13,'2018-12-18 12:05:29','192.168.56.1',6),(14,'2018-12-19 12:05:29','192.168.56.1',1),(15,'2018-12-20 12:05:29','192.168.56.1',2),(16,'2018-12-22 12:05:29','192.168.56.1',1),(17,'2018-12-23 12:05:29','192.168.56.1',9),(18,'2018-12-24 12:05:29','192.168.56.1',1),(19,'2018-12-25 12:05:29','192.168.56.1',13),(20,'2018-12-26 12:05:29','192.168.56.1',1);
+INSERT INTO `microservice_apiBasic_request` VALUES (1,'apiBasic','2018-11-05 12:05:29','192.168.56.1',1),(2,'apiBasic','2018-11-06 12:05:29','192.168.56.1',2),(3,'apiBasic','2018-11-07 12:05:29','192.168.56.1',1),(4,'apiBasic','2018-11-08 12:05:29','192.168.56.1',4),(5,'apiBasic','2018-11-09 12:05:29','192.168.56.1',1),(6,'apiBasic','2018-11-10 12:05:29','192.168.56.1',1),(7,'apiBasic','2018-11-11 12:05:29','192.168.56.1',6),(8,'apiBasic','2018-11-12 12:05:29','192.168.56.1',1),(9,'apiBasic','2018-11-13 12:05:29','192.168.56.1',8),(10,'apiBasic','2018-11-14 12:05:29','192.168.56.1',1),(11,'apiBasic','2018-11-16 12:05:29','192.168.56.1',4),(12,'apiBasic','2018-11-17 12:05:29','192.168.56.1',1),(13,'apiBasic','2018-11-18 12:05:29','192.168.56.1',6),(14,'apiBasic','2018-11-19 12:05:29','192.168.56.1',1),(15,'apiBasic','2018-11-20 12:05:29','192.168.56.1',2),(16,'apiBasic','2018-11-22 12:05:29','192.168.56.1',1),(17,'apiBasic','2018-11-23 12:05:29','192.168.56.1',9),(18,'apiBasic','2018-11-24 12:05:29','192.168.56.1',1),(19,'apiBasic','2018-11-25 12:05:29','192.168.56.1',13),(20,'apiBasic','2018-11-26 12:05:29','192.168.56.1',1);
 /*!40000 ALTER TABLE `microservice_apiBasic_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,6 +206,7 @@ CREATE TABLE `pages` (
   `show_in_menu` tinyint(1) NOT NULL DEFAULT '1',
   `rank_in_menu` int(11) DEFAULT NULL,
   `comment` tinyint(1) NOT NULL DEFAULT '1',
+  `only_parent` tinyint(1) NOT NULL DEFAULT '0',
   `only_link` tinyint(1) NOT NULL DEFAULT '0',
   `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
   `user_create` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '-',
@@ -221,7 +223,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (1,'myPage',NULL,'App\\Controller\\MyPage\\MyPageProfileController::renderAction','1,',1,0,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(2,'home',NULL,NULL,'1,',0,1,2,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(3,'registration',NULL,'App\\Controller\\RegistrationController::renderAction','1,',0,0,3,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(4,'recover_password',NULL,'App\\Controller\\RecoverPasswordController::renderAction','1,',0,0,4,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(5,'search',NULL,'App\\Controller\\SearchController::renderAction','1,',0,0,5,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(6,'test',NULL,'App\\Controller\\PageControllerAction\\IncludeTestController::renderAction','5,',1,1,7,1,0,'-','-','0000-00-00 00:00:00','cimo','2017-11-11 12:27:27'),(7,'test_parent',NULL,NULL,'1,',0,1,6,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(8,'test_children_1',7,NULL,'1,',0,1,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(9,'test_children_2',8,NULL,'1,',0,1,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(10,'test_2',8,NULL,'1,',0,1,3,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(11,'test_children_3',9,NULL,'1,',0,1,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(12,'test_1',7,NULL,'1,',0,1,2,1,1,'http://www.google.it','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(13,'test_children_4',11,NULL,'1,',0,1,1,1,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00');
+INSERT INTO `pages` VALUES (1,'myPage',NULL,'App\\Controller\\MyPage\\MyPageProfileController::renderAction','1,',1,0,1,0,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(2,'home',NULL,NULL,'1,',0,1,2,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(3,'registration',NULL,'App\\Controller\\RegistrationController::renderAction','1,',0,0,3,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(4,'recover_password',NULL,'App\\Controller\\RecoverPasswordController::renderAction','1,',0,0,4,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(5,'search',NULL,'App\\Controller\\SearchController::renderAction','1,',0,0,5,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(6,'test',NULL,'App\\Controller\\PageControllerAction\\IncludeTestController::renderAction','5,',1,1,7,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2017-11-11 12:27:27'),(7,'test_parent',NULL,NULL,'1,',0,1,6,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(8,'test_children_1',7,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(9,'test_children_2',8,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(10,'test_2',8,NULL,'1,',0,1,3,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(11,'test_children_3',9,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(12,'test_1',7,NULL,'1,',0,1,2,1,0,1,'http://www.google.it','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(13,'test_children_4',11,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -481,7 +483,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-11-30 12:33:32','2018-11-30 10:01:03',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-12-04 10:52:52','2018-12-03 15:56:16',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -498,4 +500,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-30 18:34:41
+-- Dump completed on 2018-12-04 17:34:41

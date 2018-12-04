@@ -385,7 +385,7 @@ function Utility() {
                 }
             });
         }
-    }
+    };
     
     self.bodyProgress = function() {
         $(document).on("readystatechange", "", function(event) {
@@ -413,7 +413,20 @@ function Utility() {
                 });
             }
         });
-    }
+    };
+    
+    self.uploadFakeClick = function() {
+        $(".material_upload").find("button").on("click", "", function() {
+            var button = $(this);
+            var input = button.parent().find("input");
+            
+            input.click();
+            
+            input.on("change", "", function() {
+                button.parent().find("label").text(input[0].files[0].name);
+            });
+        });
+    };
     
     // Functions private
     function populateSortableInput(tagParent, tagInput) {
