@@ -120,27 +120,23 @@ class SettingFormType extends AbstractType {
                 "settingFormType_9" => "1"
             )
         ))
-        ->add("payPalSandbox", ChoiceType::class, Array(
+        ->add("useType", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "settingFormType_19",
+            'choices' => Array(
+                "settingFormType_20" => "1",
+                "settingFormType_21" => "2"
+            )
+        ))
+        ->add("payment", ChoiceType::class, Array(
+            'required' => true,
+            'placeholder' => "settingFormType_22",
             'choices' => Array(
                 "settingFormType_8" => "0",
                 "settingFormType_9" => "1"
             )
         ))
-        ->add("payPalBusiness", TextType::class, Array(
-            'required' => true,
-            'label' => "settingFormType_20"
-        ))
-        ->add("payPalCurrencyCode", TextType::class, Array(
-            'required' => true,
-            'label' => "settingFormType_21"
-        ))
-        ->add("payPalCreditAmount", TextType::class, Array(
-            'required' => true,
-            'label' => "settingFormType_22"
-        ))
-        ->add("credit", ChoiceType::class, Array(
+        ->add("payPalSandbox", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "settingFormType_23",
             'choices' => Array(
@@ -148,16 +144,28 @@ class SettingFormType extends AbstractType {
                 "settingFormType_9" => "1"
             )
         ))
-        ->add("useType", ChoiceType::class, Array(
+        ->add("payPalBusiness", TextType::class, Array(
             'required' => true,
-            'placeholder' => "settingFormType_24",
+            'label' => "settingFormType_24"
+        ))
+        ->add("payPalCurrencyCode", TextType::class, Array(
+            'required' => true,
+            'label' => "settingFormType_25"
+        ))
+        ->add("payPalCreditAmount", TextType::class, Array(
+            'required' => true,
+            'label' => "settingFormType_26"
+        ))
+        ->add("credit", ChoiceType::class, Array(
+            'required' => true,
+            'placeholder' => "settingFormType_27",
             'choices' => Array(
-                "settingFormType_25" => "1",
-                "settingFormType_26" => "2"
+                "settingFormType_8" => "0",
+                "settingFormType_9" => "1"
             )
         ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "settingFormType_27"
+            'label' => "settingFormType_28"
         ));
         
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $formEvent) {

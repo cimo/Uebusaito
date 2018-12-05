@@ -110,8 +110,8 @@ function ControlPanelApiBasic() {
                     "post",
                     {
                         'event': "graph",
-                        'year': year,
-                        'month': month,
+                        'year': $(".graph_period_year").val(),
+                        'month': $(".graph_period_month").val(),
                         'token': window.session.token
                     },
                     "json",
@@ -129,9 +129,6 @@ function ControlPanelApiBasic() {
                             );
                     
                             $(".graph_period_year, .graph_period_month").on("change", "", function() {
-                                year = $(".graph_period_year").val();
-                                month = $(".graph_period_month").val();
-                                
                                 $("#button_apiBasic_show_graph").click();
                             });
                             

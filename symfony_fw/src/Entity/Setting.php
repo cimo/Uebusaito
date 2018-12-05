@@ -86,6 +86,16 @@ class Setting {
     private $captcha = false;
     
     /**
+     * @ORM\Column(name="use_type", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '1'")
+     */
+    private $useType = 1;
+    
+    /**
+     * @ORM\Column(name="payment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     */
+    private $payment = true;
+    
+    /**
      * @ORM\Column(name="payPal_sandbox", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
     private $payPalSandbox = false;
@@ -109,11 +119,6 @@ class Setting {
      * @ORM\Column(name="credit", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
      */
     private $credit = true;
-    
-    /**
-     * @ORM\Column(name="use_type", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '1'")
-     */
-    private $useType = 1;
     
     // Properties
     public function setTemplate($value) {
@@ -172,6 +177,14 @@ class Setting {
         $this->captcha = $value;
     }
     
+    public function setUseType($value) {
+        $this->useType = $value;
+    }
+    
+    public function setPayment($value) {
+        $this->payment = $value;
+    }
+    
     public function setPayPalSandbox($value) {
         $this->payPalSandbox = $value;
     }
@@ -190,10 +203,6 @@ class Setting {
     
     public function setCredit($value) {
         $this->credit = $value;
-    }
-    
-    public function setUseType($value) {
-        $this->useType = $value;
     }
     
     // ---
@@ -258,6 +267,14 @@ class Setting {
         return $this->captcha;
     }
     
+    public function getUseType() {
+        return $this->useType;
+    }
+    
+    public function getPayment() {
+        return $this->payment;
+    }
+    
     public function getPayPalSandbox() {
         return $this->payPalSandbox;
     }
@@ -276,9 +293,5 @@ class Setting {
     
     public function getCredit() {
         return $this->credit;
-    }
-    
-    public function getUseType() {
-        return $this->useType;
     }
 }

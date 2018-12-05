@@ -164,7 +164,7 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .graph_container { height: 400px; }
 
-.material_upload { margin: 10px 0 0 5px; }
+.material_upload { padding: 5px 0 5px 5px; }
 .material_upload label { vertical-align: super; }
 .material_upload input { display: none; }
 

@@ -592,17 +592,20 @@ class ApiBasicController extends Controller {
                         if ($apiBasicRow['ip'] != "" && $apiBasicRow['ip'] != $_SERVER['REMOTE_ADDR'])
                             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_14");
                         else {
-                            if ($apiBasicRow['url_callback'] != "")
-                                $this->urlCallback($request, $apiBasicRow);
-                            
-                            $requestRow = $this->selectApiBasicRequestDatabase($name);
-                            
-                            if ($requestRow == false)
-                                $this->apiBasicRequestDatabase("insert", $name);
-                            else
-                                $this->apiBasicRequestDatabase("update", $name, $requestRow);
-                            
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_11");
+                            if ($apiBasicRow['url_callback'] != "") {
+                                $urlCallback = $this->urlCallback($request, $apiBasicRow);
+                                
+                                if ($urlCallback == true) {
+                                    $requestRow = $this->selectApiBasicRequestDatabase($name);
+                                    
+                                    if ($requestRow == false)
+                                        $this->apiBasicRequestDatabase("insert", $name);
+                                    else
+                                        $this->apiBasicRequestDatabase("update", $name, $requestRow);
+                                    
+                                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_11");
+                                }
+                            }
                         }
                     }
                     else
@@ -623,17 +626,20 @@ class ApiBasicController extends Controller {
     }
     
     // Functions private
-    private function apiBasicRequestDatabase($type, $row = null) {
+    private function apiBasicRequestDatabase($type, $name, $row = null) {
         if ($type == "insert") {
             $query = $this->utility->getConnection()->prepare("INSERT INTO microservice_apiBasic_request (
+                                                                    name,
                                                                     date,
                                                                     ip
                                                                 )
                                                                 VALUES (
+                                                                    :name,
                                                                     :date,
                                                                     :ip
                                                                 );");
             
+            $query->bindValue(":name", $name);
             $query->bindValue(":date", date("Y-m-d H:i:s"));
             $query->bindValue(":ip", $_SERVER['REMOTE_ADDR']);
         }
@@ -643,6 +649,7 @@ class ApiBasicController extends Controller {
                                                                 WHERE date LIKE :date");
             
             $query->bindValue(":count", $row['count'] + 1);
+            $query->bindValue(":name", $name);
             $query->bindValue(":date", "%" . date("Y-m-d") . "%");
         }
         
@@ -810,38 +817,12 @@ class ApiBasicController extends Controller {
     
     private function urlCallback($request, $row) {
         $curl = curl_init();
-
+        
         if ($curl == false)
             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_17");
         else {
             $postFields = Array(
-                'event' => 'apiBasic',
-                'kanjiFirstname' => $request->get("kanjiFirstname"),
-                'kanjiLastname' => $request->get("kanjiLastname"),
-                'kanaFirstname' => $request->get("kanaFirstname"),
-                'kanaLastname' => $request->get("kanaLastname"),
-                'postalcode' => $request->get("postalcode"),
-                'region' => $request->get("region"),
-                'town' => $request->get("town"),
-                'line1' => $request->get("line1"),
-                'line2' => $request->get("line2"),
-                'uid' => $request->get("uid"),
-                'contactEmailMB' => $request->get("contactEmailMB"),
-                'phone1' => $request->get("phone1"),
-                'gender' => $request->get("gender"),
-                'birthDate' => $request->get("birthDate"),
-                'password' => $request->get("password"),
-                'registerTime' => $request->get("registerTime"),
-                'updateTime' => $request->get("updateTime"),
-                'useFlag' => $request->get("useFlag"),
-                'externalMemberNumber' => $request->get("externalMemberNumber"),
-                'displayname' => $request->get("displayname"),
-                'blackMemberFlag' => $request->get("blackMemberFlag"),
-                'overseasFlag' => $request->get("overseasFlag"),
-                'loginDisabled' => $request->get("loginDisabled"),
-                'requestEmailType' => $request->get("requestEmailType"),
-                'cellphone' => $request->get("cellphone"),
-                'contactEmail' => $request->get("contactEmail")
+                'event' => 'apiBasic'
             );
 
             curl_setopt($curl, CURLOPT_URL, $row['url_callback']);
@@ -862,9 +843,15 @@ class ApiBasicController extends Controller {
             $curlResponse = curl_exec($curl);
             $curlInfo = curl_getinfo($curl);
             curl_close($curl);
+            
+            if ($curlInfo['http_code'] == "200") {
+                $this->response['messages']['urlCallbackResponse'] = $curlResponse;
+                $this->response['messages']['urlCallbackInfo'] = $curlInfo;
 
-            $this->response['messages']['urlCallbackResponse'] = $curlResponse;
-            $this->response['messages']['urlCallbackInfo'] = $curlInfo;
+                return true;
+            }
         }
+        
+        return false;
     }
 }

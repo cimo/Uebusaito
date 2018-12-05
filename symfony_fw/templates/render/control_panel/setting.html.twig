@@ -90,6 +90,7 @@
         <p>{% trans %}setting_8{% endtrans %}</p>
         <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
         <div class="accordion">
+            {{form_row(form.payment)}}
             {{form_row(form.payPalSandbox)}}
             {{form_row(form.payPalBusiness, {'dense': "", 'styleType': "outlinedTrailing"})}}
             {{form_row(form.payPalCurrencyCode, {'dense': "", 'styleType': "outlinedTrailing"})}}
