@@ -96,7 +96,7 @@ $boxBackgroundColor: #ededed;
                 &> .parent_content {
                     display: none;
                     position: absolute;
-                    width: 160px;
+                    width: 200px;
                     top: 56px;
                     border-bottom: 2px solid $mdc-theme-secondary;
 
@@ -114,6 +114,11 @@ $boxBackgroundColor: #ededed;
                                 display: block;
                                 padding: 10px;
                                 border-bottom: none;
+                                
+                                span {
+                                    display: inline-block;
+                                    width: 84%;
+                                }
 
                                 &:hover {
                                     background-color: rgba(0, 0, 0, 0.1);
@@ -126,7 +131,7 @@ $boxBackgroundColor: #ededed;
                             .parent_content {
                                 position: absolute;
                                 top: 5px;
-                                left: 160px;
+                                left: 200px;
                                 border-bottom: none;
                             }
                         }
@@ -545,6 +550,14 @@ table {
     }
 }
 
+.wysiwyg {
+    .toolbar {
+        .select_format, .select_font {
+            width: 120px !important;
+        }
+    }
+}
+
 #body_progress {
     display: block;
     height: 100%;
@@ -647,14 +660,6 @@ table {
     
     &> p {
         margin: 0;
-    }
-}
-
-#wysiwyg {
-    .toolbar {
-        .select_format, .select_font {
-            width: 120px;
-        }
     }
 }
 

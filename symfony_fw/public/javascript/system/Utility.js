@@ -368,7 +368,7 @@ function Utility() {
         });
         
         if (window.location.href.indexOf("control_panel") === -1) {
-            var parameters = utility.urlParameters(window.setting.language);
+            var parameters = utility.urlParameters(session.languageTextCode);
             
             $(".menu_root_container").find(".target").removeClass("current");
             

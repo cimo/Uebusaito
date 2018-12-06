@@ -50,10 +50,14 @@ function Wysiwyg() {
         history = new Array();
     };
     
+    self.save = function() {
+        fillField("source");
+    };
+    
     // Functions private
     function iframe() {
-        if ($("#wysiwyg").length > 0) {
-            $("#wysiwyg").find(".editor").contents().find("head").append(
+        if ($(".wysiwyg").length > 0) {
+            $(".wysiwyg").find(".editor").contents().find("head").append(
                 "<style>\n\
                     html {\n\
                         padding: 5px !important;\n\
@@ -68,34 +72,34 @@ function Wysiwyg() {
                 </style>"
             );
             
-            $($("#wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
+            $($(".wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
                 rel: "stylesheet",
                 href: window.url.root + "/css/library/Roboto+Mono.css",
                 type: "text/css"
             }));
-            $($("#wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
+            $($(".wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
                 rel: "stylesheet",
                 href: window.url.root + "/css/library/Roboto_300_400_500.css",
                 type: "text/css"
             }));
-            $($("#wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
+            $($(".wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
                 rel: "stylesheet",
                 href: window.url.root + "/css/library/material-icons.css",
                 type: "text/css"
             }));
-            $($("#wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
+            $($(".wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
                 rel: "stylesheet",
                 href: window.url.root + "/css/library/material-components-web.min.css",
                 type: "text/css"
             }));
-            $($("#wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
+            $($(".wysiwyg").find(".editor").contents().find("head")[0]).append($("<link/>", {
                 rel: "stylesheet",
                 href: window.url.root + "/css/system/" + window.setting.template + ".css",
                 type: "text/css"
             }));
             
-            iframeBody = $("#wysiwyg").find(".editor").contents().find("body")[0];
-            iframeContent = $("#wysiwyg").find(".editor").contents()[0];
+            iframeBody = $(".wysiwyg").find(".editor").contents().find("body")[0];
+            iframeContent = $(".wysiwyg").find(".editor").contents()[0];
             
             $(iframeBody).addClass("mdc-typography");
             
@@ -118,7 +122,7 @@ function Wysiwyg() {
             if ($(iframeBody).length > 0) {
                 $(iframeBody).html($(containerTag).val());
                 
-                $("#wysiwyg").find(".source").text($(containerTag).val());
+                $(".wysiwyg").find(".source").text($(containerTag).val());
                 
                 historyLoad($(containerTag).val());
             }
@@ -129,11 +133,11 @@ function Wysiwyg() {
                 
                 $(containerTag).val(html);
                 
-                $("#wysiwyg").find(".source").text(html);
+                $(".wysiwyg").find(".source").text(html);
             }
         }
         else if (type === "editor") {
-            var source = $("#wysiwyg").find(".source");
+            var source = $(".wysiwyg").find(".source");
             
             if (source.length > 0)
                 $(iframeBody).html(source.text());
@@ -141,7 +145,7 @@ function Wysiwyg() {
     }
     
     function toolbarEvent() {
-        $("#wysiwyg").find(".toolbar .mdc-fab").off("click").on("click", "", function(event) {
+        $(".wysiwyg").find(".toolbar .mdc-fab").off("click").on("click", "", function(event) {
             event.preventDefault();
             
             var target = $(event.target).parent().hasClass("mdc-fab") === true ? $(event.target).parent() : $(event.target);
@@ -156,7 +160,7 @@ function Wysiwyg() {
                 executeCommand(command);
         });
         
-        $("#wysiwyg").find(".mdc-select .mdc-select__native-control").off("change").on("change", "", function(event) {
+        $(".wysiwyg").find(".mdc-select .mdc-select__native-control").off("change").on("change", "", function(event) {
             event.preventDefault();
             
             var command = $(event.target).data("command");
@@ -167,19 +171,19 @@ function Wysiwyg() {
     }
     
     function source() {
-        var show = $("#wysiwyg").find(".source").css("display") === "none" ? true : false;
+        var show = $(".wysiwyg").find(".source").css("display") === "none" ? true : false;
 
         if (show === true) {
             fillField("source");
             
-            $("#wysiwyg").find(".editor").hide();
-            $("#wysiwyg").find(".source").show();
+            $(".wysiwyg").find(".editor").hide();
+            $(".wysiwyg").find(".source").show();
         }
         else {
             fillField("editor");
             
-            $("#wysiwyg").find(".source").hide();
-            $("#wysiwyg").find(".editor").show();
+            $(".wysiwyg").find(".source").hide();
+            $(".wysiwyg").find(".editor").show();
         }
     }
     
@@ -202,7 +206,7 @@ function Wysiwyg() {
                     <p class=\"mdc-text-field-helper-text\" aria-hidden=\"true\"></p>\n\
                 </div>",
                 function() {
-                    var value = $("#wysiwyg_popup").find(".mdc-text-field__input").val();
+                    var value = $(".wysiwyg_popup").find(".mdc-text-field__input").val();
                     
                     iframeContent.execCommand(command, false, value);
                 }
@@ -220,7 +224,7 @@ function Wysiwyg() {
                     <p class=\"mdc-text-field-helper-text\" aria-hidden=\"true\"></p>\n\
                 </div>",
                 function() {
-                    var value = $("#wysiwyg_popup").find(".mdc-text-field__input").val();
+                    var value = $(".wysiwyg_popup").find(".mdc-text-field__input").val();
                     
                     iframeContent.execCommand(command, false, value);
                 }
@@ -244,8 +248,8 @@ function Wysiwyg() {
                     <p class=\"mdc-text-field-helper-text\" aria-hidden=\"true\"></p>\n\
                 </div>",
                 function() {
-                    var label = $("#wysiwyg_popup").find(".mdc-text-field__input.label").val();
-                    var link = $("#wysiwyg_popup").find(".mdc-text-field__input.link").val();
+                    var label = $(".wysiwyg_popup").find(".mdc-text-field__input.label").val();
+                    var link = $(".wysiwyg_popup").find(".mdc-text-field__input.link").val();
                     
                     var html = "";
                     
@@ -279,8 +283,8 @@ function Wysiwyg() {
                     <p class=\"mdc-text-field-helper-text\" aria-hidden=\"true\"></p>\n\
                 </div>",
                 function() {
-                    var rowNumber = $("#wysiwyg_popup").find(".mdc-text-field__input.row_number").val();
-                    var columnNumber = $("#wysiwyg_popup").find(".mdc-text-field__input.column_number").val();
+                    var rowNumber = $(".wysiwyg_popup").find(".mdc-text-field__input.row_number").val();
+                    var columnNumber = $(".wysiwyg_popup").find(".mdc-text-field__input.column_number").val();
                     
                     var html = "<br><div class=\"mdc-layout-grid\" contenteditable=\"false\">";
                         for (var a = 0; a < rowNumber; a ++) {
@@ -350,7 +354,7 @@ function Wysiwyg() {
     }
     
     function editorEvent() {
-        var mutationObserverElement = $("#wysiwyg").find(".editor").contents().find("body")[0];
+        var mutationObserverElement = $(".wysiwyg").find(".editor").contents().find("body")[0];
         
         utility.mutationObserver(['characterData', 'childList'], mutationObserverElement, function() {
             if (historyRestore === false)
@@ -490,8 +494,8 @@ function Wysiwyg() {
             "<div id=\"wysiwyg_popup\">" + content + "</div>",
             function() {
                 if (type === "button") {
-                    var label = $("#wysiwyg_popup").find(".mdc-text-field__input.label").val();
-                    var link = $("#wysiwyg_popup").find(".mdc-text-field__input.link").val();
+                    var label = $(".wysiwyg_popup").find(".mdc-text-field__input.label").val();
+                    var link = $(".wysiwyg_popup").find(".mdc-text-field__input.link").val();
 
                     target.text(label);
                     target.prop("href", link);

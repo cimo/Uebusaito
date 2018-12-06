@@ -223,7 +223,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (1,'myPage',NULL,'App\\Controller\\MyPage\\MyPageProfileController::renderAction','1,',1,0,1,0,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(2,'home',NULL,NULL,'1,',0,1,2,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(3,'registration',NULL,'App\\Controller\\RegistrationController::renderAction','1,',0,0,3,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(4,'recover_password',NULL,'App\\Controller\\RecoverPasswordController::renderAction','1,',0,0,4,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(5,'search',NULL,'App\\Controller\\SearchController::renderAction','1,',0,0,5,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(6,'test',NULL,'App\\Controller\\PageControllerAction\\IncludeTestController::renderAction','5,',1,1,7,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2017-11-11 12:27:27'),(7,'test_parent',NULL,NULL,'1,',0,1,6,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(8,'test_children_1',7,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(9,'test_children_2',8,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(10,'test_2',8,NULL,'1,',0,1,3,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(11,'test_children_3',9,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(12,'test_1',7,NULL,'1,',0,1,2,1,0,1,'http://www.google.it','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(13,'test_children_4',11,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00');
+INSERT INTO `pages` VALUES (1,'myPage',NULL,'App\\Controller\\MyPage\\MyPageProfileController::renderAction','1,',1,0,1,0,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(2,'home',NULL,NULL,'1,',0,1,2,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2018-12-06 15:55:20'),(3,'registration',NULL,'App\\Controller\\RegistrationController::renderAction','1,',0,0,3,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(4,'recover_password',NULL,'App\\Controller\\RecoverPasswordController::renderAction','1,',0,0,4,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(5,'search',NULL,'App\\Controller\\SearchController::renderAction','1,',0,0,5,1,0,0,'-','-','0000-00-00 00:00:00','-','0000-00-00 00:00:00'),(6,'test',NULL,'App\\Controller\\PageControllerAction\\IncludeTestController::renderAction','5,',1,1,7,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2018-12-06 16:35:57'),(7,'test_parent',NULL,NULL,'1,',0,1,6,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2018-12-06 15:54:25'),(8,'test_children_1',7,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2018-12-06 15:53:57'),(9,'test_children_2',8,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2018-12-06 15:53:22'),(10,'test_2',8,NULL,'1,',0,1,2,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2018-12-06 15:50:56'),(11,'test_children_3',9,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2018-12-06 15:53:00'),(12,'test_1',7,NULL,'1,',0,1,2,1,0,1,'http://www.google.it','-','0000-00-00 00:00:00','cimo','2018-12-06 15:51:22'),(13,'test_children_4',11,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2018-12-06 15:52:34');
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,7 +250,7 @@ CREATE TABLE `pages_arguments` (
 
 LOCK TABLES `pages_arguments` WRITE;
 /*!40000 ALTER TABLE `pages_arguments` DISABLE KEYS */;
-INSERT INTO `pages_arguments` VALUES (1,'User personal page.','Argomento my page.','My pageのアーギュメント。'),(2,'This is a cms created with symfony framework.','Argomento home.','ホームのアーギュメント。'),(3,'Registration argument.','Argomento registrazione.','登録のアーギュメント。'),(4,'Recover password argument.','Argomento recupero password.','パスワードを回復のアーギュメント。'),(5,'Search argument.','Argomento cerca.','サーチのアーギュメント。'),(6,'Test argument.','Argomento test.',NULL),(7,'Test parent argument.','Argomento test genitore.',NULL),(8,'Test children 1 argument.','Argomento test figlio 1.',NULL),(9,'Test children 2 argument.','Argomento test figlio 2.',NULL),(10,'Test 2 argument.','Argomento test 2.',NULL),(11,'Test children 3 argument.','Argomento test figlio 3.',NULL),(12,'Test 1 argument.','Argomento test 1.',NULL),(13,'Test children 4 argument.','Argomento test figlio 4.',NULL);
+INSERT INTO `pages_arguments` VALUES (1,'User personal page.','Argomento my page.','My pageのアーギュメント。'),(2,'This is a cms created with symfony framework.','Argomento home.','ホームのアーギュメント。'),(3,'Registration argument.','Argomento registrazione.','登録のアーギュメント。'),(4,'Recover password argument.','Argomento recupero password.','パスワードを回復のアーギュメント。'),(5,'Search argument.','Argomento cerca.','サーチのアーギュメント。'),(6,'Test argument.','Argomento test.',''),(7,'Test parent argument.','Argomento test genitore.',''),(8,'Test children 1 argument.','Argomento test figlio 1.',''),(9,'Test children 2 argument.','Argomento test figlio 2.',''),(10,'Test 2 argument.','Argomento test 2.',''),(11,'Test children 3 argument.','Argomento test figlio 3.',''),(12,'Test 1 argument.','Argomento test 1.',''),(13,'Test children 4 argument.','Argomento test figlio 4.','');
 /*!40000 ALTER TABLE `pages_arguments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,7 +306,7 @@ CREATE TABLE `pages_menu_names` (
 
 LOCK TABLES `pages_menu_names` WRITE;
 /*!40000 ALTER TABLE `pages_menu_names` DISABLE KEYS */;
-INSERT INTO `pages_menu_names` VALUES (1,'-','-','-'),(2,'Home','Home','-'),(3,'-','-','-'),(4,'-','-','-'),(5,'-','-','-'),(6,'Test','Test','-'),(7,'Test parent','Test genitore','-'),(8,'Test children 1','Test figlio 1','-'),(9,'Test children 2','Test figlio 2','-'),(10,'Test 2','Test 2','-'),(11,'Test children 3','Test figlio 3','-'),(12,'Test 1','Test 1','-'),(13,'Test children 4','Test figlio 4','-');
+INSERT INTO `pages_menu_names` VALUES (1,'-','-','-'),(2,'Home','Home','ホーム'),(3,'-','-','-'),(4,'-','-','-'),(5,'-','-','-'),(6,'Test','Test','テスト'),(7,'Test parent','Test genitore','テストparent'),(8,'Test children 1','Test figlio 1','テストのchildren１'),(9,'Test children 2','Test figlio 2','テストchildren２'),(10,'Test 2','Test 2','テスト２'),(11,'Test children 3','Test figlio 3','テストchildren３'),(12,'Test 1','Test 1','テスト１'),(13,'Test children 4','Test figlio 4','テストchildren４');
 /*!40000 ALTER TABLE `pages_menu_names` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +333,7 @@ CREATE TABLE `pages_titles` (
 
 LOCK TABLES `pages_titles` WRITE;
 /*!40000 ALTER TABLE `pages_titles` DISABLE KEYS */;
-INSERT INTO `pages_titles` VALUES (1,'My page title','Titolo my page','My pageのタイトル'),(2,'Home title','Titolo home','ホームのタイトル'),(3,'Registration title','Titolo registrazione','登録のタイトル'),(4,'Recover password title','Titolo recupero password','パスワードを回復のタイトル'),(5,'Search title','Titolo cerca','サーチのタイトル'),(6,'Test title','Titolo test','テストのタイトル'),(7,'Test parent title','Titolo test genitore',NULL),(8,'Test children 1 title','Titolo test figlio 1',NULL),(9,'Test children 2 title','Titolo test figlio 2',NULL),(10,'Test 2 title','Titolo test 2',NULL),(11,'Test children 3 title','Titolo test figlio 3',NULL),(12,'Test 1 title','Titolo test 1',NULL),(13,'Test children 4 title','Titolo test figlio 4',NULL);
+INSERT INTO `pages_titles` VALUES (1,'My page title','Titolo my page','My pageのタイトル'),(2,'Home title','Titolo home','ホームのタイトル'),(3,'Registration title','Titolo registrazione','登録のタイトル'),(4,'Recover password title','Titolo recupero password','パスワードを回復のタイトル'),(5,'Search title','Titolo cerca','サーチのタイトル'),(6,'Test title','Titolo test','テストのタイトル'),(7,'Test parent title','Titolo test genitore','テストのタイトルparent'),(8,'Test children 1 title','Titolo test figlio 1','テストのタイトルchildren１'),(9,'Test children 2 title','Titolo test figlio 2','テストのタイトルchildren２'),(10,'Test 2 title','Titolo test 2','テストのタイトル２'),(11,'Test children 3 title','Titolo test figlio 3','テストのタイトルchildren３'),(12,'Test 1 title','Titolo test 1','テストのタイトル１'),(13,'Test children 4 title','Titolo test figlio 4','テストのタイトルchildren４');
 /*!40000 ALTER TABLE `pages_titles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -418,6 +418,7 @@ CREATE TABLE `settings` (
   `page_date` tinyint(1) NOT NULL DEFAULT '1',
   `pageComment` tinyint(1) NOT NULL DEFAULT '1',
   `pageComment_active` tinyint(1) NOT NULL DEFAULT '1',
+  `payment` tinyint(1) NOT NULL DEFAULT '1',
   `payPal_sandbox` tinyint(1) NOT NULL DEFAULT '0',
   `payPal_business` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `payPal_currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'USD',
@@ -434,7 +435,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,0,1,1,1,1,'paypal.business@gmail.com','EUR','0.01',1,1);
+INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,0,1,1,1,1,1,'paypal.business@gmail.com','EUR','0.01',1,1);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -483,7 +484,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-12-04 10:52:52','2018-12-03 15:56:16',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$dwkh0OFE.Jz2PxvlxUvjIO4kQM92elYrRTDB4VEy1LGALx0bOuVj6',0,1,'2016-08-04 10:25:12','2018-12-06 15:27:20','2018-12-06 10:34:02',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -500,4 +501,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-04 17:34:41
+-- Dump completed on 2018-12-06 17:47:18

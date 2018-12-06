@@ -1,5 +1,5 @@
 @media(max-width: "839px") {
-    #wysiwyg {
+    .wysiwyg {
         .toolbar {
             .mdc-fab {
                 margin: 2px 0 2px 0;
@@ -8,7 +8,7 @@
     }
 }
 
-#wysiwyg {
+.wysiwyg {
     position: relative;
     margin-top: 10px;
     

@@ -57,6 +57,13 @@ $mdc-theme-on-surface: #868686;
     -ms-user-select: none;
     user-select: none;
 }
+.user_select_text {
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
 
 .user_touch_none {
     -ms-touch-action: none;

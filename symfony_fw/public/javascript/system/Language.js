@@ -57,7 +57,7 @@ function Language() {
                         
                         $("#form_cp_page_profile").find("input[name='form_page[language]']").val(xhr.response.values.codePage);
                         $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageTitle);
-                        $("#wysiwyg").find(".editor").contents().find("body").html(xhr.response.values.pageArgument);
+                        $(".wysiwyg").find(".editor").contents().find("body").html(xhr.response.values.pageArgument);
                         $("#form_cp_page_profile").find("input[name='form_page[menuName]']").val(xhr.response.values.pageMenuName);
                     }
                     else
@@ -71,8 +71,8 @@ function Language() {
     
     // Functions private
     function selectOnPage() {
-        $("#language_page_container").find(".flag_" + window.setting.language).parent().addClass("mdc-chip--selected");
-        $("#language_page_container").find("input[name='form_language[codePage]']").val(window.setting.language);
+        $("#language_page_container").find(".flag_" + session.languageTextCode).parent().addClass("mdc-chip--selected");
+        $("#language_page_container").find("input[name='form_language[codePage]']").val(session.languageTextCode);
         
         $("#language_page_container .mdc-chip").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {

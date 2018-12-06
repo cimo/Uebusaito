@@ -232,7 +232,7 @@ function MaterialDesign() {
     
     // Functions private
     function mdcTabBarCustom(type, mdc) {
-        var parameters = utility.urlParameters(window.setting.language);
+        var parameters = utility.urlParameters(session.languageTextCode);
 
         $(".mdc-tab-bar").find(".mdc-tab").removeClass("mdc-tab--active");
 
@@ -302,7 +302,7 @@ function MaterialDesign() {
             $(".mdc-drawer").removeClass("mdc-drawer--open");
         }
         
-        var parameters = utility.urlParameters(window.setting.language);
+        var parameters = utility.urlParameters(session.languageTextCode);
         
         $(".mdc-drawer").find(".mdc-list-item").removeClass("mdc-list-item--activated");
         

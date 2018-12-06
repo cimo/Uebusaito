@@ -250,12 +250,25 @@ function ControlPanelPage() {
             $("#form_cp_page_profile").find(".form_row input, .form_row textarea").on("focus", "", function() {
                 profileFocus = true;
             });
-
-            $("#form_cp_page_profile").find("#wysiwyg .editor body").on("focus", "", function() {
-                profileFocus = true;
+            
+            // Iframe focus
+            var iframeMouseOver = false;
+            
+            $("#form_cp_page_profile").find(".wysiwyg").on("mouseover", "", function() {
+                iframeMouseOver = true;
+            });
+            $("#form_cp_page_profile").find(".wysiwyg").on("mouseout", "", function() {
+                iframeMouseOver = false;
+            });
+            
+            $(window).on("blur", "", function() {
+                if (iframeMouseOver === true)
+                    profileFocus = true;
             });
 
             $("#form_cp_page_profile").on("submit", "", function(event) {
+                wysiwyg.save();
+                
                 event.preventDefault();
 
                 ajax.send(
@@ -274,9 +287,9 @@ function ControlPanelPage() {
                         if ($.isEmptyObject(xhr.response.messages.success) === false) {
                             profileFocus = false;
 
-                            $("#cp_page_select_result").html("");
+                            //$("#cp_page_select_result").html("");
                             
-                            $("#cp_page_select_result_desktop .refresh").click();
+                            //$("#cp_page_select_result_desktop .refresh").click();
                         }
                     },
                     null,
