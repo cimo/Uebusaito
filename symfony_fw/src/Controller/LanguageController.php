@@ -1,9 +1,10 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
@@ -11,7 +12,7 @@ use App\Classes\System\Ajax;
 
 use App\Form\LanguageFormType;
 
-class LanguageController extends Controller {
+class LanguageController extends AbstractController {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -38,7 +39,7 @@ class LanguageController extends Controller {
     * )
     * @Template("@templateRoot/render/module/language_text.html.twig")
     */
-    public function textAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function textAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -47,9 +48,9 @@ class LanguageController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -96,7 +97,7 @@ class LanguageController extends Controller {
     * )
     * @Template("@templateRoot/render/module/language_page.html.twig")
     */
-    public function pageAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function pageAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -105,9 +106,9 @@ class LanguageController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->utility->checkSessionOverTime($request);
         

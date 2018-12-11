@@ -1,9 +1,10 @@
 <?php
 namespace App\Controller\ControlPanel;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
@@ -11,13 +12,12 @@ use App\Classes\System\Ajax;
 use App\Classes\System\TableAndPagination;
 
 use App\Entity\MicroserviceDeploy;
-
 use App\Form\MicroserviceDeployFormType;
 use App\Form\MicroserviceDeploySelectFormType;
 
 use App\Service\FileUploader;
 
-class MicroserviceDeployController extends Controller {
+class MicroserviceDeployController extends AbstractController {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -45,7 +45,7 @@ class MicroserviceDeployController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/microservice_deploy.html.twig")
     */
-    public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -54,9 +54,9 @@ class MicroserviceDeployController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -108,7 +108,7 @@ class MicroserviceDeployController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/microservice_deploy_create.html.twig")
     */
-    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -117,9 +117,9 @@ class MicroserviceDeployController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -179,7 +179,7 @@ class MicroserviceDeployController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/microservice_deploy_select.html.twig")
     */
-    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -188,10 +188,10 @@ class MicroserviceDeployController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
+        $this->tableAndPagination = new TableAndPagination($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -247,7 +247,7 @@ class MicroserviceDeployController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/microservice_deploy_profile.html.twig")
     */
-    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -256,9 +256,9 @@ class MicroserviceDeployController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -320,7 +320,7 @@ class MicroserviceDeployController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/microservice_deploy_profile.html.twig")
     */
-    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -329,9 +329,9 @@ class MicroserviceDeployController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -351,8 +351,8 @@ class MicroserviceDeployController extends Controller {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $row = $this->query->selectMicroserviceDeployDatabase($_SESSION['microserviceDeployProfileId']);
                 
-                $pathKeyPublic = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy";
-                $pathKeyPrivate = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy";
+                $pathKeyPublic = $this->utility->getPathSrc() . "/files/microservice/deploy";
+                $pathKeyPrivate = $this->utility->getPathSrc() . "/files/microservice/deploy";
                 
                 // Remove old key
                 if (file_exists("$pathKeyPublic/{$row['key_public']}") == true)
@@ -426,7 +426,7 @@ class MicroserviceDeployController extends Controller {
     *	methods={"POST"}
     * )
     */
-    public function executeAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function executeAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -435,9 +435,9 @@ class MicroserviceDeployController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -483,7 +483,7 @@ class MicroserviceDeployController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/microservice_deploy_delete.html.twig")
     */
-    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -492,9 +492,9 @@ class MicroserviceDeployController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -734,8 +734,8 @@ class MicroserviceDeployController extends Controller {
         $result = "";
         
         if ($request->get("command") == "clone" || $request->get("command") == "pull" || $request->get("command") == "reset") {
-            $pathKeyPublic = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/{$row['key_public']}";
-            $pathKeyPrivate = $this->utility->getPathSrc() . "/Controller/Microservice/Deploy/{$row['key_private']}";
+            $pathKeyPublic = $this->utility->getPathSrc() . "/files/microservice/deploy{$row['key_public']}";
+            $pathKeyPrivate = $this->utility->getPathSrc() . "/files/microservice/deploy{$row['key_private']}";
             
             $connection = ssh2_connect($row['ip'], 22);
             

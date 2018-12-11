@@ -12,13 +12,12 @@ class Utility {
     private $container;
     private $entityManager;
     
-    private $connection;
-    private $translator;
     private $authorizationChecker;
-    private $authenticationUtils;
-    private $passwordEncoder;
     private $tokenStorage;
     private $session;
+    private $connection;
+    private $passwordEncoder;
+    private $translator;
     
     private $sessionMaxIdleTime;
     
@@ -41,24 +40,8 @@ class Utility {
     private $curlLogin;
     
     // Properties
-    public function getConnection() {
-        return $this->connection;
-    }
-    
-    public function getTranslator() {
-        return $this->translator;
-    }
-    
     public function getAuthorizationChecker() {
         return $this->authorizationChecker;
-    }
-    
-    public function getAuthenticationUtils() {
-        return $this->authenticationUtils;
-    }
-    
-    public function getPasswordEncoder() {
-        return $this->passwordEncoder;
     }
     
     public function getTokenStorage() {
@@ -67,6 +50,18 @@ class Utility {
     
     public function getSession() {
         return $this->session;
+    }
+    
+    public function getConnection() {
+        return $this->connection;
+    }
+    
+    public function getTranslator() {
+        return $this->translator;
+    }
+    
+    public function getPasswordEncoder() {
+        return $this->passwordEncoder;
     }
     
     public function getSessionMaxIdleTime() {
@@ -114,17 +109,16 @@ class Utility {
     }
     
     // Functions public
-    public function __construct($container, $entityManager) {
+    public function __construct($container, $entityManager, $translator, $passwordEncoder = null) {
         $this->container = $container;
         $this->entityManager = $entityManager;
         
-        $this->connection = $this->entityManager->getConnection();
-        $this->translator = $this->container->get("translator");
         $this->authorizationChecker = $this->container->get("security.authorization_checker");
-        $this->authenticationUtils = $this->container->get("security.authentication_utils");
-        $this->passwordEncoder = $this->container->get("security.password_encoder");
         $this->tokenStorage = $this->container->get("security.token_storage");
         $this->session = $this->container->get("session");
+        $this->connection = $this->entityManager->getConnection();
+        $this->translator = $translator;
+        $this->passwordEncoder = $passwordEncoder;
         
         $this->sessionMaxIdleTime = 3600;
         
@@ -746,6 +740,7 @@ class Utility {
             $_SESSION['languageTextCode'] = $request->get("languageTextCode");
         
         $request->setLocale($_SESSION['languageTextCode']);
+        $request->setDefaultLocale($_SESSION['languageTextCode']);
         
         return $_SESSION['languageTextCode'];
     }

@@ -3,23 +3,15 @@ namespace App\Classes\System;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-use App\Classes\System\Utility;
-
 class Ajax {
     // Vars
-    private $container;
-    private $entityManager;
-    
     private $utility;
     
     // Properties
     
     // Functions public
-    public function __construct($container, $entityManager) {
-        $this->container = $container;
-        $this->entityManager = $entityManager;
-        
-        $this->utility = new Utility($this->container, $this->entityManager);
+    public function __construct($utility) {
+        $this->utility = $utility;
     }
     
     public function response($array) {

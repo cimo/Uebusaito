@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Translation\TranslatorInterface;
 
 use App\Classes\System\Utility;
 
@@ -24,18 +25,21 @@ class RequestListener {
     // Properties
     
     // Functions public
-    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack) {
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack, TranslatorInterface $translator) {
         $this->container = $container;
         $this->entityManager = $entityManager;
         $this->router = $router;
         $this->requestStack = $requestStack;
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
     }
     
     public function onKernelRequest(GetResponseEvent $event) {
         $request = $event->getRequest();
+        
+        //$request->setLocale("en");
+        //$request->setDefaultLocale("en");
         
         if (HttpKernelInterface::MASTER_REQUEST != $event->getRequestType())
             return;

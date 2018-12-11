@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Translation\TranslatorInterface;
 
 use App\Classes\System\Utility;
 
@@ -24,13 +25,13 @@ class ErrorListener {
     // Properties
     
     // Functions public
-    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack) {
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack, TranslatorInterface $translator) {
         $this->container = $container;
         $this->entityManager = $entityManager;
         $this->router = $router;
         $this->requestStack = $requestStack;
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
     }
     
     public function onKernelException(GetResponseForExceptionEvent $event) {

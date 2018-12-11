@@ -1,11 +1,13 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
@@ -13,7 +15,7 @@ use App\Classes\System\Ajax;
 
 use App\Form\AuthenticationFormType;
 
-class AuthenticationController extends Controller {
+class AuthenticationController extends AbstractController {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -40,7 +42,7 @@ class AuthenticationController extends Controller {
     * )
     * @Template("@templateRoot/render/module/authentication.html.twig")
     */
-    public function moduleAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function moduleAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator, AuthenticationUtils $authenticationUtils) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -49,9 +51,9 @@ class AuthenticationController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -80,7 +82,7 @@ class AuthenticationController extends Controller {
             );
         }
         else
-            $this->response['messages']['error'] = $this->utility->getAuthenticationUtils()->getLastAuthenticationError();
+            $this->response['messages']['error'] = $authenticationUtils->getLastAuthenticationError();
         
         return Array(
             'urlLocale' => $this->urlLocale,

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Translation\TranslatorInterface;
 
 use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
@@ -36,7 +37,7 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
     // Properties
     
     // Functions public
-    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack) {
+    public function __construct(ContainerInterface $container, EntityManager $entityManager, Router $router, RequestStack $requestStack, TranslatorInterface $translator) {
         $this->container = $container;
         $this->entityManager = $entityManager;
         $this->router = $router;
@@ -44,10 +45,10 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->captcha = new Captcha($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
+        $this->captcha = new Captcha($this->utility);
         
         $this->settingRow = $this->query->selectSettingDatabase();
     }

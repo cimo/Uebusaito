@@ -1,10 +1,12 @@
 <?php
 namespace App\Controller\MyPage;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
@@ -15,7 +17,7 @@ use App\Form\UserFormType;
 use App\Form\PasswordFormType;
 use App\Form\CreditFormType;
 
-class MyPageProfileController extends Controller {
+class MyPageProfileController extends AbstractController {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -59,7 +61,7 @@ class MyPageProfileController extends Controller {
     * )
     * @Template("@templateRoot/render/my_page/myPage_profile.html.twig")
     */
-    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -68,9 +70,9 @@ class MyPageProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -158,7 +160,7 @@ class MyPageProfileController extends Controller {
     * )
     * @Template("@templateRoot/render/my_page/myPage_profile_password.html.twig")
     */
-    public function passwordAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function passwordAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator, UserPasswordEncoderInterface $passwordEncoder) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -167,9 +169,9 @@ class MyPageProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator, $passwordEncoder);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -229,7 +231,7 @@ class MyPageProfileController extends Controller {
     * )
     * @Template("@templateRoot/render/my_page/myPage_profile_credit.html.twig")
     */
-    public function creditAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function creditAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -238,9 +240,9 @@ class MyPageProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -293,7 +295,7 @@ class MyPageProfileController extends Controller {
     *	methods={"POST"}
     * )
     */
-    public function uploadAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function uploadAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -302,10 +304,10 @@ class MyPageProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->upload = new Upload($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
+        $this->upload = new Upload($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -346,7 +348,7 @@ class MyPageProfileController extends Controller {
     *	methods={"POST"}
     * )
     */
-    public function creditPayPalAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function creditPayPalAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -355,9 +357,9 @@ class MyPageProfileController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         

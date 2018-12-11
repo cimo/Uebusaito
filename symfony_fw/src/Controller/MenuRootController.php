@@ -1,14 +1,15 @@
 <?php
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
 
-class MenuRootController extends Controller {
+class MenuRootController extends AbstractController {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -28,7 +29,7 @@ class MenuRootController extends Controller {
     /**
     * @Template("@templateRoot/render/module/menu_root.html.twig")
     */
-    public function moduleAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function moduleAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -37,9 +38,9 @@ class MenuRootController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         

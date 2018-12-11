@@ -1,9 +1,11 @@
 <?php
 namespace App\Controller\ControlPanel;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
@@ -11,11 +13,10 @@ use App\Classes\System\Ajax;
 use App\Classes\System\TableAndPagination;
 
 use App\Entity\User;
-
 use App\Form\UserFormType;
 use App\Form\UserSelectFormType;
 
-class UserController extends Controller {
+class UserController extends AbstractController {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -43,7 +44,7 @@ class UserController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/user_create.html.twig")
     */
-    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator, UserPasswordEncoderInterface $passwordEncoder) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -52,9 +53,9 @@ class UserController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator, $passwordEncoder);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -124,7 +125,7 @@ class UserController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/user_select.html.twig")
     */
-    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -133,10 +134,10 @@ class UserController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
-        $this->tableAndPagination = new TableAndPagination($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
+        $this->tableAndPagination = new TableAndPagination($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -192,7 +193,7 @@ class UserController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/user_profile.html.twig")
     */
-    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -201,9 +202,9 @@ class UserController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -267,7 +268,7 @@ class UserController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/user_profile.html.twig")
     */
-    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator, UserPasswordEncoderInterface $passwordEncoder) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -276,9 +277,9 @@ class UserController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator, $passwordEncoder);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -348,7 +349,7 @@ class UserController extends Controller {
     * )
     * @Template("@templateRoot/render/control_panel/user_delete.html.twig")
     */
-    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -357,9 +358,9 @@ class UserController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         

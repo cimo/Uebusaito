@@ -1,9 +1,11 @@
 <?php
 namespace App\Controller\Microservice\Api\Basic;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
@@ -13,7 +15,7 @@ use App\Entity\ApiBasic;
 use App\Form\ApiBasicFormType;
 use App\Form\ApiBasicSelectFormType;
 
-class ApiBasicController extends Controller {
+class ApiBasicController extends AbstractController {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -40,7 +42,7 @@ class ApiBasicController extends Controller {
     * )
     * @Template("@templateRoot/microservice/api/basic/create.html.twig")
     */
-    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -49,9 +51,9 @@ class ApiBasicController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -109,7 +111,7 @@ class ApiBasicController extends Controller {
     * )
     * @Template("@templateRoot/microservice/api/basic/select.html.twig")
     */
-    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -118,9 +120,9 @@ class ApiBasicController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -169,7 +171,7 @@ class ApiBasicController extends Controller {
     * )
     * @Template("@templateRoot/microservice/api/basic/profile.html.twig")
     */
-    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -178,9 +180,9 @@ class ApiBasicController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -240,7 +242,7 @@ class ApiBasicController extends Controller {
     * )
     * @Template("@templateRoot/microservice/api/basic/profile.html.twig")
     */
-    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -249,9 +251,9 @@ class ApiBasicController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -307,7 +309,7 @@ class ApiBasicController extends Controller {
     * )
     * @Template("@templateRoot/microservice/api/basic/delete.html.twig")
     */
-    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -316,9 +318,9 @@ class ApiBasicController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -374,7 +376,7 @@ class ApiBasicController extends Controller {
     *	methods={"POST"}
     * )
     */
-    public function logAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function logAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -383,9 +385,9 @@ class ApiBasicController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -418,7 +420,7 @@ class ApiBasicController extends Controller {
     *	methods={"POST"}
     * )
     */
-    public function graphAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
+    public function graphAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -427,9 +429,9 @@ class ApiBasicController extends Controller {
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -518,111 +520,138 @@ class ApiBasicController extends Controller {
     * @Route(
     *   name = "apiBasic_check",
     *   path = "/apiBasic_check",
-    *	methods={"POST"}
+    *	methods={"POST", "OPTIONS"}
     * )
-    * @Template("@templateRoot/microservice/api/basic/index.html.twig")
     */
-    public function checkAction(Request $request) {
-        header("Access-Control-Allow-Origin: *");
-        
+    public function checkAction(Request $request, TranslatorInterface $translator) {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         // Logic
         if ($request->isMethod("POST") == true) {
-            if ($request->get("event") != null && $request->get("event") == "apiBasic") {
+            $parameters = Array();
+            
+            if (empty($request->getContent()) == false)
+                $parameters = json_decode($request->getContent(), true);
+            else
+                $parameters = $request->request->all();
+            
+            if (isset($parameters['event']) == true && $parameters['event'] == "apiBasic") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"), true);
+                $apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
                 
                 if ($microserviceApiRow != false) {
                     if ($apiBasicRow != false) {
-                        if ($apiBasicRow['ip'] != "" && $apiBasicRow['ip'] != $_SERVER['REMOTE_ADDR'])
-                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_14");
+                        $ipExplode = explode(",", $apiBasicRow['ip']);
+                    
+                        if (in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
                         else
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_8");
                     }
                     else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
                 }
                 else
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_9");
             }
             else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
-            
-            return $this->ajax->response(Array(
-                'response' => $this->response
-            ));
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_11");
         }
+        
+        $response = new Response(json_encode($this->response));
+        $response->headers->set("Access-Control-Allow-Origin", "*");
+        $response->headers->set("Access-Control-Allow-Headers", "*");
+        $response->headers->set("Access-Control-Allow-Methods", "POST, OPTIONS");
+        $response->headers->set("Accept", "application/json");
+        $response->headers->set("Content-Type", "application/json");
+        
+        return $response;
     }
     
     /**
     * @Route(
     *   name = "apiBasic_request",
     *   path = "/apiBasic_request",
-    *	methods={"POST"}
+    *	methods={"POST", "OPTIONS"}
     * )
     */
-    public function requestAction(Request $request) {
-        header("Access-Control-Allow-Origin: *");
-        
+    public function requestAction(Request $request, TranslatorInterface $translator) {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->response = Array();
         
-        $this->utility = new Utility($this->container, $this->entityManager);
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
-        $this->ajax = new Ajax($this->container, $this->entityManager);
+        $this->ajax = new Ajax($this->utility);
         
         // Logic
         $name = "apiBasic";
         
         if ($request->isMethod("POST") == true) {
-            if ($request->get("event") != null && $request->get("event") == "apiBasic") {
+            $parameters = Array();
+
+            if (empty($request->getContent()) == false)
+                $parameters = json_decode($request->getContent(), true);
+            else
+                $parameters = $request->request->all();
+
+            if (isset($parameters['event']) == true && $parameters['event'] == "apiBasic") {
                 $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                $apiBasicRow = $this->selectApiBasicDatabase($request->get("token"), true);
+                $apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
                 
                 if ($microserviceApiRow != false) {
                     if ($apiBasicRow != false) {
-                        if ($apiBasicRow['ip'] != "" && $apiBasicRow['ip'] != $_SERVER['REMOTE_ADDR'])
-                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_14");
+                        $ipExplode = explode(",", $apiBasicRow['ip']);
+                        
+                        if (in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
                         else {
                             if ($apiBasicRow['url_callback'] != "") {
-                                $urlCallback = $this->urlCallback($request, $apiBasicRow);
+                                $urlCallback = $this->urlCallback($parameters, $apiBasicRow);
                                 
                                 if ($urlCallback == true) {
-                                    $requestRow = $this->selectApiBasicRequestDatabase($name);
+                                    //...
                                     
-                                    if ($requestRow == false)
-                                        $this->apiBasicRequestDatabase("insert", $name);
-                                    else
-                                        $this->apiBasicRequestDatabase("update", $name, $requestRow);
-                                    
-                                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_11");
+                                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
                                 }
                             }
+                            
+                            $requestRow = $this->selectApiBasicRequestDatabase($name);
+                            
+                            if ($requestRow == false)
+                                $this->apiBasicRequestDatabase("insert", $name);
+                            else
+                                $this->apiBasicRequestDatabase("update", $name, $requestRow);
+                            
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
                         }
                     }
                     else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
                 }
                 else
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_9");
             }
             else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_11");
             
-            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i:s e") . " - $name - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . PHP_EOL, FILE_APPEND);
-            
-            return $this->ajax->response(Array(
-                'response' => $this->response
-            ));
+            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i:s e") . " - $name - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . print_r($parameters, true) . PHP_EOL, FILE_APPEND);
         }
+        
+        $response = new Response(json_encode($this->response));
+        $response->headers->set("Access-Control-Allow-Origin", "*");
+        $response->headers->set("Access-Control-Allow-Headers", "*");
+        $response->headers->set("Access-Control-Allow-Methods", "POST, OPTIONS");
+        $response->headers->set("Accept", "application/json");
+        $response->headers->set("Content-Type", "application/json");
+        
+        return $response;
     }
     
     // Functions private
@@ -776,7 +805,7 @@ class ApiBasicController extends Controller {
             }
             
             $html .= "</select>
-            <label class=\"mdc-floating-label mdc-floating-label--float-above\">{$this->utility->getTranslator()->trans("apiBasicController_15")}</label>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">{$this->utility->getTranslator()->trans("apiBasicController_14")}</label>
             <div class=\"mdc-line-ripple\"></div>
         </div>";
         
@@ -808,18 +837,18 @@ class ApiBasicController extends Controller {
             }
             
             $html .= "</select>
-            <label class=\"mdc-floating-label mdc-floating-label--float-above\">{$this->utility->getTranslator()->trans("apiBasicController_16")}</label>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">{$this->utility->getTranslator()->trans("apiBasicController_15")}</label>
             <div class=\"mdc-line-ripple\"></div>
         </div>";
         
         return $html;
     }
     
-    private function urlCallback($request, $row) {
+    private function urlCallback($parameters, $row) {
         $curl = curl_init();
         
         if ($curl == false)
-            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_17");
+            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_16");
         else {
             $postFields = Array(
                 'event' => 'apiBasic'
@@ -838,7 +867,10 @@ class ApiBasicController extends Controller {
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postFields));
+            curl_setopt($curl, CURLOPT_HTTPHEADER, Array(
+                "Content-Type: application/json"
+            ));
 
             $curlResponse = curl_exec($curl);
             $curlInfo = curl_getinfo($curl);
