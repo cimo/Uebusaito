@@ -124,7 +124,7 @@ function ControlPanelApiBasic() {
                         
                         if (xhr.response.render !== undefined) {
                             popupEasy.create(
-                                "Show graph - " + xhr.response.values.selectPeriodYearHtml + xhr.response.values.selectPeriodMonthHtml,
+                                "<p>Show graph</p>" + xhr.response.values.selectPeriodYearHtml + xhr.response.values.selectPeriodMonthHtml,
                                 xhr.response.render
                             );
                     

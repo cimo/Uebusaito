@@ -641,7 +641,7 @@ class ApiBasicController extends AbstractController {
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_11");
             
-            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i:s e") . " - $name - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response['messages'], true) . print_r($parameters, true) . PHP_EOL, FILE_APPEND);
+            file_put_contents("{$this->utility->getPathSrc()}/files/microservice/api/apiBasic.log", date("Y-m-d H:i:s e") . " - $name - IP[{$_SERVER['REMOTE_ADDR']}]: " . print_r($this->response, true) . print_r($parameters, true) . PHP_EOL, FILE_APPEND);
         }
         
         $response = new Response(json_encode($this->response));

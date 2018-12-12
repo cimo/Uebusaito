@@ -176,7 +176,7 @@ class MyPagePaymentController extends AbstractController {
     * )
     * @Template("@templateRoot/render/my_page/myPage_payment_delete.html.twig")
     */
-    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $reques, TranslatorInterface $translator) {
+    public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;

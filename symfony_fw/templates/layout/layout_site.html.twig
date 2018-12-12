@@ -1,8 +1,8 @@
-{% if settingRow['template_column'] == 1 and app.request.attributes.get("_route") != "control_panel" %}
+{% if (settingRow['template_column'] == 1 or urlExtra == "user_login") and app.request.attributes.get("_route") != "control_panel" %}
     {% set templateColumnCenter = "8" %}
 {% elseif settingRow['template_column'] == 2 or settingRow['template_column'] == 3 or app.request.attributes.get("_route") == "control_panel" %}
     {% set templateColumnCenter = "10" %}
-{% elseif settingRow['template_column'] == 4 and app.request.attributes.get("_route") != "control_panel" %}
+{% elseif settingRow['template_column'] == 4 %}
     {% set templateColumnCenter = "12" %}
 {% endif %}
 
@@ -48,7 +48,7 @@
 
         <div class="mdc-layout-grid main">
             <div class="mdc-layout-grid__inner">
-                {% if settingRow['template_column'] == 1 or settingRow['template_column'] == 2 %}
+                {% if settingRow['template_column'] == 1 or settingRow['template_column'] == 2 or urlExtra == "user_login" or app.request.attributes.get("_route") == "control_panel" %}
                     <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet column_left_container display_desktop">
                         {% block columnLeftContainer %}{% endblock %}
                     </div>
@@ -56,7 +56,7 @@
                 <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-{{templateColumnCenter}} mdc-layout-grid__cell--span-{{templateColumnCenter}}-tablet column_center_container">
                     {% block columnCenterContainer %}{% endblock %}
                 </div>
-                {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 3) and app.request.attributes.get("_route") != "control_panel" %}
+                {% if (settingRow['template_column'] == 1 or settingRow['template_column'] == 3 or urlExtra == "user_login") and app.request.attributes.get("_route") != "control_panel" %}
                     <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-2-tablet column_right_container display_desktop">
                         {% block columnRightContainer %}{% endblock %}
                     </div>

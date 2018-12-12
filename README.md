@@ -38,31 +38,35 @@ This is a open source cms with symfony framework.
 
 2) Write on terminal:
 
-	cd /home/user_1/www/symfony_fw
-	
-	sudo nano .env
+        cd /home/user_1/www/symfony_fw
+        
+        sudo nano .env
 
 3) Modify:
-	
-	APP_ENV=dev
-	
-	DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name
-	
-4) Save, close the file and write on terminal:
-	
-	sudo nano /config/packages/framework.yaml
-	
-5) In "session:" modify:
+
+        APP_ENV=dev
         
+        DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name
+
+4) Save, close the file and write on terminal:
+
+        sudo nano /config/packages/framework.yaml
+
+5) In "session:" modify:
+
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
         
         name: new_name
         
         cookie_domain: .domain_name.xxx
-        
+
 6) Save, close the file and write on terminal:
+
+        sudo rm -rf vendor/ app/cache/ composer.lock
         
-	sudo -u user_1 composer update
+        sudo composer install
+        
+        sudo composer update
         
         sudo chmod 775 /home/user_1/www/symfony_fw
         

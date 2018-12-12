@@ -147,6 +147,10 @@ $boxBackgroundColor: #ededed;
             padding-top: 45px !important;
         }
     }
+    
+    .graph_container {
+        overflow-y: scroll;
+    }
 }
 
 html, body {

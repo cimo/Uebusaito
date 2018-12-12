@@ -188,7 +188,7 @@ class ModuleController extends AbstractController {
     * )
     * @Template("@templateRoot/render/control_panel/module_profile.html.twig")
     */
-    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $reques, TranslatorInterface $translator) {
+    public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
