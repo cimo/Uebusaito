@@ -148,6 +148,11 @@ $boxBackgroundColor: #ededed;
         }
     }
     
+    .api_card {
+        display: block !important;
+        margin: 20px auto !important;
+    }
+    
     .graph_container {
         overflow-y: scroll;
     }

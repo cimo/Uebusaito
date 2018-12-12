@@ -53,6 +53,7 @@
   .menu_root_container ul .parent > .parent_content .children_container .parent .parent_icon { display: none; }
   .menu_root_container ul .parent > .parent_content .children_container .parent .parent_content { position: absolute; top: 5px; left: 200px; border-bottom: none; } }
 @media (max-width: 599px) { .main .sortable_column { padding-top: 45px !important; }
+  .api_card { display: block !important; margin: 20px auto !important; }
   .graph_container { overflow-y: scroll; } }
 html, body { margin: 0; padding: 0; }
 

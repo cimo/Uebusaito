@@ -174,8 +174,8 @@ function Chaato() {
         
         var step = parseInt(itemMax / labelItems.length);
         
-        if (step <= 0)
-            step = 1;
+        if (step <= 3)
+            step = 3;
         
         for (var a = 0; a <= (itemMax + step); a += step) {
             context.beginPath();
