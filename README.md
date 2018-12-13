@@ -62,7 +62,7 @@ This is a open source cms with symfony framework.
 
 6) Save, close the file and write on terminal:
 
-        sudo rm -rf vendor/ app/cache/ composer.lock
+        sudo rm -rf vendor var/cache composer.lock
         
         sudo composer install
         

@@ -266,12 +266,11 @@ CREATE TABLE `pages_comments` (
   `page_id` int(11) NOT NULL DEFAULT '0',
   `username` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `id_reply` int(11) DEFAULT NULL,
-  `username_reply` varchar(20) COLLATE utf8_unicode_ci DEFAULT '',
   `argument` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `date_create` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modify` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -280,7 +279,7 @@ CREATE TABLE `pages_comments` (
 
 LOCK TABLES `pages_comments` WRITE;
 /*!40000 ALTER TABLE `pages_comments` DISABLE KEYS */;
-INSERT INTO `pages_comments` VALUES (1,6,'cimo',NULL,NULL,'Comment test.','2017-10-31 11:45:22','2018-07-30 16:43:41'),(2,6,'test_1',NULL,NULL,'New comment test.','2017-10-31 11:55:18','2017-11-01 23:51:35'),(3,6,'cimo',2,'test_1','[q=]New comment test.[=q]\r\nTest over.','2018-08-01 14:55:20','0000-00-00 00:00:00');
+INSERT INTO `pages_comments` VALUES (1,6,'cimo',NULL,'Comment test.','2017-10-31 11:45:22','2018-12-13 12:23:39'),(2,6,'test_1',NULL,'New comment test.','2017-10-31 11:55:18','2017-11-01 23:51:35'),(3,6,'cimo',2,'Test over.','2018-12-13 12:25:59','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `pages_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,7 +483,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2018-12-11 17:27:20','2018-12-11 16:06:29',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2018-12-13 10:30:03','2018-12-13 10:23:54',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -501,4 +500,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-11 17:54:03
+-- Dump completed on 2018-12-13 12:51:04

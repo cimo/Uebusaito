@@ -41,21 +41,26 @@ function PageComment() {
         
         $(document).on("click", "#pageComment_result .button_reply", function(event) {
             var id = $(event.target).parent().attr("data-comment");
-            var argument = $(event.target).parent().find(".argument").text();
+            //var argument = $(event.target).parent().find(".argument").text().trim();
             
             $("#form_pageComment_type").val("reply_" + id);
             
             $("#form_pageComment").find(".mdc-text-field__input").next().addClass("mdc-floating-label--float-above");
-            $("#form_pageComment").find(".mdc-text-field__input").val("[q=]" + argument + "[=q]\n");
+            //$("#form_pageComment").find(".mdc-text-field__input").val("[q=]" + argument + "[=q]\n");
         });
         
         $(document).on("click", "#pageComment_result .button_edit", function(event) {
             var id = $(event.target).parent().attr("data-comment");
-            var argument = $(event.target).parent().find(".argument").text();
+            //var quoteText = $(event.target).parent().find(".quote .quote_text").text().trim();
+            var argument = $(event.target).parent().find(".argument").text().trim();
+            
+            //if (quoteText !== "")
+            //    quoteText = "[q=]" + quoteText + "[=q]\n";
             
             $("#form_pageComment_type").val("edit_" + id);
             
             $("#form_pageComment").find(".mdc-text-field__input").next().addClass("mdc-floating-label--float-above");
+            //$("#form_pageComment").find(".mdc-text-field__input").val(quoteText + argument);
             $("#form_pageComment").find(".mdc-text-field__input").val(argument);
         });
     };

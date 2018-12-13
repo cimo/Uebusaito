@@ -548,8 +548,8 @@ class ApiBasicController extends AbstractController {
                 if ($microserviceApiRow != false) {
                     if ($apiBasicRow != false) {
                         $ipExplode = explode(",", $apiBasicRow['ip']);
-                    
-                        if (in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                        
+                        if (isset($apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
                             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
                         else
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_8");
@@ -609,7 +609,7 @@ class ApiBasicController extends AbstractController {
                     if ($apiBasicRow != false) {
                         $ipExplode = explode(",", $apiBasicRow['ip']);
                         
-                        if (in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                        if (isset($apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
                             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
                         else {
                             if ($apiBasicRow['url_callback'] != "") {

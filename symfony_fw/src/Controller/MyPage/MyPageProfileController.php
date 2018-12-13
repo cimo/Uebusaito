@@ -253,37 +253,41 @@ class MyPageProfileController extends AbstractController {
         // Logic
         $settingRow = $this->query->selectSettingDatabase();
         
-        $form = $this->createForm(CreditFormType::class, null, Array(
-            'validation_groups' => Array('profile_credit')
-        ));
-        $form->handleRequest($request);
-        
-        $this->response['values']['currentCredit'] = $this->getUser() != null ? $this->getUser()->getCredit() : 0;
-        $this->response['values']['payPalSandbox'] = $settingRow['payPal_sandbox'];
-        
-        if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($form->isSubmitted() == true && $form->isValid() == true)
-                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPageProfileController_6");
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPageProfileController_7");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
+        if ($settingRow['credit'] == true) {
+            $form = $this->createForm(CreditFormType::class, null, Array(
+                'validation_groups' => Array('profile_credit')
+            ));
+            $form->handleRequest($request);
 
-            return $this->ajax->response(Array(
+            $this->response['values']['currentCredit'] = $this->getUser() != null ? $this->getUser()->getCredit() : 0;
+            $this->response['values']['payPalSandbox'] = $settingRow['payPal_sandbox'];
+
+            if ($request->isMethod("POST") == true && $checkUserRole == true) {
+                if ($form->isSubmitted() == true && $form->isValid() == true)
+                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPageProfileController_6");
+                else {
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPageProfileController_7");
+                    $this->response['errors'] = $this->ajax->errors($form);
+                }
+
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
+            
+            return Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
                 'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+                'response' => $this->response,
+                'form' => $form->createView()
+            );
         }
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response,
-            'form' => $form->createView()
-        );
+        else
+            return new Response();
     }
     
     /**

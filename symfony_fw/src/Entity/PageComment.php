@@ -31,11 +31,6 @@ class PageComment {
     private $idReply = null;
     
     /**
-     * @ORM\Column(name="username_reply", type="string", nullable=true, columnDefinition="varchar(20)")
-     */
-    private $usernameReply = null;
-    
-    /**
      * @ORM\Column(name="argument", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $argument = "";
@@ -64,10 +59,6 @@ class PageComment {
     
     public function setIdReply($value) {
         $this->idReply = $value;
-    }
-    
-    public function setUsernameReply($value) {
-        $this->usernameReply = $value;
     }
     
     public function setArgument($value) {
@@ -102,10 +93,6 @@ class PageComment {
     
     public function getIdReply() {
         return $this->idReply;
-    }
-    
-    public function getUsernameReply() {
-        return $this->usernameReply;
     }
     
     public function getArgument() {

@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -61,32 +62,38 @@ class PageCommentController extends AbstractController {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $pageCommentRows = $this->query->selectAllPageCommentDatabase($this->urlCurrentPageId);
-
-        $tableAndPagination = $this->tableAndPagination->request($pageCommentRows, 20, "pageComment", false, true);
-
-        $this->response['values']['search'] = $tableAndPagination['search'];
-        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = $tableAndPagination['count'];
+        $settingRow = $this->query->selectSettingDatabase();
         
-        if ($this->tableAndPagination->checkPost() == true) {
-            return $this->ajax->response(Array(
+        if ($settingRow['pageComment'] == true) {
+            $pageCommentRows = $this->query->selectAllPageCommentDatabase($this->urlCurrentPageId);
+
+            $tableAndPagination = $this->tableAndPagination->request($pageCommentRows, 20, "pageComment", false, true);
+
+            $this->response['values']['search'] = $tableAndPagination['search'];
+            $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+            $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+            $this->response['values']['count'] = $tableAndPagination['count'];
+
+            if ($this->tableAndPagination->checkPost() == true) {
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_1");
+
+            return Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
                 'urlExtra' => $this->urlExtra,
                 'response' => $this->response
-            ));
+            );
         }
         else
-            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_1");
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response
-        );
+            return new Response();
     }
     
     /**
@@ -117,22 +124,23 @@ class PageCommentController extends AbstractController {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $pageCommentEntity = new PageComment();
+        $settingRow = $this->query->selectSettingDatabase();
+        $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
         
-        $form = $this->createForm(PageCommentFormType::class, $pageCommentEntity, Array(
-            'validation_groups' => Array('pageComment')
-        ));
-        $form->handleRequest($request);
-        
-        if ($request->isMethod("POST") == true) {
-            if ($form->isSubmitted() == true && $form->isValid() == true) {
-                $settingRow = $this->query->selectSettingDatabase();
-                $pageRow = $this->query->selectPageDatabase($this->urlLocale, $this->urlCurrentPageId);
-                $pageCommentRows = $this->query->selectAllPageCommentDatabase($this->urlCurrentPageId);
-                
-                if ($settingRow['pageComment'] == true && $settingRow['pageComment_active'] == true && $pageRow['comment'] == true) {
-                    $typeExplode = explode("_", $form->get("type")->getData());
+        if ($settingRow['pageComment'] == true && $settingRow['pageComment_active'] == true && $pageRow['comment'] == true) {
+            $pageCommentEntity = new PageComment();
+
+            $form = $this->createForm(PageCommentFormType::class, $pageCommentEntity, Array(
+                'validation_groups' => Array('pageComment')
+            ));
+            $form->handleRequest($request);
+
+            if ($request->isMethod("POST") == true) {
+                if ($form->isSubmitted() == true && $form->isValid() == true) {
+                    $pageCommentRows = $this->query->selectAllPageCommentDatabase($this->urlCurrentPageId);
                     
+                    $typeExplode = explode("_", $form->get("type")->getData());
+
                     if ($typeExplode[0] == "new") {
                         if ($pageCommentRows[count($pageCommentRows) - 1]['username'] !== $this->getUser()->getUsername()) {
                             $pageCommentEntity->setPageId($this->urlCurrentPageId);
@@ -145,28 +153,28 @@ class PageCommentController extends AbstractController {
 
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_2");
                         }
-                        else {
+                        else
                             $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_3");
-                        }
                     }
                     else if ($typeExplode[0] == "reply") {
                         $pageCommentRow = $this->query->selectPageCommentDatabase("single", $typeExplode[1]);
-                        
-                        $pageCommentEntity->setPageId($this->urlCurrentPageId);
-                        $pageCommentEntity->setUsername($this->getUser()->getUsername());
-                        $pageCommentEntity->setIdReply($typeExplode[1]);
-                        $pageCommentEntity->setDateCreate(date("Y-m-d H:i:s"));
-                        $pageCommentEntity->setUsernameReply($pageCommentRow['username']);
 
-                        // Database insert
-                        $this->entityManager->persist($pageCommentEntity);
-                        $this->entityManager->flush();
-                        
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_4");
+                        if ($pageCommentRow != false) {
+                            $pageCommentEntity->setPageId($this->urlCurrentPageId);
+                            $pageCommentEntity->setUsername($this->getUser()->getUsername());
+                            $pageCommentEntity->setIdReply($typeExplode[1]);
+                            $pageCommentEntity->setDateCreate(date("Y-m-d H:i:s"));
+
+                            // Database insert
+                            $this->entityManager->persist($pageCommentEntity);
+                            $this->entityManager->flush();
+
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_4");
+                        }
                     }
                     else if ($typeExplode[0] == "edit") {
                         $this->pageCommentDatabase($typeExplode[1], $form->get("argument")->getData());
-                        
+
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageCommentController_5");
                     }
                     else {
@@ -174,27 +182,29 @@ class PageCommentController extends AbstractController {
                         $this->response['errors'] = $this->ajax->errors($form);
                     }
                 }
+                else {
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_6");
+                    $this->response['errors'] = $this->ajax->errors($form);
+                }
+
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
             }
-            else {
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageCommentController_6");
-                $this->response['errors'] = $this->ajax->errors($form);
-            }
-            
-            return $this->ajax->response(Array(
+
+            return Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
                 'urlExtra' => $this->urlExtra,
-                'response' => $this->response
-            ));
+                'response' => $this->response,
+                'form' => $form->createView()
+            );
         }
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response,
-            'form' => $form->createView()
-        );
+        else
+            return new Response();
     }
     
     // Functions private
@@ -206,6 +216,8 @@ class PageCommentController extends AbstractController {
         $elementsCount = count($elements);
         
         foreach ($elements as $key => $value) {
+            $row = $this->query->selectPageCommentDatabase("single", $value['id_reply']);
+            
             $html .= "<li class=\"mdc-list-item\" data-comment=\"{$value['id']}\">";
                 if (file_exists("{$this->utility->getPathWeb()}/files/{$value['username']}/Avatar.jpg") == true)
                     $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/files/{$value['username']}/Avatar.jpg\" aria-hidden=\"true\"/>";
@@ -227,20 +239,16 @@ class PageCommentController extends AbstractController {
                 
                 $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
                 
-                if (file_exists("{$this->utility->getPathWeb()}/files/{$value['username_reply']}/Avatar.jpg") == true)
-                    $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/files/{$value['username_reply']}/Avatar.jpg\"/>";
-                
-                $quoteText = $this->utility->takeStringBetween($value['argument'], "[q=]", "[=q]");
-                
-                $value['argument'] = str_replace("[q=]{$quoteText}[=q]", "", $value['argument']);
+                if (file_exists("{$this->utility->getPathWeb()}/files/{$row['username']}/Avatar.jpg") == true)
+                    $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/files/{$row['username']}/Avatar.jpg\"/>";
                 
                 $html .= "<span class=\"mdc-list-item__text\">
-                    $detail";
+                    <p class=\"detail\">$detail</p>";
                     
-                    if ($quoteText != "")
-                        $html .= "<span class=\"quote_text\">$quoteAvatar " . wordwrap($quoteText, 50, "<br>\n", TRUE) . "</span>";
+                    if ($row['argument'] != "")
+                        $html .= "<p class=\"quote\">$quoteAvatar <span class=\"quote_text\">" . wordwrap($row['argument'], 50, "<br>\n", true) . "</span></p>";
                     
-                    $html .= "<span class=\"mdc-list-item__secondary-text argument\">{$value['argument']}</span>
+                    $html .= "<p class=\"mdc-list-item__secondary-text argument\">{$value['argument']}</p>
                 </span>";
                 
                 if ($this->getUser() != null) {

@@ -101,6 +101,8 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 
 .mdc-snackbar__action-button { opacity: 1; visibility: visible; }
 
+.mdc-dialog__surface .mdc-dialog__header__title p { margin: 0; }
+
 .logo_main_big { display: block; width: 70px; margin: auto; }
 
 .logo_main_small { width: 45px; margin-top: 8px; }
@@ -189,9 +191,10 @@ table tbody tr td { text-align: center; border-bottom: 1px solid #dee2e6; paddin
 #page_rankMenuSort > p { vertical-align: middle; margin-bottom: 2px; }
 
 #pageComment_result .mdc-list-item { height: auto; padding: 10px; }
-#pageComment_result .mdc-list-item .quote_text { display: block; background: #ededed; padding: 10px; border-radius: 20px; white-space: initial !important; }
-#pageComment_result .mdc-list-item .quote_text .quote_avatar { width: 40px; height: 40px; display: inline-block; vertical-align: middle; margin-right: 5px; border-radius: 50%; }
-#pageComment_result .mdc-list-item .argument { padding: 10px 10px 0 10px; }
+#pageComment_result .mdc-list-item .detail { margin: 0; font-size: 11px; }
+#pageComment_result .mdc-list-item .quote { margin: 0; display: block; background: #ededed; padding: 10px; border-radius: 20px; white-space: initial !important; }
+#pageComment_result .mdc-list-item .quote .quote_avatar { width: 40px; height: 40px; display: inline-block; vertical-align: middle; margin-right: 5px; border-radius: 50%; }
+#pageComment_result .mdc-list-item .argument { margin: 0; padding: 10px 10px 0 10px; }
 #pageComment_result .mdc-list-item .mdc-list-item__meta { cursor: pointer; z-index: 100; }
 
 #setting_language_manage_container { display: none; }

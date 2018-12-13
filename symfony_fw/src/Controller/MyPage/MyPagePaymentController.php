@@ -3,6 +3,7 @@ namespace App\Controller\MyPage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -62,41 +63,47 @@ class MyPagePaymentController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
         // Logic
-        $_SESSION['paymentProfileId'] = 0;
+        $settingRow = $this->query->selectSettingDatabase();
         
-        $paymentRows = $this->query->selectAllPaymentDatabase($this->getUser()->getId());
+        if ($settingRow['payment'] == true) {
+            $_SESSION['paymentProfileId'] = 0;
 
-        $tableAndPagination = $this->tableAndPagination->request($paymentRows, 20, "payment", true, true);
+            $paymentRows = $this->query->selectAllPaymentDatabase($this->getUser()->getId());
 
-        $this->response['values']['search'] = $tableAndPagination['search'];
-        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = $tableAndPagination['count'];
-        
-        $form = $this->createForm(PaymentSelectFormType::class, null, Array(
-            'validation_groups' => Array('payment_select'),
-            'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($this->getUser()->getId()), "id", "transaction"), true)
-        ));
-        $form->handleRequest($request);
-        
-        if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-                return $this->ajax->response(Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
+            $tableAndPagination = $this->tableAndPagination->request($paymentRows, 20, "payment", true, true);
+
+            $this->response['values']['search'] = $tableAndPagination['search'];
+            $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+            $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+            $this->response['values']['count'] = $tableAndPagination['count'];
+
+            $form = $this->createForm(PaymentSelectFormType::class, null, Array(
+                'validation_groups' => Array('payment_select'),
+                'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($this->getUser()->getId()), "id", "transaction"), true)
+            ));
+            $form->handleRequest($request);
+
+            if ($request->isMethod("POST") == true && $checkUserRole == true) {
+                if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                    return $this->ajax->response(Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
+                }
             }
+            
+            return Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response,
+                'form' => $form->createView()
+            );
         }
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response,
-            'form' => $form->createView()
-        );
+        else
+            return new Response();
     }
     
     /**
@@ -129,41 +136,46 @@ class MyPagePaymentController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_payment_select")['_token']) == true) {
-                $id = 0;
-
-                if (empty($request->get("id")) == false)
-                    $id = $request->get("id");
-                else if (empty($request->get("form_payment_select")['id']) == false)
-                    $id = $request->get("form_payment_select")['id'];
-
-                $paymentEntity = $this->entityManager->getRepository("App\Entity\Payment")->find($id);
-
-                if ($paymentEntity != null) {
-                    $_SESSION['paymentProfileId'] = $id;
-
-                    $this->response['values']['payment'] = $paymentEntity;
-
-                    $this->response['render'] = $this->renderView("@templateRoot/render/my_page/myPage_payment_profile.html.twig", Array(
-                        'urlLocale' => $this->urlLocale,
-                        'urlCurrentPageId' => $this->urlCurrentPageId,
-                        'urlExtra' => $this->urlExtra,
-                        'response' => $this->response
-                    ));
-                }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPagePaymentController_1");
-            }
-        }
+        $settingRow = $this->query->selectSettingDatabase();
         
-        return $this->ajax->response(Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response
-        ));
+        if ($settingRow['payment'] == true) {
+            if ($request->isMethod("POST") == true && $checkUserRole == true) {
+                if ($this->isCsrfTokenValid("intention", $request->get("token")) == true || $this->isCsrfTokenValid("intention", $request->get("form_payment_select")['_token']) == true) {
+                    $id = 0;
+
+                    if (empty($request->get("id")) == false)
+                        $id = $request->get("id");
+                    else if (empty($request->get("form_payment_select")['id']) == false)
+                        $id = $request->get("form_payment_select")['id'];
+
+                    $paymentEntity = $this->entityManager->getRepository("App\Entity\Payment")->find($id);
+
+                    if ($paymentEntity != null) {
+                        $_SESSION['paymentProfileId'] = $id;
+
+                        $this->response['values']['payment'] = $paymentEntity;
+
+                        $this->response['render'] = $this->renderView("@templateRoot/render/my_page/myPage_payment_profile.html.twig", Array(
+                            'urlLocale' => $this->urlLocale,
+                            'urlCurrentPageId' => $this->urlCurrentPageId,
+                            'urlExtra' => $this->urlExtra,
+                            'response' => $this->response
+                        ));
+                    }
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPagePaymentController_1");
+                }
+            }
+            
+            return $this->ajax->response(Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            ));
+        }
+        else
+            return new Response();
     }
     
     /**
@@ -196,43 +208,49 @@ class MyPagePaymentController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
         // Logic
-        if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-                if ($request->get("event") == "delete") {
-                    $id = $request->get("id") == null ? $_SESSION['paymentProfileId'] : $request->get("id");
-
-                    $paymentDatabase = $this->paymentDatabase("delete", $id);
-
-                    if ($paymentDatabase == true) {
-                        $this->response['values']['id'] = $id;
-
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPagePaymentController_2");
-                    }
-                }
-                else if ($request->get("event") == "deleteAll") {
-                    $paymentDatabase = $this->paymentDatabase("deleteAll", null);
-
-                    if ($paymentDatabase == true)
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPagePaymentController_3");
-                }
-                else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPagePaymentController_4");
-
-                return $this->ajax->response(Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
-            }
-        }
+        $settingRow = $this->query->selectSettingDatabase();
         
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response
-        );
+        if ($settingRow['payment'] == true) {
+            if ($request->isMethod("POST") == true && $checkUserRole == true) {
+                if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                    if ($request->get("event") == "delete") {
+                        $id = $request->get("id") == null ? $_SESSION['paymentProfileId'] : $request->get("id");
+
+                        $paymentDatabase = $this->paymentDatabase("delete", $id);
+
+                        if ($paymentDatabase == true) {
+                            $this->response['values']['id'] = $id;
+
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPagePaymentController_2");
+                        }
+                    }
+                    else if ($request->get("event") == "deleteAll") {
+                        $paymentDatabase = $this->paymentDatabase("deleteAll", null);
+
+                        if ($paymentDatabase == true)
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("myPagePaymentController_3");
+                    }
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("myPagePaymentController_4");
+
+                    return $this->ajax->response(Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
+                }
+            }
+            
+            return Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response
+            );
+        }
+        else
+            return new Response();
     }
     
     // Functions private
