@@ -15,7 +15,7 @@
     {{response.module.label|trans}}
 {% endblock %}
 {% block moduleContainer %}
-    {% if form == null %}
+    {% if form is null %}
         <p><b>{% trans %}authentication_1{% endtrans %}</b></p>
         <p>{{response.values.user.username}}</p>
         <p><b>{% trans %}authentication_2{% endtrans %}</b></p>
@@ -51,8 +51,12 @@
 
         {% if (settingRow['website_active'] == true) %}
             <div class="link_container">
-                <a class="mdc-typography--caption mdc-theme--on-surface" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': ""})}}">{% trans %}authentication_6{% endtrans %}</a>
-                <a class="mdc-typography--caption mdc-theme--on-surface" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 4, 'urlExtra': ""})}}">{% trans %}authentication_7{% endtrans %}</a>
+                {% if (settingRow['registration'] == true) %}
+                    <a class="mdc-typography--caption mdc-theme--on-surface" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 3, 'urlExtra': ""})}}">{% trans %}authentication_6{% endtrans %}</a>
+                {% endif %}
+                {% if (settingRow['recover_password'] == true) %}
+                    <a class="mdc-typography--caption mdc-theme--on-surface" href="{{path("root_render", {'_locale': urlLocale, 'urlCurrentPageId': 4, 'urlExtra': ""})}}">{% trans %}authentication_7{% endtrans %}</a>
+                {% endif %}
             </div>
         {% endif %}
     {% endif %}

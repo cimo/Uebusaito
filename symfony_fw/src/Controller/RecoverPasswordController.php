@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -59,106 +60,110 @@ class RecoverPasswordController extends AbstractController {
         $this->utility->checkSessionOverTime($request);
         
         // Logic
-        $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
+        $settingRow = $this->query->selectSettingDatabase();
         
-        if ($userRow == false) {
-            $this->response['values']['userId'] = $userRow['id'];
-            
-            $form = $this->createForm(RecoverPasswordFormType::class, null, Array(
-                'validation_groups' => Array('recover_password')
-            ));
-            $form->handleRequest($request);
-            
-            if ($request->isMethod("POST") == true) {
-                if ($form->isSubmitted() == true && $form->isValid() == true) {
-                    $email = $form->get("email")->getData();
+        if ($settingRow['recover_password'] == true) {
+            $userRow = $this->query->selectUserWithHelpCodeDatabase($this->urlExtra);
 
-                    $userEntity = $this->entityManager->getRepository("App\Entity\User")->loadUserByUsername($email);
+            if ($userRow == false) {
+                $this->response['values']['userId'] = $userRow['id'];
 
-                    if ($userEntity != null) {
-                        $settingRow = $this->query->selectSettingDatabase();
-                        
-                        $helpCode = $this->utility->generateRandomString(20);
-
-                        $userEntity->setHelpCode($helpCode);
-
-                        $url = $this->utility->getUrlRoot() . $this->utility->getWebsiteFile() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
-
-                        // Send email to user
-                        $this->utility->sendEmail($userEntity->getEmail(),
-                                                    "Recover password",
-                                                    "<p>Click on this link for reset your password:</p> <a href=\"$url\">$url</a>",
-                                                    $settingRow['email_admin']);
-
-                        // Database update
-                        $this->entityManager->persist($userEntity);
-                        $this->entityManager->flush();
-
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_1");
-                    }
-                    else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_2");
-                }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_3");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
-                
-                return $this->ajax->response(Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
+                $form = $this->createForm(RecoverPasswordFormType::class, null, Array(
+                    'validation_groups' => Array('recover_password')
                 ));
-            }
-        }
-        else {
-            $userEntity = $this->entityManager->getRepository("App\Entity\User")->find($userRow['id']);
-            
-            $this->response['values']['userId'] = $userEntity->getId();
-            
-            $form = $this->createForm(ForgotPasswordFormType::class, null, Array(
-                'validation_groups' => Array('forgot_password')
-            ));
-            $form->handleRequest($request);
-            
-            if ($request->isMethod("POST") == true) {
-                if ($form->isSubmitted() == true && $form->isValid() == true) {
-                    $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
+                $form->handleRequest($request);
 
-                    if ($messagePassword == "ok") {
-                        $userEntity->setHelpCode(null);
+                if ($request->isMethod("POST") == true) {
+                    if ($form->isSubmitted() == true && $form->isValid() == true) {
+                        $email = $form->get("email")->getData();
 
-                        // Database insert
-                        $this->entityManager->persist($userEntity);
-                        $this->entityManager->flush();
+                        $userEntity = $this->entityManager->getRepository("App\Entity\User")->loadUserByUsername($email);
 
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_4");
+                        if ($userEntity != null) {
+                            $helpCode = $this->utility->generateRandomString(20);
+
+                            $userEntity->setHelpCode($helpCode);
+
+                            $url = $this->utility->getUrlRoot() . $this->utility->getWebsiteFile() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
+
+                            // Send email to user
+                            $this->utility->sendEmail($userEntity->getEmail(),
+                                                        "Recover password",
+                                                        "<p>Click on this link for reset your password:</p> <a href=\"$url\">$url</a>",
+                                                        $settingRow['email_admin']);
+
+                            // Database update
+                            $this->entityManager->persist($userEntity);
+                            $this->entityManager->flush();
+
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_1");
+                        }
+                        else
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_2");
                     }
-                    else
-                        $this->response['messages']['error'] = $messagePassword;
+                    else {
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_3");
+                        $this->response['errors'] = $this->ajax->errors($form);
+                    }
+
+                    return $this->ajax->response(Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
                 }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_5");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
-                
-                return $this->ajax->response(Array(
-                    'urlLocale' => $this->urlLocale,
-                    'urlCurrentPageId' => $this->urlCurrentPageId,
-                    'urlExtra' => $this->urlExtra,
-                    'response' => $this->response
-                ));
             }
+            else {
+                $userEntity = $this->entityManager->getRepository("App\Entity\User")->find($userRow['id']);
+
+                $this->response['values']['userId'] = $userEntity->getId();
+
+                $form = $this->createForm(ForgotPasswordFormType::class, null, Array(
+                    'validation_groups' => Array('forgot_password')
+                ));
+                $form->handleRequest($request);
+
+                if ($request->isMethod("POST") == true) {
+                    if ($form->isSubmitted() == true && $form->isValid() == true) {
+                        $messagePassword = $this->utility->assignUserPassword("withoutOld", $userEntity, $form);
+
+                        if ($messagePassword == "ok") {
+                            $userEntity->setHelpCode(null);
+
+                            // Database insert
+                            $this->entityManager->persist($userEntity);
+                            $this->entityManager->flush();
+
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("recoverPasswordController_4");
+                        }
+                        else
+                            $this->response['messages']['error'] = $messagePassword;
+                    }
+                    else {
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("recoverPasswordController_5");
+                        $this->response['errors'] = $this->ajax->errors($form);
+                    }
+
+                    return $this->ajax->response(Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $this->urlCurrentPageId,
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    ));
+                }
+            }
+
+            return Array(
+                'urlLocale' => $this->urlLocale,
+                'urlCurrentPageId' => $this->urlCurrentPageId,
+                'urlExtra' => $this->urlExtra,
+                'response' => $this->response,
+                'form' => $form->createView()
+            );
         }
-        
-        return Array(
-            'urlLocale' => $this->urlLocale,
-            'urlCurrentPageId' => $this->urlCurrentPageId,
-            'urlExtra' => $this->urlExtra,
-            'response' => $this->response,
-            'form' => $form->createView()
-        );
+        else
+            return new Response();
     }
     
     // Functions private

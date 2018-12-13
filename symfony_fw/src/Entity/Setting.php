@@ -81,6 +81,16 @@ class Setting {
     private $loginAttemptCount = 3;
     
     /**
+     * @ORM\Column(name="registration", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     */
+    private $registration = false;
+    
+    /**
+     * @ORM\Column(name="recover_password", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     */
+    private $recoverPassword = false;
+    
+    /**
      * @ORM\Column(name="captcha", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
      */
     private $captcha = false;
@@ -173,6 +183,14 @@ class Setting {
         $this->loginAttemptCount = $value;
     }
     
+    public function setRegistration($value) {
+        $this->registration = $value;
+    }
+    
+    public function setRecoverPassword($value) {
+        $this->recoverPassword = $value;
+    }
+    
     public function setCaptcha($value) {
         $this->captcha = $value;
     }
@@ -261,6 +279,14 @@ class Setting {
     
     public function getLoginAttemptCount() {
         return $this->loginAttemptCount;
+    }
+    
+    public function getRegistration() {
+        return $this->registration;
+    }
+    
+    public function getRecoverPassword() {
+        return $this->recoverPassword;
     }
     
     public function getCaptcha() {

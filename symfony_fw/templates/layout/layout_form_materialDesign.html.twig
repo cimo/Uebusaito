@@ -165,7 +165,7 @@
             {%- set options = choices -%}
             {{- block('choice_widget_options') -}}
         </select>
-        <label class="mdc-floating-label">{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</label>
+        <label class="mdc-floating-label">{{ placeholder != "" ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</label>
         <div class="mdc-line-ripple"></div>
     </div>
 {%- endblock choice_widget_collapsed -%}
@@ -357,7 +357,7 @@
 
 {%- block button_widget -%}
     {%- if label is empty -%}
-        {%- if label_format is not empty -%}
+        {%- if label_format != "" -%}
             {% set label = label_format|replace({
                 '%name%': name,
                 '%id%': id,
@@ -411,7 +411,7 @@
             {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' mdc-floating-label required')|trim}) %}
         {%- endif -%}
         {% if label is empty -%}
-            {%- if label_format is not empty -%}
+            {%- if label_format != "" -%}
                 {% set label = label_format|replace({
                     '%name%': name,
                     '%id%': id,
@@ -436,7 +436,7 @@
 
 {# cimo - #}
 {#% block form_help -%}
-    {%- if help is not empty -%}
+    {%- if help != "" -%}
         <p id="{{ id }}_help" class="help-text">
             {%- if translation_domain is same as(false) -%}
                 {{- help -}}
@@ -460,7 +460,7 @@
 {%- block form_row -%}
     {%- set widget_attr = {} -%}
     {# cimo - #}
-    {#%- if help is not empty -%}
+    {#%- if help != "" -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%#}
     {# cimo : #}
@@ -499,7 +499,7 @@
     {%- else -%}
         {% set form_method = "POST" %}
     {%- endif -%}
-    <form{% if name != '' %} name="{{ name }}"{% endif %} method="{{ form_method|lower }}"{% if action != '' %} action="{{ action }}"{% endif %}{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    <form{% if name != "" %} name="{{ name }}"{% endif %} method="{{ form_method|lower }}"{% if action != "" %} action="{{ action }}"{% endif %}{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
     {%- if form_method != method -%}
         <input type="hidden" name="_method" value="{{ method }}"/>
     {%- endif -%}
@@ -561,7 +561,7 @@
 {%- endblock widget_attributes -%}
 
 {%- block widget_attribute_container -%}
-    {%- if id is not empty %}id="{{ id }}"{% endif -%}
+    {%- if id != "" %}id="{{ id }}"{% endif -%}
     {{ block('attributes') }}
 {%- endblock widget_attribute_container -%}
 

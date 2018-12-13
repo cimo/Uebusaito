@@ -55,7 +55,7 @@
 {% endblock %}
 
 {% block columnCenterContainer %}
-    {% if app.request.get("error") is not null and app.request.get("error") is not empty %}
+    {% if app.request.get("error") is not null and app.request.get("error") != "" %}
         <div class="sortable_column">
             {{-include("@templateRoot/render/static/error.html.twig")-}}
         </div>

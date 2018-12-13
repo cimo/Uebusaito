@@ -483,6 +483,20 @@ App\Entity\Setting:
                 groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
+        registration:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^1|^0/
+        recoverPassword:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^1|^0/
         captcha:
             - NotBlank:
                 groups: [setting]
@@ -548,9 +562,9 @@ App\Entity\MicroserviceDeploy:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
             - Regex:
-                    groups: [microservice_deploy_create, microservice_deploy_profile]
-                    htmlPattern: false
-                    pattern: /^[0-9.]+$/
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[0-9.]+$/
         gitUserEmail:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -609,9 +623,9 @@ App\Entity\ApiBasic:
                 groups: [apiBasic_create, apiBasic_profile]
         ip:
             - Regex:
-                    groups: [apiBasic_create, apiBasic_profile]
-                    htmlPattern: false
-                    pattern: /^[0-9.,]+$/
+                groups: [apiBasic_create, apiBasic_profile]
+                htmlPattern: false
+                pattern: /^[0-9.,]+$/
         active:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]

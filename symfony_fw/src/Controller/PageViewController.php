@@ -138,7 +138,33 @@ class PageViewController extends AbstractController {
                 }
             }
             else {
-                if ($pageRow['protected'] == false) {
+                $settingRow = $this->query->selectSettingDatabase();
+                
+                if ($pageRow['id'] == 3 && $settingRow['registration'] == false) {
+                    $this->response['values']['controllerAction'] = null;
+                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_5");
+                    
+                    // Page registration disable
+                    return Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $pageRow['id'],
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    );
+                }
+                else if ($pageRow['id'] == 4 && $settingRow['recover_password'] == false) {
+                    $this->response['values']['controllerAction'] = null;
+                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_6");
+                    
+                    // Page recover password disable
+                    return Array(
+                        'urlLocale' => $this->urlLocale,
+                        'urlCurrentPageId' => $pageRow['id'],
+                        'urlExtra' => $this->urlExtra,
+                        'response' => $this->response
+                    );
+                }
+                else if ($pageRow['protected'] == false) {
                     // Page normal
                     return Array(
                         'urlLocale' => $this->urlLocale,
@@ -150,7 +176,7 @@ class PageViewController extends AbstractController {
                 else {
                     // Page accessible only with login
                     $this->response['values']['controllerAction'] = null;
-                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_5");
+                    $this->response['values']['argument'] = $this->utility->getTranslator()->trans("pageViewController_7");
                     
                     return Array(
                         'urlLocale' => $this->urlLocale,
