@@ -82,14 +82,14 @@
                     {{-render(controller("App\\Controller\\ControlPanel\\PaymentController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
                     <script type="text/javascript">
-                        window.onload = function() {
+                        window.addEventListener("load", function() {
                             controlPanelPayment.init();
                             controlPanelPayment.changeView();
-                        };
+                        }, false);
                         
-                        window.onresize = function() {
+                        window.addEventListener("resize", function() {
                             controlPanelPayment.changeView();
-                        };
+                        }, false);
                         
                         var textPayment = {
                             'label_1': "{{"controlPanelPayment_2"|trans}}",
@@ -113,14 +113,14 @@
                     {% endif %}
                     
                     <script type="text/javascript">
-                        window.onload = function() {
+                        window.addEventListener("load", function() {
                             controlPanelPage.init();
                             controlPanelPage.changeView();
-                        };
+                        }, false);
                         
-                        window.onresize = function() {
+                        window.addEventListener("resize", function() {
                             controlPanelPage.changeView();
-                        };
+                        }, false);
 
                         var textPage = {
                             'label_1': "{{"controlPanelPage_2"|trans}}",
@@ -144,14 +144,14 @@
                     {% endif %}
                     
                     <script type="text/javascript">
-                        window.onload = function() {
+                        window.addEventListener("load", function() {
                             controlPanelUser.init();
                             controlPanelUser.changeView();
-                        };
+                        }, false);
                         
-                        window.onresize = function() {
+                        window.addEventListener("resize", function() {
                             controlPanelUser.changeView();
-                        };
+                        }, false);
 
                         var textUser = {
                             'label_1': "{{"controlPanelUser_2"|trans}}",
@@ -175,14 +175,14 @@
                     {% endif %}
                     
                     <script type="text/javascript">
-                        window.onload = function() {
+                        window.addEventListener("load", function() {
                             controlPanelModule.init();
                             controlPanelModule.changeView();
-                        };
+                        }, false);
                         
-                        window.onresize = function() {
+                        window.addEventListener("resize", function() {
                             controlPanelModule.changeView();
-                        };
+                        }, false);
 
                         var textModule = {
                             'label_1': "{{"controlPanelModule_2"|trans}}",
@@ -206,14 +206,14 @@
                     {% endif %}
                     
                     <script type="text/javascript">
-                        window.onload = function() {
+                        window.addEventListener("load", function() {
                             controlPanelRoleUser.init();
                             controlPanelRoleUser.changeView();
-                        };
+                        }, false);
                         
-                        window.onresize = function() {
+                        window.addEventListener("resize", function() {
                             controlPanelRoleUser.changeView();
-                        };
+                        }, false);
 
                         var textRole = {
                             'label_1': "{{"controlPanelRole_2"|trans}}",
@@ -229,10 +229,10 @@
                     {{-render(controller("App\\Controller\\ControlPanel\\SettingController::saveAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
                     <script type="text/javascript">
-                        window.onload = function() {
+                        window.addEventListener("load", function() {
                             controlPanelSetting.init();
-                        };
-
+                        }, false);
+                        
                         var textSetting = {
                             'label_1': "{{"controlPanelSetting_2"|trans}}"
                         };
@@ -256,14 +256,14 @@
                     {% endif %}
                     
                     <script type="text/javascript">
-                        window.onload = function() {
+                        window.addEventListener("load", function() {
                             controlPanelMicroserviceDeploy.init();
                             controlPanelMicroserviceDeploy.changeView();
-                        };
+                        }, false);
                         
-                        window.onresize = function() {
+                        window.addEventListener("resize", function() {
                             controlPanelMicroserviceDeploy.changeView();
-                        };
+                        }, false);
 
                         var textMicroserviceDeploy = {
                             'label_1': "{{"controlPanelMicroserviceDeploy_2"|trans}}",
@@ -289,10 +289,10 @@
                     {% endif %}
                     
                     <script type="text/javascript">
-                        window.onload = function() {
+                        window.addEventListener("load", function() {
                             controlPanelMicroserviceApi.init();
                             controlPanelApiBasic.init();
-                        };
+                        }, false);
                         
                         var textApiBasic = {
                             'label_1': "{{"apiBasic_1"|trans}}"
@@ -303,6 +303,8 @@
                 {% endif %}
             {% endif %}
         </div>
+        
+        {{-include("@templateRoot/render/control_panel_custom.html.twig")-}}
     {% else %}
         <div class="sortable_column">
             <p>{% trans %}controlPanel_14{% endtrans %}</p>

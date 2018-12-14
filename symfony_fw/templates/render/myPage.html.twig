@@ -25,16 +25,16 @@
 {% endif %}
 
 <script type="text/javascript">
-    window.onload = function() {
+    window.addEventListener("load", function() {
         myPageProfile.init();
         
         myPagePayment.init();
         myPagePayment.changeView();
-
-        window.onresize = function() {
-            myPagePayment.changeView();
-        };
-    };
+    }, false);
+    
+    window.addEventListener("resize", function() {
+        myPagePayment.changeView();
+    }, false);
     
     var textPayment = {
         'label_1': "{{"myPage_4"|trans}}",

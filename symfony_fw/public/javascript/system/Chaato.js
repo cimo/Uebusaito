@@ -172,9 +172,11 @@ function Chaato() {
         // Items
         var itemsLength = jsonResult.elements[itemMaxKey].items.length;
         
-        var step = parseInt(itemMax / labelItems.length);
+        var step = Math.ceil(itemMax / labelItems.length);
         
-        if (step <= 3)
+        if (step < 2)
+            step = 1;
+        else if (step == 2)
             step = 3;
         
         for (var a = 0; a <= (itemMax + step); a += step) {
@@ -298,8 +300,8 @@ function Chaato() {
             mouseX = event.clientX - canvasBox.left;
             mouseY = event.clientY - canvasBox.top;
             
-            x = parseInt((mouseX / canvasBox.width) * canvas.width);
-            y = parseInt((mouseY / canvasBox.height) * canvas.height);
+            x = Math.floor((mouseX / canvasBox.width) * canvas.width);
+            y = Math.floor((mouseY / canvasBox.height) * canvas.height);
         }
         else if (type === "client") {
             x = event.clientX - window.pageXOffset;
