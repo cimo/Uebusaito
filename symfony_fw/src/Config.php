@@ -49,8 +49,8 @@ class Config {
     public function __construct() {
         $this->databaseConnectionFields = Array("", "", "", Array());
         $this->protocol = isset($_SERVER['HTTPS']) == true ? "https://" : "http://";
-        $this->pathRoot = "/projects/uebusaito/symfony_fw";
-        $this->urlRoot = "/projects/uebusaito/symfony_fw/public";
+        $this->pathRoot = "/uebusaito/root/symfony_fw";
+        $this->urlRoot = "/uebusaito/root/symfony_fw/public";
         $this->supportSymlink = true;
         $this->file = "/index.php";
         $this->name = "Uebusaito 1.0.0";
