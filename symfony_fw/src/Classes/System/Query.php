@@ -82,6 +82,25 @@ class Query {
         return $query->fetch();
     }
     
+    public function selectSettingSlackIwDatabase($id) {
+        $query = $this->connection->prepare("SELECT * FROM settings_slack_iw
+                                                WHERE id = :id");
+        
+        $query->bindValue(":id", $id);
+        
+        $query->execute();
+        
+        return $query->fetch();
+    }
+    
+    public function selectAllSettingSlackIwDatabase() {
+        $query = $this->connection->prepare("SELECT * FROM settings_slack_iw");
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
+    
     public function selectLanguageDatabase($code) {
         $query = $this->connection->prepare("SELECT * FROM languages
                                                 WHERE code = :code");

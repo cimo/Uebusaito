@@ -43,35 +43,35 @@ class SettingFormType extends AbstractType {
             'expanded' => true,
             'multiple' => false
         ))
-        ->add("language", ChoiceType::class, Array(
-            'required' => true,
-            'placeholder' => "settingFormType_6",
-            'choices' => $options['choicesLanguage'],
-            'data' => $options['data']->getLanguage()
-        ))
         ->add("pageDate", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "settingFormType_7",
+            'placeholder' => "settingFormType_6",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("pageComment", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "settingFormType_10",
+            'placeholder' => "settingFormType_9",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("pageCommentActive", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "settingFormType_11",
+            'placeholder' => "settingFormType_10",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
+        ))
+        ->add("language", ChoiceType::class, Array(
+            'required' => true,
+            'placeholder' => "settingFormType_11",
+            'choices' => $options['choicesLanguage'],
+            'data' => $options['data']->getLanguage()
         ))
         ->add("emailAdmin", TextType::class, Array(
             'required' => true,
@@ -81,8 +81,8 @@ class SettingFormType extends AbstractType {
             'required' => true,
             'placeholder' => "settingFormType_13",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("roleUserId", HiddenType::class, Array(
@@ -92,16 +92,16 @@ class SettingFormType extends AbstractType {
             'required' => true,
             'placeholder' => "settingFormType_14",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("registrationUserConfirmAdmin", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "settingFormType_15",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("loginAttemptTime", TextType::class, Array(
@@ -116,24 +116,24 @@ class SettingFormType extends AbstractType {
             'required' => true,
             'placeholder' => "settingFormType_18",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("recoverPassword", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "settingFormType_19",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("captcha", ChoiceType::class, Array(
             'required' => true,
             'placeholder' => "settingFormType_20",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("useType", ChoiceType::class, Array(
@@ -148,37 +148,37 @@ class SettingFormType extends AbstractType {
             'required' => true,
             'placeholder' => "settingFormType_24",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
+            )
+        ))
+        ->add("credit", ChoiceType::class, Array(
+            'required' => true,
+            'placeholder' => "settingFormType_25",
+            'choices' => Array(
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("payPalSandbox", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "settingFormType_25",
+            'placeholder' => "settingFormType_26",
             'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
+                "settingFormType_7" => "0",
+                "settingFormType_8" => "1"
             )
         ))
         ->add("payPalBusiness", TextType::class, Array(
             'required' => true,
-            'label' => "settingFormType_26"
+            'label' => "settingFormType_27"
         ))
         ->add("payPalCurrencyCode", TextType::class, Array(
             'required' => true,
-            'label' => "settingFormType_27"
+            'label' => "settingFormType_28"
         ))
         ->add("payPalCreditAmount", TextType::class, Array(
             'required' => true,
-            'label' => "settingFormType_28"
-        ))
-        ->add("credit", ChoiceType::class, Array(
-            'required' => true,
-            'placeholder' => "settingFormType_29",
-            'choices' => Array(
-                "settingFormType_8" => "0",
-                "settingFormType_9" => "1"
-            )
+            'label' => "settingFormType_29"
         ))
         ->add("submit", SubmitType::class, Array(
             'label' => "settingFormType_30"

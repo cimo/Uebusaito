@@ -1,6 +1,14 @@
-2018-12-11 16:44:09 Asia/Tokyo - apiBasic - IP[192.168.56.1]: Array
+2018-12-19 11:54:25 Asia/Tokyo - apiBasic - IP[192.168.56.1]: Array
 (
-    [success] => ApiBasic request completed.
+    [errorCode] => 0
+)
+Array
+(
+    [event] => apiBasic
+    [token] => token_basic
+)2018-12-20 21:48:45 Asia/Tokyo - apiBasic - IP[192.168.56.1]: Array
+(
+    [errorCode] => 0
 )
 Array
 (

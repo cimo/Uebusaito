@@ -38,9 +38,39 @@ class ApiBasic {
     private $urlCallback = "";
     
     /**
-     * @ORM\Column(name="active", type="string", columnDefinition="tinyint(11) NOT NULL")
+     * @ORM\Column(name="database_ip", type="string", columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $active = "";
+    private $databaseIp = "";
+    
+    /**
+     * @ORM\Column(name="database_name", type="string", columnDefinition="varchar(255) DEFAULT ''")
+     */
+    private $databaseName = "";
+    
+    /**
+     * @ORM\Column(name="database_username", type="string", columnDefinition="varchar(255) DEFAULT ''")
+     */
+    private $databaseUsername = "";
+    
+    /**
+     * @ORM\Column(name="database_password", type="string", columnDefinition="blob DEFAULT NULL")
+     */
+    private $databasePassword = "";
+    
+    /**
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL")
+     */
+    private $active = false;
+    
+    /**
+     * @ORM\Column(name="slack_active", type="boolean", columnDefinition="tinyint(1) DEFAULT 0")
+     */
+    private $slackActive = false;
+    
+    /**
+     * @ORM\Column(name="line_active", type="boolean", columnDefinition="tinyint(1) DEFAULT 0")
+     */
+    private $lineActive = false;
     
     // Properties
     public function setName($value) {
@@ -59,8 +89,32 @@ class ApiBasic {
         $this->urlCallback = $value;
     }
     
+    public function setDatabaseIp($value) {
+        $this->databaseIp = $value;
+    }
+    
+    public function setDatabaseName($value) {
+        $this->databaseName = $value;
+    }
+    
+    public function setDatabaseUsername($value) {
+        $this->databaseUsername = $value;
+    }
+    
+    public function setDatabasePassword($value) {
+        $this->databasePassword = $value;
+    }
+    
     public function setActive($value) {
         $this->active = $value;
+    }
+    
+    public function setSlackActive($value) {
+        $this->slackActive = $value;
+    }
+    
+    public function setLineActive($value) {
+        $this->lineActive = $value;
     }
     
     // ---
@@ -85,7 +139,31 @@ class ApiBasic {
         return $this->urlCallback;
     }
     
+    public function getDatabaseIp() {
+        return $this->databaseIp;
+    }
+    
+    public function getDatabaseName() {
+        return $this->databaseName;
+    }
+    
+    public function getDatabaseUsername() {
+        return $this->databaseUsername;
+    }
+    
+    public function getDatabasePassword() {
+        return $this->databasePassword;
+    }
+    
     public function getActive() {
         return $this->active;
+    }
+    
+    public function getSlackActive() {
+        return $this->slackActive;
+    }
+    
+    public function getLineActive() {
+        return $this->lineActive;
     }
 }

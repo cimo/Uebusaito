@@ -50,12 +50,26 @@ $mdc-theme-on-surface: #868686;
     width: device-width;
 }
 
+@mixin user_select_none {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 .user_select_none {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+@mixin user_select_text {
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 .user_select_text {
     -webkit-touch-callout: text;

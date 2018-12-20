@@ -29,6 +29,8 @@ class ApiBasicController extends AbstractController {
     private $query;
     private $ajax;
     
+    private $parameters;
+    
     // Properties
     
     // Functions public
@@ -76,6 +78,8 @@ class ApiBasicController extends AbstractController {
                 // Database insert
                 $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
+                
+                $this->apiBasicDatabase("update", $form->get("databasePassword")->getData(), $apiBasicEntity->getid());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_1");
             }
@@ -269,11 +273,19 @@ class ApiBasicController extends AbstractController {
         ));
         $form->handleRequest($request);
         
+        if ($form->get("databasePassword")->getData() == null) {
+            $apiBasicRow = $this->selectApiBasicDatabase($_SESSION['apiBasicProfileId'], false);
+            
+            $apiBasicEntity->setDatabasePassword($apiBasicRow['database_password']);
+        }
+        
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 // Update database
                 $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
+                
+                $this->apiBasicDatabase("update", $form->get("databasePassword")->getData(), $apiBasicEntity->getId());
                 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_4");
             }
@@ -541,24 +553,33 @@ class ApiBasicController extends AbstractController {
             else
                 $parameters = $request->request->all();
             
-            if (isset($parameters['event']) == true && $parameters['event'] == "apiBasic") {
-                $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                $apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
-                
-                if ($microserviceApiRow != false) {
-                    if ($apiBasicRow != false) {
-                        $ipExplode = explode(",", $apiBasicRow['ip']);
-                        
-                        if (isset($apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
-                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
+            $this->parameters = $parameters;
+            
+            $errorCode = $this->errorCode("requestControl", $parameters);
+            
+            if ($errorCode == false) {
+                if (isset($parameters['event']) == true && $parameters['event'] == "apiBasic") {
+                    $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
+                    $apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
+
+                    if ($microserviceApiRow != false) {
+                        if ($apiBasicRow != false) {
+                            $ipExplode = explode(",", $apiBasicRow['ip']);
+
+                            if (isset($apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
+                            else {
+                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_8");
+                            }
+                        }
                         else
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_8");
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
                     }
                     else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_9");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_9");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_11");
             }
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_11");
@@ -600,43 +621,68 @@ class ApiBasicController extends AbstractController {
                 $parameters = json_decode($request->getContent(), true);
             else
                 $parameters = $request->request->all();
+            
+            $this->parameters = $parameters;
+            
+            $errorCode = $this->errorCode("requestControl", $parameters);
+            
+            if ($errorCode == false) {
+                if (isset($parameters['event']) == true && $parameters['event'] == "apiBasic") {
+                    $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
+                    $apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
 
-            if (isset($parameters['event']) == true && $parameters['event'] == "apiBasic") {
-                $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                $apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
-                
-                if ($microserviceApiRow != false) {
-                    if ($apiBasicRow != false) {
-                        $ipExplode = explode(",", $apiBasicRow['ip']);
-                        
-                        if (isset($apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
-                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
-                        else {
-                            if ($apiBasicRow['url_callback'] != "") {
-                                $urlCallback = $this->urlCallback($parameters, $apiBasicRow);
-                                
-                                if ($urlCallback == true) {
-                                    //...
-                                    
-                                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
+                    if ($microserviceApiRow != false) {
+                        if ($apiBasicRow != false) {
+                            $ipExplode = explode(",", $apiBasicRow['ip']);
+
+                            if (isset($apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
+                            else {
+                                if ($apiBasicRow['url_callback'] != "") {
+                                    $urlCallback = $this->urlCallback($parameters, $apiBasicRow);
+
+                                    if ($urlCallback == true) {
+                                        $requestRow = $this->selectApiBasicRequestDatabase($name);
+
+                                        if ($requestRow == false)
+                                            $this->apiBasicRequestDatabase("insert", $name);
+                                        else
+                                            $this->apiBasicRequestDatabase("update", $name, $requestRow);
+
+                                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
+                                    }
                                 }
+
+                                if ($apiBasicRow['database_ip'] != "" && $apiBasicRow['database_name'] != "" && $apiBasicRow['database_username'] != "" && $apiBasicRow['database_password'] != "") {
+                                    $databaseExternal = $this->databaseExternal($parameters, $apiBasicRow);
+
+                                    if ($databaseExternal != false) {
+                                        $requestRow = $this->selectApiBasicRequestDatabase($name);
+
+                                        if ($requestRow == false)
+                                            $this->apiBasicRequestDatabase("insert", $name);
+                                        else
+                                            $this->apiBasicRequestDatabase("update", $name, $requestRow);
+
+                                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
+                                    }
+                                }
+
+                                if ($apiBasicRow['slack_active'] == true)
+                                    $this->utility->sendMessageToSlackRoom(1, date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: apiBasic -> requestAction");
+
+                                if ($apiBasicRow['line_active'] == true)
+                                    $this->utility->sendMessageToLineChat(1, date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: apiBasic -> requestAction");
                             }
-                            
-                            $requestRow = $this->selectApiBasicRequestDatabase($name);
-                            
-                            if ($requestRow == false)
-                                $this->apiBasicRequestDatabase("insert", $name);
-                            else
-                                $this->apiBasicRequestDatabase("update", $name, $requestRow);
-                            
-                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
                         }
+                        else
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
                     }
                     else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_9");
                 }
                 else
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_9");
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_11");
             }
             else
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_11");
@@ -655,6 +701,34 @@ class ApiBasicController extends AbstractController {
     }
     
     // Functions private
+    private function apiBasicDatabase($type, $password, $id) {
+        if ($password != "" && $id != "") {
+            if ($type == "update") {
+                $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_apiBasic
+                                                                    SET database_password = AES_ENCRYPT(:password, 'secret')
+                                                                    WHERE id = :id");
+                
+                $query->bindValue(":password", $password);
+                $query->bindValue(":id", $id);
+                
+                return $query->execute();
+            }
+            else if ($type == "select") {
+                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:password, 'secret') AS database_password FROM microservice_apiBasic
+                                                                    WHERE id = :id");
+                
+                $query->bindValue(":password", $password);
+                $query->bindValue(":id", $id);
+                
+                $query->execute();
+                
+                return $query->fetch();
+            }
+        }
+        
+        return false;
+    }
+    
     private function apiBasicRequestDatabase($type, $name, $row = null) {
         if ($type == "insert") {
             $query = $this->utility->getConnection()->prepare("INSERT INTO microservice_apiBasic_request (
@@ -718,8 +792,6 @@ class ApiBasicController extends AbstractController {
             
             $query->bindValue(":token", $value);
         }
-        
-        $query->bindValue(":active", 1);
         
         $query->execute();
         
@@ -844,6 +916,21 @@ class ApiBasicController extends AbstractController {
         return $html;
     }
     
+    private function errorCode($type, $parameters) {
+        $errorCode = 0;
+        
+        if ($type == "requestControl") {
+            if (isset($parameters['event']) == false || $parameters['event'] == "")
+                $errorCode = 1;
+            if (isset($parameters['token']) == false || $parameters['token'] == "")
+                $errorCode = 2;
+        }
+        
+        $this->response['errorCode'] = $errorCode;
+        
+        return $errorCode;
+    }
+    
     private function urlCallback($parameters, $row) {
         $curl = curl_init();
         
@@ -885,5 +972,21 @@ class ApiBasicController extends AbstractController {
         }
         
         return false;
+    }
+    
+    private function databaseExternal($parameters, $row) {
+        $response = false;
+        
+        $apiBasicRow = $this->apiBasicDatabase("select", $row['database_password'], $row['id']);
+        
+        if ($row['database_ip'] != "" && $row['database_name'] != "" && $row['database_username'] != "" && $apiBasicRow['database_password'] != "") {
+            $pdo = new \PDO("mysql:host={$row['database_ip']};dbname={$row['database_name']};charset=utf8", $row['database_username'], $apiBasicRow['database_password']);
+            
+            //...
+            
+            unset($pdo);
+        }
+        
+        return $response;
     }
 }

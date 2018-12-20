@@ -1,4 +1,4 @@
-/* global ajax, utility, popupEasy */
+/* global ajax, utility, popupEasy, materialDesign */
 
 var controlPanelSetting = new ControlPanelSetting();
 
@@ -21,8 +21,8 @@ function ControlPanelSetting() {
         $("#form_cp_setting_save").on("submit", "", function(event) {
             event.preventDefault();
             
-            var propNameLanguageManage = $("#form_setting_languageManage").prop("name");
-            $("#form_setting_languageManage").removeAttr("name");
+            var propNameLanguageManageCode = $("#form_setting_languageManageCode").prop("name");
+            $("#form_setting_languageManageCode").removeAttr("name");
             var propNameLanguageManageDate = $("#form_setting_languageManageDate").prop("name");
             $("#form_setting_languageManageDate").removeAttr("name");
             
@@ -42,7 +42,7 @@ function ControlPanelSetting() {
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
-                    $("#form_setting_languageManage").prop("name", propNameLanguageManage);
+                    $("#form_setting_languageManageCode").prop("name", propNameLanguageManageCode);
                     $("#form_setting_languageManageDate").prop("name", propNameLanguageManageDate);
                 },
                 null,
@@ -80,9 +80,11 @@ function ControlPanelSetting() {
             var valueCodeSelected = $("#form_setting_language").find(":selected").val();
             var valueDateSelected = $("#form_setting_language").find(":selected").text().replace(valueCodeSelected + " | ", "");
             
-            $("#form_setting_languageManage").prop("disabled", true);
-            $("#form_setting_languageManage").val(valueCodeSelected);
+            $("#form_setting_languageManageCode").prop("disabled", true);
+            $("#form_setting_languageManageCode").val(valueCodeSelected);
             $("#form_setting_languageManageDate").val(valueDateSelected);
+            
+            materialDesign.refresh();
         });
         
         $("#setting_language_manage_create").on("click", "", function() {
@@ -90,13 +92,13 @@ function ControlPanelSetting() {
             
             $("#setting_language_manage_container").show();
             
-            $("#form_setting_languageManage").prop("disabled", false);
-            $("#form_setting_languageManage").val("");
+            $("#form_setting_languageManageCode").prop("disabled", false);
+            $("#form_setting_languageManageCode").val("");
             $("#form_setting_languageManageDate").val("");
         });
         
         $("#setting_language_manage_confirm").on("click", "", function() {
-            var code = $("#form_setting_languageManage").val();
+            var code = $("#form_setting_languageManageCode").val();
             var date = $("#form_setting_languageManageDate").val();
             
             ajax.send(
@@ -170,7 +172,7 @@ function ControlPanelSetting() {
         });
         
         $("#setting_language_manage_close").on("click", "", function() {
-            $("#form_setting_languageManage").val("");
+            $("#form_setting_languageManageCode").val("");
             $("#form_setting_languageManageDate").val("");
             
             $("#setting_language_manage_container").hide();

@@ -21,27 +21,22 @@ class Setting {
     private $template = "";
     
     /**
-     * @ORM\Column(name="template_column", type="integer", columnDefinition="int(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="template_column", type="integer", columnDefinition="int(1) NOT NULL DEFAULT 1")
      */
     private $templateColumn = 1;
     
     /**
-     * @ORM\Column(name="language", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT 'en'")
-     */
-    private $language = "";
-    
-    /**
-     * @ORM\Column(name="page_date", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="page_date", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $pageDate = true;
     
     /**
-     * @ORM\Column(name="pageComment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="pageComment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $pageComment = true;
     
     /**
-     * @ORM\Column(name="pageComment_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="pageComment_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $pageCommentActive = true;
     
@@ -51,7 +46,12 @@ class Setting {
     private $emailAdmin = "";
     
     /**
-     * @ORM\Column(name="website_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="language", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT 'en'")
+     */
+    private $language = "";
+    
+    /**
+     * @ORM\Column(name="website_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $websiteActive = true;
     
@@ -61,52 +61,57 @@ class Setting {
     private $roleUserId = "";
     
     /**
-     * @ORM\Column(name="https", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="https", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $https = true;
     
     /**
-     * @ORM\Column(name="registration_user_confirm_admin", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="registration_user_confirm_admin", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $registrationUserConfirmAdmin = true;
     
     /**
-     * @ORM\Column(name="login_attempt_time", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '15'")
+     * @ORM\Column(name="login_attempt_time", type="integer", columnDefinition="int(11) NOT NULL DEFAULT 15")
      */
     private $loginAttemptTime = 15;
     
     /**
-     * @ORM\Column(name="login_attempt_count", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '3'")
+     * @ORM\Column(name="login_attempt_count", type="integer", columnDefinition="int(11) NOT NULL DEFAULT 3")
      */
     private $loginAttemptCount = 3;
     
     /**
-     * @ORM\Column(name="registration", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="registration", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $registration = false;
     
     /**
-     * @ORM\Column(name="recover_password", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="recover_password", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $recoverPassword = false;
     
     /**
-     * @ORM\Column(name="captcha", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="captcha", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $captcha = false;
     
     /**
-     * @ORM\Column(name="use_type", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="use_type", type="integer", columnDefinition="int(11) NOT NULL DEFAULT 1")
      */
     private $useType = 1;
     
     /**
-     * @ORM\Column(name="payment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="payment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $payment = true;
     
     /**
-     * @ORM\Column(name="payPal_sandbox", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="credit", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
+     */
+    private $credit = true;
+    
+    /**
+     * @ORM\Column(name="payPal_sandbox", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $payPalSandbox = false;
     
@@ -125,11 +130,6 @@ class Setting {
      */
     private $payPalCreditAmount = "";
     
-    /**
-     * @ORM\Column(name="credit", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
-     */
-    private $credit = true;
-    
     // Properties
     public function setTemplate($value) {
         $this->template = $value;
@@ -137,10 +137,6 @@ class Setting {
     
     public function setTemplateColumn($value) {
         $this->templateColumn = $value;
-    }
-    
-    public function setLanguage($value) {
-        $this->language = $value;
     }
     
     public function setPageDate($value) {
@@ -153,6 +149,10 @@ class Setting {
     
     public function setPageCommentActive($value) {
         $this->pageCommentActive = $value;
+    }
+    
+    public function setLanguage($value) {
+        $this->language = $value;
     }
     
     public function setEmailAdmin($value) {
@@ -203,6 +203,10 @@ class Setting {
         $this->payment = $value;
     }
     
+    public function setCredit($value) {
+        $this->credit = $value;
+    }
+    
     public function setPayPalSandbox($value) {
         $this->payPalSandbox = $value;
     }
@@ -219,10 +223,6 @@ class Setting {
         $this->payPalCreditAmount = $value;
     }
     
-    public function setCredit($value) {
-        $this->credit = $value;
-    }
-    
     // ---
     
     public function getId() {
@@ -237,10 +237,6 @@ class Setting {
         return $this->templateColumn;
     }
     
-    public function getLanguage() {
-        return $this->language;
-    }
-    
     public function getPageDate() {
         return $this->pageDate;
     }
@@ -251,6 +247,10 @@ class Setting {
     
     public function getPageCommentActive() {
         return $this->pageCommentActive;
+    }
+    
+    public function getLanguage() {
+        return $this->language;
     }
     
     public function getEmailAdmin() {
@@ -301,6 +301,10 @@ class Setting {
         return $this->payment;
     }
     
+    public function getCredit() {
+        return $this->credit;
+    }
+    
     public function getPayPalSandbox() {
         return $this->payPalSandbox;
     }
@@ -315,9 +319,5 @@ class Setting {
     
     public function getPayPalCreditAmount() {
         return $this->payPalCreditAmount;
-    }
-    
-    public function getCredit() {
-        return $this->credit;
     }
 }

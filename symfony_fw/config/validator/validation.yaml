@@ -504,6 +504,27 @@ App\Entity\Setting:
                 groups: [setting]
                 htmlPattern: false
                 pattern: /^1|^0/
+        useType:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
+        payment:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^1|^0/
+        credit:
+            - NotBlank:
+                groups: [setting]
+            - Regex:
+                groups: [setting]
+                htmlPattern: false
+                pattern: /^1|^0/
         payPalSandbox:
             - NotBlank:
                 groups: [setting]
@@ -532,13 +553,18 @@ App\Entity\Setting:
                 groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9]+(\.[0-9][0-9]?)?$/
-        credit:
+
+App\Entity\SettingSlackIw:
+    properties:
+        name:
             - NotBlank:
-                groups: [setting]
-            - Regex:
-                groups: [setting]
-                htmlPattern: false
-                pattern: /^[0-9]+$/
+                groups: [SettingSlackIw]
+        hook:
+            - NotBlank:
+                groups: [SettingSlackIw]
+        channel:
+            - NotBlank:
+                groups: [SettingSlackIw]
 
 App\Entity\MicroserviceDeploy:
     properties:
@@ -629,6 +655,16 @@ App\Entity\ApiBasic:
         active:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]
+            - Regex:
+                groups: [apiBasic_create, apiBasic_profile]
+                htmlPattern: false
+                pattern: /^1|^0/
+        slackActive:
+            - Regex:
+                groups: [apiBasic_create, apiBasic_profile]
+                htmlPattern: false
+                pattern: /^1|^0/
+        lineActive:
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false

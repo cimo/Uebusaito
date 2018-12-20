@@ -143,7 +143,6 @@ class Utility {
         $this->arrayColumnFix();
     }
     
-    // Generic
     public function configureCookie($name, $lifeTime, $secure, $httpOnly) {
         $currentCookieParams = session_get_cookie_params();
         
@@ -558,6 +557,22 @@ class Utility {
         return $html;
     }
     
+    public function createSettingSlackIwListHtml($rows) {
+        $html = "";
+        
+        foreach ($rows as $key => $value) {
+            if (isset($value['name']) == true) {
+                $html .= "<div class=\"mdc-chip\">
+                    <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading edit\">edit</i>
+                    <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading delete\">delete</i>
+                    <div class=\"mdc-chip__text wordTag_elemet_data\" data-id=\"{$value['id']}\">{$value['id']} - {$value['name']}</div>
+                </div>";
+            }
+        }
+        
+        return $html;
+    }
+    
     public function createTemplateList() {
         $templatesPath = "{$this->pathWeb}/images/templates";
         
@@ -745,7 +760,6 @@ class Utility {
         return $_SESSION['languageTextCode'];
     }
     
-    // Symfony
     public function assignUserParameter($user) {
         $query = $this->connection->prepare("SELECT id FROM users
                                                 LIMIT 1");
@@ -815,6 +829,50 @@ class Utility {
         }
         
         return $pagesListHierarchy;
+    }
+    
+    public function replaceString4byte($string, $replacement = "", $remove = false) {
+        $isFind = false;
+        
+        // A -> 1-3 | B -> 4-15 | C -> 16
+        $pregReplace = preg_replace("%(?:\xF0[\x90-\xBF][\x80-\xBF]{2} | [\xF1-\xF3][\x80-\xBF]{3} | \xF4[\x80-\x8F][\x80-\xBF]{2})%xs", $replacement, $string);    
+        
+        if (strpos($pregReplace, $replacement) !== false)
+            $isFind = $pregReplace;
+        
+        if ($remove == true)
+            $pregReplace = str_replace($replacement, "", $pregReplace);
+        
+        return Array(
+            $pregReplace,
+            $isFind
+        );
+    }
+    
+    public function sendMessageToSlackRoom($id, $text) {
+        $row = $this->query->selectSettingSlackIwDatabase($id);
+        
+        if ($row != false) {
+            $postFields = Array();
+            $postFields['channel'] = $row['channel'];
+            $postFields['text'] = $text;
+
+            $curl = curl_init();
+
+            curl_setopt($curl, CURLOPT_URL, $row['hook']);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postFields));
+
+            $curlResponse = curl_exec($curl);
+            curl_close($curl);
+        }
+    }
+    
+    public function sendMessageToLineChat($id, $text) {
+        
     }
     
     // Functions private
@@ -902,7 +960,6 @@ class Utility {
             return $this->passwordEncoder->encodePassword($user, $form->get("password")->getData());
     }
     
-    // Symfony
     private function createPageListHierarchy($pagesRows, $pagination) {
         $elements = array_slice($pagesRows, $pagination['offset'], $pagination['show']);
         
