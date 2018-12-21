@@ -2,10 +2,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="microservice_deploy", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="App\Repository\MicroserviceDeployRepository")
+ * @UniqueEntity(fields={"name"}, groups={"microservice_deploy_create", "microservice_deploy_profile"})
  */
 class MicroserviceDeploy {
     /**
@@ -31,14 +33,28 @@ class MicroserviceDeploy {
     private $systemUser = "";
     
     /**
-     * @ORM\Column(name="key_public", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     * @ORM\Column(name="ssh_username", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     */
+    private $sshUsername = "";
+    
+    /**
+     * @ORM\Column(name="ssh_password", type="string", nullable=true, columnDefinition="blob DEFAULT NULL")
+     */
+    private $sshPassword = "";
+    
+    /**
+     * @ORM\Column(name="key_public", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
     private $keyPublic = "";
     
+    private $removeKeyPublic = false;
+    
     /**
-     * @ORM\Column(name="key_private", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     * @ORM\Column(name="key_private", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
     private $keyPrivate = "";
+    
+    private $removeKeyPrivate = false;
     
     /**
      * @ORM\Column(name="ip", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
@@ -81,7 +97,7 @@ class MicroserviceDeploy {
     private $rootWebPath = "";
     
     /**
-     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $active = false;
     
@@ -102,12 +118,28 @@ class MicroserviceDeploy {
         $this->systemUser = $value;
     }
     
+    public function setSshUsername($value) {
+        $this->sshUsername = $value;
+    }
+    
+    public function setSshPassword($value) {
+        $this->sshPassword = $value;
+    }
+    
     public function setKeyPublic($value) {
         $this->keyPublic = $value;
     }
     
+    public function setRemoveKeyPublic($value) {
+        $this->removeKeyPublic = $value;
+    }
+    
     public function setKeyPrivate($value) {
         $this->keyPrivate = $value;
+    }
+    
+    public function setRemoveKeyPrivate($value) {
+        $this->removeKeyPrivate = $value;
     }
     
     public function setIp($value) {
@@ -164,12 +196,28 @@ class MicroserviceDeploy {
         return $this->systemUser;
     }
     
+    public function getSshUsername() {
+        return $this->sshUsername;
+    }
+    
+    public function getSshPassword() {
+        return $this->sshPassword;
+    }
+    
     public function getKeyPublic() {
         return $this->keyPublic;
     }
     
+    public function getRemoveKeyPublic() {
+        return $this->removeKeyPublic;
+    }
+    
     public function getKeyPrivate() {
         return $this->keyPrivate;
+    }
+    
+    public function getRemoveKeyPrivate() {
+        return $this->removeKeyPrivate;
     }
     
     public function getIp() {

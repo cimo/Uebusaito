@@ -416,7 +416,7 @@ function Utility() {
     };
     
     self.uploadFakeClick = function() {
-        $(".material_upload").find("button").on("click", "", function() {
+        $(document).on("click", ".material_upload button", function() {
             var button = $(this);
             var input = button.parent().find("input");
             

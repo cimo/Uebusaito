@@ -141,9 +141,20 @@ class MicroserviceDeployController extends AbstractController {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $microserviceDeployEntity->setActive(true);
                 
+                $microserviceDeployEntity = $this->fileUpload($form, $microserviceDeployEntity);
+                
+                $sshPassword = "";
+                
+                if ($form->get("sshUsername")->getData() != "")
+                    $sshPassword = $form->get("sshPassword")->getData();
+                else
+                    $microserviceDeployEntity->setSshPassword("");
+                
                 // Database insert
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
+                
+                $this->microserviceDeployDatabase("update", $sshPassword, $microserviceDeployEntity->getid());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_2");
             }
@@ -347,51 +358,28 @@ class MicroserviceDeployController extends AbstractController {
         ));
         $form->handleRequest($request);
         
+        if ($form->get("sshUsername")->getData() != "" && $form->get("sshPassword")->getData() == "") {
+            $microserviceDeployRow = $this->query->selectMicroserviceDeployDatabase($_SESSION['microserviceDeployProfileId']);
+            
+            $microserviceDeployEntity->setSshPassword($microserviceDeployRow['ssh_password']);
+        }
+        
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                $row = $this->query->selectMicroserviceDeployDatabase($_SESSION['microserviceDeployProfileId']);
+                $microserviceDeployEntity = $this->fileUpload($form, $microserviceDeployEntity);
                 
-                $pathKeyPublic = $this->utility->getPathSrc() . "/files/microservice/deploy";
-                $pathKeyPrivate = $this->utility->getPathSrc() . "/files/microservice/deploy";
+                $sshPassword = "";
                 
-                // Remove old key
-                if (file_exists("$pathKeyPublic/{$row['key_public']}") == true)
-                    unlink("$pathKeyPublic/{$row['key_public']}");
-                
-                if (file_exists("$pathKeyPublic/{$row['key_private']}") == true)
-                    unlink("$pathKeyPrivate/{$row['key_private']}");
-                
-                // Upload key public
-                $keyPublic = $microserviceDeployEntity->getKeyPublic();
-                
-                if ($keyPublic != null) {
-                $fileName = $keyPublic->getClientOriginalName();
-                    $keyPublic->move(
-                        $pathKeyPublic,
-                        $fileName
-                    );
-                    $microserviceDeployEntity->setKeyPublic($fileName);
-                }
+                if ($form->get("sshUsername")->getData() != "")
+                    $sshPassword = $form->get("sshPassword")->getData();
                 else
-                    $microserviceDeployEntity->setKeyPublic($row['key_public']);
-                
-                // Upload key private
-                $keyPrivate = $microserviceDeployEntity->getKeyPrivate();
-                
-                if ($keyPrivate != null) {
-                    $fileName = $keyPrivate->getClientOriginalName();
-                    $keyPrivate->move(
-                        $pathKeyPrivate,
-                        $fileName
-                    );
-                    $microserviceDeployEntity->setKeyPrivate($fileName);
-                }
-                else
-                    $microserviceDeployEntity->setKeyPrivate($row['key_private']);
+                    $microserviceDeployEntity->setSshPassword("");
                 
                 // Database update
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
+                
+                $this->microserviceDeployDatabase("update", $sshPassword, $microserviceDeployEntity->getid());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_5");
             }
@@ -508,7 +496,7 @@ class MicroserviceDeployController extends AbstractController {
                 if ($request->get("event") == "delete") {
                     $id = $request->get("id") == null ? $_SESSION['microserviceDeployProfileId'] : $request->get("id");
 
-                    $microserviceDeployDatabase = $this->microserviceDeployDatabase("delete", $id);
+                    $microserviceDeployDatabase = $this->microserviceDeployDatabase("delete", "", $id);
 
                     if ($microserviceDeployDatabase == true) {
                         $this->response['values']['id'] = $id;
@@ -517,7 +505,7 @@ class MicroserviceDeployController extends AbstractController {
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
-                    $microserviceDeployDatabase = $this->microserviceDeployDatabase("deleteAll", null);
+                    $microserviceDeployDatabase = $this->microserviceDeployDatabase("deleteAll", "", null);
 
                     if ($microserviceDeployDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_11");
@@ -573,7 +561,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_4")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['key_public']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['ssh_username']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -581,7 +569,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_5")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['key_private']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['ssh_password']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -589,15 +577,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_6")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['ip']}</span>
-                </span>
-            </li>
-            <li role=\"separator\" class=\"mdc-list-divider\"></li>
-            <li class=\"mdc-list-item\">
-                <span class=\"mdc-list-item__graphic material-icons\">info</span>
-                <span class=\"mdc-list-item__text\">
-                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_7")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_email']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['key_public']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -605,15 +585,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_8")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_name']}</span>
-                </span>
-            </li>
-            <li role=\"separator\" class=\"mdc-list-divider\"></li>
-            <li class=\"mdc-list-item\">
-                <span class=\"mdc-list-item__graphic material-icons\">info</span>
-                <span class=\"mdc-list-item__text\">
-                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_9")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['key_private']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -621,7 +593,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_10")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_path']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['ip']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -629,7 +601,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_11")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_git_script']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_email']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -637,7 +609,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_12")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_web_script']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_name']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -645,6 +617,38 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_13")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_14")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_path']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_15")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_git_script']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_16")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_web_script']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_17")}
                     <span class=\"mdc-list-item__secondary-text\">{$elements[0]['root_web_path']}</span>
                 </span>
             </li>
@@ -655,7 +659,7 @@ class MicroserviceDeployController extends AbstractController {
                     <div style=\"margin-top: 6px;\" class=\"mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense\">
                         <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" autocomplete=\"off\"/>
                         <i class=\"material-icons mdc-text-field__icon\">textsms</i>
-                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label required\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_14")}</label>
+                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label required\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_22")}</label>
                         <div class=\"mdc-notched-outline\">
                             <svg>
                                 <path class=\"mdc-notched-outline__path\"/>
@@ -714,7 +718,7 @@ class MicroserviceDeployController extends AbstractController {
         return $listHtml;
     }
     
-    private function microserviceDeployDatabase($type, $id) {
+    private function microserviceDeployDatabase($type, $password, $id) {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM microservice_deploy
                                                                 WHERE id = :id");
@@ -728,18 +732,107 @@ class MicroserviceDeployController extends AbstractController {
 
             return $query->execute();
         }
+        
+        if ($password != "" && $id != "") {
+            if ($type == "update") {
+                $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_deploy
+                                                                    SET ssh_password = AES_ENCRYPT(:password, 'secret')
+                                                                    WHERE id = :id");
+                
+                $query->bindValue(":password", $password);
+                $query->bindValue(":id", $id);
+                
+                return $query->execute();
+            }
+            else if ($type == "select") {
+                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:password, 'secret') AS ssh_password FROM microservice_deploy
+                                                                    WHERE id = :id");
+                
+                $query->bindValue(":password", $password);
+                $query->bindValue(":id", $id);
+                
+                $query->execute();
+                
+                return $query->fetch();
+            }
+        }
+        
+        return false;
+    }
+    
+    private function fileUpload($form, $entity) {
+        $row = $this->query->selectMicroserviceDeployDatabase($_SESSION['microserviceDeployProfileId']);
+        
+        $pathKeyPublic = $this->utility->getPathSrc() . "/files/microservice/deploy";
+        $pathKeyPrivate = $this->utility->getPathSrc() . "/files/microservice/deploy";
+
+        $keyPublic = $entity->getKeyPublic();
+        $keyPrivate = $entity->getKeyPrivate();
+
+        // Remove key public
+        if (isset($row['key_public']) == true) {
+            if ($form->get("removeKeyPublic")->getData() == true || ($keyPublic != null && $keyPublic != $row['key_public'])) {
+                if ($row['key_public'] != "" && file_exists("$pathKeyPublic/{$row['key_public']}") == true)
+                    unlink("$pathKeyPublic/{$row['key_public']}");
+
+                $entity->setKeyPublic("");
+            }
+            else if ($row['key_public'] != "")
+                $entity->setKeyPublic($row['key_public']);
+        }
+
+        // Upload key public
+        if ($keyPublic != null && $form->get("removeKeyPublic")->getData() == false) {
+            $fileName = $keyPublic->getClientOriginalName();
+            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $newName = uniqid() . ".$extension";
+            $keyPublic->move($pathKeyPublic, $newName);
+            $entity->setKeyPublic($newName);
+        }
+
+        // Remove key private
+        if (isset($row['key_private']) == true) {
+            if ($form->get("removeKeyPrivate")->getData() == true || ($keyPrivate != null && $keyPrivate != $row['key_private'])) {
+                if ($row['key_private'] != "" && file_exists("$pathKeyPrivate/{$row['key_private']}") == true)
+                    unlink("$pathKeyPrivate/{$row['key_private']}");
+
+                $entity->setKeyPrivate("");
+            }
+            else if ($row['key_public'] != "")
+                $entity->setKeyPrivate($row['key_private']);
+        }
+
+        // Upload key private
+        if ($keyPrivate != null && $form->get("removeKeyPrivate")->getData() == false) {
+            $fileName = $keyPrivate->getClientOriginalName();
+            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $newName = uniqid() . ".$extension";
+            $keyPrivate->move($pathKeyPrivate, $newName);
+            $entity->setKeyPrivate($newName);
+        }
+        
+        return $entity;
     }
     
     private function sshConnection($row, $request) {
         $result = "";
         
         if ($request->get("command") == "clone" || $request->get("command") == "pull" || $request->get("command") == "reset") {
-            $pathKeyPublic = $this->utility->getPathSrc() . "/files/microservice/deploy{$row['key_public']}";
-            $pathKeyPrivate = $this->utility->getPathSrc() . "/files/microservice/deploy{$row['key_private']}";
+            $pathKeyPublic = $this->utility->getPathSrc() . "/files/microservice/deploy/{$row['key_public']}";
+            $pathKeyPrivate = $this->utility->getPathSrc() . "/files/microservice/deploy/{$row['key_private']}";
             
             $connection = ssh2_connect($row['ip'], 22);
             
-            if (ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate)) {
+            $auth = false;
+            
+            $microserviceDeployRow = $this->microserviceDeployDatabase("select", $row['ssh_password'], $row['id']);
+            
+            if ($row['username'] != "" && $microserviceDeployRow['ssh_password'] != "")
+                $auth = ssh2_auth_password($connection, $row['ssh_username'], $row['ssh_password']);
+            else
+                $auth = ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate);
+            
+            if ($auth == true) {
                 $commands = Array();
                 
                 if ($request->get("command") == "clone") {

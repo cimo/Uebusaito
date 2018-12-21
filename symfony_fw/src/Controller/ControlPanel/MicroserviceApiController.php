@@ -103,6 +103,8 @@ class MicroserviceApiController extends AbstractController {
         // Logic
         $microserviceApiEntity = new MicroserviceApi();
         
+        $_SESSION['microserviceApiProfileId'] = 0;
+        
         $form = $this->createForm(MicroserviceApiFormType::class, $microserviceApiEntity, Array(
             'validation_groups' => Array('microservice_api_create')
         ));
@@ -110,6 +112,8 @@ class MicroserviceApiController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
+                $microserviceApiEntity = $this->fileUpload($form, $microserviceApiEntity);
+                
                 // Database insert
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
@@ -172,6 +176,8 @@ class MicroserviceApiController extends AbstractController {
         
         $id = isset($urlExtraExplode[4]) == true ? $urlExtraExplode[4] : 0;
         
+        $_SESSION['microserviceApiProfileId'] = $id;
+        
         $this->response['values']['id'] = $id;
         
         $microserviceApiEntity = $this->entityManager->getRepository("App\Entity\MicroserviceApi")->find($id);
@@ -185,6 +191,8 @@ class MicroserviceApiController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
+                $microserviceApiEntity = $this->fileUpload($form, $microserviceApiEntity);
+                
                 // Database update
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
@@ -214,4 +222,34 @@ class MicroserviceApiController extends AbstractController {
     }
     
     // Functions private
+    private function fileUpload($form, $entity) {
+        $row = $this->query->selectMicroserviceApiDatabase($_SESSION['microserviceApiProfileId'], true);
+        
+        $pathImage = $this->utility->getPathWeb() . "/files/microservice/api";
+        
+        $image = $entity->getImage();
+
+        // Remove image
+        if (isset($row['image']) == true) {
+            if ($form->get("removeImage")->getData() == true || ($image != null && $image != $row['image'])) {
+                if ($row['image'] != "" && file_exists("$pathImage/{$row['image']}") == true)
+                    unlink("$pathImage/{$row['image']}");
+
+                $entity->setImage("");
+            }
+            else if ($row['image'] != "")
+                $entity->setImage($row['image']);
+        }
+
+        // Upload image
+        if ($image != null && $form->get("removeImage")->getData() == false) {
+            $fileName = $image->getClientOriginalName();
+            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $newName = uniqid() . ".$extension";
+            $image->move($pathImage, $newName);
+            $entity->setImage($newName);
+        }
+        
+        return $entity;
+    }
 }

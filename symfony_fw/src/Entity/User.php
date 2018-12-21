@@ -31,14 +31,14 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $username = "";
     
     /**
-     * @ORM\Column(name="name", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="name", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $name = null;
+    private $name = "";
     
     /**
-     * @ORM\Column(name="surname", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="surname", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $surname = null;
+    private $surname = "";
     
     /**
      * @ORM\Column(name="email", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
@@ -46,59 +46,59 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $email = "";
     
     /**
-     * @ORM\Column(name="telephone", type="string", nullable=true, columnDefinition="varchar(20)")
+     * @ORM\Column(name="telephone", type="string", nullable=true, columnDefinition="varchar(20) DEFAULT ''")
      */
-    private $telephone = null;
+    private $telephone = "";
     
     /**
-     * @ORM\Column(name="born", type="string", nullable=true, columnDefinition="varchar(10)")
+     * @ORM\Column(name="born", type="string", nullable=true, columnDefinition="varchar(10) DEFAULT '0000-00-00'")
      */
-    private $born = null;
+    private $born = "";
     
     /**
-     * @ORM\Column(name="gender", type="string", nullable=true, columnDefinition="varchar(6)")
+     * @ORM\Column(name="gender", type="string", nullable=true, columnDefinition="varchar(1) DEFAULT ''")
      */
-    private $gender = null;
+    private $gender = "";
     
     /**
-     * @ORM\Column(name="fiscal_code", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="fiscal_code", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $fiscalCode = null;
+    private $fiscalCode = "";
     
     /**
-     * @ORM\Column(name="company_name", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="company_name", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $companyName = null;
+    private $companyName = "";
     
     /**
-     * @ORM\Column(name="vat", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="vat", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $vat = null;
+    private $vat = "";
     
     /**
-     * @ORM\Column(name="website", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="website", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $website = null;
+    private $website = "";
     
     /**
-     * @ORM\Column(name="state", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="state", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $state = null;
+    private $state = "";
     
     /**
-     * @ORM\Column(name="city", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="city", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $city = null;
+    private $city = "";
     
     /**
-     * @ORM\Column(name="zip", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="zip", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $zip = null;
+    private $zip = "";
     
     /**
-     * @ORM\Column(name="address", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="address", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $address = null;
+    private $address = "";
     
     /**
      * @ORM\Column(name="password", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
@@ -106,12 +106,12 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $password = "";
     
     /**
-     * @ORM\Column(name="credit", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="credit", type="integer", columnDefinition="int(11) NOT NULL DEFAULT 0")
      */
     private $credit = 0;
     
     /**
-     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $active = false;
     
@@ -131,17 +131,17 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $dateLastLogin = "0000-00-00 00:00:00";
     
     /**
-     * @ORM\Column(name="help_code", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="help_code", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $helpCode = null;
+    private $helpCode = "";
     
     /**
-     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
-    private $ip = null;
+    private $ip = "";
     
     /**
-     * @ORM\Column(name="attempt_login", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="attempt_login", type="integer", columnDefinition="int(11) NOT NULL DEFAULT 0")
      */
     private $attemptLogin = 0;
     

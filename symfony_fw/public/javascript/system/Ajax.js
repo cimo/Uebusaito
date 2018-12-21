@@ -94,7 +94,7 @@ function Ajax() {
                         var input = null;
 
                         if ($(tagError).length > 0)
-                            input = $(tagError).find("*[name*='"+ key + "']")[0];
+                            input = $(tagError).find("*[name*='["+ key + "]']")[0];
 
                         if (input !== undefined) {
                             $(input).parent().addClass("mdc-text-field--invalid mdc-text-field--focused");

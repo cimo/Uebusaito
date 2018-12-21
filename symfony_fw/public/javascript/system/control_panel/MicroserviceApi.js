@@ -15,11 +15,11 @@ function ControlPanelMicroserviceApi() {
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
-                $(this).serialize(),
+                new FormData(this),
                 "json",
                 false,
-                true,
-                "application/x-www-form-urlencoded; charset=UTF-8",
+                false,
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
@@ -36,11 +36,11 @@ function ControlPanelMicroserviceApi() {
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
-                $(this).serialize(),
+                new FormData(this),
                 "json",
                 false,
-                true,
-                "application/x-www-form-urlencoded; charset=UTF-8",
+                false,
+                false,
                 null,
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);

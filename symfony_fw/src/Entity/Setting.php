@@ -26,29 +26,14 @@ class Setting {
     private $templateColumn = 1;
     
     /**
-     * @ORM\Column(name="page_date", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
+     * @ORM\Column(name="language", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT 'en'")
      */
-    private $pageDate = true;
-    
-    /**
-     * @ORM\Column(name="pageComment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
-     */
-    private $pageComment = true;
-    
-    /**
-     * @ORM\Column(name="pageComment_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
-     */
-    private $pageCommentActive = true;
+    private $language = "en";
     
     /**
      * @ORM\Column(name="email_admin", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $emailAdmin = "";
-    
-    /**
-     * @ORM\Column(name="language", type="string", columnDefinition="varchar(2) NOT NULL DEFAULT 'en'")
-     */
-    private $language = "";
     
     /**
      * @ORM\Column(name="website_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
@@ -58,7 +43,7 @@ class Setting {
     /**
      * @ORM\Column(name="role_user_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '2,3,'")
      */
-    private $roleUserId = "";
+    private $roleUserId = "2,3,";
     
     /**
      * @ORM\Column(name="https", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
@@ -66,9 +51,9 @@ class Setting {
     private $https = true;
     
     /**
-     * @ORM\Column(name="registration_user_confirm_admin", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
+     * @ORM\Column(name="registration_user_confirm_admin", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
-    private $registrationUserConfirmAdmin = true;
+    private $registrationUserConfirmAdmin = false;
     
     /**
      * @ORM\Column(name="login_attempt_time", type="integer", columnDefinition="int(11) NOT NULL DEFAULT 15")
@@ -83,17 +68,32 @@ class Setting {
     /**
      * @ORM\Column(name="registration", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
-    private $registration = false;
+    private $registration = true;
     
     /**
      * @ORM\Column(name="recover_password", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
-    private $recoverPassword = false;
+    private $recoverPassword = true;
     
     /**
      * @ORM\Column(name="captcha", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $captcha = false;
+    
+    /**
+     * @ORM\Column(name="page_date", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
+     */
+    private $pageDate = true;
+    
+    /**
+     * @ORM\Column(name="pageComment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
+     */
+    private $pageComment = true;
+    
+    /**
+     * @ORM\Column(name="pageComment_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
+     */
+    private $pageCommentActive = true;
     
     /**
      * @ORM\Column(name="use_type", type="integer", columnDefinition="int(11) NOT NULL DEFAULT 1")
@@ -111,9 +111,9 @@ class Setting {
     private $credit = true;
     
     /**
-     * @ORM\Column(name="payPal_sandbox", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
+     * @ORM\Column(name="payPal_sandbox", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
-    private $payPalSandbox = false;
+    private $payPalSandbox = true;
     
     /**
      * @ORM\Column(name="payPal_business", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
@@ -121,14 +121,14 @@ class Setting {
     private $payPalBusiness = "";
     
     /**
-     * @ORM\Column(name="payPal_currency_code", type="string", columnDefinition="varchar(3) NOT NULL DEFAULT 'USD'")
+     * @ORM\Column(name="payPal_currency_code", type="string", columnDefinition="varchar(3) NOT NULL DEFAULT 'EUR'")
      */
-    private $payPalCurrencyCode = "";
+    private $payPalCurrencyCode = "EUR";
     
     /**
      * @ORM\Column(name="payPal_credit_amount", type="string", columnDefinition="varchar(12) NOT NULL DEFAULT '0.01'")
      */
-    private $payPalCreditAmount = "";
+    private $payPalCreditAmount = "0.01";
     
     // Properties
     public function setTemplate($value) {
@@ -137,18 +137,6 @@ class Setting {
     
     public function setTemplateColumn($value) {
         $this->templateColumn = $value;
-    }
-    
-    public function setPageDate($value) {
-        $this->pageDate = $value;
-    }
-    
-    public function setPageComment($value) {
-        $this->pageComment = $value;
-    }
-    
-    public function setPageCommentActive($value) {
-        $this->pageCommentActive = $value;
     }
     
     public function setLanguage($value) {
@@ -195,6 +183,18 @@ class Setting {
         $this->captcha = $value;
     }
     
+    public function setPageDate($value) {
+        $this->pageDate = $value;
+    }
+    
+    public function setPageComment($value) {
+        $this->pageComment = $value;
+    }
+    
+    public function setPageCommentActive($value) {
+        $this->pageCommentActive = $value;
+    }
+    
     public function setUseType($value) {
         $this->useType = $value;
     }
@@ -235,18 +235,6 @@ class Setting {
     
     public function getTemplateColumn() {
         return $this->templateColumn;
-    }
-    
-    public function getPageDate() {
-        return $this->pageDate;
-    }
-    
-    public function getPageComment() {
-        return $this->pageComment;
-    }
-    
-    public function getPageCommentActive() {
-        return $this->pageCommentActive;
     }
     
     public function getLanguage() {
@@ -291,6 +279,18 @@ class Setting {
     
     public function getCaptcha() {
         return $this->captcha;
+    }
+    
+    public function getPageDate() {
+        return $this->pageDate;
+    }
+    
+    public function getPageComment() {
+        return $this->pageComment;
+    }
+    
+    public function getPageCommentActive() {
+        return $this->pageCommentActive;
     }
     
     public function getUseType() {

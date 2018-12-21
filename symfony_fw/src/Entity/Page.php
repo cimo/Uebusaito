@@ -44,15 +44,15 @@ class Page {
     /**
      * @ORM\Column(name="role_user_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '1,2,'")
      */
-    private $roleUserId = "";
+    private $roleUserId = "1,2,";
     
     /**
-     * @ORM\Column(name="protected", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="protected", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $protected = false;
     
     /**
-     * @ORM\Column(name="show_in_menu", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="show_in_menu", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $showInMenu = true;
     
@@ -68,29 +68,29 @@ class Page {
     private $menuName = null;
     
     /**
-     * @ORM\Column(name="comment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '1'")
+     * @ORM\Column(name="comment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $comment = true;
     
     /**
-     * @ORM\Column(name="only_parent", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="only_parent", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $onlyParent = false;
     
     /**
-     * @ORM\Column(name="only_link", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="only_link", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $onlyLink = false;
     
     /**
      * @ORM\Column(name="link", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT '-'")
      */
-    private $link = "";
+    private $link = "-";
     
     /**
      * @ORM\Column(name="user_create", type="string", columnDefinition="varchar(20) NOT NULL DEFAULT '-'")
      */
-    private $userCreate = "";
+    private $userCreate = "-";
     
     /**
      * @ORM\Column(name="date_create", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
@@ -100,7 +100,7 @@ class Page {
     /**
      * @ORM\Column(name="user_modify", type="string", columnDefinition="varchar(20) NOT NULL DEFAULT '-'")
      */
-    private $userModify = "";
+    private $userModify = "-";
     
     /**
      * @ORM\Column(name="date_modify", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")

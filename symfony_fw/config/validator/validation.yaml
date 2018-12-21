@@ -204,6 +204,10 @@ App\Entity\Page:
         menuName:
             - NotBlank:
                 groups: [page_create, page_profile]
+            - Regex:
+                groups: [page_create, page_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9]+$/
         onlyLink:
             - NotBlank:
                 groups: [page_create, page_profile]
@@ -214,12 +218,16 @@ App\Entity\Page:
         link:
             - NotBlank:
                 groups: [page_create, page_profile]
+            - Regex:
+                groups: [page_create, page_profile]
+                htmlPattern: false
+                pattern: /^(https?:\/\/)(www).([a-z_0-9]+).([a-z]+)$/
 
 App\Entity\PageComment:
     properties:
         argument:
             - NotBlank:
-                groups: [pageComment]
+                groups: [page_comment]
 
 App\Entity\User:
     properties:
@@ -269,7 +277,7 @@ App\Entity\User:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z]$/
+                pattern: /^[a-z]$/
         fiscalCode:
             - Regex:
                 groups: [user_create, user_profile]
@@ -365,6 +373,10 @@ App\Entity\Module:
         name:
             - NotBlank:
                 groups: [module_create, module_profile]
+            - Regex:
+                groups: [module_create, module_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9_]+$/
         controllerName:
             - NotBlank:
                 groups: [module_create, module_profile]
@@ -558,13 +570,25 @@ App\Entity\SettingSlackIw:
     properties:
         name:
             - NotBlank:
-                groups: [SettingSlackIw]
+                groups: [setting_slack_iw]
+            - Regex:
+                groups: [setting_slack_iw]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9_]+$/
         hook:
             - NotBlank:
-                groups: [SettingSlackIw]
+                groups: [setting_slack_iw]
+            - Regex:
+                groups: [setting_slack_iw]
+                htmlPattern: false
+                pattern: /^(https?:\/\/)([a-z0-9.\/]+)$/
         channel:
             - NotBlank:
-                groups: [SettingSlackIw]
+                groups: [setting_slack_iw]
+            - Regex:
+                groups: [setting_slack_iw]
+                htmlPattern: false
+                pattern: /^[#a-zA-Z_0-9]+$/
 
 App\Entity\MicroserviceDeploy:
     properties:
@@ -578,12 +602,54 @@ App\Entity\MicroserviceDeploy:
         name:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9_]+$/
         description:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9.]+$/
         systemUser:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z-_0-9]+$/
+        sshUsername:
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z-_0-9]+$/
+        sshPassword:
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z-_0-9.]+$/
+        keyPublic:
+            - File:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                maxSize: 1M
+                maxSizeMessage: error maxSize
+        removeKeyPublic:
+            - Regex:
+                groups: [microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^1|^0/
+        keyPrivate:
+            - File:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                maxSize: 1M
+                maxSizeMessage: error maxSize
+        removeKeyPrivate:
+            - Regex:
+                groups: [microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^1|^0/
         ip:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -594,24 +660,52 @@ App\Entity\MicroserviceDeploy:
         gitUserEmail:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
         gitUserName:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z-_0-9]+$/
         gitCloneUrl:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^(https?:\/\/)([a-z_:\@0-9]+).([a-z]+)$/
         gitClonePath:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z_0-9\/]+$/
         userGitScript:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z-_0-9]+$/
         userWebScript:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z-_:0-9]+$/
         rootWebPath:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z_0-9\/]+$/
         active:
             - NotBlank:
                 groups: [microservice_deploy_profile]
@@ -625,12 +719,31 @@ App\Entity\MicroserviceApi:
         name:
             - NotBlank:
                 groups: [microservice_api_create, microservice_api_profile]
+            - Regex:
+                groups: [microservice_api_create, microservice_api_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9_]+$/
         controller:
             - NotBlank:
                 groups: [microservice_api_create, microservice_api_profile]
+            - Regex:
+                groups: [microservice_api_create, microservice_api_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z::]+$/
         description:
             - NotBlank:
                 groups: [microservice_api_create, microservice_api_profile]
+            - Regex:
+                groups: [microservice_api_create, microservice_api_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9.]+$/
+        image:    
+            - File:
+                groups: [microservice_api_create, microservice_api_profile]
+                maxSize: 2M
+                maxSizeMessage: error maxSize
+                mimeTypes: [image/png, image/jpg, image/jpeg]
+                mimeTypesMessage: error mimeType
         active:
             - NotBlank:
                 groups: [microservice_api_create, microservice_api_profile]
@@ -644,9 +757,17 @@ App\Entity\ApiBasic:
         name:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]
+            - Regex:
+                groups: [apiBasic_create, apiBasic_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9_]+$/
         token:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]
+            - Regex:
+                groups: [apiBasic_create, apiBasic_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z_0-9]+$/
         ip:
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]

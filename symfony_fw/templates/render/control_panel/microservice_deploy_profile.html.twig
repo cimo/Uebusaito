@@ -6,8 +6,18 @@
         {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.description, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.systemUser, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
-        {{form_row(form.keyPublic, {'label': "microserviceDeployFormType_4"})}}
-        {{form_row(form.keyPrivate, {'label': "microserviceDeployFormType_5"})}}
+        {{form_row(form.sshUsername, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        {{form_row(form.sshPassword, {'dense': "", 'styleType': "outlinedTrailing"})}}
+        
+        <div>
+            {{form_row(form.keyPublic, {'label': "microserviceDeployFormType_6"})}}
+            {{form_row(form.removeKeyPublic)}}
+        </div>
+        <div>
+            {{form_row(form.keyPrivate, {'label': "microserviceDeployFormType_8"})}}
+            {{form_row(form.removeKeyPrivate)}}
+        </div>
+        
         {{form_row(form.ip, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.gitUserEmail, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.gitUserName, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}

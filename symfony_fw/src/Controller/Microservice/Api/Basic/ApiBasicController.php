@@ -29,6 +29,8 @@ class ApiBasicController extends AbstractController {
     private $query;
     private $ajax;
     
+    private $apiBasicRow;
+    
     private $parameters;
     
     // Properties
@@ -75,11 +77,18 @@ class ApiBasicController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
+                $databasePassword = "";
+                
+                if ($form->get("databaseUsername")->getData() != "")
+                    $databasePassword = $form->get("databasePassword")->getData();
+                else
+                    $apiBasicEntity->setDatabasePassword("");
+                
                 // Database insert
                 $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
                 
-                $this->apiBasicDatabase("update", $form->get("databasePassword")->getData(), $apiBasicEntity->getid());
+                $this->apiBasicDatabase("update", $databasePassword, $apiBasicEntity->getid());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_1");
             }
@@ -273,7 +282,7 @@ class ApiBasicController extends AbstractController {
         ));
         $form->handleRequest($request);
         
-        if ($form->get("databasePassword")->getData() == null) {
+        if ($form->get("databaseUsername")->getData() != "" && $form->get("databasePassword")->getData() == "") {
             $apiBasicRow = $this->selectApiBasicDatabase($_SESSION['apiBasicProfileId'], false);
             
             $apiBasicEntity->setDatabasePassword($apiBasicRow['database_password']);
@@ -281,11 +290,18 @@ class ApiBasicController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
+                $databasePassword = "";
+                
+                if ($form->get("databaseUsername")->getData() != "")
+                    $databasePassword = $form->get("databasePassword")->getData();
+                else
+                    $apiBasicEntity->setDatabasePassword("");
+                
                 // Update database
                 $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
                 
-                $this->apiBasicDatabase("update", $form->get("databasePassword")->getData(), $apiBasicEntity->getId());
+                $this->apiBasicDatabase("update", $databasePassword, $apiBasicEntity->getId());
                 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_4");
             }
@@ -560,17 +576,16 @@ class ApiBasicController extends AbstractController {
             if ($errorCode == false) {
                 if (isset($parameters['event']) == true && $parameters['event'] == "apiBasic") {
                     $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                    $apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
+                    $this->apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
 
                     if ($microserviceApiRow != false) {
-                        if ($apiBasicRow != false) {
-                            $ipExplode = explode(",", $apiBasicRow['ip']);
+                        if ($this->apiBasicRow != false) {
+                            $ipExplode = explode(",", $this->apiBasicRow['ip']);
 
-                            if (isset($apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                            if (isset($this->apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
                                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
-                            else {
+                            else
                                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_8");
-                            }
                         }
                         else
                             $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_12");
@@ -629,50 +644,38 @@ class ApiBasicController extends AbstractController {
             if ($errorCode == false) {
                 if (isset($parameters['event']) == true && $parameters['event'] == "apiBasic") {
                     $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                    $apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
-
+                    $this->apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
+                    
                     if ($microserviceApiRow != false) {
-                        if ($apiBasicRow != false) {
-                            $ipExplode = explode(",", $apiBasicRow['ip']);
-
-                            if (isset($apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                        if ($this->apiBasicRow != false) {
+                            $ipExplode = explode(",", $this->apiBasicRow['ip']);
+                            
+                            if (isset($this->apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
                                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
                             else {
-                                if ($apiBasicRow['url_callback'] != "") {
-                                    $urlCallback = $this->urlCallback($parameters, $apiBasicRow);
-
+                                if ($this->apiBasicRow['url_callback'] != "") {
+                                    $urlCallback = $this->urlCallback($parameters, $this->apiBasicRow);
+                                    
                                     if ($urlCallback == true) {
-                                        $requestRow = $this->selectApiBasicRequestDatabase($name);
-
-                                        if ($requestRow == false)
-                                            $this->apiBasicRequestDatabase("insert", $name);
-                                        else
-                                            $this->apiBasicRequestDatabase("update", $name, $requestRow);
-
+                                        $this->saveRequest($name, "apiBasic -> requestAction");
+                                        
                                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
                                     }
+                                    else
+                                        $this->response['errorCode'] = 100;
                                 }
 
-                                if ($apiBasicRow['database_ip'] != "" && $apiBasicRow['database_name'] != "" && $apiBasicRow['database_username'] != "" && $apiBasicRow['database_password'] != "") {
-                                    $databaseExternal = $this->databaseExternal($parameters, $apiBasicRow);
-
+                                if ($this->apiBasicRow['database_ip'] != "" && $this->apiBasicRow['database_name'] != "" && $this->apiBasicRow['database_username'] != "" && $this->apiBasicRow['database_password'] != "") {
+                                    $databaseExternal = $this->databaseExternal($parameters, $this->apiBasicRow);
+                                    
                                     if ($databaseExternal != false) {
-                                        $requestRow = $this->selectApiBasicRequestDatabase($name);
-
-                                        if ($requestRow == false)
-                                            $this->apiBasicRequestDatabase("insert", $name);
-                                        else
-                                            $this->apiBasicRequestDatabase("update", $name, $requestRow);
-
+                                        $this->saveRequest($name, "apiBasic -> requestAction");
+                                        
                                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
                                     }
+                                    else
+                                        $this->response['errorCode'] = 100;
                                 }
-
-                                if ($apiBasicRow['slack_active'] == true)
-                                    $this->utility->sendMessageToSlackRoom(1, date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: apiBasic -> requestAction");
-
-                                if ($apiBasicRow['line_active'] == true)
-                                    $this->utility->sendMessageToLineChat(1, date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: apiBasic -> requestAction");
                             }
                         }
                         else
@@ -988,5 +991,20 @@ class ApiBasicController extends AbstractController {
         }
         
         return $response;
+    }
+    
+    private function saveRequest($name, $message) {
+        $requestRow = $this->selectApiBasicRequestDatabase($name);
+        
+        if ($requestRow == false)
+            $this->apiBasicRequestDatabase("insert", $name);
+        else
+            $this->apiBasicRequestDatabase("update", $name, $requestRow);
+        
+        if ($this->apiBasicRow['slack_active'] == true)
+            $this->utility->sendMessageToSlackRoom("slack_iw_apiBasic", date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
+        
+        if ($this->apiBasicRow['line_active'] == true)
+            $this->utility->sendMessageToLineChat("line_iw_apiBasic", date("Y-m-d H:i e") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
     }
 }

@@ -82,11 +82,11 @@ class Query {
         return $query->fetch();
     }
     
-    public function selectSettingSlackIwDatabase($id) {
+    public function selectSettingSlackIwDatabase($name) {
         $query = $this->connection->prepare("SELECT * FROM settings_slack_iw
-                                                WHERE id = :id");
+                                                WHERE name = :name");
         
-        $query->bindValue(":id", $id);
+        $query->bindValue(":name", $name);
         
         $query->execute();
         
@@ -339,13 +339,19 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectMicroserviceApiDatabase($id) {
-        $query = $this->connection->prepare("SELECT * FROM microservice_api
-                                                WHERE id = :id
-                                                AND active = :active");
+    public function selectMicroserviceApiDatabase($id, $bypass = false) {
+        if ($bypass == false) {
+            $query = $this->connection->prepare("SELECT * FROM microservice_api
+                                                    WHERE id = :id
+                                                    AND active = :active");
+            
+            $query->bindValue(":active", 1);
+        }
+        else
+            $query = $this->connection->prepare("SELECT * FROM microservice_api
+                                                    WHERE id = :id");
         
         $query->bindValue(":id", $id);
-        $query->bindValue(":active", 1);
         
         $query->execute();
         

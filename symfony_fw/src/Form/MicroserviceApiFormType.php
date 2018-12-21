@@ -4,7 +4,11 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -34,16 +38,33 @@ class MicroserviceApiFormType extends AbstractType {
             'required' => true,
             'label' => "microserviceApiFormType_3"
         ))
+        ->add("image", FileType::class, Array(
+            'required' => false,
+            'label' => "microserviceApiFormType_4",
+            'data_class' => null
+        ))
+        ->add('removeImage', CheckboxType::class, Array(
+            'required' => false,
+            'label' => "microserviceApiFormType_5"
+        ))
         ->add("active", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "microserviceApiFormType_4",
+            'placeholder' => "microserviceApiFormType_6",
             'choices' => Array(
-                "microserviceApiFormType_5" => "0",
-                "microserviceApiFormType_6" => "1"
+                "microserviceApiFormType_7" => "0",
+                "microserviceApiFormType_8" => "1"
             )
         ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "microserviceApiFormType_7"
+            'label' => "microserviceApiFormType_9"
         ));
+        
+        $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $formEvent) {
+            $data = $formEvent->getData();
+            $form = $formEvent->getForm();
+            
+            if ($data->getRemoveImage() == false)
+                $data->setRemoveImage("0");
+        });
     }
 }

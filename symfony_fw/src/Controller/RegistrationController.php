@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController {
                                 $settingRow['email_admin']
                             );
 
-                            mkdir("{$this->utility->getPathWeb()}/files/{$userEntity->getUsername()}");
+                            mkdir("{$this->utility->getPathWeb()}/files/user/{$userEntity->getUsername()}");
 
                             // Database insert
                             $this->entityManager->persist($userEntity);

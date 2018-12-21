@@ -87,8 +87,8 @@ class MyPageProfileController extends AbstractController {
         
         $avatar = "{$this->utility->getUrlRoot()}/images/templates/{$settingRow['template']}/no_avatar.jpg";
         
-        if (file_exists("{$this->utility->getPathWeb()}/files/$usernameOld/Avatar.jpg") == true)
-            $avatar = "{$this->utility->getUrlRoot()}/files/$usernameOld/Avatar.jpg";
+        if (file_exists("{$this->utility->getPathWeb()}/files/user/$usernameOld/Avatar.jpg") == true)
+            $avatar = "{$this->utility->getUrlRoot()}/files/user/$usernameOld/Avatar.jpg";
         
         $form = $this->createForm(UserFormType::class, $this->getUser(), Array(
             'validation_groups' => Array('profile')
@@ -106,8 +106,8 @@ class MyPageProfileController extends AbstractController {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 if ($form->has("username") == true) {
-                    if (file_exists("{$this->utility->getPathWeb()}/files/$usernameOld") == true)
-                        rename("{$this->utility->getPathWeb()}/files/$usernameOld", "{$this->utility->getPathWeb()}/files/{$form->get("username")->getData()}");
+                    if (file_exists("{$this->utility->getPathWeb()}/files/user/$usernameOld") == true)
+                        rename("{$this->utility->getPathWeb()}/files/user/$usernameOld", "{$this->utility->getPathWeb()}/files/user/{$form->get("username")->getData()}");
                 }
                 
                 // Database insert
@@ -321,7 +321,7 @@ class MyPageProfileController extends AbstractController {
         $path = "";
 
         if ($this->getUser() != null)
-            $path = "{$this->utility->getPathWeb()}/files/{$this->getUser()->getUsername()}";
+            $path = "{$this->utility->getPathWeb()}/files/user/{$this->getUser()->getUsername()}";
         
         $this->upload->setSettings(Array(
             'path' => $path,

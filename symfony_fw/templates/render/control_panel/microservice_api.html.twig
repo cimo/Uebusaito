@@ -3,7 +3,11 @@
         <div style="margin-top: 20px;" class="mdc-card api_card">
             <div class="mdc_card_header">
                 <div class="mdc-card__media mdc-card__media--square">
-                    <img src="{{asset("images/templates/" ~ settingRow['template'] ~ "/api.png")}}" alt="api.png"/>
+                    {% if value['image'] == "" %}
+                        <img src="{{asset("images/templates/" ~ settingRow['template'] ~ "/api.png")}}" alt="api.png"/>
+                    {% else %}
+                        <img src="{{asset("files/microservice/api/" ~ value['image'])}}" alt="{{value['image']}}"/>
+                    {% endif%}
                 </div>
                 <div class="mdc_card_description">
                     <h1 class="mdc-typography--headline6"><span>{{value['name']}}</span></h1>
@@ -13,11 +17,18 @@
             <hr class="mdc-list-divider">
             <div class="mdc-card__actions">
                 <div class="mdc-card__action-buttons">
-                    <a class="mdc-button mdc-button--dense mdc-card__action mdc-card__action--button"
-                       href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_profile_" ~ (key + 1)})}}" type="button">{% trans %}microserviceApi_1{% endtrans %}</a>
+                    <a class="mdc-button mdc-button--dense mdc-card__action mdc-card__action--button" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_api_profile_" ~ (key + 1)})}}" type="button">
+                        {% trans %}microserviceApi_1{% endtrans %}
+                    </a>
                 </div>
                 <div class="mdc-card__action-icons">
-                    <p>{% if value['active'] == true %}{% trans %}microserviceApi_2{% endtrans %}{% else %}{% trans %}microserviceApi_3{% endtrans %}{% endif%}</p>
+                    <p>
+                        {% if value['active'] == true %}
+                            {% trans %}microserviceApi_2{% endtrans %}
+                        {% else %}
+                            {% trans %}microserviceApi_3{% endtrans %}
+                        {% endif%}
+                    </p>
                 </div>
             </div>
         </div>

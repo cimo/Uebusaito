@@ -131,7 +131,7 @@ class PageCommentController extends AbstractController {
             $pageCommentEntity = new PageComment();
 
             $form = $this->createForm(PageCommentFormType::class, $pageCommentEntity, Array(
-                'validation_groups' => Array('pageComment')
+                'validation_groups' => Array('page_comment')
             ));
             $form->handleRequest($request);
 
@@ -219,8 +219,8 @@ class PageCommentController extends AbstractController {
             $row = $this->query->selectPageCommentDatabase("single", $value['id_reply']);
             
             $html .= "<li class=\"mdc-list-item\" data-comment=\"{$value['id']}\">";
-                if (file_exists("{$this->utility->getPathWeb()}/files/{$value['username']}/Avatar.jpg") == true)
-                    $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/files/{$value['username']}/Avatar.jpg\" aria-hidden=\"true\"/>";
+                if (file_exists("{$this->utility->getPathWeb()}/files/user/{$value['username']}/Avatar.jpg") == true)
+                    $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/files/user/{$value['username']}/Avatar.jpg\" aria-hidden=\"true\"/>";
                 else
                     $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\" aria-hidden=\"true\"/>";
                 
@@ -239,8 +239,8 @@ class PageCommentController extends AbstractController {
                 
                 $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
                 
-                if (file_exists("{$this->utility->getPathWeb()}/files/{$row['username']}/Avatar.jpg") == true)
-                    $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/files/{$row['username']}/Avatar.jpg\"/>";
+                if (file_exists("{$this->utility->getPathWeb()}/files/user/{$row['username']}/Avatar.jpg") == true)
+                    $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/files/user/{$row['username']}/Avatar.jpg\"/>";
                 
                 $html .= "<span class=\"mdc-list-item__text\">
                     <p class=\"detail\">$detail</p>";

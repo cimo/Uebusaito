@@ -236,10 +236,10 @@ function ControlPanelMicroserviceDeploy() {
             $("#cp_microservice_deploy_select_result").html(xhr.response.render);
             
             materialDesign.refresh();
-
+            
             $("#form_cp_microservice_deploy_profile").on("submit", "", function(event) {
                 event.preventDefault();
-
+                
                 ajax.send(
                     true,
                     $(this).prop("action"),
@@ -299,7 +299,7 @@ function ControlPanelMicroserviceDeploy() {
                             });
                             
                             $("#form_microservice_deploy_select_id").find("option[value='" + xhr.response.values.id + "']").remove();
-
+                            
                             $("#cp_microservice_deploy_select_result").html("");
                             
                             $("#cp_microservice_deploy_select_result_desktop").find(".refresh").click();

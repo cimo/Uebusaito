@@ -16,7 +16,7 @@ class PageComment {
     private $id;
     
     /**
-     * @ORM\Column(name="page_id", type="integer", columnDefinition="int(11) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="page_id", type="integer", columnDefinition="int(11) NOT NULL DEFAULT 0")
      */
     private $pageId = 0;
     

@@ -20,7 +20,7 @@ class Module {
     /**
      * @ORM\Column(name="position", type="string", columnDefinition="varchar(6) NOT NULL DEFAULT 'center'")
      */
-    private $position = "";
+    private $position = "center";
     
     /**
      * @ORM\Column(name="position_tmp", type="string", nullable=true, columnDefinition="varchar(6)")
@@ -51,7 +51,7 @@ class Module {
     private $controllerName = "";
     
     /**
-     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT '0'")
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $active = false;
 

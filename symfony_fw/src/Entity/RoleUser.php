@@ -20,7 +20,7 @@ class RoleUser {
     /**
      * @ORM\Column(name="level", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT 'ROLE_USER'")
      */
-    private $level = "";
+    private $level = "ROLE_USER";
     
     // Properties
     public function setLevel($value) {

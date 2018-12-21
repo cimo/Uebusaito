@@ -2,7 +2,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="languages", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
@@ -24,7 +23,7 @@ class Language {
     /**
      * @ORM\Column(name="date", type="string", columnDefinition="varchar(5) NOT NULL DEFAULT 'Y-m-d'")
      */
-    private $date = "";
+    private $date = "Y-m-d";
     
     // Properties
     public function setCode($value) {

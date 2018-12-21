@@ -6,13 +6,5 @@ Array
 (
     [event] => apiBasic
     [token] => token_basic
-)2018-12-20 21:48:45 Asia/Tokyo - apiBasic - IP[192.168.56.1]: Array
-(
-    [errorCode] => 0
-)
-Array
-(
-    [event] => apiBasic
-    [token] => token_basic
 )
 

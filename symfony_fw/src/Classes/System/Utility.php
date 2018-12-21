@@ -565,7 +565,7 @@ class Utility {
                 $html .= "<div class=\"mdc-chip\">
                     <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading edit\">edit</i>
                     <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading delete\">delete</i>
-                    <div class=\"mdc-chip__text wordTag_elemet_data\" data-id=\"{$value['id']}\">{$value['id']} - {$value['name']}</div>
+                    <div class=\"mdc-chip__text wordTag_elemet_data\" data-id=\"{$value['id']}\">{$value['name']}</div>
                 </div>";
             }
         }
@@ -849,8 +849,8 @@ class Utility {
         );
     }
     
-    public function sendMessageToSlackRoom($id, $text) {
-        $row = $this->query->selectSettingSlackIwDatabase($id);
+    public function sendMessageToSlackRoom($name, $text) {
+        $row = $this->query->selectSettingSlackIwDatabase($name);
         
         if ($row != false) {
             $postFields = Array();

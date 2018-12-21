@@ -18,57 +18,57 @@ class ApiBasic {
     private $id;
     
     /**
-     * @ORM\Column(name="name", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $name = "";
     
     /**
-     * @ORM\Column(name="token", type="string", columnDefinition="varchar(255) NOT NULL")
+     * @ORM\Column(name="token", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $token = "";
     
     /**
-     * @ORM\Column(name="ip", type="string", columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
     private $ip = "";
     
     /**
-     * @ORM\Column(name="url_callback", type="string", columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="url_callback", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
     private $urlCallback = "";
     
     /**
-     * @ORM\Column(name="database_ip", type="string", columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="database_ip", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
     private $databaseIp = "";
     
     /**
-     * @ORM\Column(name="database_name", type="string", columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="database_name", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
     private $databaseName = "";
     
     /**
-     * @ORM\Column(name="database_username", type="string", columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="database_username", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
      */
     private $databaseUsername = "";
     
     /**
-     * @ORM\Column(name="database_password", type="string", columnDefinition="blob DEFAULT NULL")
+     * @ORM\Column(name="database_password", type="string", nullable=true, columnDefinition="blob DEFAULT NULL")
      */
     private $databasePassword = "";
     
     /**
-     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL")
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $active = false;
     
     /**
-     * @ORM\Column(name="slack_active", type="boolean", columnDefinition="tinyint(1) DEFAULT 0")
+     * @ORM\Column(name="slack_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $slackActive = false;
     
     /**
-     * @ORM\Column(name="line_active", type="boolean", columnDefinition="tinyint(1) DEFAULT 0")
+     * @ORM\Column(name="line_active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
      */
     private $lineActive = false;
     

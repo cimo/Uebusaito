@@ -78,7 +78,7 @@ class ApiBasicFormType extends AbstractType {
             'label' => "apiBasicFormType_14"
         ));
         
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $formEvent) {
+        $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $formEvent) {
             $data = $formEvent->getData();
             $form = $formEvent->getForm();
             

@@ -50,8 +50,9 @@ DROP TABLE IF EXISTS `microservice_api`;
 CREATE TABLE `microservice_api` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `controller` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `controller` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -63,7 +64,7 @@ CREATE TABLE `microservice_api` (
 
 LOCK TABLES `microservice_api` WRITE;
 /*!40000 ALTER TABLE `microservice_api` DISABLE KEYS */;
-INSERT INTO `microservice_api` VALUES (1,'Basic','Basic','Test api functionality',1);
+INSERT INTO `microservice_api` VALUES (1,'Basic','Basic','Test api functionality',NULL,1);
 /*!40000 ALTER TABLE `microservice_api` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,17 +77,17 @@ DROP TABLE IF EXISTS `microservice_apiBasic`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `microservice_apiBasic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `url_callback` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `database_ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `database_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `database_username` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
-  `database_password` blob NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `slack_active` tinyint(1) DEFAULT '0',
-  `line_active` tinyint(1) DEFAULT '0',
+  `database_password` blob,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `slack_active` tinyint(1) NOT NULL DEFAULT '0',
+  `line_active` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -97,7 +98,7 @@ CREATE TABLE `microservice_apiBasic` (
 
 LOCK TABLES `microservice_apiBasic` WRITE;
 /*!40000 ALTER TABLE `microservice_apiBasic` DISABLE KEYS */;
-INSERT INTO `microservice_apiBasic` VALUES (1,'Site_1','token_basic','192.168.56.1',NULL,NULL,NULL,NULL,'',1,0,0);
+INSERT INTO `microservice_apiBasic` VALUES (1,'Site_1','token_basic','192.168.56.1',NULL,NULL,NULL,NULL,'',1,1,0);
 /*!40000 ALTER TABLE `microservice_apiBasic` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,10 +111,10 @@ DROP TABLE IF EXISTS `microservice_apiBasic_request`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `microservice_apiBasic_request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
-  `date` varchar(19) COLLATE utf8_unicode_ci DEFAULT '0000-00-00 00:00:00',
-  `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `count` int(11) DEFAULT '1',
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `date` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `count` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -138,10 +139,12 @@ DROP TABLE IF EXISTS `microservice_deploy`;
 CREATE TABLE `microservice_deploy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `system_user` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `key_public` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `key_private` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `ssh_username` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `ssh_password` blob,
+  `key_public` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `key_private` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `git_user_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `git_user_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -161,7 +164,7 @@ CREATE TABLE `microservice_deploy` (
 
 LOCK TABLES `microservice_deploy` WRITE;
 /*!40000 ALTER TABLE `microservice_deploy` DISABLE KEYS */;
-INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu','','','123.123.123.123','user@github.com','git_user','https://git_user:git_password@url.git','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src',1);
+INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,'',NULL,NULL,'123.123.123.123','user@github.com','git_user','https://git_user:git_password@url.git','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src',1);
 /*!40000 ALTER TABLE `microservice_deploy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -324,9 +327,9 @@ DROP TABLE IF EXISTS `pages_titles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pages_titles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `en` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `it` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `en` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `it` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `jp` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -351,17 +354,17 @@ DROP TABLE IF EXISTS `payments`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `payments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `transaction` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `date` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `payer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `receiver` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
-  `item_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `amount` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `status_delete` tinyint(1) DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `transaction` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `date` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `payer` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `receiver` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `item_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `amount` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `quantity` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `status_delete` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -416,7 +419,7 @@ CREATE TABLE `settings` (
   `website_active` tinyint(1) NOT NULL DEFAULT '1',
   `role_user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '2,3',
   `https` tinyint(1) NOT NULL DEFAULT '1',
-  `registration_user_confirm_admin` tinyint(1) NOT NULL DEFAULT '1',
+  `registration_user_confirm_admin` tinyint(1) NOT NULL DEFAULT '0',
   `login_attempt_time` int(11) NOT NULL DEFAULT '15',
   `login_attempt_count` int(11) NOT NULL DEFAULT '3',
   `registration` tinyint(1) NOT NULL DEFAULT '1',
@@ -425,13 +428,13 @@ CREATE TABLE `settings` (
   `page_date` tinyint(1) NOT NULL DEFAULT '1',
   `pageComment` tinyint(1) NOT NULL DEFAULT '1',
   `pageComment_active` tinyint(1) NOT NULL DEFAULT '1',
-  `payment` tinyint(1) NOT NULL DEFAULT '1',
-  `payPal_sandbox` tinyint(1) NOT NULL DEFAULT '0',
-  `payPal_business` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `payPal_currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'USD',
-  `payPal_credit_amount` varchar(12) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0.01',
-  `credit` tinyint(1) NOT NULL DEFAULT '1',
   `use_type` int(11) NOT NULL DEFAULT '1',
+  `payment` tinyint(1) NOT NULL DEFAULT '1',
+  `credit` tinyint(1) NOT NULL DEFAULT '1',
+  `payPal_sandbox` tinyint(1) NOT NULL DEFAULT '1',
+  `payPal_business` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `payPal_currency_code` varchar(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'EUR',
+  `payPal_credit_amount` varchar(12) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0.01',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -442,8 +445,34 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,1,1,0,1,1,1,1,1,'paypal.business@gmail.com','EUR','0.01',1,1);
+INSERT INTO `settings` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,1,1,0,1,1,1,1,1,1,1,'paypal.business@gmail.com','EUR','0.01');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `settings_slack_iw`
+--
+
+DROP TABLE IF EXISTS `settings_slack_iw`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `settings_slack_iw` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `hook` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `channel` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `settings_slack_iw`
+--
+
+LOCK TABLES `settings_slack_iw` WRITE;
+/*!40000 ALTER TABLE `settings_slack_iw` DISABLE KEYS */;
+INSERT INTO `settings_slack_iw` VALUES (1,'slack_iw_apiBasic','https://hooks.slack.com/services','#api_basic');
+/*!40000 ALTER TABLE `settings_slack_iw` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -456,30 +485,30 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,',
-  `roles` varchar(255) COLLATE utf8_unicode_ci DEFAULT 'ROLE_USER,',
+  `roles` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'ROLE_USER,',
   `username` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `surname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `surname` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `telephone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `born` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `gender` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `fiscal_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `company_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `vat` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `state` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `zip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `telephone` varchar(20) COLLATE utf8_unicode_ci DEFAULT '',
+  `born` varchar(10) COLLATE utf8_unicode_ci DEFAULT '0000-00-00',
+  `gender` varchar(1) COLLATE utf8_unicode_ci DEFAULT '',
+  `fiscal_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `company_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `vat` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `state` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `zip` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `credit` int(11) NOT NULL DEFAULT '0',
   `active` tinyint(1) NOT NULL DEFAULT '0',
   `date_registration` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_current_login` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_last_login` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `help_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `help_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `ip` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `attempt_login` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -491,7 +520,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2018-12-19 18:11:54','2018-12-19 14:34:27',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2018-12-21 20:01:41','2018-12-21 17:17:58',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -508,4 +537,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-19 18:20:13
+-- Dump completed on 2018-12-21 21:52:01
