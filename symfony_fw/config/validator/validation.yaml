@@ -581,7 +581,7 @@ App\Entity\SettingSlackIw:
             - Regex:
                 groups: [setting_slack_iw]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)([a-z0-9.\/]+)$/
+                pattern: /^(https?:\/\/)([a-zA-Z0-9.\/]+)$/
         channel:
             - NotBlank:
                 groups: [setting_slack_iw]
