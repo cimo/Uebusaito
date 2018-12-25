@@ -863,7 +863,7 @@ class Utility {
         $pregReplace = preg_replace("%(?:\xF0[\x90-\xBF][\x80-\xBF]{2} | [\xF1-\xF3][\x80-\xBF]{3} | \xF4[\x80-\x8F][\x80-\xBF]{2})%xs", $replacement, $string);    
         
         if (strpos($pregReplace, $replacement) !== false)
-            $isFind = $pregReplace;
+            $isFind = $string;
         
         if ($remove == true)
             $pregReplace = str_replace($replacement, "", $pregReplace);
