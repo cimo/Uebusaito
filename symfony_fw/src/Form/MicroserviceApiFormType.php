@@ -30,7 +30,7 @@ class MicroserviceApiFormType extends AbstractType {
             'required' => true,
             'label' => "microserviceApiFormType_1"
         ))
-        ->add("controller", TextType::class, Array(
+        ->add("controllerName", TextType::class, Array(
             'required' => true,
             'label' => "microserviceApiFormType_2"
         ))

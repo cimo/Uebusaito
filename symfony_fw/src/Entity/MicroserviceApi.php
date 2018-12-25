@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Table(name="microservice_api", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="App\Repository\MicroserviceApiRepository")
- * @UniqueEntity(fields={"name"}, groups={"settingSlackIw"})
+ * @UniqueEntity(fields={"name"}, groups={"microservice_api_create", "microservice_api_profile"})
  */
 class MicroserviceApi {
     /**
@@ -23,9 +23,9 @@ class MicroserviceApi {
     private $name = "";
     
     /**
-     * @ORM\Column(name="controller", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     * @ORM\Column(name="controller_name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $controller = "";
+    private $controllerName = "";
     
     /**
      * @ORM\Column(name="description", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
@@ -49,8 +49,8 @@ class MicroserviceApi {
         $this->name = $value;
     }
     
-    public function setController($value) {
-        $this->controller = $value;
+    public function setControllerName($value) {
+        $this->controllerName = $value;
     }
     
     public function setDescription($value) {
@@ -79,8 +79,8 @@ class MicroserviceApi {
         return $this->name;
     }
     
-    public function getController() {
-        return $this->controller;
+    public function getControllerName() {
+        return $this->controllerName;
     }
     
     public function getDescription() {

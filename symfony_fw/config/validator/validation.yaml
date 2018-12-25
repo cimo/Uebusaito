@@ -207,7 +207,7 @@ App\Entity\Page:
             - Regex:
                 groups: [page_create, page_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9]+$/
+                pattern: /^[a-zA-Z 0-9]+|[-]$/
         onlyLink:
             - NotBlank:
                 groups: [page_create, page_profile]
@@ -221,7 +221,7 @@ App\Entity\Page:
             - Regex:
                 groups: [page_create, page_profile]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)(www).([a-z_0-9]+).([a-z]+)$/
+                pattern: /^(https?:\/\/)(www).([a-zA-Z0-9_.\/]+).([a-z]+)|[-]$/
 
 App\Entity\PageComment:
     properties:
@@ -297,7 +297,7 @@ App\Entity\User:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)(www).([a-z0-9]+).([a-z]+)$/
+                pattern: /^(https?:\/\/)(www).([a-zA-Z0-9_.\/]+).([a-z]+)$/
         state:
             - Regex:
                 groups: [user_create, user_profile]
@@ -317,7 +317,7 @@ App\Entity\User:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z .0-9]+$/
+                pattern: /^[a-zA-Z 0-9.]+$/
         password:
             - NotBlank:
                 groups: [registration, user_create]
@@ -581,7 +581,7 @@ App\Entity\SettingSlackIw:
             - Regex:
                 groups: [setting_slack_iw]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)([a-zA-Z0-9.\/]+)$/
+                pattern: /^(https?:\/\/)([a-zA-Z0-9_.\/]+)$/
         channel:
             - NotBlank:
                 groups: [setting_slack_iw]
@@ -677,7 +677,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)([a-z_:\@0-9]+).([a-z]+)$/
+                pattern: /^(https?:\/\/)([a-zA-Z0-9_:\@]+).([a-z]+)$/
         gitClonePath:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -723,7 +723,7 @@ App\Entity\MicroserviceApi:
                 groups: [microservice_api_create, microservice_api_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z 0-9_]+$/
-        controller:
+        controllerName:
             - NotBlank:
                 groups: [microservice_api_create, microservice_api_profile]
             - Regex:

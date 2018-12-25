@@ -29,9 +29,9 @@ function ControlPanelSettingSlackIw() {
                     var name = $("#form_settingSlackIw_name").val();
                     
                     if (xhr.response.values.settingSlackIwListHtml !== undefined) {
-                        $("#form_settingSlackIw_name").val("");
-                        $("#form_settingSlackIw_hook").val("");
-                        $("#form_settingSlackIw_channel").val("");
+                        resetField();
+
+                        materialDesign.refresh();
                         
                         $("#form_cp_setting_slack_iw_create").find(".wordTag_container").html(xhr.response.values.settingSlackIwListHtml);
                     }

@@ -760,6 +760,31 @@ class Utility {
         return $_SESSION['languageTextCode'];
     }
     
+    public function checkHost($host) {
+        $curl = curl_init();
+        
+        curl_setopt($curl, CURLOPT_URL, $host);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_ENCODING, "");
+        curl_setopt($curl, CURLOPT_NOBODY, true);
+        curl_setopt($curl, CURLOPT_AUTOREFERER, true);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 120);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        
+        $curlResponse = curl_exec($curl);
+        curl_close($curl);
+        
+        if ($curlResponse == true)
+            return true;
+        
+        return false;
+    }
+    
     public function assignUserParameter($user) {
         $query = $this->connection->prepare("SELECT id FROM users
                                                 LIMIT 1");

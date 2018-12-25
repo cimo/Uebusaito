@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Table(name="settings_slack_iw", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="App\Repository\SettingSlackIwRepository")
- * @UniqueEntity(fields={"name"}, groups={"microservice_api_create", "microservice_api_profile"})
+ * @UniqueEntity(fields={"name"}, groups={"setting_slack_iw"})
  */
 class SettingSlackIw {
     /**

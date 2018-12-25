@@ -31,13 +31,13 @@ date.time: H:i:s
 "myPage_5": "Really delete all payments?"
 
 "myPageProfile_1": "Profile form"
-"myPageProfile_2": "."
+"myPageProfile_2": "..."
 
 "myPageProfilePassword_1": "Profile password form"
-"myPageProfilePassword_2": "."
+"myPageProfilePassword_2": "..."
 
 "myPageProfileCredit_1": "Profile credit form"
-"myPageProfileCredit_2": "."
+"myPageProfileCredit_2": "..."
 "myPageProfileCredit_3": "Current credit:"
 "myPageProfileCredit_4": "One credit value:"
 
@@ -50,7 +50,7 @@ date.time: H:i:s
 "myPageProfileController_7": "Not sended to PayPal!"
 
 "myPagePaymentSelect_1": "Payments selection form"
-"myPagePaymentSelect_2": "."
+"myPagePaymentSelect_2": "..."
 "myPagePaymentSelect_3": "Id"
 "myPagePaymentSelect_4": "Select"
 "myPagePaymentSelect_5": "Transaction"
@@ -83,7 +83,7 @@ date.time: H:i:s
 # Registration
 "registration_1": "Private"
 "registration_2": "Company"
-"registration_3": "."
+"registration_3": "..."
 
 "registrationController_1": "Thank you for your registration. For activate your account click on the link:"
 "registrationController_2": "Thank you for your registration. Waiting for confirmation from the administrator. You will receive an email when your account is activated."
@@ -101,8 +101,8 @@ date.time: H:i:s
 "passwordFormType_4": "Send"
 
 # Recover password
-"recoverPassword_1": "."
-"recoverPassword_2": "."
+"recoverPassword_1": "..."
+"recoverPassword_2": "..."
 
 "recoverPasswordFormType_1": "Email"
 "recoverPasswordFormType_2": "Send"
@@ -315,10 +315,10 @@ date.time: H:i:s
 
 # Payment
 "paymentUserSelect_1": "Payments user selection form"
-"paymentUserSelect_2": "."
+"paymentUserSelect_2": "..."
 
 "paymentSelect_1": "Payments selection form"
-"paymentSelect_2": "."
+"paymentSelect_2": "..."
 "paymentSelect_3": "Id"
 "paymentSelect_4": "Select"
 "paymentSelect_5": "Transaction"
@@ -357,13 +357,13 @@ date.time: H:i:s
 
 # Page
 "pageCreate_1": "Page create form"
-"pageCreate_2": "."
+"pageCreate_2": "..."
 "pageCreate_3": "Position in menu"
 "pageCreate_4": "Sort up"
 "pageCreate_5": "Sort down"
 
 "pageSelect_1": "Pages selection form"
-"pageSelect_2": "."
+"pageSelect_2": "..."
 "pageSelect_3": "Id"
 "pageSelect_4": "Select"
 "pageSelect_5": "Alias"
@@ -424,10 +424,10 @@ date.time: H:i:s
 
 # User
 "userCreate_1": "User create form"
-"userCreate_2": "."
+"userCreate_2": "..."
 
 "userSelect_1": "Users selection form"
-"userSelect_2": "."
+"userSelect_2": "..."
 "userSelect_3": "Id"
 "userSelect_4": "Select"
 "userSelect_5": "Role"
@@ -489,13 +489,13 @@ date.time: H:i:s
 "module_3": "Empty"
 
 "moduleCreate_1": "Module create form"
-"moduleCreate_2": "."
+"moduleCreate_2": "..."
 "moduleCreate_3": "Position in column"
 "moduleCreate_4": "Sort up"
 "moduleCreate_5": "Sort down"
 
 "moduleSelect_1": "Modules selection form"
-"moduleSelect_2": "."
+"moduleSelect_2": "..."
 "moduleSelect_3": "Id"
 "moduleSelect_4": "Select"
 "moduleSelect_5": "Name"
@@ -544,10 +544,10 @@ date.time: H:i:s
 "Moderator": "Moderator"
 
 "roleUserCreate_1": "Role create form"
-"roleUserCreate_2": "."
+"roleUserCreate_2": "..."
 
 "roleUserSelect_1": "Roles selection form"
-"roleUserSelect_2": "."
+"roleUserSelect_2": "..."
 "roleUserSelect_3": "Id"
 "roleUserSelect_4": "Select"
 "roleUserSelect_5": "Level"
@@ -576,17 +576,17 @@ date.time: H:i:s
 
 # Setting
 "setting_1": "Style"
-"setting_2": "."
+"setting_2": "..."
 "setting_3": "Column type"
 "setting_4": "System"
-"setting_5": ".."
+"setting_5": "..."
 "setting_6": "Lanuage management"
 "setting_7": "Code"
 "setting_8": "Date"
 "setting_9": "Payment"
 "setting_10": "..."
 "setting_11": "Paypal"
-"setting_12": "...."
+"setting_12": "..."
 
 "settingFormType_1": "Template"
 "settingFormType_2": "Type 1"
@@ -630,7 +630,7 @@ date.time: H:i:s
 
 # Setting slack
 "settingSlackIw_1": "Incoming webhook"
-"settingSlackIw_2": "....."
+"settingSlackIw_2": "..."
 "settingSlackIw_3": "Reset"
 
 "settingSlackIwFormType_1": "Name"
@@ -648,13 +648,13 @@ date.time: H:i:s
 
 # Microservice deploy
 "microserviceDeployRender_1": "Microservice deploy render form"
-"microserviceDeployRender_2": "."
+"microserviceDeployRender_2": "..."
 
 "microserviceDeployCreate_1": "Microservice deploy create form"
-"microserviceDeployCreate_2": "."
+"microserviceDeployCreate_2": "..."
 
 "microserviceDeploySelect_1": "Microservice deploy select form"
-"microserviceDeploySelect_2": "."
+"microserviceDeploySelect_2": "..."
 "microserviceDeploySelect_3": "Id"
 "microserviceDeploySelect_4": "Select"
 "microserviceDeploySelect_5": "Name"
@@ -720,11 +720,11 @@ date.time: H:i:s
 
 "microserviceApiCreate_1": "Back"
 "microserviceApiCreate_2": "Api create form"
-"microserviceApiCreate_3": "."
+"microserviceApiCreate_3": "..."
 
 "microserviceApiProfile_1": "Back"
 "microserviceApiProfile_2": "Api profile form"
-"microserviceApiProfile_3": "."
+"microserviceApiProfile_3": "..."
 
 "microserviceApiFormType_1": "Name"
 "microserviceApiFormType_2": "Controller"
@@ -745,10 +745,10 @@ date.time: H:i:s
 "apiBasic_1": "Really delete this apiBasic?"
 
 "apiBasicCreate_1": "ApiBasic create form"
-"apiBasicCreate_2": "."
+"apiBasicCreate_2": "..."
 
 "apiBasicSelect_1": "ApiBasic select form"
-"apiBasicSelect_2": "."
+"apiBasicSelect_2": "..."
 
 "apiBasicProfile_1": "ApiBasic profile form"
 

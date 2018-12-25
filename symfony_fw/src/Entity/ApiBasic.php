@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Table(name="microservice_apiBasic", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="App\Repository\ApiBasicRepository")
- * @UniqueEntity(fields={"name"}, groups={"apiBasic_profile"})
+ * @UniqueEntity(fields={"name"}, groups={"apiBasic_create", "apiBasic_profile"})
  */
 class ApiBasic {
     /**
