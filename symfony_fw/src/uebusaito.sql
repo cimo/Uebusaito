@@ -111,6 +111,7 @@ DROP TABLE IF EXISTS `microservice_apiBasic_request`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `microservice_apiBasic_request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `api_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `date` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -125,7 +126,7 @@ CREATE TABLE `microservice_apiBasic_request` (
 
 LOCK TABLES `microservice_apiBasic_request` WRITE;
 /*!40000 ALTER TABLE `microservice_apiBasic_request` DISABLE KEYS */;
-INSERT INTO `microservice_apiBasic_request` VALUES (1,'requestTestAction','2018-11-05 12:05:29','192.168.56.1',1),(2,'requestTestAction','2018-11-06 12:05:29','192.168.56.1',2),(3,'requestTestAction','2018-11-07 12:05:29','192.168.56.1',1),(4,'requestTestAction','2018-11-08 12:05:29','192.168.56.1',4),(5,'requestTestAction','2018-11-09 12:05:29','192.168.56.1',1),(6,'requestTestAction','2018-11-10 12:05:29','192.168.56.1',1),(7,'requestTestAction','2018-11-11 12:05:29','192.168.56.1',6),(8,'requestTestAction','2018-11-12 12:05:29','192.168.56.1',1),(9,'requestTestAction','2018-11-13 12:05:29','192.168.56.1',8),(10,'requestTestAction','2018-11-14 12:05:29','192.168.56.1',1),(11,'requestTestAction','2018-11-16 12:05:29','192.168.56.1',4),(12,'requestTestAction','2018-11-17 12:05:29','192.168.56.1',1),(13,'requestTestAction','2018-11-18 12:05:29','192.168.56.1',6),(14,'requestTestAction','2018-11-19 12:05:29','192.168.56.1',1),(15,'requestTestAction','2018-11-20 12:05:29','192.168.56.1',2),(16,'requestTestAction','2018-11-22 12:05:29','192.168.56.1',1),(17,'requestTestAction','2018-11-23 12:05:29','192.168.56.1',9),(18,'requestTestAction','2018-11-24 12:05:29','192.168.56.1',1),(19,'requestTestAction','2018-11-25 12:05:29','192.168.56.1',13),(20,'requestTestAction','2018-11-26 12:05:29','192.168.56.1',1),(21,'requestTestAction','2018-12-11 16:44:09','192.168.56.1',1);
+INSERT INTO `microservice_apiBasic_request` VALUES (1,1,'requestTestAction','2018-11-05 12:05:29','192.168.56.1',1),(2,1,'requestTestAction','2018-11-06 12:05:29','192.168.56.1',2),(3,1,'requestTestAction','2018-11-07 12:05:29','192.168.56.1',1),(4,1,'requestTestAction','2018-11-08 12:05:29','192.168.56.1',4),(5,1,'requestTestAction','2018-11-09 12:05:29','192.168.56.1',1),(6,1,'requestTestAction','2018-11-10 12:05:29','192.168.56.1',1),(7,1,'requestTestAction','2018-11-11 12:05:29','192.168.56.1',6),(8,1,'requestTestAction','2018-11-12 12:05:29','192.168.56.1',1),(9,1,'requestTestAction','2018-11-13 12:05:29','192.168.56.1',8),(10,1,'requestTestAction','2018-11-14 12:05:29','192.168.56.1',1),(11,1,'requestTestAction','2018-11-16 12:05:29','192.168.56.1',4),(12,1,'requestTestAction','2018-11-17 12:05:29','192.168.56.1',1),(13,1,'requestTestAction','2018-11-18 12:05:29','192.168.56.1',6),(14,1,'requestTestAction','2018-11-19 12:05:29','192.168.56.1',1),(15,1,'requestTestAction','2018-11-20 12:05:29','192.168.56.1',2),(16,1,'requestTestAction','2018-11-22 12:05:29','192.168.56.1',1),(17,1,'requestTestAction','2018-11-23 12:05:29','192.168.56.1',9),(18,1,'requestTestAction','2018-11-24 12:05:29','192.168.56.1',1),(19,1,'requestTestAction','2018-11-25 12:05:29','192.168.56.1',13),(20,1,'requestTestAction','2018-11-26 12:05:29','192.168.56.1',1),(21,1,'requestTestAction','2018-12-11 16:44:09','192.168.56.1',1);
 /*!40000 ALTER TABLE `microservice_apiBasic_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -520,7 +521,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2018-12-25 12:01:42','2018-12-25 10:08:09',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2018-12-25 15:51:12','2018-12-25 12:01:42',NULL,'192.168.56.1',0),(2,'1,3,','ROLE_USER,ROLE_MODERATOR','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2018-08-27 18:26:18','2018-08-08 10:56:08',NULL,'183.77.252.62',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -537,4 +538,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-25 15:07:57
+-- Dump completed on 2018-12-25 16:35:21
