@@ -557,13 +557,12 @@ class Utility {
         return $html;
     }
     
-    public function createSettingSlackIwListHtml($rows) {
+    public function createWordTagListHtml($rows) {
         $html = "";
         
         foreach ($rows as $key => $value) {
             if (isset($value['name']) == true) {
-                $html .= "<div class=\"mdc-chip\">
-                    <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading edit\">edit</i>
+                $html .= "<div class=\"mdc-chip edit\">
                     <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading delete\">delete</i>
                     <div class=\"mdc-chip__text wordTag_elemet_data\" data-id=\"{$value['id']}\">{$value['name']}</div>
                 </div>";
@@ -765,24 +764,16 @@ class Utility {
         
         curl_setopt($curl, CURLOPT_URL, $host);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_ENCODING, "");
-        curl_setopt($curl, CURLOPT_NOBODY, true);
-        curl_setopt($curl, CURLOPT_AUTOREFERER, true);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 120);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
-        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         
         $curlResponse = curl_exec($curl);
         curl_close($curl);
         
-        if ($curlResponse == true)
-            return true;
+        if ($curlResponse == false)
+            return false;
         
-        return false;
+        return true;
     }
     
     public function assignUserParameter($user) {
@@ -856,20 +847,20 @@ class Utility {
         return $pagesListHierarchy;
     }
     
-    public function replaceString4byte($string, $replacement = "", $remove = false) {
+    public function replaceString4byte($string, $replacement, $remove = false) {
         $isFind = false;
         
         // A -> 1-3 | B -> 4-15 | C -> 16
-        $pregReplace = preg_replace("%(?:\xF0[\x90-\xBF][\x80-\xBF]{2} | [\xF1-\xF3][\x80-\xBF]{3} | \xF4[\x80-\x8F][\x80-\xBF]{2})%xs", $replacement, $string);    
+        $newString = preg_replace("%(?:\xF0[\x90-\xBF][\x80-\xBF]{2} | [\xF1-\xF3][\x80-\xBF]{3} | \xF4[\x80-\x8F][\x80-\xBF]{2})%xs", $replacement, $string);    
         
-        if (strpos($pregReplace, $replacement) !== false)
+        if (strpos($newString, $replacement) !== false)
             $isFind = $string;
         
         if ($remove == true)
-            $pregReplace = str_replace($replacement, "", $pregReplace);
+            $newString = str_replace($replacement, "", $newString);
         
         return Array(
-            $pregReplace,
+            $newString,
             $isFind
         );
     }
@@ -896,8 +887,29 @@ class Utility {
         }
     }
     
-    public function sendMessageToLineChat($id, $text) {
+    public function sendMessageToLineChat($name, $text) {
+        $row = $this->query->selectSettingLinePushDatabase($name);
         
+        if ($row != false) {
+            $postFields = Array();
+            $postFields['to'] = $row['user_id'];
+            $postFields['messages'] = Array(Array('type' => "text", 'text' => $text));
+
+            $curl = curl_init();
+
+            curl_setopt($curl, CURLOPT_URL, "https://api.line.me/v2/bot/message/push");
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postFields));
+            curl_setopt($curl, CURLOPT_HTTPHEADER, Array(
+                "Content-Type: application/json", "Authorization: Bearer " . $row['access_token']
+            ));
+
+            $curlResponse = curl_exec($curl);
+            curl_close($curl);
+        }
     }
     
     // Functions private

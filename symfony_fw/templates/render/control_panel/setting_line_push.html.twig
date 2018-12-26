@@ -1,16 +1,16 @@
 {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
-<form id="form_cp_setting_slack_iw_create" action="{{path("cp_setting_slack_iw_create", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+<form id="form_cp_setting_line_push_create" action="{{path("cp_setting_line_push_create", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
     <fieldset class="accordion_container">
-        <legend>{% trans %}settingSlackIw_1{% endtrans %}</legend>
-        <p>{% trans %}settingSlackIw_2{% endtrans %}</p>
+        <legend>{% trans %}settingLinePush_1{% endtrans %}</legend>
+        <p>{% trans %}settingLinePush_2{% endtrans %}</p>
         <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
         <div class="accordion">
-            <button class="mdc-button mdc-button--dense mdc-button--raised button_reset" type="button">{% trans %}settingSlackIw_3{% endtrans %}</button>
+            <button class="mdc-button mdc-button--dense mdc-button--raised button_reset" type="button">{% trans %}settingLinePush_3{% endtrans %}</button>
             
             {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
-            {{form_row(form.hook, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
-            {{form_row(form.channel, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
+            {{form_row(form.userId, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
+            {{form_row(form.accessToken, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
             
             {{form_widget(form._token)}}
             

@@ -243,7 +243,7 @@
                 {% if is_granted("ROLE_ADMIN") == true %}
                     <p>{% trans %}controlPanelSettingSlack_1{% endtrans %}</p>
 
-                    {{-render(controller("App\\Controller\\ControlPanel\\SettingSlackIwController::incomingWebhookCreateAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {{-render(controller("App\\Controller\\ControlPanel\\SettingSlackIwController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
                     <script type="text/javascript">
                         window.addEventListener("load", function() {
@@ -258,7 +258,20 @@
                 {% endif %}
             {% elseif urlExtra == "cp_setting_line" %}
                 {% if is_granted("ROLE_ADMIN") == true %}
-                    {#...#}
+                    <p>{% trans %}controlPanelSettingLine_1{% endtrans %}</p>
+
+                    {{-render(controller("App\\Controller\\ControlPanel\\SettingLinePushController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    
+                    <script type="text/javascript">
+                        window.addEventListener("load", function() {
+                            controlPanelSettingLinePush.init();
+                        }, false);
+                        
+                        var textSettingLinePush = {
+                            'label_1': "{{"controlPanelSettingLine_2"|trans}}"
+                        };
+                    </script>
+                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/SettingLinePush.js")}}"></script>
                 {% endif %}
             {% elseif (urlExtra == "cp_microservice_deploy" or urlExtra == "cp_microservice_deploy_create" or "cp_microservice_deploy_select" in urlExtra) %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MICROSERVICE") == true %}

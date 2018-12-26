@@ -306,6 +306,9 @@ date.time: H:i:s
 "controlPanelSettingSlack_1": "Settings slack section."
 "controlPanelSettingSlack_2": "Really delete this incoming webhooks?"
 
+"controlPanelSettingLine_1": "Settings line section."
+"controlPanelSettingLine_2": "Really delete this line push?"
+
 "controlPanelMicroserviceDeploy_1": "Deploy section."
 "controlPanelMicroserviceDeploy_2": "Really delete this module?"
 "controlPanelMicroserviceDeploy_3": "Really delete all modules?"
@@ -645,6 +648,24 @@ date.time: H:i:s
 "settingSlackIwController_5": "Incoming webhook not deleted!"
 "settingSlackIwController_6": "Incoming webhook reset completed."
 "settingSlackIwController_7": "Incoming webhook not resetted!"
+
+# Setting line
+"settingLinePush_1": "Push"
+"settingLinePush_2": "..."
+"settingLinePush_3": "Reset"
+
+"settingLinePushFormType_1": "Name"
+"settingLinePushFormType_2": "User id"
+"settingLinePushFormType_3": "Access token"
+"settingLinePushFormType_4": "Send"
+
+"settingLinePushController_1": "Push create completed."
+"settingLinePushController_2": "Push not created!"
+"settingLinePushController_3": "Push not selected!"
+"settingLinePushController_4": "Push delete completed."
+"settingLinePushController_5": "Push not deleted!"
+"settingLinePushController_6": "Push reset completed."
+"settingLinePushController_7": "Push not resetted!"
 
 # Microservice deploy
 "microserviceDeployRender_1": "Microservice deploy render form"

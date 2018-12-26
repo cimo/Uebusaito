@@ -683,6 +683,13 @@ class ApiBasicController extends AbstractController {
                                     else
                                         $this->response['errorCode'] = 100;
                                 }
+                                
+                                if ($this->apiBasicRow['url_callback'] == "" &&
+                                        ($this->apiBasicRow['database_ip'] == "" || $this->apiBasicRow['database_name'] == "" || $this->apiBasicRow['database_username'] == "" || $this->apiBasicRow['database_password'] == "")) {
+                                    $this->saveRequest($this->apiBasicRow['id'], $name, "apiBasic -> $name");
+                                
+                                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_10");
+                                }
                             }
                         }
                         else
@@ -1033,6 +1040,6 @@ class ApiBasicController extends AbstractController {
             $this->utility->sendMessageToSlackRoom("slack_iw_apiBasic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
         
         if ($this->apiBasicRow['line_active'] == true)
-            $this->utility->sendMessageToLineChat("line_iw_apiBasic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
+            $this->utility->sendMessageToLineChat("line_push_apiBasic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
     }
 }

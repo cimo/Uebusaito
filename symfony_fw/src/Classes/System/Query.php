@@ -101,6 +101,25 @@ class Query {
         return $query->fetchAll();
     }
     
+    public function selectSettingLinePushDatabase($name) {
+        $query = $this->connection->prepare("SELECT * FROM settings_line_push
+                                                WHERE name = :name");
+        
+        $query->bindValue(":name", $name);
+        
+        $query->execute();
+        
+        return $query->fetch();
+    }
+    
+    public function selectAllSettingLinePushDatabase() {
+        $query = $this->connection->prepare("SELECT * FROM settings_line_push");
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
+    
     public function selectLanguageDatabase($code) {
         $query = $this->connection->prepare("SELECT * FROM languages
                                                 WHERE code = :code");

@@ -590,6 +590,30 @@ App\Entity\SettingSlackIw:
                 htmlPattern: false
                 pattern: /^[#a-zA-Z_0-9]+$/
 
+App\Entity\SettingLinePush:
+    properties:
+        name:
+            - NotBlank:
+                groups: [setting_line_push]
+            - Regex:
+                groups: [setting_line_push]
+                htmlPattern: false
+                pattern: /^[a-zA-Z 0-9_]+$/
+        userId:
+            - NotBlank:
+                groups: [setting_line_push]
+            - Regex:
+                groups: [setting_line_push]
+                htmlPattern: false
+                pattern: /^[a-zA-Z0-9]+$/
+        accessToken:
+            - NotBlank:
+                groups: [setting_line_push]
+            - Regex:
+                groups: [setting_line_push]
+                htmlPattern: false
+                pattern: /^[a-zA-Z0-9+=\/]+$/
+
 App\Entity\MicroserviceDeploy:
     properties:
         id:
