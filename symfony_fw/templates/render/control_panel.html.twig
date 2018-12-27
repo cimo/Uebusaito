@@ -381,11 +381,11 @@
             <span>{% trans %}controlPanel_11{% endtrans %}</span>
         </a>
         <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_setting_slack_iw"})}}">
-            <i class="material-icons mdc-list-item__graphic">chat</i>
+            <img class="material-icons" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/slack.png")}}"/>
             <span>{% trans %}controlPanel_12{% endtrans %}</span>
         </a>
         <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_setting_line"})}}">
-            <i class="material-icons mdc-list-item__graphic">chat</i>
+            <img class="material-icons" src="{{asset("images/templates/" ~ settingRow['template'] ~ "/line.png")}}"/>
             <span>{% trans %}controlPanel_13{% endtrans %}</span>
         </a>
     {% endif %}

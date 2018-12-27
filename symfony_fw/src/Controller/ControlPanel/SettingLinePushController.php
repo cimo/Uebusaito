@@ -267,10 +267,10 @@ class SettingLinePushController extends AbstractController {
     * @Route(
     *   name = "cp_setting_line_push_webhook",
     *   path = "/cp_setting_line_push_webhook",
-    *	methods={"GET", "OPTIONS"}
+    *	methods={"POST", "OPTIONS"}
     * )
     */
-    public function webhookAction(Request $request, TranslatorInterface $translator) {
+    public function requestWebhookAction(Request $request, TranslatorInterface $translator) {
         $this->entityManager = $this->getDoctrine()->getManager();
         
         $this->response = Array();
@@ -280,14 +280,79 @@ class SettingLinePushController extends AbstractController {
         $this->ajax = new Ajax($this->utility);
         
         // Logic
-        if ($request->isMethod("GET") == true) {
-            //...
+        if ($request->isMethod("POST") == true) {
+            $parameters = Array();
+
+            if (empty($request->getContent()) == false)
+                $parameters = json_decode($request->getContent(), true);
+            else
+                $parameters = $request->request->all();
+            
+            $this->parameters = $parameters;
+            
+            if (isset($this->parameters['events'][0]['type']) == true) {
+                $type = isset($this->parameters['events'][0]['type']) == true ? $this->parameters['events'][0]['type'] : "";
+                $source = isset($this->parameters['events'][0]['source']) == true ? $this->parameters['events'][0]['source'] : "";
+                $message = isset($this->parameters['events'][0]['message']) == true ? $this->parameters['events'][0]['message'] : "";
+                
+                $pushName = "";
+                $email = "";
+                
+                if (isset($message['text']) == true) {
+                    $messageTextExplode = explode("/", $message['text']);
+                    
+                    if (count($messageTextExplode) == 2) {
+                        $pushRow = $this->query->selectSettingLinePushDatabase($messageTextExplode[0]);
+                        
+                        if ($pushRow != false)
+                            $pushName = $messageTextExplode[0];
+                        
+                        if (filter_var($messageTextExplode[1], FILTER_VALIDATE_EMAIL) !== false)
+                            $email = $messageTextExplode[1];
+                    }
+                }
+                
+                $pushUserRow = $this->query->selectSettingLinePushUserDatabase("userId", $source['userId']);
+                
+                if ($type == "follow" && $pushUserRow == false) {
+                    $this->linePushUserDatabase("insert", Array(
+                        "",
+                        $source['userId'],
+                        "",
+                        0
+                    ));
+                }
+                else if ($type == "message" && $pushUserRow != false) {
+                    //$userRow = $this->query->selectUserDatabase($email);
+                    
+                    //if ($userRow != false) {
+                        $this->linePushUserDatabase("update", Array(
+                            $pushName,
+                            $source['userId'],
+                            $email,
+                            1
+                        ));
+                    //}
+                }
+                else if ($type == "unfollow" && $pushUserRow != false) {
+                    $this->linePushUserDatabase("update", Array(
+                        "",
+                        $source['userId'],
+                        "",
+                        0
+                    ));
+                }
+                
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingLinePushController_8");
+            }
+            else
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingLinePushController_9");
         }
         
         $response = new Response(json_encode($this->response));
         $response->headers->set("Access-Control-Allow-Origin", "*");
         $response->headers->set("Access-Control-Allow-Headers", "*");
-        $response->headers->set("Access-Control-Allow-Methods", "GET, OPTIONS");
+        $response->headers->set("Access-Control-Allow-Methods", "POST, OPTIONS");
         $response->headers->set("Accept", "application/json");
         $response->headers->set("Content-Type", "application/json");
         
@@ -299,5 +364,49 @@ class SettingLinePushController extends AbstractController {
         $rows = $this->query->selectAllSettingLinePushDatabase();
         
         $this->response['values']['wordTagListHtml'] = $this->utility->createWordTagListHtml($rows);
+    }
+    
+    private function linePushUserDatabase($type, $elements) {
+        if ($type == "insert") {
+            $query = $this->utility->getConnection()->prepare("INSERT INTO settings_line_push_user (
+                                                                    push_name,
+                                                                    user_id,
+                                                                    email,
+                                                                    active
+                                                                )
+                                                                VALUES (
+                                                                    :pushName,
+                                                                    :userId,
+                                                                    :email,
+                                                                    :active
+                                                                );");
+            
+            $query->bindValue(":pushName", $elements[0]);
+            $query->bindValue(":userId", $elements[1]);
+            $query->bindValue(":email", $elements[2]);
+            $query->bindValue(":active", $elements[3]);
+        }
+        else if ($type == "update") {
+            if ($elements[0] != "" && $elements[2] != "") {
+                $query = $this->utility->getConnection()->prepare("UPDATE settings_line_push_user
+                                                                    SET push_name = :pushName,
+                                                                        email = :email,
+                                                                        active = :active
+                                                                    WHERE user_id = :userId");
+
+                $query->bindValue(":pushName", $elements[0]);
+                $query->bindValue(":email", $elements[2]);
+            }
+            else {
+                $query = $this->utility->getConnection()->prepare("UPDATE settings_line_push_user
+                                                                    SET active = :active
+                                                                    WHERE user_id = :userId");
+            }
+            
+            $query->bindValue(":userId", $elements[1]);
+            $query->bindValue(":active", $elements[3]);
+        }
+        
+        return $query->execute();
     }
 }

@@ -1040,6 +1040,6 @@ class ApiBasicController extends AbstractController {
             $this->utility->sendMessageToSlackRoom("slack_iw_apiBasic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
         
         if ($this->apiBasicRow['line_active'] == true)
-            $this->utility->sendMessageToLineChat("line_push_apiBasic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
+            $this->utility->sendMessageToLineChatMultiple("Api basic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
     }
 }

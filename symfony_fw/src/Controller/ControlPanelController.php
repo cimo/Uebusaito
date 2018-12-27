@@ -109,15 +109,20 @@ class ControlPanelController extends AbstractController {
         $pC = "/$pA\s*$pA/";
         
         for ($a = 1; $a < $countTitle; $a++) {
-            if (preg_match("/<h2[^>]*>([^<]+)<\/h2>/", $title[$a], $matchs)) {
-                $name = trim($matchs[1]);
+            preg_match("/<h2[^>]*>([^<]+)<\/h2>/", $title[$a], $matchesA);
+                    
+            if (count($matchesA) > 0) {
+                $name = trim($matchesA[1]);
                 $titleExplode = explode("\n", $title[$a + 1]);
                 
                 foreach ($titleExplode as $key => $value) {
-                    if (preg_match($pB, $value, $matchs))
-                        $rows[$name][trim($matchs[1])] = array(trim($matchs[2]), trim($matchs[3]));
-                    else if (preg_match($pC, $value, $matchs))
-                        $rows[$name][trim($matchs[1])] = trim($matchs[2]);
+                    preg_match($pB, $value, $matchesB);
+                    preg_match($pC, $value, $matchesC);
+                            
+                    if (count($matchesB) > 0)
+                        $rows[$name][trim($matchesB[1])] = array(trim($matchesB[2]), trim($matchesB[3]));
+                    else if (count($matchesC) > 0)
+                        $rows[$name][trim($matchesC[1])] = trim($matchesC[2]);
                 }
             }
         }

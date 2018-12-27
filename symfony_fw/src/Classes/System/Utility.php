@@ -437,20 +437,20 @@ class Utility {
     
     public function requestParametersParse($parameters) {
         $result = Array();
-        $match = Array();
+        $matches = Array();
         
         foreach ($parameters as $key => $value) {
             if (is_object($value) == false)
                 $result[$key] = $value;
             else {
-                preg_match("#\[(.*?)\]#", $value->name, $match);
+                preg_match("#\[(.*?)\]#", $value->name, $matches);
                 
                 $keyTmp = "";
                 
-                if (count($match) == 0)
+                if (count($matches) == 0)
                     $keyTmp = $value->name;
                 else
-                    $keyTmp = $match[1];
+                    $keyTmp = $matches[1];
                     
                 $result[$keyTmp] = $value->value;
             }
@@ -894,9 +894,9 @@ class Utility {
             $postFields = Array();
             $postFields['to'] = $row['user_id'];
             $postFields['messages'] = Array(Array('type' => "text", 'text' => $text));
-
+            
             $curl = curl_init();
-
+            
             curl_setopt($curl, CURLOPT_URL, "https://api.line.me/v2/bot/message/push");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -906,9 +906,46 @@ class Utility {
             curl_setopt($curl, CURLOPT_HTTPHEADER, Array(
                 "Content-Type: application/json", "Authorization: Bearer " . $row['access_token']
             ));
-
+            
             $curlResponse = curl_exec($curl);
             curl_close($curl);
+        }
+    }
+    
+    public function sendMessageToLineChatMultiple($name, $text) {
+        $pushRow = $this->query->selectSettingLinePushDatabase($name);
+        $pushUserRow = $this->query->selectAllSettingLinePushUserDatabase("allPushName", $name);
+        
+        $to[] = $pushRow['user_id'];
+        
+        foreach ($pushUserRow as $key => $value) {
+            if ($value['push_name'] == $name && $value['active'] == 1)
+                $to[] = $value['user_id'];
+        }
+        
+        $to = array_unique($to);
+        
+        if ($pushRow != false) {
+            foreach ($to as $key => $value) {
+                $postFields = Array();
+                $postFields['to'] = $value;
+                $postFields['messages'] = Array(Array('type' => "text", 'text' => $text));
+
+                $curl = curl_init();
+
+                curl_setopt($curl, CURLOPT_URL, "https://api.line.me/v2/bot/message/push");
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($curl, CURLOPT_POST, true);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postFields));
+                curl_setopt($curl, CURLOPT_HTTPHEADER, Array(
+                    "Content-Type: application/json", "Authorization: Bearer " . $pushRow['access_token']
+                ));
+
+                $curlResponse = curl_exec($curl);
+                curl_close($curl);
+            }
         }
     }
     

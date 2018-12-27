@@ -48,3 +48,63 @@ Array
     [token] => token_basic
 )
 
+2018-12-27 17:31:46 - requestTestAction - IP[192.168.56.1]: Array
+(
+    [errorCode] => 0
+    [messages] => Array
+        (
+            [success] => ApiBasic request completed.
+        )
+
+)
+Array
+(
+    [event] => requestTest
+    [token] => token_basic
+)
+
+2018-12-27 17:33:07 - requestTestAction - IP[192.168.56.1]: Array
+(
+    [errorCode] => 0
+    [messages] => Array
+        (
+            [success] => ApiBasic request completed.
+        )
+
+)
+Array
+(
+    [event] => requestTest
+    [token] => token_basic
+)
+
+2018-12-27 17:33:55 - requestTestAction - IP[192.168.56.1]: Array
+(
+    [errorCode] => 0
+    [messages] => Array
+        (
+            [success] => ApiBasic request completed.
+        )
+
+)
+Array
+(
+    [event] => requestTest
+    [token] => token_basic
+)
+
+2018-12-27 17:46:58 - requestTestAction - IP[192.168.56.1]: Array
+(
+    [errorCode] => 0
+    [messages] => Array
+        (
+            [success] => ApiBasic request completed.
+        )
+
+)
+Array
+(
+    [event] => requestTest
+    [token] => token_basic
+)
+

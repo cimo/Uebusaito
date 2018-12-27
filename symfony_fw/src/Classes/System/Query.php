@@ -120,6 +120,40 @@ class Query {
         return $query->fetchAll();
     }
     
+    public function selectSettingLinePushUserDatabase($type, $value) {
+        if ($type == "userId") {
+            $query = $this->connection->prepare("SELECT * FROM settings_line_push_user
+                                                    WHERE user_id = :userId");
+            
+            $query->bindValue(":userId", $value);
+        }
+        else if ($type == "pushName") {
+            $query = $this->connection->prepare("SELECT * FROM settings_line_push_user
+                                                    WHERE push_name = :pushName");
+            
+            $query->bindValue(":pushName", $value);
+        }
+        
+        $query->execute();
+        
+        return $query->fetch();
+    }
+    
+    public function selectAllSettingLinePushUserDatabase($type, $value = "") {
+        if ($type == "all")
+            $query = $this->connection->prepare("SELECT * FROM settings_line_push_user");
+        else if ($type == "allPushName") {
+            $query = $this->connection->prepare("SELECT * FROM settings_line_push_user
+                                                    WHERE push_name = :pushName");
+            
+            $query->bindValue(":pushName", $value);
+        }
+        
+        $query->execute();
+        
+        return $query->fetchAll();
+    }
+    
     public function selectLanguageDatabase($code) {
         $query = $this->connection->prepare("SELECT * FROM languages
                                                 WHERE code = :code");
