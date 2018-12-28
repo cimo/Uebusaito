@@ -6,6 +6,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class SettingLinePushFormType extends AbstractType {
     public function getBlockPrefix() {
@@ -21,7 +22,11 @@ class SettingLinePushFormType extends AbstractType {
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add("name", TextType::class, Array(
+        $builder->add("event", HiddenType::class, Array(
+            'required' => false,
+            'data' => "create"
+        ))
+        ->add("name", TextType::class, Array(
             'required' => true,
             'label' => "settingLinePushFormType_1"
         ))

@@ -1,4 +1,4 @@
-/* global ajax, popupEasy, materialDesign */
+/* global ajax, popupEasy, materialDesign, tableAndPagination */
 
 var controlPanelSettingLinePush = new ControlPanelSettingLinePush();
 
@@ -10,8 +10,17 @@ function ControlPanelSettingLinePush() {
     
     // Functions public
     self.init = function() {
-        $("#form_cp_setting_line_push_create").on("submit", "", function(event) {
+        var tableAndPagination = new TableAndPagination();
+        tableAndPagination.init();
+        tableAndPagination.create(window.url.cpSettingLinePushRender, "#cp_setting_line_push_user_result", false);
+        tableAndPagination.search();
+        tableAndPagination.pagination();
+        
+        $("#form_cp_setting_line_push_render").on("submit", "", function(event) {
             event.preventDefault();
+            
+            if ($(".tableAndPagination .mdc-text-field__input").is(":focus") === true)
+                return false;
             
             ajax.send(
                 true,
@@ -26,14 +35,12 @@ function ControlPanelSettingLinePush() {
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
-                    var name = $("#form_settingLinePush_name").val();
-                    
                     if (xhr.response.values.wordTagListHtml !== undefined) {
+                        $("#form_cp_setting_line_push_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
+                        
                         resetField();
 
                         materialDesign.refresh();
-                        
-                        $("#form_cp_setting_line_push_create").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
                     }
                 },
                 null,
@@ -41,7 +48,7 @@ function ControlPanelSettingLinePush() {
             );
         });
         
-        $("#form_cp_setting_line_push_create").on("click", ".button_reset", function(event) {
+        $("#form_cp_setting_line_push_render").on("click", ".button_reset", function(event) {
             ajax.send(
                 true,
                 window.url.cpSettingLinePushReset,
@@ -69,7 +76,7 @@ function ControlPanelSettingLinePush() {
             );
         });
         
-        $("#form_cp_setting_line_push_create .wordTag_container").on("click", ".edit", function(event) {
+        $("#form_cp_setting_line_push_render .wordTag_container").on("click", ".edit", function(event) {
             if ($(event.target).hasClass("delete") === true)
                 return;
             
@@ -77,7 +84,7 @@ function ControlPanelSettingLinePush() {
             
             ajax.send(
                 true,
-                window.url.cpSettingLinePushCreate,
+                window.url.cpSettingLinePushRender,
                 "post",
                 {
                     'event': "profile",
@@ -97,9 +104,9 @@ function ControlPanelSettingLinePush() {
                         $("#form_settingLinePush_userId").val(xhr.response.values.entity[1]);
                         $("#form_settingLinePush_accessToken").val(xhr.response.values.entity[2]);
                         
-                        materialDesign.refresh();
+                        $("#form_cp_setting_line_push_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
                         
-                        $("#form_cp_setting_line_push_create").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
+                        materialDesign.refresh();
                     }
                 },
                 null,
@@ -107,7 +114,7 @@ function ControlPanelSettingLinePush() {
             );
         });
         
-        $("#form_cp_setting_line_push_create .wordTag_container").on("click", ".delete", function(event) {
+        $("#form_cp_setting_line_push_render .wordTag_container").on("click", ".delete", function(event) {
             var id = $.trim($(this).parent().find(".mdc-chip__text").attr("data-id"));
             
             popupEasy.create(
@@ -132,9 +139,9 @@ function ControlPanelSettingLinePush() {
                             ajax.reply(xhr, "");
 
                             if (xhr.response.values.wordTagListHtml !== undefined) {
+                                $("#form_cp_setting_line_push_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
+                                
                                 resetField();
-
-                                $("#form_cp_setting_line_push_create").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
                             }
                         },
                         null,

@@ -229,6 +229,7 @@ function TableAndPagination() {
     
     function send() {
         var data = {
+            'event': "tableAndPagination",
             'searchWritten': $(idResult).find(".tableAndPagination .mdc-text-field__input").val(),
             'paginationCurrent': current,
             'token': window.session.token

@@ -1,6 +1,6 @@
 {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}
 
-<form id="form_cp_setting_line_push_create" action="{{path("cp_setting_line_push_create", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
+<form id="form_cp_setting_line_push_render" action="{{path("cp_setting_line_push_render", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
     <fieldset class="accordion_container">
         <legend>{% trans %}settingLinePush_1{% endtrans %}</legend>
         <p>{% trans %}settingLinePush_2{% endtrans %}</p>
@@ -8,6 +8,7 @@
         <div class="accordion">
             <button class="mdc-button mdc-button--dense mdc-button--raised button_reset" type="button">{% trans %}settingLinePush_3{% endtrans %}</button>
             
+            {{form_row(form.event)}}
             {{form_row(form.name, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
             {{form_row(form.userId, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
             {{form_row(form.accessToken, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
@@ -19,6 +20,18 @@
             <div class="wordTag_container">
                 {{response.values.wordTagListHtml|raw}}
             </div>
+            
+            {% if (response.values.listHtml is defined and response.values.count > 0) %}
+                <div id="cp_setting_line_push_user_result">
+
+                    {{-include("@templateRoot/include/table_and_pagination.html.twig")-}}
+
+                    <i class="material-icons rotate_loop update_loading">autorenew</i>
+                    <div class="list_result">
+                        {{response.values.listHtml|raw}}
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </fieldset>
 </form>

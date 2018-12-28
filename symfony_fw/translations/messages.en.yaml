@@ -668,6 +668,8 @@ date.time: H:i:s
 "settingLinePushController_7": "Push not resetted!"
 "settingLinePushController_8": "Push user added"
 "settingLinePushController_9": "Push user not added!"
+"settingLinePushController_10": "Active"
+"settingLinePushController_11": "Not active"
 
 # Microservice deploy
 "microserviceDeployRender_1": "Microservice deploy render form"

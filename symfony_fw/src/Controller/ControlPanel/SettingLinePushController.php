@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
+use App\Classes\System\TableAndPagination;
 
 use App\Entity\SettingLinePush;
 use App\Form\SettingLinePushFormType;
@@ -33,15 +34,15 @@ class SettingLinePushController extends AbstractController {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_setting_line_push_create",
-    *   path = "/cp_setting_line_push_create/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_setting_line_push_render",
+    *   path = "/cp_setting_line_push_render/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/setting_line_push.html.twig")
     */
-    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
+    public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
@@ -53,6 +54,7 @@ class SettingLinePushController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
+        $this->tableAndPagination = new TableAndPagination($this->utility);
         
         $this->urlLocale = $this->utility->checkLanguage($request);
         
@@ -61,37 +63,46 @@ class SettingLinePushController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
         // Logic
+        $pushUserRows = $this->query->selectAllSettingLinePushUserDatabase("all");
+        
+        $tableAndPagination = $this->tableAndPagination->request($pushUserRows, 20, "pushUser", true, true);
+        
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
+        
+        $this->response['values']['pushUserRows'] = $pushUserRows;
+        
         $this->settingLinePushList();
         
-        if ($request->get("event") == null) {
-            if (isset($_SESSION['settingLinePushProfileId']) == false)
-                $settingLinePushEntity = new SettingLinePush();
-            else
-                $settingLinePushEntity = $this->entityManager->getRepository("App\Entity\SettingLinePush")->find($_SESSION['settingLinePushProfileId']);
+        if (isset($_SESSION['settingLinePushProfileId']) == false && $request->get("id") == null)
+            $settingLinePushEntity = new SettingLinePush();
+        else {
+            $id = $request->get("id") == null ? $_SESSION['settingLinePushProfileId'] : $request->get("id");
             
-            $form = $this->createForm(SettingLinePushFormType::class, $settingLinePushEntity, Array(
-                'validation_groups' => Array('setting_line_push')
-            ));
-            $form->handleRequest($request);
+            $_SESSION['settingLinePushProfileId'] = $id;
             
-            if ($request->isMethod("POST") == true && $checkUserRole == true) {
-                if ($form->isSubmitted() == true && $form->isValid() == true) {
-                    if (isset($_SESSION['settingLinePushProfileId']) == true)
-                        unset($_SESSION['settingLinePushProfileId']);
-                    
-                    // Database insert / update
-                    $this->entityManager->persist($settingLinePushEntity);
-                    $this->entityManager->flush();
-                    
-                    $this->settingLinePushList();
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingLinePushController_1");
+            $settingLinePushEntity = $this->entityManager->getRepository("App\Entity\SettingLinePush")->find($_SESSION['settingLinePushProfileId']);
+        }
+        
+        $form = $this->createForm(SettingLinePushFormType::class, $settingLinePushEntity, Array(
+            'validation_groups' => Array('setting_line_push')
+        ));
+        $form->handleRequest($request);
+        
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($request->get("event") == "profile") {
+                if ($settingLinePushEntity != null) {
+                    $this->response['values']['entity'] = Array(
+                        $settingLinePushEntity->getName(),
+                        $settingLinePushEntity->getUserId(),
+                        $settingLinePushEntity->getAccessToken()
+                    );
                 }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingLinePushController_2");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
-                
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingLinePushController_3");
+
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -99,26 +110,30 @@ class SettingLinePushController extends AbstractController {
                     'response' => $this->response
                 ));
             }
-        }
-        else if ($request->get("event") == "profile") {
-            $id = $request->get("id") != null ? $request->get("id") : 0;
-            
-            $settingLinePushEntity = $this->entityManager->getRepository("App\Entity\SettingLinePush")->find($id);
-            
-            if ($settingLinePushEntity != null) {
-                $_SESSION['settingLinePushProfileId'] = $id;
-                
-                $this->response['values']['entity'] = Array(
-                    $settingLinePushEntity->getName(),
-                    $settingLinePushEntity->getUserId(),
-                    $settingLinePushEntity->getAccessToken()
-                );
-                
-                $this->settingLinePushList();
+            else if ($request->get("event") == "tableAndPagination") {
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
             }
-            else
-                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingLinePushController_3");
             
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
+                if (isset($_SESSION['settingLinePushProfileId']) == true)
+                    unset($_SESSION['settingLinePushProfileId']);
+
+                // Database insert / update
+                $this->entityManager->persist($settingLinePushEntity);
+                $this->entityManager->flush();
+
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingLinePushController_1");
+            }
+            else {
+                $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingLinePushController_2");
+                $this->response['errors'] = $this->ajax->errors($form);
+            }
+
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -408,5 +423,35 @@ class SettingLinePushController extends AbstractController {
         }
         
         return $query->execute();
+    }
+    
+    private function createListHtml($elements) {
+        $html = "<ul class=\"mdc-list mdc-list--two-line mdc-list--avatar-list cp_line_push_user\">";
+        
+        $elementsCount = count($elements);
+        
+        foreach ($elements as $key => $value) {
+            $html .= "<li class=\"mdc-list-item\" data-comment=\"{$value['id']}\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$value['push_name']}
+                    <span class=\"mdc-list-item__secondary-text\">
+                        {$value['user_id']}<br>
+                        {$value['email']}<br>";
+                        
+                        $isActive = $value['active'] == true ? $this->utility->getTranslator()->trans("settingLinePushController_10") : $this->utility->getTranslator()->trans("settingLinePushController_11");
+                    
+                        $html .= "$isActive
+                    </span>
+                </span>
+            </li>";
+            
+            if ($key < $elementsCount - 1)
+                $html .= "<li role=\"separator\" class=\"mdc-list-divider\"></li>";
+        }
+        
+        $html .= "</ul>";
+        
+        return $html;
     }
 }
