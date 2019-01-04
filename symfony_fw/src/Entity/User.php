@@ -366,7 +366,9 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $roles = [];
     
     public function setRoles(array $roles) {
-        $this->roles = $roles;
+        $rolesImplode = implode(",", $roles);
+        
+        $this->roles = $rolesImplode;
     }
     
     // ---

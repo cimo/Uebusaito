@@ -47,7 +47,7 @@ class ApiBasicController extends AbstractController {
     * @Template("@templateRoot/microservice/api/basic/create.html.twig")
     */
     public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -59,13 +59,9 @@ class ApiBasicController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
-        // Logic
         $apiBasicEntity = new ApiBasic();
         
         $_SESSION['apiBasicProfileId'] = 0;
@@ -125,7 +121,7 @@ class ApiBasicController extends AbstractController {
     * @Template("@templateRoot/microservice/api/basic/select.html.twig")
     */
     public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
                 
@@ -137,13 +133,9 @@ class ApiBasicController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
-        // Logic
         $_SESSION['apiBasicProfileId'] = 0;
         
         $rows = $this->selectAllApiBasicDatabase(true);
@@ -185,7 +177,7 @@ class ApiBasicController extends AbstractController {
     * @Template("@templateRoot/microservice/api/basic/profile.html.twig")
     */
     public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -197,13 +189,9 @@ class ApiBasicController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
                     || $this->isCsrfTokenValid("intention", $request->get("form_apiBasic_select")['_token']) == true) {
@@ -256,7 +244,7 @@ class ApiBasicController extends AbstractController {
     * @Template("@templateRoot/microservice/api/basic/profile.html.twig")
     */
     public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -268,13 +256,9 @@ class ApiBasicController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
-        // Logic
         $apiBasicEntity = $this->entityManager->getRepository("App\Entity\ApiBasic")->find($_SESSION['apiBasicProfileId']);
         
         $form = $this->createForm(ApiBasicFormType::class, $apiBasicEntity, Array(
@@ -338,7 +322,7 @@ class ApiBasicController extends AbstractController {
     * @Template("@templateRoot/microservice/api/basic/delete.html.twig")
     */
     public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -350,13 +334,9 @@ class ApiBasicController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
@@ -408,7 +388,7 @@ class ApiBasicController extends AbstractController {
     * )
     */
     public function logAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -420,13 +400,9 @@ class ApiBasicController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "log") {
@@ -456,7 +432,7 @@ class ApiBasicController extends AbstractController {
     * )
     */
     public function graphAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -468,13 +444,9 @@ class ApiBasicController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "graph") {
@@ -1037,9 +1009,9 @@ class ApiBasicController extends AbstractController {
             $this->apiBasicRequestDatabase("update", $id, $name, $requestRow);
         
         if ($this->apiBasicRow['slack_active'] == true)
-            $this->utility->sendMessageToSlackRoom("slack_iw_apiBasic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
+            $this->utility->sendMessageToSlackRoom("api_basic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
         
         if ($this->apiBasicRow['line_active'] == true)
-            $this->utility->sendMessageToLineChatMultiple("Api basic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
+            $this->utility->sendMessageToLineChatMultiple("api_basic", date("Y-m-d H:i:s") . " - IP[{$_SERVER['REMOTE_ADDR']}] - Message: $message");
     }
 }

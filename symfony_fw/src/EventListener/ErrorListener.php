@@ -40,11 +40,12 @@ class ErrorListener {
         if ($exception instanceof NotFoundHttpException) {
             if ($event->getRequest()->get("_route") == null) {
                 $session = $this->requestStack->getCurrentRequest()->getSession();
+                $session = $session->get("php_session");
                 
                 $url = $this->router->generate(
                     "root_render",
                     Array(
-                        '_locale' => $session->get("php_session")['languageTextCode'],
+                        '_locale' => $session['languageTextCode'],
                         'urlCurrentPageId' => 2,
                         'urlExtra' => "",
                         'error' => "404"

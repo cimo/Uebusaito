@@ -44,7 +44,7 @@ class RoleUserController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/roleUser_create.html.twig")
     */
     public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -56,13 +56,9 @@ class RoleUserController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
-        // Logic
         $roleUserEntity = new RoleUser();
         
         $_SESSION['roleUserProfileId'] = 0;
@@ -113,7 +109,7 @@ class RoleUserController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/roleUser_select.html.twig")
     */
     public function selectAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -126,13 +122,9 @@ class RoleUserController extends AbstractController {
         $this->ajax = new Ajax($this->utility);
         $this->tableAndPagination = new TableAndPagination($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
-        // Logic
         $_SESSION['roleUserProfileId'] = 0;
         
         $userRoleRows = $this->query->selectAllRoleUserDatabase();
@@ -181,7 +173,7 @@ class RoleUserController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/roleUser_profile.html.twig")
     */
     public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -193,13 +185,9 @@ class RoleUserController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
                     || $this->isCsrfTokenValid("intention", $request->get("form_roleUser_select")['_token']) == true) {
@@ -254,7 +242,7 @@ class RoleUserController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/roleUser_profile.html.twig")
     */
     public function profileSaveAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -266,13 +254,9 @@ class RoleUserController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
-        // Logic
         $roleUserEntity = $this->entityManager->getRepository("App\Entity\RoleUser")->find($_SESSION['roleUserProfileId']);
         
         $form = $this->createForm(RoleUserFormType::class, $roleUserEntity, Array(
@@ -331,7 +315,7 @@ class RoleUserController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/roleUser_delete.html.twig")
     */
     public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -343,13 +327,9 @@ class RoleUserController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {

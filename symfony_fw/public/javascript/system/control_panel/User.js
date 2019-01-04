@@ -257,7 +257,6 @@ function ControlPanelUser() {
             function() {
                 ajax.send(
                     true,
-                    false,
                     window.url.cpUserDelete,
                     "post",
                     {

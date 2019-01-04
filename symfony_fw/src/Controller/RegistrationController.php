@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController {
     * @Template("@templateRoot/render/registration.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator, UserPasswordEncoderInterface $passwordEncoder) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -54,10 +54,6 @@ class RegistrationController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator, $passwordEncoder);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
         
         // Logic
         $settingRow = $this->query->selectSettingDatabase();
@@ -110,8 +106,9 @@ class RegistrationController extends AbstractController {
                                 $messageEmail,
                                 $settingRow['email_admin']
                             );
-
-                            mkdir("{$this->utility->getPathWeb()}/files/user/{$userEntity->getUsername()}");
+                            
+                            if (file_exists("{$this->utility->getPathWeb()}/files/user/{$userEntity->getUsername()}") == false)
+                                mkdir("{$this->utility->getPathWeb()}/files/user/{$userEntity->getUsername()}");
 
                             // Database insert
                             $this->entityManager->persist($userEntity);

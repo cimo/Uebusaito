@@ -17,8 +17,6 @@ class SettingLinePush {
      */
     private $id;
     
-    private $event = "";
-    
     /**
      * @ORM\Column(name="name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
@@ -35,10 +33,6 @@ class SettingLinePush {
     private $accessToken = "";
     
     // Properties
-    public function setEvent($value) {
-        $this->event = $value;
-    }
-    
     public function setName($value) {
         $this->name = $value;
     }
@@ -55,10 +49,6 @@ class SettingLinePush {
     
     public function getId() {
         return $this->id;
-    }
-    
-    public function getEvent() {
-        return $this->event;
     }
     
     public function getName() {

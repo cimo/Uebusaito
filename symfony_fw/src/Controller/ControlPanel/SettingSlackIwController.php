@@ -32,16 +32,16 @@ class SettingSlackIwController extends AbstractController {
     // Functions public
     /**
     * @Route(
-    *   name = "cp_setting_slack_iw_create",
-    *   path = "/cp_setting_slack_iw_create/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   name = "cp_setting_slack_iw_render",
+    *   path = "/cp_setting_slack_iw_render/{_locale}/{urlCurrentPageId}/{urlExtra}",
     *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
     *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
     *	methods={"POST"}
     * )
     * @Template("@templateRoot/render/control_panel/setting_slack_iw.html.twig")
     */
-    public function createAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+    public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -53,44 +53,40 @@ class SettingSlackIwController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
-        // Logic
         $this->settingSlackIwList();
         
-        if ($request->get("event") == null) {
-            if (isset($_SESSION['settingSlackIwProfileId']) == false)
-                $settingSlackIwEntity = new SettingSlackIw();
-            else
-                $settingSlackIwEntity = $this->entityManager->getRepository("App\Entity\SettingSlackIw")->find($_SESSION['settingSlackIwProfileId']);
+        if (isset($_SESSION['settingSlackIwProfileId']) == false && $request->get("id") == null)
+            $settingSlackIwEntity = new SettingSlackIw();
+        else {
+            $id = $request->get("id") == null ? $_SESSION['settingSlackIwProfileId'] : $request->get("id");
             
-            $form = $this->createForm(SettingSlackIwFormType::class, $settingSlackIwEntity, Array(
-                'validation_groups' => Array('setting_slack_iw')
-            ));
-            $form->handleRequest($request);
+            $_SESSION['settingSlackIwProfileId'] = $id;
             
-            if ($request->isMethod("POST") == true && $checkUserRole == true) {
-                if ($form->isSubmitted() == true && $form->isValid() == true) {
-                    if (isset($_SESSION['settingSlackIwProfileId']) == true)
-                        unset($_SESSION['settingSlackIwProfileId']);
-                    
-                    // Database insert / update
-                    $this->entityManager->persist($settingSlackIwEntity);
-                    $this->entityManager->flush();
+            $settingSlackIwEntity = $this->entityManager->getRepository("App\Entity\SettingSlackIw")->find($_SESSION['settingSlackIwProfileId']);
+        }
+        
+        $form = $this->createForm(SettingSlackIwFormType::class, $settingSlackIwEntity, Array(
+            'validation_groups' => Array('setting_slack_iw')
+        ));
+        $form->handleRequest($request);
+        
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($request->get("event") == "profile") {
+                if ($settingSlackIwEntity != null) {
+                    $this->response['values']['entity'] = Array(
+                        $settingSlackIwEntity->getName(),
+                        $settingSlackIwEntity->getHook(),
+                        $settingSlackIwEntity->getChannel()
+                    );
                     
                     $this->settingSlackIwList();
-                    
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingSlackIwController_1");
                 }
-                else {
-                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingSlackIwController_2");
-                    $this->response['errors'] = $this->ajax->errors($form);
-                }
-                
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingSlackIwController_1");
+
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -98,26 +94,24 @@ class SettingSlackIwController extends AbstractController {
                     'response' => $this->response
                 ));
             }
-        }
-        else if ($request->get("event") == "profile") {
-            $id = $request->get("id") != null ? $request->get("id") : 0;
             
-            $settingSlackIwEntity = $this->entityManager->getRepository("App\Entity\SettingSlackIw")->find($id);
-            
-            if ($settingSlackIwEntity != null) {
-                $_SESSION['settingSlackIwProfileId'] = $id;
-                
-                $this->response['values']['entity'] = Array(
-                    $settingSlackIwEntity->getName(),
-                    $settingSlackIwEntity->getHook(),
-                    $settingSlackIwEntity->getChannel()
-                );
+            if ($form->isSubmitted() == true && $form->isValid() == true) {
+                if (isset($_SESSION['settingSlackIwProfileId']) == true)
+                    unset($_SESSION['settingSlackIwProfileId']);
+
+                // Database insert / update
+                $this->entityManager->persist($settingSlackIwEntity);
+                $this->entityManager->flush();
                 
                 $this->settingSlackIwList();
+
+                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingSlackIwController_2");
             }
-            else
+            else {
                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingSlackIwController_3");
-            
+                $this->response['errors'] = $this->ajax->errors($form);
+            }
+
             return $this->ajax->response(Array(
                 'urlLocale' => $this->urlLocale,
                 'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -146,7 +140,7 @@ class SettingSlackIwController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/setting_slack_iw.html.twig")
     */
     public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -158,13 +152,9 @@ class SettingSlackIwController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
@@ -216,7 +206,7 @@ class SettingSlackIwController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/setting_slack_iw.html.twig")
     */
     public function resetAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -228,13 +218,9 @@ class SettingSlackIwController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "reset") {

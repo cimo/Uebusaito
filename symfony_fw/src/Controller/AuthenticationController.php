@@ -43,7 +43,7 @@ class AuthenticationController extends AbstractController {
     * @Template("@templateRoot/render/module/authentication.html.twig")
     */
     public function moduleAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator, AuthenticationUtils $authenticationUtils) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -54,10 +54,6 @@ class AuthenticationController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
         
         // Logic
         $form = $this->createForm(AuthenticationFormType::class, null, Array());

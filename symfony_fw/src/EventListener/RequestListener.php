@@ -36,17 +36,16 @@ class RequestListener {
     }
     
     public function onKernelRequest(GetResponseEvent $event) {
-        $request = $event->getRequest();
-        
-        //$request->setLocale("en");
-        //$request->setDefaultLocale("en");
-        
         if (HttpKernelInterface::MASTER_REQUEST != $event->getRequestType())
             return;
         
         $settingRow = $this->query->selectSettingDatabase();
         
-        $url = $this->utility->checkSessionOverTime($request, false, $this->router);
+        $request = $event->getRequest();
+        
+        $request = $this->utility->checkLanguage($request, $settingRow);
+        
+        $url = $this->utility->checkSessionOverTime($request, $this->router);
         
         if ($url != "")
             $event->setResponse(new RedirectResponse($url));

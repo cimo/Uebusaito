@@ -46,12 +46,15 @@ then
     
     if [ $success -eq 1 ]
     then
+        cd $rootWebPath/symfony_fw
+        sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
+
         echo "Settings project in progress, please wait..."
 
         sudo chown -R $userWebScript $rootWebPath
         sudo find $rootWebPath -type d -exec chmod 775 {} \;
         sudo find $rootWebPath -type f -exec chmod 664 {} \;
-        
+
         echo "Finito ciao ciao =D"
     fi
 else

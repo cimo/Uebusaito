@@ -26,6 +26,8 @@ function Language() {
                 "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
+                    ajax.reply(xhr, "");
+                    
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined)
                         window.location.href = xhr.response.values.url;
                 },
@@ -52,6 +54,8 @@ function Language() {
                 "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
+                    ajax.reply(xhr, "#" + event.currentTarget.id);
+                    
                     if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined) {
                         wysiwyg.historyClear();
                         
@@ -59,9 +63,7 @@ function Language() {
                         $("#form_cp_page_profile").find("input[name='form_page[title]']").val(xhr.response.values.pageTitle);
                         $(".wysiwyg").find(".editor").contents().find("body").html(xhr.response.values.pageArgument);
                         $("#form_cp_page_profile").find("input[name='form_page[menuName]']").val(xhr.response.values.pageMenuName);
-                    }
-                    else
-                        ajax.reply(xhr, "#" + event.currentTarget.id);
+                    }   
                 },
                 null,
                 null

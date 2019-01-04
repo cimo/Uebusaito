@@ -30,7 +30,7 @@ class PageViewController extends AbstractController {
     * @Template("@templateRoot/render/module/page_view.html.twig")
     */
     public function moduleAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = ($urlCurrentPageId <= 0 || empty($urlCurrentPageId) == true) ? 2 : $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -41,10 +41,6 @@ class PageViewController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
         
         // Logic
         $moduleEntity = $this->entityManager->getRepository("App\Entity\Module")->find(2);

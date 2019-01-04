@@ -43,7 +43,7 @@ class RecoverPasswordController extends AbstractController {
     * @Template("@templateRoot/render/recover_password.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator, UserPasswordEncoderInterface $passwordEncoder) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -54,10 +54,6 @@ class RecoverPasswordController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator, $passwordEncoder);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
         
         // Logic
         $settingRow = $this->query->selectSettingDatabase();

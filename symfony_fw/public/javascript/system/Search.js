@@ -31,10 +31,10 @@ function Search() {
                     "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
+                        ajax.reply(xhr, "#" + event.currentTarget.id);
+                        
                         if ($.isEmptyObject(xhr.response) === false && xhr.response.values !== undefined)
                             window.location.href = xhr.response.values.url;
-                        else
-                            ajax.reply(xhr, "#" + event.currentTarget.id);
                     },
                     null,
                     null

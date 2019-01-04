@@ -641,9 +641,9 @@ date.time: H:i:s
 "settingSlackIwFormType_3": "Channel"
 "settingSlackIwFormType_4": "Send"
 
-"settingSlackIwController_1": "Incoming webhook create completed."
-"settingSlackIwController_2": "Incoming webhook not created!"
-"settingSlackIwController_3": "Incoming webhook not selected!"
+"settingSlackIwController_1": "Incoming webhook not selected!"
+"settingSlackIwController_2": "Incoming webhook create completed."
+"settingSlackIwController_3": "Incoming webhook not created!"
 "settingSlackIwController_4": "Incoming webhook delete completed."
 "settingSlackIwController_5": "Incoming webhook not deleted!"
 "settingSlackIwController_6": "Incoming webhook reset completed."

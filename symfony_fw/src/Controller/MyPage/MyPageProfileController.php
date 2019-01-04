@@ -39,7 +39,7 @@ class MyPageProfileController extends AbstractController {
     * @Template("@templateRoot/render/myPage.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -62,7 +62,7 @@ class MyPageProfileController extends AbstractController {
     * @Template("@templateRoot/render/my_page/myPage_profile.html.twig")
     */
     public function profileAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -74,13 +74,9 @@ class MyPageProfileController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
-        // Logic
         $usernameOld = $this->getUser()->getUsername();
         
         $settingRow = $this->query->selectSettingDatabase();
@@ -161,7 +157,7 @@ class MyPageProfileController extends AbstractController {
     * @Template("@templateRoot/render/my_page/myPage_profile_password.html.twig")
     */
     public function passwordAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator, UserPasswordEncoderInterface $passwordEncoder) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -173,13 +169,9 @@ class MyPageProfileController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
-        // Logic
         $form = $this->createForm(PasswordFormType::class, null, Array(
             'validation_groups' => Array('profile_password')
         ));
@@ -232,7 +224,7 @@ class MyPageProfileController extends AbstractController {
     * @Template("@templateRoot/render/my_page/myPage_profile_credit.html.twig")
     */
     public function creditAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -244,13 +236,9 @@ class MyPageProfileController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_USER"), $this->getUser());
         
-        // Logic
         $settingRow = $this->query->selectSettingDatabase();
         
         if ($settingRow['credit'] == true) {
@@ -300,7 +288,7 @@ class MyPageProfileController extends AbstractController {
     * )
     */
     public function uploadAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -312,10 +300,6 @@ class MyPageProfileController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         $this->upload = new Upload($this->utility);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
         
         // Logic
         $path = "";
@@ -353,7 +337,7 @@ class MyPageProfileController extends AbstractController {
     * )
     */
     public function creditPayPalAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -364,10 +348,6 @@ class MyPageProfileController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
-        
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
         
         // Logic
         return new Response();

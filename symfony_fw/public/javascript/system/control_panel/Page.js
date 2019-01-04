@@ -286,10 +286,6 @@ function ControlPanelPage() {
 
                         if ($.isEmptyObject(xhr.response.messages.success) === false) {
                             profileFocus = false;
-
-                            //$("#cp_page_select_result").html("");
-                            
-                            //$("#cp_page_select_result_desktop .refresh").click();
                         }
                     },
                     null,
@@ -356,6 +352,8 @@ function ControlPanelPage() {
                     "application/x-www-form-urlencoded; charset=UTF-8",
                     null,
                     function(xhr) {
+                        ajax.reply(xhr, "");
+                        
                         if (xhr.response.values.text !== undefined && xhr.response.values.button !== undefined && xhr.response.values.pageSelectHtml !== undefined) {
                             popupEasy.create(
                                 window.text.index_5,
@@ -415,11 +413,8 @@ function ControlPanelPage() {
 
                             utility.pageSelectFieldWithDisabledElement("#cp_page_delete_parent_new", xhr);
                         }
-                        else {
-                            ajax.reply(xhr, "");
-                            
+                        else
                             deleteResponse(xhr);
-                        }
                     },
                     null,
                     null

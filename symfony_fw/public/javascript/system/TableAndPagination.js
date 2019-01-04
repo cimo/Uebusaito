@@ -245,7 +245,7 @@ function TableAndPagination() {
             true,
             "application/x-www-form-urlencoded; charset=UTF-8",
             function() {
-                $(idResult).find(".update_loading").css("visibility", "visible");
+                $(idResult).find(".update_loading").css("display", "inline-block");
                 
                 $(idResult).find("table tbody").css("visibility", "hidden");
             },
@@ -264,7 +264,7 @@ function TableAndPagination() {
                 
                 clickedEvent = false;
                 
-                $(idResult).find(".update_loading").css("visibility", "hidden");
+                $(idResult).find(".update_loading").css("display", "none");
             },
             null,
             null

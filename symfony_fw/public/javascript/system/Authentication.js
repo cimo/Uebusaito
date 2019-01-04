@@ -24,9 +24,9 @@ function Authentication() {
                 "application/x-www-form-urlencoded; charset=UTF-8",
                 null,
                 function(xhr) {
+                    ajax.reply(xhr, "#" + event.currentTarget.id);
+                    
                     if (xhr.response.messages !== undefined) {
-                        ajax.reply(xhr, "#" + event.currentTarget.id);
-                        
                         if (xhr.response.values !== undefined && xhr.response.values.captchaReload === true)
                             captcha.image();
                     }

@@ -43,7 +43,7 @@ class SettingLinePushController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/setting_line_push.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -56,13 +56,9 @@ class SettingLinePushController extends AbstractController {
         $this->ajax = new Ajax($this->utility);
         $this->tableAndPagination = new TableAndPagination($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
-        // Logic
         $pushUserRows = $this->query->selectAllSettingLinePushUserDatabase("all");
         
         $tableAndPagination = $this->tableAndPagination->request($pushUserRows, 20, "pushUser", true, true);
@@ -99,6 +95,8 @@ class SettingLinePushController extends AbstractController {
                         $settingLinePushEntity->getUserId(),
                         $settingLinePushEntity->getAccessToken()
                     );
+                    
+                    $this->settingLinePushList();
                 }
                 else
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingLinePushController_3");
@@ -126,6 +124,8 @@ class SettingLinePushController extends AbstractController {
                 // Database insert / update
                 $this->entityManager->persist($settingLinePushEntity);
                 $this->entityManager->flush();
+                
+                $this->settingLinePushList();
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingLinePushController_1");
             }
@@ -162,7 +162,7 @@ class SettingLinePushController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/setting_line_push.html.twig")
     */
     public function deleteAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -174,13 +174,9 @@ class SettingLinePushController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "delete") {
@@ -232,7 +228,7 @@ class SettingLinePushController extends AbstractController {
     * @Template("@templateRoot/render/control_panel/setting_line_push.html.twig")
     */
     public function resetAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
-        $this->urlLocale = $_locale;
+        $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
         $this->urlCurrentPageId = $urlCurrentPageId;
         $this->urlExtra = $urlExtra;
         
@@ -244,13 +240,9 @@ class SettingLinePushController extends AbstractController {
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
         
-        $this->urlLocale = $this->utility->checkLanguage($request);
-        
-        $this->utility->checkSessionOverTime($request);
-        
+        // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
-        // Logic
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "reset") {
@@ -311,7 +303,7 @@ class SettingLinePushController extends AbstractController {
                 $message = isset($this->parameters['events'][0]['message']) == true ? $this->parameters['events'][0]['message'] : "";
                 
                 $pushName = "";
-                $email = "";
+                $pushEmail = "";
                 
                 if (isset($message['text']) == true) {
                     $messageTextExplode = explode("/", $message['text']);
@@ -320,10 +312,10 @@ class SettingLinePushController extends AbstractController {
                         $pushRow = $this->query->selectSettingLinePushDatabase($messageTextExplode[0]);
                         
                         if ($pushRow != false)
-                            $pushName = $messageTextExplode[0];
+                            $pushName = trim($messageTextExplode[0]);
                         
                         if (filter_var($messageTextExplode[1], FILTER_VALIDATE_EMAIL) !== false)
-                            $email = $messageTextExplode[1];
+                            $pushEmail = trim($messageTextExplode[1]);
                     }
                 }
                 
@@ -338,13 +330,13 @@ class SettingLinePushController extends AbstractController {
                     ));
                 }
                 else if ($type == "message" && $pushUserRow != false) {
-                    //$userRow = $this->query->selectUserDatabase($email);
+                    //$userRow = $this->query->selectUserDatabase($pushEmail);
                     
                     //if ($userRow != false) {
                         $this->linePushUserDatabase("update", Array(
                             $pushName,
                             $source['userId'],
-                            $email,
+                            $pushEmail,
                             1
                         ));
                     //}
@@ -436,8 +428,8 @@ class SettingLinePushController extends AbstractController {
                 <span class=\"mdc-list-item__text\">
                     {$value['push_name']}
                     <span class=\"mdc-list-item__secondary-text\">
-                        {$value['user_id']}<br>
-                        {$value['email']}<br>";
+                        <b>Id:</b> {$value['user_id']}<br>
+                        <b>Email:</b> {$value['email']}<br>";
                         
                         $isActive = $value['active'] == true ? $this->utility->getTranslator()->trans("settingLinePushController_10") : $this->utility->getTranslator()->trans("settingLinePushController_11");
                     

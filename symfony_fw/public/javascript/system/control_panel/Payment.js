@@ -35,43 +35,8 @@ function ControlPanelPayment() {
                     $("#cp_payment_select_result").html("");
                 },
                 function(xhr) {
-                    if (xhr.response.messages.success !== undefined) {
-                        ajax.send(
-                            true,
-                            window.url.cpPaymentSelect,
-                            "post",
-                            {
-                                'event': "select",
-                                'token': window.session.token
-                            },
-                            "json",
-                            false,
-                            true,
-                            "application/x-www-form-urlencoded; charset=UTF-8",
-                            null,
-                            function(xhr) {
-                                ajax.reply(xhr, "");
-                                
-                                $("#form_payment_select_id").find("option").remove();
-
-                                $("#form_payment_select_id").append("<option selected value=\"\"></option>");
-
-                                $.each(xhr.response.values.paymentRows, function(key, value) {
-                                    $("#form_payment_select_id").append("<option value=\"" + value.id + "\">" + value.transaction + "</option>");
-                                });
-                                
-                                $("#cp_payment_select_result_desktop").find(".update_loading").css("visibility", "hidden");
-                            },
-                            null,
-                            null
-                        );
-                        
+                    if (xhr.response.messages.success !== undefined)
                         $("#cp_payment_select_result_desktop").find(".refresh").click();
-                        
-                        $(".button_accordion").eq(1).click();
-                        
-                        $("#cp_payment_select_result_desktop").find(".update_loading").css("visibility", "visible");
-                    }
                     else
                         ajax.reply(xhr, "#" + event.currentTarget.id);
                 },
@@ -140,6 +105,9 @@ function ControlPanelPayment() {
                     ajax.reply(xhr, "");
                     
                     tableAndPagination.populate(xhr);
+                    
+                    if ($("#cp_payment_select_result_desktop").parents(".accordion").hasClass("accordion_active") === false)
+                        $(".button_accordion").eq(1).click();
                 },
                 null,
                 null

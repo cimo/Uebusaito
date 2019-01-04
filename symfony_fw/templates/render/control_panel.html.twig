@@ -243,7 +243,7 @@
                 {% if is_granted("ROLE_ADMIN") == true %}
                     <p>{% trans %}controlPanelSettingSlack_1{% endtrans %}</p>
 
-                    {{-render(controller("App\\Controller\\ControlPanel\\SettingSlackIwController::createAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
+                    {{-render(controller("App\\Controller\\ControlPanel\\SettingSlackIwController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
                     <script type="text/javascript">
                         window.addEventListener("load", function() {

@@ -589,19 +589,21 @@ class Utility {
         return $list;
     }
     
-    public function checkSessionOverTime($request, $root = false, $router = null) {
-        if (isset($_SESSION['userActivity']) == true) {
-            if ($request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "") {
-                echo json_encode(Array(
-                    'userActivity' => $_SESSION['userActivity']
-                ));
-                
-                unset($_SESSION['userActivity']);
-                
-                exit;
-            }
-        }
-        else
+    public function checkLanguage($request, $settingRow) {
+        if (isset($_SESSION['languageTextCode']) == false)
+            $_SESSION['languageTextCode'] = $settingRow['language'];
+        
+        if ($request->get("languageTextCode") != null)
+            $_SESSION['languageTextCode'] = $request->get("languageTextCode");
+        
+        $request->setLocale($_SESSION['languageTextCode']);
+        $request->setDefaultLocale($_SESSION['languageTextCode']);
+        
+        return $request;
+    }
+    
+    public function checkSessionOverTime($request, $router) {
+        if (isset($_SESSION['userActivity']) == true && $request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "")
             $_SESSION['userActivity'] = "";
         
         if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
@@ -611,36 +613,36 @@ class Utility {
                 $timeLapse = time() - $_SESSION['userActivityTimestamp'];
 
                 if ($timeLapse > $this->sessionMaxIdleTime) {
-                    $userActivity = $this->translator->trans("classUtility_1");
+                    $_SESSION['userActivity'] = $this->translator->trans("classUtility_1");
                     
                     if ($request->isXmlHttpRequest() == true) {
                         echo json_encode(Array(
-                            'userActivity' => $userActivity
+                            'userActivity' => $_SESSION['userActivity']
                         ));
                         
-                        unset($_SESSION['userActivity']);
-
                         exit;
                     }
                     else {
+                        $userActivity = $_SESSION['userActivity'];
+                        $language = $_SESSION['languageTextCode'];
+                        
                         $this->tokenStorage->setToken(null);
                         
                         $_SESSION['userActivity'] = $userActivity;
+                        $_SESSION['languageTextCode'] = $language;
                         
                         unset($_SESSION['userActivityTimestamp']);
                         
-                        if ($router != null) {
-                            $url = $router->generate(
-                                "root_render",
-                                Array(
-                                    '_locale' => $_SESSION['languageTextCode'],
-                                    'urlCurrentPageId' => 2,
-                                    'urlExtra' => ""
-                                )
-                            );
-                            
-                            return $url;
-                        }
+                        $url = $router->generate(
+                            "root_render",
+                            Array(
+                                '_locale' => $_SESSION['languageTextCode'],
+                                'urlCurrentPageId' => 2,
+                                'urlExtra' => ""
+                            )
+                        );
+
+                        return $url;
                     }
                 }
                 else
@@ -743,22 +745,6 @@ class Utility {
         return false;
     }
     
-    public function checkLanguage($request) {
-        if (isset($_SESSION['languageTextCode']) == false) {
-            $row = $this->query->selectSettingDatabase();
-            
-            $_SESSION['languageTextCode'] = $row['language'];
-        }
-        
-        if ($request->get("languageTextCode") != null)
-            $_SESSION['languageTextCode'] = $request->get("languageTextCode");
-        
-        $request->setLocale($_SESSION['languageTextCode']);
-        $request->setDefaultLocale($_SESSION['languageTextCode']);
-        
-        return $_SESSION['languageTextCode'];
-    }
-    
     public function checkHost($host) {
         $curl = curl_init();
         
@@ -786,10 +772,14 @@ class Utility {
         
         if ($rowsCount == 0) {
             $user->setRoleUserId("1,2,");
+            $user->setRoles(Array("ROLE_USER", "ROLE_ADMIN"));
+            $user->setCredit(0);
             $user->setActive(1);
         }
         else {
             $user->setRoleUserId("1,");
+            $user->setRoles(Array("ROLE_USER"));
+            $user->setCredit(0);
             $user->setActive(0);
         }
     }
@@ -914,11 +904,11 @@ class Utility {
     
     public function sendMessageToLineChatMultiple($name, $text) {
         $pushRow = $this->query->selectSettingLinePushDatabase($name);
-        $pushUserRow = $this->query->selectAllSettingLinePushUserDatabase("allPushName", $name);
+        $pushUserRows = $this->query->selectAllSettingLinePushUserDatabase("allPushName", $name);
         
         $to[] = $pushRow['user_id'];
         
-        foreach ($pushUserRow as $key => $value) {
+        foreach ($pushUserRows as $key => $value) {
             if ($value['push_name'] == $name && $value['active'] == 1)
                 $to[] = $value['user_id'];
         }

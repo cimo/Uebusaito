@@ -1,4 +1,4 @@
-/* global utility, ajax, loader, flashBag */
+/* global utility, ajax, flashBag */
 
 var upload = new Upload();
 
@@ -67,7 +67,7 @@ function Upload() {
             file = $(this)[0].files[0];
             
             var formData = new FormData();
-            formData.append('file', file);
+            formData.append("file", file);
             
             ajax.send(
                 true,
@@ -80,14 +80,8 @@ function Upload() {
                 false,
                 null,
                 function(xhr) {
-                    if (xhr.userActivity !== undefined && xhr.userActivity !== "") {
-                        window.session.userActivity = xhr.userActivity;
-
-                        self.reply(xhr, "");
-
-                        return;
-                    }
-
+                    ajax.reply(xhr, "");
+                    
                     if (xhr.response.upload !== undefined) {
                         chunkSize = xhr.response.upload.processFile;
                         
@@ -118,12 +112,8 @@ function Upload() {
                         else
                             resetValue("hide");
                     }
-
-                    loader.hide();
                 },
-                function() {
-                    loader.hide();
-                },
+                null,
                 null
             );
         });
