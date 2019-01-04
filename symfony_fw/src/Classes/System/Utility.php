@@ -603,6 +603,9 @@ class Utility {
     }
     
     public function checkSessionOverTime($request, $router) {
+        if (isset($_SESSION['userActivity']) == false)
+            $_SESSION['userActivity'] = "";
+        
         if (isset($_SESSION['userActivity']) == true && $request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "")
             $_SESSION['userActivity'] = "";
         
