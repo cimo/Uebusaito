@@ -57,6 +57,9 @@ class SettingController extends AbstractController {
         
         $settingEntity = $this->entityManager->getRepository("App\Entity\Setting")->find(1);
         
+        $templateColumn = $settingEntity->getTemplateColumn();
+        $https = $settingEntity->getHttps();
+        
         $languageCustomData = $this->languageCustomData();
         
         $form = $this->createForm(SettingFormType::class, $settingEntity, Array(
@@ -70,14 +73,14 @@ class SettingController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                if ($form->get("templateColumn")->getData() != $settingEntity->getTemplateColumn())
+                if ($form->get("templateColumn")->getData() != $templateColumn)
                     $this->moduleDatabase($form->get("templateColumn")->getData());
                 
                 // Database update
                 $this->entityManager->persist($settingEntity);
                 $this->entityManager->flush();
                     
-                if ($form->get("https")->getData() != $settingEntity->getHttps()) {
+                if ($form->get("https")->getData() != $https) {
                     $this->utility->getTokenStorage()->setToken(null);
                     
                     $message = $this->utility->getTranslator()->trans("settingController_2");
@@ -234,10 +237,9 @@ class SettingController extends AbstractController {
             $query = $this->utility->getConnection()->prepare("UPDATE modules
                                                                 SET position_tmp = :positionTmp,
                                                                     position = :position
-                                                                WHERE id != :id
-                                                                AND position_tmp = :position");
+                                                                WHERE position_tmp = :position");
             
-            $query->bindValue(":id", 3);
+            
             $query->bindValue(":positionTmp", "");
             $query->bindValue(":position", "right");
             
@@ -264,9 +266,11 @@ class SettingController extends AbstractController {
                                                                     SET position_tmp = :positionTmp,
                                                                         position = :position
                                                                     WHERE position_tmp = :position");
-
+                
                 $query->bindValue(":positionTmp", "");
                 $query->bindValue(":position", "left");
+                
+                $query->execute();
             }
             else if ($templateColumn == 3) {
                 $query->bindValue(":positionTmp", "left");
@@ -278,21 +282,23 @@ class SettingController extends AbstractController {
                                                                     SET position_tmp = :positionTmp,
                                                                         position = :position
                                                                     WHERE position_tmp = :position");
-
+                
                 $query->bindValue(":positionTmp", "");
                 $query->bindValue(":position", "right");
+                
+                $query->execute();
             }
             else if ($templateColumn == 4) {
                 $query->bindValue(":positionTmp", "right");
                 $query->bindValue(":position", "center");
 
                 $query->execute();
-
+                
                 $query->bindValue(":positionTmp", "left");
                 $query->bindValue(":position", "center");
+                
+                $query->execute();
             }
-            
-            $query->execute();
         }
         
         $this->updateModuleRankInColumn("left");
@@ -361,9 +367,9 @@ class SettingController extends AbstractController {
             $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
             $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
             
-            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles ADD $codeTmp VARCHAR(255) DEFAULT NULL;
-                                                                ALTER TABLE pages_arguments ADD $codeTmp LONGTEXT DEFAULT NULL;
-                                                                ALTER TABLE pages_menu_names ADD $codeTmp VARCHAR(255) DEFAULT '-';");
+            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles ADD $codeTmp VARCHAR(255) DEFAULT '';
+                                                                ALTER TABLE pages_arguments ADD $codeTmp LONGTEXT;
+                                                                ALTER TABLE pages_menu_names ADD $codeTmp VARCHAR(255) NOT NULL DEFAULT '-';");
             
             $query->execute();
         }

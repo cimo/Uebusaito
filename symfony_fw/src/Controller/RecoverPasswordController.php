@@ -80,7 +80,7 @@ class RecoverPasswordController extends AbstractController {
 
                             $userEntity->setHelpCode($helpCode);
 
-                            $url = $this->utility->getUrlRoot() . $this->utility->getWebsiteFile() . "/" . $request->get("_locale") . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
+                            $url = $this->utility->getUrlRoot() . $this->utility->getWebsiteFile() . "/" . $request->getLocale() . "/" . $request->get("urlCurrentPageId") . "/" . $helpCode;
 
                             // Send email to user
                             $this->utility->sendEmail($userEntity->getEmail(),

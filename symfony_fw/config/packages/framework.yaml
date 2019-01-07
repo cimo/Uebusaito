@@ -15,6 +15,7 @@ framework:
         save_path: '/var/lib/php/sessions'
         name: uebusaito
         cookie_domain: .machine.local
+        cookie_lifetime: 0
     
     # cimo +
     assets:

@@ -54,10 +54,6 @@ class RootController extends AbstractController {
         $this->captcha = new Captcha($this->utility);
         
         // Logic
-        $protocol = $this->utility->getProtocol() == "https://" ? true : false;
-        
-        $this->utility->configureCookie(session_name(), 0, $protocol, true);
-        
         $_SESSION['currentPageId'] = $urlCurrentPageId;
         
         $this->response['path']['documentRoot'] = $_SERVER['DOCUMENT_ROOT'];
@@ -70,10 +66,6 @@ class RootController extends AbstractController {
         $this->response['modules']['left'] = $this->query->selectAllModuleDatabase(null, "left");
         $this->response['modules']['center'] = $this->query->selectAllModuleDatabase(null, "center");
         $this->response['modules']['right'] = $this->query->selectAllModuleDatabase(null, "right");
-        
-        $this->get("twig")->addGlobal("php_session", $_SESSION);
-        $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
-        $this->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
         
         if ($this->container->get("session")->isStarted() == true) {
             $session = $request->getSession();

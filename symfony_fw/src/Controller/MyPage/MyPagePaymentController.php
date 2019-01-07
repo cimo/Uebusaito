@@ -75,7 +75,7 @@ class MyPagePaymentController extends AbstractController {
 
             $form = $this->createForm(PaymentSelectFormType::class, null, Array(
                 'validation_groups' => Array('payment_select'),
-                'choicesId' => array_reverse(array_column($this->query->selectAllPaymentDatabase($this->getUser()->getId()), "id", "transaction"), true)
+                'choicesId' => array_reverse(array_column($paymentRows, "id", "transaction"), true)
             ));
             $form->handleRequest($request);
 

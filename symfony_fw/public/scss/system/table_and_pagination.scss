@@ -2,6 +2,16 @@
     .button_container {
         display: none;
     }
+    
+    .update_loading {
+        display: none;
+        vertical-align: middle;
+        
+        i {
+            font-size: 35px;
+        }
+    }
+    
     .previous, .text, .next {
         display: inline-block;
         vertical-align: middle;

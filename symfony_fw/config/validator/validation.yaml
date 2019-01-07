@@ -33,7 +33,7 @@ App\Form\Model\RecoverPasswordModel:
             - Regex:
                 groups: [recover_password]
                 htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z-0-9]+(\.[a-z-0-9]+)*(\.[a-z]{2,5})$/
 
 App\Form\Model\ForgotPasswordModel:
     properties:
@@ -160,7 +160,7 @@ App\Entity\Page:
             - Regex:
                 groups: [page_profile]
                 htmlPattern: false
-                pattern: /^[a-z]+$/
+                pattern: /^[a-z]{2}$/
         alias:
             - NotBlank:
                 groups: [page_create, page_profile]
@@ -186,14 +186,14 @@ App\Entity\Page:
             - Regex:
                 groups: [page_create, page_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         showInMenu:
             - NotBlank:
                 groups: [page_create, page_profile]
             - Regex:
                 groups: [page_create, page_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         rankMenuSort:
             - NotBlank:
                 groups: [page_create, page_profile]
@@ -207,21 +207,26 @@ App\Entity\Page:
             - Regex:
                 groups: [page_create, page_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9]+|[-]$/
+                pattern: /^[(a-zA-Z 0-9)|(\p{L}\p{N})]+|[-]$/
         onlyLink:
             - NotBlank:
                 groups: [page_create, page_profile]
             - Regex:
                 groups: [page_create, page_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         link:
             - NotBlank:
                 groups: [page_create, page_profile]
             - Regex:
                 groups: [page_create, page_profile]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)(www).([a-zA-Z0-9_.\/]+).([a-z]+)|[-]$/
+                pattern: /^(https?:\/\/)(www).([a-zA-Z_.0-9\/]+).([a-z]+)|[-]$/
+        metaRobots:
+            - Regex:
+                groups: [page_create, page_profile]
+                htmlPattern: false
+                pattern: /^(index|noindex|follow|nofollow)[\s,]+(index|noindex|follow|nofollow)$/
 
 App\Entity\PageComment:
     properties:
@@ -237,32 +242,32 @@ App\Entity\User:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[0-9,]+$/
+                pattern: /^[,0-9]+$/
         username:
             - NotBlank:
                 groups: [registration, user_create, user_profile]
             - Regex:
                 groups: [registration, user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z0-9._]{4,20}$/
+                pattern: /^[a-zA-Z._0-9]{4,20}$/
                 message: entity.user.username
         name:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z]+$/
+                pattern: /^[(a-zA-Z )|(\p{L}\p{N})]+$/
         surname:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z']+$/
+                pattern: /^[(a-zA-Z ')|(\p{L}\p{N})]+$/
         email:
             - NotBlank:
                 groups: [registration, profile, user_create, user_profile]
             - Regex:
                 groups: [registration, profile, user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z-0-9]+(\.[a-z-0-9]+)*(\.[a-z]{2,5})$/
         telephone:
             - Regex:
                 groups: [user_create, user_profile]
@@ -282,12 +287,12 @@ App\Entity\User:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z][0-9]$/
+                pattern: /^[a-zA-Z0-9]$/
         companyName:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z]+$/
+                pattern: /^[(a-zA-Z 0-9)|(\p{L}\p{N})]+$/
         vat:
             - Regex:
                 groups: [user_create, user_profile]
@@ -297,17 +302,17 @@ App\Entity\User:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)(www).([a-zA-Z0-9_.\/]+).([a-z]+)$/
+                pattern: /^(https?:\/\/)(www).([a-zA-Z._0-9\/]+).([a-z]+)$/
         state:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z]+$/
+                pattern: /^[(a-zA-Z )|(\p{L}\p{N})]+$/
         city:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z]+$/
+                pattern: /^[(a-zA-Z )|(\p{L}\p{N})]+$/
         zip:
             - Regex:
                 groups: [user_create, user_profile]
@@ -317,7 +322,7 @@ App\Entity\User:
             - Regex:
                 groups: [user_create, user_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9.]+$/
+                pattern: /^[(a-zA-Z 0-9)|(\p{L}\p{N})]+$/
         password:
             - NotBlank:
                 groups: [registration, user_create]
@@ -340,7 +345,7 @@ App\Entity\User:
             - Regex:
                 groups: [user_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         credit:
             - NotBlank:
                 groups: [user_profile]
@@ -369,14 +374,14 @@ App\Entity\Module:
             - Regex:
                 groups: [module_create, module_profile]
                 htmlPattern: false
-                pattern: /^[0-9,]+$/
+                pattern: /^[,0-9]+$/
         name:
             - NotBlank:
                 groups: [module_create, module_profile]
             - Regex:
                 groups: [module_create, module_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9_]+$/
+                pattern: /^[a-zA-Z _0-9]+$/
         controllerName:
             - NotBlank:
                 groups: [module_create, module_profile]
@@ -390,7 +395,7 @@ App\Entity\Module:
             - Regex:
                 groups: [module_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
 
 App\Entity\RoleUser:
     properties:
@@ -431,56 +436,56 @@ App\Entity\Setting:
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         pageComment:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         pageCommentActive:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         emailAdmin:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z-0-9]+(\.[a-z-0-9]+)*(\.[a-z]{2,5})$/
         websiteActive:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         roleUserId:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^[0-9,]+$/
+                pattern: /^[,0-9]+$/
         https:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         registrationUserConfirmAdmin:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         loginAttemptTime:
             - NotBlank:
                 groups: [setting]
@@ -501,21 +506,21 @@ App\Entity\Setting:
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         recoverPassword:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         captcha:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         useType:
             - NotBlank:
                 groups: [setting]
@@ -529,28 +534,28 @@ App\Entity\Setting:
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         credit:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         payPalSandbox:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         payPalBusiness:
             - NotBlank:
                 groups: [setting]
             - Regex:
                 groups: [setting]
                 htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z-0-9]+(\.[a-z-0-9]+)*(\.[a-z]{2,5})$/
         payPalCurrencyCode:
             - NotBlank:
                 groups: [setting]
@@ -574,14 +579,14 @@ App\Entity\SettingSlackIw:
             - Regex:
                 groups: [setting_slack_iw]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9_]+$/
+                pattern: /^[a-zA-Z _0-9]+$/
         hook:
             - NotBlank:
                 groups: [setting_slack_iw]
             - Regex:
                 groups: [setting_slack_iw]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)([a-zA-Z0-9_.\/]+)$/
+                pattern: /^(https?:\/\/)([a-zA-Z._0-9\/]+)$/
         channel:
             - NotBlank:
                 groups: [setting_slack_iw]
@@ -598,7 +603,7 @@ App\Entity\SettingLinePush:
             - Regex:
                 groups: [setting_line_push]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9_]+$/
+                pattern: /^[a-zA-Z _0-9]+$/
         userId:
             - NotBlank:
                 groups: [setting_line_push]
@@ -612,7 +617,7 @@ App\Entity\SettingLinePush:
             - Regex:
                 groups: [setting_line_push]
                 htmlPattern: false
-                pattern: /^[a-zA-Z0-9+=\/]+$/
+                pattern: /^[a-zA-Z+=0-9\/]+$/
 
 App\Entity\MicroserviceDeploy:
     properties:
@@ -629,14 +634,14 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9_]+$/
+                pattern: /^[a-zA-Z _0-9]+$/
         description:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9.]+$/
+                pattern: /^[(a-zA-Z .0-9)|(\p{L}\p{N})]+$/
         systemUser:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -653,7 +658,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z-_0-9.]+$/
+                pattern: /^.{8,30}$/
         keyPublic:
             - File:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -663,7 +668,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         keyPrivate:
             - File:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -673,21 +678,21 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         ip:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[0-9.]+$/
+                pattern: /^[.0-9]+$/
         gitUserEmail:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,5})$/
+                pattern: /^[a-z0-9]+[_a-z0-9\.-]*[a-z0-9]+@[a-z-0-9]+(\.[a-z-0-9]+)*(\.[a-z]{2,5})$/
         gitUserName:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -701,7 +706,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)([a-zA-Z0-9_:\@]+).([a-z]+)$/
+                pattern: /^(https?:\/\/)([a-zA-Z_0-9:\@]+).([a-z]+)$/
         gitClonePath:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -722,7 +727,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z-_:0-9]+$/
+                pattern: /^[a-zA-Z-:_0-9]+$/
         rootWebPath:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -736,7 +741,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
 
 App\Entity\MicroserviceApi:
     properties:
@@ -746,7 +751,7 @@ App\Entity\MicroserviceApi:
             - Regex:
                 groups: [microservice_api_create, microservice_api_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9_]+$/
+                pattern: /^[a-zA-Z _0-9]+$/
         controllerName:
             - NotBlank:
                 groups: [microservice_api_create, microservice_api_profile]
@@ -760,7 +765,7 @@ App\Entity\MicroserviceApi:
             - Regex:
                 groups: [microservice_api_create, microservice_api_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9.]+$/
+                pattern: /^[(a-zA-Z .0-9)|(\p{L}\p{N})]+$/
         image:    
             - File:
                 groups: [microservice_api_create, microservice_api_profile]
@@ -774,7 +779,7 @@ App\Entity\MicroserviceApi:
             - Regex:
                 groups: [microservice_api_create, microservice_api_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
 
 App\Entity\ApiBasic:
     properties:
@@ -784,7 +789,7 @@ App\Entity\ApiBasic:
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z 0-9_]+$/
+                pattern: /^[a-zA-Z _0-9]+$/
         token:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]
@@ -796,21 +801,21 @@ App\Entity\ApiBasic:
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
-                pattern: /^[0-9.,]+$/
+                pattern: /^[.,0-9]+$/
         active:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         slackActive:
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/
         lineActive:
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
-                pattern: /^1|^0/
+                pattern: /^1$|^0$/

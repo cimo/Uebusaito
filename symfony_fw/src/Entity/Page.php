@@ -107,6 +107,21 @@ class Page {
      */
     private $dateModify = "0000-00-00 00:00:00";
     
+    /**
+     * @ORM\Column(name="meta_description", type="string", nullable=true, columnDefinition="varchar(255)")
+     */
+    private $metaDescription = "";
+    
+    /**
+     * @ORM\Column(name="meta_keywords", type="string", nullable=true, columnDefinition="varchar(255)")
+     */
+    private $metaKeywords = "";
+    
+    /**
+     * @ORM\Column(name="meta_robots", type="string", nullable=true, columnDefinition="varchar(255)")
+     */
+    private $metaRobots = "";
+    
     // Properties
     public function setAlias($value) {
         $this->alias = $value;
@@ -186,6 +201,18 @@ class Page {
     
     public function setDateModify($value) {
         $this->dateModify = $value;
+    }
+    
+    public function setMetaDescription($value) {
+        $this->metaDescription = $value;
+    }
+    
+    public function setMetaKeywords($value) {
+        $this->metaKeywords = $value;
+    }
+    
+    public function setMetaRobots($value) {
+        $this->metaRobots = $value;
     }
     
     // ---
@@ -272,5 +299,17 @@ class Page {
     
     public function getDateModify() {
         return $this->dateModify;
+    }
+    
+    public function getMetaDescription() {
+        return $this->metaDescription;
+    }
+    
+    public function getMetaKeywords() {
+        return $this->metaKeywords;
+    }
+    
+    public function getMetaRobots() {
+        return $this->metaRobots;
     }
 }

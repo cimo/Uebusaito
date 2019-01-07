@@ -39,6 +39,8 @@ class Utility {
     
     private $curlLogin;
     
+    private $userActivityCount;
+    
     // Properties
     public function getAuthorizationChecker() {
         return $this->authorizationChecker;
@@ -139,6 +141,8 @@ class Utility {
         $this->websiteName = $this->config->getName();
         
         $this->curlLogin = $this->config->getCurlLogin();
+        
+        $this->userActivityCount = 0;
         
         $this->arrayColumnFix();
     }
@@ -606,8 +610,11 @@ class Utility {
         if (isset($_SESSION['userActivity']) == false)
             $_SESSION['userActivity'] = "";
         
-        if (isset($_SESSION['userActivity']) == true && $request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "")
+        if ($this->userActivityCount > 1) {
             $_SESSION['userActivity'] = "";
+            
+            $this->userActivityCount = 0;
+        }
         
         if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
             if (isset($_SESSION['userActivityTimestamp']) == false)
@@ -622,6 +629,8 @@ class Utility {
                         echo json_encode(Array(
                             'userActivity' => $_SESSION['userActivity']
                         ));
+                        
+                        $this->userActivityCount ++;
                         
                         exit;
                     }
@@ -644,12 +653,27 @@ class Utility {
                                 'urlExtra' => ""
                             )
                         );
+                        
+                        $this->userActivityCount ++;
 
                         return $url;
                     }
                 }
                 else
                     $_SESSION['userActivityTimestamp'] = time();
+            }
+        }
+        else {
+            if (isset($_SESSION['userActivity']) == true && $request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "") {
+                $_SESSION['userActivity'] = $this->translator->trans("classUtility_1");
+                
+                echo json_encode(Array(
+                    'userActivity' => $_SESSION['userActivity']
+                ));
+                
+                $this->userActivityCount ++;
+
+                exit;
             }
         }
         

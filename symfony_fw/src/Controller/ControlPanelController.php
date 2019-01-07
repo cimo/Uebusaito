@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
+use App\Classes\System\Captcha;
 
 class ControlPanelController extends AbstractController {
     // Vars
@@ -23,6 +24,7 @@ class ControlPanelController extends AbstractController {
     private $utility;
     private $query;
     private $ajax;
+    private $captcha;
     
     // Properties
     
@@ -49,6 +51,7 @@ class ControlPanelController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
+        $this->captcha = new Captcha($this->utility);
         
         // Logic
         $_SESSION['currentPageId'] = $urlCurrentPageId;
@@ -66,13 +69,17 @@ class ControlPanelController extends AbstractController {
         
         $this->response['output']['phpinfo'] = $this->parsePhpinfo();
         
-        $this->get("twig")->addGlobal("php_session", $_SESSION);
-        $this->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
-        $this->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
-        
         if ($this->container->get("session")->isStarted() == true) {
             $session = $request->getSession();
             $session->set("php_session", $_SESSION);
+        }
+        
+        if ($request->get("event") == "captchaImage") {
+            $this->response['captchaImage'] = $this->captcha->create(7);
+            
+            return $this->ajax->response(Array(
+                'response' => $this->response
+            ));
         }
         
         // Logic

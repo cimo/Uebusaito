@@ -152,8 +152,20 @@ class PageFormType extends AbstractType {
             'label' => "pageFormType_14",
             'data' => $values['link']
         ))
+        ->add("metaDescription", TextareaType::class, Array(
+            'required' => false,
+            'label' => "pageFormType_15"
+        ))
+        ->add("metaKeywords", TextType::class, Array(
+            'required' => false,
+            'label' => "pageFormType_16"
+        ))
+        ->add("metaRobots", TextType::class, Array(
+            'required' => false,
+            'label' => "pageFormType_17"
+        ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "pageFormType_15",
+            'label' => "pageFormType_18",
         ));
     }
 }

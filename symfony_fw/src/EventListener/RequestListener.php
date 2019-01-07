@@ -39,9 +39,20 @@ class RequestListener {
         if (HttpKernelInterface::MASTER_REQUEST != $event->getRequestType())
             return;
         
+        $request = $event->getRequest();
+        
+        $urlCurrentPageId = $request->get("urlCurrentPageId") != null ? $request->get("urlCurrentPageId") : 2;
+        
+        if ($this->container->get("session")->isStarted() == true)
+            $this->container->get("twig")->addGlobal("php_session", $_SESSION);
+        
+        $this->container->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
+        $this->container->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
+        $this->container->get("twig")->addGlobal("pageRow", $this->query->selectPageDatabase($request->getLocale(), $urlCurrentPageId));
+        
         $settingRow = $this->query->selectSettingDatabase();
         
-        $request = $event->getRequest();
+        $this->utility->configureCookie(session_name(), 0, $settingRow['https'], true);
         
         $request = $this->utility->checkLanguage($request, $settingRow);
         
