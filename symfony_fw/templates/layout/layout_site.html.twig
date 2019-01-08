@@ -81,12 +81,14 @@
         {{-include("@templateRoot/include/popup_easy.html.twig")-}}
 
         <script type="text/javascript">
-            var session = {
-                'token': "{{csrf_token("intention")}}",
-                'userActivity': "{{php_session.userActivity}}",
-                'languageTextCode': "{{php_session.languageTextCode}}",
-                'currentPageId': "{{php_session.currentPageId}}"
-            };
+            {% if (php_session.userActivity is defined) %}
+                var session = {
+                    'token': "{{csrf_token("intention")}}",
+                    'userActivity': "{{php_session.userActivity}}",
+                    'languageTextCode': "{{php_session.languageTextCode}}",
+                    'currentPageId': "{{php_session.currentPageId}}"
+                };
+            {% endif %}
 
             var path = {
                 'documentRoot': "{{response.path.documentRoot}}",

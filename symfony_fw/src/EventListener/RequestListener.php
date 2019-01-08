@@ -41,15 +41,6 @@ class RequestListener {
         
         $request = $event->getRequest();
         
-        $urlCurrentPageId = $request->get("urlCurrentPageId") != null ? $request->get("urlCurrentPageId") : 2;
-        
-        if ($this->container->get("session")->isStarted() == true)
-            $this->container->get("twig")->addGlobal("php_session", $_SESSION);
-        
-        $this->container->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
-        $this->container->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
-        $this->container->get("twig")->addGlobal("pageRow", $this->query->selectPageDatabase($request->getLocale(), $urlCurrentPageId));
-        
         $settingRow = $this->query->selectSettingDatabase();
         
         $this->utility->configureCookie(session_name(), 0, $settingRow['https'], true);
@@ -57,6 +48,21 @@ class RequestListener {
         $request = $this->utility->checkLanguage($request, $settingRow);
         
         $url = $this->utility->checkSessionOverTime($request, $this->router);
+        
+        $urlCurrentPageId = 2;
+        
+        if ($request->get("urlCurrentPageId") != null && $request->get("urlCurrentPageId") > 0)
+             $urlCurrentPageId = $request->get("urlCurrentPageId");
+        
+        if ($this->container->get("session")->isStarted() == true) {
+            $session = $request->getSession();
+            $session->set("php_session", $_SESSION);
+        }
+        
+        $this->container->get("twig")->addGlobal("php_session", $_SESSION);
+        $this->container->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
+        $this->container->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
+        $this->container->get("twig")->addGlobal("pageRow", $this->query->selectPageDatabase($request->getLocale(), $urlCurrentPageId));
         
         if ($url != "")
             $event->setResponse(new RedirectResponse($url));

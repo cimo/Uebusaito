@@ -72,6 +72,8 @@ class RootController extends AbstractController {
             $session->set("php_session", $_SESSION);
         }
         
+        $this->container->get("twig")->addGlobal("php_session", $_SESSION);
+        
         if ($request->get("event") == "captchaImage") {
             $this->response['captchaImage'] = $this->captcha->create(7);
             

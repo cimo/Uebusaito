@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /assets
+Disallow: /bin
+Disallow: /config
+Disallow: /src
+Disallow: /tests
+Disallow: /translations
+Disallow: /var
+Disallow: /vendor
