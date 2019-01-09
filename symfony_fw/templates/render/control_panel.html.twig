@@ -401,4 +401,8 @@
             <span>{% trans %}controlPanel_16{% endtrans %}</span>
         </a>
     {% endif %}
+    
+    {% if settingRow['use_type'] == 2 and (is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true) %}
+        <p class="mdc-typography--overline title_groupe">{% trans %}controlPanel_17{% endtrans %}</p>
+    {% endif %}
 {% endmacro %}

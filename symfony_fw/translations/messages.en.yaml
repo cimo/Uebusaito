@@ -279,6 +279,7 @@ date.time: H:i:s
 "controlPanel_14": "Microservice"
 "controlPanel_15": "Deploy"
 "controlPanel_16": "Api"
+"controlPanel_17": "Ecommerce"
 
 "controlPanelPayment_1": "Payments section."
 "controlPanelPayment_2": "Really delete this payment?"
