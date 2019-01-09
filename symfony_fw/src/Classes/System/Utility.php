@@ -16,8 +16,8 @@ class Utility {
     private $tokenStorage;
     private $session;
     private $connection;
-    private $passwordEncoder;
     private $translator;
+    private $passwordEncoder;
     
     private $sessionMaxIdleTime;
     
@@ -36,10 +36,6 @@ class Utility {
     
     private $websiteFile;
     private $websiteName;
-    
-    private $curlLogin;
-    
-    private $userActivityCount;
     
     // Properties
     public function getAuthorizationChecker() {
@@ -106,10 +102,6 @@ class Utility {
         return $this->websiteName;
     }
     
-    public function getCurlLogin() {
-        return $this->curlLogin;
-    }
-    
     // Functions public
     public function __construct($container, $entityManager, $translator, $passwordEncoder = null) {
         $this->container = $container;
@@ -139,10 +131,6 @@ class Utility {
         
         $this->websiteFile = $this->config->getFile();
         $this->websiteName = $this->config->getName();
-        
-        $this->curlLogin = $this->config->getCurlLogin();
-        
-        $this->userActivityCount = 0;
         
         $this->arrayColumnFix();
     }
@@ -488,6 +476,28 @@ class Utility {
         return "ok";
     }
     
+    public function assignUserParameter($user) {
+        $query = $this->connection->prepare("SELECT id FROM users
+                                                LIMIT 1");
+        
+        $query->execute();
+        
+        $rowsCount = $query->rowCount();
+        
+        if ($rowsCount == 0) {
+            $user->setRoleUserId("1,2,");
+            $user->setRoles(Array("ROLE_USER", "ROLE_ADMIN"));
+            $user->setCredit(0);
+            $user->setActive(1);
+        }
+        else {
+            $user->setRoleUserId("1,");
+            $user->setRoles(Array("ROLE_USER"));
+            $user->setCredit(0);
+            $user->setActive(0);
+        }
+    }
+    
     public function createUserRoleSelectHtml($selectId, $label, $isRequired = false) {
         $rows = $this->query->selectAllRoleUserDatabase();
         
@@ -505,6 +515,42 @@ class Utility {
         </div>";
         
         return $html; //classUtility_5
+    }
+    
+    public function createPageSelectHtml($urlLocale, $selectId, $label) {
+        $rows = $this->query->selectAllPageDatabase($urlLocale);
+        
+        $pagesList = $this->createPageList($rows, true);
+        
+        $html = "<div id=\"$selectId\" class=\"mdc-select\">
+            <select class=\"mdc-select__native-control\">
+                <option value=\"\"></option>";
+                foreach ($pagesList as $key => $value) {
+                    $html .= "<option value=\"$key\">$value</option>";
+                }
+            $html .= "</select>
+            <label class=\"mdc-floating-label mdc-floating-label--float-above\">$label</label>
+            <div class=\"mdc-line-ripple\"></div>
+        </div>";
+        
+        return $html;
+    }
+    
+    public function createLanguageSelectOptionHtml($code) {
+        $row = $this->query->selectLanguageDatabase($code);
+        $rows = $this->query->selectAllLanguageDatabase();
+        
+        $key = array_search($row, $rows);
+        unset($rows[$key]);
+        array_unshift($rows, $row);
+        
+        $html = "";
+        
+        foreach ($rows as $key => $value) {
+            $html .= "<option value=\"{$value['code']}\">{$value['code']}</option>";
+        }
+        
+        return $html;
     }
     
     public function createPageSortListHtml($rows) {
@@ -593,6 +639,23 @@ class Utility {
         return $list;
     }
     
+    public function createPageList($pagesRows, $onlyMenuName, $pagination = null) {
+        $pagesListHierarchy = $this->createPageListHierarchy($pagesRows, $pagination);
+        
+        if ($onlyMenuName == true) {
+            $tag = "";
+            $parentId = 0;
+            $elements = Array();
+            $count = 0;
+
+            $pagesListOnlyMenuName = $this->createPageListOnlyMenuName($pagesListHierarchy, $tag, $parentId, $elements, $count);
+            
+            return $pagesListOnlyMenuName;
+        }
+        
+        return $pagesListHierarchy;
+    }
+    
     public function checkLanguage($request, $settingRow) {
         if (isset($_SESSION['languageTextCode']) == false)
             $_SESSION['languageTextCode'] = $settingRow['language'];
@@ -610,12 +673,6 @@ class Utility {
         if (isset($_SESSION['userActivity']) == false)
             $_SESSION['userActivity'] = "";
         
-        if ($this->userActivityCount > 1) {
-            $_SESSION['userActivity'] = "";
-            
-            $this->userActivityCount = 0;
-        }
-        
         if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
             if (isset($_SESSION['userActivityTimestamp']) == false)
                 $_SESSION['userActivityTimestamp'] = time();
@@ -629,8 +686,6 @@ class Utility {
                         echo json_encode(Array(
                             'userActivity' => $_SESSION['userActivity']
                         ));
-                        
-                        $this->userActivityCount ++;
                         
                         exit;
                     }
@@ -654,13 +709,14 @@ class Utility {
                             )
                         );
                         
-                        $this->userActivityCount ++;
-
                         return $url;
                     }
                 }
-                else
+                else {
                     $_SESSION['userActivityTimestamp'] = time();
+                    
+                    $_SESSION['userActivity'] = "";
+                }
             }
         }
         else {
@@ -671,7 +727,7 @@ class Utility {
                     'userActivity' => $_SESSION['userActivity']
                 ));
                 
-                $this->userActivityCount ++;
+                $_SESSION['userActivity'] = "";
 
                 exit;
             }
@@ -787,81 +843,6 @@ class Utility {
             return false;
         
         return true;
-    }
-    
-    public function assignUserParameter($user) {
-        $query = $this->connection->prepare("SELECT id FROM users
-                                                LIMIT 1");
-        
-        $query->execute();
-        
-        $rowsCount = $query->rowCount();
-        
-        if ($rowsCount == 0) {
-            $user->setRoleUserId("1,2,");
-            $user->setRoles(Array("ROLE_USER", "ROLE_ADMIN"));
-            $user->setCredit(0);
-            $user->setActive(1);
-        }
-        else {
-            $user->setRoleUserId("1,");
-            $user->setRoles(Array("ROLE_USER"));
-            $user->setCredit(0);
-            $user->setActive(0);
-        }
-    }
-    
-    public function createLanguageSelectOptionHtml($code) {
-        $row = $this->query->selectLanguageDatabase($code);
-        $rows = $this->query->selectAllLanguageDatabase();
-        
-        $key = array_search($row, $rows);
-        unset($rows[$key]);
-        array_unshift($rows, $row);
-        
-        $html = "";
-        
-        foreach ($rows as $key => $value) {
-            $html .= "<option value=\"{$value['code']}\">{$value['code']}</option>";
-        }
-        
-        return $html;
-    }
-    
-    public function createPageSelectHtml($urlLocale, $selectId, $label) {
-        $rows = $this->query->selectAllPageDatabase($urlLocale);
-        
-        $pagesList = $this->createPageList($rows, true);
-        
-        $html = "<div id=\"$selectId\" class=\"mdc-select\">
-            <select class=\"mdc-select__native-control\">
-                <option value=\"\"></option>";
-                foreach ($pagesList as $key => $value) {
-                    $html .= "<option value=\"$key\">$value</option>";
-                }
-            $html .= "</select>
-            <label class=\"mdc-floating-label mdc-floating-label--float-above\">$label</label>
-            <div class=\"mdc-line-ripple\"></div>
-        </div>";
-        
-        return $html;
-    }
-    
-    public function createPageList($pagesRows, $onlyMenuName, $pagination = null) {
-        $pagesListHierarchy = $this->createPageListHierarchy($pagesRows, $pagination);
-        
-        if ($onlyMenuName == true) {
-            $tag = "";
-            $parentId = 0;
-            $elements = Array();
-            $count = 0;
-
-            $pagesListOnlyMenuName = $this->createPageListOnlyMenuName($pagesListHierarchy, $tag, $parentId, $elements, $count);
-            
-            return $pagesListOnlyMenuName;
-        }
-        
-        return $pagesListHierarchy;
     }
     
     public function replaceString4byte($string, $replacement, $remove = false) {

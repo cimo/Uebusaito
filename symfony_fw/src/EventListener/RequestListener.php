@@ -61,7 +61,7 @@ class RequestListener {
         
         $this->container->get("twig")->addGlobal("php_session", $_SESSION);
         $this->container->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
-        $this->container->get("twig")->addGlobal("settingRow", $this->query->selectSettingDatabase());
+        $this->container->get("twig")->addGlobal("settingRow", $settingRow);
         $this->container->get("twig")->addGlobal("pageRow", $this->query->selectPageDatabase($request->getLocale(), $urlCurrentPageId));
         
         if ($url != "")
