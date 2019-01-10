@@ -62,6 +62,14 @@ This is a open source cms with symfony framework.
 
 6) Save, close the file and write on terminal:
 
+        sudo cp /src/Config.php.dist /src/Config.php
+        
+        sudo nano /src/Config.php
+
+7) Change variables for adapt the framework to the your system.
+
+8) Save, close the file and write on terminal:
+
         sudo rm -rf vendor var/cache composer.lock
         
         sudo composer install
