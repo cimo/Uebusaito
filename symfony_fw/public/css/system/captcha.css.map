@@ -1,7 +1,1 @@
-{
-"version": 3,
-"mappings": "AAAA,QAAS,GACL,UAAU,EAAE,MAAM;AAElB,wBAAgB,GACZ,MAAM,EAAE,eAAe;AAEvB,+CAAuB,GACnB,WAAW,EAAE,YAAY;AAIjC,YAAI,GACA,MAAM,EAAE,OAAO,EACf,cAAc,EAAE,MAAM",
-"sources": ["../../scss/system/captcha.scss"],
-"names": [],
-"file": "captcha.css"
-}
+{"version":3,"sourceRoot":"","sources":["../../scss/system/captcha.scss"],"names":[],"mappings":"AAAA,SACI,kBAEA,yBACI,uBAEA,gDACI,yBAIR,aACI,eACA","file":"captcha.css"}

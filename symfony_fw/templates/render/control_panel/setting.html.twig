@@ -13,7 +13,7 @@
                 {% for key, value in form.templateColumn %}
                     <div>
                         {{form_widget(value)}}
-                        <img src="{{asset("images/templates/" ~ settingRow['template'] ~ "/template_column_" ~ key ~ ".png")}}"/>
+                        <img src="{{asset("images/templates/" ~ settingRow['template'] ~ "/template_column_" ~ key ~ ".png")}}" alt="{{"template_column_" ~ key ~ ".png"}}"/>
                     </div>
                 {% endfor %}
                 {{form_errors(form.templateColumn)}}

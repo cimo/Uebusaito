@@ -212,9 +212,9 @@ class PageCommentController extends AbstractController {
             
             $html .= "<li class=\"mdc-list-item\" data-comment=\"{$value['id']}\">";
                 if (file_exists("{$this->utility->getPathWeb()}/files/user/{$value['username']}/Avatar.jpg") == true)
-                    $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/files/user/{$value['username']}/Avatar.jpg\" aria-hidden=\"true\"/>";
+                    $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/files/user/{$value['username']}/Avatar.jpg\" aria-hidden=\"true\" alt=\"Avatar.jpg\"/>";
                 else
-                    $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\" aria-hidden=\"true\"/>";
+                    $html .= "<img class=\"mdc-list-item__graphic\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\" aria-hidden=\"true\" alt=\"no_avatar.jpg\"/>";
                 
                 $detail = "";
                 
@@ -229,10 +229,10 @@ class PageCommentController extends AbstractController {
                     $detail = $this->utility->getTranslator()->trans("pageCommentController_8") . "{$dateFormat[0]} [{$dateFormat[1]}]";
                 }
                 
-                $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\"/>";
+                $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/images/templates/{$setting['template']}/no_avatar.jpg\" alt=\"no_avatar.jpg\"/>";
                 
                 if (file_exists("{$this->utility->getPathWeb()}/files/user/{$row['username']}/Avatar.jpg") == true)
-                    $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/files/user/{$row['username']}/Avatar.jpg\"/>";
+                    $quoteAvatar = "<img class=\"quote_avatar\" src=\"{$this->utility->getUrlRoot()}/files/user/{$row['username']}/Avatar.jpg\" alt=\"Avatar.jpg\"/>";
                 
                 $html .= "<span class=\"mdc-list-item__text\">
                     <p class=\"detail\">$detail</p>";

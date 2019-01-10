@@ -311,7 +311,7 @@ class MyPageProfileController extends AbstractController {
             'path' => $path,
             'chunkSize' => 1000000,
             'inputType' => "single",
-            'types' => Array('image/jpg', 'image/jpeg', 'image/png'),
+            'types' => Array('image/jpg', 'image/jpeg'),
             'maxSize' => 2097152,
             'nameOverwrite' => "Avatar",
             'imageWidth' => 150,

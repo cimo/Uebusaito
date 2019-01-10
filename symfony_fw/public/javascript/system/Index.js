@@ -1,4 +1,4 @@
-/* global utility, materialDesign, widgetSearch, widgetDatePicker, search, flashBag, captcha, language, authentication, registration, recoverPassword */
+/* global utility, materialDesign, widgetSearch, widgetDatePicker, flashBag, search, captcha, language, authentication, registration, recoverPassword, pageComment, menuUser */
 
 utility.init();
 utility.bodyProgress();
@@ -42,11 +42,11 @@ $(document).ready(function() {
     widgetDatePicker.setInputFill(".widget_datePicker_input");
     widgetDatePicker.create();
     
-    search.init();
-    
     flashBag.init();
     flashBag.setElement(materialDesign.getSnackbarMdc());
     flashBag.sessionActivity();
+    
+    search.init();
     
     captcha.init();
     

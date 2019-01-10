@@ -401,13 +401,13 @@ function Utility() {
                 });
                 
                 $.each(elements, function(key, value) {
-                    progress = Math.ceil(key / elements.length);
+                    progress = key / elements.length;
 
                     linearProgressMdc.progress = progress;
                 });
             }
             
-            if (progress >= 1) {
+            if (progress >= 0.99) {
                 document.fonts.ready.then(function() {
                     $("#body_progress").fadeOut("slow");
                 });

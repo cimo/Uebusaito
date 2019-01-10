@@ -142,7 +142,7 @@ function MaterialDesign() {
             var progress = 0;
             
             if (start !== undefined && end !== undefined)
-                progress = Math.ceil(start / end);
+                progress = start / end;
             
             linearProgressMdc.progress = progress;
             
