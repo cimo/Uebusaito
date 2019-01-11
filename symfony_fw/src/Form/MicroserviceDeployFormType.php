@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class MicroserviceDeployFormType extends AbstractType {
@@ -97,16 +98,20 @@ class MicroserviceDeployFormType extends AbstractType {
             'required' => true,
             'label' => "microserviceDeployFormType_17"
         ))
+        ->add("command", TextareaType::class, Array(
+            'required' => false,
+            'label' => "microserviceDeployFormType_18"
+        ))
         ->add("active", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "microserviceDeployFormType_18",
+            'placeholder' => "microserviceDeployFormType_19",
             'choices' => Array(
-                "microserviceDeployFormType_19" => "0",
-                "microserviceDeployFormType_20" => "1"
+                "microserviceDeployFormType_20" => "0",
+                "microserviceDeployFormType_21" => "1"
             )
         ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "microserviceDeployFormType_21"
+            'label' => "microserviceDeployFormType_22"
         ));
         
         $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $formEvent) {

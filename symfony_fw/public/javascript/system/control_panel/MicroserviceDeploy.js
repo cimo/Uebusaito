@@ -315,7 +315,7 @@ function ControlPanelMicroserviceDeploy() {
     function execute() {
         $(".git_execute").on("click", "", function() {
             var id = $("#form_microservice_deploy_select_id").val();
-            var command = $(this).attr("data-command");
+            var action = $(this).attr("data-action");
             var branchName = $("#cp_microservice_deploy_render_result").find("input[name='branchName']");
             
             popupEasy.create(
@@ -329,7 +329,7 @@ function ControlPanelMicroserviceDeploy() {
                         {
                             'event': "execute",
                             'id': id,
-                            'command': command,
+                            'action': action,
                             'branchName': branchName.val(),
                             'token': window.session.token
                         },
@@ -338,7 +338,7 @@ function ControlPanelMicroserviceDeploy() {
                         true,
                         "application/x-www-form-urlencoded; charset=UTF-8",
                         function() {
-                            if (command !== "pull") {
+                            if (action !== "pull") {
                                 branchName.val("");
                                 branchName.focus();
                             }

@@ -28,32 +28,32 @@ class ApiBasic {
     private $token = "";
     
     /**
-     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $ip = "";
     
     /**
-     * @ORM\Column(name="url_callback", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="url_callback", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $urlCallback = "";
     
     /**
-     * @ORM\Column(name="database_ip", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="database_ip", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $databaseIp = "";
     
     /**
-     * @ORM\Column(name="database_name", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="database_name", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $databaseName = "";
     
     /**
-     * @ORM\Column(name="database_username", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="database_username", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $databaseUsername = "";
     
     /**
-     * @ORM\Column(name="database_password", type="string", nullable=true, columnDefinition="blob DEFAULT NULL")
+     * @ORM\Column(name="database_password", type="string", nullable=true, columnDefinition="blob")
      */
     private $databasePassword = "";
     

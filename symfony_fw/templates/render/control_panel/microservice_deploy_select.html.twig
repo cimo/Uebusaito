@@ -1,6 +1,10 @@
+<a class="mdc-button mdc-button--dense mdc-button--raised" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_deploy"})}}">
+    {% trans %}microserviceDeploySelect_1{% endtrans %}
+</a>
+<br><br>
 <fieldset>
-    <legend>{% trans %}microserviceDeploySelect_1{% endtrans %}</legend>
-    <p>{% trans %}microserviceDeploySelect_2{% endtrans %}</p>
+    <legend>{% trans %}microserviceDeploySelect_2{% endtrans %}</legend>
+    <p>{% trans %}microserviceDeploySelect_3{% endtrans %}</p>
     <div id="cp_microservice_deploy_select_desktop" class="display_desktop">
         <div id="cp_microservice_deploy_select_result_desktop">
             
@@ -9,11 +13,6 @@
             <table>
                 <thead>
                     <tr>
-                        <th>
-                            <span>{% trans %}microserviceDeploySelect_3{% endtrans %}</span>
-                            <i class="material-icons">arrow_drop_down</i>
-                            <i class="material-icons">arrow_drop_up</i>
-                        </th>
                         <th>
                             <span>{% trans %}microserviceDeploySelect_4{% endtrans %}</span>
                             <i class="material-icons">arrow_drop_down</i>
@@ -39,6 +38,11 @@
                             <i class="material-icons">arrow_drop_down</i>
                             <i class="material-icons">arrow_drop_up</i>
                         </th>
+                        <th>
+                            <span>{% trans %}microserviceDeploySelect_9{% endtrans %}</span>
+                            <i class="material-icons">arrow_drop_down</i>
+                            <i class="material-icons">arrow_drop_up</i>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +50,7 @@
                 </tbody>
             </table>
         </div>
-        <button id="cp_microservice_deploy_select_button_desktop" class="mdc-button mdc-button--dense mdc-button--raised" type="button">{% trans %}microserviceDeploySelect_9{% endtrans %}</button>
+        <button id="cp_microservice_deploy_select_button_desktop" class="mdc-button mdc-button--dense mdc-button--raised" type="button">{% trans %}microserviceDeploySelect_10{% endtrans %}</button>
     </div>
     <div id="cp_microservice_deploy_select_mobile" class="display_mobile">
         {% form_theme form "@templateRoot/layout/layout_form_materialDesign.html.twig" %}

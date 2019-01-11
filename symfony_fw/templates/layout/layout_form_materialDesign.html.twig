@@ -20,17 +20,23 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
+            
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
+            
             {{- form_label(form) -}}
+            
             <div class="mdc-line-ripple"></div>
         </div>
     {% elseif styleType is defined and styleType == "boxTrailing" %}
         <div class="mdc-text-field mdc-text-field--box{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
+            
             {{- form_label(form) -}}
+            
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
+            
             <div class="mdc-line-ripple"></div>
         </div>
     {% elseif styleType is defined and styleType == "outlined" %}
@@ -38,27 +44,35 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
+            
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
+            
             {{- form_label(form) -}}
+            
             <div class="mdc-notched-outline">
                 <svg>
                     <path class="mdc-notched-outline__path"/>
                 </svg>
             </div>
+            
             <div class="mdc-notched-outline__idle"></div>
         </div>
     {% elseif styleType is defined and styleType == "outlinedTrailing" %}
         <div class="mdc-text-field mdc-text-field--outlined{% if icon is defined %} mdc-text-field--with-trailing-icon{% endif %}{% if dense is defined %} mdc-text-field--dense{% endif %}">
-            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
+            
+            <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
+            
             {{- form_label(form) -}}
+            
             <div class="mdc-notched-outline">
                 <svg>
                     <path class="mdc-notched-outline__path"/>
                 </svg>
             </div>
+            
             <div class="mdc-notched-outline__idle"></div>
         </div>
     {% elseif styleType is defined and styleType == "basic" %}
@@ -66,17 +80,23 @@
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
+            
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
+            
             {{- form_label(form) -}}
+            
             <div class="mdc-line-ripple"></div>
         </div>
     {% elseif styleType is defined and styleType == "basicTrailing" %}
         <div class="mdc-text-field mdc-text-field__basicTrailing{% if dense is defined %} mdc-text-field--dense{% endif %}">
             <input class="mdc-text-field__input" type="{{type}}" {{ block('widget_attributes') }} {% if value is defined %}value="{{value}}"{% endif %} autocomplete="off"/>
+            
             {{- form_label(form) -}}
+            
             {%- if icon is defined -%}
                 <i class="material-icons mdc-text-field__icon" {% if iconTab is defined %}tabindex="0"{% endif %} role="button">{{icon}}</i>
             {%- endif -%}
+            
             <div class="mdc-line-ripple"></div>
         </div>
     {% endif %}
@@ -154,7 +174,7 @@
     <div class="mdc-select{% if styleType is defined %} {{styleType}}{% endif %}">
         <select class="mdc-select__native-control" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
             {%- if placeholder is not none -%}
-                <option value=""{% if required and value is empty %} selected="selected"{% endif %}></option>
+                <option value="" {% if required and value is empty %}selected="selected"{% endif %}></option>
             {%- endif -%}
             {%- if preferred_choices|length > 0 -%}
                 {% set options = preferred_choices %}
@@ -397,7 +417,7 @@
             {% set label_attr = label_attr|merge({'for': id}) %}
         {%- endif -%}
         {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' mdc-floating-label required')|trim}) %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' mdc-floating-label')|trim}) %}
         {%- endif -%}
         {% if label is empty -%}
             {%- if label_format != "" -%}

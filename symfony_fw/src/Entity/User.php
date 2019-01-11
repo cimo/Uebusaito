@@ -31,12 +31,12 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $username = "";
     
     /**
-     * @ORM\Column(name="name", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="name", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $name = "";
     
     /**
-     * @ORM\Column(name="surname", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="surname", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $surname = "";
     
@@ -46,57 +46,57 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $email = "";
     
     /**
-     * @ORM\Column(name="telephone", type="string", nullable=true, columnDefinition="varchar(20) DEFAULT ''")
+     * @ORM\Column(name="telephone", type="string", nullable=true, columnDefinition="varchar(20)")
      */
     private $telephone = "";
     
     /**
-     * @ORM\Column(name="born", type="string", nullable=true, columnDefinition="varchar(10) DEFAULT '0000-00-00'")
+     * @ORM\Column(name="born", type="string", nullable=true, columnDefinition="varchar(10)")
      */
     private $born = "";
     
     /**
-     * @ORM\Column(name="gender", type="string", nullable=true, columnDefinition="varchar(1) DEFAULT ''")
+     * @ORM\Column(name="gender", type="string", nullable=true, columnDefinition="varchar(1)")
      */
     private $gender = "";
     
     /**
-     * @ORM\Column(name="fiscal_code", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="fiscal_code", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $fiscalCode = "";
     
     /**
-     * @ORM\Column(name="company_name", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="company_name", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $companyName = "";
     
     /**
-     * @ORM\Column(name="vat", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="vat", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $vat = "";
     
     /**
-     * @ORM\Column(name="website", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="website", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $website = "";
     
     /**
-     * @ORM\Column(name="state", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="state", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $state = "";
     
     /**
-     * @ORM\Column(name="city", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="city", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $city = "";
     
     /**
-     * @ORM\Column(name="zip", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="zip", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $zip = "";
     
     /**
-     * @ORM\Column(name="address", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="address", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $address = "";
     
@@ -131,12 +131,12 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     private $dateLastLogin = "0000-00-00 00:00:00";
     
     /**
-     * @ORM\Column(name="help_code", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="help_code", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $helpCode = "";
     
     /**
-     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $ip = "";
     

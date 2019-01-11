@@ -398,6 +398,26 @@ table {
     max-width: 300px;
 }
 
+.cursor_custom {
+    cursor: pointer;
+}
+
+.graph_container {
+    height: 400px;
+}
+
+.wysiwyg {
+    .toolbar {
+        .select_format, .select_font {
+            width: 120px !important;
+        }
+    }
+}
+
+.info_field {
+    margin-bottom: 0;
+}
+
 .cp_menu {
     width: 100%;
     
@@ -423,22 +443,6 @@ table {
 .cp_line_push_user {
     .mdc-list-item {
         height: auto;
-    }
-}
-
-.cursor_custom {
-    cursor: pointer;
-}
-
-.graph_container {
-    height: 400px;
-}
-
-.wysiwyg {
-    .toolbar {
-        .select_format, .select_font {
-            width: 120px !important;
-        }
     }
 }
 

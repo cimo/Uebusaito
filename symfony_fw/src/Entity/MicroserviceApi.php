@@ -33,7 +33,7 @@ class MicroserviceApi {
     private $description = "";
     
     /**
-     * @ORM\Column(name="image", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT NULL")
+     * @ORM\Column(name="image", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $image = "";
     

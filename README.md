@@ -16,6 +16,7 @@ This is a open source cms with symfony framework.
 | Page comments |
 | Scss style |
 | Microservice (Deploy and api) |
+| Integration with: Slack, line |
 | Extend with module system |
 
 | Control panel |
@@ -27,6 +28,8 @@ This is a open source cms with symfony framework.
 | Modules |
 | Roles |
 | Settings |
+| Slack |
+| Line |
 | Microservice (Deploy - Api) |
 
 ## Images

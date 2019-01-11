@@ -412,17 +412,21 @@ class MicroserviceDeployController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-                if ($request->get("command") == "clone" || $request->get("command") == "reset" || ($request->get("command") == "pull" && $request->get("branchName") != "")) {
+                if ($request->get("action") == "clone" || $request->get("action") == "reset" || ($request->get("action") == "pull" && $request->get("branchName") != "")) {
                     $microserviceDeployRow = $this->query->selectMicroserviceDeployDatabase($request->get("id"));
-
+                    
                     $sshConnection = $this->sshConnection($microserviceDeployRow, $request);
-
-                    $this->response['values']['sshConnection'] = $sshConnection;
-
-                    if ($sshConnection != "")
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_7");
-                    else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_8");
+                    
+                    if ($sshConnection == false)
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_18");
+                    else {
+                        $this->response['values']['sshConnection'] = $sshConnection;
+                        
+                        if ($sshConnection != "")
+                            $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_7");
+                        else
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_8");
+                    }
                 }
                 else
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("microserviceDeployController_9");
@@ -504,6 +508,8 @@ class MicroserviceDeployController extends AbstractController {
     
     // Functions private
     private function createRenderHtml($elements) {
+        $command = nl2br($elements[0]['command']);
+        
         $renderHtml = "<ul class=\"mdc-list mdc-list--two-line mdc-list--avatar-list\">
             <li class=\"mdc-list-item\">
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
@@ -628,10 +634,18 @@ class MicroserviceDeployController extends AbstractController {
             <li class=\"mdc-list-item\">
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_18")}
+                    <span class=\"mdc-list-item__secondary-text\">{$command}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
                     <div style=\"margin-top: 6px;\" class=\"mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense\">
-                        <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" autocomplete=\"off\"/>
                         <i class=\"material-icons mdc-text-field__icon\">textsms</i>
-                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label required\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_22")}</label>
+                        <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" required=\"required\" autocomplete=\"off\"/>
+                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_23")}</label>
                         <div class=\"mdc-notched-outline\">
                             <svg>
                                 <path class=\"mdc-notched-outline__path\"/>
@@ -643,9 +657,9 @@ class MicroserviceDeployController extends AbstractController {
                 </span>
             </li>
         </ul>
-        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"clone\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_13")}</button>
-        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"pull\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_14")}</button>
-        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-command=\"reset\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_15")}</button>";
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-action=\"clone\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_13")}</button>
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-action=\"pull\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_14")}</button>
+        <button class=\"mdc-button mdc-button--dense mdc-button--raised git_execute\" data-action=\"reset\" type=\"submit\">{$this->utility->getTranslator()->trans("microserviceDeployController_15")}</button>";
         
         return $renderHtml;
     }
@@ -789,25 +803,31 @@ class MicroserviceDeployController extends AbstractController {
     private function sshConnection($row, $request) {
         $result = "";
         
-        if ($request->get("command") == "clone" || $request->get("command") == "pull" || $request->get("command") == "reset") {
+        if ($request->get("action") == "clone" || $request->get("action") == "pull" || $request->get("action") == "reset") {
             $pathKeyPublic = $this->utility->getPathSrc() . "/files/microservice/deploy/{$row['key_public']}";
             $pathKeyPrivate = $this->utility->getPathSrc() . "/files/microservice/deploy/{$row['key_private']}";
             
-            $connection = ssh2_connect($row['ip'], 22);
+            $connection = @ssh2_connect($row['ip'], 22);
             
-            $auth = false;
+            if ($connection == false)
+                return false;
+            
+            $auth = true;
             
             $microserviceDeployRow = $this->microserviceDeployDatabase("select", $row['ssh_password'], $row['id']);
             
             if ($row['username'] != "" && $microserviceDeployRow['ssh_password'] != "")
-                $auth = ssh2_auth_password($connection, $row['ssh_username'], $row['ssh_password']);
+                $auth = @ssh2_auth_password($connection, $row['ssh_username'], $row['ssh_password']);
             else
-                $auth = ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate);
+                $auth = @ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate);
+            
+            if ($auth == false)
+                return false;
             
             if ($auth == true) {
                 $commands = Array();
                 
-                if ($request->get("command") == "clone") {
+                if ($request->get("action") == "clone") {
                     $commands = Array(
                         "git config --global user.email '{$row['git_user_email']}'",
                         "git config --global user.name '{$row['git_user_name']}'",
@@ -818,7 +838,7 @@ class MicroserviceDeployController extends AbstractController {
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
                     );
                 }
-                else if ($request->get("command") == "pull") {
+                else if ($request->get("action") == "pull") {
                     $commands = Array(
                         "git config --global user.email '{$row['git_user_email']}'",
                         "git config --global user.name '{$row['git_user_name']}'",
@@ -829,7 +849,7 @@ class MicroserviceDeployController extends AbstractController {
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
                     );
                 }
-                else if ($request->get("command") == "reset") {
+                else if ($request->get("action") == "reset") {
                     $commands = Array(
                         "git config --global user.email '{$row['git_user_email']}'",
                         "git config --global user.name '{$row['git_user_name']}'",
@@ -840,6 +860,12 @@ class MicroserviceDeployController extends AbstractController {
                         "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
                     );
+                }
+                
+                $rowCommandExplode = preg_split("/\r\n|\r|\n/", $row['command']);
+                
+                foreach ($rowCommandExplode as $key => $value) {
+                    $commands[] = $value;
                 }
                 
                 $stream = ssh2_exec($connection, implode(";", $commands));

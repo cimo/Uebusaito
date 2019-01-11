@@ -33,24 +33,24 @@ class MicroserviceDeploy {
     private $systemUser = "";
     
     /**
-     * @ORM\Column(name="ssh_username", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="ssh_username", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $sshUsername = "";
     
     /**
-     * @ORM\Column(name="ssh_password", type="string", nullable=true, columnDefinition="blob DEFAULT NULL")
+     * @ORM\Column(name="ssh_password", type="string", nullable=true, columnDefinition="blob")
      */
     private $sshPassword = "";
     
     /**
-     * @ORM\Column(name="key_public", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="key_public", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $keyPublic = "";
     
     private $removeKeyPublic = false;
     
     /**
-     * @ORM\Column(name="key_private", type="string", nullable=true, columnDefinition="varchar(255) DEFAULT ''")
+     * @ORM\Column(name="key_private", type="string", nullable=true, columnDefinition="varchar(255)")
      */
     private $keyPrivate = "";
     
@@ -95,6 +95,11 @@ class MicroserviceDeploy {
      * @ORM\Column(name="root_web_path", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $rootWebPath = "";
+    
+    /**
+     * @ORM\Column(name="command", type="string", nullable=true, columnDefinition="longtext")
+     */
+    private $command = "";
     
     /**
      * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
@@ -174,6 +179,10 @@ class MicroserviceDeploy {
         $this->rootWebPath = $value;
     }
     
+    public function setCommand($value) {
+        $this->command = $value;
+    }
+    
     public function setActive($value) {
         $this->active = $value;
     }
@@ -250,6 +259,10 @@ class MicroserviceDeploy {
     
     public function getRootWebPath() {
         return $this->rootWebPath;
+    }
+    
+    public function getCommand() {
+        return $this->command;
     }
     
     public function getActive() {
