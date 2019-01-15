@@ -81,7 +81,7 @@
 
                     {{-render(controller("App\\Controller\\ControlPanel\\PaymentController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelPayment.init();
                             controlPanelPayment.changeView();
@@ -96,7 +96,7 @@
                             'label_2': "{{"controlPanelPayment_3"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/Payment.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/Payment.js")}}"></script>
                 {% endif %}
             {% elseif urlExtra == "cp_page" or urlExtra == "cp_page_create" or urlExtra == "cp_page_select" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
@@ -112,7 +112,7 @@
                         {{-render(controller("App\\Controller\\ControlPanel\\PageController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelPage.init();
                             controlPanelPage.changeView();
@@ -127,7 +127,7 @@
                             'label_2': "{{"controlPanelPage_3"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/Page.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/Page.js")}}"></script>
                 {% endif %}
             {% elseif urlExtra == "cp_user" or urlExtra == "cp_user_create" or urlExtra == "cp_user_select" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
@@ -143,7 +143,7 @@
                         {{-render(controller("App\\Controller\\ControlPanel\\UserController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelUser.init();
                             controlPanelUser.changeView();
@@ -158,7 +158,7 @@
                             'label_2': "{{"controlPanelUser_3"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/User.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/User.js")}}"></script>
                 {% endif %}
             {% elseif urlExtra == "cp_module" or urlExtra == "cp_module_create" or urlExtra == "cp_module_select" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
@@ -174,7 +174,7 @@
                         {{-render(controller("App\\Controller\\ControlPanel\\ModuleController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelModule.init();
                             controlPanelModule.changeView();
@@ -189,7 +189,7 @@
                             'label_2': "{{"controlPanelModule_3"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/Module.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/Module.js")}}"></script>
                 {% endif %}
             {% elseif urlExtra == "cp_role" or urlExtra == "cp_role_create" or urlExtra == "cp_role_select" %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true %}
@@ -205,7 +205,7 @@
                         {{-render(controller("App\\Controller\\ControlPanel\\RoleUserController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelRoleUser.init();
                             controlPanelRoleUser.changeView();
@@ -220,7 +220,7 @@
                             'label_2': "{{"controlPanelRole_3"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/RoleUser.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/RoleUser.js")}}"></script>
                 {% endif %}
             {% elseif urlExtra == "cp_setting" %}
                 {% if is_granted("ROLE_ADMIN") == true %}
@@ -228,7 +228,7 @@
 
                     {{-render(controller("App\\Controller\\ControlPanel\\SettingController::saveAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelSetting.init();
                         }, false);
@@ -237,7 +237,7 @@
                             'label_1': "{{"controlPanelSetting_2"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/Setting.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/Setting.js")}}"></script>
                 {% endif %}
             {% elseif urlExtra == "cp_setting_slack_iw" %}
                 {% if is_granted("ROLE_ADMIN") == true %}
@@ -245,7 +245,7 @@
 
                     {{-render(controller("App\\Controller\\ControlPanel\\SettingSlackIwController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelSettingSlackIw.init();
                         }, false);
@@ -254,7 +254,7 @@
                             'label_1': "{{"controlPanelSettingSlack_2"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/SettingSlackIw.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/SettingSlackIw.js")}}"></script>
                 {% endif %}
             {% elseif urlExtra == "cp_setting_line" %}
                 {% if is_granted("ROLE_ADMIN") == true %}
@@ -262,7 +262,7 @@
 
                     {{-render(controller("App\\Controller\\ControlPanel\\SettingLinePushController::renderAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelSettingLinePush.init();
                         }, false);
@@ -271,7 +271,7 @@
                             'label_1': "{{"controlPanelSettingLine_2"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/SettingLinePush.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/SettingLinePush.js")}}"></script>
                 {% endif %}
             {% elseif (urlExtra == "cp_microservice_deploy" or urlExtra == "cp_microservice_deploy_create" or "cp_microservice_deploy_select" in urlExtra) %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MICROSERVICE") == true %}
@@ -289,7 +289,7 @@
                         {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceDeployController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelMicroserviceDeploy.init();
                             controlPanelMicroserviceDeploy.changeView();
@@ -305,7 +305,7 @@
                             'label_3': "{{"controlPanelMicroserviceDeploy_4"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/MicroserviceDeploy.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/MicroserviceDeploy.js")}}"></script>
                 {% endif %}
             {% elseif (urlExtra == "cp_microservice_api" or urlExtra == "cp_microservice_api_create" or "cp_microservice_api_profile" in urlExtra) %}
                 {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MICROSERVICE") == true %}
@@ -322,7 +322,7 @@
                         {{-render(controller("App\\Controller\\ControlPanel\\MicroserviceApiController::profileSaveAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
                     {% endif %}
                     
-                    <script type="text/javascript">
+                    <script>
                         window.addEventListener("load", function() {
                             controlPanelMicroserviceApi.init();
                             controlPanelApiBasic.init();
@@ -332,8 +332,8 @@
                             'label_1': "{{"apiBasic_1"|trans}}"
                         };
                     </script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/MicroserviceApi.js")}}"></script>
-                    <script type="text/javascript" src="{{asset("javascript/system/control_panel/ApiBasic.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/MicroserviceApi.js")}}"></script>
+                    <script src="{{asset("javascript/system/control_panel/ApiBasic.js")}}"></script>
                 {% endif %}
             {% endif %}
         </div>

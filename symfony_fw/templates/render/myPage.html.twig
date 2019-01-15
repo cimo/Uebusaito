@@ -24,7 +24,7 @@
     {{-render(controller("App\\Controller\\MyPage\\MyPagePaymentController::selectAction", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra}))-}}
 {% endif %}
 
-<script type="text/javascript">
+<script>
     window.addEventListener("load", function() {
         myPageProfile.init();
         
@@ -41,5 +41,5 @@
         'label_2': "{{"myPage_5"|trans}}"
     };
 </script>
-<script type="text/javascript" src="{{asset("javascript/system/my_page/MyPageProfile.js")}}"></script>
-<script type="text/javascript" src="{{asset("javascript/system/my_page/MyPagePayment.js")}}"></script>
+<script src="{{asset("javascript/system/my_page/MyPageProfile.js")}}"></script>
+<script src="{{asset("javascript/system/my_page/MyPagePayment.js")}}"></script>

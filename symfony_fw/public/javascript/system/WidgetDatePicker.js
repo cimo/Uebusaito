@@ -278,7 +278,7 @@ function WidgetDatePicker() {
             html = "<div class=\"mdc-theme--primary-bg mdc-theme--on-primary header\">\n\
                 <p>" + currentYear + "</p>\n\
                 <div class=\"mdc-typography--headline6 text\">" + weekCurrentDay + ", " + monthLabels[language][currentMonth] + " " + currentDay + "</div>\n\
-                <button class=\"mdc-fab mdc-fab--mini cp_payment_delete\" type=\"button\" aria-label=\"Close\"><span class=\"mdc-fab__icon material-icons\">close</span></button>\n\
+                <button class=\"mdc-fab mdc-fab--mini cp_payment_delete\" type=\"button\" aria-label=\"label\"><span class=\"mdc-fab__icon material-icons\">close</span></button>\n\
             </div>";
         }
         else if (type === false)

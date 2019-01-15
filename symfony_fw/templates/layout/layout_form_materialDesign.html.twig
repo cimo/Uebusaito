@@ -123,7 +123,7 @@
 {%- block file_widget -%}
     {% set type = type|default('file') %}
     <div class="material_upload">
-        <button class="mdc-fab" aria-label="Upload" type="button">
+        <button class="mdc-fab" type="button" aria-label="label">
             <span class="mdc-fab__icon material-icons">cloud_upload</span>
         </button>
         <label>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
@@ -143,7 +143,7 @@
     {#<textarea {{ block('widget_attributes') }}>{{ value }}</textarea>#}
     {# cimo + #}
     <div class="mdc-text-field mdc-text-field--textarea">
-        <textarea class="mdc-text-field__input" {{ block('widget_attributes') }} autocomplete="off">{{ value }}</textarea>
+        <textarea class="mdc-text-field__input" {{ block('widget_attributes') }} autocomplete="off" aria-label="label">{{ value }}</textarea>
         <label class="mdc-floating-label">{% if label is defined %}{{translation_domain is same as(false) ? label : label|trans({}, translation_domain)}}{% endif %}</label>
     </div>
     <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
@@ -172,7 +172,7 @@
     {%- endif -%}
     {# cimo : #}
     <div class="mdc-select{% if styleType is defined %} {{styleType}}{% endif %}">
-        <select class="mdc-select__native-control" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        <select class="mdc-select__native-control" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %} aria-label="label">
             {%- if placeholder is not none -%}
                 <option value="" {% if required and value is empty %}selected="selected"{% endif %}></option>
             {%- endif -%}
@@ -209,7 +209,7 @@
     {# cimo + #}
     <div class="mdc-form-field">
         <div class="mdc-checkbox">
-            <input class="mdc-checkbox__native-control" type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
+            <input class="mdc-checkbox__native-control" type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} aria-label="label"/>
             <div class="mdc-checkbox__background">
                 <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                     <path class="mdc-checkbox__checkmark-path" fill="none" stroke="white" d="M1.73,12.91 8.1,19.28 22.79,4.59"></path>
@@ -228,7 +228,7 @@
     {# cimo + #}
     <div class="mdc-form-field">
         <div class="mdc-radio">
-            <input class="mdc-radio__native-control" type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
+            <input class="mdc-radio__native-control" type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} aria-label="label"/>
             <div class="mdc-radio__background">
                 <div class="mdc-radio__outer-circle"></div>
                 <div class="mdc-radio__inner-circle"></div>

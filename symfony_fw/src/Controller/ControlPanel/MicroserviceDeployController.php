@@ -696,7 +696,7 @@ class MicroserviceDeployController extends AbstractController {
                         $listHtml .= $this->utility->getTranslator()->trans("microserviceDeployController_17");
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">
-                    <button class=\"mdc-fab mdc-fab--mini cp_module_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
+                    <button class=\"mdc-fab mdc-fab--mini cp_module_delete\" type=\"button\" aria-label=\"label\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

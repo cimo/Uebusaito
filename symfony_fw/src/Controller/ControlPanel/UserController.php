@@ -442,7 +442,7 @@ class UserController extends AbstractController {
                         $listHtml .= $this->utility->getTranslator()->trans("userController_11");
                 $listHtml .= "</td>
                 <td>
-                    <button class=\"mdc-fab mdc-fab--mini cp_user_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
+                    <button class=\"mdc-fab mdc-fab--mini cp_user_delete\" type=\"button\" aria-label=\"label\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

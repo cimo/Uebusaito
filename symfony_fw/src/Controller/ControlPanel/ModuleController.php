@@ -458,7 +458,7 @@ class ModuleController extends AbstractController {
                 $listHtml .= "</td>
                 <td class=\"horizontal_center\">";
                     if ($value['id'] > 2)
-                        $listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_module_delete\" type=\"button\" aria-label=\"Delete\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
+                        $listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_module_delete\" type=\"button\" aria-label=\"label\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
             </tr>";
         }

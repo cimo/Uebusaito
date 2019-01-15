@@ -33,7 +33,7 @@ function Utility() {
         observer.observe(element, {'attributes': true, 'childList': true, 'subtree': true, 'characterData': true});
     };
     
-    self.checkMobile = function(fix = false) {
+    self.checkMobile = function(fix) {
         var isMobile = false;
         
         var navigatorUserAgent = navigator.userAgent.toLowerCase();
