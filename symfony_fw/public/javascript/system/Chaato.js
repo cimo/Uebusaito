@@ -308,7 +308,10 @@ function Chaato() {
             y = event.clientY - window.pageYOffset;
         }
 
-        return {x, y};
+        return {
+            'x': x,
+            'y': y
+        };
     }
     
     function info() {

@@ -1,5 +1,9 @@
 #!/bin/bash
+
 clear
+
 echo Scss2css - Mac
-SOURCE=$(dirname ${BASH_SOURCE[0]})
-sass --watch "$SOURCE"/scss:"$SOURCE"/css --style compressed
+
+source=$(dirname ${BASH_SOURCE[0]})
+
+sass --watch "$source"/scss:"$source"/css --style compressed
