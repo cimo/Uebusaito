@@ -560,9 +560,9 @@ class RoleUserController extends AbstractController {
     private function roleImplode($roleUserId) {
         $roleExplode = explode(",", $roleUserId);
 
-        for ($i = 0; $i < count($roleExplode); $i ++) {
-            if (intval($roleExplode[$i]) > 4)
-                unset($roleExplode[$i]);
+        for ($a = 0; $a < count($roleExplode); $a ++) {
+            if (intval($roleExplode[$a]) > 4)
+                unset($roleExplode[$a]);
         }
         
         if (isset($roleExplode[0]) == false && empty($roleExplode[1]) == true)

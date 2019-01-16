@@ -65,24 +65,26 @@ class PayPal {
             return false;
         
         curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
-        curl_setopt($curl, CURLOPT_SSLVERSION, 6);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, Array(
+            "Connection: Close"
+        ));
         
         if ($this->certificate == true)
             curl_setopt($curl, CURLOPT_CAINFO, dirname(__DIR__) . "/files/paypal.pem");
         
         if($this->debug == true) {
-            curl_setopt($curl, CURLOPT_HEADER, 1);
-            curl_setopt($curl, CURLINFO_HEADER_OUT, 1);
+            curl_setopt($curl, CURLOPT_HEADER, true);
+            curl_setopt($curl, CURLINFO_HEADER_OUT, true);
         }
         
-        curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, Array('Connection: Close'));
+        curl_setopt($curl, CURLOPT_SSLVERSION, 6);
+        curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
         
         $curlResponse = curl_exec($curl);
         $curlInfo = curl_getinfo($curl);

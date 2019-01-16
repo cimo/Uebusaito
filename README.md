@@ -33,8 +33,8 @@ This is a open source cms with symfony framework.
 | Microservice (Deploy - Api) |
 
 ## Images
-<img src="screenshots/1.png" width="200" alt="1"/>
-<img src="screenshots/2.png" width="200" alt="2"/>
+<img src="screenshots/1.png" width="200" alt="1.png"/>
+<img src="screenshots/2.png" width="200" alt="2.png"/>
 
 ## Instructions:
 1) Copy files on your server.

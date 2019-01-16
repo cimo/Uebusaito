@@ -394,17 +394,17 @@ class Utility {
     public function arrayUniqueMulti($elements, $index, $fix = true) {
         $results = Array();
         
-        $i = 0;
+        $a = 0;
         $keys = Array();
         
         foreach ($elements as $key => $value) {
             if (in_array($value[$index], $keys) == false) {
-                $results[$i] = $value;
+                $results[$a] = $value;
                 
-                $keys[$i] = $value[$index];
+                $keys[$a] = $value[$index];
             }
             
-            $i ++;
+            $a ++;
         }
         
         if ($fix == true)
@@ -902,7 +902,8 @@ class Utility {
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postFields));
             curl_setopt($curl, CURLOPT_HTTPHEADER, Array(
-                "Content-Type: application/json", "Authorization: Bearer " . $row['access_token']
+                "Content-Type: application/json",
+                "Authorization: Bearer " . $row['access_token']
             ));
             
             $curlResponse = curl_exec($curl);
@@ -938,7 +939,8 @@ class Utility {
                 curl_setopt($curl, CURLOPT_POST, true);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postFields));
                 curl_setopt($curl, CURLOPT_HTTPHEADER, Array(
-                    "Content-Type: application/json", "Authorization: Bearer " . $pushRow['access_token']
+                    "Content-Type: application/json",
+                    "Authorization: Bearer " . $pushRow['access_token']
                 ));
 
                 $curlResponse = curl_exec($curl);

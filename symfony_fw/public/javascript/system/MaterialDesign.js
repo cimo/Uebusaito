@@ -83,9 +83,9 @@ function MaterialDesign() {
         if ($(".mdc-drawer--temporary").length > 0) {
             var drawerMdc = new mdc.drawer.MDCTemporaryDrawer.attachTo($(".mdc-drawer--temporary")[0]);
 
-            $(".menu_root_mobile").on("click", "", function(event) {
+            /*$(".menu_root_mobile").on("click", "", function(event) {
                 drawerMdc.open = true;
-            });
+            });*/
         }
     };
     
@@ -179,7 +179,7 @@ function MaterialDesign() {
             snackbarMdc = new mdc.snackbar.MDCSnackbar.attachTo(value);
         });
         
-        $(".show_snackbar").on("click", "", function(event) {
+        /*$(".show_snackbar").on("click", "", function(event) {
             var snackbarDataObj = {
                 message: "Text",
                 actionText: "Close",
@@ -187,7 +187,7 @@ function MaterialDesign() {
             };
 
             snackbarMdc.show(snackbarDataObj);
-        });
+        });*/
     };
     
     self.tabBar = function() {
