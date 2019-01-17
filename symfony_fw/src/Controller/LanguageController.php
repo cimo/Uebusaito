@@ -122,7 +122,7 @@ class LanguageController extends AbstractController {
                 
                 $this->response['values']['codePage'] = $codePage;
                 $this->response['values']['pageTitle'] = $pageRow['title'];
-                $this->response['values']['pageArgument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "utf-8");
+                $this->response['values']['pageArgument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "UTF-8");
                 $this->response['values']['pageMenuName'] = $pageRow['menu_name'];
             }
             else {

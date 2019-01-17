@@ -242,7 +242,7 @@ class Page {
     }
     
     public function getArgument() {
-        return html_entity_decode($this->argument, ENT_QUOTES, "utf-8");
+        return html_entity_decode($this->argument, ENT_QUOTES, "UTF-8");
     }
     
     public function getRoleUserId() {

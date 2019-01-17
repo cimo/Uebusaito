@@ -88,7 +88,7 @@ class PageFormType extends AbstractType {
         ->add("argument", TextareaType::class, Array(
             'required' => false,
             'label' => "pageFormType_5",
-            'data' => html_entity_decode($values['argument'], ENT_QUOTES, "utf-8")
+            'data' => html_entity_decode($values['argument'], ENT_QUOTES, "UTF-8")
         ))
         ->add("roleUserId", HiddenType::class, Array(
             'required' => true,

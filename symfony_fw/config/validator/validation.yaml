@@ -685,7 +685,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[.0-9]+$/
+                pattern: /^[./0-9]+$/
         gitUserEmail:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -801,7 +801,7 @@ App\Entity\ApiBasic:
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
-                pattern: /^[.,0-9]+$/
+                pattern: /^[./,0-9]+$/
         active:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]

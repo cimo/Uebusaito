@@ -223,7 +223,7 @@ class Utility {
     
     public function sendEmail($to, $subject, $message, $from) {
         $headers  = "MIME-Version: 1.0 \r\n";
-        $headers .= "Content-type: text/html; charset=utf-8 \r\n";
+        $headers .= "Content-type: text/html; charset=UTF-8 \r\n";
         $headers .= "From: $from \r\n Reply-To: $from";
 
         mail($to, $subject, $message, $headers);
@@ -879,6 +879,9 @@ class Utility {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($postFields));
+            curl_setopt($curl, CURLOPT_HTTPHEADER, Array(
+                "Content-Type: application/json"
+            ));
 
             $curlResponse = curl_exec($curl);
             curl_close($curl);

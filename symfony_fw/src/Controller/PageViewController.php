@@ -65,7 +65,7 @@ class PageViewController extends AbstractController {
             
             $this->response['values']['controllerAction'] = $pageRow['controller_action'];
             $this->response['values']['title'] = $pageRow['title'];
-            $this->response['values']['argument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "utf-8");
+            $this->response['values']['argument'] = html_entity_decode($pageRow['argument'], ENT_QUOTES, "UTF-8");
             $this->response['values']['comment'] = $pageRow['comment'];
             $this->response['values']['userCreate'] = $pageRow['user_create'];
             $this->response['values']['dateCreate'] = strpos($pageRow['date_create'], "0000") !== false ? "-" : $this->utility->dateFormat($pageRow['date_create']);

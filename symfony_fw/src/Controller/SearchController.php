@@ -157,7 +157,7 @@ class SearchController extends AbstractController {
                 <span class=\"mdc-list-item__text\">
                     {$value['title']}
                     <span class=\"mdc-list-item__secondary-text\">";
-                        $argument = preg_replace("/<(.*?)>/", " ", html_entity_decode($value['argument'], ENT_QUOTES, "utf-8"));
+                        $argument = preg_replace("/<(.*?)>/", " ", html_entity_decode($value['argument'], ENT_QUOTES, "UTF-8"));
                         
                         if (strlen($argument) > 200)
                             $listHtml .= substr($argument, 0, 200) . "...";

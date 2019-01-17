@@ -623,7 +623,7 @@ class PageController extends AbstractController {
             
             $query->bindValue(":title", $form->get("title")->getData());
             
-            $argumentHtmlEntities = htmlentities($form->get("argument")->getData(), ENT_QUOTES, "utf-8");
+            $argumentHtmlEntities = htmlentities($form->get("argument")->getData(), ENT_QUOTES, "UTF-8");
             $query->bindValue(":argument", $argumentHtmlEntities);
             
             $query->bindValue(":menuName", $form->get("menuName")->getData());
@@ -643,7 +643,7 @@ class PageController extends AbstractController {
             
             $query->bindValue(":title", $form->get("title")->getData());
             
-            $argumentHtmlEntities = htmlentities($form->get("argument")->getData(), ENT_QUOTES, "utf-8");
+            $argumentHtmlEntities = htmlentities($form->get("argument")->getData(), ENT_QUOTES, "UTF-8");
             $query->bindValue(":argument", $argumentHtmlEntities);
             
             $query->bindValue(":menuName", $form->get("menuName")->getData());
