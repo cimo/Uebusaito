@@ -801,7 +801,7 @@ App\Entity\ApiBasic:
             - Regex:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
-                pattern: /^[.\/,0-9]+$/
+                pattern: /^[.\/,0-9\r\n|\r|\n]+$/
         active:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]

@@ -28,7 +28,7 @@ class ApiBasic {
     private $token = "";
     
     /**
-     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="varchar(255)")
+     * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="longtext")
      */
     private $ip = "";
     

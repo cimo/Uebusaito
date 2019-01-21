@@ -559,9 +559,9 @@ class ApiBasicController extends AbstractController {
 
                     if ($microserviceApiRow != false) {
                         if ($this->apiBasicRow != false) {
-                            $ipExplode = explode(",", $this->apiBasicRow['ip']);
+                            $ipSplit = preg_split("/\r\n|\r|\n/", $this->apiBasicRow['ip']);
 
-                            if (isset($this->apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                            if (isset($this->apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipSplit) == false)
                                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
                             else
                                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_8");
@@ -627,9 +627,9 @@ class ApiBasicController extends AbstractController {
                     
                     if ($microserviceApiRow != false) {
                         if ($this->apiBasicRow != false) {
-                            $ipExplode = explode(",", $this->apiBasicRow['ip']);
+                            $ipSplit = preg_split("/\r\n|\r|\n/", $this->apiBasicRow['ip']);
                             
-                            if (isset($this->apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipExplode) == false)
+                            if (isset($this->apiBasicRow['ip']) == true && in_array($_SERVER['REMOTE_ADDR'], $ipSplit) == false)
                                 $this->response['messages']['error'] = $this->utility->getTranslator()->trans("apiBasicController_13");
                             else {
                                 if ($this->apiBasicRow['url_callback'] != "") {

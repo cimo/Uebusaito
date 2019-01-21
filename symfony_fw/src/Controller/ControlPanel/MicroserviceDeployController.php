@@ -862,9 +862,9 @@ class MicroserviceDeployController extends AbstractController {
                     );
                 }
                 
-                $rowCommandExplode = preg_split("/\r\n|\r|\n/", $row['command']);
+                $rowCommandSplit = preg_split("/\r\n|\r|\n/", $row['command']);
                 
-                foreach ($rowCommandExplode as $key => $value) {
+                foreach ($rowCommandSplit as $key => $value) {
                     $commands[] = $value;
                 }
                 

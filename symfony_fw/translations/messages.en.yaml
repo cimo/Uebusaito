@@ -790,7 +790,7 @@ date.time: H:i:s
 
 "apiBasicFormType_1": "Name"
 "apiBasicFormType_2": "Token"
-"apiBasicFormType_3_i": "You can use multiple ip separate by comma."
+"apiBasicFormType_3_i": "You can use multiple ip separate by return (new line)."
 "apiBasicFormType_3": "Ip"
 "apiBasicFormType_4": "Url callback"
 "apiBasicFormType_5": "Database ip"
