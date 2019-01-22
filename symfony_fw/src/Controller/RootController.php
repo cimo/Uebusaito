@@ -67,13 +67,6 @@ class RootController extends AbstractController {
         $this->response['modules']['center'] = $this->query->selectAllModuleDatabase(null, "center");
         $this->response['modules']['right'] = $this->query->selectAllModuleDatabase(null, "right");
         
-        if ($this->container->get("session")->isStarted() == true) {
-            $session = $request->getSession();
-            $session->set("php_session", $_SESSION);
-        }
-        
-        $this->container->get("twig")->addGlobal("php_session", $_SESSION);
-        
         if ($request->get("event") == "captchaImage") {
             $this->response['captchaImage'] = $this->captcha->create(7);
             

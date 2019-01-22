@@ -69,13 +69,6 @@ class ControlPanelController extends AbstractController {
         
         $this->response['output']['phpinfo'] = $this->parsePhpinfo();
         
-        if ($this->container->get("session")->isStarted() == true) {
-            $session = $request->getSession();
-            $session->set("php_session", $_SESSION);
-        }
-        
-        $this->container->get("twig")->addGlobal("php_session", $_SESSION);
-        
         if ($request->get("event") == "captchaImage") {
             $this->response['captchaImage'] = $this->captcha->create(7);
             

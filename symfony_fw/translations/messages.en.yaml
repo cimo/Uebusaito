@@ -254,13 +254,13 @@ date.time: H:i:s
 "error_1": "Error: "
 
 # Utility
-"classUtility_1": "Session time is over, please login again."
-"classUtility_2": "Old password doesn't match!"
-"classUtility_3": "New password and New confirm password doesn't match!"
-"classUtility_4": "Password and Confirm password doesn't match!"
-"classUtility_5": "Roles"
-"classUtility_6": "This page"
-"classUtility_7": "This module"
+"classUtility_1": "Old password doesn't match!"
+"classUtility_2": "New password and New confirm password doesn't match!"
+"classUtility_3": "Password and Confirm password doesn't match!"
+"classUtility_4": "This page"
+"classUtility_5": "This module"
+"classUtility_6": "User profile data changed, please login again."
+"classUtility_7": "Session time is over, please login again."
 
 # Control panel
 "controlPanel_1": "Create"

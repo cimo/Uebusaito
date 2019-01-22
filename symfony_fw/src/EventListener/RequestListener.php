@@ -54,12 +54,21 @@ class RequestListener {
         if ($request->get("urlCurrentPageId") != null && $request->get("urlCurrentPageId") > 0)
              $urlCurrentPageId = $request->get("urlCurrentPageId");
         
+        $phpSession = Array(
+            'userActivity' => $_SESSION['userActivity'],
+            'languageTextCode' => $request->getLocale(),
+            'currentPageId' => $urlCurrentPageId
+        );
+        
         if ($this->container->get("session")->isStarted() == true) {
             $session = $request->getSession();
-            $session->set("php_session", $_SESSION);
+            $session->set("php_session", $phpSession);
+            
+            $this->container->get("twig")->addGlobal("php_session", $phpSession);
         }
+        else
+            $this->container->get("twig")->addGlobal("php_session", $phpSession);
         
-        $this->container->get("twig")->addGlobal("php_session", $_SESSION);
         $this->container->get("twig")->addGlobal("websiteName", $this->utility->getWebsiteName());
         $this->container->get("twig")->addGlobal("settingRow", $settingRow);
         $this->container->get("twig")->addGlobal("pageRow", $this->query->selectPageDatabase($request->getLocale(), $urlCurrentPageId));

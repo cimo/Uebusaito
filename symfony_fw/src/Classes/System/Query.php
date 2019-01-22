@@ -28,13 +28,13 @@ class Query {
             return false;
     }
     
-    public function selectRoleUserDatabase($roleId, $change = false) {
-        $roleIdExplode = explode(",", $roleId);
-        array_pop($roleIdExplode);
+    public function selectRoleUserDatabase($roleIds, $change = false) {
+        $roleIdsExplode = explode(",", $roleIds);
+        array_pop($roleIdsExplode);
         
         $levels = Array();
         
-        foreach ($roleIdExplode as $key => $value) {
+        foreach ($roleIdsExplode as $key => $value) {
             $query = $this->connection->prepare("SELECT level FROM roles_users
                                                     WHERE id = :value");
             

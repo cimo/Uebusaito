@@ -114,7 +114,7 @@ class Utility {
         $this->translator = $translator;
         $this->passwordEncoder = $passwordEncoder;
         
-        $this->sessionMaxIdleTime = 3600;
+        $this->sessionMaxIdleTime = 10;
         
         $this->config = new Config();
         $this->query = new Query($this->connection);
@@ -456,16 +456,16 @@ class Utility {
         
         if ($type == "withOld") {
             if (password_verify($form->get("old")->getData(), $row['password']) == false)
-                return $this->translator->trans("classUtility_2");
+                return $this->translator->trans("classUtility_1");
             else if ($form->get("new")->getData() != $form->get("newConfirm")->getData())
-                return $this->translator->trans("classUtility_3");
+                return $this->translator->trans("classUtility_2");
             
             $user->setPassword($this->createPasswordEncoder($type, $user, $form));
         }
         else if ($type == "withoutOld") {
             if ($form->get("password")->getData() != "" || $form->get("passwordConfirm")->getData() != "") {
                 if ($form->get("password")->getData() != $form->get("passwordConfirm")->getData())
-                    return $this->translator->trans("classUtility_4");
+                    return $this->translator->trans("classUtility_3");
                 
                 $user->setPassword($this->createPasswordEncoder($type, $user, $form));
             }
@@ -514,7 +514,7 @@ class Utility {
             <div class=\"mdc-line-ripple\"></div>
         </div>";
         
-        return $html; //classUtility_5
+        return $html;
     }
     
     public function createPageSelectHtml($urlLocale, $selectId, $label) {
@@ -571,7 +571,7 @@ class Utility {
                 $html .= "<li class=\"ui-state-default\">
                     <div class=\"mdc-chip\">
                         <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">drag_handle</i>
-                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$id\">[$id] " . $this->translator->trans("classUtility_6") . "</div>
+                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$id\">[$id] " . $this->translator->trans("classUtility_4") . "</div>
                     </div>
                 </li>";
             }
@@ -598,7 +598,7 @@ class Utility {
                 $html .= "<li class=\"ui-state-default\">
                     <div class=\"mdc-chip\">
                         <i class=\"material-icons mdc-chip__icon mdc-chip__icon--leading\">drag_handle</i>
-                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$id\">[$id] " . $this->translator->trans("classUtility_7") . "</div>
+                        <div class=\"mdc-chip__text sort_elemet_data\" data-id=\"$id\">[$id] " . $this->translator->trans("classUtility_5") . "</div>
                     </div>
                 </li>";
             }
@@ -670,68 +670,140 @@ class Utility {
     }
     
     public function checkSessionOverTime($request, $router) {
+        /*$isOver = false;
+        
+        if (isset($_SESSION['userActivity']) == false)
+            $_SESSION['userActivity'] = "";
+        
+        if (isset($_SESSION['userActivityTimestamp']) == false)
+            $_SESSION['userActivityTimestamp'] = time();
+        
+        if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+            $currentUser = $this->tokenStorage->getToken()->getUser();
+            
+            if (is_string($currentUser) == false) {
+                $userRow = $this->query->selectUserDatabase($currentUser->getId());
+
+                $rolesExplode = explode(",", $userRow['roles']);
+                
+                $arrayDiff = array_diff($currentUser->getRoles(), $rolesExplode);
+                
+                if (count($arrayDiff) > 0) {
+                    error_log("A\r\n", 3, "/home/cimo/www/error.log");
+                    
+                    $_SESSION['userActivity'] = $this->translator->trans("classUtility_6");
+                    
+                    $isOver = true;
+                }
+            }
+            
+            $timeLapse = time() - $_SESSION['userActivityTimestamp'];
+            
+            if ($timeLapse > $this->sessionMaxIdleTime && $_SESSION['userActivity'] == "") {
+                error_log("B\r\n", 3, "/home/cimo/www/error.log");
+                
+                $_SESSION['userActivity'] = $this->translator->trans("classUtility_7");
+                
+                $isOver = true;
+            }
+            else
+                $_SESSION['userActivity'] = "";
+            
+            error_log("$timeLapse ||| {$_SESSION['userActivity']}\r\n", 3, "/home/cimo/www/error.log");
+        }
+        
+        $_SESSION['userActivityTimestamp'] = time();
+        
+        if ($isOver == true) {
+            $isOver = false;
+            
+            if ($request->isXmlHttpRequest() == true) {
+                error_log("C\r\n", 3, "/home/cimo/www/error.log");
+                
+                echo json_encode(Array(
+                    'userActivity' => $_SESSION['userActivity']
+                ));
+
+                exit;
+            }
+            else {
+                error_log("D -> {$_SESSION['userActivity']}\r\n", 3, "/home/cimo/www/error.log");
+                
+                $userActivity = $_SESSION['userActivity'];
+                $language = $_SESSION['languageTextCode'];
+
+                $this->tokenStorage->setToken(null);
+                
+                $_SESSION['userActivity'] = $userActivity;
+                $_SESSION['languageTextCode'] = $language;
+                
+                return $router->generate(
+                    "root_render",
+                    Array(
+                        '_locale' => $_SESSION['languageTextCode'],
+                        'urlCurrentPageId' => 2,
+                        'urlExtra' => ""
+                    )
+                );
+            }
+        }
+        
+        return "";*/
+        
+        $isOver = false;
+        
         if (isset($_SESSION['userActivity']) == false)
             $_SESSION['userActivity'] = "";
         
         if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-            if (isset($_SESSION['userActivityTimestamp']) == false)
-                $_SESSION['userActivityTimestamp'] = time();
-            else {
-                $timeLapse = time() - $_SESSION['userActivityTimestamp'];
-
-                if ($timeLapse > $this->sessionMaxIdleTime) {
-                    $_SESSION['userActivity'] = $this->translator->trans("classUtility_1");
-                    
-                    if ($request->isXmlHttpRequest() == true) {
-                        echo json_encode(Array(
-                            'userActivity' => $_SESSION['userActivity']
-                        ));
-                        
-                        exit;
-                    }
-                    else {
-                        $userActivity = $_SESSION['userActivity'];
-                        $language = $_SESSION['languageTextCode'];
-                        
-                        $this->tokenStorage->setToken(null);
-                        
-                        $_SESSION['userActivity'] = $userActivity;
-                        $_SESSION['languageTextCode'] = $language;
-                        
-                        unset($_SESSION['userActivityTimestamp']);
-                        
-                        $url = $router->generate(
-                            "root_render",
-                            Array(
-                                '_locale' => $_SESSION['languageTextCode'],
-                                'urlCurrentPageId' => 2,
-                                'urlExtra' => ""
-                            )
-                        );
-                        
-                        return $url;
-                    }
-                }
-                else {
-                    $_SESSION['userActivityTimestamp'] = time();
-                    
-                    $_SESSION['userActivity'] = "";
-                }
+            $timeElapsed = time() - $_SESSION['userLastActionTime'];
+            
+            if ($timeElapsed > $this->sessionMaxIdleTime) {
+                error_log("A\r\n", 3, "/home/cimo/www/error.log");
+                
+                $isOver = true;
+                
+                $_SESSION['userActivity'] = $this->translator->trans("classUtility_7");
             }
         }
-        else {
-            if (isset($_SESSION['userActivity']) == true && $request->isXmlHttpRequest() == true && $_SESSION['userActivity'] != "") {
-                $_SESSION['userActivity'] = $this->translator->trans("classUtility_1");
+        
+        if ($isOver == true) {
+            unset($_SESSION['userLastActionTime']);
+            
+            error_log("B\r\n", 3, "/home/cimo/www/error.log");
+            
+            if ($request->isXmlHttpRequest() == true) {
+                error_log("C\r\n", 3, "/home/cimo/www/error.log");
                 
                 echo json_encode(Array(
                     'userActivity' => $_SESSION['userActivity']
                 ));
                 
-                $_SESSION['userActivity'] = "";
-
                 exit;
             }
+            else {
+                error_log("D -> {$_SESSION['userActivity']}\r\n", 3, "/home/cimo/www/error.log");
+                
+                $userActivity = $_SESSION['userActivity'];
+                $language = $_SESSION['languageTextCode'];
+                
+                $this->tokenStorage->setToken(null);
+                
+                $_SESSION['userActivity'] = $userActivity;
+                $_SESSION['languageTextCode'] = $language;
+                
+                return $router->generate(
+                    "root_render",
+                    Array(
+                        '_locale' => $_SESSION['languageTextCode'],
+                        'urlCurrentPageId' => 2,
+                        'urlExtra' => ""
+                    )
+                );
+            }
         }
+        
+        $_SESSION['userLastActionTime'] = time();
         
         return "";
     }

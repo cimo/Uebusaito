@@ -285,13 +285,15 @@ class UserController extends AbstractController {
 
                 if ($messagePassword == "ok") {
                     $usernameOld = $userEntity->getUsername();
-
+                    
                     if (file_exists("{$this->utility->getPathWeb()}/files/user/$usernameOld") == true)
                         rename("{$this->utility->getPathWeb()}/files/user/$usernameOld", "{$this->utility->getPathWeb()}/files/user/{$form->get("username")->getData()}");
-					
+                    
                     if ($form->get("active")->getData() == true)
                         $userEntity->setHelpCode("");
-
+                    
+                    $this->updateRoles($userEntity, $form->get("roleUserId")->getData());
+                    
                     // Database update
                     $this->entityManager->persist($userEntity);
                     $this->entityManager->flush();
@@ -487,5 +489,11 @@ class UserController extends AbstractController {
 
             return $query->execute();
         }
+    }
+    
+    private function updateRoles($user, $roleUserId) {
+        $roleIds = $this->query->selectRoleUserDatabase($roleUserId);
+        
+        $user->setRoles($roleIds);
     }
 }

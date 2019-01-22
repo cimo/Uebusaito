@@ -73,8 +73,8 @@ function Language() {
     
     // Functions private
     function selectOnPage() {
-        $("#language_page_container").find(".flag_" + session.languageTextCode).parent().addClass("mdc-chip--selected");
-        $("#language_page_container").find("input[name='form_language[codePage]']").val(session.languageTextCode);
+        $("#language_page_container").find(".flag_" + window.session.languageTextCode).parent().addClass("mdc-chip--selected");
+        $("#language_page_container").find("input[name='form_language[codePage]']").val(window.session.languageTextCode);
         
         $("#language_page_container .mdc-chip").on("click", "", function(event) {
             if (controlPanelPage.getProfileFocus() === true) {

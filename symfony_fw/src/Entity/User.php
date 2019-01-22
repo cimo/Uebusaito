@@ -215,7 +215,9 @@ class User implements UserInterface, EquatableInterface, \Serializable {
     }
     
     public function setCredit($value) {
-        $this->credit = $value;
+        $newValue = $value == null ? 0 : $value;
+            
+        $this->credit = $newValue;
     }
     
     public function setActive($value) {
