@@ -55,7 +55,7 @@ class RequestListener {
              $urlCurrentPageId = $request->get("urlCurrentPageId");
         
         $phpSession = Array(
-            'userActivity' => $_SESSION['userActivity'],
+            'userInform' => $_SESSION['userInform'],
             'languageTextCode' => $request->getLocale(),
             'currentPageId' => $urlCurrentPageId
         );

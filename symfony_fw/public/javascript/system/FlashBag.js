@@ -31,10 +31,10 @@ function FlashBag() {
     };
     
     self.sessionActivity = function() {
-        if ($("#flashBag").find(".content").length > 0 && window.session.userActivity !== "") {
+        if ($("#flashBag").find(".content").length > 0 && window.session.userInform !== "") {
             loader.hide();
             
-            self.show(window.session.userActivity);
+            self.show(window.session.userInform);
         }
     };
     

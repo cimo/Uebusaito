@@ -83,9 +83,9 @@ function MaterialDesign() {
         if ($(".mdc-drawer--temporary").length > 0) {
             var drawerMdc = new mdc.drawer.MDCTemporaryDrawer.attachTo($(".mdc-drawer--temporary")[0]);
 
-            /*$(".menu_root_mobile").on("click", "", function(event) {
+            $(".menu_root_mobile").on("click", "", function(event) {
                 drawerMdc.open = true;
-            });*/
+            });
         }
     };
     

@@ -428,6 +428,33 @@ function Utility() {
         });
     };
     
+    self.serializeJson = function(object) {
+        var elements = {};
+        
+        var serializeArray = object.serializeArray();
+        
+        var jsonString = JSON.stringify(serializeArray)
+        var json = JSON.parse(jsonString);
+        
+        var name = "";
+        
+        $.each(json, function(key, value) {
+            $.each(value, function(keySub, valueSub) {
+                if (keySub === "name") {
+                    var newName = valueSub.substring(valueSub.lastIndexOf("[") + 1, valueSub.lastIndexOf("]"));
+                    
+                    newName = newName.replace("_token", "token");
+                    
+                    name = newName;
+                }
+                else
+                    elements[name] = valueSub;
+            });
+        });
+        
+        return elements;
+    };
+    
     // Functions private
     function populateSortableInput(tagParent, tagInput) {
         var idList = "";

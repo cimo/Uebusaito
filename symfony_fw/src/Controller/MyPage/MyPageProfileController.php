@@ -115,7 +115,7 @@ class MyPageProfileController extends AbstractController {
                     
                     $message = $this->utility->getTranslator()->trans("myPageProfileController_1");
                     
-                    $_SESSION['userActivity'] = $message;
+                    $_SESSION['userInform'] = $message;
                     
                     $this->response['messages']['info'] = $message;
                 }

@@ -193,15 +193,9 @@ class PaymentController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_payment_select")['_token']) == true) {
-                $id = 0;
-
-                if (empty($request->get("id")) == false)
-                    $id = $request->get("id");
-                else if (empty($request->get("form_payment_select")['id']) == false)
-                    $id = $request->get("form_payment_select")['id'];
-
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                $id = $request->get("id");
+                
                 $paymentEntity = $this->entityManager->getRepository("App\Entity\Payment")->find($id);
 
                 if ($paymentEntity != null) {

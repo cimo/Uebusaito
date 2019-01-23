@@ -197,15 +197,9 @@ class ModuleController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if (($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_module_select")['_token']) == true)) {
-                $id = 0;
-
-                if (empty($request->get("id")) == false)
-                    $id = $request->get("id");
-                else if (empty($request->get("form_module_select")['id']) == false)
-                    $id = $request->get("form_module_select")['id'];
-
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                $id = $request->get("id");
+                
                 $moduleEntity = $this->entityManager->getRepository("App\Entity\Module")->find($id);
 
                 if ($moduleEntity != null) {

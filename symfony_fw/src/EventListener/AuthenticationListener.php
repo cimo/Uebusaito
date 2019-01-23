@@ -66,8 +66,6 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
             if ($checkCaptcha == true && (($this->settingRow['website_active'] == true && $checkAttemptLogin[0] == true)
                 || ($this->settingRow['website_active'] == false && $checkAttemptLogin[0] == true && $arrayExplodeFindValue == true))) {
                 $this->response['values']['url'] = $referer;
-                
-                $_SESSION['userLastActionTime'] = time();
             }
             else {
                 $this->utility->getTokenStorage()->setToken(null);
@@ -86,8 +84,6 @@ class AuthenticationListener implements AuthenticationSuccessHandlerInterface, A
                     }
                 }
                 
-                unset($_SESSION['userLastActionTime']);
-
                 $this->response['messages']['error'] = $message;
             }
             

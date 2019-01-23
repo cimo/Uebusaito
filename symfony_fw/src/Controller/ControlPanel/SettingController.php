@@ -85,7 +85,7 @@ class SettingController extends AbstractController {
                     
                     $message = $this->utility->getTranslator()->trans("settingController_2");
                     
-                    $_SESSION['userActivity'] = $message;
+                    $_SESSION['userInform'] = $message;
                     
                     $this->response['messages']['info'] = $message;
                 }

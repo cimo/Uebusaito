@@ -26,7 +26,7 @@ function ControlPanelSettingLinePush() {
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
-                $(this).serialize(),
+                utility.serializeJson($(this)),
                 "json",
                 false,
                 true,

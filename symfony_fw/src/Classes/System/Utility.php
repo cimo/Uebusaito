@@ -114,7 +114,7 @@ class Utility {
         $this->translator = $translator;
         $this->passwordEncoder = $passwordEncoder;
         
-        $this->sessionMaxIdleTime = 10;
+        $this->sessionMaxIdleTime = 3600;
         
         $this->config = new Config();
         $this->query = new Query($this->connection);
@@ -670,15 +670,32 @@ class Utility {
     }
     
     public function checkSessionOverTime($request, $router) {
-        /*$isOver = false;
+        if (isset($_SESSION['userActionCount']) == false)
+            $_SESSION['userActionCount'] = 0;
         
-        if (isset($_SESSION['userActivity']) == false)
-            $_SESSION['userActivity'] = "";
-        
-        if (isset($_SESSION['userActivityTimestamp']) == false)
-            $_SESSION['userActivityTimestamp'] = time();
+        if (isset($_SESSION['userInform']) == false) {
+            $_SESSION['userInform'] = "";
+            $_SESSION['userInformCount'] = 0;
+        }
         
         if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+            if (isset($_SESSION['userTimestamp']) == false)
+                $_SESSION['userTimestamp'] = time();
+            
+            $_SESSION['userActionCount'] ++;
+            
+            $timeElapsed = time() - $_SESSION['userTimestamp'];
+            
+            $isOver = false;
+            
+            // Inactivity
+            if ($_SESSION['userActionCount'] > 1 && $timeElapsed >= $this->sessionMaxIdleTime) {
+                $_SESSION['userInform'] = $this->translator->trans("classUtility_6");
+                
+                $isOver = true;
+            }
+            
+            // Roles changed
             $currentUser = $this->tokenStorage->getToken()->getUser();
             
             if (is_string($currentUser) == false) {
@@ -689,121 +706,54 @@ class Utility {
                 $arrayDiff = array_diff($currentUser->getRoles(), $rolesExplode);
                 
                 if (count($arrayDiff) > 0) {
-                    error_log("A\r\n", 3, "/home/cimo/www/error.log");
+                    $_SESSION['userActionCount'] = 0;
                     
-                    $_SESSION['userActivity'] = $this->translator->trans("classUtility_6");
+                    $_SESSION['userInform'] = $this->translator->trans("classUtility_7");
                     
                     $isOver = true;
                 }
             }
             
-            $timeLapse = time() - $_SESSION['userActivityTimestamp'];
-            
-            if ($timeLapse > $this->sessionMaxIdleTime && $_SESSION['userActivity'] == "") {
-                error_log("B\r\n", 3, "/home/cimo/www/error.log");
-                
-                $_SESSION['userActivity'] = $this->translator->trans("classUtility_7");
-                
-                $isOver = true;
-            }
-            else
-                $_SESSION['userActivity'] = "";
-            
-            error_log("$timeLapse ||| {$_SESSION['userActivity']}\r\n", 3, "/home/cimo/www/error.log");
-        }
-        
-        $_SESSION['userActivityTimestamp'] = time();
-        
-        if ($isOver == true) {
-            $isOver = false;
-            
-            if ($request->isXmlHttpRequest() == true) {
-                error_log("C\r\n", 3, "/home/cimo/www/error.log");
-                
-                echo json_encode(Array(
-                    'userActivity' => $_SESSION['userActivity']
-                ));
+            if ($isOver == true) {
+                if ($request->isXmlHttpRequest() == true) {
+                    echo json_encode(Array(
+                        'userInform' => $_SESSION['userInform']
+                    ));
 
-                exit;
-            }
-            else {
-                error_log("D -> {$_SESSION['userActivity']}\r\n", 3, "/home/cimo/www/error.log");
-                
-                $userActivity = $_SESSION['userActivity'];
-                $language = $_SESSION['languageTextCode'];
+                    exit;
+                }
+                else {
+                    $_SESSION['userActionCount'] = 0;
+                    
+                    $userInform = $_SESSION['userInform'];
+                    $language = $_SESSION['languageTextCode'];
 
-                $this->tokenStorage->setToken(null);
-                
-                $_SESSION['userActivity'] = $userActivity;
-                $_SESSION['languageTextCode'] = $language;
-                
-                return $router->generate(
-                    "root_render",
-                    Array(
-                        '_locale' => $_SESSION['languageTextCode'],
-                        'urlCurrentPageId' => 2,
-                        'urlExtra' => ""
-                    )
-                );
+                    $this->tokenStorage->setToken(null);
+
+                    $_SESSION['userInform'] = $userInform;
+                    $_SESSION['languageTextCode'] = $language;
+
+                    return $router->generate(
+                        "root_render",
+                        Array(
+                            '_locale' => $_SESSION['languageTextCode'],
+                            'urlCurrentPageId' => 2,
+                            'urlExtra' => ""
+                        )
+                    );
+                }
             }
+
+            $_SESSION['userTimestamp'] = time();
         }
         
-        return "";*/
-        
-        $isOver = false;
-        
-        if (isset($_SESSION['userActivity']) == false)
-            $_SESSION['userActivity'] = "";
-        
-        if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
-            $timeElapsed = time() - $_SESSION['userLastActionTime'];
-            
-            if ($timeElapsed > $this->sessionMaxIdleTime) {
-                error_log("A\r\n", 3, "/home/cimo/www/error.log");
-                
-                $isOver = true;
-                
-                $_SESSION['userActivity'] = $this->translator->trans("classUtility_7");
-            }
+        if ($_SESSION['userInform'] != "")
+            $_SESSION['userInformCount'] ++;
+
+        if ($_SESSION['userInformCount'] > 1) {
+            $_SESSION['userInform'] = "";
+            $_SESSION['userInformCount'] = 0;
         }
-        
-        if ($isOver == true) {
-            unset($_SESSION['userLastActionTime']);
-            
-            error_log("B\r\n", 3, "/home/cimo/www/error.log");
-            
-            if ($request->isXmlHttpRequest() == true) {
-                error_log("C\r\n", 3, "/home/cimo/www/error.log");
-                
-                echo json_encode(Array(
-                    'userActivity' => $_SESSION['userActivity']
-                ));
-                
-                exit;
-            }
-            else {
-                error_log("D -> {$_SESSION['userActivity']}\r\n", 3, "/home/cimo/www/error.log");
-                
-                $userActivity = $_SESSION['userActivity'];
-                $language = $_SESSION['languageTextCode'];
-                
-                $this->tokenStorage->setToken(null);
-                
-                $_SESSION['userActivity'] = $userActivity;
-                $_SESSION['languageTextCode'] = $language;
-                
-                return $router->generate(
-                    "root_render",
-                    Array(
-                        '_locale' => $_SESSION['languageTextCode'],
-                        'urlCurrentPageId' => 2,
-                        'urlExtra' => ""
-                    )
-                );
-            }
-        }
-        
-        $_SESSION['userLastActionTime'] = time();
         
         return "";
     }

@@ -26,10 +26,10 @@ function Ajax() {
                     callbackBefore();
             },
             success: function(xhr) {
-                if (xhr.userActivity !== undefined && xhr.userActivity !== "") {
-                    window.session.userActivity = xhr.userActivity;
+                if (xhr.userInform !== undefined && xhr.userInform !== "") {
+                    window.session.userInform = xhr.userInform;
                     
-                    self.reply(xhr.userActivity, "");
+                    self.reply(xhr.userInform, "");
                     
                     if (loaderEnabled === true)
                         loader.hide();
@@ -104,8 +104,8 @@ function Ajax() {
                 });
             }
             
-            if (xhr.response.session !== undefined && xhr.response.session.userActivity !== undefined)
-                window.session.userActivity = xhr.response.session.userActivity;
+            if (xhr.response.session !== undefined && xhr.response.session.userInform !== undefined)
+                window.session.userInform = xhr.response.session.userInform;
         }
         
         if (reply !== "")

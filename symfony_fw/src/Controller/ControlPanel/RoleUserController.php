@@ -189,15 +189,9 @@ class RoleUserController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
-            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true
-                    || $this->isCsrfTokenValid("intention", $request->get("form_roleUser_select")['_token']) == true) {
-                $id = 0;
-
-                if (empty($request->get("id")) == false)
-                    $id = $request->get("id");
-                else if (empty($request->get("form_roleUser_select")['id']) == false)
-                    $id = $request->get("form_roleUser_select")['id'];
-
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                $id = $request->get("id");
+                
                 $roleUserEntity = $this->entityManager->getRepository("App\Entity\RoleUser")->find($id);
 
                 if ($roleUserEntity != null) {

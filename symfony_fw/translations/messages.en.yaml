@@ -259,8 +259,8 @@ date.time: H:i:s
 "classUtility_3": "Password and Confirm password doesn't match!"
 "classUtility_4": "This page"
 "classUtility_5": "This module"
-"classUtility_6": "User profile data changed, please login again."
-"classUtility_7": "Session time is over, please login again."
+"classUtility_6": "Session time is over, please login again."
+"classUtility_7": "User profile data changed, please login again."
 
 # Control panel
 "controlPanel_1": "Create"
