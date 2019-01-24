@@ -528,6 +528,9 @@ App\Entity\Setting:
                 groups: [setting]
                 htmlPattern: false
                 pattern: /^[0-9]+$/
+        secretPassphrase:
+            - NotBlank:
+                groups: [setting]
         payment:
             - NotBlank:
                 groups: [setting]
@@ -658,7 +661,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^.{8,30}$/
+                pattern: /^.{1,30}$/
         keyPublic:
             - File:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -706,7 +709,21 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^(https?:\/\/)([a-zA-Z_0-9:\@]+).([a-z]+)$/
+                pattern: /^([a-zA-Z_0-9:\@]+).([a-z]+)$/
+        gitCloneUrlUsername:
+            - NotBlank:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z-_0-9]+$/
+        gitCloneUrlPassword:
+            - NotBlank:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^.{1,30}$/
         gitClonePath:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -790,7 +807,7 @@ App\Entity\ApiBasic:
                 groups: [apiBasic_create, apiBasic_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z _0-9]+$/
-        token:
+        tokenName:
             - NotBlank:
                 groups: [apiBasic_create, apiBasic_profile]
             - Regex:

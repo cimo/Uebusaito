@@ -77,6 +77,16 @@ class MicroserviceDeploy {
     private $gitCloneUrl = "";
     
     /**
+     * @ORM\Column(name="git_clone_url_username", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     */
+    private $gitCloneUrlUsername = "";
+    
+    /**
+     * @ORM\Column(name="git_clone_url_password", type="string", nullable=true, columnDefinition="blob")
+     */
+    private $gitCloneUrlPassword = "";
+    
+    /**
      * @ORM\Column(name="git_clone_path", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $gitClonePath = "";
@@ -163,6 +173,14 @@ class MicroserviceDeploy {
         $this->gitCloneUrl = $value;
     }
     
+    public function setGitCloneUrlUsername($value) {
+        $this->gitCloneUrlUsername = $value;
+    }
+    
+    public function setGitCloneUrlPassword($value) {
+        $this->gitCloneUrlPassword = $value;
+    }
+    
     public function setGitClonePath($value) {
         $this->gitClonePath = $value;
     }
@@ -243,6 +261,14 @@ class MicroserviceDeploy {
     
     public function getGitCloneUrl() {
         return $this->gitCloneUrl;
+    }
+    
+    public function getGitCloneUrlUsername() {
+        return $this->gitCloneUrlUsername;
+    }
+    
+    public function getGitCloneUrlPassword() {
+        return $this->gitCloneUrlPassword;
     }
     
     public function getGitClonePath() {

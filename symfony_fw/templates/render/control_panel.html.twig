@@ -391,7 +391,7 @@
     {% endif %}
 
     {% if is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MICROSERVICE") == true %}
-        <p class="mdc-typography--overline title_groupe">{% trans %}controlPanel_14{% endtrans %}</p>
+        <p class="mdc-typography--overline title_group">{% trans %}controlPanel_14{% endtrans %}</p>
         <a class="mdc-list-item" href="{{path("control_panel", {'_locale': urlLocale, 'urlCurrentPageId': 0, 'urlExtra': "cp_microservice_deploy"})}}">
             <i class="material-icons mdc-list-item__graphic">build</i>
             <span>{% trans %}controlPanel_15{% endtrans %}</span>
@@ -403,6 +403,6 @@
     {% endif %}
     
     {% if settingRow['use_type'] == 2 and (is_granted("ROLE_ADMIN") == true or is_granted("ROLE_MODERATOR") == true) %}
-        <p class="mdc-typography--overline title_groupe">{% trans %}controlPanel_17{% endtrans %}</p>
+        <p class="mdc-typography--overline title_group">{% trans %}controlPanel_17{% endtrans %}</p>
     {% endif %}
 {% endmacro %}

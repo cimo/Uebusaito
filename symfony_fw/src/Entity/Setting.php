@@ -101,6 +101,11 @@ class Setting {
     private $useType = 1;
     
     /**
+     * @ORM\Column(name="secret_passphrase", type="string", columnDefinition="longtext NOT NULL")
+     */
+    private $secretPassphrase = "1234";
+    
+    /**
      * @ORM\Column(name="payment", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 1")
      */
     private $payment = true;
@@ -199,6 +204,10 @@ class Setting {
         $this->useType = $value;
     }
     
+    public function setSecretPassphrase($value) {
+        $this->secretPassphrase = $value;
+    }
+    
     public function setPayment($value) {
         $this->payment = $value;
     }
@@ -295,6 +304,10 @@ class Setting {
     
     public function getUseType() {
         return $this->useType;
+    }
+    
+    public function getSecretPassphrase() {
+        return $this->secretPassphrase;
     }
     
     public function getPayment() {

@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="microservice_apiBasic", options={"collate"="utf8_unicode_ci", "charset"="utf8", "engine"="InnoDB"})
  * @ORM\Entity(repositoryClass="App\Repository\ApiBasicRepository")
  * @UniqueEntity(fields={"name"}, groups={"apiBasic_create", "apiBasic_profile"})
+ * @UniqueEntity(fields={"tokenName"}, groups={"apiBasic_create", "apiBasic_profile"})
  */
 class ApiBasic {
     /**
@@ -23,9 +24,9 @@ class ApiBasic {
     private $name = "";
     
     /**
-     * @ORM\Column(name="token", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     * @ORM\Column(name="token_name", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $token = "";
+    private $tokenName = "";
     
     /**
      * @ORM\Column(name="ip", type="string", nullable=true, columnDefinition="longtext")
@@ -77,8 +78,8 @@ class ApiBasic {
         $this->name = $value;
     }
     
-    public function setToken($value) {
-        $this->token = $value;
+    public function setTokenName($value) {
+        $this->tokenName = $value;
     }
     
     public function setIp($value) {
@@ -127,8 +128,8 @@ class ApiBasic {
         return $this->name;
     }
     
-    public function getToken() {
-        return $this->token;
+    public function getTokenName() {
+        return $this->tokenName;
     }
     
     public function getIp() {

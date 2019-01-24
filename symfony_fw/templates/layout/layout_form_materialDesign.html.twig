@@ -104,7 +104,7 @@
     {% if type != "hidden" %}
         <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
     {% else %}
-        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is defined %}value="{{ value }}" {% endif %}/>
+        <input type="{{type}}" {{block('widget_attributes')}} {% if value is defined %}value="{{ value }}"{% endif %}/>
     {% endif %}
     {# cimo - #}
     {#<input type="{{ type }}" {{ block('widget_attributes') }} {% if value is defined %}value="{{ value }}" {% endif %}/>#}

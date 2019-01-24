@@ -73,18 +73,11 @@ class ApiBasicController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                $databasePassword = "";
-                
-                if ($form->get("databaseUsername")->getData() != "")
-                    $databasePassword = $form->get("databasePassword")->getData();
-                else
-                    $apiBasicEntity->setDatabasePassword("");
-                
                 // Database insert
                 $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
                 
-                $this->apiBasicDatabase("update", $databasePassword, $apiBasicEntity->getid());
+                $this->apiBasicDatabase("update", $apiBasicEntity->getId(), $form->get("databasePassword")->getData());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_1");
             }
@@ -254,32 +247,32 @@ class ApiBasicController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
         $apiBasicEntity = $this->entityManager->getRepository("App\Entity\ApiBasic")->find($_SESSION['apiBasicProfileId']);
+        $databasePasswordOld = $apiBasicEntity->getDatabasePassword();
         
         $form = $this->createForm(ApiBasicFormType::class, $apiBasicEntity, Array(
             'validation_groups' => Array('apiBasic_profile')
         ));
         $form->handleRequest($request);
         
-        if ($form->get("databaseUsername")->getData() != "" && $form->get("databasePassword")->getData() == "") {
-            $apiBasicRow = $this->selectApiBasicDatabase($_SESSION['apiBasicProfileId'], false);
-            
-            $apiBasicEntity->setDatabasePassword($apiBasicRow['database_password']);
-        }
-        
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                $databasePassword = "";
+                $databasePassword = $databasePasswordOld;
                 
-                if ($form->get("databaseUsername")->getData() != "")
-                    $databasePassword = $form->get("databasePassword")->getData();
+                if ($form->get("databaseUsername")->getData() == null || $form->get("databaseUsername")->getData() == "")
+                    $databasePassword = null;
+                
+                if ($form->get("databasePassword")->getData() == null || $form->get("databasePassword")->getData() == "") {
+                    $apiBasicEntity->setDatabasePassword($databasePassword);
+                    $databasePassword = "";
+                }
                 else
-                    $apiBasicEntity->setDatabasePassword("");
+                    $databasePassword = $form->get("databasePassword")->getData();
                 
                 // Update database
                 $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
                 
-                $this->apiBasicDatabase("update", $databasePassword, $apiBasicEntity->getId());
+                $this->apiBasicDatabase("update", $apiBasicEntity->getId(), $databasePassword);
                 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("apiBasicController_4");
             }
@@ -402,7 +395,7 @@ class ApiBasicController extends AbstractController {
                 if ($request->get("event") == "log") {
                     $row = $this->selectApiBasicDatabase($_SESSION['apiBasicProfileId'], false);
                     
-                    $this->response['values']['log'] = "<pre class=\"api_log\">" . file_get_contents("{$this->utility->getPathSrc()}/files/microservice/api/basic/{$row['name']}.log") . "</pre>";
+                    $this->response['values']['log'] = "<pre class=\"microservice_api_log\">" . file_get_contents("{$this->utility->getPathSrc()}/files/microservice/api/basic/{$row['name']}.log") . "</pre>";
                 }
                     
             }
@@ -549,7 +542,7 @@ class ApiBasicController extends AbstractController {
             if ($errorCode == false) {
                 if (isset($parameters['event']) == true && $parameters['event'] == "requestCheck") {
                     $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                    $this->apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
+                    $this->apiBasicRow = $this->selectApiBasicDatabase($parameters['tokenName'], true);
 
                     if ($microserviceApiRow != false) {
                         if ($this->apiBasicRow != false) {
@@ -617,7 +610,7 @@ class ApiBasicController extends AbstractController {
             if ($errorCode == false) {
                 if (isset($parameters['event']) == true && $parameters['event'] == "requestTest") {
                     $microserviceApiRow = $this->query->selectMicroserviceApiDatabase(1);
-                    $this->apiBasicRow = $this->selectApiBasicDatabase($parameters['token'], true);
+                    $this->apiBasicRow = $this->selectApiBasicDatabase($parameters['tokenName'], true);
                     
                     if ($microserviceApiRow != false) {
                         if ($this->apiBasicRow != false) {
@@ -684,11 +677,13 @@ class ApiBasicController extends AbstractController {
     }
     
     // Functions private
-    private function apiBasicDatabase($type, $password, $id) {
-        if ($password != "" && $id != "") {
+    private function apiBasicDatabase($type, $id, $password) {
+        if ($id > 0 && $password != "") {
+            $settingRow = $this->query->selectSettingDatabase();
+            
             if ($type == "update") {
                 $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_apiBasic
-                                                                    SET database_password = AES_ENCRYPT(:password, 'secret')
+                                                                    SET database_password = AES_ENCRYPT(:password, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512)))
                                                                     WHERE id = :id");
                 
                 $query->bindValue(":password", $password);
@@ -697,7 +692,8 @@ class ApiBasicController extends AbstractController {
                 return $query->execute();
             }
             else if ($type == "select") {
-                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:password, 'secret') AS database_password FROM microservice_apiBasic
+                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:password, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512))) AS database_password
+                                                                        FROM microservice_apiBasic
                                                                     WHERE id = :id");
                 
                 $query->bindValue(":password", $password);
@@ -775,17 +771,17 @@ class ApiBasicController extends AbstractController {
         else {
             if ($onlyActive == true) {
                 $query = $connection->prepare("SELECT * FROM microservice_apiBasic
-                                                WHERE token = :token
+                                                WHERE token_name = :tokenName
                                                 AND active = :active");
                 
                 $query->bindValue(":active", 1);
             }
             else {
                 $query = $connection->prepare("SELECT * FROM microservice_apiBasic
-                                                WHERE token = :token");
+                                                WHERE token_name = :tokenName");
             }
             
-            $query->bindValue(":token", $value);
+            $query->bindValue(":tokenName", $value);
         }
         
         $query->execute();
@@ -921,7 +917,7 @@ class ApiBasicController extends AbstractController {
         if ($type == "requestControl") {
             if (isset($parameters['event']) == false || $parameters['event'] == "")
                 $errorCode = 1;
-            if (isset($parameters['token']) == false || $parameters['token'] == "")
+            if (isset($parameters['tokenName']) == false || $parameters['tokenName'] == "")
                 $errorCode = 2;
         }
         
@@ -976,7 +972,7 @@ class ApiBasicController extends AbstractController {
     private function databaseExternal($parameters, $row) {
         $response = false;
         
-        $apiBasicRow = $this->apiBasicDatabase("select", $row['database_password'], $row['id']);
+        $apiBasicRow = $this->apiBasicDatabase("select", $row['id'], $row['database_password']);
         
         if ($row['database_ip'] != "" && $row['database_name'] != "" && $row['database_username'] != "" && $apiBasicRow['database_password'] != "") {
             $checkHost = $this->utility->checkHost($row['database_ip']);

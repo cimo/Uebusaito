@@ -31,7 +31,7 @@ class ApiBasicFormType extends AbstractType {
             'required' => true,
             'label' => "apiBasicFormType_1"
         ))
-        ->add("token", TextType::class, Array(
+        ->add("tokenName", TextType::class, Array(
             'required' => true,
             'label' => "apiBasicFormType_2"
         ))
@@ -57,7 +57,8 @@ class ApiBasicFormType extends AbstractType {
         ))
         ->add("databasePassword", PasswordType::class, Array(
             'required' => false,
-            'label' => "apiBasicFormType_8"
+            'label' => "apiBasicFormType_8",
+            'always_empty' => false
         ))
         ->add("active", ChoiceType::class, Array(
             'required' => true,
@@ -80,8 +81,8 @@ class ApiBasicFormType extends AbstractType {
         ));
         
         $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $formEvent) {
-            $data = $formEvent->getData();
             $form = $formEvent->getForm();
+            $data = $formEvent->getData();
             
             if ($data->getSlackActive() == false)
                 $data->setSlackActive("0");

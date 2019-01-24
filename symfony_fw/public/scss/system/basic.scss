@@ -148,7 +148,7 @@ $boxBackgroundColor: #ededed;
         }
     }
     
-    .api_card {
+    .microservice_api_card {
         display: block !important;
         margin: 20px auto !important;
     }
@@ -425,7 +425,7 @@ table {
         margin-right: 5px;
     }
     
-    .title_groupe {
+    .title_group {
         margin: 0 0 0 10px;
     }
 }
@@ -446,10 +446,16 @@ table {
     }
 }
 
-.api_card {
+.microservice_deploy_group {
+    .container {
+        display: inline-block;
+    }
+}
+
+.microservice_api_card {
     display: inline-block;
 }
-.api_log {
+.microservice_api_log {
     height: 300px;
     overflow-y: scroll;
     padding: 10px;

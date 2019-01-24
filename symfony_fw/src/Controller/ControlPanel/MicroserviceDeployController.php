@@ -131,22 +131,15 @@ class MicroserviceDeployController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                $microserviceDeployEntity->setActive(true);
-                
                 $microserviceDeployEntity = $this->fileUpload($form, $microserviceDeployEntity);
                 
-                $sshPassword = "";
-                
-                if ($form->get("sshUsername")->getData() != "")
-                    $sshPassword = $form->get("sshPassword")->getData();
-                else
-                    $microserviceDeployEntity->setSshPassword("");
+                $microserviceDeployEntity->setActive(true);
                 
                 // Database insert
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
                 
-                $this->microserviceDeployDatabase("update", $sshPassword, $microserviceDeployEntity->getid());
+                $this->microserviceDeployDatabase("update", $microserviceDeployEntity->getId(), $form->get("sshPassword")->getData(), $form->get("gitCloneUrlPassword")->getData());
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_2");
             }
@@ -326,34 +319,47 @@ class MicroserviceDeployController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MICROSERVICE"), $this->getUser());
         
         $microserviceDeployEntity = $this->entityManager->getRepository("App\Entity\MicroserviceDeploy")->find($_SESSION['microserviceDeployProfileId']);
+        $sshPasswordOld = $microserviceDeployEntity->getSshPassword();
+        $gitCloneUrlPasswordOld = $microserviceDeployEntity->getGitCloneUrlPassword();
         
         $form = $this->createForm(MicroserviceDeployFormType::class, $microserviceDeployEntity, Array(
             'validation_groups' => Array('microservice_deploy_profile')
         ));
         $form->handleRequest($request);
         
-        if ($form->get("sshUsername")->getData() != "" && $form->get("sshPassword")->getData() == "") {
-            $microserviceDeployRow = $this->query->selectMicroserviceDeployDatabase($_SESSION['microserviceDeployProfileId']);
-            
-            $microserviceDeployEntity->setSshPassword($microserviceDeployRow['ssh_password']);
-        }
-        
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $microserviceDeployEntity = $this->fileUpload($form, $microserviceDeployEntity);
                 
-                $sshPassword = "";
+                $sshPassword = $sshPasswordOld;
                 
-                if ($form->get("sshUsername")->getData() != "")
-                    $sshPassword = $form->get("sshPassword")->getData();
+                if ($form->get("sshUsername")->getData() == null || $form->get("sshUsername")->getData() == "")
+                    $sshPassword = null;
+                
+                if ($form->get("sshPassword")->getData() == null || $form->get("sshPassword")->getData() == "") {
+                    $microserviceDeployEntity->setSshPassword($sshPassword);
+                    $sshPassword = "";
+                }
                 else
-                    $microserviceDeployEntity->setSshPassword("");
+                    $sshPassword = $form->get("sshPassword")->getData();
+                
+                $gitCloneUrlPassword = $gitCloneUrlPasswordOld;
+                
+                if ($form->get("gitCloneUrlUsername")->getData() == null || $form->get("gitCloneUrlUsername")->getData() == "")
+                    $gitCloneUrlPassword = null;
+                
+                if ($form->get("gitCloneUrlPassword")->getData() == null || $form->get("gitCloneUrlPassword")->getData() == "") {
+                    $microserviceDeployEntity->setGitCloneUrlPassword($gitCloneUrlPassword);
+                    $gitCloneUrlPassword = "";
+                }
+                else
+                    $gitCloneUrlPassword = $form->get("gitCloneUrlPassword")->getData();
                 
                 // Database update
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
                 
-                $this->microserviceDeployDatabase("update", $sshPassword, $microserviceDeployEntity->getid());
+                $this->microserviceDeployDatabase("update", $microserviceDeployEntity->getId(), $sshPassword, $gitCloneUrlPassword);
 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_5");
             }
@@ -466,7 +472,7 @@ class MicroserviceDeployController extends AbstractController {
                 if ($request->get("event") == "delete") {
                     $id = $request->get("id") == null ? $_SESSION['microserviceDeployProfileId'] : $request->get("id");
 
-                    $microserviceDeployDatabase = $this->microserviceDeployDatabase("delete", "", $id);
+                    $microserviceDeployDatabase = $this->microserviceDeployDatabase("delete", $id);
 
                     if ($microserviceDeployDatabase == true) {
                         $this->response['values']['id'] = $id;
@@ -475,7 +481,7 @@ class MicroserviceDeployController extends AbstractController {
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
-                    $microserviceDeployDatabase = $this->microserviceDeployDatabase("deleteAll", "", null);
+                    $microserviceDeployDatabase = $this->microserviceDeployDatabase("deleteAll");
 
                     if ($microserviceDeployDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceDeployController_11");
@@ -541,7 +547,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_5")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['ssh_password']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">***</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -597,7 +603,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_14")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_path']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url_username']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -605,7 +611,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_15")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_git_script']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">***</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -613,7 +619,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_16")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_web_script']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_path']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -621,7 +627,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_17")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['root_web_path']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_git_script']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -629,6 +635,22 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_18")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_web_script']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_19")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['root_web_path']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_20")}
                     <span class=\"mdc-list-item__secondary-text\">{$command}</span>
                 </span>
             </li>
@@ -639,7 +661,7 @@ class MicroserviceDeployController extends AbstractController {
                     <div style=\"margin-top: 6px;\" class=\"mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense\">
                         <i class=\"material-icons mdc-text-field__icon\">textsms</i>
                         <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" required=\"required\" autocomplete=\"off\"/>
-                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_23")}</label>
+                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_25")}</label>
                         <div class=\"mdc-notched-outline\">
                             <svg>
                                 <path class=\"mdc-notched-outline__path\"/>
@@ -698,7 +720,7 @@ class MicroserviceDeployController extends AbstractController {
         return $listHtml;
     }
     
-    private function microserviceDeployDatabase($type, $password, $id) {
+    private function microserviceDeployDatabase($type, $id = 0, $sshPassword = "", $gitCloneUrlPassword = "") {
         if ($type == "delete") {
             $query = $this->utility->getConnection()->prepare("DELETE FROM microservice_deploy
                                                                 WHERE id = :id");
@@ -713,27 +735,45 @@ class MicroserviceDeployController extends AbstractController {
             return $query->execute();
         }
         
-        if ($password != "" && $id != "") {
-            if ($type == "update") {
-                $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_deploy
-                                                                    SET ssh_password = AES_ENCRYPT(:password, 'secret')
+        if ($id > 0) {
+            $settingRow = $this->query->selectSettingDatabase();
+            
+            if ($type == "select") {
+                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:sshPassword, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512))) AS ssh_password,
+                                                                        AES_DECRYPT(:gitCloneUrlPassword, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512))) AS git_clone_url_password
+                                                                        FROM microservice_deploy
                                                                     WHERE id = :id");
                 
-                $query->bindValue(":password", $password);
-                $query->bindValue(":id", $id);
-                
-                return $query->execute();
-            }
-            else if ($type == "select") {
-                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:password, 'secret') AS ssh_password FROM microservice_deploy
-                                                                    WHERE id = :id");
-                
-                $query->bindValue(":password", $password);
+                $query->bindValue(":sshPassword", $sshPassword);
+                $query->bindValue(":gitCloneUrlPassword", $gitCloneUrlPassword);
                 $query->bindValue(":id", $id);
                 
                 $query->execute();
                 
                 return $query->fetch();
+            }
+            else {
+                if ($type == "update" && $sshPassword != "") {
+                    $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_deploy
+                                                                        SET ssh_password = AES_ENCRYPT(:sshPassword, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512)))
+                                                                        WHERE id = :id");
+
+                    $query->bindValue(":sshPassword", $sshPassword);
+                    $query->bindValue(":id", $id);
+
+                    return $query->execute();
+                }
+
+                if ($type == "update" && $gitCloneUrlPassword != "") {
+                    $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_deploy
+                                                                        SET git_clone_url_password = AES_ENCRYPT(:gitCloneUrlPassword, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512)))
+                                                                        WHERE id = :id");
+
+                    $query->bindValue(":gitCloneUrlPassword", $gitCloneUrlPassword);
+                    $query->bindValue(":id", $id);
+
+                    return $query->execute();
+                }
             }
         }
         
@@ -808,10 +848,10 @@ class MicroserviceDeployController extends AbstractController {
             
             $auth = true;
             
-            $microserviceDeployRow = $this->microserviceDeployDatabase("select", $row['ssh_password'], $row['id']);
+            $microserviceDeployRow = $this->microserviceDeployDatabase("select", $row['id'], $row['ssh_password'], $row['git_clone_url_password']);
             
-            if ($row['username'] != "" && $microserviceDeployRow['ssh_password'] != "")
-                $auth = @ssh2_auth_password($connection, $row['ssh_username'], $row['ssh_password']);
+            if ($row['ssh_username'] != "" && $microserviceDeployRow['ssh_password'] != "")
+                $auth = @ssh2_auth_password($connection, $row['ssh_username'], $microserviceDeployRow['ssh_password']);
             else
                 $auth = @ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate);
             
@@ -826,7 +866,7 @@ class MicroserviceDeployController extends AbstractController {
                         "git config --global user.email '{$row['git_user_email']}'",
                         "git config --global user.name '{$row['git_user_name']}'",
                         "cd {$row['git_clone_path']}",
-                        "sudo -u {$row['user_git_script']} git clone {$row['git_clone_url']} {$row['git_clone_path']}",
+                        "sudo -u {$row['user_git_script']} git clone https://{$row['git_clone_url_username']}:{$microserviceDeployRow['git_clone_url_password']}@{$row['git_clone_url']} {$row['git_clone_path']}",
                         "sudo chown -R {$row['user_web_script']} {$row['root_web_path']}",
                         "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
@@ -837,7 +877,7 @@ class MicroserviceDeployController extends AbstractController {
                         "git config --global user.email '{$row['git_user_email']}'",
                         "git config --global user.name '{$row['git_user_name']}'",
                         "cd {$row['git_clone_path']}",
-                        "sudo -u user_1 git pull --no-edit {$row['git_clone_url']} {$request->get("branchName")}",
+                        "sudo -u user_1 git pull --no-edit https://{$row['git_clone_url_username']}:{$microserviceDeployRow['git_clone_url_password']}@{$row['git_clone_url']} {$request->get("branchName")}",
                         "sudo chown -R {$row['user_web_script']} {$row['root_web_path']}",
                         "sudo find {$row['root_web_path']} -type d -exec chmod 775 {} \;",
                         "sudo find {$row['root_web_path']} -type f -exec chmod 664 {} \;"
