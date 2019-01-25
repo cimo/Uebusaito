@@ -737,8 +737,8 @@ class MicroserviceDeployController extends AbstractController {
             $settingRow = $this->query->selectSettingDatabase();
             
             if ($type == "select") {
-                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:sshPassword, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512))) AS ssh_password,
-                                                                        AES_DECRYPT(:gitCloneUrlPassword, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512))) AS git_clone_url_password
+                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:sshPassword, UNHEX(SHA2('{$settingRow['secret_passphrase']}', 512))) AS ssh_password,
+                                                                        AES_DECRYPT(:gitCloneUrlPassword, UNHEX(SHA2('{$settingRow['secret_passphrase']}', 512))) AS git_clone_url_password
                                                                         FROM microservice_deploy
                                                                     WHERE id = :id");
                 
@@ -753,7 +753,7 @@ class MicroserviceDeployController extends AbstractController {
             else {
                 if ($type == "update" && $sshPassword != "") {
                     $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_deploy
-                                                                        SET ssh_password = AES_ENCRYPT(:sshPassword, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512)))
+                                                                        SET ssh_password = AES_ENCRYPT(:sshPassword, UNHEX(SHA2('{$settingRow['secret_passphrase']}', 512)))
                                                                         WHERE id = :id");
 
                     $query->bindValue(":sshPassword", $sshPassword);
@@ -764,7 +764,7 @@ class MicroserviceDeployController extends AbstractController {
 
                 if ($type == "update" && $gitCloneUrlPassword != "") {
                     $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_deploy
-                                                                        SET git_clone_url_password = AES_ENCRYPT(:gitCloneUrlPassword, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512)))
+                                                                        SET git_clone_url_password = AES_ENCRYPT(:gitCloneUrlPassword, UNHEX(SHA2('{$settingRow['secret_passphrase']}', 512)))
                                                                         WHERE id = :id");
 
                     $query->bindValue(":gitCloneUrlPassword", $gitCloneUrlPassword);

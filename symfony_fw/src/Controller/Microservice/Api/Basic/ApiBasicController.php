@@ -267,7 +267,6 @@ class ApiBasicController extends AbstractController {
                 else
                     $databasePassword = $form->get("databasePassword")->getData();
                 
-                // Update database
                 $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
                 
@@ -675,26 +674,26 @@ class ApiBasicController extends AbstractController {
     }
     
     // Functions private
-    private function apiBasicDatabase($type, $id, $password) {
-        if ($id > 0 && $password != "") {
+    private function apiBasicDatabase($type, $id, $databasePassword) {
+        if ($id > 0 && $databasePassword != "") {
             $settingRow = $this->query->selectSettingDatabase();
             
             if ($type == "update") {
                 $query = $this->utility->getConnection()->prepare("UPDATE IGNORE microservice_apiBasic
-                                                                    SET database_password = AES_ENCRYPT(:password, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512)))
+                                                                        SET database_password = AES_ENCRYPT(:databasePassword, UNHEX(SHA2('{$settingRow['secret_passphrase']}', 512)))
                                                                     WHERE id = :id");
                 
-                $query->bindValue(":password", $password);
+                $query->bindValue(":databasePassword", $databasePassword);
                 $query->bindValue(":id", $id);
                 
                 return $query->execute();
             }
             else if ($type == "select") {
-                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:password, UNHEX(SHA2({$settingRow['secret_passphrase']}, 512))) AS database_password
+                $query = $this->utility->getConnection()->prepare("SELECT AES_DECRYPT(:databasePassword, UNHEX(SHA2('{$settingRow['secret_passphrase']}', 512))) AS database_password
                                                                         FROM microservice_apiBasic
                                                                     WHERE id = :id");
                 
-                $query->bindValue(":password", $password);
+                $query->bindValue(":databasePassword", $databasePassword);
                 $query->bindValue(":id", $id);
                 
                 $query->execute();
