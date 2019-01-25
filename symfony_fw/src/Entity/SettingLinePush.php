@@ -23,9 +23,9 @@ class SettingLinePush {
     private $name = "";
     
     /**
-     * @ORM\Column(name="user_id", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     * @ORM\Column(name="user_id_primary", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
-    private $userId = "";
+    private $userIdPrimary = "";
     
     /**
      * @ORM\Column(name="access_token", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
@@ -37,8 +37,8 @@ class SettingLinePush {
         $this->name = $value;
     }
     
-    public function setUserId($value) {
-        $this->userId = $value;
+    public function setUserIdPrimary($value) {
+        $this->userIdPrimary = $value;
     }
     
     public function setAccessToken($value) {
@@ -55,8 +55,8 @@ class SettingLinePush {
         return $this->name;
     }
     
-    public function getUserId() {
-        return $this->userId;
+    public function getUserIdPrimary() {
+        return $this->userIdPrimary;
     }
     
     public function getAccessToken() {

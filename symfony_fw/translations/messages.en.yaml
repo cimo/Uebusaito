@@ -640,6 +640,7 @@ date.time: H:i:s
 "settingSlackIw_1": "Incoming webhook"
 "settingSlackIw_2": "..."
 "settingSlackIw_3": "Reset"
+"settingSlackIw_4": "Items:"
 
 "settingSlackIwFormType_1": "Name"
 "settingSlackIwFormType_2": "Hook"
@@ -658,9 +659,10 @@ date.time: H:i:s
 "settingLinePush_1": "Push"
 "settingLinePush_2": "..."
 "settingLinePush_3": "Reset"
+"settingLinePush_4": "Items:"
 
 "settingLinePushFormType_1": "Name"
-"settingLinePushFormType_2": "User id"
+"settingLinePushFormType_2": "User id primary"
 "settingLinePushFormType_3": "Access token"
 "settingLinePushFormType_4": "Send"
 

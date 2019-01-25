@@ -106,7 +106,6 @@ class MyPageProfileController extends AbstractController {
                         rename("{$this->utility->getPathWeb()}/files/user/$usernameOld", "{$this->utility->getPathWeb()}/files/user/{$form->get("username")->getData()}");
                 }
                 
-                // Database insert
                 $this->entityManager->persist($this->getUser());
                 $this->entityManager->flush();
 
@@ -182,7 +181,6 @@ class MyPageProfileController extends AbstractController {
                 $messagePassword = $this->utility->assignUserPassword("withOld", $this->getUser(), $form);
 
                 if ($messagePassword == "ok") {
-                    // Database insert
                     $this->entityManager->persist($this->getUser());
                     $this->entityManager->flush();
 

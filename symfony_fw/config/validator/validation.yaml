@@ -607,7 +607,7 @@ App\Entity\SettingLinePush:
                 groups: [setting_line_push]
                 htmlPattern: false
                 pattern: /^[a-zA-Z _0-9]+$/
-        userId:
+        userIdPrimary:
             - NotBlank:
                 groups: [setting_line_push]
             - Regex:

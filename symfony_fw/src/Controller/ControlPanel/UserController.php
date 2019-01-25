@@ -80,7 +80,6 @@ class UserController extends AbstractController {
 
                     mkdir("{$this->utility->getPathWeb()}/files/user/{$form->get("username")->getData()}");
                     
-                    // Database update
                     $this->entityManager->persist($userEntity);
                     $this->entityManager->flush();
 
@@ -288,7 +287,6 @@ class UserController extends AbstractController {
                     
                     $this->updateRoles($userEntity, $form->get("roleUserId")->getData());
                     
-                    // Database update
                     $this->entityManager->persist($userEntity);
                     $this->entityManager->flush();
 

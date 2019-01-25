@@ -17,7 +17,7 @@ function ControlPanelSettingSlackIw() {
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
-                utility.serializeJson($(this)),
+                $(this).serialize(),
                 "json",
                 false,
                 true,
@@ -71,7 +71,7 @@ function ControlPanelSettingSlackIw() {
             if ($(event.target).hasClass("delete") === true)
                 return;
             
-            var id = $.trim($(this).parent().find(".mdc-chip__text").attr("data-id"));
+            var id = $.trim($(this).find(".mdc-chip__text").attr("data-id"));
             
             ajax.send(
                 true,
@@ -106,7 +106,7 @@ function ControlPanelSettingSlackIw() {
         });
         
         $("#form_cp_setting_slack_iw_render .wordTag_container").on("click", ".delete", function(event) {
-            var id = $.trim($(this).parent().find(".mdc-chip__text").attr("data-id"));
+            var id = $.trim($(this).find(".mdc-chip__text").attr("data-id"));
             
             popupEasy.create(
                 window.text.index_5,

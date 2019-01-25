@@ -87,8 +87,7 @@ class RecoverPasswordController extends AbstractController {
                                                         "Recover password",
                                                         "<p>Click on this link for reset your password:</p> <a href=\"$url\">$url</a>",
                                                         $settingRow['email_admin']);
-
-                            // Database update
+                            
                             $this->entityManager->persist($userEntity);
                             $this->entityManager->flush();
 
@@ -126,8 +125,7 @@ class RecoverPasswordController extends AbstractController {
 
                         if ($messagePassword == "ok") {
                             $userEntity->setHelpCode(null);
-
-                            // Database insert
+                            
                             $this->entityManager->persist($userEntity);
                             $this->entityManager->flush();
 

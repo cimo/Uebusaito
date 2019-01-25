@@ -98,8 +98,7 @@ class SettingSlackIwController extends AbstractController {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 if (isset($_SESSION['settingSlackIwProfileId']) == true)
                     unset($_SESSION['settingSlackIwProfileId']);
-
-                // Database insert / update
+                
                 $this->entityManager->persist($settingSlackIwEntity);
                 $this->entityManager->flush();
                 
@@ -166,7 +165,6 @@ class SettingSlackIwController extends AbstractController {
                         if (isset($_SESSION['settingSlackIwProfileId']) == true)
                             unset($_SESSION['settingSlackIwProfileId']);
                         
-                        // Database remove
                         $this->entityManager->remove($settingSlackIwEntity);
                         $this->entityManager->flush();
                         

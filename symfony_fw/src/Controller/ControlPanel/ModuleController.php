@@ -75,8 +75,7 @@ class ModuleController extends AbstractController {
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $moduleEntity->setActive(false);
-
-                // Database insert
+                
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 
@@ -323,7 +322,6 @@ class ModuleController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Database update
                 $this->entityManager->persist($moduleEntity);
                 $this->entityManager->flush();
                 

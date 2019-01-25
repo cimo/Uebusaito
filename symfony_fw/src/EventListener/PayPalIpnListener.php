@@ -65,7 +65,6 @@ class PayPalIpnListener {
 
                         $this->updateCreditDatabase($payPalElements);
                         
-                        // Database insert
                         $this->entityManager->persist($payment);
                         $this->entityManager->flush();
 

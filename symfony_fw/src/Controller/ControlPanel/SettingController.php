@@ -76,7 +76,6 @@ class SettingController extends AbstractController {
                 if ($form->get("templateColumn")->getData() != $templateColumn)
                     $this->moduleDatabase($form->get("templateColumn")->getData());
                 
-                // Database update
                 $this->entityManager->persist($settingEntity);
                 $this->entityManager->flush();
                     

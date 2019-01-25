@@ -138,8 +138,7 @@ class PageCommentController extends AbstractController {
                             $pageCommentEntity->setPageId($this->urlCurrentPageId);
                             $pageCommentEntity->setUsername($this->getUser()->getUsername());
                             $pageCommentEntity->setDateCreate(date("Y-m-d H:i:s"));
-
-                            // Database insert
+                            
                             $this->entityManager->persist($pageCommentEntity);
                             $this->entityManager->flush();
 
@@ -156,8 +155,7 @@ class PageCommentController extends AbstractController {
                             $pageCommentEntity->setUsername($this->getUser()->getUsername());
                             $pageCommentEntity->setIdReply($typeExplode[1]);
                             $pageCommentEntity->setDateCreate(date("Y-m-d H:i:s"));
-
-                            // Database insert
+                            
                             $this->entityManager->persist($pageCommentEntity);
                             $this->entityManager->flush();
 

@@ -109,8 +109,7 @@ class RegistrationController extends AbstractController {
                             
                             if (file_exists("{$this->utility->getPathWeb()}/files/user/{$userEntity->getUsername()}") == false)
                                 mkdir("{$this->utility->getPathWeb()}/files/user/{$userEntity->getUsername()}");
-
-                            // Database insert
+                            
                             $this->entityManager->persist($userEntity);
                             $this->entityManager->flush();
 
@@ -146,8 +145,7 @@ class RegistrationController extends AbstractController {
                 $userEntity->setActive(1);
                 $userEntity->setHelpCode(null);
                 $userEntity->setCredit(0);
-
-                // Database insert
+                
                 $this->entityManager->persist($userEntity);
                 $this->entityManager->flush();
 

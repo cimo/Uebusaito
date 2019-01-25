@@ -86,7 +86,6 @@ class PageController extends AbstractController {
                 $pageEntity->setUserCreate($this->getUser()->getUsername());
                 $pageEntity->setDateCreate(date("Y-m-d H:i:s"));
                 
-                // Database insert
                 $this->entityManager->persist($pageEntity);
                 $this->entityManager->flush();
 
@@ -353,7 +352,6 @@ class PageController extends AbstractController {
                 $pageEntity->setUserModify($this->getUser()->getUsername());
                 $pageEntity->setDateModify(date("Y-m-d H:i:s"));
                 
-                // Database update
                 $this->entityManager->persist($pageEntity);
                 $this->entityManager->flush();
 

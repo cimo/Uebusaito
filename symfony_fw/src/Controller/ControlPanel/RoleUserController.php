@@ -70,7 +70,6 @@ class RoleUserController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Database insert
                 $this->entityManager->persist($roleUserEntity);
                 $this->entityManager->flush();
 
@@ -260,7 +259,6 @@ class RoleUserController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Database update
                 $this->entityManager->persist($roleUserEntity);
                 $this->entityManager->flush();
                 

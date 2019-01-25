@@ -106,7 +106,6 @@ class MicroserviceApiController extends AbstractController {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $microserviceApiEntity = $this->fileUpload($form, $microserviceApiEntity);
                 
-                // Database insert
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
 
@@ -181,7 +180,6 @@ class MicroserviceApiController extends AbstractController {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 $microserviceApiEntity = $this->fileUpload($form, $microserviceApiEntity);
                 
-                // Database update
                 $this->entityManager->persist($microserviceApiEntity);
                 $this->entityManager->flush();
                 

@@ -59,19 +59,6 @@ class SettingLinePushController extends AbstractController {
         // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
         
-        $pushUserRows = $this->query->selectAllSettingLinePushUserDatabase("all");
-        
-        $tableAndPagination = $this->tableAndPagination->request($pushUserRows, 20, "pushUser", true, true);
-        
-        $this->response['values']['search'] = $tableAndPagination['search'];
-        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
-        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
-        $this->response['values']['count'] = $tableAndPagination['count'];
-        
-        $this->response['values']['pushUserRows'] = $pushUserRows;
-        
-        $this->settingLinePushList();
-        
         if (isset($_SESSION['settingLinePushProfileId']) == false && $request->get("id") == null)
             $settingLinePushEntity = new SettingLinePush();
         else {
@@ -81,6 +68,12 @@ class SettingLinePushController extends AbstractController {
             
             $settingLinePushEntity = $this->entityManager->getRepository("App\Entity\SettingLinePush")->find($_SESSION['settingLinePushProfileId']);
         }
+        
+        $linePushNameOld = $settingLinePushEntity->getName();
+        
+        $this->settingLinePushList();
+        
+        $this->tableAndPaginationResult($settingLinePushEntity);
         
         $form = $this->createForm(SettingLinePushFormType::class, $settingLinePushEntity, Array(
             'validation_groups' => Array('setting_line_push')
@@ -92,15 +85,13 @@ class SettingLinePushController extends AbstractController {
                 if ($settingLinePushEntity != null) {
                     $this->response['values']['entity'] = Array(
                         $settingLinePushEntity->getName(),
-                        $settingLinePushEntity->getUserId(),
+                        $settingLinePushEntity->getUserIdPrimary(),
                         $settingLinePushEntity->getAccessToken()
                     );
-                    
-                    $this->settingLinePushList();
                 }
                 else
                     $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingLinePushController_3");
-
+                
                 return $this->ajax->response(Array(
                     'urlLocale' => $this->urlLocale,
                     'urlCurrentPageId' => $this->urlCurrentPageId,
@@ -120,13 +111,25 @@ class SettingLinePushController extends AbstractController {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
                 if (isset($_SESSION['settingLinePushProfileId']) == true)
                     unset($_SESSION['settingLinePushProfileId']);
-
-                // Database insert / update
+                
                 $this->entityManager->persist($settingLinePushEntity);
                 $this->entityManager->flush();
                 
                 $this->settingLinePushList();
-
+                
+                $this->tableAndPaginationResult($settingLinePushEntity);
+                
+                $pushUserRows = $this->query->selectAllSettingLinePushUserDatabase("allPushName", $linePushNameOld);
+                
+                foreach ($pushUserRows as $key => $value) {
+                    $this->linePushUserDatabase("update", Array(
+                        $settingLinePushEntity->getName(),
+                        $value['user_id'],
+                        "",
+                        0
+                    ));
+                }
+                
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingLinePushController_1");
             }
             else {
@@ -173,6 +176,7 @@ class SettingLinePushController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
+        $this->tableAndPagination = new TableAndPagination($this->utility);
         
         // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
@@ -188,11 +192,12 @@ class SettingLinePushController extends AbstractController {
                         if (isset($_SESSION['settingLinePushProfileId']) == true)
                             unset($_SESSION['settingLinePushProfileId']);
                         
-                        // Database remove
                         $this->entityManager->remove($settingLinePushEntity);
                         $this->entityManager->flush();
                         
                         $this->settingLinePushList();
+                        
+                        $this->tableAndPaginationResult(null);
 
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingLinePushController_4");
                     }
@@ -239,6 +244,7 @@ class SettingLinePushController extends AbstractController {
         $this->utility = new Utility($this->container, $this->entityManager, $translator);
         $this->query = $this->utility->getQuery();
         $this->ajax = new Ajax($this->utility);
+        $this->tableAndPagination = new TableAndPagination($this->utility);
         
         // Logic
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
@@ -247,6 +253,8 @@ class SettingLinePushController extends AbstractController {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
                 if ($request->get("event") == "reset") {
                     unset($_SESSION['settingLinePushProfileId']);
+                    
+                    $this->tableAndPaginationResult(null);
                     
                     $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingLinePushController_6");
                 }
@@ -367,6 +375,22 @@ class SettingLinePushController extends AbstractController {
     }
     
     // Functions private
+    private function tableAndPaginationResult($settingLinePushEntity) {
+        $name = "";
+        
+        if ($settingLinePushEntity != null)
+            $name = $settingLinePushEntity->getName();
+        
+        $pushUserRows = $this->query->selectAllSettingLinePushUserDatabase("allPushName", $name);
+        
+        $tableAndPagination = $this->tableAndPagination->request($pushUserRows, 20, "pushUser", true, true);
+
+        $this->response['values']['search'] = $tableAndPagination['search'];
+        $this->response['values']['pagination'] = $tableAndPagination['pagination'];
+        $this->response['values']['listHtml'] = $this->createListHtml($tableAndPagination['listHtml']);
+        $this->response['values']['count'] = $tableAndPagination['count'];
+    }
+    
     private function settingLinePushList() {
         $rows = $this->query->selectAllSettingLinePushDatabase();
         
@@ -394,7 +418,7 @@ class SettingLinePushController extends AbstractController {
             $query->bindValue(":active", $elements[3]);
         }
         else if ($type == "update") {
-            if ($elements[0] != "" && $elements[2] != "") {
+            if ($elements[0] != "" && $elements[1] != "" && $elements[2] != "") {
                 $query = $this->utility->getConnection()->prepare("UPDATE settings_line_push_user
                                                                     SET push_name = :pushName,
                                                                         email = :email,
@@ -403,15 +427,25 @@ class SettingLinePushController extends AbstractController {
 
                 $query->bindValue(":pushName", $elements[0]);
                 $query->bindValue(":email", $elements[2]);
+                $query->bindValue(":active", $elements[3]);
+                $query->bindValue(":userId", $elements[1]);
             }
-            else {
+            else if ($elements[0] != "" && $elements[1] != "" && $elements[2] == "") {
+                $query = $this->utility->getConnection()->prepare("UPDATE settings_line_push_user
+                                                                    SET push_name = :pushName
+                                                                    WHERE user_id = :userId");
+
+                $query->bindValue(":pushName", $elements[0]);
+                $query->bindValue(":userId", $elements[1]);
+            }
+            else if ($elements[0] == "" && $elements[1] != "" && $elements[2] == "") {
                 $query = $this->utility->getConnection()->prepare("UPDATE settings_line_push_user
                                                                     SET active = :active
                                                                     WHERE user_id = :userId");
+                
+                $query->bindValue(":active", $elements[3]);
+                $query->bindValue(":userId", $elements[1]);
             }
-            
-            $query->bindValue(":userId", $elements[1]);
-            $query->bindValue(":active", $elements[3]);
         }
         
         return $query->execute();
@@ -426,7 +460,6 @@ class SettingLinePushController extends AbstractController {
             $html .= "<li class=\"mdc-list-item\" data-comment=\"{$value['id']}\">
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
-                    {$value['push_name']}
                     <span class=\"mdc-list-item__secondary-text\">
                         <b>Id:</b> {$value['user_id']}<br>
                         <b>Email:</b> {$value['email']}<br>";
@@ -443,6 +476,9 @@ class SettingLinePushController extends AbstractController {
         }
         
         $html .= "</ul>";
+        
+        if (count($elements) == 0)
+            $html = "";
         
         return $html;
     }

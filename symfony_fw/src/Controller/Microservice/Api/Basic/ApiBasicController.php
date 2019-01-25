@@ -73,7 +73,6 @@ class ApiBasicController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                // Database insert
                 $this->entityManager->persist($apiBasicEntity);
                 $this->entityManager->flush();
                 
@@ -332,7 +331,6 @@ class ApiBasicController extends AbstractController {
                     $apiBasicEntity = $this->entityManager->getRepository("App\Entity\ApiBasic")->find($id);
 
                     if ($apiBasicEntity != null) {
-                        // Database remove
                         $this->entityManager->remove($apiBasicEntity);
                         $this->entityManager->flush();
                         

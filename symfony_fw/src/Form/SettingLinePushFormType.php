@@ -25,7 +25,7 @@ class SettingLinePushFormType extends AbstractType {
             'required' => true,
             'label' => "settingLinePushFormType_1"
         ))
-        ->add("userId", TextType::class, Array(
+        ->add("userIdPrimary", TextType::class, Array(
             'required' => true,
             'label' => "settingLinePushFormType_2"
         ))

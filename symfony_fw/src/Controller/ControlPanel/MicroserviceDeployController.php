@@ -135,7 +135,6 @@ class MicroserviceDeployController extends AbstractController {
                 
                 $microserviceDeployEntity->setActive(true);
                 
-                // Database insert
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
                 
@@ -355,7 +354,6 @@ class MicroserviceDeployController extends AbstractController {
                 else
                     $gitCloneUrlPassword = $form->get("gitCloneUrlPassword")->getData();
                 
-                // Database update
                 $this->entityManager->persist($microserviceDeployEntity);
                 $this->entityManager->flush();
                 

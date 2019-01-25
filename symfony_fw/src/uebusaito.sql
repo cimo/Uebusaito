@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: uebusaito
 -- ------------------------------------------------------
--- Server version	5.7.24-0ubuntu0.16.04.1
+-- Server version	5.7.25-0ubuntu0.16.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -467,7 +467,7 @@ DROP TABLE IF EXISTS `settings_line_push`;
 CREATE TABLE `settings_line_push` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `user_id_primary` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `access_token` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -506,7 +506,7 @@ CREATE TABLE `settings_line_push_user` (
 
 LOCK TABLES `settings_line_push_user` WRITE;
 /*!40000 ALTER TABLE `settings_line_push_user` DISABLE KEYS */;
-INSERT INTO `settings_line_push_user` VALUES (1,'Api basic','Abcd09','cimo@reinventsoftware.org',1);
+INSERT INTO `settings_line_push_user` VALUES (1,'api_basic','Abcd09','cimo@reinventsoftware.org',1);
 /*!40000 ALTER TABLE `settings_line_push_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -581,7 +581,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-01-24 16:05:24','2019-01-24 12:56:33',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-01-25 15:37:36','2019-01-25 15:36:51',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -598,4 +598,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-24 19:31:39
+-- Dump completed on 2019-01-25 16:10:30

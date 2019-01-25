@@ -26,7 +26,7 @@ function ControlPanelSettingLinePush() {
                 true,
                 $(this).prop("action"),
                 $(this).prop("method"),
-                utility.serializeJson($(this)),
+                $(this).serialize(),
                 "json",
                 false,
                 true,
@@ -39,6 +39,8 @@ function ControlPanelSettingLinePush() {
                         $("#form_cp_setting_line_push_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
                         
                         resetField();
+                        
+                        tableAndPagination.populate(xhr);
 
                         materialDesign.refresh();
                     }
@@ -67,6 +69,8 @@ function ControlPanelSettingLinePush() {
                     
                     if (xhr.response.messages.success !== undefined) {
                         resetField();
+                        
+                        tableAndPagination.populate(xhr);
 
                         materialDesign.refresh();
                     }
@@ -80,7 +84,7 @@ function ControlPanelSettingLinePush() {
             if ($(event.target).hasClass("delete") === true)
                 return;
             
-            var id = $.trim($(this).parent().find(".mdc-chip__text").attr("data-id"));
+            var id = $.trim($(this).find(".mdc-chip__text").attr("data-id"));
             
             ajax.send(
                 true,
@@ -101,10 +105,12 @@ function ControlPanelSettingLinePush() {
                     
                     if (xhr.response.values.wordTagListHtml !== undefined) {
                         $("#form_settingLinePush_name").val(xhr.response.values.entity[0]);
-                        $("#form_settingLinePush_userId").val(xhr.response.values.entity[1]);
+                        $("#form_settingLinePush_userIdPrimary").val(xhr.response.values.entity[1]);
                         $("#form_settingLinePush_accessToken").val(xhr.response.values.entity[2]);
                         
                         $("#form_cp_setting_line_push_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
+                        
+                        tableAndPagination.populate(xhr);
                         
                         materialDesign.refresh();
                     }
@@ -115,7 +121,7 @@ function ControlPanelSettingLinePush() {
         });
         
         $("#form_cp_setting_line_push_render .wordTag_container").on("click", ".delete", function(event) {
-            var id = $.trim($(this).parent().find(".mdc-chip__text").attr("data-id"));
+            var id = $.trim($(this).find(".mdc-chip__text").attr("data-id"));
             
             popupEasy.create(
                 window.text.index_5,
@@ -137,11 +143,13 @@ function ControlPanelSettingLinePush() {
                         null,
                         function(xhr) {
                             ajax.reply(xhr, "");
-
+                            
                             if (xhr.response.values.wordTagListHtml !== undefined) {
                                 $("#form_cp_setting_line_push_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
                                 
                                 resetField();
+                                
+                                tableAndPagination.populate(xhr);
                             }
                         },
                         null,
@@ -157,8 +165,8 @@ function ControlPanelSettingLinePush() {
         $("#form_settingLinePush_name").val("");
         $("#form_settingLinePush_name").parent().find("label").removeClass("mdc-floating-label--float-above");
 
-        $("#form_settingLinePush_userId").val("");
-        $("#form_settingLinePush_userId").parent().find("label").removeClass("mdc-floating-label--float-above");
+        $("#form_settingLinePush_userIdPrimary").val("");
+        $("#form_settingLinePush_userIdPrimary").parent().find("label").removeClass("mdc-floating-label--float-above");
 
         $("#form_settingLinePush_accessToken").val("");
         $("#form_settingLinePush_accessToken").parent().find("label").removeClass("mdc-floating-label--float-above");
