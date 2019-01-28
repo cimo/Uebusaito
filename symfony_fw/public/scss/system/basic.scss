@@ -140,6 +140,10 @@ $boxBackgroundColor: #ededed;
             }
         }
     }
+    
+    #setting_language_manage_container {
+        width: 50%;
+    }
 }
 @media(max-width: "599px") {
     .main {
@@ -703,6 +707,8 @@ table {
 
 #setting_language_manage_container {
     display: none;
+    background-color: $boxBackgroundColor;
+    padding: 10px;
     
     &> p {
         margin: 0;

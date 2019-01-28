@@ -79,7 +79,8 @@ class SettingSlackIwController extends AbstractController {
                     $this->response['values']['entity'] = Array(
                         $settingSlackIwEntity->getName(),
                         $settingSlackIwEntity->getHook(),
-                        $settingSlackIwEntity->getChannel()
+                        $settingSlackIwEntity->getChannel(),
+                        $settingSlackIwEntity->getActive()
                     );
                     
                     $this->settingSlackIwList();

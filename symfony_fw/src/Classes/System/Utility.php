@@ -656,17 +656,40 @@ class Utility {
         return $pagesListHierarchy;
     }
     
-    public function checkLanguage($request, $settingRow) {
+    public function checkLanguage($request, $router, $settingRow) {
+        $url = false;
+        
         if (isset($_SESSION['languageTextCode']) == false)
             $_SESSION['languageTextCode'] = $settingRow['language'];
         
         if ($request->get("languageTextCode") != null)
             $_SESSION['languageTextCode'] = $request->get("languageTextCode");
+        else if ($request->get("languageTextCode") == null && $request->get("_locale") != null)
+            $_SESSION['languageTextCode'] = $request->get("_locale");
         
         $request->setLocale($_SESSION['languageTextCode']);
         $request->setDefaultLocale($_SESSION['languageTextCode']);
         
-        return $request;
+        $languageRow = $this->query->selectLanguageDatabase($request->getLocale()); 
+        
+        if ($languageRow['active'] == false) {
+            $request->setLocale($settingRow['language']);
+            $request->setDefaultLocale($settingRow['language']);
+
+            $url = $router->generate(
+                "root_render",
+                Array(
+                    '_locale' => $request->getLocale(),
+                    'urlCurrentPageId' => 2,
+                    'urlExtra' => ""
+                )
+            );
+        }
+        
+        return Array(
+            $request,
+            $url
+        );
     }
     
     public function checkSessionOverTime($request, $router) {
@@ -732,7 +755,7 @@ class Utility {
 
                     $_SESSION['userInform'] = $userInform;
                     $_SESSION['languageTextCode'] = $language;
-
+                    
                     return $router->generate(
                         "root_render",
                         Array(
@@ -755,7 +778,7 @@ class Utility {
             $_SESSION['userInformCount'] = 0;
         }
         
-        return "";
+        return false;
     }
     
     public function checkAttemptLogin($type, $userValue, $settingRow) {
@@ -938,18 +961,19 @@ class Utility {
     
     public function sendMessageToLineChatMultiple($name, $text) {
         $pushRow = $this->query->selectSettingLinePushDatabase($name);
-        $pushUserRows = $this->query->selectAllSettingLinePushUserDatabase("allPushName", $name);
-        
-        $to[] = $pushRow['user_id'];
-        
-        foreach ($pushUserRows as $key => $value) {
-            if ($value['push_name'] == $name && $value['active'] == 1)
-                $to[] = $value['user_id'];
-        }
-        
-        $to = array_unique($to);
         
         if ($pushRow != false) {
+            $pushUserRows = $this->query->selectAllSettingLinePushUserDatabase("allPushName", $name);
+            
+            $to[] = $pushRow['user_id'];
+            
+            foreach ($pushUserRows as $key => $value) {
+                if ($value['push_name'] == $name && $value['active'] == 1)
+                    $to[] = $value['user_id'];
+            }
+            
+            $to = array_unique($to);
+            
             foreach ($to as $key => $value) {
                 $postFields = Array();
                 $postFields['to'] = $value;

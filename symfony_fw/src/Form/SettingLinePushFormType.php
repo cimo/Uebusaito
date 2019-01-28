@@ -5,6 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SettingLinePushFormType extends AbstractType {
@@ -33,8 +34,16 @@ class SettingLinePushFormType extends AbstractType {
             'required' => true,
             'label' => "settingLinePushFormType_3"
         ))
+        ->add("active", ChoiceType::class, Array(
+            'required' => true,
+            'placeholder' => "settingLinePushFormType_4",
+            'choices' => Array(
+                "settingLinePushFormType_5" => "0",
+                "settingLinePushFormType_6" => "1"
+            )
+        ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "settingLinePushFormType_4"
+            'label' => "settingLinePushFormType_7"
         ));
     }
 }

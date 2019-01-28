@@ -32,6 +32,11 @@ class SettingLinePush {
      */
     private $accessToken = "";
     
+    /**
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
+     */
+    private $active = "";
+    
     // Properties
     public function setName($value) {
         $this->name = $value;
@@ -43,6 +48,10 @@ class SettingLinePush {
     
     public function setAccessToken($value) {
         $this->accessToken = $value;
+    }
+    
+    public function setActive($value) {
+        $this->active = $value;
     }
     
     // ---
@@ -61,5 +70,9 @@ class SettingLinePush {
     
     public function getAccessToken() {
         return $this->accessToken;
+    }
+    
+    public function getActive() {
+        return $this->active;
     }
 }

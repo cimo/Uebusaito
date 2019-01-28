@@ -39,7 +39,7 @@
                 <p>{% trans %}setting_6{% endtrans %}</p>
                 <div class="form_row">
                     <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense">
-                        <input id="form_setting_languageManageCode" class="mdc-text-field__input" type="text" name="form_setting[languageManageCode]" value="" autocomplete="off"/>
+                        <input id="form_setting_languageManageCode" class="mdc-text-field__input" type="text" name="form_setting[languageManageCode]" value="" autocomplete="off" aria-label="label"/>
                         <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">language</i>
                         <label class="mdc-floating-label">{% trans %}setting_7{% endtrans %}</label>
                         <div class="mdc-notched-outline">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="form_row">
                     <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense">
-                        <input id="form_setting_languageManageDate" class="mdc-text-field__input" type="text" name="form_setting[languageManageDate]" value="" autocomplete="off"/>
+                        <input id="form_setting_languageManageDate" class="mdc-text-field__input" type="text" name="form_setting[languageManageDate]" value="" autocomplete="off" aria-label="label"/>
                         <i class="material-icons mdc-text-field__icon" tabindex="0" role="button">language</i>
                         <label class="mdc-floating-label">{% trans %}setting_8{% endtrans %}</label>
                         <div class="mdc-notched-outline">
@@ -64,6 +64,17 @@
                         <div class="mdc-notched-outline__idle"></div>
                     </div>
                     <p class="mdc-text-field-helper-text" aria-hidden="true"></p>
+                </div>
+                <div class="form_row">
+                    <div class="mdc-select">
+                        <select id="form_setting_languageManageActive" class="mdc-select__native-control" name="form_setting[languageManageActive]" value="" aria-label="label">
+                            <option value=""></option>
+                            <option value="0">{% trans %}setting_10{% endtrans %}</option>
+                            <option value="1">{% trans %}setting_11{% endtrans %}</option>
+                        </select>
+                        <label class="mdc-floating-label">{% trans %}setting_9{% endtrans %}</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
                 </div>
                 <i id="setting_language_manage_confirm" class="material-icons cursor_custom">check_circle_outline</i>
                 <i id="setting_language_manage_close" class="material-icons cursor_custom">highlight_off</i>
@@ -90,8 +101,8 @@
         </div>
     </fieldset>
     <fieldset class="accordion_container">
-        <legend>{% trans %}setting_9{% endtrans %}</legend>
-        <p>{% trans %}setting_10{% endtrans %}</p>
+        <legend>{% trans %}setting_12{% endtrans %}</legend>
+        <p>{% trans %}setting_13{% endtrans %}</p>
         <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
         <div class="accordion">
             {{form_row(form.payment)}}
@@ -99,8 +110,8 @@
         </div>
     </fieldset>
     <fieldset class="accordion_container">
-        <legend>{% trans %}setting_11{% endtrans %}</legend>
-        <p>{% trans %}setting_12{% endtrans %}</p>
+        <legend>{% trans %}setting_14{% endtrans %}</legend>
+        <p>{% trans %}setting_15{% endtrans %}</p>
         <button class="mdc-button mdc-button--dense mdc-button--raised button_accordion" type="button">{% trans %}index_9{% endtrans %}</button>
         <div class="accordion">
             {{form_row(form.payPalSandbox)}}

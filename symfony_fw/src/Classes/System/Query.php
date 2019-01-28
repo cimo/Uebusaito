@@ -84,9 +84,11 @@ class Query {
     
     public function selectSettingSlackIwDatabase($name) {
         $query = $this->connection->prepare("SELECT * FROM settings_slack_iw
-                                                WHERE name = :name");
+                                                WHERE name = :name
+                                                AND active = :active");
         
         $query->bindValue(":name", $name);
+        $query->bindValue(":active", true);
         
         $query->execute();
         
@@ -103,9 +105,11 @@ class Query {
     
     public function selectSettingLinePushDatabase($name) {
         $query = $this->connection->prepare("SELECT * FROM settings_line_push
-                                                WHERE name = :name");
+                                                WHERE name = :name
+                                                AND active = :active");
         
         $query->bindValue(":name", $name);
+        $query->bindValue(":active", true);
         
         $query->execute();
         
@@ -157,7 +161,7 @@ class Query {
     public function selectLanguageDatabase($code) {
         $query = $this->connection->prepare("SELECT * FROM languages
                                                 WHERE code = :code");
-        
+
         $query->bindValue(":code", $code);
         
         $query->execute();

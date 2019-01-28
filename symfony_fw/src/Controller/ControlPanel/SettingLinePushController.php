@@ -86,7 +86,8 @@ class SettingLinePushController extends AbstractController {
                     $this->response['values']['entity'] = Array(
                         $settingLinePushEntity->getName(),
                         $settingLinePushEntity->getUserIdPrimary(),
-                        $settingLinePushEntity->getAccessToken()
+                        $settingLinePushEntity->getAccessToken(),
+                        $settingLinePushEntity->getActive()
                     );
                 }
                 else
@@ -191,6 +192,8 @@ class SettingLinePushController extends AbstractController {
                     if ($settingLinePushEntity != null) {
                         if (isset($_SESSION['settingLinePushProfileId']) == true)
                             unset($_SESSION['settingLinePushProfileId']);
+                        
+                        $this->linePushUserDatabase("delete", $settingLinePushEntity->getName());
                         
                         $this->entityManager->remove($settingLinePushEntity);
                         $this->entityManager->flush();
@@ -446,6 +449,12 @@ class SettingLinePushController extends AbstractController {
                 $query->bindValue(":active", $elements[3]);
                 $query->bindValue(":userId", $elements[1]);
             }
+        }
+        else if ($type == "delete") {
+            $query = $this->utility->getConnection()->prepare("DELETE FROM settings_line_push_user
+                                                                WHERE push_name = :pushName");
+            
+            $query->bindValue(":pushName", $elements);
         }
         
         return $query->execute();

@@ -658,7 +658,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__text\">
                     <div style=\"margin-top: 6px;\" class=\"mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense\">
                         <i class=\"material-icons mdc-text-field__icon\">textsms</i>
-                        <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" required=\"required\" autocomplete=\"off\"/>
+                        <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" required=\"required\" autocomplete=\"off\" aria-label=\"label\"/>
                         <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_25")}</label>
                         <div class=\"mdc-notched-outline\">
                             <svg>

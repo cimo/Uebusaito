@@ -25,6 +25,11 @@ class Language {
      */
     private $date = "Y-m-d";
     
+    /**
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
+     */
+    private $active = 0;
+    
     // Properties
     public function setCode($value) {
         $this->code = $value;
@@ -32,6 +37,10 @@ class Language {
     
     public function setDate($value) {
         $this->date = $value;
+    }
+    
+    public function setActive($value) {
+        $this->active = $value;
     }
     
     // ---
@@ -46,5 +55,9 @@ class Language {
     
     public function getDate() {
         return $this->date;
+    }
+    
+    public function getActive() {
+        return $this->active;
     }
 }

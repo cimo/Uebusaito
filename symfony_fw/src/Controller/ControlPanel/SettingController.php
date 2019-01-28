@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use App\Classes\System\Utility;
@@ -141,22 +142,12 @@ class SettingController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-                if ($request->get("event") == "deleteLanguage") {
-                    $code = $request->get("code");
-
-                    $settingDatabase = $this->settingDatabase("deleteLanguage", $code);
-
-                    if ($settingDatabase == true) {
-                        unlink("{$this->utility->getPathRoot()}/translations/messages.$code.yml");
-
-                        $this->settingDatabase("deleteLanguageInPage", $code);
-
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
-                    }
-                }
-                else if ($request->get("event") == "modifyLanguage" || $request->get("event") == "createLanguage") {
+                $settingRow = $this->query->selectSettingDatabase();
+                
+                if ($request->get("event") == "createLanguage" || $request->get("event") == "modifyLanguage") {
                     $code = $request->get("code");
                     $date = $request->get("date");
+                    $active = $request->get("active");
 
                     $languageRows = $this->query->selectAllLanguageDatabase();
 
@@ -176,28 +167,56 @@ class SettingController extends AbstractController {
                     if (strtolower($date) == "y-m-d" || strtolower($date) == "d-m-y" || strtolower($date) == "m-d-y")
                         $checked = true;
 
-                    if ($code != "" && $date != "" && $exists == false && $checked == true) {
+                    if ($code != "" && $date != "" && $active != "" && $exists == false && $checked == true) {
                         $settingDatabase = false;
-
-                        if ($request->get("event") == "modifyLanguage")
-                            $settingDatabase = $this->settingDatabase("updateLanguage", $code, $date);
-                        else if ($request->get("event") == "createLanguage")
-                            $settingDatabase = $this->settingDatabase("insertLanguage", $code, $date);
-
+                        
+                        if ($request->get("event") == "createLanguage")
+                            $settingDatabase = $this->settingDatabase("insertLanguage", $code, $date, $active);
+                        else if ($request->get("event") == "modifyLanguage" && ($code !== $settingRow['language'] || $code === $settingRow['language'] && $active == 1))
+                            $settingDatabase = $this->settingDatabase("updateLanguage", $code, $date, $active);
+                        
                         if ($settingDatabase == true) {
-                            if ($request->get("event") == "modifyLanguage")
-                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_6");
-                            else if ($request->get("event") == "createLanguage") {
+                            if ($request->get("event") == "createLanguage") {
                                 touch("{$this->utility->getPathRoot()}/translations/messages.$code.yml");
 
                                 $this->settingDatabase("insertLanguageInPage", $code);
 
-                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_7");
+                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_5");
+                            }
+                            else if ($request->get("event") == "modifyLanguage") {
+                                if ($code == $request->getLocale())
+                                    $this->response['values']['url'] = $this->redirectOnModifySelected($settingRow);
+                                else
+                                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_6");
                             }
                         }
+                        else
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_7");
                     }
                     else
-                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_8");
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_7");
+                }
+                else if ($request->get("event") == "deleteLanguage") {
+                    $code = $request->get("code");
+                    
+                    if ($code !== $settingRow['language']) {
+                        $settingDatabase = $this->settingDatabase("deleteLanguage", $code);
+
+                        if ($settingDatabase == true) {
+                            unlink("{$this->utility->getPathRoot()}/translations/messages.$code.yml");
+
+                            $this->settingDatabase("deleteLanguageInPage", $code);
+                            
+                            if ($code == $request->getLocale())
+                                $this->response['values']['url'] = $this->redirectOnModifySelected($settingRow);
+                            else
+                                $this->response['messages']['success'] = $this->utility->getTranslator()->trans("settingController_8");
+                        }
+                        else
+                            $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_9");
+                    }
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("settingController_9");
                 }
 
                 return $this->ajax->response(Array(
@@ -224,8 +243,10 @@ class SettingController extends AbstractController {
         $customData = Array();
         
         foreach($languageRows as $key => $value) {
+            $active = $value['active'] == 1 ? $this->utility->getTranslator()->trans("settingController_10") : $this->utility->getTranslator()->trans("settingController_11");
+            
             $customData[$key]['value'] = $value['code'];
-            $customData[$key]['text'] = "{$value['code']} | {$value['date']}";
+            $customData[$key]['text'] = "{$value['code']} | {$value['date']} | $active";
         }
         
         return $customData;
@@ -320,45 +341,35 @@ class SettingController extends AbstractController {
         }
     }
     
-    private function settingDatabase($type, $code, $date = null) {
-        if ($type == "deleteLanguage") {
-            $query = $this->utility->getConnection()->prepare("DELETE FROM languages
-                                                                WHERE id > :idExclude
-                                                                AND code = :code");
-
-            $query->bindValue(":idExclude", 2);
+    private function settingDatabase($type, $code, $date = null, $active = 0) {
+        if ($type == "insertLanguage") {
+            $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code, date, active)
+                                                                VALUES (:code, :date, :active)");
+            
             $query->bindValue(":code", $code);
-
+            $query->bindValue(":date", $date);
+            $query->bindValue(":active", $active);
+            
             return $query->execute();
-        }
-        else if ($type == "deleteLanguageInPage") {
-            $codeTmp = is_string($code) == true ? $code : "";
-            $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
-            $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
-            
-            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles DROP $codeTmp;
-                                                                ALTER TABLE pages_arguments DROP $codeTmp;
-                                                                ALTER TABLE pages_menu_names DROP $codeTmp;");
-            
-            $query->execute();
         }
         else if ($type == "updateLanguage") {
             $query = $this->utility->getConnection()->prepare("UPDATE languages
-                                                                SET date = :date
+                                                                SET date = :date,
+                                                                    active = :active
                                                                 WHERE code = :code");
             
             $query->bindValue(":date", $date);
+            $query->bindValue(":active", $active);
             $query->bindValue(":code", $code);
             
             return $query->execute();
         }
-        else if ($type == "insertLanguage") {
-            $query = $this->utility->getConnection()->prepare("INSERT INTO languages (code, date)
-                                                                VALUES (:code, :date)");
+        else if ($type == "deleteLanguage") {
+            $query = $this->utility->getConnection()->prepare("DELETE FROM languages
+                                                                WHERE code = :code");
             
             $query->bindValue(":code", $code);
-            $query->bindValue(":date", $date);
-            
+
             return $query->execute();
         }
         else if ($type == "insertLanguageInPage") {
@@ -372,5 +383,29 @@ class SettingController extends AbstractController {
             
             $query->execute();
         }
+        else if ($type == "deleteLanguageInPage") {
+            $codeTmp = is_string($code) == true ? $code : "";
+            $codeTmp = strlen($codeTmp) == true ? $codeTmp : "";
+            $codeTmp = ctype_alpha($codeTmp) == true ? $codeTmp : "";
+            
+            $query = $this->utility->getConnection()->prepare("ALTER TABLE pages_titles DROP $codeTmp;
+                                                                ALTER TABLE pages_arguments DROP $codeTmp;
+                                                                ALTER TABLE pages_menu_names DROP $codeTmp;");
+            
+            $query->execute();
+        }
+    }
+    
+    private function redirectOnModifySelected($settingRow) {
+        $url = $this->get("router")->generate(
+            "root_render",
+            Array(
+                '_locale' => $settingRow['language'],
+                'urlCurrentPageId' => 2,
+                'urlExtra' => ""
+            )
+        );
+        
+        return $url;
     }
 }

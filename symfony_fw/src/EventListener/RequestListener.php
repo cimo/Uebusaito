@@ -45,9 +45,10 @@ class RequestListener {
         
         $this->utility->configureCookie(session_name(), 0, $settingRow['https'], true);
         
-        $request = $this->utility->checkLanguage($request, $settingRow);
+        $checkLanguage = $this->utility->checkLanguage($request, $this->router, $settingRow);
+        $request = $checkLanguage[0];
         
-        $url = $this->utility->checkSessionOverTime($request, $this->router);
+        $checkSessionOverTime = $this->utility->checkSessionOverTime($request, $this->router);
         
         $urlCurrentPageId = 2;
         
@@ -73,8 +74,10 @@ class RequestListener {
         $this->container->get("twig")->addGlobal("settingRow", $settingRow);
         $this->container->get("twig")->addGlobal("pageRow", $this->query->selectPageDatabase($request->getLocale(), $urlCurrentPageId));
         
-        if ($url != "")
-            $event->setResponse(new RedirectResponse($url));
+        if ($checkSessionOverTime != false)
+            $event->setResponse(new RedirectResponse($checkSessionOverTime));
+        else if ($checkLanguage[1] != false)
+            $event->setResponse(new RedirectResponse($checkLanguage[1]));
         
         if ($settingRow['https'] == true) {
             if ($request->isSecure() == false) {

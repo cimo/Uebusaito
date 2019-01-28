@@ -26,13 +26,8 @@ function ControlPanelSettingSlackIw() {
                 function(xhr) {
                     ajax.reply(xhr, "#" + event.currentTarget.id);
                     
-                    if (xhr.response.values.wordTagListHtml !== undefined) {
+                    if (xhr.response.values.wordTagListHtml !== undefined)
                         $("#form_cp_setting_slack_iw_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
-                        
-                        resetField();
-
-                        materialDesign.refresh();
-                    }
                 },
                 null,
                 null
@@ -94,6 +89,7 @@ function ControlPanelSettingSlackIw() {
                         $("#form_settingSlackIw_name").val(xhr.response.values.entity[0]);
                         $("#form_settingSlackIw_hook").val(xhr.response.values.entity[1]);
                         $("#form_settingSlackIw_channel").val(xhr.response.values.entity[2]);
+                        $("#form_settingSlackIw_active").val(xhr.response.values.entity[3] === true ? 1 : 0);
                         
                         $("#form_cp_setting_slack_iw_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
                         
@@ -133,6 +129,8 @@ function ControlPanelSettingSlackIw() {
                                 $("#form_cp_setting_slack_iw_render").find(".wordTag_container").html(xhr.response.values.wordTagListHtml);
                                 
                                 resetField();
+                                
+                                materialDesign.refresh();
                             }
                         },
                         null,
@@ -153,5 +151,8 @@ function ControlPanelSettingSlackIw() {
 
         $("#form_settingSlackIw_channel").val("");
         $("#form_settingSlackIw_channel").parent().find("label").removeClass("mdc-floating-label--float-above");
+        
+        $("#form_settingSlackIw_active").val("");
+        $("#form_settingSlackIw_active").parent().find("label").removeClass("mdc-floating-label--float-above");
     }
 }

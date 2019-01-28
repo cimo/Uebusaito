@@ -32,6 +32,11 @@ class SettingSlackIw {
      */
     private $channel = "";
     
+    /**
+     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
+     */
+    private $active = "";
+    
     // Properties
     public function setName($value) {
         $this->name = $value;
@@ -43,6 +48,10 @@ class SettingSlackIw {
     
     public function setChannel($value) {
         $this->channel = $value;
+    }
+    
+    public function setActive($value) {
+        $this->active = $value;
     }
     
     // ---
@@ -61,5 +70,9 @@ class SettingSlackIw {
     
     public function getChannel() {
         return $this->channel;
+    }
+    
+    public function getActive() {
+        return $this->active;
     }
 }

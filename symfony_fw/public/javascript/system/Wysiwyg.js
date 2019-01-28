@@ -199,7 +199,7 @@ function Wysiwyg() {
                 window.textWysiwyg.label_5,
                 "<div id=\"wysiwyg_popup\">\n\
                     <div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input\" type=\"text\" value=\"\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input\" type=\"text\" value=\"\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_6 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\
@@ -217,7 +217,7 @@ function Wysiwyg() {
                 window.textWysiwyg.label_7,
                 "<div id=\"wysiwyg_popup\">\n\
                     <div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input\" type=\"text\" value=\"\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input\" type=\"text\" value=\"\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_8 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\
@@ -235,13 +235,13 @@ function Wysiwyg() {
                 window.textWysiwyg.label_9,
                 "<div id=\"wysiwyg_popup\">\n\
                     <div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input label\" type=\"text\" value=\"\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input label\" type=\"text\" value=\"\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_10 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\
                     <p class=\"mdc-text-field-helper-text\" aria-hidden=\"true\"></p>\n\
                     <div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input link\" type=\"text\" value=\"\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input link\" type=\"text\" value=\"\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_11 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\
@@ -270,13 +270,13 @@ function Wysiwyg() {
                 window.textWysiwyg.label_12,
                 "<div id=\"wysiwyg_popup\">\n\
                     <div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input row_number\" type=\"text\" value=\"1\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input row_number\" type=\"text\" value=\"1\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_13 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\
                     <p class=\"mdc-text-field-helper-text\" aria-hidden=\"true\"></p>\n\
                     <div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input column_number\" type=\"text\" value=\"4\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input column_number\" type=\"text\" value=\"4\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_14 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\
@@ -437,7 +437,7 @@ function Wysiwyg() {
                     var label = $(event.target).text();
 
                     content = "<div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input label\" type=\"text\" value=\"" + label + "\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input label\" type=\"text\" value=\"" + label + "\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_10 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\
@@ -448,13 +448,13 @@ function Wysiwyg() {
                     var link = $(event.target).prop("href") === undefined ? "" : $(event.target).prop("href");
 
                     content = "<div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input label\" type=\"text\" value=\"" + label + "\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input label\" type=\"text\" value=\"" + label + "\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_10 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\
                     <p class=\"mdc-text-field-helper-text\" aria-hidden=\"true\"></p>\n\
                     <div class=\"mdc-text-field mdc-text-field__basic mdc-text-field--dense\" style=\"width: 100%;\">\n\
-                        <input class=\"mdc-text-field__input link\" type=\"text\" value=\"" + link + "\" autocomplete=\"off\"/>\n\
+                        <input class=\"mdc-text-field__input link\" type=\"text\" value=\"" + link + "\" autocomplete=\"off\" aria-label=\"label\"/>\n\
                         <label class=\"mdc-floating-label\">" + window.textWysiwyg.label_11 + "</label>\n\
                         <div class=\"mdc-line-ripple\"></div>\n\
                     </div>\n\

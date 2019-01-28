@@ -10,7 +10,7 @@ function Language() {
     
     // Functions public
     self.init = function() {
-        $("#language_text_container").find(".mdc-list-item").on("click", "", function(event) {
+        $(document).on("click", "#language_text_container .mdc-list-item", function(event) {
             ajax.send(
                 true,
                 window.url.languageText,
