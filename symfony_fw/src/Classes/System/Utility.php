@@ -693,10 +693,16 @@ class Utility {
     }
     
     public function checkSessionOverTime($request, $router) {
+        if (isset($_SESSION['_sf2_attributes']) == false && $request->cookies->has(session_name() . "_REMEMBERME") == false) {
+            $_SESSION['userInform'] = $this->translator->trans("classUtility_6");
+            
+            return $this->sessionIsOver($request, $router);
+        }
+        
         if (isset($_SESSION['userActionCount']) == false)
             $_SESSION['userActionCount'] = 0;
         
-        if (isset($_SESSION['userInform']) == false) {
+        if (isset($_SESSION['userInform']) == false || isset($_SESSION['userInformCount']) == false) {
             $_SESSION['userInform'] = "";
             $_SESSION['userInformCount'] = 0;
         }
@@ -737,35 +743,8 @@ class Utility {
                 }
             }
             
-            if ($isOver == true) {
-                if ($request->isXmlHttpRequest() == true) {
-                    echo json_encode(Array(
-                        'userInform' => $_SESSION['userInform']
-                    ));
-
-                    exit;
-                }
-                else {
-                    $_SESSION['userActionCount'] = 0;
-                    
-                    $userInform = $_SESSION['userInform'];
-                    $language = $_SESSION['languageTextCode'];
-
-                    $this->tokenStorage->setToken(null);
-
-                    $_SESSION['userInform'] = $userInform;
-                    $_SESSION['languageTextCode'] = $language;
-                    
-                    return $router->generate(
-                        "root_render",
-                        Array(
-                            '_locale' => $_SESSION['languageTextCode'],
-                            'urlCurrentPageId' => 2,
-                            'urlExtra' => ""
-                        )
-                    );
-                }
-            }
+            if ($isOver == true)
+                return $this->sessionIsOver($request, $router);
 
             $_SESSION['userTimestamp'] = time();
         }
@@ -999,6 +978,36 @@ class Utility {
     }
     
     // Functions private
+    private function sessionIsOver($request, $router) {
+        if ($request->isXmlHttpRequest() == true) {
+            echo json_encode(Array(
+                'userInform' => $_SESSION['userInform']
+            ));
+
+            exit;
+        }
+        else {
+            $_SESSION['userActionCount'] = 0;
+
+            $userInform = $_SESSION['userInform'];
+            $language = $_SESSION['languageTextCode'];
+
+            $this->tokenStorage->setToken(null);
+
+            $_SESSION['userInform'] = $userInform;
+            $_SESSION['languageTextCode'] = $language;
+
+            return $router->generate(
+                "root_render",
+                Array(
+                    '_locale' => $_SESSION['languageTextCode'],
+                    'urlCurrentPageId' => 2,
+                    'urlExtra' => ""
+                )
+            );
+        }
+    }
+    
     private function arrayColumnFix() {
         if (function_exists("array_column") == false) {
             function array_column($input = null, $columnKey = null, $indexKey = null) {
