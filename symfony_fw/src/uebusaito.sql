@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
 -- Host: 127.0.0.1    Database: uebusaito
 -- ------------------------------------------------------
--- Server version	5.7.24-0ubuntu0.16.04.1
+-- Server version	5.7.25-0ubuntu0.16.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -147,6 +147,7 @@ CREATE TABLE `microservice_deploy` (
   `ssh_password` blob,
   `key_public` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `key_private` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `key_private_password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `git_user_email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `git_user_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -169,7 +170,7 @@ CREATE TABLE `microservice_deploy` (
 
 LOCK TABLES `microservice_deploy` WRITE;
 /*!40000 ALTER TABLE `microservice_deploy` DISABLE KEYS */;
-INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,NULL,NULL,NULL,'123.123.123.123','user@github.com','git_user','url.git','username','uO\÷\«K\ÊDÆDG≠\ﬂ7\«5','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src','php -v\r\napache2 -v',1);
+INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,NULL,NULL,NULL,NULL,'123.123.123.123','user@github.com','git_user','url.git','username','uO\÷\«K\ÊDÆDG≠\ﬂ7\«5','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src','php -v\r\napache2 -v',1);
 /*!40000 ALTER TABLE `microservice_deploy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -584,7 +585,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-01-28 18:37:06','2019-01-28 12:22:15',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-02-05 16:33:41','2019-02-04 14:13:06',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,4,5,','ROLE_USER,ROLE_MICROSERVICE,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -601,4 +602,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-02  1:23:12
+-- Dump completed on 2019-02-05 17:11:03

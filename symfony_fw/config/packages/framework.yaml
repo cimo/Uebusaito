@@ -16,6 +16,7 @@ framework:
         name: uebusaito_dev
         cookie_domain: .machine.local
         cookie_lifetime: 0
+        gc_probability: 0
 
     # cimo +
     assets:
