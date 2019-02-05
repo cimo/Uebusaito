@@ -658,7 +658,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[(a-zA-Z .0-9)|(\p{L}\p{N})]+$/
+                pattern: /^[(a-zA-Z .0-9-_)|(\p{L}\p{N})]+$/
         systemUser:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -799,7 +799,7 @@ App\Entity\MicroserviceApi:
             - Regex:
                 groups: [microservice_api_create, microservice_api_profile]
                 htmlPattern: false
-                pattern: /^[(a-zA-Z .0-9)|(\p{L}\p{N})]+$/
+                pattern: /^[(a-zA-Z .0-9-_)|(\p{L}\p{N})]+$/
         image:    
             - File:
                 groups: [microservice_api_create, microservice_api_profile]
