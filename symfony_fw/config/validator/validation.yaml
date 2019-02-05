@@ -696,6 +696,11 @@ App\Entity\MicroserviceDeploy:
                 groups: [microservice_deploy_profile]
                 htmlPattern: false
                 pattern: /^1$|^0$/
+        keyPrivatePassword:
+            - Regex:
+                groups: [microservice_deploy_create, microservice_deploy_profile]
+                htmlPattern: false
+                pattern: /^.{1,30}$/
         ip:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -723,7 +728,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^([a-zA-Z_0-9:\@]+).([a-z]+)$/
+                pattern: /^([a-zA-Z_0-9\/.-]+)$/
         gitCloneUrlUsername:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -732,8 +737,6 @@ App\Entity\MicroserviceDeploy:
                 htmlPattern: false
                 pattern: /^[a-zA-Z-_0-9]+$/
         gitCloneUrlPassword:
-            - NotBlank:
-                groups: [microservice_deploy_create, microservice_deploy_profile]
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
@@ -744,7 +747,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z_0-9\/]+$/
+                pattern: /^[a-zA-Z_0-9\/.-]+$/
         userGitScript:
             - NotBlank:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
@@ -765,7 +768,7 @@ App\Entity\MicroserviceDeploy:
             - Regex:
                 groups: [microservice_deploy_create, microservice_deploy_profile]
                 htmlPattern: false
-                pattern: /^[a-zA-Z_0-9\/]+$/
+                pattern: /^[a-zA-Z_0-9\/.-]+$/
         active:
             - NotBlank:
                 groups: [microservice_deploy_profile]

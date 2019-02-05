@@ -57,6 +57,11 @@ class MicroserviceDeploy {
     private $removeKeyPrivate = false;
     
     /**
+     * @ORM\Column(name="key_private_password", type="string", nullable=true, columnDefinition="varchar(255)")
+     */
+    private $keyPrivatePassword = "";
+    
+    /**
      * @ORM\Column(name="ip", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
      */
     private $ip = "";
@@ -157,6 +162,10 @@ class MicroserviceDeploy {
         $this->removeKeyPrivate = $value;
     }
     
+    public function setKeyPrivatePassword($value) {
+        $this->keyPrivatePassword = $value;
+    }
+    
     public function setIp($value) {
         $this->ip = $value;
     }
@@ -245,6 +254,10 @@ class MicroserviceDeploy {
     
     public function getRemoveKeyPrivate() {
         return $this->removeKeyPrivate;
+    }
+    
+    public function getKeyPrivatePassword() {
+        return $this->keyPrivatePassword;
     }
     
     public function getIp() {

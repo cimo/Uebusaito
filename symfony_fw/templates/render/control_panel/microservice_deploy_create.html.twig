@@ -29,6 +29,7 @@
             </div>
         </div>
         
+        {{form_row(form.keyPrivatePassword, {'dense': "", 'styleType': "outlinedTrailing"})}}
         {{form_row(form.ip, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.gitUserEmail, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.gitUserName, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
@@ -40,7 +41,7 @@
         {{form_row(form.userWebScript, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         {{form_row(form.rootWebPath, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
         
-        <p class="info_field">{% trans %}microserviceDeployFormType_20_i{% endtrans %}</p>
+        <p class="info_field">{% trans %}microserviceDeployFormType_21_i{% endtrans %}</p>
         {{form_row(form.command, {'dense': "", 'styleType': "outlinedTrailing"})}}
         
         {{form_widget(form._token)}}

@@ -693,18 +693,18 @@ class Utility {
     }
     
     public function checkSessionOverTime($request, $router) {
-        if (isset($_SESSION['_sf2_attributes']) == false && $request->cookies->has(session_name() . "_REMEMBERME") == false) {
-            $_SESSION['userInform'] = $this->translator->trans("classUtility_6");
-            
-            return $this->sessionIsOver($request, $router);
-        }
-        
         if (isset($_SESSION['userActionCount']) == false)
             $_SESSION['userActionCount'] = 0;
         
         if (isset($_SESSION['userInform']) == false || isset($_SESSION['userInformCount']) == false) {
             $_SESSION['userInform'] = "";
             $_SESSION['userInformCount'] = 0;
+        }
+        
+        if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && isset($_SESSION['_symfony_flashes']) == false && $_SESSION['userInform'] == "") {
+            $_SESSION['userInform'] = $this->translator->trans("classUtility_6");
+            
+            $isOver = true;
         }
         
         if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
@@ -743,9 +743,36 @@ class Utility {
                 }
             }
             
-            if ($isOver == true)
-                return $this->sessionIsOver($request, $router);
+            if ($isOver == true) {
+                if ($request->isXmlHttpRequest() == true) {
+                    echo json_encode(Array(
+                        'userInform' => $_SESSION['userInform']
+                    ));
 
+                    exit;
+                }
+                else {
+                    $_SESSION['userActionCount'] = 0;
+
+                    $userInform = $_SESSION['userInform'];
+                    $language = $_SESSION['languageTextCode'];
+
+                    $this->tokenStorage->setToken(null);
+
+                    $_SESSION['userInform'] = $userInform;
+                    $_SESSION['languageTextCode'] = $language;
+
+                    return $router->generate(
+                        "root_render",
+                        Array(
+                            '_locale' => $_SESSION['languageTextCode'],
+                            'urlCurrentPageId' => 2,
+                            'urlExtra' => ""
+                        )
+                    );
+                }
+            }
+            
             $_SESSION['userTimestamp'] = time();
         }
         
@@ -859,6 +886,8 @@ class Utility {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2309.372 Safari/537.36");
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         
         $curlResponse = curl_exec($curl);
         curl_close($curl);
@@ -978,36 +1007,6 @@ class Utility {
     }
     
     // Functions private
-    private function sessionIsOver($request, $router) {
-        if ($request->isXmlHttpRequest() == true) {
-            echo json_encode(Array(
-                'userInform' => $_SESSION['userInform']
-            ));
-
-            exit;
-        }
-        else {
-            $_SESSION['userActionCount'] = 0;
-
-            $userInform = $_SESSION['userInform'];
-            $language = $_SESSION['languageTextCode'];
-
-            $this->tokenStorage->setToken(null);
-
-            $_SESSION['userInform'] = $userInform;
-            $_SESSION['languageTextCode'] = $language;
-
-            return $router->generate(
-                "root_render",
-                Array(
-                    '_locale' => $_SESSION['languageTextCode'],
-                    'urlCurrentPageId' => 2,
-                    'urlExtra' => ""
-                )
-            );
-        }
-    }
-    
     private function arrayColumnFix() {
         if (function_exists("array_column") == false) {
             function array_column($input = null, $columnKey = null, $indexKey = null) {

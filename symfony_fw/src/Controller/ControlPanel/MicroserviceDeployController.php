@@ -545,7 +545,9 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_5")}
-                    <span class=\"mdc-list-item__secondary-text\">***</span>
+                    <span class=\"mdc-list-item__secondary-text\">";
+                        $renderHtml .= $elements[0]['ssh_password'] == null ? "" : "***";
+                    $renderHtml .= "</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -569,7 +571,9 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_10")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['ip']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">";
+                        $renderHtml .= $elements[0]['key_private_password'] == null ? "" : "***";
+                    $renderHtml .= "</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -577,7 +581,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_11")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_email']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['ip']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -585,7 +589,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_12")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_name']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_email']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -593,7 +597,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_13")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_user_name']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -601,7 +605,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_14")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url_username']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -609,7 +613,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_15")}
-                    <span class=\"mdc-list-item__secondary-text\">***</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_url_username']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -617,7 +621,9 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_16")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_path']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">";
+                        $renderHtml .= $elements[0]['git_clone_url_password'] == null ? "" : "***";
+                    $renderHtml .= "</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -625,7 +631,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_17")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_git_script']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['git_clone_path']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -633,7 +639,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_18")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_web_script']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_git_script']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -641,7 +647,7 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_19")}
-                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['root_web_path']}</span>
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['user_web_script']}</span>
                 </span>
             </li>
             <li role=\"separator\" class=\"mdc-list-divider\"></li>
@@ -649,6 +655,14 @@ class MicroserviceDeployController extends AbstractController {
                 <span class=\"mdc-list-item__graphic material-icons\">info</span>
                 <span class=\"mdc-list-item__text\">
                     {$this->utility->getTranslator()->trans("microserviceDeployFormType_20")}
+                    <span class=\"mdc-list-item__secondary-text\">{$elements[0]['root_web_path']}</span>
+                </span>
+            </li>
+            <li role=\"separator\" class=\"mdc-list-divider\"></li>
+            <li class=\"mdc-list-item\">
+                <span class=\"mdc-list-item__graphic material-icons\">info</span>
+                <span class=\"mdc-list-item__text\">
+                    {$this->utility->getTranslator()->trans("microserviceDeployFormType_21")}
                     <span class=\"mdc-list-item__secondary-text\">{$command}</span>
                 </span>
             </li>
@@ -659,7 +673,7 @@ class MicroserviceDeployController extends AbstractController {
                     <div style=\"margin-top: 6px;\" class=\"mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon mdc-text-field--dense\">
                         <i class=\"material-icons mdc-text-field__icon\">textsms</i>
                         <input class=\"mdc-text-field__input\" type=\"text\" name=\"branchName\" value=\"\" required=\"required\" autocomplete=\"off\" aria-label=\"label\"/>
-                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_25")}</label>
+                        <label for=\"form_microservice_deploy_name\" class=\"mdc-floating-label\">{$this->utility->getTranslator()->trans("microserviceDeployFormType_26")}</label>
                         <div class=\"mdc-notched-outline\">
                             <svg>
                                 <path class=\"mdc-notched-outline__path\"/>
@@ -815,6 +829,7 @@ class MicroserviceDeployController extends AbstractController {
                     unlink("$pathKeyPrivate/{$row['key_private']}");
 
                 $entity->setKeyPrivate("");
+                $entity->setKeyPrivatePassword("");
             }
             else if ($row['key_public'] != "")
                 $entity->setKeyPrivate($row['key_private']);
@@ -848,10 +863,10 @@ class MicroserviceDeployController extends AbstractController {
             
             $microserviceDeployRow = $this->microserviceDeployDatabase("select", $row['id'], $row['ssh_password'], $row['git_clone_url_password']);
             
-            if ($row['ssh_username'] != "" && $microserviceDeployRow['ssh_password'] != "")
+            if ($row['key_public'] == null || $row['key_private'] == null)
                 $auth = @ssh2_auth_password($connection, $row['ssh_username'], $microserviceDeployRow['ssh_password']);
             else
-                $auth = @ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate);
+                $auth = @ssh2_auth_pubkey_file($connection, $row['system_user'], $pathKeyPublic, $pathKeyPrivate, $row['key_private_password']);
             
             if ($auth == false)
                 return false;

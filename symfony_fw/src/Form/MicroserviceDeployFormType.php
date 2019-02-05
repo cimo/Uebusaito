@@ -66,60 +66,65 @@ class MicroserviceDeployFormType extends AbstractType {
             'required' => false,
             'label' => "microserviceDeployFormType_9"
         ))
-        ->add("ip", TextType::class, Array(
-            'required' => true,
-            'label' => "microserviceDeployFormType_10"
+        ->add('keyPrivatePassword', TextType::class, Array(
+            'required' => false,
+            'label' => "microserviceDeployFormType_10",
+            'data_class' => null
         ))
-        ->add("gitUserEmail", TextType::class, Array(
+        ->add("ip", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_11"
         ))
-        ->add("gitUserName", TextType::class, Array(
+        ->add("gitUserEmail", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_12"
         ))
-        ->add("gitCloneUrl", TextType::class, Array(
+        ->add("gitUserName", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_13"
         ))
-        ->add("gitCloneUrlUsername", TextType::class, Array(
+        ->add("gitCloneUrl", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_14"
         ))
-        ->add("gitCloneUrlPassword", PasswordType::class, Array(
+        ->add("gitCloneUrlUsername", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_15"
         ))
-        ->add("gitClonePath", TextType::class, Array(
+        ->add("gitCloneUrlPassword", PasswordType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_16"
         ))
-        ->add("userGitScript", TextType::class, Array(
+        ->add("gitClonePath", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_17"
         ))
-        ->add("userWebScript", TextType::class, Array(
+        ->add("userGitScript", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_18"
         ))
-        ->add("rootWebPath", TextType::class, Array(
+        ->add("userWebScript", TextType::class, Array(
             'required' => true,
             'label' => "microserviceDeployFormType_19"
         ))
+        ->add("rootWebPath", TextType::class, Array(
+            'required' => true,
+            'label' => "microserviceDeployFormType_20"
+        ))
         ->add("command", TextareaType::class, Array(
             'required' => false,
-            'label' => "microserviceDeployFormType_20"
+            'label' => "microserviceDeployFormType_21"
         ))
         ->add("active", ChoiceType::class, Array(
             'required' => true,
-            'placeholder' => "microserviceDeployFormType_21",
+            'placeholder' => "microserviceDeployFormType_22",
             'choices' => Array(
-                "microserviceDeployFormType_22" => "0",
-                "microserviceDeployFormType_23" => "1"
+                "microserviceDeployFormType_23" => "0",
+                "microserviceDeployFormType_24" => "1"
             )
         ))
         ->add("submit", SubmitType::class, Array(
-            'label' => "microserviceDeployFormType_24"
+            'label' => "microserviceDeployFormType_25"
         ));
         
         $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $formEvent) {
