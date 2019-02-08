@@ -2,6 +2,7 @@ Uebusaito
 ==============
 
 Framework for create secure fast and dynamic website.
+
 Based on Symfony elements, you can create all type of websites (Personal, company, eCommerce...).
 
 | INFO |
@@ -94,6 +95,7 @@ Based on Symfony elements, you can create all type of websites (Personal, compan
 7) For admin login use <b>"cimo, Password1"</b>.
 
 | LIBRARY |
+|:---|
 Symfony https://symfony.com/
 
 <b>By CIMO - https://www.reinventsoftware.org</b>
