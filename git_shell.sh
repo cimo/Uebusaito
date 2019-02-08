@@ -1,7 +1,7 @@
 #!/bin/bash
 
-gitCloneUrl=https://username:password@github.com/cimo/Uebusaito.git
-#gitCloneUrl=https://oauth2:token@github.com/cimo/Uebusaito.git
+gitCloneUrl=https://username:password@github.com/cimo/project_name.git
+#gitCloneUrl=https://oauth2:token@github.com/cimo/project_name.git
 gitClonePath=/home/user_1/www/project_folder
 userGitScript=user_1
 userWebScript=user_1:www-data

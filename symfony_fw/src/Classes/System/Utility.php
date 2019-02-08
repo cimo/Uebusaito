@@ -701,12 +701,6 @@ class Utility {
             $_SESSION['userInformCount'] = 0;
         }
         
-        if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && isset($_SESSION['_symfony_flashes']) == false && $_SESSION['userInform'] == "") {
-            $_SESSION['userInform'] = $this->translator->trans("classUtility_6");
-            
-            $isOver = true;
-        }
-        
         if ($this->tokenStorage->getToken() != null && $request->cookies->has(session_name() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
             if (isset($_SESSION['userTimestamp']) == false)
                 $_SESSION['userTimestamp'] = time();

@@ -49,6 +49,8 @@
         <link href="{{asset("css/system/wysiwyg.css")}}" rel="stylesheet"/>
         <link href="{{asset("css/system/chaato.css")}}" rel="stylesheet"/>
         <link href="{{asset("css/system/widget.css")}}" rel="stylesheet"/>
+        
+        {{-include("@templateRoot/layout/layout_site_custom_top.html.twig")-}}
     </head>
     <body class="mdc-typography user_select_none">
         <div id="body_progress">
@@ -218,8 +220,10 @@
         <script src="{{asset("javascript/system/Registration.min.js")}}"></script>
         <script src="{{asset("javascript/system/RecoverPassword.min.js")}}"></script>
         <script src="{{asset("javascript/system/MenuUser.min.js")}}"></script>
-        <script src="{{asset("javascript/system/Index.min.js")}}"></script>
         
-        {{-include("@templateRoot/layout/layout_site_custom.html.twig")-}}
+        {{-include("@templateRoot/layout/layout_site_custom_bottom.html.twig")-}}
+        
+        <script src="{{asset("javascript/system/Index.min.js")}}"></script>
+        <script src="{{asset("javascript/system/Index_custom.min.js")}}"></script>
     </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\PageControllerAction;
+namespace App\Controller\PageAction;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\Classes\System\Utility;
 use App\Classes\System\Ajax;
 
-class IncludeTestController extends AbstractController {
+class PageActionTestController extends AbstractController {
     // Vars
     private $urlLocale;
     private $urlCurrentPageId;
@@ -27,7 +27,7 @@ class IncludeTestController extends AbstractController {
     
     // Functions public
     /**
-    * @Template("@templateRoot/render/page_controller_action/include_test.html.twig")
+    * @Template("@templateRoot/render/page_action/page_action_test.html.twig")
     */
     public function renderAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
         $this->urlLocale = isset($_SESSION['languageTextCode']) == true ? $_SESSION['languageTextCode'] : $_locale;
