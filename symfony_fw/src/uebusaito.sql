@@ -132,6 +132,31 @@ INSERT INTO `microservice_apiBasic_request` VALUES (1,1,'requestTestAction','201
 UNLOCK TABLES;
 
 --
+-- Table structure for table `microservice_apiBasic_request_detail`
+--
+
+DROP TABLE IF EXISTS `microservice_apiBasic_request_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `microservice_apiBasic_request_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `date` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `data` json NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `microservice_apiBasic_request_detail`
+--
+
+LOCK TABLES `microservice_apiBasic_request_detail` WRITE;
+/*!40000 ALTER TABLE `microservice_apiBasic_request_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `microservice_apiBasic_request_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `microservice_deploy`
 --
 
@@ -297,7 +322,7 @@ CREATE TABLE `pages_comments` (
 
 LOCK TABLES `pages_comments` WRITE;
 /*!40000 ALTER TABLE `pages_comments` DISABLE KEYS */;
-INSERT INTO `pages_comments` VALUES (1,6,'cimo',NULL,'Comment test.','2017-10-31 11:45:22','2018-12-13 12:23:39'),(2,6,'test_1',NULL,'New comment test.','2017-10-31 11:55:18','2017-11-01 23:51:35'),(3,6,'cimo',2,'Test over.','2018-12-13 12:25:59','0000-00-00 00:00:00');
+INSERT INTO `pages_comments` VALUES (1,6,'cimo',NULL,'Comment test.','2017-10-31 11:45:22','2018-12-13 12:23:39'),(2,6,'test_1',NULL,'New comment test.','2017-10-31 11:55:18','2017-11-01 23:51:35'),(3,6,'cimo',2,'Test over.','2018-12-13 12:25:59','2019-04-08 11:43:43');
 /*!40000 ALTER TABLE `pages_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -551,6 +576,7 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1,',
   `roles` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'ROLE_USER,',
+  `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `username` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `surname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -585,7 +611,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-03-27 10:42:11','2019-03-15 17:46:19',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE','test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST','test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `users` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5cbfc82693953.jpg','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-04-26 10:06:59','2019-04-18 10:45:44',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -602,4 +628,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-27 11:27:18
+-- Dump completed on 2019-04-26 18:44:43
