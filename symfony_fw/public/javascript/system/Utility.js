@@ -145,7 +145,7 @@ function Utility() {
     self.sortableElement = function(tagParent, tagInput) {
         populateSortableInput(tagParent, tagInput);
         
-        if (utility.checkWidthType() === "desktop") {
+        if (self.checkWidthType() === "desktop") {
             $(".sort_result").find(".mdc-chip").removeClass("mdc-chip--selected");
             $(".sort_result").off("click");
             
@@ -346,7 +346,7 @@ function Utility() {
         });
         
         if (window.location.href.indexOf("control_panel") === -1) {
-            var parameters = utility.urlParameters(window.session.languageTextCode);
+            var parameters = self.urlParameters(window.session.languageTextCode);
             
             $(".menu_root_container").find(".target").removeClass("current");
             
@@ -483,17 +483,17 @@ function Utility() {
     };
     
     self.removeCookie = function(name) {
-        if (utility.readCookie(name) !== null)
+        if (self.readCookie(name) !== null)
             document.cookie = name + "=;" + "expires=Thu, 01-Jan-1970 00:00:01 GMT;path=/;domain=." + window.location.host.toString() + ";";
     };
     
     self.blockMultiTab = function(active) {
         if (active === true) {
-            if (utility.readCookie("multiTabBlock") === null) {
-                utility.createCookie("multiTabBlock", {"active":true}, "Fri, 31 Dec 9999 23:59:59 GMT", true, true);
+            if (self.readCookie("multiTabBlock") === null) {
+                self.createCookie("multiTabBlock", {"active":true}, "Fri, 31 Dec 9999 23:59:59 GMT", true, true);
                 
                 $(window).on("unload", "", function(event) {
-                    utility.removeCookie("multiTabBlock");
+                    self.removeCookie("multiTabBlock");
                 });
             }
             else
