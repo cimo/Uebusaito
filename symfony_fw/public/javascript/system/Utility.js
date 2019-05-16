@@ -145,7 +145,7 @@ function Utility() {
     self.sortableElement = function(tagParent, tagInput) {
         populateSortableInput(tagParent, tagInput);
         
-        if (self.checkWidthType() === "desktop") {
+        if (utility.checkWidthType() === "desktop") {
             $(".sort_result").find(".mdc-chip").removeClass("mdc-chip--selected");
             $(".sort_result").off("click");
             
@@ -466,6 +466,39 @@ function Utility() {
         var result = (query.length > 2 ? query + "&" : "?") + (value ? name + "=" + value : "");
         
         window.history.replaceState("", "", window.location.pathname + result);
+    };
+    
+    self.createCookie = function(name, values, expire, secure) {
+        var secureValue = secure === true ? "Secure;" : "";
+        
+        document.cookie = name + "=" + JSON.stringify(values) + ";expires=" + expire + ";path=/;domain=." + window.location.host.toString() + ";" + secureValue;
+    };
+    
+    self.readCookie = function(name) {
+        var result = document.cookie.match(new RegExp(name + "=([^;]+)"));
+        
+        result && (result = JSON.parse(result[1]));
+        
+        return result;
+    };
+    
+    self.removeCookie = function(name) {
+        if (utility.readCookie(name) !== null)
+            document.cookie = name + "=;" + "expires=Thu, 01-Jan-1970 00:00:01 GMT;path=/;domain=." + window.location.host.toString() + ";";
+    };
+    
+    self.blockMultiTab = function(active) {
+        if (active === true) {
+            if (utility.readCookie("multiTabBlock") === null) {
+                utility.createCookie("multiTabBlock", {"active":true}, "Fri, 31 Dec 9999 23:59:59 GMT", true, true);
+                
+                $(window).on("unload", "", function(event) {
+                    utility.removeCookie("multiTabBlock");
+                });
+            }
+            else
+                $("body").html("<h1 style=\"margin: 10px; text-align: center;\">" + window.text.index_11 + "</h1>");
+        }
     };
     
     // Functions private

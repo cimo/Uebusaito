@@ -3,21 +3,22 @@ Uebusaito
 
 Framework for create secure fast and dynamic website.
 
-Based on Symfony elements, you can create all type of websites (Personal, company, eCommerce...).
+You can create all type of websites (Personal, company, eCommerce, ...).
 
 | INFO |
 |:---|
 | Cross browser and responsive (Chrome, Firefox, Edge, Opera, Safari) |
-| Cross platform (Windows, Linux, Mac, Android, Ios ) |
+| Cross platform (Windows, Linux, Mac, Android, Ios) |
 | Dynamic multi language |
 | Login, registration, recover password and profile |
 | Multiple roles system |
 | Search in website |
+| Multi tab block |
 | Credit and paypal payment |
 | Upload file chunk system |
 | Wysiwyg page creation (create page without code) |
 | Page comments |
-| Microservice (Deploy and api) |
+| Microservice (Deploy, api and unit test) |
 | Integration with: Slack, line |
 | Extend with module system |
 
@@ -33,11 +34,18 @@ Based on Symfony elements, you can create all type of websites (Personal, compan
 | Slack |
 | Line |
 | Microservice |
+| - Deploy |
+| - Api |
+| - Unit test |
 
 | IMAGES |
 |:---|
 <img src="screenshots/1.png" width="200" alt="1.png"/>
 <img src="screenshots/2.png" width="200" alt="2.png"/>
+
+| LIBRARY |
+|:---|
+Symfony - https://symfony.com/
 
 ## Instructions:
 1) Copy files on your server.
@@ -93,9 +101,5 @@ Based on Symfony elements, you can create all type of websites (Personal, compan
         sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
 
 7) For admin login use <b>"cimo, Password1"</b>.
-
-| LIBRARY |
-|:---|
-Symfony https://symfony.com/
 
 <b>By CIMO - https://www.reinventsoftware.org</b>
