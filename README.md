@@ -64,12 +64,12 @@ Symfony - https://symfony.com/
 
 4) Save, close the file and write on terminal:
 
+        sudo cp /config/packages/framework.yaml.dist /config/packages/framework.yaml
+        
         sudo nano /config/packages/framework.yaml
-
+        
 5) In "session:" modify:
 
-        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
-        
         name: new_name
         
         cookie_domain: .domain_name.xxx
