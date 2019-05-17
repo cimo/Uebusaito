@@ -114,7 +114,7 @@ class Utility {
         $this->translator = $translator;
         $this->passwordEncoder = $passwordEncoder;
         
-        $this->sessionMaxIdleTime = 3600;
+        $this->sessionMaxIdleTime = 100;//3600;
         
         $this->config = new Config();
         $this->query = new Query($this->connection);
@@ -909,7 +909,7 @@ class Utility {
     }
     
     public function checkSessionOverTime($request, $router) {
-        if (isset($_SESSION['userActionCount']) == false)
+        /*if (isset($_SESSION['userActionCount']) == false)
             $_SESSION['userActionCount'] = 0;
         
         if (isset($_SESSION['userInform']) == false || isset($_SESSION['userInformCount']) == false) {
@@ -939,7 +939,7 @@ class Utility {
             
             if (is_string($currentUser) == false) {
                 $userRow = $this->query->selectUserDatabase($currentUser->getId());
-
+                
                 $rolesExplode = explode(",", $userRow['roles']);
                 
                 $arrayDiff = array_diff($currentUser->getRoles(), $rolesExplode);
@@ -958,20 +958,20 @@ class Utility {
                     echo json_encode(Array(
                         'userInform' => $_SESSION['userInform']
                     ));
-
+                    
                     exit;
                 }
                 else {
                     $_SESSION['userActionCount'] = 0;
-
+                    
                     $userInform = $_SESSION['userInform'];
                     $language = $_SESSION['languageTextCode'];
-
+                    
                     $this->tokenStorage->setToken(null);
-
+                    
                     $_SESSION['userInform'] = $userInform;
                     $_SESSION['languageTextCode'] = $language;
-
+                    
                     return $router->generate(
                         "root_render",
                         Array(
@@ -988,10 +988,74 @@ class Utility {
         
         if ($_SESSION['userInform'] != "")
             $_SESSION['userInformCount'] ++;
-
+        
         if ($_SESSION['userInformCount'] > 1) {
             $_SESSION['userInform'] = "";
             $_SESSION['userInformCount'] = 0;
+        }*/
+        
+        if (isset($_SESSION['userInform']) == false)
+            $_SESSION['userInform'] = "";
+        
+        $userOver = false;
+        
+        if ($this->tokenStorage->getToken() != null && $request->cookies->has($this->session->getName() . "_REMEMBERME") == false && $this->authorizationChecker->isGranted("IS_AUTHENTICATED_FULLY") == true) {
+            if (isset($_SESSION['userTimestamp']) == false)
+                $_SESSION['userTimestamp'] = time();
+            
+            $timeElapsed = time() - $_SESSION['userTimestamp'];
+            
+            // Inactivity
+            if ($userOver == false && $timeElapsed >= $this->sessionMaxIdleTime) {
+                $_SESSION['userInform'] = $this->translator->trans("classUtility_6");
+                
+                $userOver = true;
+            }
+            
+            // Roles changed
+            $currentUser = $this->tokenStorage->getToken()->getUser();
+            
+            if (is_string($currentUser) == false) {
+                $userRow = $this->query->selectUserDatabase($currentUser->getId());
+                
+                $rolesExplode = explode(",", $userRow['roles']);
+                
+                $arrayDiff = array_diff($currentUser->getRoles(), $rolesExplode);
+                
+                if (count($arrayDiff) > 0) {
+                    $_SESSION['userInform'] = $this->translator->trans("classUtility_7");
+                    
+                    $userOver = true;
+                }
+            }
+            
+            if ($userOver == true) {
+                if ($request->isXmlHttpRequest() == true) {
+                    echo json_encode(Array(
+                        'userInform' => $_SESSION['userInform']
+                    ));
+                    
+                    exit;
+                }
+                else {
+                    $userInform = $_SESSION['userInform'];
+                    $language = $_SESSION['languageTextCode'];
+                    
+                    $this->tokenStorage->setToken(null);
+                    
+                    $_SESSION['userInform'] = $userInform;
+                    $_SESSION['languageTextCode'] = $language;
+                    
+                    return $router->generate(
+                        "root_render",
+                        Array(
+                            '_locale' => $_SESSION['languageTextCode'],
+                            'urlCurrentPageId' => 2,
+                            'urlExtra' => ""
+                        )
+                    );
+                }
+            }
         }
         
         return false;
