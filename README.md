@@ -5,7 +5,8 @@ Framework for create secure fast and dynamic website.
 
 You can create all type of websites (Personal, company, eCommerce, ...).
 
-## Info:
+| Info: |
+|:---|
 | Cross browser and responsive (Chrome, Firefox, Edge, Opera, Safari) |
 | Cross platform (Windows, Linux, Mac, Android, Ios) |
 | Encrypt data |
@@ -22,7 +23,8 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 | Integration with: Slack, line |
 | Extend with module system |
 
-## Elements:
+| Elements: |
+|:---|
 | System info |
 | Payments |
 | Pages |
