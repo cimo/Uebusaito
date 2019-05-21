@@ -43,8 +43,9 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 <img src="screenshots/1.png" width="200" alt="1.png"/>
 <img src="screenshots/2.png" width="200" alt="2.png"/>
 
-## Library:
-Symfony - https://symfony.com/
+| Library: |
+|:---|
+| Symfony - https://symfony.com/ |
 
 ## Instructions:
 1) Copy files on your server.
