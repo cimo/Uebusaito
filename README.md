@@ -5,10 +5,10 @@ Framework for create secure fast and dynamic website.
 
 You can create all type of websites (Personal, company, eCommerce, ...).
 
-| INFO |
-|:---|
+## Info:
 | Cross browser and responsive (Chrome, Firefox, Edge, Opera, Safari) |
 | Cross platform (Windows, Linux, Mac, Android, Ios) |
+| Encrypt data |
 | Dynamic multi language |
 | Login, registration, recover password and profile |
 | Multiple roles system |
@@ -22,8 +22,7 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 | Integration with: Slack, line |
 | Extend with module system |
 
-| ELEMENTS |
-|:---|
+## Elements:
 | System info |
 | Payments |
 | Pages |
@@ -38,13 +37,11 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 | - Api |
 | - Unit test |
 
-| IMAGES |
-|:---|
+## Images:
 <img src="screenshots/1.png" width="200" alt="1.png"/>
 <img src="screenshots/2.png" width="200" alt="2.png"/>
 
-| LIBRARY |
-|:---|
+## Library:
 Symfony - https://symfony.com/
 
 ## Instructions:
