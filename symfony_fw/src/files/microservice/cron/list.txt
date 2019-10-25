@@ -1,0 +1,1 @@
+*/1 * * * * ls -l /home/cimo > /home/cimo/www/project/uebusaito/root/symfony_fw/src/files/microservice/cron/test.log

@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: uebusaito
 -- ------------------------------------------------------
--- Server version	5.7.26-0ubuntu0.16.04.1
+-- Server version	5.7.27-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -157,6 +157,32 @@ LOCK TABLES `microservice_apiBasic_request_detail` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `microservice_cron`
+--
+
+DROP TABLE IF EXISTS `microservice_cron`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `microservice_cron` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `code` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `microservice_cron`
+--
+
+LOCK TABLES `microservice_cron` WRITE;
+/*!40000 ALTER TABLE `microservice_cron` DISABLE KEYS */;
+INSERT INTO `microservice_cron` VALUES (1,'test','Ki8xICogKiAqICogbHMgLWwgL2hvbWUvY2ltbw==',0);
+/*!40000 ALTER TABLE `microservice_cron` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `microservice_deploy`
 --
 
@@ -195,7 +221,7 @@ CREATE TABLE `microservice_deploy` (
 
 LOCK TABLES `microservice_deploy` WRITE;
 /*!40000 ALTER TABLE `microservice_deploy` DISABLE KEYS */;
-INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,NULL,NULL,NULL,NULL,'123.123.123.123','user@github.com','git_user','url.git','username','uO\Ö\ÇK\æD®DG­\ß7\Ç5','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src','php -v\r\napache2 -v',1);
+INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,NULL,NULL,NULL,NULL,'123.123.123.123','user@github.com','git_user','url.git','username','uO\ï¿½\ï¿½K\ï¿½Dï¿½DGï¿½\ï¿½7\ï¿½5','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src','php -v\r\napache2 -v',1);
 /*!40000 ALTER TABLE `microservice_deploy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,7 +375,7 @@ CREATE TABLE `page_comment` (
 
 LOCK TABLES `page_comment` WRITE;
 /*!40000 ALTER TABLE `page_comment` DISABLE KEYS */;
-INSERT INTO `page_comment` VALUES (1,6,'cimo',NULL,'Comment test.','2017-10-31 11:45:22','2018-12-13 12:23:39'),(2,6,'test_1',NULL,'New comment test.','2017-10-31 11:55:18','2017-11-01 23:51:35'),(3,6,'cimo',2,'Test over.','2018-12-13 12:25:59','2019-04-08 11:43:43');
+INSERT INTO `page_comment` VALUES (1,6,'cimo',NULL,'Comment test.','2017-10-31 11:45:22','2018-12-13 12:23:39'),(2,6,'test_1',NULL,'New comment test.','2017-10-31 11:55:18','2017-11-01 23:51:35'),(3,6,'cimo',2,'Test over.','2018-12-13 12:25:59','2019-10-23 11:20:44');
 /*!40000 ALTER TABLE `page_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -639,7 +665,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5cbfc82693953.jpg','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-05-22 13:08:28','2019-05-22 13:06:31',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `user` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5cbfc82693953.jpg','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-10-25 18:30:09','2019-10-25 14:13:46',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -656,4 +682,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-22 13:14:40
+-- Dump completed on 2019-10-25 18:42:08

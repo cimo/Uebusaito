@@ -1,0 +1,6 @@
+total 12
+-rw------- 1 root root      887 Nov 13  2018 mail.private
+-rw------- 1 root root      316 Nov 13  2018 mail.txt
+-rw-rw-r-- 1 cimo cimo        0 Sep  5 15:42 output
+drwxr-xr-x 2 root root     4096 Nov 13  2018 sieve
+drwxrwxrwx 1 cimo www-data  512 Sep 25 14:30 www

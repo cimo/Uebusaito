@@ -162,6 +162,16 @@ App\Form\Model\MicroserviceUnitTestSelectModel:
                 htmlPattern: false
                 pattern: /^[0-9]+$/
 
+App\Form\Model\MicroserviceCronSelectModel:
+    properties:
+        id:
+            - NotBlank:
+                groups: [microservice_cron_select]
+            - Regex:
+                groups: [microservice_cron_select]
+                htmlPattern: false
+                pattern: /^[0-9]+$/
+
 App\Entity\Page:
     properties:
         language:
@@ -912,5 +922,25 @@ App\Entity\MicroserviceUnitTest:
                 groups: [microservice_unit_test_create, microservice_unit_test_profile]
             - Regex:
                 groups: [microservice_unit_test_create, microservice_unit_test_profile]
+                htmlPattern: false
+                pattern: /^1$|^0$/
+
+App\Entity\MicroserviceCron:
+    properties:
+        name:
+            - NotBlank:
+                groups: [microservice_cron_create, microservice_cron_profile]
+            - Regex:
+                groups: [microservice_cron_create, microservice_cron_profile]
+                htmlPattern: false
+                pattern: /^[a-zA-Z0-9_\- ]+$/
+        code:
+            - NotBlank:
+                groups: [microservice_cron_create, microservice_cron_profile]
+        active:
+            - NotBlank:
+                groups: [microservice_cron_create, microservice_cron_profile]
+            - Regex:
+                groups: [microservice_cron_create, microservice_cron_profile]
                 htmlPattern: false
                 pattern: /^1$|^0$/
