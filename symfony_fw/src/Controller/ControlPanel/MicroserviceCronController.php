@@ -72,7 +72,7 @@ class MicroserviceCronController extends AbstractController {
                 $this->entityManager->persist($microserviceCronEntity);
                 $this->entityManager->flush();
                 
-                $this->settingJob($microserviceCronEntity);
+                $this->settingJob(false, $microserviceCronEntity);
                 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceCronController_1");
             }
@@ -203,6 +203,8 @@ class MicroserviceCronController extends AbstractController {
                     $form->handleRequest($request);
 
                     $this->response['values']['id'] = $_SESSION['microserviceCronProfileId'];
+                    
+                    $this->response['values']['lastExecution'] = $microserviceCronEntity->getLastExecution();
 
                     $this->response['render'] = $this->renderView("@templateRoot/render/control_panel/microservice_cron_profile.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
@@ -263,7 +265,7 @@ class MicroserviceCronController extends AbstractController {
                 $this->entityManager->persist($microserviceCronEntity);
                 $this->entityManager->flush();
                 
-                $this->settingJob($microserviceCronEntity);
+                $this->settingJob(false, $microserviceCronEntity);
                 
                 $this->response['messages']['success'] = $this->utility->getTranslator()->trans("microserviceCronController_4");
             }
@@ -322,6 +324,8 @@ class MicroserviceCronController extends AbstractController {
                     
                     $microserviceCronEntity = $this->entityManager->getRepository("App\Entity\MicroserviceCron")->find($id);
                     
+                    $this->settingJob(true, $microserviceCronEntity);
+                    
                     $microserviceCronDatabase = $this->microserviceCronDatabase("delete", $id);
                     
                     if ($microserviceCronDatabase == true) {
@@ -379,12 +383,9 @@ class MicroserviceCronController extends AbstractController {
                 <td>
                     {$value['name']}
                 </td>
-                <td>";
-                    if ($value['active'] == 0)
-                        $listHtml .= $this->utility->getTranslator()->trans("microserviceCronController_9");
-                    else
-                        $listHtml .= $this->utility->getTranslator()->trans("microserviceCronController_10");
-                $listHtml .= "</td>
+                <td>
+                    {$value['last_execution']}
+                </td>
                 <td class=\"horizontal_center\">";
                     $listHtml .= "<button class=\"mdc-fab mdc-fab--mini cp_microservice_cron_delete\" type=\"button\" aria-label=\"label\"><span class=\"mdc-fab__icon material-icons\">delete</span></button>
                 </td>
@@ -410,14 +411,21 @@ class MicroserviceCronController extends AbstractController {
         }
     }
     
-    private function settingJob($microserviceCronEntity) {
+    private function settingJob($delete, $microserviceCronEntity) {
         $path = "{$this->utility->getPathSrc()}/files/microservice/cron";
         
-        shell_exec("crontab -r");
-        shell_exec("crontab -l > {$path}/list.txt && [ -f {$path}/list.txt ] || > {$path}/list.txt");
-        shell_exec("echo '{$microserviceCronEntity->getCode()} > {$path}/{$microserviceCronEntity->getName()}.log' >> {$path}/list.txt");
-        shell_exec("crontab {$path}/list.txt");
+        $code = "{$microserviceCronEntity->getTime()} (echo $(date) && {$microserviceCronEntity->getCode()} && echo \"\" && php {$path}/system/job.php {$microserviceCronEntity->getId()}) >> {$path}/{$microserviceCronEntity->getName()}.log";
         
-        //shell_exec("crontab -l 2>&1");
+        shell_exec("crontab -r");
+        
+        if ($delete == false)
+            shell_exec("grep -qxF '{$code}' {$path}/system/job.txt || echo '{$code}' >> {$path}/system/job.txt");
+        else {
+            $this->utility->searchInFile("{$path}/system/job.txt", $code, " ");
+            
+            unlink("{$path}/{$microserviceCronEntity->getName()}.log");
+        }
+        
+        shell_exec("crontab {$path}/system/job.txt");
     }
 }

@@ -934,13 +934,9 @@ App\Entity\MicroserviceCron:
                 groups: [microservice_cron_create, microservice_cron_profile]
                 htmlPattern: false
                 pattern: /^[a-zA-Z0-9_\- ]+$/
+        time:
+            - NotBlank:
+                groups: [microservice_cron_create, microservice_cron_profile]
         code:
             - NotBlank:
                 groups: [microservice_cron_create, microservice_cron_profile]
-        active:
-            - NotBlank:
-                groups: [microservice_cron_create, microservice_cron_profile]
-            - Regex:
-                groups: [microservice_cron_create, microservice_cron_profile]
-                htmlPattern: false
-                pattern: /^1$|^0$/

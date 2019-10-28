@@ -23,26 +23,35 @@ class MicroserviceCron {
     private $name = "";
     
     /**
+     * @ORM\Column(name="time", type="string", columnDefinition="varchar(255) NOT NULL DEFAULT ''")
+     */
+    private $time = "";
+    
+    /**
      * @ORM\Column(name="code", type="string", columnDefinition="longtext NOT NULL")
      */
     private $code = "";
     
     /**
-     * @ORM\Column(name="active", type="boolean", columnDefinition="tinyint(1) NOT NULL DEFAULT 0")
+     * @ORM\Column(name="last_execution", type="string", columnDefinition="varchar(19) NOT NULL DEFAULT '0000-00-00 00:00:00'")
      */
-    private $active = false;
+    private $lastExecution = "0000-00-00 00:00:00";
     
     // Properties
     public function setName($value) {
         $this->name = $value;
     }
     
+    public function setTime($value) {
+        $this->time = base64_encode($value);
+    }
+    
     public function setCode($value) {
         $this->code = base64_encode($value);
     }
     
-    public function setActive($value) {
-        $this->active = $value;
+    public function setLastExecution($value) {
+        $this->lastExecution = $value;
     }
     
     // ---
@@ -55,11 +64,15 @@ class MicroserviceCron {
         return $this->name;
     }
     
+    public function getTime() {
+        return base64_decode($this->time);
+    }
+    
     public function getCode() {
         return base64_decode($this->code);
     }
     
-    public function getActive() {
-        return $this->active;
+    public function getLastExecution() {
+        return $this->lastExecution;
     }
 }

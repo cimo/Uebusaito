@@ -929,7 +929,7 @@ date.time: H:i:s
 "microserviceCronSelect_3": "Id"
 "microserviceCronSelect_4": "Select"
 "microserviceCronSelect_5": "Name"
-"microserviceCronSelect_6": "Active"
+"microserviceCronSelect_6": "Last execution"
 "microserviceCronSelect_7": "Remove"
 "microserviceCronSelect_8": "Select"
 
@@ -939,11 +939,10 @@ date.time: H:i:s
 "microserviceCronDelete_2": "Delete"
 
 "microserviceCronFormType_1": "Name"
-"microserviceCronFormType_2": "Code"
-"microserviceCronFormType_3": "Active"
-"microserviceCronFormType_4": "No"
-"microserviceCronFormType_5": "Yes"
-"microserviceCronFormType_6": "Send"
+"microserviceCronFormType_2": "Time"
+"microserviceCronFormType_3": "Code"
+"microserviceCronFormType_4": "Last execution"
+"microserviceCronFormType_5": "Send"
 
 "microserviceCronSelectFormType_1": "Name"
 "microserviceCronSelectFormType_2": "Select"
@@ -956,6 +955,3 @@ date.time: H:i:s
 "microserviceCronController_6": "Cron deletion completed."
 "microserviceCronController_7": "All Cron deletion completed."
 "microserviceCronController_8": "Cron not deleted!"
-"microserviceCronController_9": "No"
-"microserviceCronController_10": "Yes"
-"microserviceCronController_11": "Cron is not active."
