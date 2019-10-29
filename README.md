@@ -38,6 +38,7 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 | - Deploy |
 | - Api |
 | - Unit test |
+| - Cron |
 
 ## Images:
 <img src="screenshots/1.png" width="200" alt="1.png"/>

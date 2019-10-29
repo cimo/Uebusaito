@@ -937,6 +937,3 @@ App\Entity\MicroserviceCron:
         time:
             - NotBlank:
                 groups: [microservice_cron_create, microservice_cron_profile]
-        code:
-            - NotBlank:
-                groups: [microservice_cron_create, microservice_cron_profile]
