@@ -48,6 +48,7 @@ Temporary Items
 
 # cimo
 nbproject
-/symfony_fw/src/Config.php
+/symfony_fw/config/packages/framework.yaml
 /symfony_fw/public/.sass-cache
-symfony_fw/config/packages/framework.yaml
+/symfony_fw/src/Config.php
+/symfony_fw/composer.lock
