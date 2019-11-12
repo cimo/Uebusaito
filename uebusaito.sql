@@ -171,7 +171,7 @@ CREATE TABLE `microservice_cron` (
   `active` tinyint(1) NOT NULL DEFAULT '0',
   `last_execution` varchar(19) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +180,7 @@ CREATE TABLE `microservice_cron` (
 
 LOCK TABLES `microservice_cron` WRITE;
 /*!40000 ALTER TABLE `microservice_cron` DISABLE KEYS */;
-INSERT INTO `microservice_cron` VALUES (2,'test_1','Ki8xICogKiAqICo=','bHMgLWwgL2hvbWU=',0,'2019-10-30 10:35:01');
+INSERT INTO `microservice_cron` VALUES (1,'test_1','Ki8xICogKiAqICo=','bHMgLWwgL2hvbWU=',0,'2019-11-08 12:45:01');
 /*!40000 ALTER TABLE `microservice_cron` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +223,7 @@ CREATE TABLE `microservice_deploy` (
 
 LOCK TABLES `microservice_deploy` WRITE;
 /*!40000 ALTER TABLE `microservice_deploy` DISABLE KEYS */;
-INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,NULL,NULL,NULL,NULL,'123.123.123.123','user@github.com','git_user','url.git','username','uO\�\�K\�D�DG�\�7\�5','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src','php -v\r\napache2 -v',1);
+INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,NULL,NULL,NULL,NULL,'123.123.123.123','user@github.com','git_user','url.git','username','uO\�\�K\�D�DG�\�7\�5','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src','cGhwIC12DQphcGFjaGUyIC12',1);
 /*!40000 ALTER TABLE `microservice_deploy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -667,7 +667,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5cbfc82693953.jpg','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-10-30 10:22:45','2019-10-29 10:25:05',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `user` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5cbfc82693953.jpg','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-11-12 15:34:50','2019-11-12 10:14:24',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -684,4 +684,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-30 10:37:34
+-- Dump completed on 2019-11-12 15:54:10
