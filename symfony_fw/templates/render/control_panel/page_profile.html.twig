@@ -14,7 +14,7 @@
 <form id="form_cp_page_profile" action="{{path("cp_page_profile_save", {'_locale': urlLocale, 'urlCurrentPageId': urlCurrentPageId, 'urlExtra': urlExtra})}}" method="post" novalidate="novalidate">
     {{form_row(form.language)}}
     {{form_row(form.alias, {'dense': "", 'styleType': "outlinedTrailing", 'icon': "textsms"})}}
-    {{form_row(form.parent, {'dense': ""})}}
+    {{form_row(form.parent, {'dense': "", 'firstOption': "empty"})}}
     {{form_row(form.title, {'dense': "", 'styleType': "outlinedTrailing"})}}
     {{form_row(form.controllerAction, {'dense': "", 'styleType': "outlinedTrailing"})}}
     {{form_row(form.argument, {'dense': "", 'styleType': "outlinedTrailing"})}}
@@ -56,6 +56,7 @@
     {{form_row(form.metaDescription, {'dense': "", 'styleType': "outlinedTrailing"})}}
     {{form_row(form.metaKeywords, {'dense': "", 'styleType': "outlinedTrailing"})}}
     {{form_row(form.metaRobots, {'dense': "", 'styleType': "outlinedTrailing"})}}
+    {{form_row(form.draft, {'dense': ""})}}
 
     {{form_widget(form._token)}}
 

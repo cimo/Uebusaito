@@ -247,6 +247,11 @@ App\Entity\Page:
                 groups: [page_create, page_profile]
                 htmlPattern: false
                 pattern: /^(index|noindex|follow|nofollow)[\s,]+(index|noindex|follow|nofollow)$/
+        draft:
+            - Regex:
+                groups: [page_create, page_profile]
+                htmlPattern: false
+                pattern: /^1$|^0$/
 
 App\Entity\PageComment:
     properties:

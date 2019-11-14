@@ -165,6 +165,7 @@ date.time: H:i:s
 
 "pageCommentType_1": "Comment"
 "pageCommentType_2": "Send"
+"pageCommentType_3": "Reset"
 
 "pageCommentController_1": "Search not completed!"
 "pageCommentController_2": "Comment sended."
@@ -422,7 +423,8 @@ date.time: H:i:s
 "pageFormType_15": "Meta description"
 "pageFormType_16": "Meta keywords"
 "pageFormType_17": "Meta robots"
-"pageFormType_18": "Send"
+"pageFormType_18": "Draft"
+"pageFormType_19": "Send"
 
 "pageSelectFormType_1": "Alias"
 "pageSelectFormType_2": "Select"
@@ -431,7 +433,8 @@ date.time: H:i:s
 "pageController_2": "Page create completed."
 "pageController_3": "Page not created!"
 "pageController_4": "Page not selected!"
-"pageController_5": "Page update completed."
+"pageController_5_a": "Page draft completed."
+"pageController_5_b": "Page update completed."
 "pageController_6": "Page update not completed!"
 "pageController_7": "Page deletion completed."
 "pageController_8": "This page is a parent, choose an action:"

@@ -188,33 +188,36 @@ class Query {
         return $query->fetchAll();
     }
     
-    public function selectPageDatabase($language, $id) {
+    public function selectPageDatabase($language, $id, $draft = 0) {
         $query = $this->connection->prepare("SELECT page.*,
                                                 page_title.$language AS title,
                                                 page_argument.$language AS argument,
                                                 page_menu_name.$language AS menu_name
                                                 FROM page, page_title, page_argument, page_menu_name
-                                            WHERE page.id = :id
+                                            WHERE page.draft = :draft
+                                            AND page.id = :id
                                             AND page_title.id = page.id
                                             AND page_argument.id = page.id
                                             AND page_menu_name.id = page.id
                                             ORDER BY COALESCE(parent, rank_in_menu), rank_in_menu");
         
         $query->bindValue(":id", $id);
+        $query->bindValue(":draft", $draft);
         
         $query->execute();
         
         return $query->fetch();
     }
     
-    public function selectAllPageDatabase($language, $search = null) {
+    public function selectAllPageDatabase($language, $search = null, $draft = 0) {
         if ($search == null) {
             $query = $this->connection->prepare("SELECT page.*,
                                                     page_title.$language AS title,
                                                     page_argument.$language AS argument,
                                                     page_menu_name.$language AS menu_name
                                                 FROM page, page_title, page_argument, page_menu_name
-                                                WHERE page_title.id = page.id
+                                                WHERE page.draft = :draft
+                                                AND page_title.id = page.id
                                                 AND page_argument.id = page.id
                                                 AND page_menu_name.id = page.id
                                                 ORDER BY COALESCE(parent, rank_in_menu), rank_in_menu");
@@ -225,7 +228,8 @@ class Query {
                                                     page_argument.$language AS argument,
                                                     page_menu_name.$language AS menu_name
                                                 FROM page, page_title, page_argument, page_menu_name
-                                                WHERE page_title.id = page.id
+                                                WHERE page.draft = :draft
+                                                AND page_title.id = page.id
                                                 AND page_argument.id = page.id
                                                 AND page_menu_name.id = page.id
                                                 AND page.only_link = :onlyLink
@@ -240,33 +244,41 @@ class Query {
             $query->bindValue(":search", "%$search%");
         }
         
+        $query->bindValue(":draft", $draft);
+        
         $query->execute();
         
         return $query->fetchAll();
     }
     
-    public function selectAllPageParentDatabase($parent = null) {
+    public function selectAllPageParentDatabase($parent = null, $draft = 0) {
         if ($parent != null) {
             $query = $this->connection->prepare("SELECT * FROM page
-                                                    WHERE parent = :parent
+                                                    WHERE draft = :draft
+                                                    AND parent = :parent
                                                     ORDER BY COALESCE(parent, rank_in_menu), rank_in_menu");
 
             $query->bindValue(":parent", $parent);
         }
         else
             $query = $this->connection->prepare("SELECT * FROM page
-                                                    WHERE parent is NULL
+                                                    WHERE draft = :draft
+                                                    AND parent is NULL
                                                     ORDER BY COALESCE(parent, rank_in_menu), rank_in_menu");
+        
+        $query->bindValue(":draft", $draft);
         
         $query->execute();
         
         return $query->fetchAll();
     }
     
-    public function selectAllPageChildrenDatabase($parent) {
+    public function selectAllPageChildrenDatabase($parent, $draft = 0) {
         $query = $this->connection->prepare("SELECT * FROM page
-                                                WHERE parent = :parent");
-
+                                                WHERE draft = :draft
+                                                AND parent = :parent");
+        
+        $query->bindValue(":draft", $draft);
         $query->bindValue(":parent", $parent);
         
         $query->execute();
@@ -515,6 +527,17 @@ class Query {
         $query->execute();
         
         return $query->fetchAll();
+    }
+    
+    public function selectLastRowDatabase($tableName) {
+        $query = $this->connection->prepare("SELECT * FROM $tableName
+                                                ORDER BY id DESC LIMIT 1");
+        
+        $query->execute();
+        
+        $result = $query->fetchAll();
+        
+        return $result[0];
     }
     
     // Functions private

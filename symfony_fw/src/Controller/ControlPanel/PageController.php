@@ -94,9 +94,9 @@ class PageController extends AbstractController {
                 
                 $this->entityManager->persist($pageEntity);
                 $this->entityManager->flush();
-
-                $pageDatabase = $this->pageDatabase("insert", null, $this->urlLocale, $form);
-
+                
+                $pageDatabase = $this->pageDatabase("insert", $this->urlLocale, $pageEntity->getId(), $form);
+                
                 if ($pageDatabase == true) {
                     $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
                     
@@ -360,6 +360,7 @@ class PageController extends AbstractController {
         $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN", "ROLE_MODERATOR"), $this->getUser());
         
         $pageEntity = $this->entityManager->getRepository("App\Entity\Page")->find($this->session->get("pageProfileId"));
+        $draftOld = $pageEntity->getDraft();
         
         $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
         
@@ -373,18 +374,35 @@ class PageController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                $pageEntity->setUserModify($this->getUser()->getUsername());
-                $pageEntity->setDateModify(date("Y-m-d H:i:s"));
-                
-                $this->entityManager->persist($pageEntity);
-                $this->entityManager->flush();
-
-                $pageDatabase = $this->pageDatabase("update", $pageEntity->getId(), null, $form);
-
-                if ($pageDatabase == true) {
-                    $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
-
-                    $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_5");
+                if ($draftOld == 0 && $form->get("draft")->getData() == 1) {
+                    $pageEntity->setUserCreate($this->getUser()->getUsername());
+                    $pageEntity->setDateCreate(date("Y-m-d H:i:s"));
+                    
+                    $this->entityManager->persist($pageEntity);
+                    $this->entityManager->flush();
+                    
+                    $pageDatabase = $this->pageDatabase("insert", null, $pageEntity->getId(), $form);
+                    
+                    if ($pageDatabase == true) {
+                        $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
+                        
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_5_a");
+                    }
+                }
+                else {
+                    $pageEntity->setUserModify($this->getUser()->getUsername());
+                    $pageEntity->setDateModify(date("Y-m-d H:i:s"));
+                    
+                    $this->entityManager->persist($pageEntity);
+                    $this->entityManager->flush();
+                    
+                    $pageDatabase = $this->pageDatabase("update", null, $pageEntity->getId(), $form);
+                    
+                    if ($pageDatabase == true) {
+                        $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
+                        
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_5_b");
+                    }
                 }
             }
             else {
@@ -447,7 +465,7 @@ class PageController extends AbstractController {
                     $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
 
                     if ($pageChildrenRows == false) {
-                        $pageDatabase = $this->pageDatabase("delete", $id, null, null);
+                        $pageDatabase = $this->pageDatabase("delete", null, $id, null);
 
                         if ($pageDatabase == true) {
                             $this->response['values']['id'] = $id;
@@ -480,7 +498,7 @@ class PageController extends AbstractController {
 
                     array_unshift($this->removedId, $id);
 
-                    $pageDatabase = $this->pageDatabase("delete", $id, null, null);
+                    $pageDatabase = $this->pageDatabase("delete", null, $id, null);
 
                     if ($pageDatabase == true) {
                         $this->response['values']['removedId'] = $this->removedId;
@@ -493,7 +511,7 @@ class PageController extends AbstractController {
 
                     $this->updatePageChildrenDatabase($id, $request->get("parentNew"));
 
-                    $pageDatabase = $this->pageDatabase("delete", $id, null, null);
+                    $pageDatabase = $this->pageDatabase("delete", null, $id, null);
 
                     if ($pageDatabase == true) {
                         $this->response['values']['id'] = $id;
@@ -588,7 +606,7 @@ class PageController extends AbstractController {
             $this->removePageChildrenDatabase($pageChildrenRows[$a]['id']);
         }
         
-        $this->pageDatabase("delete", $id, null, null);
+        $this->pageDatabase("delete", null, $id, null);
     }
     
     private function updatePageChildrenDatabase($id, $parentNew) {
@@ -621,8 +639,19 @@ class PageController extends AbstractController {
         }
     }
     
-    private function pageDatabase($type, $id, $urlLocale, $form) {
+    private function pageDatabase($type, $urlLocale, $id, $form) {
         if ($type == "insert") {
+            if ($form->get("draft")->getData() == 1) {
+                $query = $this->utility->getConnection()->prepare("UPDATE page
+                                                                    SET draft = :draft
+                                                                    WHERE id = :id");
+                
+                $query->bindValue(":draft", $id);
+                $query->bindValue(":id", $id);
+                
+                $query->execute();
+            }
+            
             $query = $this->utility->getConnection()->prepare("INSERT INTO page_title (
                                                                     page_title.$urlLocale
                                                                 )
@@ -695,5 +724,85 @@ class PageController extends AbstractController {
             
             return $query->execute();
         }
+    }
+    
+    private function pageDraft($urlLocale, $id, $form) {
+        $query = $this->utility->getConnection()->prepare("INSERT INTO page (
+                                                                alias,
+                                                                parent,
+                                                                controller_action,
+                                                                role_user_id,
+                                                                protected,
+                                                                show_in_menu,
+                                                                rank_in_menu,
+                                                                comment,
+                                                                only_parent,
+                                                                only_link,
+                                                                link,
+                                                                user_create,
+                                                                date_create,
+                                                                user_modify,
+                                                                date_modify,
+                                                                meta_description,
+                                                                meta_keywords,
+                                                                meta_robots,
+                                                                draft
+                                                            )
+                                                            SELECT 
+                                                                alias,
+                                                                parent,
+                                                                controller_action,
+                                                                role_user_id,
+                                                                protected,
+                                                                show_in_menu,
+                                                                rank_in_menu,
+                                                                comment,
+                                                                only_parent,
+                                                                only_link,
+                                                                link,
+                                                                user_create,
+                                                                date_create,
+                                                                user_modify,
+                                                                date_modify,
+                                                                meta_description,
+                                                                meta_keywords,
+                                                                meta_robots,
+                                                                :id
+                                                            FROM 
+                                                                page
+                                                            WHERE 
+                                                                id = :id");
+        
+        $query->bindValue(":id", $id);
+        
+        $query->execute();
+        
+        $query = $this->utility->getConnection()->prepare("INSERT INTO page_title (
+                                                                page_title.$urlLocale
+                                                            )
+                                                            VALUES (
+                                                                :title
+                                                            );
+                                                            INSERT INTO page_argument (
+                                                                page_argument.$urlLocale
+                                                            )
+                                                            VALUES (
+                                                                :argument
+                                                            );
+                                                            INSERT INTO page_menu_name (
+                                                                page_menu_name.$urlLocale
+                                                            )
+                                                            VALUES (
+                                                                :menuName
+                                                            );");
+
+        $query->bindValue(":title", $form->get("title")->getData());
+
+        $argumentHtmlEntities = htmlentities($form->get("argument")->getData(), ENT_QUOTES, "UTF-8");
+        $query->bindValue(":argument", $argumentHtmlEntities);
+
+        $query->bindValue(":menuName", $form->get("menuName")->getData());
+
+        return $query->execute();
     }
 }

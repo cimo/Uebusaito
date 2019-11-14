@@ -122,6 +122,8 @@ class Page {
      */
     private $metaRobots = "";
     
+    private $draft = false;
+    
     // Properties
     public function setAlias($value) {
         $this->alias = $value;
@@ -213,6 +215,13 @@ class Page {
     
     public function setMetaRobots($value) {
         $this->metaRobots = $value;
+    }
+    
+    public function setDraft($value) {
+        $this->draft = $value;
+        
+        if ($this->draft == 1)
+            $this->alias = "{$this->alias}_d";
     }
     
     // ---
@@ -311,5 +320,9 @@ class Page {
     
     public function getMetaRobots() {
         return $this->metaRobots;
+    }
+    
+    public function getDraft() {
+        return $this->draft;
     }
 }
