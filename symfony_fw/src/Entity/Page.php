@@ -126,7 +126,10 @@ class Page {
     
     // Properties
     public function setAlias($value) {
-        $this->alias = $value;
+        if ($this->draft == true)
+            $this->alias = "{$this->alias}_d";
+        else
+            $this->alias = $value;
     }
     
     public function setParent($value) {
@@ -219,9 +222,6 @@ class Page {
     
     public function setDraft($value) {
         $this->draft = $value;
-        
-        if ($this->draft == 1)
-            $this->alias = "{$this->alias}_d";
     }
     
     // ---

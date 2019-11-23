@@ -160,7 +160,7 @@ class PageController extends AbstractController {
         
         $this->session->set("pageProfileId", 0);
         
-        $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
+        $pageRows = $this->query->selectAllPageDatabase($this->urlLocale, null, true);
         
         $tableAndPagination = $this->tableAndPagination->request($pageRows, 20, "page", false, true);
         
@@ -230,29 +230,31 @@ class PageController extends AbstractController {
                 $id = $request->get("id");
                 
                 $pageEntity = $this->entityManager->getRepository("App\Entity\Page")->find($id);
-
+                
                 if ($pageEntity != null) {
-                    $this->session->set("pageProfileId", $id);
-
-                    $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
+                    $this->session->set("pageProfileId", $pageEntity->getId());
+                    
+                    $pageRow = $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId(), true);
+                    $pageRows = $this->query->selectAllPageDatabase($this->urlLocale, null, true);
                     
                     $form = $this->createForm(PageFormType::class, $pageEntity, Array(
                         'validation_groups' => Array('page_profile'),
                         'urlLocale' => $this->urlLocale,
-                        'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
+                        'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId(), true),
                         'choicesParent' => array_flip($this->utility->createPageList($pageRows, true))
                     ));
                     $form->handleRequest($request);
 
-                    $pageParentRows = array_column($this->query->selectAllPageParentDatabase($form->get("parent")->getData()), "alias", "id");
+                    $pageParentRows = array_column($this->query->selectAllPageParentDatabase($form->get("parent")->getData(), true), "alias", "id");
                     
                     $this->response['values']['pageId'] = $this->session->get("pageProfileId");
                     $this->response['values']['userRoleSelectHtml'] = $this->utility->createUserRoleSelectHtml("form_page_roleUserId_select", "pageController_1", true);
-                    $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($pageParentRows);
+                    $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($pageParentRows, true);
                     $this->response['values']['userCreate'] = $pageEntity->getUserCreate();
                     $this->response['values']['dateCreate'] = $this->utility->dateFormat($pageEntity->getDateCreate());
                     $this->response['values']['userModify'] = $pageEntity->getUserModify();
                     $this->response['values']['dateModify'] = $this->utility->dateFormat($pageEntity->getDateModify());
+                    $this->response['values']['draft'] = $pageRow['draft'];
 
                     $this->response['render'] = $this->renderView("@templateRoot/render/control_panel/page_profile.html.twig", Array(
                         'urlLocale' => $this->urlLocale,
@@ -307,7 +309,7 @@ class PageController extends AbstractController {
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
-                $rows = array_column($this->query->selectAllPageParentDatabase($request->get("id")), "alias", "id");
+                $rows = array_column($this->query->selectAllPageParentDatabase($request->get("id"), true), "alias", "id");
                 
                 $sessionPageProfileId = $this->session->get("pageProfileId");
                 
@@ -317,7 +319,7 @@ class PageController extends AbstractController {
                     $rows[$pageEntity->getId()] = $pageEntity->getAlias();
                 }
                 
-                $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($rows);
+                $this->response['values']['pageSortListHtml'] = $this->utility->createPageSortListHtml($rows, true);
             } 
         }
         
@@ -362,32 +364,25 @@ class PageController extends AbstractController {
         $pageEntity = $this->entityManager->getRepository("App\Entity\Page")->find($this->session->get("pageProfileId"));
         $draftOld = $pageEntity->getDraft();
         
-        $pageRows = $this->query->selectAllPageDatabase($this->urlLocale);
+        $pageRows = $this->query->selectAllPageDatabase($this->urlLocale, null, true);
         
         $form = $this->createForm(PageFormType::class, $pageEntity, Array(
             'validation_groups' => Array('page_profile'),
             'urlLocale' => $this->urlLocale,
-            'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId()),
+            'pageRow' => $this->query->selectPageDatabase($this->urlLocale, $pageEntity->getId(), true),
             'choicesParent' => array_flip($this->utility->createPageList($pageRows, true))
         ));
         $form->handleRequest($request);
         
         if ($request->isMethod("POST") == true && $checkUserRole == true) {
             if ($form->isSubmitted() == true && $form->isValid() == true) {
-                if ($draftOld == 0 && $form->get("draft")->getData() == 1) {
-                    $pageEntity->setUserCreate($this->getUser()->getUsername());
-                    $pageEntity->setDateCreate(date("Y-m-d H:i:s"));
+                if ($draftOld == false && $form->get("draft")->getData() == true) {
+                    $pageDatabase = $this->pageDatabase("insert_draft", $this->urlLocale, $pageEntity->getId(), $form);
                     
-                    $this->entityManager->persist($pageEntity);
-                    $this->entityManager->flush();
-                    
-                    $pageDatabase = $this->pageDatabase("insert", null, $pageEntity->getId(), $form);
-                    
-                    if ($pageDatabase == true) {
-                        $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
-                        
+                    if ($pageDatabase == true)
                         $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_5_a");
-                    }
+                    else
+                        $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_5_b");
                 }
                 else {
                     $pageEntity->setUserModify($this->getUser()->getUsername());
@@ -401,7 +396,7 @@ class PageController extends AbstractController {
                     if ($pageDatabase == true) {
                         $this->updateRankInMenuDatabase($form->get("rankMenuSort")->getData(), $pageEntity->getId());
                         
-                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_5_b");
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_5_c");
                     }
                 }
             }
@@ -462,7 +457,7 @@ class PageController extends AbstractController {
                 if ($request->get("event") == "delete") {
                     $id = $request->get("id") == null ? $this->session->get("pageProfileId") : $request->get("id");
 
-                    $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
+                    $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id, true);
 
                     if ($pageChildrenRows == false) {
                         $pageDatabase = $this->pageDatabase("delete", null, $id, null);
@@ -480,7 +475,7 @@ class PageController extends AbstractController {
                         $this->response['values']['parentId'] = $pageEntity->getParent();
                         $this->response['values']['text'] = "<p>" . $this->utility->getTranslator()->trans("pageController_8") . "</p>";
                         $this->response['values']['button'] = "<button id=\"cp_page_delete_parent_all\" class=\"mdc-button mdc-button--dense mdc-button--raised mdc-theme--secondary-bg\" type=\"button\" style=\"display: block;\">" . $this->utility->getTranslator()->trans("pageController_9") . "</button>";
-                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_delete_parent_new", $this->utility->getTranslator()->trans("pageController_10"));
+                        $this->response['values']['pageSelectHtml'] = $this->utility->createPageSelectHtml($this->urlLocale, "cp_page_delete_parent_new", $this->utility->getTranslator()->trans("pageController_10"), true);
                     }
                 }
                 else if ($request->get("event") == "deleteAll") {
@@ -539,6 +534,69 @@ class PageController extends AbstractController {
         );
     }
     
+    /**
+    * @Route(
+    *   name = "cp_page_publish_draft",
+    *   path = "/cp_page_publish_draft/{_locale}/{urlCurrentPageId}/{urlExtra}",
+    *   defaults = {"_locale" = "%locale%", "urlCurrentPageId" = "2", "urlExtra" = ""},
+    *   requirements = {"_locale" = "[a-z]{2}", "urlCurrentPageId" = "\d+", "urlExtra" = "[^/]+"},
+    *	methods={"POST"}
+    * )
+    * @Template("@templateRoot/render/control_panel/page_profile.html.twig")
+    */
+    public function publishDraftAction($_locale, $urlCurrentPageId, $urlExtra, Request $request, TranslatorInterface $translator) {
+        $this->entityManager = $this->getDoctrine()->getManager();
+        
+        $this->response = Array();
+        
+        $this->utility = new Utility($this->container, $this->entityManager, $translator);
+        $this->query = $this->utility->getQuery();
+        $this->ajax = new Ajax($this->utility);
+        
+        $this->session = $this->utility->getSession();
+        
+        // Logic
+        $sessionLanguageTextCode = $this->session->get("languageTextCode");
+        
+        $this->urlLocale = $sessionLanguageTextCode != null ? $sessionLanguageTextCode : $_locale;
+        $this->urlCurrentPageId = $urlCurrentPageId;
+        $this->urlExtra = $urlExtra;
+        
+        $checkUserRole = $this->utility->checkUserRole(Array("ROLE_ADMIN"), $this->getUser());
+        
+        if ($request->isMethod("POST") == true && $checkUserRole == true) {
+            if ($this->isCsrfTokenValid("intention", $request->get("token")) == true) {
+                if ($request->get("event") == "publish_draft") {
+                    $id = $request->get("id") == null ? $this->session->get("pageProfileId") : $request->get("id");
+                    
+                    $pageDatabase = $this->pageDatabase("publish_draft", $this->urlLocale, $id, null);
+                    
+                    if ($pageDatabase == true) {
+                        $this->response['values']['id'] = $id;
+                        
+                        $this->response['messages']['success'] = $this->utility->getTranslator()->trans("pageController_16");
+                    }
+                }
+                else
+                    $this->response['messages']['error'] = $this->utility->getTranslator()->trans("pageController_17");
+
+                return $this->ajax->response(Array(
+                    'urlLocale' => $this->urlLocale,
+                    'urlCurrentPageId' => $this->urlCurrentPageId,
+                    'urlExtra' => $this->urlExtra,
+                    'response' => $this->response
+                ));
+            }
+        }
+        
+        return Array(
+            'urlLocale' => $this->urlLocale,
+            'urlCurrentPageId' => $this->urlCurrentPageId,
+            'urlExtra' => $this->urlExtra,
+            'response' => $this->response
+        );
+    }
+    
     // Functions private    
     private function createListHtml($elements) {
         foreach ($elements as $key => $value) {
@@ -555,16 +613,12 @@ class PageController extends AbstractController {
                             </svg>
                             <div class=\"mdc-checkbox__mixedmark\"></div>
                         </div>
-                    </div>
-                </td>
+                    </div>";
+                    if ($value['draft'] > 0)
+                        $this->listHtml .= "<i class=\"material-icons\">feedback</i>";
+                $this->listHtml .= "</td>
                 <td>
                     {$value['alias']}
-                </td>
-                <td>
-                    {$value['title']}
-                </td>
-                <td>
-                    {$value['menu_name']}
                 </td>
                 <td>";
                     if ($value['protected'] == 0)
@@ -598,7 +652,7 @@ class PageController extends AbstractController {
     }
     
     private function removePageChildrenDatabase($id) {
-        $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id);
+        $pageChildrenRows = $this->query->selectAllPageChildrenDatabase($id, true);
         
         for ($a = 0; $a < count($pageChildrenRows); $a ++) {
             $this->removedId[] = $pageChildrenRows[$a]['id'];
@@ -641,7 +695,7 @@ class PageController extends AbstractController {
     
     private function pageDatabase($type, $urlLocale, $id, $form) {
         if ($type == "insert") {
-            if ($form->get("draft")->getData() == 1) {
+            if ($form->get("draft")->getData() == true) {
                 $query = $this->utility->getConnection()->prepare("UPDATE page
                                                                     SET draft = :draft
                                                                     WHERE id = :id");
@@ -724,85 +778,167 @@ class PageController extends AbstractController {
             
             return $query->execute();
         }
-    }
-    
-    private function pageDraft($urlLocale, $id, $form) {
-        $query = $this->utility->getConnection()->prepare("INSERT INTO page (
-                                                                alias,
-                                                                parent,
-                                                                controller_action,
-                                                                role_user_id,
-                                                                protected,
-                                                                show_in_menu,
-                                                                rank_in_menu,
-                                                                comment,
-                                                                only_parent,
-                                                                only_link,
-                                                                link,
-                                                                user_create,
-                                                                date_create,
-                                                                user_modify,
-                                                                date_modify,
-                                                                meta_description,
-                                                                meta_keywords,
-                                                                meta_robots,
-                                                                draft
-                                                            )
-                                                            SELECT 
-                                                                alias,
-                                                                parent,
-                                                                controller_action,
-                                                                role_user_id,
-                                                                protected,
-                                                                show_in_menu,
-                                                                rank_in_menu,
-                                                                comment,
-                                                                only_parent,
-                                                                only_link,
-                                                                link,
-                                                                user_create,
-                                                                date_create,
-                                                                user_modify,
-                                                                date_modify,
-                                                                meta_description,
-                                                                meta_keywords,
-                                                                meta_robots,
-                                                                :id
-                                                            FROM 
-                                                                page
-                                                            WHERE 
-                                                                id = :id");
-        
-        $query->bindValue(":id", $id);
-        
-        $query->execute();
-        
-        $query = $this->utility->getConnection()->prepare("INSERT INTO page_title (
-                                                                page_title.$urlLocale
-                                                            )
-                                                            VALUES (
-                                                                :title
-                                                            );
-                                                            INSERT INTO page_argument (
-                                                                page_argument.$urlLocale
-                                                            )
-                                                            VALUES (
-                                                                :argument
-                                                            );
-                                                            INSERT INTO page_menu_name (
-                                                                page_menu_name.$urlLocale
-                                                            )
-                                                            VALUES (
-                                                                :menuName
-                                                            );");
+        else if ($type == "insert_draft") {
+            $alias = "{$form->get("alias")->getData()}_d";
+            
+            $pageRows = $this->query->selectAllPageDatabase($urlLocale, null, true);
+            
+            foreach ($pageRows as $key => $value) {
+                if (isset($value['alias']) == true) {
+                    if ($alias == $value['alias'])
+                        return false;
+                }
+            }
+            
+            $query = $this->utility->getConnection()->prepare("INSERT INTO page (
+                                                                    alias,
+                                                                    parent,
+                                                                    controller_action,
+                                                                    role_user_id,
+                                                                    protected,
+                                                                    show_in_menu,
+                                                                    rank_in_menu,
+                                                                    comment,
+                                                                    only_parent,
+                                                                    only_link,
+                                                                    link,
+                                                                    user_create,
+                                                                    date_create,
+                                                                    user_modify,
+                                                                    date_modify,
+                                                                    meta_description,
+                                                                    meta_keywords,
+                                                                    meta_robots,
+                                                                    draft
+                                                                )
+                                                                SELECT 
+                                                                    :alias,
+                                                                    :parent,
+                                                                    :controllerAction,
+                                                                    :roleUserId,
+                                                                    :protected,
+                                                                    :showInMenu,
+                                                                    rank_in_menu,
+                                                                    :comment,
+                                                                    :onlyParent,
+                                                                    :onlyLink,
+                                                                    :link,
+                                                                    user_create,
+                                                                    date_create,
+                                                                    :userModify,
+                                                                    :dateModify,
+                                                                    :metaDescription,
+                                                                    :metaKeywords,
+                                                                    :metaRobots,
+                                                                    :id
+                                                                FROM 
+                                                                    page
+                                                                WHERE 
+                                                                    id = :id");
+            
+            $query->bindValue(":alias", $alias);
+            $query->bindValue(":parent", $form->get("parent")->getData());
+            $query->bindValue(":controllerAction", $form->get("controllerAction")->getData());
+            $query->bindValue(":roleUserId", $form->get("roleUserId")->getData());
+            $query->bindValue(":protected", $form->get("protected")->getData());
+            $query->bindValue(":showInMenu", $form->get("showInMenu")->getData());
+            $query->bindValue(":comment", $form->get("comment")->getData());
+            $query->bindValue(":onlyParent", $form->get("onlyParent")->getData());
+            $query->bindValue(":onlyLink", $form->get("onlyLink")->getData());
+            $query->bindValue(":link", $form->get("link")->getData());
+            $query->bindValue(":userModify", $this->getUser()->getUsername());
+            $query->bindValue(":dateModify", date("Y-m-d H:i:s"));
+            $query->bindValue(":metaDescription", $form->get("metaDescription")->getData());
+            $query->bindValue(":metaKeywords", $form->get("metaKeywords")->getData());
+            $query->bindValue(":metaRobots", $form->get("metaRobots")->getData());
+            $query->bindValue(":id", $id);
 
-        $query->bindValue(":title", $form->get("title")->getData());
+            $query->execute();
+            
+            $languageRows = $this->query->selectAllLanguageDatabase();
+            
+            $title = "";
+            $argument = "";
+            $menuName = "";
+            $code = "";
+            
+            foreach($languageRows as $key => $value) {
+                $title .= "page_title.{$value['code']},";
+                $argument .= "page_argument.{$value['code']},";
+                $menuName .= "page_menu_name.{$value['code']},";
+                $code .= "{$value['code']},";
+            }
+            
+            $title = substr($title, 0, -1);
+            $argument = substr($argument, 0, -1);
+            $menuName = substr($menuName, 0, -1);
+            $code = substr($code, 0, -1);
+            
+            $query = $this->utility->getConnection()->prepare("INSERT INTO page_title (
+                                                                    {$title}
+                                                                )
+                                                                SELECT
+                                                                    {$code}
+                                                                FROM
+                                                                    page_title
+                                                                WHERE
+                                                                    id = :id;
+                                                                INSERT INTO page_argument (
+                                                                    {$argument}
+                                                                )
+                                                                SELECT
+                                                                    {$code}
+                                                                FROM
+                                                                    page_argument
+                                                                WHERE
+                                                                    id = :id;
+                                                                INSERT INTO page_menu_name (
+                                                                    {$menuName}
+                                                                )
+                                                                SELECT
+                                                                    {$code}
+                                                                FROM
+                                                                    page_menu_name
+                                                                WHERE
+                                                                    id = :id;");
 
-        $argumentHtmlEntities = htmlentities($form->get("argument")->getData(), ENT_QUOTES, "UTF-8");
-        $query->bindValue(":argument", $argumentHtmlEntities);
+            $query->bindValue(":id", $id);
 
-        $query->bindValue(":menuName", $form->get("menuName")->getData());
-
-        return $query->execute();
+            return $query->execute();
+        }
+        else if ($type == "publish_draft") {
+            $pageRow = $this->query->selectPageDatabase($urlLocale, $id, true);
+            
+            $query = $this->utility->getConnection()->prepare("DELETE FROM page WHERE id > :idExclude AND id = :id;
+                                                                DELETE FROM page_title WHERE id > :idExclude AND id = :id;
+                                                                DELETE FROM page_argument WHERE id > :idExclude AND id = :id;
+                                                                DELETE FROM page_menu_name WHERE id > :idExclude AND id = :id;");
+            
+            $query->bindValue(":idExclude", 5);
+            $query->bindValue(":id", $pageRow['draft']);
+            
+            $query->execute();
+            
+            $alias = str_replace("_d", "", $pageRow['alias']);
+            
+            $query = $this->utility->getConnection()->prepare("UPDATE page, page_title, page_argument, page_menu_name
+                                                                SET page.id = :newId,
+                                                                    page.alias = :alias,
+                                                                    page.draft = :draft,
+                                                                    page_title.id = :newId,
+                                                                    page_argument.id = :newId,
+                                                                    page_menu_name.id = :newId
+                                                                WHERE page.id = :id 
+                                                                AND page_title.id = :id
+                                                                AND page_argument.id = :id
+                                                                AND page_menu_name.id = :id");
+            
+            $query->bindValue(":newId", $pageRow['draft']);
+            $query->bindValue(":alias", $alias);
+            $query->bindValue(":draft", 0);
+            $query->bindValue(":id", $id);
+            
+            return $query->execute();
+        }
     }
 }
