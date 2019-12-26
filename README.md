@@ -19,7 +19,7 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 | Upload file chunk system |
 | Wysiwyg page creation (create page without code) |
 | Page comments |
-| Microservice (Deploy, api, unit test and cron) |
+| Microservice (Deploy, api, unit test, selenium and cron) |
 | Integration with: Slack, line |
 | Extend with module system |
 
@@ -38,6 +38,7 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 | - Deploy |
 | - Api |
 | - Unit test |
+| - Selenium |
 | - Cron |
 
 ## Images:
