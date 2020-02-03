@@ -24,29 +24,31 @@
                     <script src="https://lsv2.machine.local/project/uebusaito/root/symfony_fw/public/files/microservice/unit_test/library/jquery_3.4.1.min.js"></script>
                     <script src="https://lsv2.machine.local/project/uebusaito/root/symfony_fw/public/files/microservice/unit_test/library/qunit_2.9.2.js"></script>
                     <script>
-                        var unitTestMessage = function(event) {
-                            var data = event.data;
-                            var origin = event.origin;
-                            var source = event.source;
+                        "use strict";
+                        
+                        let unitTestMessage = function(event) {
+                            let data = event.data;
+                            let origin = event.origin;
+                            let source = event.source;
                             
-                            var originFilter = "https://lsv2.machine.local";
+                            let originFilter = "https://lsv2.machine.local";
                             
-                            var originFilterSplit = originFilter.split(",");
+                            let originFilterSplit = originFilter.split(",");
                             
-                            var result = $("#qunit_result");
+                            let result = $("#qunit_result");
                             
                             if (originFilterSplit.includes(origin) === true) {
-                                var json = JSON.parse(data);
+                                let json = JSON.parse(data);
                                 
-                                var page = $(json.page).not("#unitTest_script").remove();
+                                let page = $(json.page).not("#unitTest_script").remove();
                                 page = $(page).find("iframe").remove().end();
                                 
                                 result.html(page);
                                 
                                 QUnit.test("test_design", function(assert) {
-                                    var expectedValue = 0;
+                                    let expectedValue = 0;
 
-var tags = [];
+let tags = [];
 tags.push(".column_left");
 
 $.each(tags, function(key, value) {
