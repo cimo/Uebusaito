@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: uebusaito
 -- ------------------------------------------------------
--- Server version	5.7.28-0ubuntu0.16.04.2
+-- Server version	5.7.29-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -250,7 +250,7 @@ CREATE TABLE `microservice_unit_test` (
 
 LOCK TABLES `microservice_unit_test` WRITE;
 /*!40000 ALTER TABLE `microservice_unit_test` DISABLE KEYS */;
-INSERT INTO `microservice_unit_test` VALUES (1,'test_design','https://lsv2.machine.local','dmFyIGV4cGVjdGVkVmFsdWUgPSAwOw0KDQp2YXIgdGFncyA9IG5ldyBBcnJheSgpOw0KdGFncy5wdXNoKCIuY29sdW1uX2xlZnQiKTsNCg0KJC5lYWNoKHRhZ3MsIGZ1bmN0aW9uKGtleSwgdmFsdWUpIHsNCiAgICBhc3NlcnQub2soJCh2YWx1ZSkubGVuZ3RoID4gZXhwZWN0ZWRWYWx1ZSwgdmFsdWUgKyAiIGdyZWF0ZXIgdGhhbiAiICsgZXhwZWN0ZWRWYWx1ZSk7DQp9KTs=',1);
+INSERT INTO `microservice_unit_test` VALUES (1,'test_design','https://lsv2.machine.local','bGV0IGV4cGVjdGVkVmFsdWUgPSAwOw0KbGV0IHRhZ3MgPSBbIi5jb2x1bW5fbGVmdCJdOw0KDQokLmVhY2godGFncywgKGtleSwgdmFsdWUpID0+IHsNCiAgIGxldCByZXN1bHQgPSAkKHZhbHVlKS5sZW5ndGggPiBleHBlY3RlZFZhbHVlOw0KICAgbGV0IG1lc3NhZ2UgPSB2YWx1ZSArICIgZ3JlYXRlciB0aGFuICIgKyBleHBlY3RlZFZhbHVlOw0KICAgDQogICBhc3NlcnQub2socmVzdWx0LCBtZXNzYWdlKTsNCn0pOw==',1);
 /*!40000 ALTER TABLE `microservice_unit_test` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -669,7 +669,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5cbfc82693953.jpg','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2019-12-26 16:33:04','2019-12-26 12:46:46',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `user` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5cbfc82693953.jpg','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2020-02-12 11:41:30','2020-02-12 11:41:00',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -686,4 +686,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-26 16:51:42
+-- Dump completed on 2020-02-12 22:16:05
