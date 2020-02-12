@@ -1,12 +1,15 @@
 <script nonce="{{php_session.xssProtectionValue}}">
     "use strict";
     
-    window.addEventListener("load", function() {
+    window.addEventListener("load", (event) => {
     }, false);
 
-    window.addEventListener("resize", function() {
+    window.addEventListener("resize", (event) => {
     }, false);
-
+    
+    window.addEventListener("orientationchange", (event) => {
+    }, false);
+    
     window.textCustom = {
         'label_1': "custom"
     };

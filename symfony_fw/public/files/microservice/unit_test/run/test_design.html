@@ -26,7 +26,9 @@
                     <script>
                         "use strict";
                         
-                        let unitTestMessage = function(event) {
+                        let unitTestExecute = (event) => {
+                            let result = $("#qunit_result");
+                            
                             let data = event.data;
                             let origin = event.origin;
                             let source = event.source;
@@ -34,8 +36,6 @@
                             let originFilter = "https://lsv2.machine.local";
                             
                             let originFilterSplit = originFilter.split(",");
-                            
-                            let result = $("#qunit_result");
                             
                             if (originFilterSplit.includes(origin) === true) {
                                 let json = JSON.parse(data);
@@ -45,14 +45,15 @@
                                 
                                 result.html(page);
                                 
-                                QUnit.test("test_design", function(assert) {
+                                QUnit.test("test_design", (assert) => {
                                     let expectedValue = 0;
+let tags = [".column_left"];
 
-let tags = [];
-tags.push(".column_left");
-
-$.each(tags, function(key, value) {
-    assert.ok($(value).length > expectedValue, value + " greater than " + expectedValue);
+$.each(tags, (key, value) => {
+   let result = $(value).length > expectedValue;
+   let message = value + " greater than " + expectedValue;
+   
+   assert.ok(result, message);
 });
                                 });
                             }
@@ -60,6 +61,8 @@ $.each(tags, function(key, value) {
                                 result.html("");
                         };
                         
-                        window.addEventListener("message", unitTestMessage, false);
+                        window.addEventListener("message", (event) => {
+                            unitTestExecute(event);
+                        }, false);
                     </script></body>
         </html>

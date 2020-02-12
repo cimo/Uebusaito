@@ -2,10 +2,14 @@
 
 /* global */
 
-$(document).ready(function() {
+$(document).ready(() => {
     //...
     
-    $(window).resize(function() {
+    $(window).on("resize", "", (event) => {
+        //...
+    });
+    
+    $(window).on("orientationchange", "", (event) => {
         //...
     });
 });
