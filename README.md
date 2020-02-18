@@ -41,10 +41,6 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 | - Selenium |
 | - Cron |
 
-## Images:
-<img src="screenshots/1.png" width="200" alt="1.png"/>
-<img src="screenshots/2.png" width="200" alt="2.png"/>
-
 | Library: |
 |:---|
 | Symfony - https://symfony.com/ |
@@ -73,8 +69,6 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 5) In "session:" modify:
 
         name: new_name
-        
-        cookie_domain: .domain_name.xxx
 
 6) Save, close the file and write on terminal:
 
@@ -99,6 +93,8 @@ You can create all type of websites (Personal, company, eCommerce, ...).
         sudo find /home/user_1/www/symfony_fw -type d -exec chmod 775 {} \;
         
         sudo find /home/user_1/www/symfony_fw -type f -exec chmod 664 {} \;
+        
+        sudo find /home/user_1/www/symfony_fw -name "*.sh" -exec chmod 774 {} \;
         
         sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
 
