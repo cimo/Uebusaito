@@ -7,13 +7,12 @@
                 <meta charset="UTF-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=1">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <!--<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
                 <meta name="description" content="..."/>
                 <meta name="keywords" content="..."/>
                 <meta name="robots" content="index, follow"/>
                 
                 <!-- Favicon -->
-                <link href="favicon.ico" rel="icon" type="image/x-icon">
+                <link href="https://lsv2.machine.local/project/uebusaito/root/symfony_fw/public/images/templates/basic/favicon.ico" rel="icon" type="image/x-icon">
                 
                 <!-- Css -->
                 <link href="https://lsv2.machine.local/project/uebusaito/root/symfony_fw/public/files/microservice/unit_test/library/qunit_2.9.2.css" rel="stylesheet"/>
@@ -40,21 +39,20 @@
                             if (originFilterSplit.includes(origin) === true) {
                                 let json = JSON.parse(data);
                                 
-                                let page = $(json.page).not("#unitTest_script").remove();
-                                page = $(page).find("iframe").remove().end();
+                                let page = json.page.replace(/<\/?(iframe|script)\b[^<>]*>/g, "");
                                 
                                 result.html(page);
                                 
                                 QUnit.test("test_design", (assert) => {
                                     let expectedValue = 0;
-let tags = [".column_left"];
+                                    let tags = [".column_left"];
 
-$.each(tags, (key, value) => {
-   let result = $(value).length > expectedValue;
-   let message = value + " greater than " + expectedValue;
-   
-   assert.ok(result, message);
-});
+                                    $.each(tags, (key, value) => {
+                                       let result = $(value).length > expectedValue;
+                                       let message = value + " greater than " + expectedValue;
+
+                                       assert.ok(result, message);
+                                    });
                                 });
                             }
                             else
