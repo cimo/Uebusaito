@@ -90,9 +90,9 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 	
 	sudo chmod 775 ../symfony_fw
 	
-	sudo find ../symfony_fw -type d -exec chown -R user_1:www-data {} \; -exec chmod 775 {} \;
+	sudo find ../symfony_fw -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
 	
-	sudo find ../symfony_fw -type f -not -name "sess_*" -exec chown -R user_1:www-data {} \; -exec chmod 664 {} \;
+	sudo find ../symfony_fw -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
 	
 	sudo find ../symfony_fw -name "*.sh" -exec chmod 774 {} \;
 	        
