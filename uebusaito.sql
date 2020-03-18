@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.5.62, for Win64 (AMD64)
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
 -- Host: 127.0.0.1    Database: uebusaito
 -- ------------------------------------------------------
@@ -118,7 +118,7 @@ CREATE TABLE `microservice_apiBasic_request` (
   `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `count` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,7 @@ CREATE TABLE `microservice_apiBasic_request` (
 
 LOCK TABLES `microservice_apiBasic_request` WRITE;
 /*!40000 ALTER TABLE `microservice_apiBasic_request` DISABLE KEYS */;
-INSERT INTO `microservice_apiBasic_request` VALUES (1,1,'requestTestAction','2018-11-05 12:05:29','192.168.56.1',1),(2,1,'requestTestAction','2018-11-06 12:05:29','192.168.56.1',2),(3,1,'requestTestAction','2018-11-07 12:05:29','192.168.56.1',1),(4,1,'requestTestAction','2018-11-08 12:05:29','192.168.56.1',4),(5,1,'requestTestAction','2018-11-09 12:05:29','192.168.56.1',1),(6,1,'requestTestAction','2018-11-10 12:05:29','192.168.56.1',1),(7,1,'requestTestAction','2018-11-11 12:05:29','192.168.56.1',6),(8,1,'requestTestAction','2018-11-12 12:05:29','192.168.56.1',1),(9,1,'requestTestAction','2018-11-13 12:05:29','192.168.56.1',8),(10,1,'requestTestAction','2018-11-14 12:05:29','192.168.56.1',1),(11,1,'requestTestAction','2018-11-16 12:05:29','192.168.56.1',4),(12,1,'requestTestAction','2018-11-17 12:05:29','192.168.56.1',1),(13,1,'requestTestAction','2018-11-18 12:05:29','192.168.56.1',6),(14,1,'requestTestAction','2018-11-19 12:05:29','192.168.56.1',1),(15,1,'requestTestAction','2018-11-20 12:05:29','192.168.56.1',2),(16,1,'requestTestAction','2018-11-22 12:05:29','192.168.56.1',1),(17,1,'requestTestAction','2018-11-23 12:05:29','192.168.56.1',9),(18,1,'requestTestAction','2018-11-24 12:05:29','192.168.56.1',1),(19,1,'requestTestAction','2018-11-25 12:05:29','192.168.56.1',13),(20,1,'requestTestAction','2018-11-26 12:05:29','192.168.56.1',1),(21,1,'requestTestAction','2018-12-11 16:44:09','192.168.56.1',1),(22,1,'requestTestAction','2018-12-26 16:00:44','192.168.56.1',2),(23,1,'requestTestAction','2018-12-27 17:07:56','192.168.56.1',26);
+INSERT INTO `microservice_apiBasic_request` VALUES (1,1,'requestTestAction','2020-01-01 11:05:29','192.168.56.1',1),(2,1,'requestTestAction','2020-01-01 11:06:19','192.168.56.1',2),(3,1,'requestTestAction','2020-01-01 11:07:01','192.168.56.1',1),(4,1,'requestTestAction','2020-01-02 12:22:12','192.168.56.1',4),(5,1,'requestTestAction','2020-01-02 12:23:29','192.168.56.1',1),(6,1,'requestTestAction','2020-01-03 14:02:00','192.168.56.1',1),(7,1,'requestTestAction','2020-01-03 14:03:27','192.168.56.1',6),(8,1,'requestTestAction','2020-01-03 14:03:29','192.168.56.1',1),(9,1,'requestTestAction','2020-01-04 18:22:22','192.168.56.1',8),(10,1,'requestTestAction','2020-01-04 18:23:29','192.168.56.1',1),(11,1,'requestTestAction','2020-01-04 18:24:49','192.168.56.1',4),(12,1,'requestTestAction','2020-01-04 18:25:55','192.168.56.1',1),(13,1,'requestTestAction','2020-01-04 18:26:01','192.168.56.1',6),(14,1,'requestTestAction','2020-01-05 19:05:06','192.168.56.1',1),(15,1,'requestTestAction','2020-01-05 19:06:26','192.168.56.1',2),(16,1,'requestTestAction','2020-01-05 19:06:50','192.168.56.1',1),(17,1,'requestTestAction','2020-01-06 21:05:29','192.168.56.1',9),(18,1,'requestTestAction','2020-01-06 21:06:06','192.168.56.1',1),(19,1,'requestTestAction','2020-01-07 22:15:11','192.168.56.1',13),(20,1,'requestTestAction','2020-01-07 22:16:29','192.168.56.1',1);
 /*!40000 ALTER TABLE `microservice_apiBasic_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +180,7 @@ CREATE TABLE `microservice_cron` (
 
 LOCK TABLES `microservice_cron` WRITE;
 /*!40000 ALTER TABLE `microservice_cron` DISABLE KEYS */;
-INSERT INTO `microservice_cron` VALUES (1,'test_1','Ki8xICogKiAqICo=','bHMgLWwgL2hvbWU=',0,'2019-11-08 12:45:01');
+INSERT INTO `microservice_cron` VALUES (1,'test_1','Ki8xICogKiAqICo=','bHMgLWwgL2hvbWU=',0,'2020-03-16 20:12:17');
 /*!40000 ALTER TABLE `microservice_cron` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +223,7 @@ CREATE TABLE `microservice_deploy` (
 
 LOCK TABLES `microservice_deploy` WRITE;
 /*!40000 ALTER TABLE `microservice_deploy` DISABLE KEYS */;
-INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,NULL,NULL,NULL,NULL,'123.123.123.123','user@github.com','git_user','url.git','username','uO��K�D�DG��7�5','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src','cGhwIC12DQphcGFjaGUyIC12',1);
+INSERT INTO `microservice_deploy` VALUES (1,'Test dev','Test','ubuntu',NULL,NULL,NULL,NULL,NULL,'123.123.123.123','user@github.com','git_user','url.git','username','a��Ԥ\�(��C\��;','/home/user_1/www/test_dev','user_1','user_1:www-data','/home/user_1/www/test_dev/src','cGhwIC12DQphcGFjaGUyIC12',1);
 /*!40000 ALTER TABLE `microservice_deploy` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,7 +280,7 @@ CREATE TABLE `module` (
 
 LOCK TABLES `module` WRITE;
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
-INSERT INTO `module` VALUES (1,'left','',1,'Authentication','module_1','AuthenticationController::moduleAction',1),(2,'center',NULL,1,'Page','module_2','PageViewController::moduleAction',1),(3,'right','',1,'Empty','module_3','EmptyController::moduleAction',1);
+INSERT INTO `module` VALUES (1,'left',NULL,1,'Authentication','module_1','AuthenticationController::moduleAction',1),(2,'center',NULL,1,'Page','module_2','PageViewController::moduleAction',1),(3,'right',NULL,1,'Empty','module_3','EmptyController::moduleAction',1);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -322,7 +322,7 @@ CREATE TABLE `page` (
 
 LOCK TABLES `page` WRITE;
 /*!40000 ALTER TABLE `page` DISABLE KEYS */;
-INSERT INTO `page` VALUES (1,'myPage',NULL,'App\\Controller\\MyPage\\MyPageProfileController::renderAction','1,',1,0,1,0,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 17:47:45','Personal page.','personal, page','noindex, nofollow',0),(2,'home',NULL,NULL,'1,',0,1,2,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:04:33','Website home page.','website, home, page','index, follow',0),(3,'registration',NULL,'App\\Controller\\RegistrationController::renderAction','1,',0,0,3,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:05:15','User registration page.','user, registration, page','index, follow',0),(4,'recover_password',NULL,'App\\Controller\\RecoverPasswordController::renderAction','1,',0,0,4,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:05:40','User recover password.','user, recover, password','index, follow',0),(5,'search',NULL,'App\\Controller\\SearchController::renderAction','1,',0,0,5,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:07:47','Website content search','website, content, search','noindex, nofollow',0),(6,'test',NULL,'App\\Controller\\PageAction\\PageActionTestController::renderAction','1,5,',1,1,7,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-11-14 15:00:19','Page test','page, test','index, follow',0),(7,'test_parent',NULL,NULL,'1,',0,1,6,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:08:22','Page test','page, test','index, follow',0),(8,'test_children_1',7,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:09:05','Page test','page, test','index, follow',0),(9,'test_children_2',8,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:09:24','Page test','page, test','index, follow',0),(10,'test_2',8,NULL,'1,',0,1,2,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:10:16','Page test','page, test','index, follow',0),(11,'test_children_3',9,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:09:42','Page test','page, test','index, follow',0),(12,'test_1',7,NULL,'1,',0,1,2,1,0,1,'http://www.google.it','-','0000-00-00 00:00:00','cimo','2019-01-07 19:10:34','Page test','page, test','index, follow',0),(13,'test_children_4',11,NULL,'1,',0,1,1,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:10:01','Page test','page, test','index, follow',0);
+INSERT INTO `page` VALUES (1,'myPage',NULL,'App\\Controller\\MyPage\\MyPageProfileController::renderAction','1,',1,0,1,0,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 17:47:45','Personal page','personal, page','noindex, nofollow',0),(2,'home',NULL,NULL,'1,',0,1,2,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:04:33','Website home page','website, home, page','index, follow',0),(3,'registration',NULL,'App\\Controller\\RegistrationController::renderAction','1,',0,0,3,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:05:15','User registration page','user, registration, page','index, follow',0),(4,'recover_password',NULL,'App\\Controller\\RecoverPasswordController::renderAction','1,',0,0,4,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:05:40','User recover password','user, recover, password','index, follow',0),(5,'search',NULL,'App\\Controller\\SearchController::renderAction','1,',0,0,5,1,0,0,'-','-','0000-00-00 00:00:00','cimo','2019-01-07 19:07:47','Website content search','website, content, search','noindex, nofollow',0),(6,'test',NULL,'App\\Controller\\PageAction\\PageActionTestController::renderAction','1,5,',1,1,7,1,0,0,'-','-','2020-03-07 19:34:01','cimo','2020-03-07 19:34:01','Page test','page, test','index, follow',0),(7,'test_parent',NULL,NULL,'1,',0,1,6,1,0,0,'-','-','2019-01-07 19:08:22','cimo','2019-01-07 19:08:22','Page test','page, test','index, follow',0),(8,'test_children_1',7,NULL,'1,',0,1,1,1,0,0,'-','-','2019-01-07 19:09:05','cimo','2019-01-07 19:09:05','Page test','page, test','index, follow',0),(9,'test_children_2',8,NULL,'1,',0,1,1,1,0,0,'-','-','2019-01-07 19:09:24','cimo','2019-01-07 19:09:24','Page test','page, test','index, follow',0),(10,'test_2',8,NULL,'1,',0,1,2,1,0,0,'-','-','2019-01-07 19:10:16','cimo','2019-01-07 19:10:16','Page test','page, test','index, follow',0),(11,'test_children_3',9,NULL,'1,',0,1,1,1,0,0,'-','-','2019-01-07 19:09:42','cimo','2019-01-07 19:09:42','Page test','page, test','index, follow',0),(12,'test_1',7,NULL,'1,',0,1,2,1,0,1,'http://www.google.it','-','2019-01-07 19:10:34','cimo','2019-01-07 19:10:34','Page test','page, test','index, follow',0),(13,'test_children_4',11,NULL,'1,',0,1,1,1,0,0,'-','-','2019-01-07 19:10:01','cimo','2019-01-07 19:10:01','Page test','page, test','index, follow',0);
 /*!40000 ALTER TABLE `page` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -378,7 +378,7 @@ CREATE TABLE `page_comment` (
 
 LOCK TABLES `page_comment` WRITE;
 /*!40000 ALTER TABLE `page_comment` DISABLE KEYS */;
-INSERT INTO `page_comment` VALUES (1,6,'cimo',NULL,'Q29tbWVudCB0ZXN0Lg==','2017-10-31 11:45:22','2020-02-29 16:59:56'),(2,6,'test_1',NULL,'VGVzdCBxdW90ZS4=','2017-10-31 11:55:18','2020-02-29 17:06:56'),(3,6,'cimo',2,'VGVzdCBvdmVyLg==','2018-12-13 12:25:59','2020-02-29 16:59:58');
+INSERT INTO `page_comment` VALUES (1,6,'cimo',NULL,'Q29tbWVudCB0ZXN0Lg==','2020-01-01 11:45:22','2020-02-29 16:59:56'),(2,6,'test_1',NULL,'VGVzdCBxdW90ZS4=','2020-01-01 11:55:18','2020-02-29 17:06:56'),(3,6,'cimo',2,'VGVzdCBvdmVyLg==','2020-01-01 12:25:59','2020-02-29 16:59:58');
 /*!40000 ALTER TABLE `page_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -465,7 +465,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (1,2,'419530066K1260733','09:19:50 Jul 04, 2016 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.01','1',0),(2,2,'1KY910617X114632S','05:16:37 Jul 07, 2016 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.01','1',0),(3,2,'19U375700V802405E','05:31:11 Jul 07, 2016 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.01','1',0),(4,2,'7JV630061G061150L','06:10:56 Jul 07, 2016 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.01','1',0),(5,2,'87V61799HN941194T','06:15:57 Jul 07, 2016 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.05','5',0),(6,2,'6FU073223W956013S','06:26:31 Jul 07, 2016 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.02','2',0);
+INSERT INTO `payment` VALUES (1,2,'419530066K1260733','09:19:50 Jan 01, 2020 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.01','1',0),(2,2,'1KY910617X114632S','05:16:37 Jan 02, 2020 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.01','1',0),(3,2,'19U375700V802405E','05:31:11 Jan 02, 2020 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.01','1',0),(4,2,'7JV630061G061150L','06:10:56 Jan 02, 2020 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.01','1',0),(5,2,'87V61799HN941194T','06:15:57 Jan 02, 2020 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.05','5',0),(6,2,'6FU073223W956013S','06:26:31 Jan 02, 2020 PDT','Completed','WGRYMAE6MYEP4','5CLM69V9C3PVW','USD','credits','0.02','2',0);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -528,6 +528,8 @@ CREATE TABLE `setting` (
   `payPal_credit_amount` varchar(12) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0.01',
   `javascript_minify` tinyint(1) NOT NULL DEFAULT '0',
   `server_user` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'cimo',
+  `server_root` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '/home/cimo/www',
+  `server_host` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'lsv2.machine.local',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -538,7 +540,7 @@ CREATE TABLE `setting` (
 
 LOCK TABLES `setting` WRITE;
 /*!40000 ALTER TABLE `setting` DISABLE KEYS */;
-INSERT INTO `setting` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,1,1,0,1,1,1,1,'1234',1,1,1,'paypal.business@gmail.com','EUR','0.01',0,'cimo');
+INSERT INTO `setting` VALUES (1,'basic',1,'en','cimo@reinventsoftware.org',1,'2,3,',1,0,15,3,1,1,0,1,1,1,1,'1234',1,1,1,'paypal.business@gmail.com','EUR','0.01',0,'cimo','/home/cimo/www','lsv2.machine.local');
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -669,7 +671,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5cbfc82693953.jpg','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$2y$13$hOJvU2.m8vRl5YxsuY/J0OiQGFSS7DAa8mTA5uNGZGxmYoc8zFgde',0,1,'2016-08-04 10:25:12','2020-02-29 19:48:53','2020-02-29 19:35:25',NULL,'150.249.206.10',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$Hi5SnSpKl9oKC79.G09MjeKOGUAzPEFjM3QPyp9z69m/gVXdnivJ2',0,1,'2016-09-10 17:39:31','2019-01-22 15:09:43','2019-01-22 14:55:58','','192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2y$13$fo/L0jc1j4uWXAFjjOKE3eP0cgwv8DtBkjvUnMC9Eaa2B537B7uXq',0,0,'0000-00-00 00:00:00','2018-09-05 16:48:01','2018-09-05 16:47:23',NULL,'183.77.252.62',0);
+INSERT INTO `user` VALUES (1,'1,2,','ROLE_USER,ROLE_ADMIN','5e68a3773190a.png','cimo','Simone','D\'Agostino','cimo@reinventsoftware.org','080123456789','1984-4-11','m',NULL,NULL,NULL,'https://www.reinventsoftware.org','Japan','Tokyo','100-0001','Street','$argon2id$v=19$m=65536,t=4,p=1$VSsYt+bGv6rQCT0qvt/ATA$LgBf0XS9d0+oycYs/fx/WFbmLL2XWxIWsLb/1vWTeIg',0,1,'2020-01-04 10:25:12','2020-03-17 17:24:34','2020-03-17 17:22:42',NULL,'192.168.56.1',0),(2,'1,4,','ROLE_USER,ROLE_MICROSERVICE',NULL,'test_1',NULL,NULL,'test_1@reinventsoftware.org',NULL,NULL,'m',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$argon2id$v=19$m=65536,t=4,p=1$3DiGBjGsF8ovRzdHuJzp6A$St3FM1ttVGzMitpSZzFiWyZPeSHMrd9MwufQlGojeNo',0,1,'2020-01-10 17:39:31','2020-03-10 15:56:12','2020-03-09 18:03:14',NULL,'192.168.56.1',0),(3,'1,5,','ROLE_USER,ROLE_TEST',NULL,'test_2',NULL,NULL,'test_2@reinventsoftware.org',NULL,NULL,'m',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$argon2id$v=19$m=65536,t=4,p=1$4sQC85ThIe19aSZb7R5cPg$3XDpoo1GH+T/oDs3RMfFqlHuXxq+r7nGd9uTk0MWKk8',0,0,'2020-01-10 18:09:24','2020-03-11 11:19:11','2020-03-11 11:19:06',NULL,'192.168.56.1',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -686,4 +688,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-01  0:39:41
+-- Dump completed on 2020-03-18 16:10:51

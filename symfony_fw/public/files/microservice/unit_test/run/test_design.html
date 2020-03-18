@@ -45,14 +45,14 @@
                                 
                                 QUnit.test("test_design", (assert) => {
                                     let expectedValue = 0;
-                                    let tags = [".column_left"];
+let tags = [".column_left"];
 
-                                    $.each(tags, (key, value) => {
-                                       let result = $(value).length > expectedValue;
-                                       let message = value + " greater than " + expectedValue;
-
-                                       assert.ok(result, message);
-                                    });
+$.each(tags, (key, value) => {
+   let result = $(value).length > expectedValue;
+   let message = value + " greater than " + expectedValue;
+   
+   assert.ok(result, message);
+});
                                 });
                             }
                             else

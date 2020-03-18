@@ -38,7 +38,7 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 | - Deploy |
 | - Api |
 | - Unit test |
-| - Selenium |
+| - Selenium (Chrome, Firefox) |
 | - Cron |
 
 | Library: |
@@ -76,7 +76,7 @@ You can create all type of websites (Personal, company, eCommerce, ...).
         
         sudo nano /src/Config.php
 
-7) Change variables for adapt the framework to the your system.
+7) Change variables for adapt the framework on your system.
 
 8) Save, close the file and write on terminal:
 
@@ -85,16 +85,16 @@ You can create all type of websites (Personal, company, eCommerce, ...).
         sudo composer install
         
         sudo composer update
-	
-	cd /home/user_1/www/symfony_fw
-	
-	sudo chmod 775 ../symfony_fw
-	
-	sudo find ../symfony_fw -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
-	
-	sudo find ../symfony_fw -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
-	
-	sudo find ../symfony_fw -name "*.sh" -exec chmod 774 {} \;
+        
+        cd /home/user_1/www/symfony_fw
+        
+        sudo chmod 775 ../symfony_fw
+        
+        sudo find ../symfony_fw -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
+        
+        sudo find ../symfony_fw -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
+        
+        sudo find ../symfony_fw -name "*.sh" -exec chmod 774 {} \;
 	        
         sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
 
