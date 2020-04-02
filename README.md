@@ -50,7 +50,7 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 
 2) Write on terminal:
 
-        cd /home/user_1/www/symfony_fw
+        cd /home/user_1/www/website/symfony_fw
         
         sudo nano .env
 
@@ -86,15 +86,15 @@ You can create all type of websites (Personal, company, eCommerce, ...).
         
         sudo composer update
         
-        cd /home/user_1/www/symfony_fw
+        cd /home/user_1/www/website/symfony_fw
         
-        sudo chmod 775 ../symfony_fw
+        sudo chmod 775 ../
         
-        sudo find ../symfony_fw -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
+        sudo find ../ -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
         
-        sudo find ../symfony_fw -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
+        sudo find ../ -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
         
-        sudo find ../symfony_fw -name "*.sh" -exec chmod 774 {} \;
+        sudo find ../ -name "*.sh" -exec chmod 774 {} \;
 	        
         sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
 
