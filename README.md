@@ -101,3 +101,6 @@ You can create all type of websites (Personal, company, eCommerce, ...).
 7) For admin login use <b>"cimo, Password1"</b>.
 
 <b>By CIMO - https://reinventsoftware.org</b>
+
+Supported By:
+![Image of supporter](https://avatars0.githubusercontent.com/u/878437?s=200&v=4)
