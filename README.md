@@ -3,8 +3,6 @@ Uebusaito
 
 Framework for create fast and secure website, microservice and api for the web.
 
-You can create all type of websites (Personal, company, eCommerce, ...).
-
 | Info: |
 |:---|
 | Cross browser and responsive (Chrome, Firefox, Edge, Opera, Safari) |
