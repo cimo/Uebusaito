@@ -16,7 +16,7 @@ Framework for create fast and secure website, microservice and api for the web.
 | Credit and paypal payment |
 | Upload file chunk system |
 | Wysiwyg page creation (create page without code) |
-| Page comments |
+| Page comment |
 | Microservice (Deploy, api, unit test, selenium and cron) |
 | Integration with: Slack, line |
 | Extend with module system |
@@ -24,12 +24,12 @@ Framework for create fast and secure website, microservice and api for the web.
 | Elements: |
 |:---|
 | System info |
-| Payments |
-| Pages |
-| Users |
-| Modules |
-| Roles |
-| Settings |
+| Payment |
+| Page |
+| User |
+| Module |
+| Role |
+| Setting |
 | Slack |
 | Line |
 | Microservice |
