@@ -48,9 +48,11 @@ Framework for create fast and secure website, microservice and api for the web.
 
 2) Write on terminal:
 
-        cd /home/user_1/www/website/symfony_fw
-        
-        sudo nano .env
+	cd /home/user_1/www/website/symfony_fw        
+	
+	sudo cp .env.dist .env
+
+	sudo nano .env
 
 3) Modify:
 
@@ -66,7 +68,9 @@ Framework for create fast and secure website, microservice and api for the web.
         
 5) In "session:" modify:
 
-        name: new_name
+	save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'        
+
+	name: new_name
 
 6) Save, close the file and write on terminal:
 
@@ -74,17 +78,13 @@ Framework for create fast and secure website, microservice and api for the web.
         
         sudo nano /src/Config.php
 
-7) Change variables for adapt the framework on your system.
+7) Change variables for your system setting.
 
 8) Save, close the file and write on terminal:
 
-        sudo rm -rf vendor var/cache composer.lock
+	sudo rm -rf vendor var/cache composer.lock
         
-        sudo composer install
-        
-        sudo composer update
-        
-        cd /home/user_1/www/website/symfony_fw
+        sudo php -d memory_limit=-1 /usr/local/bin/composer install --no-plugins --no-scripts
         
         sudo chmod 775 ../
         
