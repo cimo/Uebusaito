@@ -1,7 +1,7 @@
 <!DOCTYPE html>
         <html>
            <head>
-                <title>Unit test</title>
+                <title>Qunit</title>
                 
                 <!-- Meta -->
                 <meta charset="UTF-8"/>
@@ -12,27 +12,27 @@
                 <meta name="robots" content="index, follow"/>
                 
                 <!-- Favicon -->
-                <link href="https://lsv2.machine.local/project/uebusaito/root/symfony_fw/public/images/templates/basic/favicon.ico" rel="icon" type="image/x-icon">
+                <link href="https://localhost/project/uebusaito/root/symfony_fw/public/images/templates/basic/favicon.ico" rel="icon" type="image/x-icon">
                 
                 <!-- Css -->
-                <link href="https://lsv2.machine.local/project/uebusaito/root/symfony_fw/public/files/microservice/unit_test/library/qunit_2.9.2.css" rel="stylesheet"/>
+                <link href="https://localhost/project/uebusaito/root/symfony_fw/public/files/microservice/qunit/library/qunit_2.9.2.css" rel="stylesheet"/>
             </head>
             <body><div id="qunit"></div>
                     <div id="qunit-fixture"></div>
                     <div id="qunit_result" style="display: none;"></div>
-                    <script src="https://lsv2.machine.local/project/uebusaito/root/symfony_fw/public/files/microservice/unit_test/library/jquery_3.4.1.min.js"></script>
-                    <script src="https://lsv2.machine.local/project/uebusaito/root/symfony_fw/public/files/microservice/unit_test/library/qunit_2.9.2.js"></script>
+                    <script src="https://localhost/project/uebusaito/root/symfony_fw/public/files/microservice/qunit/library/jquery_3.4.1.min.js"></script>
+                    <script src="https://localhost/project/uebusaito/root/symfony_fw/public/files/microservice/qunit/library/qunit_2.9.2.js"></script>
                     <script>
                         "use strict";
                         
-                        let unitTestExecute = (event) => {
+                        let qunitExecute = (event) => {
                             let result = $("#qunit_result");
                             
                             let data = event.data;
                             let origin = event.origin;
                             let source = event.source;
                             
-                            let originFilter = "https://lsv2.machine.local";
+                            let originFilter = "https://localhost";
                             
                             let originFilterSplit = originFilter.split(",");
                             
@@ -60,7 +60,7 @@ $.each(tags, (key, value) => {
                         };
                         
                         window.addEventListener("message", (event) => {
-                            unitTestExecute(event);
+                            qunitExecute(event);
                         }, false);
                     </script></body>
         </html>

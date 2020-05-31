@@ -17,7 +17,7 @@ Framework for create fast and secure website, microservice and api for the web.
 | Upload file chunk system |
 | Wysiwyg page creation (create page without code) |
 | Page comment |
-| Microservice (Deploy, api, unit test, selenium and cron) |
+| Microservice (Deploy, api, qunit, selenium and cron) |
 | Integration with: Slack, line |
 | Extend with module system |
 
@@ -35,7 +35,7 @@ Framework for create fast and secure website, microservice and api for the web.
 | Microservice |
 | - Deploy |
 | - Api |
-| - Unit test |
+| - Qunit |
 | - Selenium (Chrome, Firefox) |
 | - Cron |
 
