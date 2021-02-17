@@ -5,8 +5,8 @@ Framework for create fast and secure website, microservice and api for the web.
 
 | Info: |
 |:---|
-| Cross browser and responsive (Chrome, Firefox, Edge, Opera, Safari) |
 | Cross platform (Windows, Linux, Mac, Android, Ios) |
+| Cross browser and responsive (Chrome, Firefox, Edge, Opera, Safari) |
 | Encrypt data |
 | Dynamic multi language |
 | Login, registration, recover password and profile |
@@ -98,7 +98,11 @@ Framework for create fast and secure website, microservice and api for the web.
 
 7) For admin login use <b>"cimo, Password1"</b>.
 
-<b>By CIMO - https://reinventsoftware.org</b>
+| Library: |
+|:---|
+| Symfony - https://symfony.com/ |
+
+By CIMO - https://reinventsoftware.org
 
 Supported By:
 
