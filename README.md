@@ -85,13 +85,13 @@ Framework for create fast and secure website, microservice and api for the web.
          
          sudo php -d memory_limit=-1 /usr/local/bin/composer install --no-plugins --no-scripts
          
-         sudo chmod 775 /home/user_1/root/project/uebusaito/root/symfony_fw
+         sudo chmod 775 /home/user_1/root/project/uebusaito/root
          
-         sudo find /home/user_1/root/project/uebusaito/root/symfony_fw -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
+         sudo find /home/user_1/root/project/uebusaito/root -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
          
-         sudo find /home/user_1/root/project/uebusaito/root/symfony_fw -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
+         sudo find /home/user_1/root/project/uebusaito/root -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
          
-         sudo find /home/user_1/root/project/uebusaito/root/symfony_fw -name "*.sh" -exec chmod 774 {} \;
+         sudo find /home/user_1/root/project/uebusaito/root -name "*.sh" -exec chmod 774 {} \;
          
          sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
 
