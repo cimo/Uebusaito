@@ -87,7 +87,7 @@ Framework for create fast and secure website, microservice and api for the web.
 
 | Library: |
 |:---|
-| Symfony - https://symfony.com/ |
+| Symfony - https://symfony.com |
 
 By CIMO - https://reinventsoftware.org
 
