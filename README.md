@@ -49,7 +49,7 @@ Framework for create fast and secure website, microservice and api for the web.
 
 2) Write on terminal:
    
-         cd /home/user_1/root/project/uebusaito/root/symfony_fw
+         cd /home/cimo/uebusaito/root/symfony_fw
          sudo cp .env.dist .env
          sudo nano .env
 
@@ -77,10 +77,10 @@ Framework for create fast and secure website, microservice and api for the web.
 
          sudo rm -rf vendor var/cache composer.lock
          sudo php -d memory_limit=-1 /usr/local/bin/composer install --no-plugins --no-scripts
-         sudo chmod 775 /home/user_1/root/project/uebusaito/root
-         sudo find /home/user_1/root/project/uebusaito/root -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
-         sudo find /home/user_1/root/project/uebusaito/root -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
-         sudo find /home/user_1/root/project/uebusaito/root -name "*.sh" -exec chmod 774 {} \;
+         sudo chmod 775 /home/cimo/uebusaito/root
+         sudo find /home/cimo/uebusaito/root -type d -exec chown user_1:www-data {} \; -exec chmod 775 {} \;
+         sudo find /home/cimo/uebusaito/root -type f -not -name "sess_*" -exec chown user_1:www-data {} \; -exec chmod 664 {} \;
+         sudo find /home/cimo/uebusaito/root -name "*.sh" -exec chmod 774 {} \;
          sudo -u www-data php bin/console cache:clear --no-warmup --env=dev
 
 8) For admin login use <b>"cimo, Password1"</b>.
