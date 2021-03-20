@@ -37,6 +37,7 @@ symfony_fw/src/files/setting/*
 symfony_fw/src/Config.php
 symfony_fw/var
 symfony_fw/vendor
+
 .digest_htpasswd
 .env
 error.log
