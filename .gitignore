@@ -43,3 +43,4 @@ symfony_fw/vendor
 error.log
 debug.log
 node_modules
+Note.txt
